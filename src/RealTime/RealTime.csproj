@@ -74,6 +74,8 @@
     <Compile Include="Core\RealTimeCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\RealTimeMod.cs" />
+    <Compile Include="Simulation\DaylightTimeSimulation.cs" />
+    <Compile Include="Simulation\DayTime.cs" />
     <Compile Include="Simulation\TimeAdjustment.cs" />
     <Compile Include="Tools\DateTimeExtensions.cs" />
     <Compile Include="UI\DateTooltipBehavior.cs" />
