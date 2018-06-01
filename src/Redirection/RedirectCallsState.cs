@@ -24,6 +24,10 @@ THE SOFTWARE.
 
 namespace Redirection
 {
+    /// <summary>
+    /// A container class for the redirection state.
+    /// Holds internal redirection data. Can be used as a token to revert the redirection.
+    /// </summary>
     public sealed class RedirectCallsState
     {
         internal byte CallSite { get; set; }

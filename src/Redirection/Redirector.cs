@@ -30,16 +30,29 @@ namespace Redirection
     using System.Reflection;
     using System.Security.Permissions;
 
+    /// <summary>
+    /// A static class that provides the functionality of automatic method call redirection.
+    /// </summary>
     public static class Redirector
     {
         private static Dictionary<MethodInfo, MethodRedirection> redirections = new Dictionary<MethodInfo, MethodRedirection>();
 
+        /// <summary>
+        /// Perform the method call redirections for all methods in the calling assembly
+        /// that are marked with <see cref="RedirectFromAttribute"/> or <see cref="RedirectToAttribute"/>.
+        /// </summary>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public static void PerformRedirections()
         {
             PerformRedirections(0);
         }
 
+        /// <summary>
+        /// Perform the method call redirections for all methods in the calling assembly
+        /// that are marked with <see cref="RedirectFromAttribute"/> or <see cref="RedirectToAttribute"/>.
+        /// </summary>
+        ///
+        /// <param name="bitmask">The bitmask to filter the methods with.</param>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public static void PerformRedirections(ulong bitmask)
         {
@@ -58,6 +71,10 @@ namespace Redirection
             }
         }
 
+        /// <summary>
+        /// Reverts the method call redirection of all methods from the calling assembly
+        /// that are marked with <see cref="RedirectFromAttribute"/> or <see cref="RedirectToAttribute"/>.
+        /// </summary>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public static void RevertRedirections()
         {
@@ -82,7 +99,7 @@ namespace Redirection
             string originalName = string.IsNullOrEmpty(attribute.MethodName) ? method.Name : attribute.MethodName;
 
             MethodInfo originalMethod =
-                attribute.ClassType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+                attribute.MethodType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
                 .FirstOrDefault(m => m.Name == originalName && method.IsCompatibleWith(m));
 
             if (originalMethod == null)

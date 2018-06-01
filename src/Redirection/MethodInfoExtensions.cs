@@ -68,8 +68,8 @@ namespace Redirection
         }
 
         /// <summary>
-        /// Compares the provided methods to determine whether a redirection from
-        /// <paramref name="method"/> to <paramref name="otherMethod"/> is possible.
+        /// Compares the provided methods to determine whether a redirection from this
+        /// <paramref name="otherMethod"/> to this <paramref name="method"/> is possible.
         /// </summary>
         ///
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>

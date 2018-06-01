@@ -32,7 +32,7 @@ namespace Redirection
     /// Helper class to deal with detours. This version is for Unity 5 x64 on Windows.
     /// We provide three different methods of detouring.
     /// </summary>
-    public static class RedirectionHelper
+    internal static class RedirectionHelper
     {
         /// <summary>
         /// Redirects all calls from method '<paramref name="from"/>' to method '<paramref name="to"/>'.
@@ -43,7 +43,8 @@ namespace Redirection
         /// <param name="from">The method to redirect from.</param>
         /// <param name="to">The method to redicrect to.</param>
         ///
-        /// <returns>An <see cref="RedirectCallsState"/> instance that holds the data for cancelling the redirection.</returns>
+        /// <returns>An <see cref="RedirectCallsState"/> instance that holds the data for reverting
+        /// the redirection.</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public static RedirectCallsState RedirectCalls(MethodBase from, MethodBase to)
         {
@@ -83,12 +84,24 @@ namespace Redirection
             return PatchJumpTo(fptr1, fptr2);
         }
 
+        /// <summary>
+        /// Reverts a method redirection previously created with <see cref="RedirectCalls(MethodBase, MethodBase)"/>
+        /// or <see cref="RedirectCalls(RuntimeMethodHandle, RuntimeMethodHandle)"/> methods.
+        /// </summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
+        ///
+        /// <param name="method">The method to revert the redirection of.</param>
+        /// <param name="state">A <see cref="RedirectCallsState"/> instance holding the data for
+        /// reverting the redirection.</param>
+        ///
+        /// <returns>True on success; otherwise, false.</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public static void RevertRedirect(MethodBase from, RedirectCallsState state)
+        public static bool RevertRedirect(MethodBase method, RedirectCallsState state)
         {
-            if (from == null)
+            if (method == null)
             {
-                throw new ArgumentNullException(nameof(from));
+                throw new ArgumentNullException(nameof(method));
             }
 
             if (state == null)
@@ -98,12 +111,13 @@ namespace Redirection
 
             try
             {
-                IntPtr fptr1 = from.MethodHandle.GetFunctionPointer();
+                IntPtr fptr1 = method.MethodHandle.GetFunctionPointer();
                 RevertJumpTo(fptr1, state);
+                return true;
             }
             catch
             {
-                // ignored
+                return false;
             }
         }
 

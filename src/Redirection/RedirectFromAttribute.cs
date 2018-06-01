@@ -40,42 +40,56 @@ namespace Redirection
         /// <summary>
         /// Initializes a new instance of the <see cref="RedirectFromAttribute"/> class.</summary>
         ///
-        /// <param name="classType">The class of the method that will be redirected</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="methodType"/> is null.</exception>
+        ///
+        /// <param name="methodType">The type where the method that will be redirected is defined.</param>
         /// <param name="methodName">The name of the method that will be redirected. If null,
         /// the name of the attribute's target method will be used.</param>
         /// <param name="bitSetRequiredOption">The required bit set option.</param>
-        public RedirectFromAttribute(Type classType, string methodName, ulong bitSetRequiredOption)
-            : base(classType, methodName, bitSetRequiredOption)
+        public RedirectFromAttribute(Type methodType, string methodName, ulong bitSetRequiredOption)
+            : base(methodType, methodName, bitSetRequiredOption)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RedirectFromAttribute"/> class.</summary>
+        /// Initializes a new instance of the <see cref="RedirectFromAttribute"/> class with
+        /// default <see cref="RedirectAttribute.BitSetRequiredOption"/>.</summary>
         ///
-        /// <param name="classType">The class of the method that will be redirected</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="methodType"/> is null.</exception>
+        ///
+        /// <param name="methodType">The type where the method that will be redirected is defined.</param>
         /// <param name="methodName">The name of the method that will be redirected. If null,
         /// the name of the attribute's target method will be used.</param>
-        public RedirectFromAttribute(Type classType, string methodName)
-            : base(classType, methodName)
+        public RedirectFromAttribute(Type methodType, string methodName)
+            : base(methodType, methodName)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RedirectFromAttribute"/> class.</summary>
+        /// Initializes a new instance of the <see cref="RedirectFromAttribute"/> class with empty
+        /// <see cref="RedirectAttribute.MethodName"/>. The name of the method this attribute is
+        /// attached to will be used.</summary>
         ///
-        /// <param name="classType">The class of the method that will be redirected</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="methodType"/> is null.</exception>
+        ///
+        /// <param name="methodType">The type where the method that will be redirected is defined.</param>
         /// <param name="bitSetRequiredOption">The required bit set option.</param>
-        public RedirectFromAttribute(Type classType, ulong bitSetRequiredOption)
-            : base(classType, bitSetRequiredOption)
+        public RedirectFromAttribute(Type methodType, ulong bitSetRequiredOption)
+            : base(methodType, bitSetRequiredOption)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RedirectFromAttribute"/> class.</summary>
+        /// Initializes a new instance of the <see cref="RedirectFromAttribute"/> class with
+        /// default <see cref="RedirectAttribute.BitSetRequiredOption"/> and empty
+        /// <see cref="RedirectAttribute.MethodName"/>. The name of the method this attribute is
+        /// attached to will be used.</summary>
         ///
-        /// <param name="classType">The class of the method that will be redirected</param>
-        public RedirectFromAttribute(Type classType)
-            : base(classType)
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="methodType"/> is null.</exception>
+        ///
+        /// <param name="methodType">The type where the method that will be redirected is defined.</param>
+        public RedirectFromAttribute(Type methodType)
+            : base(methodType)
         {
         }
     }

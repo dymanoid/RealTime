@@ -26,34 +26,48 @@ namespace Redirection
 {
     using System;
 
+    /// <summary>
+    /// A base class for the special redirection attributes that can be applied to the methods.
+    /// </summary>
     public abstract class RedirectAttribute : Attribute
     {
-        protected RedirectAttribute(Type classType, string methodName, ulong bitSetRequiredOption)
+        protected RedirectAttribute(Type methodType, string methodName, ulong bitSetRequiredOption)
         {
-            ClassType = classType;
+            MethodType = methodType ?? throw new ArgumentNullException(nameof(methodType));
             MethodName = methodName;
             BitSetRequiredOption = bitSetRequiredOption;
         }
 
-        protected RedirectAttribute(Type classType, string methodName)
-            : this(classType, methodName, 0)
+        protected RedirectAttribute(Type methodType, string methodName)
+            : this(methodType, methodName, 0)
         {
         }
 
-        protected RedirectAttribute(Type classType, ulong bitSetOption)
-            : this(classType, null, bitSetOption)
+        protected RedirectAttribute(Type methodType, ulong bitSetOption)
+            : this(methodType, null, bitSetOption)
         {
         }
 
-        protected RedirectAttribute(Type classType)
-            : this(classType, null, 0)
+        protected RedirectAttribute(Type methodType)
+            : this(methodType, null, 0)
         {
         }
 
-        public Type ClassType { get; set; }
+        /// <summary>
+        /// Gets or sets the type where the method that will be redirected is defined.
+        /// </summary>
+        public Type MethodType { get; set; }
 
+        /// <summary>
+        /// Gets or sets the method name to redirect. If not set, the name of the
+        /// method this attribute is attached to will be used.
+        /// </summary>
         public string MethodName { get; set; }
 
+        /// <summary>
+        /// Gets or sets the required bit set option for the method redirection.
+        /// 0 means not specified.
+        /// </summary>
         public ulong BitSetRequiredOption { get; set; }
     }
 }
