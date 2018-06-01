@@ -48,8 +48,12 @@ namespace RealTime.Tools
             }
 
             lastValue = newValue;
-            target.tooltip = tooltip;
-            target.RefreshTooltip();
+
+            if (target.containsMouse)
+            {
+                target.tooltip = tooltip;
+                target.RefreshTooltip();
+            }
         }
     }
 }
