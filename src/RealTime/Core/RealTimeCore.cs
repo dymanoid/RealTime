@@ -6,7 +6,9 @@ namespace RealTime.Core
 {
     using System;
     using RealTime.Simulation;
+    using RealTime.Tools;
     using RealTime.UI;
+    using Redirection;
 
     /// <summary>
     /// The core component of the Real Time mod. Activates and deactivates
@@ -38,6 +40,15 @@ namespace RealTime.Core
             var customTimeBar = new CustomTimeBar();
             customTimeBar.Enable(gameDate);
 
+            try
+            {
+                Redirector.PerformRedirections();
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Failed to perform method redirections: " + ex.Message);
+            }
+
             var core = new RealTimeCore(timeAdjustment, customTimeBar)
             {
                 isEnabled = true
@@ -58,6 +69,16 @@ namespace RealTime.Core
 
             timeAdjustment.Disable();
             timeBar.Disable();
+
+            try
+            {
+                Redirector.RevertRedirections();
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Failed to revert method redirections: " + ex.Message);
+            }
+
             isEnabled = false;
         }
     }

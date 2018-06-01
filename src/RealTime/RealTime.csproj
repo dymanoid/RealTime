@@ -64,6 +64,10 @@
   <ItemGroup>
     <Compile Include="AI\ILogic.cs" />
     <Compile Include="AI\Logic.cs" />
+    <Compile Include="AI\RealTimeResidentAI.cs" />
+    <Compile Include="AI\RealTimeResidentAI.Moving.cs" />
+    <Compile Include="AI\RealTimeResidentAI.Visit.cs" />
+    <Compile Include="AI\RealTimeResidentAI.Work.cs" />
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Core\LoadingExtension.cs" />
     <Compile Include="Core\RealTimeCore.cs" />
@@ -87,6 +91,7 @@
     <AdditionalFiles Include="..\BuildEnvironment\stylecop.json">
       <Link>stylecop.json</Link>
     </AdditionalFiles>
+    <Compile Include="AI\RealTimeResidentAI.Home.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
