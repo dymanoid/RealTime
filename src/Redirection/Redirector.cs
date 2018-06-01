@@ -41,10 +41,13 @@ namespace Redirection
         /// Perform the method call redirections for all methods in the calling assembly
         /// that are marked with <see cref="RedirectFromAttribute"/> or <see cref="RedirectToAttribute"/>.
         /// </summary>
+        ///
+        /// <returns>The number of methods that have been redirected.</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public static void PerformRedirections()
+        public static int PerformRedirections()
         {
-            PerformRedirections(0);
+            var callingAssembly = Assembly.GetCallingAssembly();
+            return PerformRedirections(0, callingAssembly);
         }
 
         /// <summary>
@@ -53,22 +56,13 @@ namespace Redirection
         /// </summary>
         ///
         /// <param name="bitmask">The bitmask to filter the methods with.</param>
+        ///
+        /// <returns>The number of methods that have been redirected.</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public static void PerformRedirections(ulong bitmask)
+        public static int PerformRedirections(ulong bitmask)
         {
             var callingAssembly = Assembly.GetCallingAssembly();
-
-            IEnumerable<MethodInfo> allMethods = callingAssembly
-                .GetTypes()
-                .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static));
-
-            foreach (MethodInfo method in allMethods)
-            {
-                foreach (RedirectAttribute attribute in method.GetCustomAttributes(typeof(RedirectAttribute), false))
-                {
-                    ProcessMethod(method, callingAssembly, attribute, bitmask);
-                }
-            }
+            return PerformRedirections(bitmask, callingAssembly);
         }
 
         /// <summary>
@@ -86,6 +80,26 @@ namespace Redirection
                 redirections.Remove(item.Method);
                 item.Dispose();
             }
+        }
+
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        private static int PerformRedirections(ulong bitmask, Assembly callingAssembly)
+        {
+            IEnumerable<MethodInfo> allMethods = callingAssembly
+                .GetTypes()
+                .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static));
+
+            int result = 0;
+            foreach (MethodInfo method in allMethods)
+            {
+                foreach (RedirectAttribute attribute in method.GetCustomAttributes(typeof(RedirectAttribute), false))
+                {
+                    ProcessMethod(method, callingAssembly, attribute, bitmask);
+                    ++result;
+                }
+            }
+
+            return result;
         }
 
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]

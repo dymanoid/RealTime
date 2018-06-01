@@ -42,7 +42,8 @@ namespace RealTime.Core
 
             try
             {
-                Redirector.PerformRedirections();
+                int redirectedCount = Redirector.PerformRedirections();
+                Log.Info($"Successfully redirected {redirectedCount} methods.");
             }
             catch (Exception ex)
             {
@@ -73,6 +74,7 @@ namespace RealTime.Core
             try
             {
                 Redirector.RevertRedirections();
+                Log.Info($"Successfully reverted all method redirections.");
             }
             catch (Exception ex)
             {

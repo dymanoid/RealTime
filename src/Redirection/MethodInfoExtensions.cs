@@ -25,6 +25,8 @@ THE SOFTWARE.
 namespace Redirection
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using System.Security.Permissions;
 
@@ -95,15 +97,24 @@ namespace Redirection
                 return false;
             }
 
-            ParameterInfo[] thisParameters = method.GetParameters();
+            Type targetType = otherMethod.ReflectedType;
+            var thisParameters = method.GetParameters().ToList();
+            ParameterInfo firstParameter = thisParameters.FirstOrDefault();
+            if (firstParameter != null &&
+                ((!targetType.IsValueType && firstParameter.ParameterType == targetType) ||
+                (targetType.IsValueType && firstParameter.ParameterType == targetType.MakeByRefType())))
+            {
+                thisParameters.RemoveAt(0);
+            }
+
             ParameterInfo[] otherParameters = otherMethod.GetParameters();
 
-            if (thisParameters.Length != otherParameters.Length)
+            if (thisParameters.Count != otherParameters.Length)
             {
                 return false;
             }
 
-            for (int i = 0; i < thisParameters.Length; i++)
+            for (int i = 0; i < thisParameters.Count; i++)
             {
                 if (!otherParameters[i].ParameterType.IsAssignableFrom(thisParameters[i].ParameterType))
                 {
