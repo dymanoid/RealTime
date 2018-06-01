@@ -5,6 +5,7 @@
 namespace RealTime.Core
 {
     using System;
+    using System.Security.Permissions;
     using RealTime.Simulation;
     using RealTime.Tools;
     using RealTime.UI;
@@ -32,6 +33,7 @@ namespace RealTime.Core
         /// </summary>
         ///
         /// <returns>A <see cref="RealTimeCore"/> instance that can be used to stop the mod.</returns>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public static RealTimeCore Run()
         {
             var timeAdjustment = new TimeAdjustment();
@@ -61,6 +63,7 @@ namespace RealTime.Core
         /// <summary>
         /// Stops the mod by deactivating all its parts.
         /// </summary>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public void Stop()
         {
             if (!isEnabled)
