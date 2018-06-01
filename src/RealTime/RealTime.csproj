@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="AI\ILogic.cs" />
     <Compile Include="AI\Logic.cs" />
+    <Compile Include="AI\RealTimePrivateBuildingAI.cs" />
     <Compile Include="AI\RealTimeResidentAI.Common.cs" />
     <Compile Include="AI\RealTimeResidentAI.cs" />
     <Compile Include="AI\RealTimeResidentAI.Moving.cs" />
