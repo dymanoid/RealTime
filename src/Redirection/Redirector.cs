@@ -73,13 +73,7 @@ namespace Redirection
         public static void RevertRedirections()
         {
             var callingAssembly = Assembly.GetCallingAssembly();
-
-            var redirectionsToRemove = redirections.Values.Where(r => r.RedirectionSource == callingAssembly).ToList();
-            foreach (MethodRedirection item in redirectionsToRemove)
-            {
-                redirections.Remove(item.Method);
-                item.Dispose();
-            }
+            RevertRedirections(callingAssembly);
         }
 
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
@@ -90,16 +84,36 @@ namespace Redirection
                 .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static));
 
             int result = 0;
-            foreach (MethodInfo method in allMethods)
+
+            try
             {
-                foreach (RedirectAttribute attribute in method.GetCustomAttributes(typeof(RedirectAttribute), false))
+                foreach (MethodInfo method in allMethods)
                 {
-                    ProcessMethod(method, callingAssembly, attribute, bitmask);
-                    ++result;
+                    foreach (RedirectAttribute attribute in method.GetCustomAttributes(typeof(RedirectAttribute), false))
+                    {
+                        ProcessMethod(method, callingAssembly, attribute, bitmask);
+                        ++result;
+                    }
                 }
+            }
+            catch
+            {
+                RevertRedirections(callingAssembly);
+                throw;
             }
 
             return result;
+        }
+
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        private static void RevertRedirections(Assembly callingAssembly)
+        {
+            var redirectionsToRemove = redirections.Values.Where(r => r.RedirectionSource == callingAssembly).ToList();
+            foreach (MethodRedirection item in redirectionsToRemove)
+            {
+                redirections.Remove(item.Method);
+                item.Dispose();
+            }
         }
 
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
