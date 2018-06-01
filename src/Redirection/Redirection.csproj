@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7CD7702C-E7D3-4E61-BF3A-B10F7950DE52}</ProjectGuid>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7DCC08EF-DC85-47A4-BD6F-79FC52C7EF13}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RealTime</RootNamespace>
-    <AssemblyName>RealTime</AssemblyName>
+    <RootNamespace>Redirection</RootNamespace>
+    <AssemblyName>Redirection</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -23,9 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodeAnalysisRuleSet>..\BuildEnvironment\RealTime.ruleset</CodeAnalysisRuleSet>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
@@ -36,52 +35,28 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodeAnalysisRuleSet>..\BuildEnvironment\RealTime.ruleset</CodeAnalysisRuleSet>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="ColossalManaged">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="ICities">
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnityEngine">
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AI\ILogic.cs" />
-    <Compile Include="AI\Logic.cs" />
-    <Compile Include="Configuration\Configuration.cs" />
-    <Compile Include="Core\LoadingExtension.cs" />
-    <Compile Include="Core\RealTimeCore.cs" />
+    <Compile Include="MethodRedirection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Core\RealTimeMod.cs" />
-    <Compile Include="Simulation\TimeAdjustment.cs" />
-    <Compile Include="Tools\DateTimeExtensions.cs" />
-    <Compile Include="UI\DateTooltipBehavior.cs" />
-    <Compile Include="Tools\GitVersion.cs" />
-    <Compile Include="Tools\Log.cs" />
-    <Compile Include="UI\RealTimeUIDateTimeWrapper.cs" />
-    <Compile Include="UI\CustomTimeBar.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Redirection\Redirection.csproj">
-      <Project>{7dcc08ef-dc85-47a4-bd6f-79fc52c7ef13}</Project>
-      <Name>Redirection</Name>
-    </ProjectReference>
+    <Compile Include="RedirectAttribute.cs" />
+    <Compile Include="RedirectCallsState.cs" />
+    <Compile Include="RedirectFromAttribute.cs" />
+    <Compile Include="RedirectionHelper.cs" />
+    <Compile Include="Redirector.cs" />
+    <Compile Include="MethodInfoExtensions.cs" />
+    <Compile Include="RedirectToAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\BuildEnvironment\stylecop.json">
@@ -94,11 +69,6 @@
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>mkdir "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)"
-del "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\$(TargetFileName)"
-xcopy /y "$(TargetDir)*.dll" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)"</PostBuildEvent>
-  </PropertyGroup>
   <Import Project="..\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets" Condition="Exists('..\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -106,4 +76,11 @@ xcopy /y "$(TargetDir)*.dll" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets'))" />
   </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>
