@@ -60,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Core\LoadingExtension.cs" />
     <Compile Include="Core\RealTimeCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
