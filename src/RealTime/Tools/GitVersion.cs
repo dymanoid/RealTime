@@ -13,7 +13,7 @@ namespace RealTime.Tools
     internal static class GitVersion
     {
         private const string GitVersionTypeName = ".GitVersionInformation";
-        private const string VersionFieldName = "SemVer";
+        private const string VersionFieldName = "FullSemVer";
 
         /// <summary>
         /// Gets a string representation of the full semantic assembly version of the provided <paramref name="assembly"/>.
