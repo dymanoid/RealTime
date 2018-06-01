@@ -10,6 +10,10 @@ namespace RealTime.UI
     using RealTime.Tools;
     using UnityEngine;
 
+    /// <summary>
+    /// Manages the time bar customization. The customized time bar will show the day of the week
+    /// and the current time instead of the date. The date will be displayed in the time bar's tooltip.
+    /// </summary>
     internal sealed class CustomTimeBar
     {
         private const string UIInfoPanel = "InfoPanel";
@@ -20,6 +24,11 @@ namespace RealTime.UI
 
         private UIDateTimeWrapper originalWrapper;
 
+        /// <summary>
+        /// Enables the time bar customization. If the customization is already enabled, has no effect.
+        /// </summary>
+        ///
+        /// <param name="currentDate">The current game date to set as the time bar's initial value.</param>
         public void Enable(DateTime currentDate)
         {
             if (originalWrapper != null)
@@ -32,6 +41,10 @@ namespace RealTime.UI
             originalWrapper = SetUIDateTimeWrapper(customWrapper, true);
         }
 
+        /// <summary>
+        /// Disables the time bar configuration. If the customization is already disabled or was not enabled,
+        /// has no effect.
+        /// </summary>
         public void Disable()
         {
             if (originalWrapper == null)

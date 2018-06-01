@@ -12,6 +12,11 @@ namespace RealTime.Tools
     using System.Text;
     using System.Timers;
 
+    /// <summary>
+    /// Manages the logging. In 'Release' mode, only logs to the Unity's debug log.
+    /// Also, the <see cref="Debug(string)"/> method calls will be eliminated in this mode.
+    /// In 'Debug' mode logs additionaly to a text file that is located on the Desktop.
+    /// </summary>
     internal static class Log
     {
 #if DEBUG
@@ -40,6 +45,11 @@ namespace RealTime.Tools
         }
 #endif
 
+        /// <summary>
+        /// Logs a debug information. This method won't be compiled in the 'Release' mode.
+        /// </summary>
+        ///
+        /// <param name="text">The text to log.</param>
         [Conditional("DEBUG")]
         public static void Debug(string text)
         {
@@ -48,6 +58,11 @@ namespace RealTime.Tools
 #endif
         }
 
+        /// <summary>
+        /// Logs an information text.
+        /// </summary>
+        ///
+        /// <param name="text">The text to log.</param>
         public static void Info(string text)
         {
             UnityEngine.Debug.Log(text);
@@ -57,6 +72,11 @@ namespace RealTime.Tools
 #endif
         }
 
+        /// <summary>
+        /// Logs a warning text.
+        /// </summary>
+        ///
+        /// <param name="text">The text to log.</param>
         public static void Warning(string text)
         {
             UnityEngine.Debug.LogWarning(text);
@@ -66,6 +86,11 @@ namespace RealTime.Tools
 #endif
         }
 
+        /// <summary>
+        /// Logs an error text.
+        /// </summary>
+        ///
+        /// <param name="text">The text to log.</param>
         public static void Error(string text)
         {
             UnityEngine.Debug.LogError(text);
@@ -87,7 +112,7 @@ namespace RealTime.Tools
             messageBuilder.Append(DateTime.Now.ToString("HH:mm:ss.ffff"));
             messageBuilder.Append('\t');
             messageBuilder.Append(type);
-            messageBuilder.Append('\t');
+            messageBuilder.Append("\t\t");
             messageBuilder.Append(text);
             string message = messageBuilder.ToString();
             lock (SyncObject)

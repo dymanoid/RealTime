@@ -8,6 +8,10 @@ namespace RealTime.Core
     using RealTime.Simulation;
     using RealTime.UI;
 
+    /// <summary>
+    /// The core component of the Real Time mod. Activates and deactivates
+    /// the different parts of the mod's logic.
+    /// </summary>
     internal sealed class RealTimeCore
     {
         private readonly TimeAdjustment timeAdjustment;
@@ -21,7 +25,12 @@ namespace RealTime.Core
             this.timeBar = timeBar;
         }
 
-        public static RealTimeCore Enable()
+        /// <summary>
+        /// Runs the mod by activating its parts.
+        /// </summary>
+        ///
+        /// <returns>A <see cref="RealTimeCore"/> instance that can be used to stop the mod.</returns>
+        public static RealTimeCore Run()
         {
             var timeAdjustment = new TimeAdjustment();
             DateTime gameDate = timeAdjustment.Enable();
@@ -34,7 +43,10 @@ namespace RealTime.Core
             return core;
         }
 
-        public void Disable()
+        /// <summary>
+        /// Stops the mod by deactivating all its parts.
+        /// </summary>
+        public void Stop()
         {
             if (!isEnabled)
             {

@@ -7,6 +7,9 @@ namespace RealTime.Simulation
     using System;
     using RealTime.Tools;
 
+    /// <summary>
+    /// Manages the customized time adjustment. This class depends on the <see cref="SimulationManager"/> class.
+    /// </summary>
     internal sealed class TimeAdjustment
     {
         private const int CustomFramesPerDay = 1 << 16;
@@ -15,12 +18,20 @@ namespace RealTime.Simulation
         private readonly uint vanillaFramesPerDay;
         private readonly TimeSpan vanillaTimePerFrame;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TimeAdjustment"/> class.
+        /// </summary>
         public TimeAdjustment()
         {
             vanillaFramesPerDay = SimulationManager.DAYTIME_FRAMES;
             vanillaTimePerFrame = SimulationManager.instance.m_timePerFrame;
         }
 
+        /// <summary>
+        /// Enables the customized time adjustment.
+        /// </summary>
+        ///
+        /// <returns>The current game date and time.</returns>
         public DateTime Enable()
         {
             if (vanillaTimePerFrame == CustomTimePerFrame)
@@ -31,6 +42,9 @@ namespace RealTime.Simulation
             return UpdateTimeSimulationValues(CustomFramesPerDay, CustomTimePerFrame);
         }
 
+        /// <summary>
+        /// Disables the customized time adjustment restoring the default vanilla values.
+        /// </summary>
         public void Disable()
         {
             UpdateTimeSimulationValues(vanillaFramesPerDay, vanillaTimePerFrame);
