@@ -38,6 +38,8 @@ namespace RealTime.Tools
         [ThreadStatic]
         private static StringBuilder messageBuilder;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline", Justification = "Special debug configuration")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Debug build only")]
         static Log()
         {
             FlushTimer.Elapsed += FlushTimer_Elapsed;

@@ -36,6 +36,7 @@ namespace RealTime.Core
         /// <summary>
         /// Called when this mod is disabled.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Must be instance method due to C:S API")]
         public void OnDisabled()
         {
             Log.Info("The 'Real Time' mod has been disabled.");
@@ -47,6 +48,7 @@ namespace RealTime.Core
         ///
         /// <param name="helper">An <see cref="UIHelperBase"/> reference that can be used
         /// to construct the mod's settings page.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Must be instance method due to C:S API")]
         public void OnSettingsUI(UIHelperBase helper)
         {
             // TODO: imlement the options page

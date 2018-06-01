@@ -15,6 +15,7 @@ namespace RealTime.Tools
     /// of the <see cref="UIComponent"/> to the date part of that value. The current
     /// <see cref="LocaleManager.cultureInfo"/> is used for string conversion.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Instantiated by Unity Engine")]
     internal sealed class DateTooltipBehavior : MonoBehaviour
     {
         private UIComponent target;

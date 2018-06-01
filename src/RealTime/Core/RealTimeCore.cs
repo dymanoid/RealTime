@@ -38,8 +38,11 @@ namespace RealTime.Core
             var customTimeBar = new CustomTimeBar();
             customTimeBar.Enable(gameDate);
 
-            var core = new RealTimeCore(timeAdjustment, customTimeBar);
-            core.isEnabled = true;
+            var core = new RealTimeCore(timeAdjustment, customTimeBar)
+            {
+                isEnabled = true
+            };
+
             return core;
         }
 
