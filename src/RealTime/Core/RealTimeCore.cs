@@ -6,6 +6,8 @@ namespace RealTime.Core
 {
     using System;
     using System.Security.Permissions;
+    using RealTime.AI;
+    using RealTime.Config;
     using RealTime.Simulation;
     using RealTime.Tools;
     using RealTime.UI;
@@ -36,11 +38,16 @@ namespace RealTime.Core
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public static RealTimeCore Run()
         {
+            SimulationManager simMgr = SimulationManager.instance;
+
             var timeAdjustment = new TimeAdjustment();
             DateTime gameDate = timeAdjustment.Enable();
 
             var customTimeBar = new CustomTimeBar();
             customTimeBar.Enable(gameDate);
+
+            ILogic logic = new Logic(Configuration.Current, new TimeInfo(), ref simMgr.m_randomizer);
+            LogicService.ProvideLogic(logic);
 
             try
             {
@@ -73,6 +80,7 @@ namespace RealTime.Core
 
             timeAdjustment.Disable();
             timeBar.Disable();
+            LogicService.RevokeLogic();
 
             try
             {

@@ -12,7 +12,7 @@ namespace RealTime.Simulation
     /// </summary>
     internal sealed class TimeAdjustment
     {
-        private const int CustomFramesPerDay = 1 << 16;
+        private const int CustomFramesPerDay = 1 << 17;
         private static readonly TimeSpan CustomTimePerFrame = new TimeSpan(24L * 3600L * 10_000_000L / CustomFramesPerDay);
 
         private readonly uint vanillaFramesPerDay;

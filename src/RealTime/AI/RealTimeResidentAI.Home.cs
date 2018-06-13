@@ -4,59 +4,46 @@
 
 namespace RealTime.AI
 {
-    using UnityEngine;
+    using RealTime.Tools;
 
     internal static partial class RealTimeResidentAI
     {
-        private static bool ProcessCitizenAtHome(Arguments args, uint citizenID, ref Citizen data)
+        private const float LocalSearchDistance = 1000f;
+
+        private static void ProcessCitizenAtHome(References refs, uint citizenId, ref Citizen citizen)
         {
-            if ((data.m_flags & Citizen.Flags.MovingIn) != 0)
+            if (citizen.m_homeBuilding == 0)
             {
-                args.CitizenMgr.ReleaseCitizen(citizenID);
-                return true;
+                Log.Debug($"WARNING: {CitizenInfo(citizenId, ref citizen)} is in corrupt state: at home with no home building. Releasing the poor citizen.");
+                refs.CitizenMgr.ReleaseCitizen(citizenId);
+                return;
             }
 
-            bool? commonStateResult = ProcessCitizenCommonState(args, citizenID, ref data);
-            if (commonStateResult.HasValue)
+            if (citizen.m_vehicle != 0)
             {
-                return commonStateResult.Value;
+                Log.Debug(
+                    refs.SimMgr.m_currentGameTime,
+                    $"WARNING: {CitizenInfo(citizenId, ref citizen)} is at home but vehicle = {citizen.m_vehicle}");
+                return;
             }
 
-            if ((args.BuildingMgr.m_buildings.m_buffer[data.m_homeBuilding].m_flags & Building.Flags.Evacuating) != 0)
+            if (CitizenGoesWorking(refs, citizenId, ref citizen))
             {
-                FindEvacuationPlace(args.ResidentAI, citizenID, data.m_homeBuilding, GetEvacuationReason(args.ResidentAI, data.m_homeBuilding));
-            }
-            else if ((data.m_flags & Citizen.Flags.NeedGoods) != 0)
-            {
-                FindVisitPlace(args.ResidentAI, citizenID, data.m_homeBuilding, GetShoppingReason(args.ResidentAI));
-            }
-            else
-            {
-                if (data.m_instance == 0 && !DoRandomMove(args.ResidentAI))
-                {
-                    return false;
-                }
-
-                int dayTimeFrame2 = (int)args.SimMgr.m_dayTimeFrame;
-                int dAYTIME_FRAMES2 = (int)SimulationManager.DAYTIME_FRAMES;
-                int num9 = dAYTIME_FRAMES2 / 40;
-                int num10 = (int)(SimulationManager.DAYTIME_FRAMES * 8) / 24;
-                int num11 = dayTimeFrame2 - num10 & dAYTIME_FRAMES2 - 1;
-                int num12 = Mathf.Abs(num11 - (dAYTIME_FRAMES2 >> 1));
-                num12 = num12 * num12 / (dAYTIME_FRAMES2 >> 1);
-                int num13 = args.SimMgr.m_randomizer.Int32((uint)dAYTIME_FRAMES2);
-                if (num13 < num9)
-                {
-                    FindVisitPlace(args.ResidentAI, citizenID, data.m_homeBuilding, GetEntertainmentReason(args.ResidentAI));
-                }
-                else if (num13 < num9 + num12 && data.m_workBuilding != 0)
-                {
-                    data.m_flags &= ~Citizen.Flags.Evacuating;
-                    args.ResidentAI.StartMoving(citizenID, ref data, data.m_homeBuilding, data.m_workBuilding);
-                }
+                Log.Debug(" ----------- Citizen was AT HOME");
+                return;
             }
 
-            return false;
+            if (!DoRandomMove(refs.ResidentAI))
+            {
+                return;
+            }
+
+            if (!CitizenGoesShopping(refs, citizenId, ref citizen) && !CitizenGoesRelaxing(refs, citizenId, ref citizen))
+            {
+                return;
+            }
+
+            Log.Debug(" ----------- Citizen was AT HOME");
         }
     }
 }

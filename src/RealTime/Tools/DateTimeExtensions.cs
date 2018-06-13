@@ -39,17 +39,5 @@ namespace RealTime.Tools
         {
             return (dateTime + interval).IsWeekend();
         }
-
-        /// <summary>
-        /// Gets a <see cref="float"/> value representing the current day's hour.
-        /// </summary>
-        ///
-        /// <param name="dateTime">The <see cref="DateTime"/> to act on.</param>
-        ///
-        /// <returns>A <see cref="float"/> value that represents the cuurent day's hour.</returns>
-        public static float HourOfDay(this DateTime dateTime)
-        {
-            return (float)dateTime.TimeOfDay.TotalHours;
-        }
     }
 }

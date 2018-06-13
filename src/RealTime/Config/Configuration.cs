@@ -15,19 +15,20 @@ namespace RealTime.Config
         public static Configuration Current { get; set; } = new Configuration();
 
         /// <summary>
-        /// Gets or sets a value indicating whether the Weekends are enabled. Cims don't go to work on Weekends.
+        /// Gets or sets a value indicating whether the weekends are enabled. Cims don't go to work on weekends.
         /// </summary>
-        public bool EnableWeekends { get; set; } = true;
+        public bool IsWeekendEnabled { get; set; } = true;
 
         /// <summary>
         /// Gets or sets a value indicating whether Cims should go out at lunch for food.
         /// </summary>
-        public bool SimulateLunchTime { get; set; } = true;
+        public bool IsLunchTimeEnabled { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the percentage of the Cims that will go out for lunch.
+        /// Valid values are 0..100.
         /// </summary>
-        public float LunchQuota { get; set; } = 0.6f;
+        public int LunchQuota { get; set; } = 80;
 
         /// <summary>
         /// Gets or sets a value indicating whether Cims will search locally for buildings to visit,
@@ -37,61 +38,43 @@ namespace RealTime.Config
 
         /// <summary>
         /// Gets or sets the percentage of the population that will search locally for buildings.
-        /// Valid values are 0.0 to 1.0.
+        /// Valid values are 0..100.
         /// </summary>
-        public float LocalBuildingSearchQuota { get; set; } = 0.5f;
+        public int LocalBuildingSearchQuota { get; set; } = 60;
 
         /// <summary>
-        /// Gets or sets the percentage of the Cims that will attend their way to work or to school
-        /// as soon as possible.
-        /// </summary>
-        public float EarlyStartQuota { get; set; } = 0.4f;
-
-        /// <summary>
-        /// Gets or sets the percentage of the Cims that will leave their work or school
+        /// Gets or sets the percentage of the Cims that will go to and leave their work or school
         /// on time (no overtime!).
+        /// Valid values are 0..100.
         /// </summary>
-        public float LeaveOnTimeQuota { get; set; } = 0.8f;
+        public int OnTimeQuota { get; set; } = 80;
 
         /// <summary>
-        /// Gets or sets the earliest daytime hour when the young Cims head to school or university.
+        /// Gets or sets the maximum overtime for the Cims. They come to work earlier or stay at work longer for at most this
+        /// amout of hours. This applies only for those Cims that are not on time, see <see cref="OnTimeQuota"/>.
+        /// The young Cims (school and university) don't do overtime.
         /// </summary>
-        public float MinSchoolHour { get; set; } = 7.5f;
+        public float MaxOvertime { get; set; } = 2f;
 
         /// <summary>
-        /// Gets or sets the latest daytime hour when the young Cims head to school or university.
+        /// Gets or sets the the school start daytime hour. The young Cims must be at school or university.
         /// </summary>
-        public float StartSchoolHour { get; set; } = 8f;
+        public float SchoolBegin { get; set; } = 8f;
 
         /// <summary>
-        /// Gets or sets the earliest daytime hour when the young Cims return from school or university.
+        /// Gets or sets the daytime hour when the young Cims return from school or university.
         /// </summary>
-        public float EndSchoolHour { get; set; } = 13.5f;
+        public float SchoolEnd { get; set; } = 14f;
 
         /// <summary>
-        /// Gets or sets the latest daytime hour when the young Cims return from school or university.
+        /// Gets or sets the work start daytime hour. The adult Cims must be at work.
         /// </summary>
-        public float MaxSchoolHour { get; set; } = 14f;
+        public float WorkBegin { get; set; } = 9f;
 
         /// <summary>
-        /// Gets or sets the earliest daytime hour when the adult Cims head to work.
+        /// Gets or sets the daytime hour when the adult Cims return from work.
         /// </summary>
-        public float MinWorkHour { get; set; } = 6f;
-
-        /// <summary>
-        /// Gets or sets the latest daytime hour when the adult Cims head to work.
-        /// </summary>
-        public float StartWorkHour { get; set; } = 9f;
-
-        /// <summary>
-        /// Gets or sets the earliest daytime hour when the adult Cims return from work.
-        /// </summary>
-        public float EndWorkHour { get; set; } = 15f;
-
-        /// <summary>
-        /// Gets or sets the latest daytime hour when the adult Cims return from work.
-        /// </summary>
-        public float MaxWorkHour { get; set; } = 18f;
+        public float WorkEnd { get; set; } = 18f;
 
         /// <summary>
         /// Gets or sets the daytime hour when the Cims go out for lunch.
@@ -99,25 +82,8 @@ namespace RealTime.Config
         public float LunchBegin { get; set; } = 12f;
 
         /// <summary>
-        /// Gets or sets the daytime hour when the Cims return for lunch.
+        /// Gets or sets the lunch time duration.
         /// </summary>
-        public float LunchEnd { get; set; } = 12.75f;
-
-        /// <summary>
-        /// Gets or sets the minimum school duration (in hours).
-        /// Cims will not travel to school or university if the time spent there will not reach at least this value.
-        /// </summary>
-        public float MinSchoolDuration { get; set; } = 1f;
-
-        /// <summary>
-        /// Gets or sets the minimum work duration (in hours).
-        /// Cims will not travel to work if the time spent there will not reach at least this value.
-        /// </summary>
-        public float MinWorkDuration { get; set; } = 1f;
-
-        /// <summary>
-        /// Gets or sets the assumed maximum travel time (in hours) to work or to school or to university.
-        /// </summary>
-        public float WorkOrSchoolTravelTime { get; set; } = 2f;
+        public float LunchEnd { get; set; } = 13f;
     }
 }

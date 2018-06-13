@@ -5,92 +5,262 @@
 namespace RealTime.AI
 {
     using ColossalFramework;
+    using RealTime.Tools;
 
     internal static partial class RealTimeResidentAI
     {
-        private static bool ProcessCitizenVisit(Arguments args, uint citizenID, ref Citizen data)
+        private static void ProcessCitizenVisit(CitizenState citizenState, References refs, uint citizenId, ref Citizen citizen)
         {
-            bool? commonStateResult = ProcessCitizenCommonState(args, citizenID, ref data);
-            if (commonStateResult.HasValue)
+            if (citizen.m_visitBuilding == 0)
             {
-                return commonStateResult.Value;
+                Log.Debug($"WARNING: {CitizenInfo(citizenId, ref citizen)} is in corrupt state: visiting with no visit building. Teleporting home.");
+                citizen.CurrentLocation = Citizen.Location.Home;
+                return;
             }
 
-            ItemClass.Service service = data.m_visitBuilding == 0
-                ? ItemClass.Service.None
-                : args.BuildingMgr.m_buildings.m_buffer[data.m_visitBuilding].Info.m_class.m_service;
+            switch (citizenState)
+            {
+                case CitizenState.AtLunch:
+                    if (CitizenReturnsFromLunch(refs, citizenId, ref citizen))
+                    {
+                        Log.Debug(" ----------- Citizen was AT LUNCH");
+                    }
 
-            switch (service)
+                    return;
+
+                case CitizenState.AtLeisureArea:
+                case CitizenState.Visiting:
+                    if (CitizenGoesWorking(refs, citizenId, ref citizen) || CitizenReturnsHomeFromVisit(refs, citizenId, ref citizen))
+                    {
+                        Log.Debug(" ----------- Citizen was AT LEISURE or VISIT");
+                    }
+
+                    return;
+
+                case CitizenState.Shopping:
+                    if (CitizenGoesWorking(refs, citizenId, ref citizen))
+                    {
+                        Log.Debug(" ----------- Citizen was SHOPPING");
+                        return;
+                    }
+
+                    if (refs.SimMgr.m_randomizer.Int32(40) < 10)
+                    {
+                        Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} returning from shopping back home");
+                        ReturnFromVisit(refs.ResidentAI, citizenId, ref citizen, citizen.m_homeBuilding);
+                        Log.Debug(" ----------- Citizen was SHOPPING");
+                        return;
+                    }
+
+                    break;
+
+                default:
+                    return;
+            }
+
+            ref Building visitBuilding = ref refs.BuildingMgr.m_buildings.m_buffer[citizen.m_visitBuilding];
+            if ((citizen.m_flags & Citizen.Flags.NeedGoods) != 0)
+            {
+                int goodsDelta = -100;
+                visitBuilding.Info.m_buildingAI.ModifyMaterialBuffer(
+                    citizen.m_visitBuilding,
+                    ref visitBuilding,
+                    TransferManager.TransferReason.Shopping,
+                    ref goodsDelta);
+
+                citizen.m_flags &= ~Citizen.Flags.NeedGoods;
+                return;
+            }
+        }
+
+        private static bool CitizenReturnsFromLunch(References refs, uint citizenId, ref Citizen citizen)
+        {
+            if (Logic.IsLunchHour)
+            {
+                return false;
+            }
+
+            if (citizen.m_workBuilding != 0)
+            {
+                Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} returning from lunch to {citizen.m_workBuilding}");
+                ReturnFromVisit(refs.ResidentAI, citizenId, ref citizen, citizen.m_workBuilding);
+            }
+            else
+            {
+                Log.Debug($"WARNING: {CitizenInfo(citizenId, ref citizen)} is at lunch but no work building. Teleporting home.");
+                citizen.CurrentLocation = Citizen.Location.Home;
+            }
+
+            return true;
+        }
+
+        private static bool CitizenReturnsHomeFromVisit(References refs, uint citizenId, ref Citizen citizen)
+        {
+            ref Building visitBuilding = ref refs.BuildingMgr.m_buildings.m_buffer[citizen.m_visitBuilding];
+            switch (visitBuilding.Info.m_class.m_service)
             {
                 case ItemClass.Service.HealthCare:
                 case ItemClass.Service.PoliceDepartment:
-                    if (data.m_homeBuilding != 0 && data.m_vehicle == 0)
+                    if (refs.SimMgr.m_randomizer.Int32(100) < 50)
                     {
-                        data.m_flags &= ~Citizen.Flags.Evacuating;
-                        args.ResidentAI.StartMoving(citizenID, ref data, data.m_visitBuilding, data.m_homeBuilding);
-                        data.SetVisitplace(citizenID, 0, 0u);
+                        Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} returning from visit back home");
+                        ReturnFromVisit(refs.ResidentAI, citizenId, ref citizen, citizen.m_homeBuilding);
+                        return true;
                     }
 
-                    return false;
+                    break;
 
                 case ItemClass.Service.Disaster:
-                    if ((args.BuildingMgr.m_buildings.m_buffer[data.m_visitBuilding].m_flags & Building.Flags.Downgrading) != 0 && data.m_homeBuilding != 0 && data.m_vehicle == 0)
+                    if ((visitBuilding.m_flags & Building.Flags.Downgrading) != 0)
                     {
-                        data.m_flags &= ~Citizen.Flags.Evacuating;
-                        args.ResidentAI.StartMoving(citizenID, ref data, data.m_visitBuilding, data.m_homeBuilding);
-                        data.SetVisitplace(citizenID, 0, 0u);
+                        Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} returning from evacuation place back home");
+                        ReturnFromVisit(refs.ResidentAI, citizenId, ref citizen, citizen.m_homeBuilding);
+                        return true;
                     }
 
-                    return false;
+                    break;
+            }
 
-                default:
-                    if (data.m_visitBuilding == 0)
-                    {
-                        data.CurrentLocation = Citizen.Location.Home;
-                    }
-                    else if ((args.BuildingMgr.m_buildings.m_buffer[data.m_visitBuilding].m_flags & Building.Flags.Evacuating) != 0)
-                    {
-                        if (data.m_vehicle == 0)
-                        {
-                            FindEvacuationPlace(args.ResidentAI, citizenID, data.m_visitBuilding, GetEvacuationReason(args.ResidentAI, data.m_visitBuilding));
-                        }
-                    }
-                    else if ((data.m_flags & Citizen.Flags.NeedGoods) != 0)
-                    {
-                        BuildingInfo info = args.BuildingMgr.m_buildings.m_buffer[data.m_visitBuilding].Info;
-                        int num7 = -100;
-                        info.m_buildingAI.ModifyMaterialBuffer(data.m_visitBuilding, ref args.BuildingMgr.m_buildings.m_buffer[data.m_visitBuilding], TransferManager.TransferReason.Shopping, ref num7);
-                    }
-                    else
-                    {
-                        ushort eventIndex2 = args.BuildingMgr.m_buildings.m_buffer[data.m_visitBuilding].m_eventIndex;
-                        if (eventIndex2 != 0)
-                        {
-                            if ((Singleton<EventManager>.instance.m_events.m_buffer[eventIndex2].m_flags & (EventData.Flags.Preparing | EventData.Flags.Active | EventData.Flags.Ready)) == EventData.Flags.None && data.m_homeBuilding != 0 && data.m_vehicle == 0)
-                            {
-                                data.m_flags &= ~Citizen.Flags.Evacuating;
-                                args.ResidentAI.StartMoving(citizenID, ref data, data.m_visitBuilding, data.m_homeBuilding);
-                                data.SetVisitplace(citizenID, 0, 0u);
-                            }
-                        }
-                        else
-                        {
-                            if (data.m_instance == 0 && !DoRandomMove(args.ResidentAI))
-                            {
-                                return false;
-                            }
+            ushort eventId = visitBuilding.m_eventIndex;
+            if (eventId != 0)
+            {
+                if ((Singleton<EventManager>.instance.m_events.m_buffer[eventId].m_flags & (EventData.Flags.Preparing | EventData.Flags.Active | EventData.Flags.Ready)) == 0)
+                {
+                    Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} returning from an event back home");
+                    ReturnFromVisit(refs.ResidentAI, citizenId, ref citizen, citizen.m_homeBuilding);
+                }
 
-                            int num8 = args.SimMgr.m_randomizer.Int32(40u);
-                            if (num8 < 10 && data.m_homeBuilding != 0 && data.m_vehicle == 0)
-                            {
-                                data.m_flags &= ~Citizen.Flags.Evacuating;
-                                args.ResidentAI.StartMoving(citizenID, ref data, data.m_visitBuilding, data.m_homeBuilding);
-                                data.SetVisitplace(citizenID, 0, 0u);
-                            }
-                        }
-                    }
+                return true;
+            }
 
-                    return false;
+            return false;
+        }
+
+        private static void ReturnFromVisit(ResidentAI residentAi, uint citizenId, ref Citizen citizen, ushort targetBuilding)
+        {
+            if (targetBuilding != 0 && citizen.m_vehicle == 0)
+            {
+                citizen.m_flags &= ~Citizen.Flags.Evacuating;
+                residentAi.StartMoving(citizenId, ref citizen, citizen.m_visitBuilding, targetBuilding);
+                citizen.SetVisitplace(citizenId, 0, 0u);
+            }
+        }
+
+        private static bool CitizenGoesShopping(References refs, uint citizenId, ref Citizen citizen)
+        {
+            if ((citizen.m_flags & Citizen.Flags.NeedGoods) == 0)
+            {
+                return false;
+            }
+
+            int random = refs.SimMgr.m_randomizer.Int32(100);
+
+            if (refs.SimMgr.m_isNightTime)
+            {
+                if (random < Logic.GetGoOutAtNightChance(citizen.Age)
+                    && FindLocalCommercialBuilding(refs, citizenId, ref citizen, LocalSearchDistance) > 0)
+                {
+                    Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} wanna go shopping at night, heading to a local shop");
+                    return true;
+                }
+            }
+            else if (random < 50)
+            {
+                ushort localVisitPlace = 0;
+
+                if (Logic.CurrentConfig.AllowLocalBuildingSearch
+                    && refs.SimMgr.m_randomizer.UInt32(100) < Logic.CurrentConfig.LocalBuildingSearchQuota)
+                {
+                    Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} wanna go shopping, tries to find a local shop");
+                    localVisitPlace = FindLocalCommercialBuilding(refs, citizenId, ref citizen, LocalSearchDistance);
+                }
+
+                if (localVisitPlace == 0)
+                {
+                    Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} wanna go shopping, heading to a random shop");
+                    FindVisitPlace(refs.ResidentAI, citizenId, citizen.m_homeBuilding, GetShoppingReason(refs.ResidentAI));
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool CitizenGoesRelaxing(References refs, uint citizenId, ref Citizen citizen)
+        {
+            // TODO: add events here
+            if (!Logic.ShouldFindEntertainment(ref citizen))
+            {
+                return false;
+            }
+
+            ushort buildingId = citizen.GetBuildingByLocation();
+            if (buildingId == 0)
+            {
+                return false;
+            }
+
+            if (refs.SimMgr.m_isNightTime)
+            {
+                Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} wanna relax at night, heading to a leisure area");
+                FindLeisure(refs, citizenId, ref citizen, buildingId);
+            }
+            else
+            {
+                Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} wanna relax, heading to an entertainment place");
+                FindVisitPlace(refs.ResidentAI, citizenId, buildingId, GetEntertainmentReason(refs.ResidentAI));
+            }
+
+            return true;
+        }
+
+        private static ushort FindLocalCommercialBuilding(References refs, uint citizenId, ref Citizen citizen, float distance)
+        {
+            ushort buildingId = citizen.GetBuildingByLocation();
+            if (buildingId == 0)
+            {
+                return 0;
+            }
+
+            ushort foundBuilding = 0;
+            ref Building currentBuilding = ref refs.BuildingMgr.m_buildings.m_buffer[buildingId];
+
+            foundBuilding = refs.BuildingMgr.FindBuilding(
+                currentBuilding.m_position,
+                distance,
+                ItemClass.Service.Commercial,
+                ItemClass.SubService.None,
+                Building.Flags.Created | Building.Flags.Active,
+                Building.Flags.Deleted);
+
+            if (foundBuilding != 0)
+            {
+                refs.ResidentAI.StartMoving(citizenId, ref citizen, buildingId, foundBuilding);
+                citizen.SetVisitplace(citizenId, foundBuilding, 0U);
+                citizen.m_visitBuilding = foundBuilding;
+            }
+
+            return foundBuilding;
+        }
+
+        private static void FindLeisure(References refs, uint citizenId, ref Citizen citizen, ushort buildingId)
+        {
+            ref Building currentBuilding = ref refs.BuildingMgr.m_buildings.m_buffer[buildingId];
+
+            ushort leisureBuilding = refs.BuildingMgr.FindBuilding(
+                currentBuilding.m_position,
+                float.MaxValue,
+                ItemClass.Service.Commercial,
+                ItemClass.SubService.CommercialLeisure,
+                Building.Flags.Created | Building.Flags.Active,
+                Building.Flags.Deleted);
+
+            if (leisureBuilding != 0 && refs.SimMgr.m_randomizer.Int32(10) > 2)
+            {
+                refs.ResidentAI.StartMoving(citizenId, ref citizen, buildingId, leisureBuilding);
+                citizen.SetVisitplace(citizenId, leisureBuilding, 0U);
+                citizen.m_visitBuilding = leisureBuilding;
             }
         }
     }

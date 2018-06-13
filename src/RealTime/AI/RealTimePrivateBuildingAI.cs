@@ -8,7 +8,9 @@ namespace RealTime.AI
 
     internal sealed class RealTimePrivateBuildingAI
     {
-        [RedirectFrom(typeof(PrivateBuildingAI))]
+        internal static ILogic Logic { get; set; }
+
+        //[RedirectFrom(typeof(PrivateBuildingAI))]
         private static int GetConstructionTime(PrivateBuildingAI instance)
         {
             if ((ToolManager.instance.m_properties.m_mode & ItemClass.Availability.AssetEditor) != 0)

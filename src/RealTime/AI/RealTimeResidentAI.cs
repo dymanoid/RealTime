@@ -7,62 +7,86 @@ namespace RealTime.AI
     using System;
     using System.Runtime.CompilerServices;
     using ColossalFramework;
+    using RealTime.Tools;
     using Redirection;
 
     internal static partial class RealTimeResidentAI
     {
         private const string RedirectNeededMessage = "This method must be redirected to the original implementation";
+        private static References references;
+
+        internal static ILogic Logic { get; set; }
 
         [RedirectFrom(typeof(ResidentAI))]
-        private static void UpdateLocation(ResidentAI instance, uint citizenID, ref Citizen data)
+        private static void UpdateLocation(ResidentAI instance, uint citizenId, ref Citizen citizen)
         {
-            CitizenManager citizenMgr = Singleton<CitizenManager>.instance;
-            BuildingManager buildingMgr = Singleton<BuildingManager>.instance;
-            SimulationManager simMgr = Singleton<SimulationManager>.instance;
-            var args = new Arguments(instance, citizenMgr, buildingMgr, simMgr);
-
-            if (data.m_homeBuilding == 0 && data.m_workBuilding == 0 && data.m_visitBuilding == 0 && data.m_instance == 0 && data.m_vehicle == 0)
+            if (references == null)
             {
-                citizenMgr.ReleaseCitizen(citizenID);
+                CitizenManager citizenMgr = Singleton<CitizenManager>.instance;
+                BuildingManager buildingMgr = Singleton<BuildingManager>.instance;
+                SimulationManager simMgr = Singleton<SimulationManager>.instance;
+                references = new References(instance, citizenMgr, buildingMgr, simMgr);
+            }
+
+            if (citizen.m_homeBuilding == 0 && citizen.m_workBuilding == 0 && citizen.m_visitBuilding == 0
+                && citizen.m_instance == 0 && citizen.m_vehicle == 0)
+            {
+                references.CitizenMgr.ReleaseCitizen(citizenId);
                 return;
             }
 
-            switch (data.CurrentLocation)
+            if (citizen.Collapsed)
             {
-                case Citizen.Location.Home:
-                    if (ProcessCitizenAtHome(args, citizenID, ref data))
-                    {
-                        return;
-                    }
-
-                    break;
-
-                case Citizen.Location.Work:
-                    if (ProcessCitizenAtWork(args, citizenID, ref data))
-                    {
-                        return;
-                    }
-
-                    break;
-
-                case Citizen.Location.Visit:
-                    if (ProcessCitizenVisit(args, citizenID, ref data))
-                    {
-                        return;
-                    }
-
-                    break;
-
-                case Citizen.Location.Moving:
-                    if (ProcessCitizenMoving(args, citizenID, ref data))
-                    {
-                        return;
-                    }
-
-                    break;
+                return;
             }
 
-            data.m_flags &= ~Citizen.Flags.NeedGoods;
+            if (citizen.Dead)
+            {
+                ProcessCitizenDead(references, citizenId, ref citizen);
+                return;
+            }
+
+            if ((citizen.Sick && ProcessCitizenSick(references, citizenId, ref citizen))
+                || (citizen.Arrested && ProcessCitizenArrested(references, ref citizen)))
+            {
+                return;
+            }
+
+            CitizenState citizenState = GetCitizenState(references, ref citizen);
+
+            switch (citizenState)
+            {
+                case CitizenState.LeftCity:
+                    references.CitizenMgr.ReleaseCitizen(citizenId);
+                    break;
+
+                case CitizenState.MovingHome:
+                    ProcessCitizenMoving(references, citizenId, ref citizen, false);
+                    break;
+
+                case CitizenState.AtHome:
+                    ProcessCitizenAtHome(references, citizenId, ref citizen);
+                    break;
+
+                case CitizenState.MovingToTarget:
+                    ProcessCitizenMoving(references, citizenId, ref citizen, true);
+                    break;
+
+                case CitizenState.AtSchoolOrWork:
+                    ProcessCitizenAtSchoolOrWork(references, citizenId, ref citizen);
+                    break;
+
+                case CitizenState.AtLunch:
+                case CitizenState.Shopping:
+                case CitizenState.AtLeisureArea:
+                case CitizenState.Visiting:
+                    ProcessCitizenVisit(citizenState, references, citizenId, ref citizen);
+                    break;
+
+                case CitizenState.Evacuating:
+                    ProcessCitizenEvacuation(instance, citizenId, ref citizen);
+                    break;
+            }
         }
 
         [RedirectTo(typeof(ResidentAI))]
@@ -112,25 +136,6 @@ namespace RealTime.AI
         private static TransferManager.TransferReason GetEntertainmentReason(ResidentAI instance)
         {
             throw new InvalidOperationException(RedirectNeededMessage);
-        }
-
-        private sealed class Arguments
-        {
-            public Arguments(ResidentAI residentAI, CitizenManager citizenMgr, BuildingManager buildingMgr, SimulationManager simMgr)
-            {
-                ResidentAI = residentAI;
-                CitizenMgr = citizenMgr;
-                BuildingMgr = buildingMgr;
-                SimMgr = simMgr;
-            }
-
-            public ResidentAI ResidentAI { get; }
-
-            public CitizenManager CitizenMgr { get; }
-
-            public BuildingManager BuildingMgr { get; }
-
-            public SimulationManager SimMgr { get; }
         }
     }
 }
