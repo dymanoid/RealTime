@@ -61,6 +61,20 @@ namespace RealTime.Tools
         }
 
         /// <summary>
+        /// Logs a debug information. This method won't be compiled in the 'Release' mode.
+        /// </summary>
+        ///
+        /// <param name="gameTime">The current date and time in the game.</param>
+        /// <param name="text">The text to log.</param>
+        [Conditional("DEBUG")]
+        public static void Debug(DateTime gameTime, string text)
+        {
+#if DEBUG
+            DebugLog(gameTime.ToString("dd.MM.yy HH:mm") + " --> " + text, TypeDebug);
+#endif
+        }
+
+        /// <summary>
         /// Logs an information text.
         /// </summary>
         ///
