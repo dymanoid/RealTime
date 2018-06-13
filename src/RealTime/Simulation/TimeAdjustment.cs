@@ -52,13 +52,16 @@ namespace RealTime.Simulation
 
         private static DateTime UpdateTimeSimulationValues(uint framesPerDay, TimeSpan timePerFrame)
         {
+            SimulationManager sm = SimulationManager.instance;
+            DateTime originalDate = sm.m_ThreadingWrapper.simulationTime;
+
             SimulationManager.DAYTIME_FRAMES = framesPerDay;
             SimulationManager.DAYTIME_FRAME_TO_HOUR = 24f / SimulationManager.DAYTIME_FRAMES;
             SimulationManager.DAYTIME_HOUR_TO_FRAME = SimulationManager.DAYTIME_FRAMES / 24f;
 
-            SimulationManager sm = SimulationManager.instance;
             sm.m_timePerFrame = timePerFrame;
-            sm.m_timeOffsetTicks = sm.m_currentGameTime.Ticks - (sm.m_currentFrameIndex * sm.m_timePerFrame.Ticks);
+            sm.m_timeOffsetTicks = originalDate.Ticks - (sm.m_currentFrameIndex * sm.m_timePerFrame.Ticks);
+            sm.m_currentGameTime = originalDate;
 
             sm.m_currentDayTimeHour = (float)sm.m_currentGameTime.TimeOfDay.TotalHours;
             sm.m_dayTimeFrame = (uint)(SimulationManager.DAYTIME_FRAMES * sm.m_currentDayTimeHour / 24f);
