@@ -9,7 +9,7 @@ namespace RealTime.AI
 
     internal static partial class RealTimeResidentAI
     {
-        private static void ProcessCitizenVisit(CitizenState citizenState, References refs, uint citizenId, ref Citizen citizen)
+        private static void ProcessCitizenVisit(CitizenState citizenState, ResidentAI instance, References refs, uint citizenId, ref Citizen citizen)
         {
             if (citizen.m_visitBuilding == 0)
             {
@@ -21,34 +21,29 @@ namespace RealTime.AI
             switch (citizenState)
             {
                 case CitizenState.AtLunch:
-                    if (CitizenReturnsFromLunch(refs, citizenId, ref citizen))
-                    {
-                        Log.Debug(" ----------- Citizen was AT LUNCH");
-                    }
+                    CitizenReturnsFromLunch(instance, refs, citizenId, ref citizen);
 
                     return;
 
                 case CitizenState.AtLeisureArea:
                 case CitizenState.Visiting:
-                    if (CitizenGoesWorking(refs, citizenId, ref citizen) || CitizenReturnsHomeFromVisit(refs, citizenId, ref citizen))
+                    if (!CitizenGoesWorking(instance, refs, citizenId, ref citizen))
                     {
-                        Log.Debug(" ----------- Citizen was AT LEISURE or VISIT");
+                        CitizenReturnsHomeFromVisit(instance, refs, citizenId, ref citizen);
                     }
 
                     return;
 
                 case CitizenState.Shopping:
-                    if (CitizenGoesWorking(refs, citizenId, ref citizen))
+                    if (CitizenGoesWorking(instance, refs, citizenId, ref citizen))
                     {
-                        Log.Debug(" ----------- Citizen was SHOPPING");
                         return;
                     }
 
                     if (refs.SimMgr.m_randomizer.Int32(40) < 10)
                     {
                         Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} returning from shopping back home");
-                        ReturnFromVisit(refs.ResidentAI, citizenId, ref citizen, citizen.m_homeBuilding);
-                        Log.Debug(" ----------- Citizen was SHOPPING");
+                        ReturnFromVisit(instance, citizenId, ref citizen, citizen.m_homeBuilding);
                         return;
                     }
 
@@ -73,7 +68,7 @@ namespace RealTime.AI
             }
         }
 
-        private static bool CitizenReturnsFromLunch(References refs, uint citizenId, ref Citizen citizen)
+        private static bool CitizenReturnsFromLunch(ResidentAI instance, References refs, uint citizenId, ref Citizen citizen)
         {
             if (Logic.IsLunchHour)
             {
@@ -83,7 +78,7 @@ namespace RealTime.AI
             if (citizen.m_workBuilding != 0)
             {
                 Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} returning from lunch to {citizen.m_workBuilding}");
-                ReturnFromVisit(refs.ResidentAI, citizenId, ref citizen, citizen.m_workBuilding);
+                ReturnFromVisit(instance, citizenId, ref citizen, citizen.m_workBuilding);
             }
             else
             {
@@ -94,7 +89,7 @@ namespace RealTime.AI
             return true;
         }
 
-        private static bool CitizenReturnsHomeFromVisit(References refs, uint citizenId, ref Citizen citizen)
+        private static bool CitizenReturnsHomeFromVisit(ResidentAI instance, References refs, uint citizenId, ref Citizen citizen)
         {
             ref Building visitBuilding = ref refs.BuildingMgr.m_buildings.m_buffer[citizen.m_visitBuilding];
             switch (visitBuilding.Info.m_class.m_service)
@@ -104,7 +99,7 @@ namespace RealTime.AI
                     if (refs.SimMgr.m_randomizer.Int32(100) < 50)
                     {
                         Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} returning from visit back home");
-                        ReturnFromVisit(refs.ResidentAI, citizenId, ref citizen, citizen.m_homeBuilding);
+                        ReturnFromVisit(instance, citizenId, ref citizen, citizen.m_homeBuilding);
                         return true;
                     }
 
@@ -114,7 +109,7 @@ namespace RealTime.AI
                     if ((visitBuilding.m_flags & Building.Flags.Downgrading) != 0)
                     {
                         Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} returning from evacuation place back home");
-                        ReturnFromVisit(refs.ResidentAI, citizenId, ref citizen, citizen.m_homeBuilding);
+                        ReturnFromVisit(instance, citizenId, ref citizen, citizen.m_homeBuilding);
                         return true;
                     }
 
@@ -127,7 +122,7 @@ namespace RealTime.AI
                 if ((Singleton<EventManager>.instance.m_events.m_buffer[eventId].m_flags & (EventData.Flags.Preparing | EventData.Flags.Active | EventData.Flags.Ready)) == 0)
                 {
                     Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} returning from an event back home");
-                    ReturnFromVisit(refs.ResidentAI, citizenId, ref citizen, citizen.m_homeBuilding);
+                    ReturnFromVisit(instance, citizenId, ref citizen, citizen.m_homeBuilding);
                 }
 
                 return true;
@@ -146,7 +141,7 @@ namespace RealTime.AI
             }
         }
 
-        private static bool CitizenGoesShopping(References refs, uint citizenId, ref Citizen citizen)
+        private static bool CitizenGoesShopping(ResidentAI instance, References refs, uint citizenId, ref Citizen citizen)
         {
             if ((citizen.m_flags & Citizen.Flags.NeedGoods) == 0)
             {
@@ -158,7 +153,7 @@ namespace RealTime.AI
             if (refs.SimMgr.m_isNightTime)
             {
                 if (random < Logic.GetGoOutAtNightChance(citizen.Age)
-                    && FindLocalCommercialBuilding(refs, citizenId, ref citizen, LocalSearchDistance) > 0)
+                    && FindLocalCommercialBuilding(instance, refs, citizenId, ref citizen, LocalSearchDistance) > 0)
                 {
                     Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} wanna go shopping at night, heading to a local shop");
                     return true;
@@ -172,13 +167,13 @@ namespace RealTime.AI
                     && refs.SimMgr.m_randomizer.UInt32(100) < Logic.CurrentConfig.LocalBuildingSearchQuota)
                 {
                     Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} wanna go shopping, tries to find a local shop");
-                    localVisitPlace = FindLocalCommercialBuilding(refs, citizenId, ref citizen, LocalSearchDistance);
+                    localVisitPlace = FindLocalCommercialBuilding(instance, refs, citizenId, ref citizen, LocalSearchDistance);
                 }
 
                 if (localVisitPlace == 0)
                 {
                     Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} wanna go shopping, heading to a random shop");
-                    FindVisitPlace(refs.ResidentAI, citizenId, citizen.m_homeBuilding, GetShoppingReason(refs.ResidentAI));
+                    FindVisitPlace(instance, citizenId, citizen.m_homeBuilding, GetShoppingReason(instance));
                 }
 
                 return true;
@@ -187,7 +182,7 @@ namespace RealTime.AI
             return false;
         }
 
-        private static bool CitizenGoesRelaxing(References refs, uint citizenId, ref Citizen citizen)
+        private static bool CitizenGoesRelaxing(ResidentAI instance, References refs, uint citizenId, ref Citizen citizen)
         {
             // TODO: add events here
             if (!Logic.ShouldFindEntertainment(ref citizen))
@@ -204,18 +199,18 @@ namespace RealTime.AI
             if (refs.SimMgr.m_isNightTime)
             {
                 Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} wanna relax at night, heading to a leisure area");
-                FindLeisure(refs, citizenId, ref citizen, buildingId);
+                FindLeisure(instance, refs, citizenId, ref citizen, buildingId);
             }
             else
             {
                 Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} wanna relax, heading to an entertainment place");
-                FindVisitPlace(refs.ResidentAI, citizenId, buildingId, GetEntertainmentReason(refs.ResidentAI));
+                FindVisitPlace(instance, citizenId, buildingId, GetEntertainmentReason(instance));
             }
 
             return true;
         }
 
-        private static ushort FindLocalCommercialBuilding(References refs, uint citizenId, ref Citizen citizen, float distance)
+        private static ushort FindLocalCommercialBuilding(ResidentAI instance, References refs, uint citizenId, ref Citizen citizen, float distance)
         {
             ushort buildingId = citizen.GetBuildingByLocation();
             if (buildingId == 0)
@@ -236,7 +231,7 @@ namespace RealTime.AI
 
             if (foundBuilding != 0)
             {
-                refs.ResidentAI.StartMoving(citizenId, ref citizen, buildingId, foundBuilding);
+                instance.StartMoving(citizenId, ref citizen, buildingId, foundBuilding);
                 citizen.SetVisitplace(citizenId, foundBuilding, 0U);
                 citizen.m_visitBuilding = foundBuilding;
             }
@@ -244,7 +239,7 @@ namespace RealTime.AI
             return foundBuilding;
         }
 
-        private static void FindLeisure(References refs, uint citizenId, ref Citizen citizen, ushort buildingId)
+        private static void FindLeisure(ResidentAI instance, References refs, uint citizenId, ref Citizen citizen, ushort buildingId)
         {
             ref Building currentBuilding = ref refs.BuildingMgr.m_buildings.m_buffer[buildingId];
 
@@ -258,7 +253,7 @@ namespace RealTime.AI
 
             if (leisureBuilding != 0 && refs.SimMgr.m_randomizer.Int32(10) > 2)
             {
-                refs.ResidentAI.StartMoving(citizenId, ref citizen, buildingId, leisureBuilding);
+                instance.StartMoving(citizenId, ref citizen, buildingId, leisureBuilding);
                 citizen.SetVisitplace(citizenId, leisureBuilding, 0U);
                 citizen.m_visitBuilding = leisureBuilding;
             }

@@ -6,7 +6,7 @@ namespace RealTime.AI
 {
     internal static partial class RealTimeResidentAI
     {
-        private static void ProcessCitizenMoving(References refs, uint citizenId, ref Citizen citizen, bool mayCancel)
+        private static void ProcessCitizenMoving(ResidentAI instance, References refs, uint citizenId, ref Citizen citizen, bool mayCancel)
         {
             CitizenInstance.Flags flags = CitizenInstance.Flags.TargetIsNode | CitizenInstance.Flags.OnTour;
             if (citizen.m_vehicle == 0 && citizen.m_instance == 0)
@@ -24,7 +24,7 @@ namespace RealTime.AI
                 if (refs.SimMgr.m_randomizer.Int32(40u) < 10 && citizen.m_homeBuilding != 0)
                 {
                     citizen.m_flags &= ~Citizen.Flags.Evacuating;
-                    refs.ResidentAI.StartMoving(citizenId, ref citizen, 0, citizen.m_homeBuilding);
+                    instance.StartMoving(citizenId, ref citizen, 0, citizen.m_homeBuilding);
                 }
             }
         }

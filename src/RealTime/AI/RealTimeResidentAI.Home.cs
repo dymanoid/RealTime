@@ -10,7 +10,7 @@ namespace RealTime.AI
     {
         private const float LocalSearchDistance = 1000f;
 
-        private static void ProcessCitizenAtHome(References refs, uint citizenId, ref Citizen citizen)
+        private static void ProcessCitizenAtHome(ResidentAI instance, References refs, uint citizenId, ref Citizen citizen)
         {
             if (citizen.m_homeBuilding == 0)
             {
@@ -27,23 +27,20 @@ namespace RealTime.AI
                 return;
             }
 
-            if (CitizenGoesWorking(refs, citizenId, ref citizen))
-            {
-                Log.Debug(" ----------- Citizen was AT HOME");
-                return;
-            }
-
-            if (!DoRandomMove(refs.ResidentAI))
+            if (CitizenGoesWorking(instance, refs, citizenId, ref citizen))
             {
                 return;
             }
 
-            if (!CitizenGoesShopping(refs, citizenId, ref citizen) && !CitizenGoesRelaxing(refs, citizenId, ref citizen))
+            if (!DoRandomMove(instance))
             {
                 return;
             }
 
-            Log.Debug(" ----------- Citizen was AT HOME");
+            if (!CitizenGoesShopping(instance, refs, citizenId, ref citizen))
+            {
+                CitizenGoesRelaxing(instance, refs, citizenId, ref citizen);
+            }
         }
     }
 }

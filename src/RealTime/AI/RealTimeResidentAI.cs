@@ -25,7 +25,7 @@ namespace RealTime.AI
                 CitizenManager citizenMgr = Singleton<CitizenManager>.instance;
                 BuildingManager buildingMgr = Singleton<BuildingManager>.instance;
                 SimulationManager simMgr = Singleton<SimulationManager>.instance;
-                references = new References(instance, citizenMgr, buildingMgr, simMgr);
+                references = new References(citizenMgr, buildingMgr, simMgr);
             }
 
             if (citizen.m_homeBuilding == 0 && citizen.m_workBuilding == 0 && citizen.m_visitBuilding == 0
@@ -42,11 +42,11 @@ namespace RealTime.AI
 
             if (citizen.Dead)
             {
-                ProcessCitizenDead(references, citizenId, ref citizen);
+                ProcessCitizenDead(instance, references, citizenId, ref citizen);
                 return;
             }
 
-            if ((citizen.Sick && ProcessCitizenSick(references, citizenId, ref citizen))
+            if ((citizen.Sick && ProcessCitizenSick(instance, references, citizenId, ref citizen))
                 || (citizen.Arrested && ProcessCitizenArrested(references, ref citizen)))
             {
                 return;
@@ -61,26 +61,26 @@ namespace RealTime.AI
                     break;
 
                 case CitizenState.MovingHome:
-                    ProcessCitizenMoving(references, citizenId, ref citizen, false);
+                    ProcessCitizenMoving(instance, references, citizenId, ref citizen, false);
                     break;
 
                 case CitizenState.AtHome:
-                    ProcessCitizenAtHome(references, citizenId, ref citizen);
+                    ProcessCitizenAtHome(instance, references, citizenId, ref citizen);
                     break;
 
                 case CitizenState.MovingToTarget:
-                    ProcessCitizenMoving(references, citizenId, ref citizen, true);
+                    ProcessCitizenMoving(instance, references, citizenId, ref citizen, true);
                     break;
 
                 case CitizenState.AtSchoolOrWork:
-                    ProcessCitizenAtSchoolOrWork(references, citizenId, ref citizen);
+                    ProcessCitizenAtSchoolOrWork(instance, references, citizenId, ref citizen);
                     break;
 
                 case CitizenState.AtLunch:
                 case CitizenState.Shopping:
                 case CitizenState.AtLeisureArea:
                 case CitizenState.Visiting:
-                    ProcessCitizenVisit(citizenState, references, citizenId, ref citizen);
+                    ProcessCitizenVisit(citizenState, instance, references, citizenId, ref citizen);
                     break;
 
                 case CitizenState.Evacuating:

@@ -8,7 +8,7 @@ namespace RealTime.AI
 
     internal static partial class RealTimeResidentAI
     {
-        private static void ProcessCitizenAtSchoolOrWork(References refs, uint citizenId, ref Citizen citizen)
+        private static void ProcessCitizenAtSchoolOrWork(ResidentAI instance, References refs, uint citizenId, ref Citizen citizen)
         {
             if (citizen.m_workBuilding == 0)
             {
@@ -19,7 +19,7 @@ namespace RealTime.AI
 
             if (Logic.ShouldGoToLunch(ref citizen))
             {
-                ushort lunchPlace = FindLocalCommercialBuilding(refs, citizenId, ref citizen, LocalSearchDistance);
+                ushort lunchPlace = FindLocalCommercialBuilding(instance, refs, citizenId, ref citizen, LocalSearchDistance);
                 if (lunchPlace != 0)
                 {
                     Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} is heading out to eat for lunch at {lunchPlace}");
@@ -28,8 +28,6 @@ namespace RealTime.AI
                 {
                     Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} wanted to head out for lunch, but there were no buildings close enough");
                 }
-
-                Log.Debug(" ----------- Citizen was AT WORK");
 
                 return;
             }
@@ -41,15 +39,13 @@ namespace RealTime.AI
 
             Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} leaves their workplace");
 
-            if (!CitizenGoesShopping(refs, citizenId, ref citizen) && !CitizenGoesRelaxing(refs, citizenId, ref citizen))
+            if (!CitizenGoesShopping(instance, refs, citizenId, ref citizen) && !CitizenGoesRelaxing(instance, refs, citizenId, ref citizen))
             {
-                refs.ResidentAI.StartMoving(citizenId, ref citizen, citizen.m_workBuilding, citizen.m_homeBuilding);
+                instance.StartMoving(citizenId, ref citizen, citizen.m_workBuilding, citizen.m_homeBuilding);
             }
-
-            Log.Debug(" ----------- Citizen was AT WORK");
         }
 
-        private static bool CitizenGoesWorking(References refs, uint citizenId, ref Citizen citizen)
+        private static bool CitizenGoesWorking(ResidentAI instance, References refs, uint citizenId, ref Citizen citizen)
         {
             if (!Logic.ShouldGoToSchoolOrWork(ref citizen, refs.BuildingMgr))
             {
@@ -58,7 +54,7 @@ namespace RealTime.AI
 
             Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} is going from {citizen.GetBuildingByLocation()} to school/work {citizen.m_workBuilding}");
 
-            if (!refs.ResidentAI.StartMoving(citizenId, ref citizen, citizen.m_homeBuilding, citizen.m_workBuilding))
+            if (!instance.StartMoving(citizenId, ref citizen, citizen.m_homeBuilding, citizen.m_workBuilding))
             {
                 Log.Debug($"{CitizenInfo(citizenId, ref citizen)} has no instance, teleporting to school/work");
                 citizen.CurrentLocation = Citizen.Location.Work;

@@ -8,7 +8,7 @@ namespace RealTime.AI
 
     internal static partial class RealTimeResidentAI
     {
-        private static void ProcessCitizenDead(References refs, uint citizenId, ref Citizen citizen)
+        private static void ProcessCitizenDead(ResidentAI instance, References refs, uint citizenId, ref Citizen citizen)
         {
             ushort currentBuilding = citizen.GetBuildingByLocation();
 
@@ -46,7 +46,7 @@ namespace RealTime.AI
                 return;
             }
 
-            FindHospital(refs.ResidentAI, citizenId, currentBuilding, TransferManager.TransferReason.Dead);
+            FindHospital(instance, citizenId, currentBuilding, TransferManager.TransferReason.Dead);
             Log.Debug(refs.SimMgr.m_currentGameTime, $"{CitizenInfo(citizenId, ref citizen)} is dead, body should go to a cemetery");
         }
 
@@ -70,7 +70,7 @@ namespace RealTime.AI
             return false;
         }
 
-        private static bool ProcessCitizenSick(References refs, uint citizenId, ref Citizen citizen)
+        private static bool ProcessCitizenSick(ResidentAI instance, References refs, uint citizenId, ref Citizen citizen)
         {
             if (citizen.CurrentLocation == Citizen.Location.Moving)
             {
@@ -101,7 +101,7 @@ namespace RealTime.AI
             }
 
             Log.Debug($"{CitizenInfo(citizenId, ref citizen)} is sick, trying to get to a hospital");
-            FindHospital(refs.ResidentAI, citizenId, currentBuilding, TransferManager.TransferReason.Sick);
+            FindHospital(instance, citizenId, currentBuilding, TransferManager.TransferReason.Sick);
             return true;
         }
 
@@ -198,15 +198,12 @@ namespace RealTime.AI
 
         private sealed class References
         {
-            public References(ResidentAI residentAI, CitizenManager citizenMgr, BuildingManager buildingMgr, SimulationManager simMgr)
+            public References(CitizenManager citizenMgr, BuildingManager buildingMgr, SimulationManager simMgr)
             {
-                ResidentAI = residentAI;
                 CitizenMgr = citizenMgr;
                 BuildingMgr = buildingMgr;
                 SimMgr = simMgr;
             }
-
-            public ResidentAI ResidentAI { get; }
 
             public CitizenManager CitizenMgr { get; }
 
