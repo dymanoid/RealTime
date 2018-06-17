@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTime", "RealTime\RealTi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Redirection", "Redirection\Redirection.csproj", "{7DCC08EF-DC85-47A4-BD6F-79FC52C7EF13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeTests", "RealTimeTests\RealTimeTests.csproj", "{687CE9B5-2E2E-454E-83FC-512250CACF3E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,10 @@ Global
 		{7DCC08EF-DC85-47A4-BD6F-79FC52C7EF13}.Debug|x64.Build.0 = Debug|x64
 		{7DCC08EF-DC85-47A4-BD6F-79FC52C7EF13}.Release|x64.ActiveCfg = Release|x64
 		{7DCC08EF-DC85-47A4-BD6F-79FC52C7EF13}.Release|x64.Build.0 = Release|x64
+		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Debug|x64.ActiveCfg = Debug|x64
+		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Debug|x64.Build.0 = Debug|x64
+		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Release|x64.ActiveCfg = Release|x64
+		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
