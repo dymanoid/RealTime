@@ -89,7 +89,7 @@ namespace Redirection
             {
                 foreach (MethodInfo method in allMethods)
                 {
-                    foreach (RedirectAttribute attribute in method.GetCustomAttributes(typeof(RedirectAttribute), false))
+                    foreach (RedirectAttributeBase attribute in method.GetCustomAttributes(typeof(RedirectAttributeBase), false))
                     {
                         ProcessMethod(method, callingAssembly, attribute, bitmask);
                         ++result;
@@ -117,40 +117,45 @@ namespace Redirection
         }
 
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        private static void ProcessMethod(MethodInfo method, Assembly callingAssembly, RedirectAttribute attribute, ulong bitmask)
+        private static void ProcessMethod(MethodInfo method, Assembly callingAssembly, RedirectAttributeBase attribute, ulong bitmask)
         {
-            if (attribute.BitSetRequiredOption != 0 && (bitmask & attribute.BitSetRequiredOption) == 0)
-            {
-                return;
-            }
+            string methodName = string.IsNullOrEmpty(attribute.MethodName) ? method.Name : attribute.MethodName;
 
-            string originalName = string.IsNullOrEmpty(attribute.MethodName) ? method.Name : attribute.MethodName;
-
-            MethodInfo originalMethod =
+            IEnumerable<MethodInfo> externalMethods =
                 attribute.MethodType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
-                .FirstOrDefault(m => m.Name == originalName && method.IsCompatibleWith(m));
-
-            if (originalMethod == null)
-            {
-                throw new InvalidOperationException($"Redirector: Original method {originalName} has not been found for redirection");
-            }
+                .Where(m => m.Name == methodName);
 
             if (attribute is RedirectFromAttribute)
             {
-                if (!redirections.ContainsKey(originalMethod))
+                MethodInfo sourceMethod = externalMethods.FirstOrDefault(m => method.IsCompatibleWith(m, attribute.IsInstanceMethod));
+
+                if (sourceMethod == null)
                 {
-                    redirections.Add(originalMethod, originalMethod.CreateRedirectionTo(method, callingAssembly));
+                    throw new InvalidOperationException($"No compatible source method '{methodName}' found in '{attribute.MethodType.FullName}'");
                 }
 
-                return;
+                if (!redirections.ContainsKey(sourceMethod))
+                {
+                    redirections.Add(sourceMethod, sourceMethod.CreateRedirectionTo(method, callingAssembly));
+                }
             }
-
-            if (attribute is RedirectToAttribute)
+            else if (attribute is RedirectToAttribute)
             {
+                MethodInfo targetMethod = externalMethods.FirstOrDefault(m => m.IsCompatibleWith(method, attribute.IsInstanceMethod));
+
+                if (targetMethod == null)
+                {
+                    throw new InvalidOperationException($"No compatible target method '{methodName}' found in '{attribute.MethodType.FullName}'");
+                }
+
                 if (!redirections.ContainsKey(method))
                 {
-                    redirections.Add(method, method.CreateRedirectionTo(originalMethod, callingAssembly));
+                    redirections.Add(method, method.CreateRedirectionTo(targetMethod, callingAssembly));
                 }
+            }
+            else
+            {
+                throw new NotSupportedException($"The attribute '{attribute.GetType().Name}' is currently not supported");
             }
         }
     }

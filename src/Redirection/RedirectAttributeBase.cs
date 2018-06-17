@@ -1,4 +1,4 @@
-﻿// <copyright file="RedirectAttribute.cs" company="dymanoid">
+﻿// <copyright file="RedirectAttributeBase.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -29,27 +29,27 @@ namespace Redirection
     /// <summary>
     /// A base class for the special redirection attributes that can be applied to the methods.
     /// </summary>
-    public abstract class RedirectAttribute : Attribute
+    public abstract class RedirectAttributeBase : Attribute
     {
-        protected RedirectAttribute(Type methodType, string methodName, ulong bitSetRequiredOption)
+        protected RedirectAttributeBase(Type methodType, string methodName, bool isInstanceMethod)
         {
             MethodType = methodType ?? throw new ArgumentNullException(nameof(methodType));
             MethodName = methodName;
-            BitSetRequiredOption = bitSetRequiredOption;
+            IsInstanceMethod = isInstanceMethod;
         }
 
-        protected RedirectAttribute(Type methodType, string methodName)
-            : this(methodType, methodName, 0)
+        protected RedirectAttributeBase(Type methodType, string methodName)
+            : this(methodType, methodName, true)
         {
         }
 
-        protected RedirectAttribute(Type methodType, ulong bitSetOption)
-            : this(methodType, null, bitSetOption)
+        protected RedirectAttributeBase(Type methodType, bool isInstanceMethod)
+            : this(methodType, null, isInstanceMethod)
         {
         }
 
-        protected RedirectAttribute(Type methodType)
-            : this(methodType, null, 0)
+        protected RedirectAttributeBase(Type methodType)
+            : this(methodType, null, true)
         {
         }
 
@@ -65,9 +65,9 @@ namespace Redirection
         public string MethodName { get; set; }
 
         /// <summary>
-        /// Gets or sets the required bit set option for the method redirection.
-        /// 0 means not specified.
+        /// Gets or sets a value indicating whether the method of the foreign class is an instance
+        /// method.
         /// </summary>
-        public ulong BitSetRequiredOption { get; set; }
+        public bool IsInstanceMethod { get; set; }
     }
 }

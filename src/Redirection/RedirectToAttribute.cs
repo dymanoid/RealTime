@@ -33,59 +33,64 @@ namespace Redirection
     ///
     /// <remarks>NOTE: only the methods belonging to the same assembly that calls Perform/RevertRedirections are redirected.</remarks>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public sealed class RedirectToAttribute : RedirectAttribute
+    public sealed class RedirectToAttribute : RedirectAttributeBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RedirectToAttribute"/> class.</summary>
         ///
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="methodType"/> is null.</exception>
         ///
-        /// <param name="methodType">The type where the method that will be redirected is defined.</param>
+        /// <param name="methodType">The type where the target method is defined.</param>
         /// <param name="methodName">The name of the target method. If null,
         /// the name of the attribute's target method will be used.</param>
-        /// <param name="bitSetRequiredOption">The required bit set option.</param>
-        public RedirectToAttribute(Type methodType, string methodName, ulong bitSetRequiredOption)
-            : base(methodType, methodName, bitSetRequiredOption)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RedirectToAttribute"/> class with
-        /// default <see cref="RedirectAttribute.BitSetRequiredOption"/>.</summary>
-        ///
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="methodType"/> is null.</exception>
-        ///
-        /// <param name="methodType">The type where the method that will be redirected is defined.</param>
-        /// <param name="methodName">The name of the target method. If null,
-        /// the name of the attribute's target method will be used.</param>
-        public RedirectToAttribute(Type methodType, string methodName)
+        /// <param name="isInstanceMethod">true if the target method is an instance method;
+        /// otherwise, false.</param>
+        public RedirectToAttribute(Type methodType, string methodName, bool isInstanceMethod)
             : base(methodType, methodName)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RedirectToAttribute"/> class with empty
-        /// <see cref="RedirectAttribute.MethodName"/>. The name of the method this attribute is
-        /// attached to will be used.</summary>
+        /// Initializes a new instance of the <see cref="RedirectToAttribute"/> class with
+        /// <see cref="RedirectAttributeBase.IsInstanceMethod"/> set to true.</summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="methodType"/> is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="methodName"/> is null or an empty string.</exception>
+        ///
+        /// <param name="methodType">The type where the target method is defined.</param>
+        /// <param name="methodName">The name of the target method.</param>
+        public RedirectToAttribute(Type methodType, string methodName)
+            : base(methodType)
+        {
+            if (string.IsNullOrEmpty(methodName))
+            {
+                throw new ArgumentException($"The {nameof(methodName)} cannot be null or empty string");
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RedirectToAttribute"/> class with
+        /// empty <see cref="RedirectAttributeBase.MethodName"/>.
+        /// The name of the method this attribute is attached to will be used.</summary>
         ///
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="methodType"/> is null.</exception>
         ///
-        /// <param name="methodType">The type where the method that will be redirected is defined.</param>
-        /// <param name="bitSetRequiredOption">The required bit set option.</param>
-        public RedirectToAttribute(Type methodType, ulong bitSetRequiredOption)
-            : base(methodType, bitSetRequiredOption)
+        /// <param name="methodType">The type where the target method is defined.</param>
+        /// <param name="isInstanceMethod">true if the target method is an instance method;
+        /// otherwise, false.</param>
+        public RedirectToAttribute(Type methodType, bool isInstanceMethod)
+            : base(methodType, isInstanceMethod)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RedirectToAttribute"/> class with
-        /// default <see cref="RedirectAttribute.BitSetRequiredOption"/> and empty
-        /// <see cref="RedirectAttribute.MethodName"/>. The name of the method this attribute is
-        /// attached to will be used.</summary>
+        /// empty <see cref="RedirectAttributeBase.MethodName"/> and <see cref="RedirectAttributeBase.IsInstanceMethod"/>
+        /// set to true. The name of the method this attribute is attached to will be used.</summary>
         ///
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="methodType"/> is null.</exception>
         ///
-        /// <param name="methodType">The type where the method that will be redirected is defined.</param>
+        /// <param name="methodType">The type where the target method is defined.</param>
         public RedirectToAttribute(Type methodType)
             : base(methodType)
         {

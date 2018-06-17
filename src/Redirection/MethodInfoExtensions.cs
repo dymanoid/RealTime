@@ -70,17 +70,20 @@ namespace Redirection
         }
 
         /// <summary>
-        /// Compares the provided methods to determine whether a redirection from this
-        /// <paramref name="otherMethod"/> to this <paramref name="method"/> is possible.
+        /// Compares the provided methods to determine whether a redirection from <paramref name="otherMethod"/>
+        /// to this method is possible.
         /// </summary>
         ///
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
         ///
         /// <param name="method">The method to compare.</param>
         /// <param name="otherMethod">The method to compare with.</param>
+        /// <param name="asInstanceMethod">if true, a static method with first argument that is
+        /// compatible with the type of the <paramref name="otherMethod"/> will be considered
+        /// compatible.</param>
         ///
         /// <returns>True if the methods are compatible; otherwise, false.</returns>
-        internal static bool IsCompatibleWith(this MethodInfo method, MethodInfo otherMethod)
+        internal static bool IsCompatibleWith(this MethodInfo method, MethodInfo otherMethod, bool asInstanceMethod)
         {
             if (method == null)
             {
@@ -97,19 +100,15 @@ namespace Redirection
                 return false;
             }
 
-            Type targetType = otherMethod.ReflectedType;
             var thisParameters = method.GetParameters().ToList();
-            ParameterInfo firstParameter = thisParameters.FirstOrDefault();
-            if (firstParameter != null &&
-                ((!targetType.IsValueType && firstParameter.ParameterType == targetType) ||
-                (targetType.IsValueType && firstParameter.ParameterType == targetType.MakeByRefType())))
+            var otherParameters = otherMethod.GetParameters().ToList();
+            if (asInstanceMethod)
             {
-                thisParameters.RemoveAt(0);
+                RemoveInstanceParameter(thisParameters, otherMethod.ReflectedType);
+                RemoveInstanceParameter(otherParameters, method.ReflectedType);
             }
 
-            ParameterInfo[] otherParameters = otherMethod.GetParameters();
-
-            if (thisParameters.Count != otherParameters.Length)
+            if (thisParameters.Count != otherParameters.Count)
             {
                 return false;
             }
@@ -123,6 +122,30 @@ namespace Redirection
             }
 
             return true;
+        }
+
+        private static void RemoveInstanceParameter(List<ParameterInfo> parameters, Type methodClass)
+        {
+            ParameterInfo firstParameter = parameters.FirstOrDefault();
+
+            if (firstParameter == null)
+            {
+                return;
+            }
+
+            if (methodClass.IsValueType)
+            {
+                if (firstParameter.ParameterType != methodClass.MakeByRefType())
+                {
+                    return;
+                }
+            }
+            else if (!methodClass.IsAssignableFrom(firstParameter.ParameterType))
+            {
+                return;
+            }
+
+            parameters.RemoveAt(0);
         }
     }
 }
