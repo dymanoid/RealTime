@@ -9,7 +9,7 @@ namespace RealTime.GameConnection
     using RealTime.CustomResidentAI;
     using Redirection;
 
-    internal static partial class ResidentAIHook
+    internal static class ResidentAIHook
     {
         private const string RedirectNeededMessage = "This method must be redirected to the original game implementation";
 

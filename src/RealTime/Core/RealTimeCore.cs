@@ -7,6 +7,7 @@ namespace RealTime.Core
     using System;
     using System.Security.Permissions;
     using RealTime.Config;
+    using RealTime.CustomBuildingAI;
     using RealTime.CustomResidentAI;
     using RealTime.GameConnection;
     using RealTime.Simulation;
@@ -32,12 +33,6 @@ namespace RealTime.Core
             isEnabled = true;
         }
 
-        public static void TestRedirections()
-        {
-            int count = Redirector.PerformRedirections();
-            System.Diagnostics.Trace.WriteLine("Redirection count = " + count);
-        }
-
         /// <summary>
         /// Runs the mod by activating its parts.
         /// </summary>
@@ -59,13 +54,19 @@ namespace RealTime.Core
                 new BuildingManagerConnection(),
                 new EventManagerConnection());
 
+            var timeInfo = new TimeInfo();
+
             var realTimeResidentAI = new RealTimeResidentAI<ResidentAI, Citizen>(
                 new Configuration(),
                 gameConnections,
-                new TimeInfo(),
+                timeInfo,
                 ref SimulationManager.instance.m_randomizer);
 
             ResidentAIHook.RealTimeAI = realTimeResidentAI;
+
+            var realTimePrivateBuildingAI = new RealTimePrivateBuildingAI(timeInfo, new ToolManagerConnection());
+
+            PrivateBuildingAIHook.RealTimeAI = realTimePrivateBuildingAI;
 
             try
             {
@@ -94,6 +95,7 @@ namespace RealTime.Core
             timeAdjustment.Disable();
             timeBar.Disable();
             ResidentAIHook.RealTimeAI = null;
+            PrivateBuildingAIHook.RealTimeAI = null;
 
             try
             {
