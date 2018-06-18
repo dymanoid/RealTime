@@ -2,9 +2,10 @@
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
-namespace RealTime.Simulation
+namespace RealTime.GameConnection
 {
     using System;
+    using RealTime.Simulation;
 
     internal sealed class TimeInfo : ITimeInfo
     {
@@ -15,5 +16,7 @@ namespace RealTime.Simulation
         public float SunriseHour => SimulationManager.SUNRISE_HOUR;
 
         public float SunsetHour => SimulationManager.SUNSET_HOUR;
+
+        public bool IsNightTime => SimulationManager.instance.m_isNightTime;
     }
 }

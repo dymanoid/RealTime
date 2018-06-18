@@ -2,14 +2,12 @@
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
-namespace RealTime.AI
+namespace RealTime.CustomBuildingAI
 {
     using Redirection;
 
     internal sealed class RealTimePrivateBuildingAI
     {
-        internal static ILogic Logic { get; set; }
-
         //[RedirectFrom(typeof(PrivateBuildingAI))]
         private static int GetConstructionTime(PrivateBuildingAI instance)
         {

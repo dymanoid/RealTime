@@ -2,11 +2,11 @@
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
-namespace RealTime.AI
+namespace RealTime.CustomResidentAI
 {
-    internal static partial class RealTimeResidentAI
+    internal sealed partial class RealTimeResidentAI<T>
     {
-        private static void ProcessCitizenMoving(ResidentAI instance, References refs, uint citizenId, ref Citizen citizen, bool mayCancel)
+        private void ProcessCitizenMoving(T instance, uint citizenId, ref Citizen citizen, bool mayCancel)
         {
             CitizenInstance.Flags flags = CitizenInstance.Flags.TargetIsNode | CitizenInstance.Flags.OnTour;
             if (citizen.m_vehicle == 0 && citizen.m_instance == 0)
@@ -19,12 +19,12 @@ namespace RealTime.AI
                 citizen.CurrentLocation = Citizen.Location.Home;
                 citizen.Arrested = false;
             }
-            else if (citizen.m_instance != 0 && (refs.CitizenMgr.m_instances.m_buffer[citizen.m_instance].m_flags & flags) == flags)
+            else if ((citizenManager.GetInstanceFlags(citizen.m_instance) & flags) == flags)
             {
-                if (refs.SimMgr.m_randomizer.Int32(40u) < 10 && citizen.m_homeBuilding != 0)
+                if (IsChance(AbandonTourChance) && citizen.m_homeBuilding != 0)
                 {
                     citizen.m_flags &= ~Citizen.Flags.Evacuating;
-                    instance.StartMoving(citizenId, ref citizen, 0, citizen.m_homeBuilding);
+                    residentAI.StartMoving(instance, citizenId, ref citizen, 0, citizen.m_homeBuilding);
                 }
             }
         }

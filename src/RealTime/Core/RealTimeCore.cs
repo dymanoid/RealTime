@@ -6,8 +6,9 @@ namespace RealTime.Core
 {
     using System;
     using System.Security.Permissions;
-    using RealTime.AI;
     using RealTime.Config;
+    using RealTime.CustomResidentAI;
+    using RealTime.GameConnection;
     using RealTime.Simulation;
     using RealTime.Tools;
     using RealTime.UI;
@@ -28,6 +29,13 @@ namespace RealTime.Core
         {
             this.timeAdjustment = timeAdjustment;
             this.timeBar = timeBar;
+            isEnabled = true;
+        }
+
+        public static void TestRedirections()
+        {
+            int count = Redirector.PerformRedirections();
+            System.Diagnostics.Trace.WriteLine("Redirection count = " + count);
         }
 
         /// <summary>
@@ -38,16 +46,25 @@ namespace RealTime.Core
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public static RealTimeCore Run()
         {
-            SimulationManager simMgr = SimulationManager.instance;
-
             var timeAdjustment = new TimeAdjustment();
             DateTime gameDate = timeAdjustment.Enable();
 
             var customTimeBar = new CustomTimeBar();
             customTimeBar.Enable(gameDate);
 
-            ILogic logic = new Logic(Configuration.Current, new TimeInfo(), ref simMgr.m_randomizer);
-            LogicService.ProvideLogic(logic);
+            var gameConnections = new GameConnections<ResidentAI>(
+                ResidentAIHook.GetResidentAIConnection(),
+                new CitizenManagerConnection(),
+                new BuildingManagerConnection(),
+                new EventManagerConnection());
+
+            var realTimeResidentAI = new RealTimeResidentAI<ResidentAI>(
+                new Configuration(),
+                gameConnections,
+                new TimeInfo(),
+                ref SimulationManager.instance.m_randomizer);
+
+            ResidentAIHook.RealTimeAI = realTimeResidentAI;
 
             try
             {
@@ -59,12 +76,7 @@ namespace RealTime.Core
                 Log.Error("Failed to perform method redirections: " + ex.Message);
             }
 
-            var core = new RealTimeCore(timeAdjustment, customTimeBar)
-            {
-                isEnabled = true
-            };
-
-            return core;
+            return new RealTimeCore(timeAdjustment, customTimeBar);
         }
 
         /// <summary>
@@ -80,7 +92,7 @@ namespace RealTime.Core
 
             timeAdjustment.Disable();
             timeBar.Disable();
-            LogicService.RevokeLogic();
+            ResidentAIHook.RealTimeAI = null;
 
             try
             {

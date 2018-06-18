@@ -15,5 +15,7 @@ namespace RealTime.Simulation
         float SunriseHour { get; }
 
         float SunsetHour { get; }
+
+        bool IsNightTime { get; }
     }
 }

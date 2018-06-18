@@ -2,7 +2,7 @@
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
-namespace RealTime.AI
+namespace RealTime.CustomResidentAI
 {
     internal enum CitizenState
     {

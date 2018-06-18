@@ -3,6 +3,7 @@
 // </copyright>
 
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("RealTime")]
@@ -10,8 +11,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("dymanoid")]
 [assembly: AssemblyProduct("RealTime")]
-[assembly: AssemblyCopyright("Copyright © dymanoid 2018")]
+[assembly: AssemblyCopyright("Copyright © 2018, dymanoid")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
+
+[assembly: InternalsVisibleTo("RealTimeTests")]

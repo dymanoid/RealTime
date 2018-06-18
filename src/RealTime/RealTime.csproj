@@ -52,16 +52,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AI\CitizenState.cs" />
-    <Compile Include="AI\ILogic.cs" />
-    <Compile Include="AI\Logic.cs" />
-    <Compile Include="AI\LogicService.cs" />
-    <Compile Include="AI\RealTimePrivateBuildingAI.cs" />
-    <Compile Include="AI\RealTimeResidentAI.Common.cs" />
-    <Compile Include="AI\RealTimeResidentAI.cs" />
-    <Compile Include="AI\RealTimeResidentAI.Moving.cs" />
-    <Compile Include="AI\RealTimeResidentAI.Visit.cs" />
-    <Compile Include="AI\RealTimeResidentAI.SchoolWork.cs" />
+    <Compile Include="CustomAI\RealTimeAIBase.cs" />
+    <Compile Include="CustomResidentAI\CitizenState.cs" />
+    <Compile Include="CustomResidentAI\RealTimeResidentAI.Constants.cs" />
+    <Compile Include="CustomResidentAI\RealTimeResidentAI.Core.cs" />
+    <Compile Include="CustomBuildingAI\RealTimePrivateBuildingAI.cs" />
+    <Compile Include="CustomResidentAI\RealTimeResidentAI.Common.cs" />
+    <Compile Include="CustomResidentAI\RealTimeResidentAI.cs" />
+    <Compile Include="GameConnection\ResidentAIHook.cs" />
+    <Compile Include="CustomResidentAI\RealTimeResidentAI.Moving.cs" />
+    <Compile Include="CustomResidentAI\RealTimeResidentAI.Visit.cs" />
+    <Compile Include="CustomResidentAI\RealTimeResidentAI.SchoolWork.cs" />
+    <Compile Include="GameConnection\BuildingManagerConnection.cs" />
+    <Compile Include="GameConnection\CitizenManagerConnection.cs" />
+    <Compile Include="GameConnection\GameConnections.cs" />
+    <Compile Include="GameConnection\EventManagerConnection.cs" />
+    <Compile Include="GameConnection\IBuildingManagerConnection.cs" />
+    <Compile Include="GameConnection\ICitizenManagerConnection.cs" />
+    <Compile Include="GameConnection\IEventManagerConnection.cs" />
+    <Compile Include="GameConnection\ResidentAIConnection.cs" />
     <Compile Include="Config\Configuration.cs" />
     <Compile Include="Core\LoadingExtension.cs" />
     <Compile Include="Core\RealTimeCore.cs" />
@@ -71,7 +80,7 @@
     <Compile Include="Simulation\DayTime.cs" />
     <Compile Include="Simulation\ITimeInfo.cs" />
     <Compile Include="Simulation\TimeAdjustment.cs" />
-    <Compile Include="Simulation\TimeInfo.cs" />
+    <Compile Include="GameConnection\TimeInfo.cs" />
     <Compile Include="Tools\DateTimeExtensions.cs" />
     <Compile Include="UI\DateTooltipBehavior.cs" />
     <Compile Include="Tools\GitVersion.cs" />
@@ -89,7 +98,7 @@
     <AdditionalFiles Include="..\BuildEnvironment\stylecop.json">
       <Link>stylecop.json</Link>
     </AdditionalFiles>
-    <Compile Include="AI\RealTimeResidentAI.Home.cs" />
+    <Compile Include="CustomResidentAI\RealTimeResidentAI.Home.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

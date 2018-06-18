@@ -10,11 +10,6 @@ namespace RealTime.Config
     internal sealed class Configuration
     {
         /// <summary>
-        /// Gets or sets the current mod configuration.
-        /// </summary>
-        public static Configuration Current { get; set; } = new Configuration();
-
-        /// <summary>
         /// Gets or sets a value indicating whether the weekends are enabled. Cims don't go to work on weekends.
         /// </summary>
         public bool IsWeekendEnabled { get; set; } = true;
@@ -28,26 +23,20 @@ namespace RealTime.Config
         /// Gets or sets the percentage of the Cims that will go out for lunch.
         /// Valid values are 0..100.
         /// </summary>
-        public int LunchQuota { get; set; } = 80;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether Cims will search locally for buildings to visit,
-        /// rather than heading to a random building.
-        /// </summary>
-        public bool AllowLocalBuildingSearch { get; set; } = true;
+        public uint LunchQuota { get; set; } = 80;
 
         /// <summary>
         /// Gets or sets the percentage of the population that will search locally for buildings.
         /// Valid values are 0..100.
         /// </summary>
-        public int LocalBuildingSearchQuota { get; set; } = 60;
+        public uint LocalBuildingSearchQuota { get; set; } = 60;
 
         /// <summary>
         /// Gets or sets the percentage of the Cims that will go to and leave their work or school
         /// on time (no overtime!).
         /// Valid values are 0..100.
         /// </summary>
-        public int OnTimeQuota { get; set; } = 80;
+        public uint OnTimeQuota { get; set; } = 80;
 
         /// <summary>
         /// Gets or sets the maximum overtime for the Cims. They come to work earlier or stay at work longer for at most this
