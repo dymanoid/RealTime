@@ -33,7 +33,7 @@ namespace Redirection
     ///
     /// <remarks>NOTE: only the methods belonging to the same assembly that calls Perform/RevertRedirections are redirected.</remarks>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public sealed class RedirectToAttribute : RedirectAttributeBase
+    public sealed class RedirectToAttribute : BaseRedirectAttribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RedirectToAttribute"/> class.</summary>
@@ -52,7 +52,7 @@ namespace Redirection
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RedirectToAttribute"/> class with
-        /// <see cref="RedirectAttributeBase.IsInstanceMethod"/> set to true.</summary>
+        /// <see cref="BaseRedirectAttribute.IsInstanceMethod"/> set to true.</summary>
         ///
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="methodType"/> is null.</exception>
         /// <exception cref="ArgumentException">Thrown when <paramref name="methodName"/> is null or an empty string.</exception>
@@ -70,7 +70,7 @@ namespace Redirection
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RedirectToAttribute"/> class with
-        /// empty <see cref="RedirectAttributeBase.MethodName"/>.
+        /// empty <see cref="BaseRedirectAttribute.MethodName"/>.
         /// The name of the method this attribute is attached to will be used.</summary>
         ///
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="methodType"/> is null.</exception>
@@ -85,7 +85,7 @@ namespace Redirection
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RedirectToAttribute"/> class with
-        /// empty <see cref="RedirectAttributeBase.MethodName"/> and <see cref="RedirectAttributeBase.IsInstanceMethod"/>
+        /// empty <see cref="BaseRedirectAttribute.MethodName"/> and <see cref="BaseRedirectAttribute.IsInstanceMethod"/>
         /// set to true. The name of the method this attribute is attached to will be used.</summary>
         ///
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="methodType"/> is null.</exception>

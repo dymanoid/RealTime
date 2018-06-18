@@ -89,7 +89,7 @@ namespace Redirection
             {
                 foreach (MethodInfo method in allMethods)
                 {
-                    foreach (RedirectAttributeBase attribute in method.GetCustomAttributes(typeof(RedirectAttributeBase), false))
+                    foreach (BaseRedirectAttribute attribute in method.GetCustomAttributes(typeof(BaseRedirectAttribute), false))
                     {
                         ProcessMethod(method, callingAssembly, attribute, bitmask);
                         ++result;
@@ -117,7 +117,7 @@ namespace Redirection
         }
 
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        private static void ProcessMethod(MethodInfo method, Assembly callingAssembly, RedirectAttributeBase attribute, ulong bitmask)
+        private static void ProcessMethod(MethodInfo method, Assembly callingAssembly, BaseRedirectAttribute attribute, ulong bitmask)
         {
             string methodName = string.IsNullOrEmpty(attribute.MethodName) ? method.Name : attribute.MethodName;
 

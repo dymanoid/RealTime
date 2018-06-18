@@ -1,4 +1,4 @@
-﻿// <copyright file="RedirectAttributeBase.cs" company="dymanoid">
+﻿// <copyright file="BaseRedirectAttribute.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -29,26 +29,26 @@ namespace Redirection
     /// <summary>
     /// A base class for the special redirection attributes that can be applied to the methods.
     /// </summary>
-    public abstract class RedirectAttributeBase : Attribute
+    public abstract class BaseRedirectAttribute : Attribute
     {
-        protected RedirectAttributeBase(Type methodType, string methodName, bool isInstanceMethod)
+        protected BaseRedirectAttribute(Type methodType, string methodName, bool isInstanceMethod)
         {
             MethodType = methodType ?? throw new ArgumentNullException(nameof(methodType));
             MethodName = methodName;
             IsInstanceMethod = isInstanceMethod;
         }
 
-        protected RedirectAttributeBase(Type methodType, string methodName)
+        protected BaseRedirectAttribute(Type methodType, string methodName)
             : this(methodType, methodName, true)
         {
         }
 
-        protected RedirectAttributeBase(Type methodType, bool isInstanceMethod)
+        protected BaseRedirectAttribute(Type methodType, bool isInstanceMethod)
             : this(methodType, null, isInstanceMethod)
         {
         }
 
-        protected RedirectAttributeBase(Type methodType)
+        protected BaseRedirectAttribute(Type methodType)
             : this(methodType, null, true)
         {
         }
