@@ -8,7 +8,8 @@ namespace RealTime.CustomBuildingAI
 
     internal sealed class RealTimePrivateBuildingAI
     {
-        //[RedirectFrom(typeof(PrivateBuildingAI))]
+        // TODO: uncomment to enable the functionality (currently disabled for testing)
+        ////[RedirectFrom(typeof(PrivateBuildingAI))]
         private static int GetConstructionTime(PrivateBuildingAI instance)
         {
             if ((ToolManager.instance.m_properties.m_mode & ItemClass.Availability.AssetEditor) != 0)
@@ -16,6 +17,7 @@ namespace RealTime.CustomBuildingAI
                 return 0;
             }
 
+            // TODO: optionally disable construction on weekends
             // This causes the constuction to not advance in the night time
             return SimulationManager.instance.m_isNightTime ? 10880 : 1088;
         }
