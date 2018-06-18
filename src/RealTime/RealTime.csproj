@@ -59,6 +59,8 @@
     <Compile Include="CustomBuildingAI\RealTimePrivateBuildingAI.cs" />
     <Compile Include="CustomResidentAI\RealTimeResidentAI.Common.cs" />
     <Compile Include="CustomResidentAI\RealTimeResidentAI.cs" />
+    <Compile Include="GameConnection\CitizenConnection.cs" />
+    <Compile Include="GameConnection\ICitizenConnection.cs" />
     <Compile Include="GameConnection\ResidentAIHook.cs" />
     <Compile Include="CustomResidentAI\RealTimeResidentAI.Moving.cs" />
     <Compile Include="CustomResidentAI\RealTimeResidentAI.Visit.cs" />

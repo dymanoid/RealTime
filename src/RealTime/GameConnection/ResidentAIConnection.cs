@@ -6,8 +6,9 @@ namespace RealTime.GameConnection
 {
     using System;
 
-    internal sealed class ResidentAIConnection<T>
-        where T : class
+    internal sealed class ResidentAIConnection<TAI, TCitizen>
+        where TAI : class
+        where TCitizen : struct
     {
         public ResidentAIConnection(
             DoRandomMoveDelegate doRandomMove,
@@ -31,23 +32,23 @@ namespace RealTime.GameConnection
             StartMovingWithOffer = startMovingWithOffer ?? throw new ArgumentNullException(nameof(startMovingWithOffer));
         }
 
-        public delegate bool DoRandomMoveDelegate(T instance);
+        public delegate bool DoRandomMoveDelegate(TAI instance);
 
-        public delegate void FindEvacuationPlaceDelegate(T instance, uint citizenId, ushort sourceBuilding, TransferManager.TransferReason reason);
+        public delegate void FindEvacuationPlaceDelegate(TAI instance, uint citizenId, ushort sourceBuilding, TransferManager.TransferReason reason);
 
-        public delegate bool FindHospitalDelegate(T instance, uint citizenId, ushort sourceBuilding, TransferManager.TransferReason reason);
+        public delegate bool FindHospitalDelegate(TAI instance, uint citizenId, ushort sourceBuilding, TransferManager.TransferReason reason);
 
-        public delegate void FindVisitPlaceDelegate(T instance, uint citizenId, ushort sourceBuilding, TransferManager.TransferReason reason);
+        public delegate void FindVisitPlaceDelegate(TAI instance, uint citizenId, ushort sourceBuilding, TransferManager.TransferReason reason);
 
-        public delegate TransferManager.TransferReason GetEntertainmentReasonDelegate(T instance);
+        public delegate TransferManager.TransferReason GetEntertainmentReasonDelegate(TAI instance);
 
-        public delegate TransferManager.TransferReason GetEvacuationReasonDelegate(T instance, ushort sourceBuilding);
+        public delegate TransferManager.TransferReason GetEvacuationReasonDelegate(TAI instance, ushort sourceBuilding);
 
-        public delegate TransferManager.TransferReason GetShoppingReasonDelegate(T instance);
+        public delegate TransferManager.TransferReason GetShoppingReasonDelegate(TAI instance);
 
-        public delegate bool StartMovingDelegate(T instance, uint citizenID, ref Citizen data, ushort sourceBuilding, ushort targetBuilding);
+        public delegate bool StartMovingDelegate(TAI instance, uint citizenID, ref TCitizen data, ushort sourceBuilding, ushort targetBuilding);
 
-        public delegate bool StartMovingWithOfferDelegate(T instance, uint citizenID, ref Citizen data, ushort sourceBuilding, TransferManager.TransferOffer offer);
+        public delegate bool StartMovingWithOfferDelegate(TAI instance, uint citizenID, ref TCitizen data, ushort sourceBuilding, TransferManager.TransferOffer offer);
 
         public DoRandomMoveDelegate DoRandomMove { get; }
 

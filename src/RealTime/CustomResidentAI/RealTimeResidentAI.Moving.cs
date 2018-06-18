@@ -4,27 +4,29 @@
 
 namespace RealTime.CustomResidentAI
 {
-    internal sealed partial class RealTimeResidentAI<T>
+    internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
-        private void ProcessCitizenMoving(T instance, uint citizenId, ref Citizen citizen, bool mayCancel)
+        private void ProcessCitizenMoving(TAI instance, uint citizenId, ref TCitizen citizen, bool mayCancel)
         {
+            ushort instanceId = citizenProxy.GetInstance(ref citizen);
             CitizenInstance.Flags flags = CitizenInstance.Flags.TargetIsNode | CitizenInstance.Flags.OnTour;
-            if (citizen.m_vehicle == 0 && citizen.m_instance == 0)
+            if (citizenProxy.GetVehicle(ref citizen) == 0 && instanceId == 0)
             {
-                if (citizen.m_visitBuilding != 0)
+                if (citizenProxy.GetVisitBuilding(ref citizen) != 0)
                 {
-                    citizen.SetVisitplace(citizenId, 0, 0u);
+                    citizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
                 }
 
-                citizen.CurrentLocation = Citizen.Location.Home;
-                citizen.Arrested = false;
+                citizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
+                citizenProxy.SetArrested(ref citizen, false);
             }
-            else if ((citizenManager.GetInstanceFlags(citizen.m_instance) & flags) == flags)
+            else if ((citizenManager.GetInstanceFlags(instanceId) & flags) == flags)
             {
-                if (IsChance(AbandonTourChance) && citizen.m_homeBuilding != 0)
+                ushort homeBuilding = citizenProxy.GetHomeBuilding(ref citizen);
+                if (IsChance(AbandonTourChance) && homeBuilding != 0)
                 {
-                    citizen.m_flags &= ~Citizen.Flags.Evacuating;
-                    residentAI.StartMoving(instance, citizenId, ref citizen, 0, citizen.m_homeBuilding);
+                    citizenProxy.RemoveFlags(ref citizen, Citizen.Flags.Evacuating);
+                    residentAI.StartMoving(instance, citizenId, ref citizen, 0, homeBuilding);
                 }
             }
         }

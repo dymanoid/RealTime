@@ -6,21 +6,22 @@ namespace RealTime.CustomResidentAI
 {
     using RealTime.Tools;
 
-    internal sealed partial class RealTimeResidentAI<T>
+    internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
-        private void ProcessCitizenAtSchoolOrWork(T instance, uint citizenId, ref Citizen citizen)
+        private void ProcessCitizenAtSchoolOrWork(TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            if (citizen.m_workBuilding == 0)
+            ushort workBuilding = citizenProxy.GetWorkBuilding(ref citizen);
+            if (workBuilding == 0)
             {
                 Log.Debug($"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is in corrupt state: at school/work with no work building. Teleporting home.");
-                citizen.CurrentLocation = Citizen.Location.Home;
+                citizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
                 return;
             }
 
-            if (ShouldGoToLunch(Citizen.GetAgeGroup(citizen.Age)))
+            if (ShouldGoToLunch(citizenProxy.GetAge(ref citizen)))
             {
-                ushort currentBuilding = citizen.GetBuildingByLocation();
-                Citizen.Location currentLocation = citizen.CurrentLocation;
+                ushort currentBuilding = citizenProxy.GetCurrentBuilding(ref citizen);
+                Citizen.Location currentLocation = citizenProxy.GetLocation(ref citizen);
 
                 ushort lunchPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance);
                 if (lunchPlace != 0)
@@ -35,7 +36,7 @@ namespace RealTime.CustomResidentAI
                 return;
             }
 
-            if (!ShouldReturnFromSchoolOrWork(Citizen.GetAgeGroup(citizen.Age)))
+            if (!ShouldReturnFromSchoolOrWork(citizenProxy.GetAge(ref citizen)))
             {
                 return;
             }
@@ -44,20 +45,24 @@ namespace RealTime.CustomResidentAI
 
             if (!CitizenGoesShopping(instance, citizenId, ref citizen) && !CitizenGoesRelaxing(instance, citizenId, ref citizen))
             {
-                residentAI.StartMoving(instance, citizenId, ref citizen, citizen.m_workBuilding, citizen.m_homeBuilding);
+                residentAI.StartMoving(instance, citizenId, ref citizen, workBuilding, citizenProxy.GetHomeBuilding(ref citizen));
             }
         }
 
-        private bool CitizenGoesWorking(T instance, uint citizenId, ref Citizen citizen)
+        private bool CitizenGoesWorking(TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            if (!ShouldMoveToSchoolOrWork(citizen.m_workBuilding, citizen.GetBuildingByLocation(), Citizen.GetAgeGroup(citizen.Age)))
+            ushort homeBuilding = citizenProxy.GetHomeBuilding(ref citizen);
+            ushort workBuilding = citizenProxy.GetWorkBuilding(ref citizen);
+            ushort currentBuilding = citizenProxy.GetCurrentBuilding(ref citizen);
+
+            if (!ShouldMoveToSchoolOrWork(workBuilding, currentBuilding, citizenProxy.GetAge(ref citizen)))
             {
                 return false;
             }
 
-            Log.Debug(timeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {citizen.GetBuildingByLocation()} ({citizen.CurrentLocation}) to school/work {citizen.m_workBuilding}");
+            Log.Debug(timeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} to school/work {workBuilding}");
 
-            residentAI.StartMoving(instance, citizenId, ref citizen, citizen.m_homeBuilding, citizen.m_workBuilding);
+            residentAI.StartMoving(instance, citizenId, ref citizen, homeBuilding, workBuilding);
             return true;
         }
     }

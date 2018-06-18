@@ -6,47 +6,48 @@ namespace RealTime.CustomResidentAI
 {
     using RealTime.Tools;
 
-    internal sealed partial class RealTimeResidentAI<T>
+    internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
-        private static string GetCitizenDesc(uint citizenId, ref Citizen citizen)
+        private string GetCitizenDesc(uint citizenId, ref TCitizen citizen)
         {
-            string employment = citizen.m_workBuilding == 0 ? "unempl." : "empl.";
-            return $"Citizen {citizenId} ({employment}, {Citizen.GetAgeGroup(citizen.m_age)})";
+            string employment = citizenProxy.GetWorkBuilding(ref citizen) == 0 ? "unempl." : "empl.";
+            return $"Citizen {citizenId} ({employment}, {citizenProxy.GetAge(ref citizen)})";
         }
 
-        private void ProcessCitizenDead(T instance, uint citizenId, ref Citizen citizen)
+        private void ProcessCitizenDead(TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            ushort currentBuilding = citizen.GetBuildingByLocation();
+            ushort currentBuilding = citizenProxy.GetCurrentBuilding(ref citizen);
+            Citizen.Location currentLocation = citizenProxy.GetLocation(ref citizen);
 
-            if (currentBuilding == 0 || (citizen.CurrentLocation == Citizen.Location.Moving && citizen.m_vehicle == 0))
+            if (currentBuilding == 0 || (currentLocation == Citizen.Location.Moving && citizenProxy.GetVehicle(ref citizen) == 0))
             {
                 Log.Debug(timeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is released");
                 citizenManager.ReleaseCitizen(citizenId);
                 return;
             }
 
-            if (citizen.CurrentLocation != Citizen.Location.Home && citizen.m_homeBuilding != 0)
+            if (currentLocation != Citizen.Location.Home && citizenProxy.GetHomeBuilding(ref citizen) != 0)
             {
-                citizen.SetHome(citizenId, 0, 0u);
+                citizenProxy.SetHome(ref citizen, citizenId, 0);
             }
 
-            if (citizen.CurrentLocation != Citizen.Location.Work && citizen.m_workBuilding != 0)
+            if (currentLocation != Citizen.Location.Work && citizenProxy.GetWorkBuilding(ref citizen) != 0)
             {
-                citizen.SetWorkplace(citizenId, 0, 0u);
+                citizenProxy.SetWorkplace(ref citizen, citizenId, 0);
             }
 
-            if (citizen.CurrentLocation != Citizen.Location.Visit && citizen.m_visitBuilding != 0)
+            if (currentLocation != Citizen.Location.Visit && citizenProxy.GetVisitBuilding(ref citizen) != 0)
             {
-                citizen.SetVisitplace(citizenId, 0, 0u);
+                citizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
             }
 
-            if (citizen.CurrentLocation == Citizen.Location.Moving || citizen.m_vehicle != 0)
+            if (currentLocation == Citizen.Location.Moving || citizenProxy.GetVehicle(ref citizen) != 0)
             {
                 return;
             }
 
-            if (citizen.CurrentLocation == Citizen.Location.Visit
-                && buildingManager.GetBuildingService(citizen.m_visitBuilding) == ItemClass.Service.HealthCare)
+            if (currentLocation == Citizen.Location.Visit
+                && buildingManager.GetBuildingService(citizenProxy.GetVisitBuilding(ref citizen)) == ItemClass.Service.HealthCare)
             {
                 return;
             }
@@ -55,44 +56,46 @@ namespace RealTime.CustomResidentAI
             Log.Debug(timeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is dead, body should get serviced");
         }
 
-        private bool ProcessCitizenArrested(ref Citizen citizen)
+        private bool ProcessCitizenArrested(ref TCitizen citizen)
         {
-            switch (citizen.CurrentLocation)
+            switch (citizenProxy.GetLocation(ref citizen))
             {
                 case Citizen.Location.Moving:
                     return false;
-                case Citizen.Location.Visit when buildingManager.GetBuildingService(citizen.m_visitBuilding) == ItemClass.Service.PoliceDepartment:
+                case Citizen.Location.Visit
+                    when buildingManager.GetBuildingService(citizenProxy.GetVisitBuilding(ref citizen)) == ItemClass.Service.PoliceDepartment:
                     return true;
             }
 
-            citizen.Arrested = false;
+            citizenProxy.SetArrested(ref citizen, false);
             return false;
         }
 
-        private bool ProcessCitizenSick(T instance, uint citizenId, ref Citizen citizen)
+        private bool ProcessCitizenSick(TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            if (citizen.CurrentLocation == Citizen.Location.Moving)
+            Citizen.Location currentLocation = citizenProxy.GetLocation(ref citizen);
+            if (currentLocation == Citizen.Location.Moving)
             {
                 return false;
             }
 
-            ushort currentBuilding = citizen.GetBuildingByLocation();
+            ushort currentBuilding = citizenProxy.GetCurrentBuilding(ref citizen);
 
-            if (citizen.CurrentLocation != Citizen.Location.Home && currentBuilding == 0)
+            if (currentLocation != Citizen.Location.Home && currentBuilding == 0)
             {
                 Log.Warning($"Teleporting {GetCitizenDesc(citizenId, ref citizen)} back home because they are sick but no building is specified");
-                citizen.CurrentLocation = Citizen.Location.Home;
+                citizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
                 return true;
             }
 
-            if (citizen.CurrentLocation != Citizen.Location.Home && citizen.m_vehicle != 0)
+            if (currentLocation != Citizen.Location.Home && citizenProxy.GetVehicle(ref citizen) != 0)
             {
                 return true;
             }
 
-            if (citizen.CurrentLocation == Citizen.Location.Visit)
+            if (currentLocation == Citizen.Location.Visit)
             {
-                ItemClass.Service service = buildingManager.GetBuildingService(citizen.m_visitBuilding);
+                ItemClass.Service service = buildingManager.GetBuildingService(citizenProxy.GetVisitBuilding(ref citizen));
                 if (service == ItemClass.Service.HealthCare || service == ItemClass.Service.Disaster)
                 {
                     return true;
@@ -104,9 +107,9 @@ namespace RealTime.CustomResidentAI
             return true;
         }
 
-        private void ProcessCitizenEvacuation(T instance, uint citizenId, ref Citizen citizen)
+        private void ProcessCitizenEvacuation(TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            ushort building = citizen.GetBuildingByLocation();
+            ushort building = citizenProxy.GetCurrentBuilding(ref citizen);
             if (building != 0)
             {
                 Log.Debug(timeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is trying to find an evacuation place");
@@ -114,18 +117,18 @@ namespace RealTime.CustomResidentAI
             }
         }
 
-        private CitizenState GetCitizenState(ref Citizen citizen)
+        private CitizenState GetCitizenState(ref TCitizen citizen)
         {
-            ushort currentBuilding = citizen.GetBuildingByLocation();
+            ushort currentBuilding = citizenProxy.GetCurrentBuilding(ref citizen);
             if ((buildingManager.GetBuildingFlags(currentBuilding) & Building.Flags.Evacuating) != 0)
             {
                 return CitizenState.Evacuating;
             }
 
-            switch (citizen.CurrentLocation)
+            switch (citizenProxy.GetLocation(ref citizen))
             {
                 case Citizen.Location.Home:
-                    if ((citizen.m_flags & Citizen.Flags.MovingIn) != 0)
+                    if ((citizenProxy.GetFlags(ref citizen) & Citizen.Flags.MovingIn) != 0)
                     {
                         return CitizenState.LeftCity;
                     }
@@ -151,8 +154,8 @@ namespace RealTime.CustomResidentAI
                     switch (buildingManager.GetBuildingService(currentBuilding))
                     {
                         case ItemClass.Service.Commercial:
-                            if (citizen.m_workBuilding != 0 && IsWorkDay
-                                && timeInfo.CurrentHour > config.LunchBegin && !ShouldReturnFromSchoolOrWork(Citizen.GetAgeGroup(citizen.Age)))
+                            if (citizenProxy.GetWorkBuilding(ref citizen) != 0 && IsWorkDay
+                                && timeInfo.CurrentHour > config.LunchBegin && !ShouldReturnFromSchoolOrWork(citizenProxy.GetAge(ref citizen)))
                             {
                                 return CitizenState.AtLunch;
                             }
@@ -171,7 +174,8 @@ namespace RealTime.CustomResidentAI
                     return CitizenState.Visiting;
 
                 case Citizen.Location.Moving:
-                    return citizen.m_homeBuilding != 0 && citizenManager.GetTargetBuilding(citizen.m_instance) == citizen.m_homeBuilding
+                    ushort homeBuilding = citizenProxy.GetHomeBuilding(ref citizen);
+                    return homeBuilding != 0 && citizenManager.GetTargetBuilding(citizenProxy.GetInstance(ref citizen)) == homeBuilding
                         ? CitizenState.MovingHome
                         : CitizenState.MovingToTarget;
 

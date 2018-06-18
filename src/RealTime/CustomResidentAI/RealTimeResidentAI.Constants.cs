@@ -6,7 +6,7 @@ namespace RealTime.CustomResidentAI
 {
     using System;
 
-    internal partial class RealTimeResidentAI<T>
+    internal partial class RealTimeResidentAI<TAI, TCitizen>
     {
         private const int ShoppingGoodsAmount = 100;
 

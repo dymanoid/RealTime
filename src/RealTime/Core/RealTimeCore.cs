@@ -52,13 +52,14 @@ namespace RealTime.Core
             var customTimeBar = new CustomTimeBar();
             customTimeBar.Enable(gameDate);
 
-            var gameConnections = new GameConnections<ResidentAI>(
+            var gameConnections = new GameConnections<ResidentAI, Citizen>(
                 ResidentAIHook.GetResidentAIConnection(),
+                new CitizenConnection(),
                 new CitizenManagerConnection(),
                 new BuildingManagerConnection(),
                 new EventManagerConnection());
 
-            var realTimeResidentAI = new RealTimeResidentAI<ResidentAI>(
+            var realTimeResidentAI = new RealTimeResidentAI<ResidentAI, Citizen>(
                 new Configuration(),
                 gameConnections,
                 new TimeInfo(),

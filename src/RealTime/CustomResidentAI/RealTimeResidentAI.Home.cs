@@ -6,20 +6,21 @@ namespace RealTime.CustomResidentAI
 {
     using RealTime.Tools;
 
-    internal sealed partial class RealTimeResidentAI<T>
+    internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
-        private void ProcessCitizenAtHome(T instance, uint citizenId, ref Citizen citizen)
+        private void ProcessCitizenAtHome(TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            if (citizen.m_homeBuilding == 0)
+            if (citizenProxy.GetHomeBuilding(ref citizen) == 0)
             {
                 Log.Debug($"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is in corrupt state: at home with no home building. Releasing the poor citizen.");
                 citizenManager.ReleaseCitizen(citizenId);
                 return;
             }
 
-            if (citizen.m_vehicle != 0)
+            ushort vehicle = citizenProxy.GetVehicle(ref citizen);
+            if (vehicle != 0)
             {
-                Log.Debug(timeInfo.Now, $"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is at home but vehicle = {citizen.m_vehicle}");
+                Log.Debug(timeInfo.Now, $"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is at home but vehicle = {vehicle}");
                 return;
             }
 

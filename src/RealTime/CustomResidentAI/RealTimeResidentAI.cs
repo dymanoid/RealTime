@@ -11,18 +11,20 @@ namespace RealTime.CustomResidentAI
     using RealTime.GameConnection;
     using RealTime.Simulation;
 
-    internal sealed partial class RealTimeResidentAI<T> : RealTimeAIBase
-        where T : class
+    internal sealed partial class RealTimeResidentAI<TAI, TCitizen> : RealTimeAIBase
+        where TAI : class
+        where TCitizen : struct
     {
         private readonly Configuration config;
         private readonly ITimeInfo timeInfo;
-        private readonly ResidentAIConnection<T> residentAI;
+        private readonly ResidentAIConnection<TAI, TCitizen> residentAI;
+        private readonly ICitizenConnection<TCitizen> citizenProxy;
         private readonly ICitizenManagerConnection citizenManager;
         private readonly IBuildingManagerConnection buildingManager;
         private readonly IEventManagerConnection eventManager;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RealTimeResidentAI{T}"/> class.
+        /// Initializes a new instance of the <see cref="RealTimeResidentAI{TAI, TCitizen}"/> class.
         /// </summary>
         ///
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
@@ -32,7 +34,7 @@ namespace RealTime.CustomResidentAI
         /// <param name="timeInfo">An object implementing the <see cref="ITimeInfo"/> interface that provides
         /// the current game date and time information.</param>
         /// <param name="randomizer">A <see cref="Randomizer"/> instance to use for randomization.</param>
-        public RealTimeResidentAI(Configuration config, GameConnections<T> connections, ITimeInfo timeInfo, ref Randomizer randomizer)
+        public RealTimeResidentAI(Configuration config, GameConnections<TAI, TCitizen> connections, ITimeInfo timeInfo, ref Randomizer randomizer)
             : base(ref randomizer)
         {
             this.config = config ?? throw new ArgumentNullException(nameof(config));
@@ -45,6 +47,7 @@ namespace RealTime.CustomResidentAI
             citizenManager = connections.CitizenManager;
             buildingManager = connections.BuildingManager;
             eventManager = connections.EventManager;
+            citizenProxy = connections.CitizenConnection;
 
             this.timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
         }
@@ -56,28 +59,31 @@ namespace RealTime.CustomResidentAI
         /// <param name="instance">A reference to an object instance of the original AI.</param>
         /// <param name="citizenId">The ID of the citizen to process.</param>
         /// <param name="citizen">A <see cref="Citizen"/> reference to process.</param>
-        public void UpdateLocation(T instance, uint citizenId, ref Citizen citizen)
+        public void UpdateLocation(TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            if (citizen.m_homeBuilding == 0 && citizen.m_workBuilding == 0 && citizen.m_visitBuilding == 0
-                && citizen.m_instance == 0 && citizen.m_vehicle == 0)
+            if (citizenProxy.GetHomeBuilding(ref citizen) == 0
+                && citizenProxy.GetWorkBuilding(ref citizen) == 0
+                && citizenProxy.GetVisitBuilding(ref citizen) == 0
+                && citizenProxy.GetInstance(ref citizen) == 0
+                && citizenProxy.GetVehicle(ref citizen) == 0)
             {
                 citizenManager.ReleaseCitizen(citizenId);
                 return;
             }
 
-            if (citizen.Collapsed)
+            if (citizenProxy.IsCollapsed(ref citizen))
             {
                 return;
             }
 
-            if (citizen.Dead)
+            if (citizenProxy.IsDead(ref citizen))
             {
                 ProcessCitizenDead(instance, citizenId, ref citizen);
                 return;
             }
 
-            if ((citizen.Sick && ProcessCitizenSick(instance, citizenId, ref citizen))
-                || (citizen.Arrested && ProcessCitizenArrested(ref citizen)))
+            if ((citizenProxy.IsSick(ref citizen) && ProcessCitizenSick(instance, citizenId, ref citizen))
+                || (citizenProxy.IsArrested(ref citizen) && ProcessCitizenArrested(ref citizen)))
             {
                 return;
             }

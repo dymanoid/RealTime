@@ -13,11 +13,11 @@ namespace RealTime.GameConnection
     {
         private const string RedirectNeededMessage = "This method must be redirected to the original game implementation";
 
-        internal static RealTimeResidentAI<ResidentAI> RealTimeAI { get; set; }
+        internal static RealTimeResidentAI<ResidentAI, Citizen> RealTimeAI { get; set; }
 
-        internal static ResidentAIConnection<ResidentAI> GetResidentAIConnection()
+        internal static ResidentAIConnection<ResidentAI, Citizen> GetResidentAIConnection()
         {
-            return new ResidentAIConnection<ResidentAI>(
+            return new ResidentAIConnection<ResidentAI, Citizen>(
                 DoRandomMove,
                 FindEvacuationPlace,
                 FindHospital,

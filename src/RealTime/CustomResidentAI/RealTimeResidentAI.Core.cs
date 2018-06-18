@@ -8,7 +8,7 @@ namespace RealTime.CustomResidentAI
     using RealTime.Tools;
     using UnityEngine;
 
-    internal sealed partial class RealTimeResidentAI<T>
+    internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
         private bool IsLunchHour => IsWorkDayAndBetweenHours(config.LunchBegin, config.LunchEnd);
 
