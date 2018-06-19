@@ -103,6 +103,7 @@ namespace RealTime.CustomAI
                     return;
             }
 
+            // TODO: add events here
             bool doShopping;
             ushort eventIndex = BuildingManager.GetEvent(visitBuilding);
             if (eventIndex != 0)

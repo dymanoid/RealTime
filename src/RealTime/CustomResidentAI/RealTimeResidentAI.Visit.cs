@@ -108,7 +108,7 @@ namespace RealTime.CustomAI
             {
                 if ((EventManager.GetEventFlags(eventId) & (EventData.Flags.Preparing | EventData.Flags.Active | EventData.Flags.Ready)) == 0)
                 {
-                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} returning from an event back home");
+                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} returning from an event {eventId} at {visitBuilding} back home to {homeBuilding}");
                     ReturnFromVisit(instance, citizenId, ref citizen, homeBuilding);
                 }
 
