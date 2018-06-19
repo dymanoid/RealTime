@@ -25,11 +25,12 @@ namespace RealTime.CustomAI
                 return 0;
             }
 
-            // TODO: optionally disable construction on weekends
-            // This causes the constuction to not advance in the night time
-            // TODO: uncomment to enable the functionality (currently disabled for testing)
-            ////return timeInfo.IsNightTime ? 10880 : 1088;
+#if DEBUG
             return 0;
+#else
+            // This causes the constuction to not advance in the night time
+            return timeInfo.IsNightTime ? 10880 : 1088;
+#endif
         }
     }
 }
