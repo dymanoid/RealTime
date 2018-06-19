@@ -23,7 +23,5 @@ namespace RealTime.CustomAI
         private const float WakeUpHour = 7f;
         private const float LatestTeenEntertainmentHour = 21f;
         private const float LatestAdultEntertainmentHour = 23.99f;
-
-        private static readonly TimeSpan AssumedGoOutDuration = TimeSpan.FromHours(12);
     }
 }

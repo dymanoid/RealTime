@@ -9,11 +9,15 @@ namespace RealTime.CustomAI
     using RealTime.Config;
     using RealTime.GameConnection;
     using RealTime.Simulation;
+    using RealTime.Tools;
+    using UnityEngine;
 
     internal abstract class RealTimeHumanAIBase<TCitizen>
         where TCitizen : struct
     {
         protected const int ShoppingGoodsAmount = 100;
+
+        private static readonly TimeSpan AssumedGoOutDuration = TimeSpan.FromHours(12);
 
         private Randomizer randomizer;
 
@@ -34,6 +38,10 @@ namespace RealTime.CustomAI
             randomizer = connections.SimulationManager.GetRandomizer();
         }
 
+        protected bool IsWeekend => Config.IsWeekendEnabled && TimeInfo.Now.IsWeekend();
+
+        protected bool IsWorkDay => !Config.IsWeekendEnabled || !TimeInfo.Now.IsWeekend();
+
         protected Configuration Config { get; }
 
         protected ICitizenConnection<TCitizen> CitizenProxy { get; }
@@ -51,6 +59,59 @@ namespace RealTime.CustomAI
         protected bool IsChance(uint chance)
         {
             return Randomizer.UInt32(100u) < chance;
+        }
+
+        protected bool IsWorkDayAndBetweenHours(float fromInclusive, float toExclusive)
+        {
+            float currentHour = TimeInfo.CurrentHour;
+            return IsWorkDay && (currentHour >= fromInclusive && currentHour < toExclusive);
+        }
+
+        protected bool IsWorkDayMorning()
+        {
+            if (!IsWorkDay)
+            {
+                return false;
+            }
+
+            float currentHour = TimeInfo.CurrentHour;
+            return currentHour >= TimeInfo.SunriseHour && currentHour < Math.Min(Config.WorkBegin, Config.SchoolBegin);
+        }
+
+        protected uint GetGoOutChance(Citizen.AgeGroup citizenAge, bool isDayTime)
+        {
+            float currentHour = TimeInfo.CurrentHour;
+            uint multiplier;
+
+            if ((IsWeekend && TimeInfo.Now.IsWeekendAfter(AssumedGoOutDuration)) || TimeInfo.Now.DayOfWeek == DayOfWeek.Friday)
+            {
+                multiplier = isDayTime
+                    ? 5u
+                    : (uint)Mathf.Clamp(Mathf.Abs(TimeInfo.SunriseHour - currentHour), 0f, 5f);
+            }
+            else
+            {
+                multiplier = 1u;
+            }
+
+            switch (citizenAge)
+            {
+                case Citizen.AgeGroup.Child when isDayTime:
+                    return 60 + (4 * multiplier);
+
+                case Citizen.AgeGroup.Teen when isDayTime:
+                case Citizen.AgeGroup.Young:
+                    return 50 + (8 * multiplier);
+
+                case Citizen.AgeGroup.Adult:
+                    return 30 + (6 * multiplier);
+
+                case Citizen.AgeGroup.Senior when isDayTime:
+                    return 90;
+
+                default:
+                    return 0;
+            }
         }
 
         protected bool EnsureCitizenValid(uint citizenId, ref TCitizen citizen)
