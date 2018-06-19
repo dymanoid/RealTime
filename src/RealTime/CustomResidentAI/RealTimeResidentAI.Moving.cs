@@ -4,6 +4,8 @@
 
 namespace RealTime.CustomAI
 {
+    using static Constants;
+
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
         private void ProcessCitizenMoving(TAI instance, uint citizenId, ref TCitizen citizen, bool mayCancel)

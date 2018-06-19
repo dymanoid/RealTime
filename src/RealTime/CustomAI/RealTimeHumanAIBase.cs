@@ -11,14 +11,11 @@ namespace RealTime.CustomAI
     using RealTime.Simulation;
     using RealTime.Tools;
     using UnityEngine;
+    using static Constants;
 
     internal abstract class RealTimeHumanAIBase<TCitizen>
         where TCitizen : struct
     {
-        protected const int ShoppingGoodsAmount = 100;
-
-        private static readonly TimeSpan AssumedGoOutDuration = TimeSpan.FromHours(12);
-
         private Randomizer randomizer;
 
         protected RealTimeHumanAIBase(Configuration config, GameConnections<TCitizen> connections)

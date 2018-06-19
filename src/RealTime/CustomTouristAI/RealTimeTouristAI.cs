@@ -6,13 +6,12 @@ namespace RealTime.CustomAI
 {
     using RealTime.Config;
     using RealTime.GameConnection;
+    using static Constants;
 
     internal sealed class RealTimeTouristAI<TAI, TCitizen> : RealTimeHumanAIBase<TCitizen>
         where TAI : class
         where TCitizen : struct
     {
-        private const int TouristDoNothingProbability = 5000;
-        private const int TouristShoppingQuota = 50;
 
         private readonly TouristAIConnection<TAI, TCitizen> touristAI;
 

@@ -5,6 +5,7 @@
 namespace RealTime.CustomAI
 {
     using UnityEngine;
+    using static Constants;
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
