@@ -47,6 +47,7 @@ namespace RealTime.Core
             customTimeBar.Enable(gameDate);
 
             var timeInfo = new TimeInfo();
+            var config = new Configuration();
 
             var gameConnections = new GameConnections<Citizen>(
                 timeInfo,
@@ -56,18 +57,7 @@ namespace RealTime.Core
                 new EventManagerConnection(),
                 new SimulationManagerConnection());
 
-            var realTimeResidentAI = new RealTimeResidentAI<ResidentAI, Citizen>(
-                new Configuration(),
-                gameConnections,
-                ResidentAIHook.GetResidentAIConnection());
-
-            ResidentAIHook.RealTimeAI = realTimeResidentAI;
-
-            var realTimePrivateBuildingAI = new RealTimePrivateBuildingAI(
-                timeInfo,
-                new ToolManagerConnection());
-
-            PrivateBuildingAIHook.RealTimeAI = realTimePrivateBuildingAI;
+            SetupCustomAI(timeInfo, config, gameConnections);
 
             try
             {
@@ -96,6 +86,7 @@ namespace RealTime.Core
             timeAdjustment.Disable();
             timeBar.Disable();
             ResidentAIHook.RealTimeAI = null;
+            TouristAIHook.RealTimeAI = null;
             PrivateBuildingAIHook.RealTimeAI = null;
 
             try
@@ -109,6 +100,29 @@ namespace RealTime.Core
             }
 
             isEnabled = false;
+        }
+
+        private static void SetupCustomAI(TimeInfo timeInfo, Configuration config, GameConnections<Citizen> gameConnections)
+        {
+            var realTimeResidentAI = new RealTimeResidentAI<ResidentAI, Citizen>(
+                config,
+                gameConnections,
+                ResidentAIHook.GetResidentAIConnection());
+
+            ResidentAIHook.RealTimeAI = realTimeResidentAI;
+
+            var realTimeTouristAI = new RealTimeTouristAI<TouristAI, Citizen>(
+                config,
+                gameConnections,
+                TouristAIHook.GetTouristAIConnection());
+
+            TouristAIHook.RealTimeAI = realTimeTouristAI;
+
+            var realTimePrivateBuildingAI = new RealTimePrivateBuildingAI(
+                timeInfo,
+                new ToolManagerConnection());
+
+            PrivateBuildingAIHook.RealTimeAI = realTimePrivateBuildingAI;
         }
     }
 }

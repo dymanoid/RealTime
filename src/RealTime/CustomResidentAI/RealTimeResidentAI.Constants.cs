@@ -8,8 +8,6 @@ namespace RealTime.CustomAI
 
     internal partial class RealTimeResidentAI<TAI, TCitizen>
     {
-        private const int ShoppingGoodsAmount = 100;
-
         private const float LocalSearchDistance = 500f;
         private const float FullSearchDistance = 270f * 64f / 2f;
 

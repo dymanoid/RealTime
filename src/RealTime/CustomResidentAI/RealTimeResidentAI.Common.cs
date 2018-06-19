@@ -117,12 +117,12 @@ namespace RealTime.CustomAI
             }
         }
 
-        private CitizenState GetCitizenState(ref TCitizen citizen)
+        private ResidentState GetCitizenState(ref TCitizen citizen)
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
             if ((BuildingManager.GetBuildingFlags(currentBuilding) & Building.Flags.Evacuating) != 0)
             {
-                return CitizenState.Evacuating;
+                return ResidentState.Evacuating;
             }
 
             switch (CitizenProxy.GetLocation(ref citizen))
@@ -130,25 +130,25 @@ namespace RealTime.CustomAI
                 case Citizen.Location.Home:
                     if ((CitizenProxy.GetFlags(ref citizen) & Citizen.Flags.MovingIn) != 0)
                     {
-                        return CitizenState.LeftCity;
+                        return ResidentState.LeftCity;
                     }
 
                     if (currentBuilding != 0)
                     {
-                        return CitizenState.AtHome;
+                        return ResidentState.AtHome;
                     }
 
-                    return CitizenState.Unknown;
+                    return ResidentState.Unknown;
 
                 case Citizen.Location.Work:
                     return currentBuilding != 0
-                        ? CitizenState.AtSchoolOrWork
-                        : CitizenState.Unknown;
+                        ? ResidentState.AtSchoolOrWork
+                        : ResidentState.Unknown;
 
                 case Citizen.Location.Visit:
                     if (currentBuilding == 0)
                     {
-                        return CitizenState.Unknown;
+                        return ResidentState.Unknown;
                     }
 
                     switch (BuildingManager.GetBuildingService(currentBuilding))
@@ -157,30 +157,30 @@ namespace RealTime.CustomAI
                             if (CitizenProxy.GetWorkBuilding(ref citizen) != 0 && IsWorkDay
                                 && TimeInfo.CurrentHour > Config.LunchBegin && !ShouldReturnFromSchoolOrWork(CitizenProxy.GetAge(ref citizen)))
                             {
-                                return CitizenState.AtLunch;
+                                return ResidentState.AtLunch;
                             }
 
                             if (BuildingManager.GetBuildingSubService(currentBuilding) == ItemClass.SubService.CommercialLeisure)
                             {
-                                return CitizenState.AtLeisureArea;
+                                return ResidentState.AtLeisureArea;
                             }
 
-                            return CitizenState.Shopping;
+                            return ResidentState.Shopping;
 
                         case ItemClass.Service.Beautification:
-                            return CitizenState.AtLeisureArea;
+                            return ResidentState.AtLeisureArea;
                     }
 
-                    return CitizenState.Visiting;
+                    return ResidentState.Visiting;
 
                 case Citizen.Location.Moving:
                     ushort homeBuilding = CitizenProxy.GetHomeBuilding(ref citizen);
                     return homeBuilding != 0 && CitizenManager.GetTargetBuilding(CitizenProxy.GetInstance(ref citizen)) == homeBuilding
-                        ? CitizenState.MovingHome
-                        : CitizenState.MovingToTarget;
+                        ? ResidentState.MovingHome
+                        : ResidentState.MovingToTarget;
 
                 default:
-                    return CitizenState.Unknown;
+                    return ResidentState.Unknown;
             }
         }
     }

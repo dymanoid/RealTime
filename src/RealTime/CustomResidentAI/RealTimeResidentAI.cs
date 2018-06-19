@@ -38,17 +38,7 @@ namespace RealTime.CustomAI
         /// <param name="citizen">A <see cref="Citizen"/> reference to process.</param>
         public void UpdateLocation(TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            if (CitizenProxy.GetHomeBuilding(ref citizen) == 0
-                && CitizenProxy.GetWorkBuilding(ref citizen) == 0
-                && CitizenProxy.GetVisitBuilding(ref citizen) == 0
-                && CitizenProxy.GetInstance(ref citizen) == 0
-                && CitizenProxy.GetVehicle(ref citizen) == 0)
-            {
-                CitizenManager.ReleaseCitizen(citizenId);
-                return;
-            }
-
-            if (CitizenProxy.IsCollapsed(ref citizen))
+            if (!EnsureCitizenValid(citizenId, ref citizen))
             {
                 return;
             }
@@ -65,38 +55,38 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            CitizenState citizenState = GetCitizenState(ref citizen);
+            ResidentState citizenState = GetCitizenState(ref citizen);
 
             switch (citizenState)
             {
-                case CitizenState.LeftCity:
+                case ResidentState.LeftCity:
                     CitizenManager.ReleaseCitizen(citizenId);
                     break;
 
-                case CitizenState.MovingHome:
+                case ResidentState.MovingHome:
                     ProcessCitizenMoving(instance, citizenId, ref citizen, false);
                     break;
 
-                case CitizenState.AtHome:
+                case ResidentState.AtHome:
                     ProcessCitizenAtHome(instance, citizenId, ref citizen);
                     break;
 
-                case CitizenState.MovingToTarget:
+                case ResidentState.MovingToTarget:
                     ProcessCitizenMoving(instance, citizenId, ref citizen, true);
                     break;
 
-                case CitizenState.AtSchoolOrWork:
+                case ResidentState.AtSchoolOrWork:
                     ProcessCitizenAtSchoolOrWork(instance, citizenId, ref citizen);
                     break;
 
-                case CitizenState.AtLunch:
-                case CitizenState.Shopping:
-                case CitizenState.AtLeisureArea:
-                case CitizenState.Visiting:
+                case ResidentState.AtLunch:
+                case ResidentState.Shopping:
+                case ResidentState.AtLeisureArea:
+                case ResidentState.Visiting:
                     ProcessCitizenVisit(instance, citizenState, citizenId, ref citizen);
                     break;
 
-                case CitizenState.Evacuating:
+                case ResidentState.Evacuating:
                     ProcessCitizenEvacuation(instance, citizenId, ref citizen);
                     break;
             }

@@ -53,17 +53,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomAI\RealTimeHumanAIBase.cs" />
-    <Compile Include="CustomResidentAI\CitizenState.cs" />
+    <Compile Include="CustomResidentAI\ResidentState.cs" />
     <Compile Include="CustomResidentAI\RealTimeResidentAI.Constants.cs" />
     <Compile Include="CustomResidentAI\RealTimeResidentAI.Core.cs" />
     <Compile Include="CustomBuildingAI\RealTimePrivateBuildingAI.cs" />
     <Compile Include="CustomResidentAI\RealTimeResidentAI.Common.cs" />
     <Compile Include="CustomResidentAI\RealTimeResidentAI.cs" />
+    <Compile Include="CustomTouristAI\RealTimeTouristAI.cs" />
     <Compile Include="GameConnection\CitizenConnection.cs" />
     <Compile Include="GameConnection\ICitizenConnection.cs" />
     <Compile Include="GameConnection\ISimulationManagerConnection.cs" />
     <Compile Include="GameConnection\IToolManagerConnection.cs" />
     <Compile Include="GameConnection\PrivateBuildingAIHook.cs" />
+    <Compile Include="GameConnection\TouristAIConnection.cs" />
+    <Compile Include="GameConnection\TouristAIHook.cs" />
     <Compile Include="GameConnection\ResidentAIHook.cs" />
     <Compile Include="CustomResidentAI\RealTimeResidentAI.Moving.cs" />
     <Compile Include="CustomResidentAI\RealTimeResidentAI.Visit.cs" />
@@ -112,6 +115,7 @@
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if not exist "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)" mkdir "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"

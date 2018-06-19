@@ -8,7 +8,7 @@ namespace RealTime.CustomAI
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
-        private void ProcessCitizenVisit(TAI instance, CitizenState citizenState, uint citizenId, ref TCitizen citizen)
+        private void ProcessCitizenVisit(TAI instance, ResidentState citizenState, uint citizenId, ref TCitizen citizen)
         {
             if (CitizenProxy.GetVisitBuilding(ref citizen) == 0)
             {
@@ -19,13 +19,13 @@ namespace RealTime.CustomAI
 
             switch (citizenState)
             {
-                case CitizenState.AtLunch:
+                case ResidentState.AtLunch:
                     CitizenReturnsFromLunch(instance, citizenId, ref citizen);
 
                     return;
 
-                case CitizenState.AtLeisureArea:
-                case CitizenState.Visiting:
+                case ResidentState.AtLeisureArea:
+                case ResidentState.Visiting:
                     if (!CitizenGoesWorking(instance, citizenId, ref citizen))
                     {
                         CitizenReturnsHomeFromVisit(instance, citizenId, ref citizen);
@@ -33,7 +33,7 @@ namespace RealTime.CustomAI
 
                     return;
 
-                case CitizenState.Shopping:
+                case ResidentState.Shopping:
                     if (CitizenGoesWorking(instance, citizenId, ref citizen))
                     {
                         return;
