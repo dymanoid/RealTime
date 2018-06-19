@@ -7,8 +7,7 @@ namespace RealTime.Core
     using System;
     using System.Security.Permissions;
     using RealTime.Config;
-    using RealTime.CustomBuildingAI;
-    using RealTime.CustomResidentAI;
+    using RealTime.CustomAI;
     using RealTime.GameConnection;
     using RealTime.Simulation;
     using RealTime.Tools;

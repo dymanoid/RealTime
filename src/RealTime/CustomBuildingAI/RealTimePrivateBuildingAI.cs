@@ -2,7 +2,7 @@
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
-namespace RealTime.CustomBuildingAI
+namespace RealTime.CustomAI
 {
     using RealTime.GameConnection;
     using RealTime.Simulation;

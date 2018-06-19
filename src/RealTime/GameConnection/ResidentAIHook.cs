@@ -6,7 +6,7 @@ namespace RealTime.GameConnection
 {
     using System;
     using System.Runtime.CompilerServices;
-    using RealTime.CustomResidentAI;
+    using RealTime.CustomAI;
     using Redirection;
 
     internal static class ResidentAIHook

@@ -2,7 +2,7 @@
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
-namespace RealTime.CustomResidentAI
+namespace RealTime.CustomAI
 {
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {

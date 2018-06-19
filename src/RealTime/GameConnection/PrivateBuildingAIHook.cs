@@ -4,7 +4,7 @@
 
 namespace RealTime.GameConnection
 {
-    using RealTime.CustomBuildingAI;
+    using RealTime.CustomAI;
     using Redirection;
 
     internal static class PrivateBuildingAIHook
