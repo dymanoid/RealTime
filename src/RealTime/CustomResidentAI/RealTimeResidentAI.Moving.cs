@@ -8,24 +8,24 @@ namespace RealTime.CustomAI
     {
         private void ProcessCitizenMoving(TAI instance, uint citizenId, ref TCitizen citizen, bool mayCancel)
         {
-            ushort instanceId = citizenProxy.GetInstance(ref citizen);
+            ushort instanceId = CitizenProxy.GetInstance(ref citizen);
             CitizenInstance.Flags flags = CitizenInstance.Flags.TargetIsNode | CitizenInstance.Flags.OnTour;
-            if (citizenProxy.GetVehicle(ref citizen) == 0 && instanceId == 0)
+            if (CitizenProxy.GetVehicle(ref citizen) == 0 && instanceId == 0)
             {
-                if (citizenProxy.GetVisitBuilding(ref citizen) != 0)
+                if (CitizenProxy.GetVisitBuilding(ref citizen) != 0)
                 {
-                    citizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
+                    CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
                 }
 
-                citizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
-                citizenProxy.SetArrested(ref citizen, false);
+                CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
+                CitizenProxy.SetArrested(ref citizen, false);
             }
-            else if ((citizenManager.GetInstanceFlags(instanceId) & flags) == flags)
+            else if ((CitizenManager.GetInstanceFlags(instanceId) & flags) == flags)
             {
-                ushort homeBuilding = citizenProxy.GetHomeBuilding(ref citizen);
+                ushort homeBuilding = CitizenProxy.GetHomeBuilding(ref citizen);
                 if (IsChance(AbandonTourChance) && homeBuilding != 0)
                 {
-                    citizenProxy.RemoveFlags(ref citizen, Citizen.Flags.Evacuating);
+                    CitizenProxy.RemoveFlags(ref citizen, Citizen.Flags.Evacuating);
                     residentAI.StartMoving(instance, citizenId, ref citizen, 0, homeBuilding);
                 }
             }

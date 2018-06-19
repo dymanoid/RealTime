@@ -10,11 +10,11 @@ namespace RealTime.CustomAI
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
-        private bool IsLunchHour => IsWorkDayAndBetweenHours(config.LunchBegin, config.LunchEnd);
+        private bool IsLunchHour => IsWorkDayAndBetweenHours(Config.LunchBegin, Config.LunchEnd);
 
-        private bool IsWeekend => config.IsWeekendEnabled && timeInfo.Now.IsWeekend();
+        private bool IsWeekend => Config.IsWeekendEnabled && TimeInfo.Now.IsWeekend();
 
-        private bool IsWorkDay => !config.IsWeekendEnabled || !timeInfo.Now.IsWeekend();
+        private bool IsWorkDay => !Config.IsWeekendEnabled || !TimeInfo.Now.IsWeekend();
 
         private bool ShouldMoveToSchoolOrWork(ushort workBuilding, ushort currentBuilding, Citizen.AgeGroup citizenAge)
         {
@@ -23,7 +23,7 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            float currentHour = timeInfo.CurrentHour;
+            float currentHour = TimeInfo.CurrentHour;
             float gotoWorkHour;
             float leaveWorkHour;
             bool overtime;
@@ -32,16 +32,16 @@ namespace RealTime.CustomAI
             {
                 case Citizen.AgeGroup.Child:
                 case Citizen.AgeGroup.Teen:
-                    gotoWorkHour = config.SchoolBegin;
-                    leaveWorkHour = config.SchoolEnd;
+                    gotoWorkHour = Config.SchoolBegin;
+                    leaveWorkHour = Config.SchoolEnd;
                     overtime = false;
                     break;
 
                 case Citizen.AgeGroup.Young:
                 case Citizen.AgeGroup.Adult:
-                    gotoWorkHour = config.WorkBegin;
-                    leaveWorkHour = config.WorkEnd;
-                    overtime = IsChance(config.OnTimeQuota);
+                    gotoWorkHour = Config.WorkBegin;
+                    leaveWorkHour = Config.WorkEnd;
+                    overtime = IsChance(Config.OnTimeQuota);
                     break;
 
                 default:
@@ -51,7 +51,7 @@ namespace RealTime.CustomAI
             // Performance optimization:
             // If the current hour is far away from the working hours, don't even calculate the overtime and on the way time
             if (overtime
-                && (currentHour < gotoWorkHour - MaxHoursOnTheWayToWork - config.MaxOvertime || currentHour > leaveWorkHour + config.MaxOvertime))
+                && (currentHour < gotoWorkHour - MaxHoursOnTheWayToWork - Config.MaxOvertime || currentHour > leaveWorkHour + Config.MaxOvertime))
             {
                 return false;
             }
@@ -62,11 +62,11 @@ namespace RealTime.CustomAI
 
             if (overtime)
             {
-                gotoWorkHour -= config.MaxOvertime * Randomizer.Int32(100) / 200f;
-                leaveWorkHour += config.MaxOvertime;
+                gotoWorkHour -= Config.MaxOvertime * Randomizer.Int32(100) / 200f;
+                leaveWorkHour += Config.MaxOvertime;
             }
 
-            float distance = buildingManager.GetDistanceBetweenBuildings(currentBuilding, workBuilding);
+            float distance = BuildingManager.GetDistanceBetweenBuildings(currentBuilding, workBuilding);
             float onTheWay = Mathf.Clamp(distance / OnTheWayDistancePerHour, MinHoursOnTheWayToWork, MaxHoursOnTheWayToWork);
 
             gotoWorkHour -= onTheWay;
@@ -81,23 +81,23 @@ namespace RealTime.CustomAI
                 return true;
             }
 
-            float currentHour = timeInfo.CurrentHour;
+            float currentHour = TimeInfo.CurrentHour;
 
             switch (citizenAge)
             {
                 case Citizen.AgeGroup.Child:
                 case Citizen.AgeGroup.Teen:
-                    return currentHour >= config.SchoolEnd || currentHour < config.SchoolBegin - MaxHoursOnTheWayToWork;
+                    return currentHour >= Config.SchoolEnd || currentHour < Config.SchoolBegin - MaxHoursOnTheWayToWork;
 
                 case Citizen.AgeGroup.Young:
                 case Citizen.AgeGroup.Adult:
-                    if (currentHour >= (config.WorkEnd + config.MaxOvertime) || currentHour < config.WorkBegin - MaxHoursOnTheWayToWork)
+                    if (currentHour >= (Config.WorkEnd + Config.MaxOvertime) || currentHour < Config.WorkBegin - MaxHoursOnTheWayToWork)
                     {
                         return true;
                     }
-                    else if (currentHour >= config.WorkEnd)
+                    else if (currentHour >= Config.WorkEnd)
                     {
-                        return IsChance(config.OnTimeQuota);
+                        return IsChance(Config.OnTimeQuota);
                     }
 
                     break;
@@ -111,7 +111,7 @@ namespace RealTime.CustomAI
 
         private bool ShouldGoToLunch(Citizen.AgeGroup citizenAge)
         {
-            if (!config.IsLunchTimeEnabled)
+            if (!Config.IsLunchTimeEnabled)
             {
                 return false;
             }
@@ -124,10 +124,10 @@ namespace RealTime.CustomAI
                     return false;
             }
 
-            float currentHour = timeInfo.CurrentHour;
-            if (currentHour >= config.LunchBegin && currentHour <= config.LunchEnd)
+            float currentHour = TimeInfo.CurrentHour;
+            if (currentHour >= Config.LunchBegin && currentHour <= Config.LunchEnd)
             {
-                return IsChance(config.LunchQuota);
+                return IsChance(Config.LunchQuota);
             }
 
             return false;
@@ -142,7 +142,7 @@ namespace RealTime.CustomAI
             {
                 case Citizen.AgeGroup.Child:
                     dayHourStart = WakeUpHour;
-                    dayHourEnd = timeInfo.SunsetHour - 1f;
+                    dayHourEnd = TimeInfo.SunsetHour - 1f;
                     break;
 
                 case Citizen.AgeGroup.Teen:
@@ -152,7 +152,7 @@ namespace RealTime.CustomAI
 
                 case Citizen.AgeGroup.Senior:
                     dayHourStart = WakeUpHour;
-                    dayHourEnd = timeInfo.SunsetHour;
+                    dayHourEnd = TimeInfo.SunsetHour;
                     break;
 
                 default:
@@ -161,20 +161,20 @@ namespace RealTime.CustomAI
                     break;
             }
 
-            float currentHour = timeInfo.CurrentHour;
+            float currentHour = TimeInfo.CurrentHour;
             return IsChance(GetGoOutChance(citizenAge, currentHour > dayHourStart && currentHour < dayHourEnd));
         }
 
         private uint GetGoOutChance(Citizen.AgeGroup citizenAge, bool isDayTime)
         {
-            float currentHour = timeInfo.CurrentHour;
+            float currentHour = TimeInfo.CurrentHour;
             uint multiplier;
 
-            if ((IsWeekend && timeInfo.Now.IsWeekendAfter(AssumedGoOutDuration)) || timeInfo.Now.DayOfWeek == DayOfWeek.Friday)
+            if ((IsWeekend && TimeInfo.Now.IsWeekendAfter(AssumedGoOutDuration)) || TimeInfo.Now.DayOfWeek == DayOfWeek.Friday)
             {
                 multiplier = isDayTime
                     ? 5u
-                    : (uint)Mathf.Clamp(Mathf.Abs(timeInfo.SunriseHour - currentHour), 0f, 5f);
+                    : (uint)Mathf.Clamp(Mathf.Abs(TimeInfo.SunriseHour - currentHour), 0f, 5f);
             }
             else
             {
@@ -203,7 +203,7 @@ namespace RealTime.CustomAI
 
         private bool IsWorkDayAndBetweenHours(float fromInclusive, float toExclusive)
         {
-            float currentHour = timeInfo.CurrentHour;
+            float currentHour = TimeInfo.CurrentHour;
             return IsWorkDay && (currentHour >= fromInclusive && currentHour < toExclusive);
         }
 
@@ -214,8 +214,8 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            float currentHour = timeInfo.CurrentHour;
-            return currentHour >= timeInfo.SunriseHour && currentHour < Math.Min(config.WorkBegin, config.SchoolBegin);
+            float currentHour = TimeInfo.CurrentHour;
+            return currentHour >= TimeInfo.SunriseHour && currentHour < Math.Min(Config.WorkBegin, Config.SchoolBegin);
         }
     }
 }

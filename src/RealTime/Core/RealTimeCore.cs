@@ -46,24 +46,26 @@ namespace RealTime.Core
             var customTimeBar = new CustomTimeBar();
             customTimeBar.Enable(gameDate);
 
-            var gameConnections = new GameConnections<ResidentAI, Citizen>(
-                ResidentAIHook.GetResidentAIConnection(),
+            var timeInfo = new TimeInfo();
+
+            var gameConnections = new GameConnections<Citizen>(
+                timeInfo,
                 new CitizenConnection(),
                 new CitizenManagerConnection(),
                 new BuildingManagerConnection(),
-                new EventManagerConnection());
-
-            var timeInfo = new TimeInfo();
+                new EventManagerConnection(),
+                new SimulationManagerConnection());
 
             var realTimeResidentAI = new RealTimeResidentAI<ResidentAI, Citizen>(
                 new Configuration(),
                 gameConnections,
-                timeInfo,
-                ref SimulationManager.instance.m_randomizer);
+                ResidentAIHook.GetResidentAIConnection());
 
             ResidentAIHook.RealTimeAI = realTimeResidentAI;
 
-            var realTimePrivateBuildingAI = new RealTimePrivateBuildingAI(timeInfo, new ToolManagerConnection());
+            var realTimePrivateBuildingAI = new RealTimePrivateBuildingAI(
+                timeInfo,
+                new ToolManagerConnection());
 
             PrivateBuildingAIHook.RealTimeAI = realTimePrivateBuildingAI;
 

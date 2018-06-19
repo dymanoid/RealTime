@@ -5,23 +5,14 @@
 namespace RealTime.CustomAI
 {
     using System;
-    using ColossalFramework.Math;
     using RealTime.Config;
-    using RealTime.CustomAI;
     using RealTime.GameConnection;
-    using RealTime.Simulation;
 
-    internal sealed partial class RealTimeResidentAI<TAI, TCitizen> : RealTimeAIBase
+    internal sealed partial class RealTimeResidentAI<TAI, TCitizen> : RealTimeHumanAIBase<TCitizen>
         where TAI : class
         where TCitizen : struct
     {
-        private readonly Configuration config;
-        private readonly ITimeInfo timeInfo;
         private readonly ResidentAIConnection<TAI, TCitizen> residentAI;
-        private readonly ICitizenConnection<TCitizen> citizenProxy;
-        private readonly ICitizenManagerConnection citizenManager;
-        private readonly IBuildingManagerConnection buildingManager;
-        private readonly IEventManagerConnection eventManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RealTimeResidentAI{TAI, TCitizen}"/> class.
@@ -31,25 +22,11 @@ namespace RealTime.CustomAI
         ///
         /// <param name="config">A <see cref="Configuration"/> instance containing the mod's configuration.</param>
         /// <param name="connections">A <see cref="GameConnections{T}"/> instance that provides the game connection implementation.</param>
-        /// <param name="timeInfo">An object implementing the <see cref="ITimeInfo"/> interface that provides
-        /// the current game date and time information.</param>
-        /// <param name="randomizer">A <see cref="Randomizer"/> instance to use for randomization.</param>
-        public RealTimeResidentAI(Configuration config, GameConnections<TAI, TCitizen> connections, ITimeInfo timeInfo, ref Randomizer randomizer)
-            : base(ref randomizer)
+        /// <param name="residentAI">A connection to the game's resident AI.</param>
+        public RealTimeResidentAI(Configuration config, GameConnections<TCitizen> connections, ResidentAIConnection<TAI, TCitizen> residentAI)
+            : base(config, connections)
         {
-            this.config = config ?? throw new ArgumentNullException(nameof(config));
-            if (connections == null)
-            {
-                throw new ArgumentNullException(nameof(connections));
-            }
-
-            residentAI = connections.ResidentAI;
-            citizenManager = connections.CitizenManager;
-            buildingManager = connections.BuildingManager;
-            eventManager = connections.EventManager;
-            citizenProxy = connections.CitizenConnection;
-
-            this.timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
+            this.residentAI = residentAI ?? throw new ArgumentNullException(nameof(residentAI));
         }
 
         /// <summary>
@@ -61,29 +38,29 @@ namespace RealTime.CustomAI
         /// <param name="citizen">A <see cref="Citizen"/> reference to process.</param>
         public void UpdateLocation(TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            if (citizenProxy.GetHomeBuilding(ref citizen) == 0
-                && citizenProxy.GetWorkBuilding(ref citizen) == 0
-                && citizenProxy.GetVisitBuilding(ref citizen) == 0
-                && citizenProxy.GetInstance(ref citizen) == 0
-                && citizenProxy.GetVehicle(ref citizen) == 0)
+            if (CitizenProxy.GetHomeBuilding(ref citizen) == 0
+                && CitizenProxy.GetWorkBuilding(ref citizen) == 0
+                && CitizenProxy.GetVisitBuilding(ref citizen) == 0
+                && CitizenProxy.GetInstance(ref citizen) == 0
+                && CitizenProxy.GetVehicle(ref citizen) == 0)
             {
-                citizenManager.ReleaseCitizen(citizenId);
+                CitizenManager.ReleaseCitizen(citizenId);
                 return;
             }
 
-            if (citizenProxy.IsCollapsed(ref citizen))
+            if (CitizenProxy.IsCollapsed(ref citizen))
             {
                 return;
             }
 
-            if (citizenProxy.IsDead(ref citizen))
+            if (CitizenProxy.IsDead(ref citizen))
             {
                 ProcessCitizenDead(instance, citizenId, ref citizen);
                 return;
             }
 
-            if ((citizenProxy.IsSick(ref citizen) && ProcessCitizenSick(instance, citizenId, ref citizen))
-                || (citizenProxy.IsArrested(ref citizen) && ProcessCitizenArrested(ref citizen)))
+            if ((CitizenProxy.IsSick(ref citizen) && ProcessCitizenSick(instance, citizenId, ref citizen))
+                || (CitizenProxy.IsArrested(ref citizen) && ProcessCitizenArrested(ref citizen)))
             {
                 return;
             }
@@ -93,7 +70,7 @@ namespace RealTime.CustomAI
             switch (citizenState)
             {
                 case CitizenState.LeftCity:
-                    citizenManager.ReleaseCitizen(citizenId);
+                    CitizenManager.ReleaseCitizen(citizenId);
                     break;
 
                 case CitizenState.MovingHome:

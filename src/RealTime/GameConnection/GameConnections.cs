@@ -5,34 +5,37 @@
 namespace RealTime.GameConnection
 {
     using System;
+    using RealTime.Simulation;
 
-    internal sealed class GameConnections<TAI, TCitizen>
-        where TAI : class
+    internal sealed class GameConnections<TCitizen>
         where TCitizen : struct
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GameConnections{TAI, TCitizen}"/> class.
+        /// Initializes a new instance of the <see cref="GameConnections{TCitizen}"/> class.
         /// </summary>
-        /// <param name="residentAI">A proxy object that provides a way to call the game-specific methods of the <see cref="ResidentAI"/> class.</param>
+        /// <param name="timeInfo">An object that provides the game time information.</param>
         /// <param name="citizenConnection">A proxy object that provides a way to call the game-specific methods of the <see cref="Citizen"/> struct.</param>
         /// <param name="citizenManager">A proxy object that provides a way to call the game-specific methods of the <see cref="CitizenManager"/> class.</param>
         /// <param name="buildingManager">A proxy object that provides a way to call the game-specific methods of the <see cref="BuildingManager"/> class.</param>
         /// <param name="eventManager">A proxy object that provides a way to call the game-specific methods of the <see cref="EventManager"/> class.</param>
+        /// <param name="simulationManager">A proxy object that provides a way to call the game-specific methods of the <see cref="SimulationManager"/> class.</param>
         public GameConnections(
-            ResidentAIConnection<TAI, TCitizen> residentAI,
+            ITimeInfo timeInfo,
             ICitizenConnection<TCitizen> citizenConnection,
             ICitizenManagerConnection citizenManager,
             IBuildingManagerConnection buildingManager,
-            IEventManagerConnection eventManager)
+            IEventManagerConnection eventManager,
+            ISimulationManagerConnection simulationManager)
         {
-            ResidentAI = residentAI ?? throw new ArgumentNullException(nameof(residentAI));
+            TimeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
             CitizenConnection = citizenConnection ?? throw new ArgumentNullException(nameof(citizenConnection));
             CitizenManager = citizenManager ?? throw new ArgumentNullException(nameof(citizenManager));
             BuildingManager = buildingManager ?? throw new ArgumentNullException(nameof(buildingManager));
             EventManager = eventManager ?? throw new ArgumentNullException(nameof(eventManager));
+            SimulationManager = simulationManager ?? throw new ArgumentNullException(nameof(simulationManager));
         }
 
-        public ResidentAIConnection<TAI, TCitizen> ResidentAI { get; }
+        public ITimeInfo TimeInfo { get; }
 
         public ICitizenConnection<TCitizen> CitizenConnection { get; }
 
@@ -41,5 +44,7 @@ namespace RealTime.GameConnection
         public IBuildingManagerConnection BuildingManager { get; }
 
         public IEventManagerConnection EventManager { get; }
+
+        public ISimulationManagerConnection SimulationManager { get; }
     }
 }
