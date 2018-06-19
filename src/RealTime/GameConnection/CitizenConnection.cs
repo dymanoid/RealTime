@@ -8,7 +8,9 @@ namespace RealTime.GameConnection
     {
         public Citizen.Flags AddFlags(ref Citizen citizen, Citizen.Flags flags)
         {
-            return citizen.m_flags |= flags;
+            Citizen.Flags currentFlags = citizen.m_flags;
+            currentFlags |= flags;
+            return citizen.m_flags = currentFlags;
         }
 
         public Citizen.AgeGroup GetAge(ref Citizen citizen)
@@ -78,7 +80,9 @@ namespace RealTime.GameConnection
 
         public Citizen.Flags RemoveFlags(ref Citizen citizen, Citizen.Flags flags)
         {
-            return citizen.m_flags &= ~flags;
+            Citizen.Flags currentFlags = citizen.m_flags;
+            currentFlags &= ~flags;
+            return citizen.m_flags = currentFlags;
         }
 
         public void SetArrested(ref Citizen citizen, bool isArrested)
