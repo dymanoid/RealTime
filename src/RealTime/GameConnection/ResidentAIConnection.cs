@@ -46,9 +46,9 @@ namespace RealTime.GameConnection
 
         public delegate TransferManager.TransferReason GetShoppingReasonDelegate(TAI instance);
 
-        public delegate bool StartMovingDelegate(TAI instance, uint citizenID, ref TCitizen data, ushort sourceBuilding, ushort targetBuilding);
+        public delegate bool StartMovingDelegate(TAI instance, uint citizenId, ref TCitizen citizen, ushort sourceBuilding, ushort targetBuilding);
 
-        public delegate bool StartMovingWithOfferDelegate(TAI instance, uint citizenID, ref TCitizen data, ushort sourceBuilding, TransferManager.TransferOffer offer);
+        public delegate bool StartMovingWithOfferDelegate(TAI instance, uint citizenId, ref TCitizen citizen, ushort sourceBuilding, TransferManager.TransferOffer offer);
 
         public DoRandomMoveDelegate DoRandomMove { get; }
 

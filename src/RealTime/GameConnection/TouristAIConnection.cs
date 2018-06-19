@@ -36,7 +36,7 @@ namespace RealTime.GameConnection
 
         public delegate TransferManager.TransferReason GetLeavingReasonDelegate(TAI instance, uint citizenId, ref TCitizen citizen);
 
-        public delegate void AddTouristVisitDelegate(TAI instance, uint citizenID, ushort buildingId);
+        public delegate void AddTouristVisitDelegate(TAI instance, uint citizenId, ushort buildingId);
 
         public delegate bool DoRandomMoveDelegate(TAI instance);
 

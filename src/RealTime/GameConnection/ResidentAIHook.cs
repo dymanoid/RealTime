@@ -37,14 +37,14 @@ namespace RealTime.GameConnection
 
         [RedirectTo(typeof(ResidentAI))]
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private static bool FindHospital(ResidentAI instance, uint citizenID, ushort sourceBuilding, TransferManager.TransferReason reason)
+        private static bool FindHospital(ResidentAI instance, uint citizenId, ushort sourceBuilding, TransferManager.TransferReason reason)
         {
             throw new InvalidOperationException(RedirectNeededMessage);
         }
 
         [RedirectTo(typeof(ResidentAI))]
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void FindEvacuationPlace(ResidentAI instance, uint citizenID, ushort sourceBuilding, TransferManager.TransferReason reason)
+        private static void FindEvacuationPlace(ResidentAI instance, uint citizenId, ushort sourceBuilding, TransferManager.TransferReason reason)
         {
             throw new InvalidOperationException(RedirectNeededMessage);
         }
@@ -58,7 +58,7 @@ namespace RealTime.GameConnection
 
         [RedirectTo(typeof(ResidentAI))]
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void FindVisitPlace(ResidentAI instance, uint citizenID, ushort sourceBuilding, TransferManager.TransferReason reason)
+        private static void FindVisitPlace(ResidentAI instance, uint citizenId, ushort sourceBuilding, TransferManager.TransferReason reason)
         {
             throw new InvalidOperationException(RedirectNeededMessage);
         }
@@ -86,14 +86,14 @@ namespace RealTime.GameConnection
 
         [RedirectTo(typeof(HumanAI))]
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private static bool StartMoving(ResidentAI instance, uint citizenID, ref Citizen data, ushort sourceBuilding, ushort targetBuilding)
+        private static bool StartMoving(ResidentAI instance, uint citizenId, ref Citizen citizen, ushort sourceBuilding, ushort targetBuilding)
         {
             throw new InvalidOperationException(RedirectNeededMessage);
         }
 
         [RedirectTo(typeof(HumanAI))]
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private static bool StartMoving(ResidentAI instance, uint citizenID, ref Citizen data, ushort sourceBuilding, TransferManager.TransferOffer offer)
+        private static bool StartMoving(ResidentAI instance, uint citizenId, ref Citizen citizen, ushort sourceBuilding, TransferManager.TransferOffer offer)
         {
             throw new InvalidOperationException(RedirectNeededMessage);
         }

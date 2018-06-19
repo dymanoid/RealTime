@@ -51,14 +51,14 @@ namespace RealTime.GameConnection
 
         [RedirectTo(typeof(TouristAI))]
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void AddTouristVisit(TouristAI instance, uint citizenID, ushort buildingId)
+        private static void AddTouristVisit(TouristAI instance, uint citizenId, ushort buildingId)
         {
             throw new InvalidOperationException(RedirectNeededMessage);
         }
 
         [RedirectTo(typeof(TouristAI))]
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void FindEvacuationPlace(TouristAI instance, uint citizenID, ushort sourceBuilding, TransferManager.TransferReason reason)
+        private static void FindEvacuationPlace(TouristAI instance, uint citizenId, ushort sourceBuilding, TransferManager.TransferReason reason)
         {
             throw new InvalidOperationException(RedirectNeededMessage);
         }
@@ -72,7 +72,7 @@ namespace RealTime.GameConnection
 
         [RedirectTo(typeof(TouristAI))]
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void FindVisitPlace(TouristAI instance, uint citizenID, ushort sourceBuilding, TransferManager.TransferReason reason)
+        private static void FindVisitPlace(TouristAI instance, uint citizenId, ushort sourceBuilding, TransferManager.TransferReason reason)
         {
             throw new InvalidOperationException(RedirectNeededMessage);
         }
