@@ -130,5 +130,11 @@ namespace RealTime.CustomAI
 
             return true;
         }
+
+        protected string GetCitizenDesc(uint citizenId, ref TCitizen citizen)
+        {
+            string employment = CitizenProxy.GetWorkBuilding(ref citizen) == 0 ? "unempl." : "empl.";
+            return $"Citizen {citizenId} ({employment}, {CitizenProxy.GetAge(ref citizen)})";
+        }
     }
 }

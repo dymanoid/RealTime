@@ -8,12 +8,6 @@ namespace RealTime.CustomAI
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
-        private string GetCitizenDesc(uint citizenId, ref TCitizen citizen)
-        {
-            string employment = CitizenProxy.GetWorkBuilding(ref citizen) == 0 ? "unempl." : "empl.";
-            return $"Citizen {citizenId} ({employment}, {CitizenProxy.GetAge(ref citizen)})";
-        }
-
         private void ProcessCitizenDead(TAI instance, uint citizenId, ref TCitizen citizen)
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
