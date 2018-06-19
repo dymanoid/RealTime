@@ -19,7 +19,8 @@ namespace RealTime.GameConnection
             FindVisitPlaceDelegate findVisitPlace,
             GetEntertainmentReasonDelegate getEntertainmentReason,
             GetEvacuationReasonDelegate getEvacuationReason,
-            GetShoppingReasonDelegate getShoppingReason)
+            GetShoppingReasonDelegate getShoppingReason,
+            StartMovingDelegate startMoving)
         {
             GetRandomTargetType = getRandomTargetType ?? throw new ArgumentNullException(nameof(getRandomTargetType));
             GetLeavingReason = getLeavingReason ?? throw new ArgumentNullException(nameof(getLeavingReason));
@@ -30,6 +31,7 @@ namespace RealTime.GameConnection
             GetEntertainmentReason = getEntertainmentReason ?? throw new ArgumentNullException(nameof(getEntertainmentReason));
             GetEvacuationReason = getEvacuationReason ?? throw new ArgumentNullException(nameof(getEvacuationReason));
             GetShoppingReason = getShoppingReason ?? throw new ArgumentNullException(nameof(getShoppingReason));
+            StartMoving = startMoving ?? throw new ArgumentNullException(nameof(startMoving));
         }
 
         public delegate int GetRandomTargetTypeDelegate(TAI instance, int doNothingProbability);
@@ -50,6 +52,8 @@ namespace RealTime.GameConnection
 
         public delegate TransferManager.TransferReason GetShoppingReasonDelegate(TAI instance);
 
+        public delegate bool StartMovingDelegate(TAI instance, uint citizenId, ref TCitizen citizen, ushort sourceBuilding, ushort targetBuilding);
+
         public GetRandomTargetTypeDelegate GetRandomTargetType { get; }
 
         public GetLeavingReasonDelegate GetLeavingReason { get; }
@@ -67,5 +71,7 @@ namespace RealTime.GameConnection
         public GetEvacuationReasonDelegate GetEvacuationReason { get; }
 
         public GetShoppingReasonDelegate GetShoppingReason { get; }
+
+        public StartMovingDelegate StartMoving { get; }
     }
 }

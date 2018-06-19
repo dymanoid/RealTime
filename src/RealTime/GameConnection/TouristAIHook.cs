@@ -26,7 +26,8 @@ namespace RealTime.GameConnection
                 FindVisitPlace,
                 GetEntertainmentReason,
                 GetEvacuationReason,
-                GetShoppingReason);
+                GetShoppingReason,
+                StartMoving);
         }
 
         [RedirectFrom(typeof(TouristAI))]
@@ -94,6 +95,13 @@ namespace RealTime.GameConnection
         [RedirectTo(typeof(TouristAI))]
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static TransferManager.TransferReason GetEntertainmentReason(TouristAI instance)
+        {
+            throw new InvalidOperationException(RedirectNeededMessage);
+        }
+
+        [RedirectTo(typeof(HumanAI))]
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static bool StartMoving(TouristAI instance, uint citizenId, ref Citizen citizen, ushort sourceBuilding, ushort targetBuilding)
         {
             throw new InvalidOperationException(RedirectNeededMessage);
         }

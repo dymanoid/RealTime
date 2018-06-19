@@ -6,13 +6,13 @@ namespace RealTime.CustomAI
 {
     using RealTime.Config;
     using RealTime.GameConnection;
+    using RealTime.Tools;
     using static Constants;
 
     internal sealed class RealTimeTouristAI<TAI, TCitizen> : RealTimeHumanAIBase<TCitizen>
         where TAI : class
         where TCitizen : struct
     {
-
         private readonly TouristAIConnection<TAI, TCitizen> touristAI;
 
         public RealTimeTouristAI(Configuration config, GameConnections<TCitizen> connections, TouristAIConnection<TAI, TCitizen> touristAI)
@@ -80,87 +80,120 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            ItemClass.Service service = BuildingManager.GetBuildingService(visitBuilding);
             Building.Flags buildingFlags = BuildingManager.GetBuildingFlags(visitBuilding);
-
-            if (service == ItemClass.Service.Disaster)
-            {
-                if ((buildingFlags & Building.Flags.Downgrading) != 0)
-                {
-                    FindRandomVisitPlace(instance, citizenId, ref citizen, 0, visitBuilding);
-                }
-
-                return;
-            }
-
             if ((buildingFlags & Building.Flags.Evacuating) != 0)
             {
                 touristAI.FindEvacuationPlace(instance, citizenId, visitBuilding, touristAI.GetEvacuationReason(instance, visitBuilding));
                 return;
             }
 
+            switch (BuildingManager.GetBuildingService(visitBuilding))
+            {
+                case ItemClass.Service.Disaster:
+                    if ((buildingFlags & Building.Flags.Downgrading) != 0)
+                    {
+                        FindRandomVisitPlace(instance, citizenId, ref citizen, 0, visitBuilding);
+                    }
+
+                    return;
+
+                // Tourist is sleeping in a hotel
+                case ItemClass.Service.Commercial
+                    when TimeInfo.IsNightTime && BuildingManager.GetBuildingSubService(visitBuilding) == ItemClass.SubService.CommercialTourist:
+                    return;
+            }
+
+            bool doShopping;
             ushort eventIndex = BuildingManager.GetEvent(visitBuilding);
             if (eventIndex != 0)
             {
                 EventData.Flags eventFlags = EventData.Flags.Preparing | EventData.Flags.Active | EventData.Flags.Ready;
-                if ((EventManager.GetEventFlags(eventIndex) & eventFlags) == 0)
+                doShopping = (EventManager.GetEventFlags(eventIndex) & eventFlags) == 0
+                    ? !FindRandomVisitPlace(instance, citizenId, ref citizen, 0, visitBuilding)
+                    : IsChance(TouristShoppingChance);
+
+                if (!doShopping)
                 {
-                    FindRandomVisitPlace(instance, citizenId, ref citizen, 0, visitBuilding);
-                }
-                else if (IsChance(TouristShoppingQuota))
-                {
-                    BuildingManager.ModifyMaterialBuffer(visitBuilding, TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
-                    touristAI.AddTouristVisit(instance, citizenId, visitBuilding);
-                }
-
-                return;
-            }
-
-            TransferManager.TransferReason transferReason;
-            switch (touristAI.GetRandomTargetType(instance, TouristDoNothingProbability))
-            {
-                case 1:
-                    transferReason = touristAI.GetLeavingReason(instance, citizenId, ref citizen);
-                    touristAI.FindVisitPlace(instance, citizenId, visitBuilding, transferReason);
                     return;
-
-                case 2:
-                    transferReason = touristAI.GetShoppingReason(instance);
-                    break;
-
-                case 3:
-                    transferReason = touristAI.GetEntertainmentReason(instance);
-                    break;
-
-                default:
-                    return;
-            }
-
-            if (CitizenProxy.GetInstance(ref citizen) != 0 || touristAI.DoRandomMove(instance))
-            {
-                touristAI.FindVisitPlace(instance, citizenId, visitBuilding, transferReason);
+                }
             }
             else
+            {
+                doShopping = false;
+            }
+
+            if (doShopping || !FindRandomVisitPlace(instance, citizenId, ref citizen, TouristDoNothingProbability, visitBuilding))
             {
                 BuildingManager.ModifyMaterialBuffer(visitBuilding, TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
                 touristAI.AddTouristVisit(instance, citizenId, visitBuilding);
             }
         }
 
-        private void FindRandomVisitPlace(TAI instance, uint citizenId, ref TCitizen citizen, int doNothingProbability, ushort visitBuilding)
+        private bool FindRandomVisitPlace(TAI instance, uint citizenId, ref TCitizen citizen, int doNothingProbability, ushort visitBuilding)
         {
-            switch (touristAI.GetRandomTargetType(instance, doNothingProbability))
+            int targetType = touristAI.GetRandomTargetType(instance, doNothingProbability);
+            if (targetType == 1)
             {
-                case 1:
-                    touristAI.FindVisitPlace(instance, citizenId, visitBuilding, touristAI.GetLeavingReason(instance, citizenId, ref citizen));
-                    break;
+                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} decides to leave the city");
+                touristAI.FindVisitPlace(instance, citizenId, visitBuilding, touristAI.GetLeavingReason(instance, citizenId, ref citizen));
+                return true;
+            }
+
+            if (CitizenProxy.GetInstance(ref citizen) == 0 && !touristAI.DoRandomMove(instance))
+            {
+                return false;
+            }
+
+            if (!IsChance(GetGoOutChance(CitizenProxy.GetAge(ref citizen), !TimeInfo.IsNightTime)))
+            {
+                FindHotel(instance, citizenId, ref citizen);
+                return true;
+            }
+
+            switch (targetType)
+            {
                 case 2:
                     touristAI.FindVisitPlace(instance, citizenId, visitBuilding, touristAI.GetShoppingReason(instance));
+                    Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} stays in the city, goes shopping");
                     break;
+
                 case 3:
+                    Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} stays in the city, goes relaxing");
                     touristAI.FindVisitPlace(instance, citizenId, visitBuilding, touristAI.GetEntertainmentReason(instance));
                     break;
             }
+
+            return true;
+        }
+
+        private void FindHotel(TAI instance, uint citizenId, ref TCitizen citizen)
+        {
+            ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
+            if (!IsChance(FindHotelChance))
+            {
+                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} didn't want to stay in a hotel, leaving the city");
+                touristAI.FindVisitPlace(instance, citizenId, currentBuilding, touristAI.GetLeavingReason(instance, citizenId, ref citizen));
+                return;
+            }
+
+            ushort hotel = BuildingManager.FindActiveBuilding(
+                currentBuilding,
+                FullSearchDistance,
+                ItemClass.Service.Commercial,
+                ItemClass.SubService.CommercialTourist);
+
+            if (hotel == 0)
+            {
+                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} didn't find a hotel, leaving the city");
+                touristAI.FindVisitPlace(instance, citizenId, currentBuilding, touristAI.GetLeavingReason(instance, citizenId, ref citizen));
+                return;
+            }
+
+            touristAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, hotel);
+            CitizenProxy.SetVisitPlace(ref citizen, citizenId, hotel);
+            CitizenProxy.SetVisitBuilding(ref citizen, hotel);
+            touristAI.AddTouristVisit(instance, citizenId, hotel);
+            Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} stays in a hotel {hotel}");
         }
     }
 }
