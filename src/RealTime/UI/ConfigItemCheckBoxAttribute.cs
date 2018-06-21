@@ -7,7 +7,7 @@ namespace RealTime.UI
     using System;
 
     [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
-    internal sealed class ConfigItemCheckBoxAttribute : Attribute
+    internal sealed class ConfigItemCheckBoxAttribute : ConfigItemUIBaseAttribute
     {
     }
 }

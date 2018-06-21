@@ -9,21 +9,18 @@ namespace RealTime.UI
     [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
     internal sealed class ConfigItemAttribute : Attribute
     {
-        public ConfigItemAttribute(string pageId, uint groupNumber, uint order)
+        public ConfigItemAttribute(string groupId, uint order)
         {
-            if (string.IsNullOrEmpty(pageId))
+            if (string.IsNullOrEmpty(groupId))
             {
-                throw new ArgumentException("The config page ID cannot be null or an empty string");
+                throw new ArgumentException("The config group ID cannot be null or an empty string");
             }
 
-            PageId = pageId;
-            GroupNumber = groupNumber;
+            GroupId = groupId;
             Order = order;
         }
 
-        public string PageId { get; }
-
-        public uint GroupNumber { get; }
+        public string GroupId { get; }
 
         public uint Order { get; }
     }

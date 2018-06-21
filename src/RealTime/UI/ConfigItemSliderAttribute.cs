@@ -7,7 +7,7 @@ namespace RealTime.UI
     using System;
 
     [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
-    internal sealed class ConfigItemSliderAttribute : Attribute
+    internal sealed class ConfigItemSliderAttribute : ConfigItemUIBaseAttribute
     {
         public ConfigItemSliderAttribute(float min, float max, float step)
         {
