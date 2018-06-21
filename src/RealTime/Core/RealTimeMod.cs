@@ -114,6 +114,8 @@ namespace RealTime.Core
                 core.Stop();
                 core = null;
             }
+
+            ConfigurationProvider.SaveConfiguration(config);
         }
 
         private void LocaleManager_UIComponentLocaleChanged()

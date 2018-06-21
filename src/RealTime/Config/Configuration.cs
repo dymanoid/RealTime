@@ -9,7 +9,7 @@ namespace RealTime.Config
     /// <summary>
     /// The mod's configuration.
     /// </summary>
-    internal sealed class Configuration
+    public sealed class Configuration
     {
         /// <summary>
         /// Gets or sets a value indicating whether the weekends are enabled. Cims don't go to work on weekends.
