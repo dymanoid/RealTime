@@ -108,6 +108,7 @@
     <Compile Include="UI\IViewItemFactory.cs" />
     <Compile Include="UI\RealTimeUIDateTimeWrapper.cs" />
     <Compile Include="UI\CustomTimeBar.cs" />
+    <Compile Include="UI\SliderValueType.cs" />
     <Compile Include="UI\UnityCheckBoxItem.cs" />
     <Compile Include="UI\UnityPageViewItem.cs" />
     <Compile Include="UI\UnitySliderItem.cs" />

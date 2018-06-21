@@ -9,7 +9,7 @@ namespace RealTime.UI
     [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
     internal sealed class ConfigItemSliderAttribute : ConfigItemUIBaseAttribute
     {
-        public ConfigItemSliderAttribute(float min, float max, float step)
+        public ConfigItemSliderAttribute(float min, float max, float step, SliderValueType valueType)
         {
             if (max <= min)
             {
@@ -24,10 +24,11 @@ namespace RealTime.UI
             Min = min;
             Max = max;
             Step = step;
+            ValueType = valueType;
         }
 
         public ConfigItemSliderAttribute(float min, float max)
-            : this(min, max, 1f)
+            : this(min, max, 1f, SliderValueType.Percentage)
         {
         }
 
@@ -36,5 +37,7 @@ namespace RealTime.UI
         public float Max { get; }
 
         public float Step { get; }
+
+        public SliderValueType ValueType { get; }
     }
 }

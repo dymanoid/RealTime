@@ -74,7 +74,7 @@ namespace RealTime.UI
                         goto default;
                     }
 
-                    return itemFactory.CreateSlider(container, property.Name, property, config, slider.Min, slider.Max, slider.Step);
+                    return itemFactory.CreateSlider(container, property.Name, property, config, slider.Min, slider.Max, slider.Step, slider.ValueType);
 
                 case ConfigItemCheckBoxAttribute checkbox when property.PropertyType == typeof(bool):
                     return itemFactory.CreateCheckBox(container, property.Name, property, config);

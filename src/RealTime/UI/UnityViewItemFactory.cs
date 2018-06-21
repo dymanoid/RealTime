@@ -28,9 +28,17 @@ namespace RealTime.UI
             return new UnityCheckBoxItem(container.Container, id, property, config);
         }
 
-        public IViewItem CreateSlider(IContainerViewItem container, string id, PropertyInfo property, object config, float min, float max, float step)
+        public IViewItem CreateSlider(
+            IContainerViewItem container,
+            string id,
+            PropertyInfo property,
+            object config,
+            float min,
+            float max,
+            float step,
+            SliderValueType valueType)
         {
-            return new UnitySliderItem(container.Container, id, property, config, min, max, step);
+            return new UnitySliderItem(container.Container, id, property, config, min, max, step, valueType);
         }
     }
 }

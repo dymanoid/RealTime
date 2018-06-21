@@ -12,6 +12,14 @@ namespace RealTime.UI
 
         IViewItem CreateCheckBox(IContainerViewItem container, string id, PropertyInfo property, object config);
 
-        IViewItem CreateSlider(IContainerViewItem container, string id, PropertyInfo property, object config, float min, float max, float step);
+        IViewItem CreateSlider(
+            IContainerViewItem container,
+            string id,
+            PropertyInfo property,
+            object config,
+            float min,
+            float max,
+            float step,
+            SliderValueType valueType);
     }
 }

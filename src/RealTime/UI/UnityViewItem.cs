@@ -38,17 +38,17 @@ namespace RealTime.UI
 
         protected TItem UIComponent { get; }
 
-        private TValue Value
+        protected TValue Value
         {
             get => (TValue)Convert.ChangeType(property.GetValue(config, null), typeof(TValue));
-            set => property.SetValue(config, Convert.ChangeType(value, property.PropertyType), null);
+            private set => property.SetValue(config, Convert.ChangeType(value, property.PropertyType), null);
         }
 
         public abstract void Translate(LocalizationProvider localizationProvider);
 
         protected abstract TItem CreateItem(UIHelperBase uiHelper, TValue defaultValue);
 
-        protected void ValueChanged(TValue newValue)
+        protected virtual void ValueChanged(TValue newValue)
         {
             Value = newValue;
         }
