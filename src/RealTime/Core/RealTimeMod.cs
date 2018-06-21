@@ -36,8 +36,7 @@ namespace RealTime.Core
         /// <summary>
         /// Gets the description string of this mod.
         /// </summary>
-        // TODO: add localization
-        public string Description => "Adjusts the time flow in the game to make it more real. Version: " + modVersion;
+        public string Description => "Adjusts the time flow and the Cims behavior to make them more real. Version: " + modVersion;
 
         /// <summary>
         /// Called when this mod is enabled.
