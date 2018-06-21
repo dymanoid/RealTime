@@ -98,8 +98,16 @@
     <Compile Include="UI\DateTooltipBehavior.cs" />
     <Compile Include="Tools\GitVersion.cs" />
     <Compile Include="Tools\Log.cs" />
+    <Compile Include="UI\IContainerViewItem.cs" />
+    <Compile Include="UI\IViewItem.cs" />
+    <Compile Include="UI\IViewItemFactory.cs" />
     <Compile Include="UI\RealTimeUIDateTimeWrapper.cs" />
     <Compile Include="UI\CustomTimeBar.cs" />
+    <Compile Include="UI\UnityCheckBoxItem.cs" />
+    <Compile Include="UI\UnityPageViewItem.cs" />
+    <Compile Include="UI\UnitySliderItem.cs" />
+    <Compile Include="UI\UnityViewItem.cs" />
+    <Compile Include="UI\UnityViewItemFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Redirection\Redirection.csproj">
