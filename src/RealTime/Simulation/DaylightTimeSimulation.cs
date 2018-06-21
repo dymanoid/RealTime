@@ -57,7 +57,7 @@ namespace RealTime.Simulation
             SimulationManager.SUNRISE_HOUR = (float)sunriseHour.TotalHours;
             SimulationManager.SUNSET_HOUR = (float)sunsetHour.TotalHours;
 
-            Log.Info($"New day: {date.Date:d}, sunrise at {sunriseHour:g}, sunset at {sunsetHour:g}");
+            Log.Info($"New day: {date.Date:d}, sunrise at {sunriseHour.Hours}:{sunriseHour.Minutes:00}, sunset at {sunsetHour.Hours}:{sunsetHour.Minutes:00}");
 
             lastCalculation = date.Date;
         }
