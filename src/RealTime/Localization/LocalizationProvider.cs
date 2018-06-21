@@ -5,8 +5,10 @@
 namespace RealTime.Localization
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Xml;
+    using ColossalFramework.Globalization;
     using static Constants;
 
     internal sealed class LocalizationProvider
@@ -18,6 +20,10 @@ namespace RealTime.Localization
         {
             localeStorage = Path.Combine(rootPath, LocaleFolder);
         }
+
+        public string CurrentLanguage { get; private set; } = "en";
+
+        public CultureInfo CurrentCulture { get; private set; } = CultureInfo.CurrentCulture;
 
         public string Translate(string id)
         {
@@ -49,13 +55,15 @@ namespace RealTime.Localization
 
             try
             {
-                XmlDocument doc = new XmlDocument();
+                var doc = new XmlDocument();
                 doc.Load(path);
 
                 foreach (XmlNode node in doc.DocumentElement.ChildNodes)
                 {
                     translation[node.Attributes[XmlKeyAttribute].Value] = node.Attributes[XmlValueAttribute].Value;
                 }
+
+                CurrentCulture = LocaleManager.cultureInfo;
             }
             catch
             {
@@ -63,6 +71,7 @@ namespace RealTime.Localization
                 return false;
             }
 
+            CurrentLanguage = language;
             return true;
         }
     }
