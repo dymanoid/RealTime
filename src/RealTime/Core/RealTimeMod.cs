@@ -31,13 +31,13 @@ namespace RealTime.Core
         /// <summary>
         /// Gets the name of this mod.
         /// </summary>
-        public string Name => "Real Time v" + modVersion;
+        public string Name => "Real Time";
 
         /// <summary>
         /// Gets the description string of this mod.
         /// </summary>
         // TODO: add localization
-        public string Description => "Adjusts the time flow in the game to make it more real";
+        public string Description => "Adjusts the time flow in the game to make it more real. Version: " + modVersion;
 
         /// <summary>
         /// Called when this mod is enabled.
