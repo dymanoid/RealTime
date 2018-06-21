@@ -82,7 +82,6 @@
     <Compile Include="GameConnection\IEventManagerConnection.cs" />
     <Compile Include="GameConnection\ResidentAIConnection.cs" />
     <Compile Include="Config\Configuration.cs" />
-    <Compile Include="Core\LoadingExtension.cs" />
     <Compile Include="Core\RealTimeCore.cs" />
     <Compile Include="GameConnection\SimulationManagerConnection.cs" />
     <Compile Include="GameConnection\ToolManagerConnection.cs" />
@@ -99,6 +98,8 @@
     <Compile Include="UI\ConfigItemAttribute.cs" />
     <Compile Include="UI\ConfigItemCheckBoxAttribute.cs" />
     <Compile Include="UI\ConfigItemSliderAttribute.cs" />
+    <Compile Include="UI\ConfigItemUIBaseAttribute.cs" />
+    <Compile Include="UI\ConfigUI.cs" />
     <Compile Include="UI\DateTooltipBehavior.cs" />
     <Compile Include="Tools\GitVersion.cs" />
     <Compile Include="Tools\Log.cs" />

@@ -36,10 +36,19 @@ namespace RealTime.Core
         /// Runs the mod by activating its parts.
         /// </summary>
         ///
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="config"/> is null.</exception>
+        ///
+        /// <param name="config">The configuration to run with.</param>
+        ///
         /// <returns>A <see cref="RealTimeCore"/> instance that can be used to stop the mod.</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public static RealTimeCore Run()
+        public static RealTimeCore Run(Configuration config)
         {
+            if (config == null)
+            {
+                throw new ArgumentNullException(nameof(config));
+            }
+
             var timeAdjustment = new TimeAdjustment();
             DateTime gameDate = timeAdjustment.Enable();
 
@@ -47,7 +56,6 @@ namespace RealTime.Core
             customTimeBar.Enable(gameDate);
 
             var timeInfo = new TimeInfo();
-            var config = new Configuration();
 
             var gameConnections = new GameConnections<Citizen>(
                 timeInfo,
