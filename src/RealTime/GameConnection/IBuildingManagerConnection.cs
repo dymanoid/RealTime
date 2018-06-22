@@ -4,6 +4,8 @@
 
 namespace RealTime.GameConnection
 {
+    using System.Collections.Generic;
+
     internal interface IBuildingManagerConnection
     {
         ItemClass.Service GetBuildingService(ushort buildingId);
@@ -23,5 +25,9 @@ namespace RealTime.GameConnection
             ItemClass.SubService subService = ItemClass.SubService.None);
 
         ushort GetEvent(ushort buildingId);
+
+        ushort GetRandomBuilding(IEnumerable<ItemClass.Service> services);
+
+        string GetBuildingClassName(ushort buildingId);
     }
 }

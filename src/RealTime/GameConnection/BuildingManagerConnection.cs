@@ -4,7 +4,8 @@
 
 namespace RealTime.GameConnection
 {
-    using RealTime.Tools;
+    using System.Collections.Generic;
+    using System.Linq;
     using UnityEngine;
 
     internal sealed class BuildingManagerConnection : IBuildingManagerConnection
@@ -82,6 +83,47 @@ namespace RealTime.GameConnection
             return buildingId == 0
                 ? (ushort)0
                 : BuildingManager.instance.m_buildings.m_buffer[buildingId].m_eventIndex;
+        }
+
+        public ushort GetRandomBuilding(IEnumerable<ItemClass.Service> services)
+        {
+            // No memory pressure here because this method will not be called on each simulation step
+            var buildings = new List<FastList<ushort>>();
+
+            int totalCount = 0;
+            foreach (FastList<ushort> serviceBuildings in services
+                .Select(s => BuildingManager.instance.GetServiceBuildings(s))
+                .Where(b => b != null))
+            {
+                totalCount += serviceBuildings.m_size;
+                buildings.Add(serviceBuildings);
+            }
+
+            if (totalCount == 0)
+            {
+                return 0;
+            }
+
+            int buildingNumber = SimulationManager.instance.m_randomizer.Int32((uint)totalCount);
+            totalCount = 0;
+            foreach (FastList<ushort> serviceBuildings in buildings)
+            {
+                if (buildingNumber < totalCount + serviceBuildings.m_size)
+                {
+                    return serviceBuildings[buildingNumber - totalCount];
+                }
+
+                totalCount += serviceBuildings.m_size;
+            }
+
+            return 0;
+        }
+
+        public string GetBuildingClassName(ushort buildingId)
+        {
+            return buildingId == 0
+                ? string.Empty
+                : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info.name;
         }
     }
 }
