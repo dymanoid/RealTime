@@ -165,7 +165,7 @@ namespace RealTime.CustomAI
 
         private bool ShouldGoToLunch(Citizen.AgeGroup citizenAge)
         {
-            if (!Config.IsLunchTimeEnabled)
+            if (!Config.IsLunchtimeEnabled)
             {
                 return false;
             }

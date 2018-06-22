@@ -118,6 +118,16 @@ namespace RealTime.Core
             ConfigurationProvider.SaveConfiguration(config);
         }
 
+        private static string GetModPath()
+        {
+            PluginManager.PluginInfo pluginInfo = PluginManager.instance.GetPluginsInfo()
+                .FirstOrDefault(pi => pi.name == typeof(RealTimeMod).Assembly.GetName().Name);
+
+            return pluginInfo == null
+                ? Environment.CurrentDirectory
+                : pluginInfo.modPath;
+        }
+
         private void LocaleManager_UIComponentLocaleChanged()
         {
             if (!SingletonLite<LocaleManager>.exists)
@@ -128,16 +138,6 @@ namespace RealTime.Core
             Log.Info($"The 'Real Time' mod changes the language to '{LocaleManager.instance.language}'.");
             localizationProvider.LoadTranslation(LocaleManager.instance.language);
             configUI?.Translate(localizationProvider);
-        }
-
-        private string GetModPath()
-        {
-            PluginManager.PluginInfo pluginInfo = PluginManager.instance.GetPluginsInfo()
-                .FirstOrDefault(pi => pi.name == typeof(RealTimeMod).Assembly.GetName().Name);
-
-            return pluginInfo == null
-                ? Environment.CurrentDirectory
-                : pluginInfo.modPath;
         }
     }
 }

@@ -54,6 +54,11 @@ namespace RealTime.UI
 
         public override void Translate(LocalizationProvider localizationProvider)
         {
+            if (localizationProvider == null)
+            {
+                throw new ArgumentNullException(nameof(localizationProvider));
+            }
+
             UIComponent panel = UIComponent.parent;
             if (panel == null)
             {
@@ -74,6 +79,11 @@ namespace RealTime.UI
 
         protected override UISlider CreateItem(UIHelperBase uiHelper, float defaultValue)
         {
+            if (uiHelper == null)
+            {
+                throw new ArgumentNullException(nameof(uiHelper));
+            }
+
             return (UISlider)uiHelper.AddSlider(Constants.Placeholder, defaultValue, defaultValue + 1, 1, defaultValue, ValueChanged);
         }
 

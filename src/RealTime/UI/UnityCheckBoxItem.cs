@@ -18,12 +18,22 @@ namespace RealTime.UI
 
         public override void Translate(LocalizationProvider localizationProvider)
         {
+            if (localizationProvider == null)
+            {
+                throw new System.ArgumentNullException(nameof(localizationProvider));
+            }
+
             UIComponent.text = localizationProvider.Translate(UIComponent.name);
             UIComponent.tooltip = localizationProvider.Translate(UIComponent.name + Constants.Tooltip);
         }
 
         protected override UICheckBox CreateItem(UIHelperBase uiHelper, bool defaultValue)
         {
+            if (uiHelper == null)
+            {
+                throw new System.ArgumentNullException(nameof(uiHelper));
+            }
+
             return (UICheckBox)uiHelper.AddCheckbox(Constants.Placeholder, defaultValue, ValueChanged);
         }
     }

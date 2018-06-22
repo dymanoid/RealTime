@@ -16,6 +16,7 @@ namespace RealTime.UI
         private readonly PropertyInfo property;
         private readonly object config;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Justification = "Pure methods invoked")]
         protected UnityViewItem(UIHelperBase uiHelper, string id, PropertyInfo property, object config)
         {
             if (uiHelper == null)
