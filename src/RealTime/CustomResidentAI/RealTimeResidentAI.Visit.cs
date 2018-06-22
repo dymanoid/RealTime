@@ -40,7 +40,7 @@ namespace RealTime.CustomAI
                         return;
                     }
 
-                    if (IsChance(ReturnFromShoppingChance) || IsWorkDayMorning)
+                    if (IsChance(ReturnFromShoppingChance) || IsWorkDayMorning(CitizenProxy.GetAge(ref citizen)))
                     {
                         Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} returning from shopping back home");
                         ReturnFromVisit(instance, citizenId, ref citizen, CitizenProxy.GetHomeBuilding(ref citizen));
@@ -156,7 +156,7 @@ namespace RealTime.CustomAI
 
             if (IsChance(GoShoppingChance))
             {
-                bool localOnly = CitizenProxy.GetWorkBuilding(ref citizen) != 0 && IsWorkDayMorning;
+                bool localOnly = CitizenProxy.GetWorkBuilding(ref citizen) != 0 && IsWorkDayMorning(CitizenProxy.GetAge(ref citizen));
                 ushort localVisitPlace = 0;
 
                 if (IsChance(Config.LocalBuildingSearchQuota))
@@ -169,7 +169,7 @@ namespace RealTime.CustomAI
                 {
                     if (localOnly)
                     {
-                        Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanna go shopping, but didn't found a local shop");
+                        Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanna go shopping, but didn't find a local shop");
                         return false;
                     }
 
@@ -186,7 +186,8 @@ namespace RealTime.CustomAI
         private bool CitizenGoesRelaxing(TAI instance, uint citizenId, ref TCitizen citizen)
         {
             // TODO: add events here
-            if (!ShouldFindEntertainment(CitizenProxy.GetAge(ref citizen)))
+            Citizen.AgeGroup citizenAge = CitizenProxy.GetAge(ref citizen);
+            if (!ShouldFindEntertainment(citizenAge))
             {
                 return false;
             }
@@ -204,7 +205,7 @@ namespace RealTime.CustomAI
                 return leisure != 0;
             }
 
-            if (CitizenProxy.GetWorkBuilding(ref citizen) != 0 && IsWorkDayMorning)
+            if (CitizenProxy.GetWorkBuilding(ref citizen) != 0 && IsWorkDayMorning(citizenAge))
             {
                 return false;
             }
