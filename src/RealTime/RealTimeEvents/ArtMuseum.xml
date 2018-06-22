@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EventContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Events>
+		<Event EventName="ArtExhibit" BuildingName="Modern Art Museum" Capacity="1000" LengthInHours="3">
+			<InitialisedMessages>
+				<Message>Got my tickets to the #art exhibit in {0}! #first #event</Message>
+                <Message>One of my favourite artists is going to be at the #art exhibit in {0}! Can't wait! #event</Message>
+                <Message>Anyone want a spare ticket for the #art exhibit in {0}? I've got a few going. #event</Message>
+                <Message>I think I just got the last ticket for the #art exhibit in {0}. Feeling #lucky! #event</Message>
+			</InitialisedMessages>
+			
+			<BeginMessages>
+				<Message>And the doors have finally opened! Time to see some lovely #art. #event</Message>
+                <Message>Wow, they've certainly packed this place full. I'm never going to get around all of this! #event</Message>
+                <Message>I didn't event realise this city enjoyed #art as much as this! #event</Message>
+			</BeginMessages>
+			
+			<EndMessages>
+			</EndMessages>
+			
+			<ChanceOfAttendingPercentage>
+				<Males>90</Males>
+				<Females>90</Females>
+				
+				<Children>5</Children>
+				<Teens>40</Teens>
+				<YoungAdults>100</YoungAdults>
+				<Adults>100</Adults>
+				<Seniors>40</Seniors>
+				
+				<LowWealth>0</LowWealth>
+				<MediumWealth>70</MediumWealth>
+				<HighWealth>80</HighWealth>
+				
+				<Uneducated>0</Uneducated>
+				<OneSchool>40</OneSchool>
+				<TwoSchools>100</TwoSchools>
+				<ThreeSchools>100</ThreeSchools>
+				
+				<BadHappiness>0</BadHappiness>
+				<PoorHappiness>30</PoorHappiness>
+				<GoodHappiness>80</GoodHappiness>				
+				<ExcellentHappiness>100</ExcellentHappiness>
+				<SuperbHappiness>100</SuperbHappiness>
+				
+				<VeryUnhappyWellbeing>0</VeryUnhappyWellbeing>
+				<UnhappyWellbeing>10</UnhappyWellbeing>
+				<SatisfiedWellbeing>50</SatisfiedWellbeing>
+				<HappyWellbeing>100</HappyWellbeing>
+				<VeryHappyWellbeing>100</VeryHappyWellbeing>
+			</ChanceOfAttendingPercentage>
+		</Event>
+	</Events>
+</EventContainer>

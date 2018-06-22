@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EventContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Events>
+		<Event EventName="AquariumEvent" BuildingName="SeaWorld" UserEventName="Aquarium Show" Capacity="1000" LengthInHours="3" SupportsRandomEvents="true" SupportsUserEvents="true" CanBeWatchedOnTV="false">
+			<InitialisedMessages>
+				<Message>Can't wait to see the fish at the #aquarium in {0}! #event #fishhh</Message>
+                <Message>Wait what? The #aquarium has an event on in {0}? Count me in! #event</Message>
+                <Message>Excited to see the #dolphin whisperer at the Aquarium #event in {0}</Message>
+                <Message>FYI, tickets are almost sold out for the #event at the Aquarium in {0}.</Message>
+			</InitialisedMessages>
+			
+			<BeginMessages>
+				<Message>Yay! The #event is starting at the #aquarium! Time to stop #chirping for a while</Message>
+                <Message>That's a lot of fish! #aquarium #event</Message>
+                <Message>We're going to need a bigger boat... #aquarium #event</Message>
+			</BeginMessages>
+			
+			<EndMessages>
+				<Message>Awwww, the event's over already? I was enjoying myself :( #event</Message>
+                <Message>So long and thanks for all the #fish! #event</Message>
+			</EndMessages>
+			
+			<ChanceOfAttendingPercentage>
+				<Males>80</Males>
+				<Females>80</Females>
+				
+				<Children>100</Children>
+				<Teens>30</Teens>
+				<YoungAdults>20</YoungAdults>
+				<Adults>100</Adults>
+				<Seniors>20</Seniors>
+				
+				<LowWealth>10</LowWealth>
+				<MediumWealth>100</MediumWealth>
+				<HighWealth>70</HighWealth>
+				
+				<Uneducated>5</Uneducated>
+				<OneSchool>80</OneSchool>
+				<TwoSchools>100</TwoSchools>
+				<ThreeSchools>100</ThreeSchools>
+				
+				<BadHappiness>0</BadHappiness>
+				<PoorHappiness>30</PoorHappiness>
+				<GoodHappiness>80</GoodHappiness>				
+				<ExcellentHappiness>100</ExcellentHappiness>
+				<SuperbHappiness>100</SuperbHappiness>
+				
+				<VeryUnhappyWellbeing>0</VeryUnhappyWellbeing>
+				<UnhappyWellbeing>10</UnhappyWellbeing>
+				<SatisfiedWellbeing>50</SatisfiedWellbeing>
+				<HappyWellbeing>100</HappyWellbeing>
+				<VeryHappyWellbeing>100</VeryHappyWellbeing>
+			</ChanceOfAttendingPercentage>
+			
+			<Costs>
+				<Creation>20000</Creation>
+				<PerHead>15</PerHead>
+				<AdvertisingSigns>5000</AdvertisingSigns>
+				<AdvertisingTV>5000</AdvertisingTV>
+				<EntryCost>40</EntryCost>
+			</Costs>
+			
+			<Incentives>
+				<Incentive Name="Food" Cost="12" ReturnCost="15" ActiveWhenRandomEvent="true">
+					<Description>Allows citizens to buy food at the event.</Description>
+					<PositiveEffect>0</PositiveEffect>
+					<NegativeEffect>25</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Free food" Cost="20" ReturnCost="0" ActiveWhenRandomEvent="false">
+					<Description>Gives citizens free food at the event. Costs more to purchase, and there's no return on your investment.</Description>
+					<PositiveEffect>30</PositiveEffect>
+					<NegativeEffect>0</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Swim with the fishes" Cost="80" ReturnCost="120" ActiveWhenRandomEvent="false">
+					<Description>Allows citizens to jump in and visit some of the fish.</Description>
+					<PositiveEffect>10</PositiveEffect>
+					<NegativeEffect>0</NegativeEffect>
+				</Incentive>
+			</Incentives>
+		</Event>
+	</Events>
+</EventContainer>

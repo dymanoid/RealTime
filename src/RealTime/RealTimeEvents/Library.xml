@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EventContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Events>
+		<Event EventName="BookSigning" BuildingName="Library" Capacity="500" LengthInHours="1.2">
+			<InitialisedMessages>
+				<Message>Yes! My favourite author is in town doing book signings in {0}. Count me there. #event</Message>
+                <Message>Ooo, a book signing #event? Shame I've never heard of the author. It's on in {0} if anyone's interested.</Message>
+                <Message>If anyone wants to get their #book signed, the author's in town in {0} for a few hours. #event</Message>
+			</InitialisedMessages>
+			
+			<BeginMessages>
+				<Message>Next in queue to get my book signed! Can't wait. #event</Message>
+                <Message>Just got my book signed! How do I sell things online again? #event</Message>
+			</BeginMessages>
+			
+			<EndMessages>
+				<Message>Well, that was fun while it lasted. #event</Message>
+                <Message>Didn't even manage to get my #book signed. Too many people :( #event</Message>
+			</EndMessages>
+			
+			<ChanceOfAttendingPercentage>
+				<Males>100</Males>
+				<Females>100</Females>
+				
+				<Children>0</Children>
+				<Teens>80</Teens>
+				<YoungAdults>100</YoungAdults>
+				<Adults>60</Adults>
+				<Seniors>1</Seniors>
+				
+				<LowWealth>50</LowWealth>
+				<MediumWealth>100</MediumWealth>
+				<HighWealth>100</HighWealth>
+				
+				<Uneducated>100</Uneducated>
+				<OneSchool>100</OneSchool>
+				<TwoSchools>100</TwoSchools>
+				<ThreeSchools>100</ThreeSchools>
+				
+				<BadHappiness>30</BadHappiness>
+				<PoorHappiness>30</PoorHappiness>
+				<GoodHappiness>80</GoodHappiness>				
+				<ExcellentHappiness>100</ExcellentHappiness>
+				<SuperbHappiness>100</SuperbHappiness>
+				
+				<VeryUnhappyWellbeing>0</VeryUnhappyWellbeing>
+				<UnhappyWellbeing>10</UnhappyWellbeing>
+				<SatisfiedWellbeing>50</SatisfiedWellbeing>
+				<HappyWellbeing>100</HappyWellbeing>
+				<VeryHappyWellbeing>100</VeryHappyWellbeing>
+			</ChanceOfAttendingPercentage>
+		</Event>
+	</Events>
+</EventContainer>

@@ -135,12 +135,22 @@
     <Content Include="Localization\en.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="RealTimeEvents\Aquarium.xml" />
+    <Content Include="RealTimeEvents\ArtMuseum.xml" />
+    <Content Include="RealTimeEvents\ExpoCenter.xml" />
+    <Content Include="RealTimeEvents\Library.xml" />
+    <Content Include="RealTimeEvents\Opera.xml" />
+    <Content Include="RealTimeEvents\PoshMall.xml" />
+    <Content Include="RealTimeEvents\Stadium.xml" />
+    <Content Include="RealTimeEvents\Theater.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if not exist "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)" mkdir "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"
-xcopy /y /q "$(TargetPath)" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"
-xcopy /y /q /i "$(TargetDir)Localization" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)\Localization"</PostBuildEvent>
+xcopy /y /q /d "$(TargetPath)" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"
+xcopy /y /q /i /d "$(TargetDir)Localization" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)\Localization"
+xcopy /y /q /i /d "$(ProjectDir)RealTimeEvents" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)\Events"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets" Condition="Exists('..\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
