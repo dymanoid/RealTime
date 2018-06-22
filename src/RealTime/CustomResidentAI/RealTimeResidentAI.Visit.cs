@@ -225,6 +225,11 @@ namespace RealTime.CustomAI
 
             ushort foundBuilding = BuildingManager.FindActiveBuilding(buildingId, distance, ItemClass.Service.Commercial);
 
+            if (foundBuilding == CitizenProxy.GetWorkBuilding(ref citizen))
+            {
+                return 0;
+            }
+
             if (foundBuilding != 0)
             {
                 residentAI.StartMoving(instance, citizenId, ref citizen, buildingId, foundBuilding);
@@ -243,6 +248,10 @@ namespace RealTime.CustomAI
                 ItemClass.Service.Commercial,
                 ItemClass.SubService.CommercialLeisure);
 
+            if (leisureBuilding == CitizenProxy.GetWorkBuilding(ref citizen))
+            {
+                return 0;
+            }
             if (leisureBuilding != 0)
             {
                 residentAI.StartMoving(instance, citizenId, ref citizen, buildingId, leisureBuilding);
