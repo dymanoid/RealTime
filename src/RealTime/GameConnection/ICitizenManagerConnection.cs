@@ -11,5 +11,7 @@ namespace RealTime.GameConnection
         ushort GetTargetBuilding(ushort instanceId);
 
         CitizenInstance.Flags GetInstanceFlags(ushort instanceId);
+
+        byte GetInstanceWaitCounter(ushort instanceId);
     }
 }

@@ -30,5 +30,12 @@ namespace RealTime.GameConnection
                ? CitizenInstance.Flags.None
                : CitizenManager.instance.m_instances.m_buffer[instanceId].m_flags;
         }
+
+        public byte GetInstanceWaitCounter(ushort instanceId)
+        {
+            return instanceId == 0
+               ? (byte)0
+               : CitizenManager.instance.m_instances.m_buffer[instanceId].m_waitCounter;
+        }
     }
 }

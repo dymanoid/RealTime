@@ -14,6 +14,7 @@ namespace RealTime.CustomAI
         public const float FullSearchDistance = 270f * 64f / 2f;
 
         public const uint AbandonTourChance = 25;
+        public const int AbandonTransportWaitChance = 80;
         public const uint GoShoppingChance = 50;
         public const uint ReturnFromShoppingChance = 25;
         public const uint ReturnFromVisitChance = 40;
