@@ -29,7 +29,6 @@ namespace RealTime.CustomAI
 
             CitizenManager = connections.CitizenManager;
             BuildingManager = connections.BuildingManager;
-            EventManager = connections.EventManager;
             CitizenProxy = connections.CitizenConnection;
             TimeInfo = connections.TimeInfo;
             randomizer = connections.SimulationManager.GetRandomizer();
@@ -46,8 +45,6 @@ namespace RealTime.CustomAI
         protected ICitizenManagerConnection CitizenManager { get; }
 
         protected IBuildingManagerConnection BuildingManager { get; }
-
-        protected IEventManagerConnection EventManager { get; }
 
         protected ITimeInfo TimeInfo { get; }
 

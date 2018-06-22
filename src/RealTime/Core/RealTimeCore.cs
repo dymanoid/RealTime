@@ -56,13 +56,13 @@ namespace RealTime.Core
             customTimeBar.Enable(gameDate);
 
             var timeInfo = new TimeInfo();
+            var buildingManager = new BuildingManagerConnection();
 
             var gameConnections = new GameConnections<Citizen>(
                 timeInfo,
                 new CitizenConnection(),
                 new CitizenManagerConnection(),
-                new BuildingManagerConnection(),
-                new EventManagerConnection(),
+                buildingManager,
                 new SimulationManagerConnection());
 
             SetupCustomAI(timeInfo, config, gameConnections);
