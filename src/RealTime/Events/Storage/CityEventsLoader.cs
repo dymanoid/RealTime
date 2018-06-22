@@ -1,4 +1,4 @@
-﻿// <copyright file="EventsLoader.cs" company="dymanoid">
+﻿// <copyright file="CityEventsLoader.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -11,18 +11,18 @@ namespace RealTime.Events.Storage
     using System.Xml.Serialization;
     using RealTime.Tools;
 
-    internal sealed class EventsLoader : IEventProvider
+    internal sealed class CityEventsLoader : IEventProvider
     {
         private const string EventsFolder = "Events";
         private const string EventFileSearchPattern = "*.xml";
 
-        private readonly List<Event> events = new List<Event>();
+        private readonly List<CityEvent> events = new List<CityEvent>();
 
-        private EventsLoader()
+        private CityEventsLoader()
         {
         }
 
-        public static EventsLoader Istance { get; } = new EventsLoader();
+        public static CityEventsLoader Istance { get; } = new CityEventsLoader();
 
         public void ReloadEvents(string rootPath)
         {
@@ -60,14 +60,14 @@ namespace RealTime.Events.Storage
 
         private void LoadEvents(IEnumerable<string> files)
         {
-            var serializer = new XmlSerializer(typeof(EventContainer));
+            var serializer = new XmlSerializer(typeof(CityEventContainer));
 
             foreach (string file in files)
             {
                 using (var sr = new StreamReader(file))
                 {
-                    var container = (EventContainer)serializer.Deserialize(sr);
-                    foreach (Event @event in container.Events.Where(e => !events.Any(ev => ev.Name == e.Name)))
+                    var container = (CityEventContainer)serializer.Deserialize(sr);
+                    foreach (CityEvent @event in container.Events.Where(e => !events.Any(ev => ev.Name == e.Name)))
                     {
                         events.Add(@event);
                     }

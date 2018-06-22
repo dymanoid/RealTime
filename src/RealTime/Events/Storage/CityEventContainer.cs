@@ -1,4 +1,4 @@
-﻿// <copyright file="EventContainer.cs" company="dymanoid">
+﻿// <copyright file="CityEventContainer.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -8,10 +8,10 @@ namespace RealTime.Events.Storage
     using System.Xml.Serialization;
 
     [XmlRoot("EventContainer", IsNullable = false)]
-    public sealed class EventContainer
+    public sealed class CityEventContainer
     {
         [XmlArray("Events", IsNullable = false)]
         [XmlArrayItem("Event")]
-        public List<Event> Events { get; } = new List<Event>();
+        public List<CityEvent> Events { get; } = new List<CityEvent>();
     }
 }

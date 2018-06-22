@@ -9,10 +9,10 @@ namespace RealTime.Events
 
     internal sealed class RealTimeEvent : RealTimeEventBase
     {
-        private readonly Event eventInfo;
+        private readonly CityEvent eventInfo;
         private int attendeesCount;
 
-        public RealTimeEvent(Event @event)
+        public RealTimeEvent(CityEvent @event)
         {
             eventInfo = @event ?? throw new ArgumentNullException(nameof(@event));
         }

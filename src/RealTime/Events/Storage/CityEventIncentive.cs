@@ -1,4 +1,4 @@
-﻿// <copyright file="Incentive.cs" company="dymanoid">
+﻿// <copyright file="CityEventIncentive.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -6,7 +6,7 @@ namespace RealTime.Events.Storage
 {
     using System.Xml.Serialization;
 
-    public sealed class Incentive
+    public sealed class CityEventIncentive
     {
         [XmlAttribute("Name")]
         public string Name { get; set; } = string.Empty;

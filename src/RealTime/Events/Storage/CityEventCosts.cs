@@ -1,4 +1,4 @@
-﻿// <copyright file="Costs.cs" company="dymanoid">
+﻿// <copyright file="CityEventCosts.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -6,7 +6,7 @@ namespace RealTime.Events.Storage
 {
     using System.Xml.Serialization;
 
-    public class Costs
+    public class CityEventCosts
     {
         [XmlElement("Creation")]
         public float Creation { get; set; } = 100;

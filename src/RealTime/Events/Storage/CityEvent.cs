@@ -1,4 +1,4 @@
-﻿// <copyright file="Event.cs" company="dymanoid">
+﻿// <copyright file="CityEvent.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -7,7 +7,7 @@ namespace RealTime.Events.Storage
     using System.Collections.Generic;
     using System.Xml.Serialization;
 
-    public sealed class Event
+    public sealed class CityEvent
     {
         [XmlAttribute("EventName")]
         public string Name { get; set; } = string.Empty;
@@ -34,13 +34,13 @@ namespace RealTime.Events.Storage
         public bool CanBeWatchedOnTV { get; set; }
 
         [XmlElement("ChanceOfAttendingPercentage", IsNullable = false)]
-        public Attendees Attendees { get; set; } = new Attendees();
+        public CityEventAttendees Attendees { get; set; } = new CityEventAttendees();
 
         [XmlElement("Costs", IsNullable = false)]
-        public Costs Costs { get; set; } = new Costs();
+        public CityEventCosts Costs { get; set; } = new CityEventCosts();
 
         [XmlArray("Incentives", IsNullable = false)]
         [XmlArrayItem("Incentive")]
-        public List<Incentive> Incentives { get; set; } = new List<Incentive>();
+        public List<CityEventIncentive> Incentives { get; set; } = new List<CityEventIncentive>();
     }
 }

@@ -75,7 +75,7 @@ namespace RealTime.Core
 
             var eventManager = new RealTimeEventManager(
                 config,
-                EventsLoader.Istance,
+                CityEventsLoader.Istance,
                 new EventManagerConnection(),
                 buildingManager,
                 timeInfo);
@@ -83,7 +83,7 @@ namespace RealTime.Core
             SetupCustomAI(timeInfo, config, gameConnections, eventManager);
 
             RealTimeEventSimulation.EventManager = eventManager;
-            EventsLoader.Istance.ReloadEvents(rootPath);
+            CityEventsLoader.Istance.ReloadEvents(rootPath);
 
             try
             {
