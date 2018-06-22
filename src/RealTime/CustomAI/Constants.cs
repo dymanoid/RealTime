@@ -21,8 +21,8 @@ namespace RealTime.CustomAI
 
         public const int TouristDoNothingProbability = 5000;
 
-        public const float MaxHoursOnTheWayToWork = 2.5f;
-        public const float MinHoursOnTheWayToWork = 0.5f;
+        public const float MaxHoursOnTheWay = 2.5f;
+        public const float MinHoursOnTheWay = 0.5f;
         public const float OnTheWayDistancePerHour = 500f;
     }
 }

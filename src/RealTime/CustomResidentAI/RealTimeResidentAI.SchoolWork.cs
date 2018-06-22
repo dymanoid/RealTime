@@ -105,11 +105,11 @@ namespace RealTime.CustomAI
             // Performance optimization:
             // If the current hour is far away from the working hours, don't even calculate the overtime and on the way time
             if (overtime
-                && (currentHour < gotoWorkHour - MaxHoursOnTheWayToWork - Config.MaxOvertime || currentHour > leaveWorkHour + Config.MaxOvertime))
+                && (currentHour < gotoWorkHour - MaxHoursOnTheWay - Config.MaxOvertime || currentHour > leaveWorkHour + Config.MaxOvertime))
             {
                 return false;
             }
-            else if (currentHour < gotoWorkHour - MaxHoursOnTheWayToWork || currentHour > leaveWorkHour)
+            else if (currentHour < gotoWorkHour - MaxHoursOnTheWay || currentHour > leaveWorkHour)
             {
                 return false;
             }
@@ -121,7 +121,7 @@ namespace RealTime.CustomAI
             }
 
             float distance = BuildingManager.GetDistanceBetweenBuildings(currentBuilding, workBuilding);
-            float onTheWay = Mathf.Clamp(distance / OnTheWayDistancePerHour, MinHoursOnTheWayToWork, MaxHoursOnTheWayToWork);
+            float onTheWay = Mathf.Clamp(distance / OnTheWayDistancePerHour, MinHoursOnTheWay, MaxHoursOnTheWay);
 
             gotoWorkHour -= onTheWay;
 
@@ -141,11 +141,11 @@ namespace RealTime.CustomAI
             {
                 case Citizen.AgeGroup.Child:
                 case Citizen.AgeGroup.Teen:
-                    return currentHour >= Config.SchoolEnd || currentHour < Config.SchoolBegin - MaxHoursOnTheWayToWork;
+                    return currentHour >= Config.SchoolEnd || currentHour < Config.SchoolBegin - MaxHoursOnTheWay;
 
                 case Citizen.AgeGroup.Young:
                 case Citizen.AgeGroup.Adult:
-                    if (currentHour >= (Config.WorkEnd + Config.MaxOvertime) || currentHour < Config.WorkBegin - MaxHoursOnTheWayToWork)
+                    if (currentHour >= (Config.WorkEnd + Config.MaxOvertime) || currentHour < Config.WorkBegin - MaxHoursOnTheWay)
                     {
                         return true;
                     }
