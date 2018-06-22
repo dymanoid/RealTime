@@ -18,5 +18,9 @@ namespace RealTime.GameConnection
         public float SunsetHour => SimulationManager.SUNSET_HOUR;
 
         public bool IsNightTime => SimulationManager.instance.m_isNightTime;
+
+        public float DayDuration => SunsetHour - SunriseHour;
+
+        public float NightDuration => 24f - DayDuration;
     }
 }
