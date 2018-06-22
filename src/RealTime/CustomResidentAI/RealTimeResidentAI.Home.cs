@@ -29,7 +29,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            if (!residentAI.DoRandomMove(instance))
+            if (!ShouldBeAwakeWhenAtHome(CitizenProxy.GetAge(ref citizen)) || !residentAI.DoRandomMove(instance))
             {
                 return;
             }

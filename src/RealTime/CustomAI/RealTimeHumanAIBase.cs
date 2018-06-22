@@ -39,6 +39,20 @@ namespace RealTime.CustomAI
 
         protected bool IsWorkDay => !Config.IsWeekendEnabled || !TimeInfo.Now.IsWeekend();
 
+        protected bool IsWorkDayMorning
+        {
+            get
+            {
+                if (!IsWorkDay)
+                {
+                    return false;
+                }
+
+                float currentHour = TimeInfo.CurrentHour;
+                return currentHour >= TimeInfo.SunriseHour && currentHour < Math.Min(Config.WorkBegin, Config.SchoolBegin);
+            }
+        }
+
         protected Configuration Config { get; }
 
         protected ICitizenConnection<TCitizen> CitizenProxy { get; }
@@ -62,17 +76,6 @@ namespace RealTime.CustomAI
         {
             float currentHour = TimeInfo.CurrentHour;
             return IsWorkDay && (currentHour >= fromInclusive && currentHour < toExclusive);
-        }
-
-        protected bool IsWorkDayMorning()
-        {
-            if (!IsWorkDay)
-            {
-                return false;
-            }
-
-            float currentHour = TimeInfo.CurrentHour;
-            return currentHour >= TimeInfo.SunriseHour && currentHour < Math.Min(Config.WorkBegin, Config.SchoolBegin);
         }
 
         protected uint GetGoOutChance(Citizen.AgeGroup citizenAge, bool isDayTime)
@@ -125,6 +128,7 @@ namespace RealTime.CustomAI
 
             if (CitizenProxy.IsCollapsed(ref citizen))
             {
+                Log.Debug($"{GetCitizenDesc(citizenId, ref citizen)} is collapsed, doing nothing...");
                 return false;
             }
 

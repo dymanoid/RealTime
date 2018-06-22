@@ -40,7 +40,7 @@ namespace RealTime.CustomAI
                         return;
                     }
 
-                    if (IsChance(ReturnFromShoppingChance) || IsWorkDayMorning())
+                    if (IsChance(ReturnFromShoppingChance) || IsWorkDayMorning)
                     {
                         Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} returning from shopping back home");
                         ReturnFromVisit(instance, citizenId, ref citizen, CitizenProxy.GetHomeBuilding(ref citizen));
@@ -156,7 +156,7 @@ namespace RealTime.CustomAI
 
             if (IsChance(GoShoppingChance))
             {
-                bool localOnly = CitizenProxy.GetWorkBuilding(ref citizen) != 0 && IsWorkDayMorning();
+                bool localOnly = CitizenProxy.GetWorkBuilding(ref citizen) != 0 && IsWorkDayMorning;
                 ushort localVisitPlace = 0;
 
                 if (IsChance(Config.LocalBuildingSearchQuota))
@@ -201,13 +201,16 @@ namespace RealTime.CustomAI
             {
                 ushort leisure = MoveToLeisure(instance, citizenId, ref citizen, buildingId);
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanna relax at night, trying leisure area '{leisure}'");
-            }
-            else
-            {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanna relax, heading to an entertainment place");
-                residentAI.FindVisitPlace(instance, citizenId, buildingId, residentAI.GetEntertainmentReason(instance));
+                return leisure != 0;
             }
 
+            if (CitizenProxy.GetWorkBuilding(ref citizen) != 0 && IsWorkDayMorning)
+            {
+                return false;
+            }
+
+            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanna relax, heading to an entertainment place");
+            residentAI.FindVisitPlace(instance, citizenId, buildingId, residentAI.GetEntertainmentReason(instance));
             return true;
         }
 

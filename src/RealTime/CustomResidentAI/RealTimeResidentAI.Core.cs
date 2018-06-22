@@ -4,12 +4,58 @@
 
 namespace RealTime.CustomAI
 {
+    using RealTime.Tools;
     using UnityEngine;
     using static Constants;
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
         private bool IsLunchHour => IsWorkDayAndBetweenHours(Config.LunchBegin, Config.LunchEnd);
+
+        private bool ShouldBeAwakeWhenAtHome(Citizen.AgeGroup citizenAge)
+        {
+            float offset = IsWeekend ? 2 : 0;
+            switch (citizenAge)
+            {
+                case Citizen.AgeGroup.Child:
+                    return ShouldBeAwake(8 + offset);
+
+                case Citizen.AgeGroup.Teen:
+                case Citizen.AgeGroup.Young:
+                    return ShouldBeAwake(9 + offset);
+
+                case Citizen.AgeGroup.Adult:
+                    return ShouldBeAwake(8 + (offset / 2f));
+
+                case Citizen.AgeGroup.Senior:
+                    return ShouldBeAwake(7);
+
+                default:
+                    return true;
+            }
+
+            bool ShouldBeAwake(float latestHour)
+            {
+                if (TimeInfo.IsNightTime)
+                {
+                    return false;
+                }
+
+                float currentHour = TimeInfo.CurrentHour;
+                if (currentHour >= latestHour)
+                {
+                    return true;
+                }
+
+                float sunriseHour = TimeInfo.SunriseHour;
+                float dx = latestHour - sunriseHour;
+                float x = currentHour - sunriseHour;
+
+                // A cubic probability curve from sunrise (0%) to latestHour (100%)
+                uint chance = (uint)((100f / dx * x) - ((dx - x) * (dx - x) * x));
+                return IsChance(chance);
+            }
+        }
 
         private bool ShouldMoveToSchoolOrWork(ushort workBuilding, ushort currentBuilding, Citizen.AgeGroup citizenAge)
         {
