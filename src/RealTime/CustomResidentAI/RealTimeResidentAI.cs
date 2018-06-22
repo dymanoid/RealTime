@@ -55,9 +55,9 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            ResidentState citizenState = GetCitizenState(ref citizen);
+            ResidentState residentState = GetResidentState(ref citizen);
 
-            switch (citizenState)
+            switch (residentState)
             {
                 case ResidentState.LeftCity:
                     CitizenManager.ReleaseCitizen(citizenId);
@@ -83,7 +83,7 @@ namespace RealTime.CustomAI
                 case ResidentState.Shopping:
                 case ResidentState.AtLeisureArea:
                 case ResidentState.Visiting:
-                    ProcessCitizenVisit(instance, citizenState, citizenId, ref citizen);
+                    ProcessCitizenVisit(instance, residentState, citizenId, ref citizen);
                     break;
 
                 case ResidentState.Evacuating:

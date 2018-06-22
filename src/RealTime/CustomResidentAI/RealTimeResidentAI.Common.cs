@@ -111,7 +111,7 @@ namespace RealTime.CustomAI
             }
         }
 
-        private ResidentState GetCitizenState(ref TCitizen citizen)
+        private ResidentState GetResidentState(ref TCitizen citizen)
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
             if ((BuildingManager.GetBuildingFlags(currentBuilding) & Building.Flags.Evacuating) != 0)
