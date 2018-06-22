@@ -23,5 +23,19 @@ namespace RealTime.Tools
         {
             return dateTime.DayOfWeek == DayOfWeek.Saturday || dateTime.DayOfWeek == DayOfWeek.Sunday;
         }
+
+        public static bool IsWeekendTime(this DateTime dateTime, float fridayStartHour, float sundayEndHour)
+        {
+            switch (dateTime.DayOfWeek)
+            {
+                case DayOfWeek.Friday when dateTime.Hour >= fridayStartHour:
+                case DayOfWeek.Saturday:
+                case DayOfWeek.Sunday when dateTime.Hour < sundayEndHour:
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
     }
 }

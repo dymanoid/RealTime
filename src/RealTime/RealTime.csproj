@@ -94,6 +94,7 @@
     <Compile Include="Simulation\TimeAdjustment.cs" />
     <Compile Include="GameConnection\TimeInfo.cs" />
     <Compile Include="Tools\DateTimeExtensions.cs" />
+    <Compile Include="Tools\LinkedListExtensions.cs" />
     <Compile Include="UI\ConfigItemAttribute.cs" />
     <Compile Include="UI\ConfigItemCheckBoxAttribute.cs" />
     <Compile Include="UI\ConfigItemSliderAttribute.cs" />
