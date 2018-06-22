@@ -1,4 +1,4 @@
-﻿// <copyright file="Configuration.cs" company="dymanoid">
+﻿// <copyright file="RealTimeConfig.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -9,7 +9,7 @@ namespace RealTime.Config
     /// <summary>
     /// The mod's configuration.
     /// </summary>
-    public sealed class Configuration
+    public sealed class RealTimeConfig
     {
         /// <summary>
         /// Gets or sets a value indicating whether the weekends are enabled. Cims don't go to work on weekends.
@@ -23,7 +23,7 @@ namespace RealTime.Config
         /// </summary>
         [ConfigItem("General", 1)]
         [ConfigItemCheckBox]
-        public bool IsLunchTimeEnabled { get; set; } = true;
+        public bool IsLunchtimeEnabled { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the percentage of the Cims that will go out for lunch.

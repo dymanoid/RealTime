@@ -15,7 +15,7 @@ namespace RealTime.CustomAI
     {
         private readonly TouristAIConnection<TAI, TCitizen> touristAI;
 
-        public RealTimeTouristAI(Configuration config, GameConnections<TCitizen> connections, TouristAIConnection<TAI, TCitizen> touristAI)
+        public RealTimeTouristAI(RealTimeConfig config, GameConnections<TCitizen> connections, TouristAIConnection<TAI, TCitizen> touristAI)
             : base(config, connections)
         {
             this.touristAI = touristAI ?? throw new System.ArgumentNullException(nameof(touristAI));

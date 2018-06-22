@@ -42,7 +42,7 @@ namespace RealTime.Core
         ///
         /// <returns>A <see cref="RealTimeCore"/> instance that can be used to stop the mod.</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public static RealTimeCore Run(Configuration config)
+        public static RealTimeCore Run(RealTimeConfig config)
         {
             if (config == null)
             {
@@ -110,7 +110,7 @@ namespace RealTime.Core
             isEnabled = false;
         }
 
-        private static void SetupCustomAI(TimeInfo timeInfo, Configuration config, GameConnections<Citizen> gameConnections)
+        private static void SetupCustomAI(TimeInfo timeInfo, RealTimeConfig config, GameConnections<Citizen> gameConnections)
         {
             var realTimeResidentAI = new RealTimeResidentAI<ResidentAI, Citizen>(
                 config,

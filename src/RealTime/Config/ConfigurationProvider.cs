@@ -13,24 +13,24 @@ namespace RealTime.Config
     {
         private static readonly string SettingsFileName = typeof(ConfigurationProvider).Assembly.GetName().Name + ".xml";
 
-        public static Configuration LoadConfiguration()
+        public static RealTimeConfig LoadConfiguration()
         {
             try
             {
                 if (!File.Exists(SettingsFileName))
                 {
-                    return new Configuration();
+                    return new RealTimeConfig();
                 }
 
                 return Deserialize();
             }
             catch
             {
-                return new Configuration();
+                return new RealTimeConfig();
             }
         }
 
-        public static void SaveConfiguration(Configuration config)
+        public static void SaveConfiguration(RealTimeConfig config)
         {
             try
             {
@@ -42,18 +42,18 @@ namespace RealTime.Config
             }
         }
 
-        private static Configuration Deserialize()
+        private static RealTimeConfig Deserialize()
         {
-            var serializer = new XmlSerializer(typeof(Configuration));
+            var serializer = new XmlSerializer(typeof(RealTimeConfig));
             using (var sr = new StreamReader(SettingsFileName))
             {
-                return (Configuration)serializer.Deserialize(sr);
+                return (RealTimeConfig)serializer.Deserialize(sr);
             }
         }
 
-        private static void Serialize(Configuration config)
+        private static void Serialize(RealTimeConfig config)
         {
-            var serializer = new XmlSerializer(typeof(Configuration));
+            var serializer = new XmlSerializer(typeof(RealTimeConfig));
             using (var sw = new StreamWriter(SettingsFileName))
             {
                 serializer.Serialize(sw, config);

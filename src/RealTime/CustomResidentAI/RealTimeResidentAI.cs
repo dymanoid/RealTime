@@ -20,10 +20,10 @@ namespace RealTime.CustomAI
         ///
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
         ///
-        /// <param name="config">A <see cref="Configuration"/> instance containing the mod's configuration.</param>
+        /// <param name="config">A <see cref="RealTimeConfig"/> instance containing the mod's configuration.</param>
         /// <param name="connections">A <see cref="GameConnections{T}"/> instance that provides the game connection implementation.</param>
         /// <param name="residentAI">A connection to the game's resident AI.</param>
-        public RealTimeResidentAI(Configuration config, GameConnections<TCitizen> connections, ResidentAIConnection<TAI, TCitizen> residentAI)
+        public RealTimeResidentAI(RealTimeConfig config, GameConnections<TCitizen> connections, ResidentAIConnection<TAI, TCitizen> residentAI)
             : base(config, connections)
         {
             this.residentAI = residentAI ?? throw new ArgumentNullException(nameof(residentAI));

@@ -23,7 +23,7 @@ namespace RealTime.Core
     {
         private readonly string modVersion = GitVersion.GetAssemblyVersion(typeof(RealTimeMod).Assembly);
 
-        private Configuration config;
+        private RealTimeConfig config;
         private RealTimeCore core;
         private ConfigUI configUI;
         private LocalizationProvider localizationProvider;

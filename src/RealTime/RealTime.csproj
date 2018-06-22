@@ -80,7 +80,7 @@
     <Compile Include="GameConnection\ICitizenManagerConnection.cs" />
     <Compile Include="GameConnection\IEventManagerConnection.cs" />
     <Compile Include="GameConnection\ResidentAIConnection.cs" />
-    <Compile Include="Config\Configuration.cs" />
+    <Compile Include="Config\RealTimeConfig.cs" />
     <Compile Include="Core\RealTimeCore.cs" />
     <Compile Include="GameConnection\SimulationManagerConnection.cs" />
     <Compile Include="GameConnection\ToolManagerConnection.cs" />

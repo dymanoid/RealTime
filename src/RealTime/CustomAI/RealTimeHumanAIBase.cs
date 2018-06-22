@@ -18,7 +18,7 @@ namespace RealTime.CustomAI
     {
         private Randomizer randomizer;
 
-        protected RealTimeHumanAIBase(Configuration config, GameConnections<TCitizen> connections)
+        protected RealTimeHumanAIBase(RealTimeConfig config, GameConnections<TCitizen> connections)
         {
             Config = config ?? throw new ArgumentNullException(nameof(config));
 
@@ -39,7 +39,7 @@ namespace RealTime.CustomAI
 
         protected bool IsWorkDay => !Config.IsWeekendEnabled || !TimeInfo.Now.IsWeekend();
 
-        protected Configuration Config { get; }
+        protected RealTimeConfig Config { get; }
 
         protected ICitizenConnection<TCitizen> CitizenProxy { get; }
 
