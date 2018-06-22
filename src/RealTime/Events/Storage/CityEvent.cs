@@ -39,6 +39,8 @@ namespace RealTime.Events.Storage
         [XmlElement("Costs", IsNullable = false)]
         public CityEventCosts Costs { get; set; } = new CityEventCosts();
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "XML serialization")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "XML serialization")]
         [XmlArray("Incentives", IsNullable = false)]
         [XmlArrayItem("Incentive")]
         public List<CityEventIncentive> Incentives { get; set; } = new List<CityEventIncentive>();
