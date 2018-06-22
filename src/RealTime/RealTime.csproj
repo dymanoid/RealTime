@@ -57,7 +57,6 @@
     <Compile Include="CustomAI\Constants.cs" />
     <Compile Include="CustomAI\RealTimeHumanAIBase.cs" />
     <Compile Include="CustomResidentAI\ResidentState.cs" />
-    <Compile Include="CustomResidentAI\RealTimeResidentAI.Core.cs" />
     <Compile Include="CustomBuildingAI\RealTimePrivateBuildingAI.cs" />
     <Compile Include="CustomResidentAI\RealTimeResidentAI.Common.cs" />
     <Compile Include="CustomResidentAI\RealTimeResidentAI.cs" />

@@ -60,28 +60,6 @@ namespace RealTime.CustomAI
             }
         }
 
-        private bool CitizenReturnsFromLunch(TAI instance, uint citizenId, ref TCitizen citizen)
-        {
-            if (IsLunchHour)
-            {
-                return false;
-            }
-
-            ushort workBuilding = CitizenProxy.GetWorkBuilding(ref citizen);
-            if (workBuilding != 0)
-            {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} returning from lunch to {workBuilding}");
-                ReturnFromVisit(instance, citizenId, ref citizen, workBuilding);
-            }
-            else
-            {
-                Log.Debug($"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is at lunch but no work building. Teleporting home.");
-                CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
-            }
-
-            return true;
-        }
-
         private bool CitizenReturnsHomeFromVisit(TAI instance, uint citizenId, ref TCitizen citizen)
         {
             ushort homeBuilding = CitizenProxy.GetHomeBuilding(ref citizen);
