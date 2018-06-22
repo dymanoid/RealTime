@@ -22,6 +22,7 @@ namespace RealTime.Core
     public sealed class RealTimeMod : LoadingExtensionBase, IUserMod
     {
         private readonly string modVersion = GitVersion.GetAssemblyVersion(typeof(RealTimeMod).Assembly);
+        private readonly string modPath = GetModPath();
 
         private RealTimeConfig config;
         private RealTimeCore core;
@@ -45,7 +46,7 @@ namespace RealTime.Core
         {
             Log.Info("The 'Real Time' mod has been enabled, version: " + modVersion);
             config = ConfigurationProvider.LoadConfiguration();
-            localizationProvider = new LocalizationProvider(GetModPath());
+            localizationProvider = new LocalizationProvider(modPath);
             LocaleManager.eventUIComponentLocaleChanged += LocaleManager_UIComponentLocaleChanged;
         }
 
@@ -99,7 +100,7 @@ namespace RealTime.Core
                     return;
             }
 
-            core = RealTimeCore.Run(config);
+            core = RealTimeCore.Run(config, modPath);
         }
 
         /// <summary>

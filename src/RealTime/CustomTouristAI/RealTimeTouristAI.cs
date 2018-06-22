@@ -4,7 +4,9 @@
 
 namespace RealTime.CustomAI
 {
+    using System;
     using RealTime.Config;
+    using RealTime.Events;
     using RealTime.GameConnection;
     using RealTime.Tools;
     using static Constants;
@@ -15,8 +17,12 @@ namespace RealTime.CustomAI
     {
         private readonly TouristAIConnection<TAI, TCitizen> touristAI;
 
-        public RealTimeTouristAI(RealTimeConfig config, GameConnections<TCitizen> connections, TouristAIConnection<TAI, TCitizen> touristAI)
-            : base(config, connections)
+        public RealTimeTouristAI(
+            RealTimeConfig config,
+            GameConnections<TCitizen> connections,
+            TouristAIConnection<TAI, TCitizen> touristAI,
+            RealTimeEventManager eventManager)
+            : base(config, connections, eventManager)
         {
             this.touristAI = touristAI ?? throw new System.ArgumentNullException(nameof(touristAI));
         }
@@ -103,24 +109,28 @@ namespace RealTime.CustomAI
                     return;
             }
 
-            // TODO: add events here
-            bool doShopping;
-            ushort eventIndex = BuildingManager.GetEvent(visitBuilding);
-            if (eventIndex != 0)
+            if (IsChance(TouristEventChance) && AttendUpcomingEvent(citizenId, ref citizen, out ushort eventBuilding))
             {
-                EventData.Flags eventFlags = EventData.Flags.Preparing | EventData.Flags.Active | EventData.Flags.Ready;
-                doShopping = (EventManager.GetEventFlags(eventIndex) & eventFlags) == 0
-                    ? !FindRandomVisitPlace(instance, citizenId, ref citizen, 0, visitBuilding)
-                    : IsChance(TouristShoppingChance);
-
-                if (!doShopping)
-                {
-                    return;
-                }
+                StartMovingToVisitBuilding(instance, citizenId, ref citizen, CitizenProxy.GetCurrentBuilding(ref citizen), eventBuilding);
+                touristAI.AddTouristVisit(instance, citizenId, eventBuilding);
+                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} attending an event at {eventBuilding}");
+                return;
             }
-            else
+
+            bool doShopping;
+            switch (EventManager.GetEventState(visitBuilding, DateTime.MaxValue))
             {
-                doShopping = false;
+                case EventState.OnGoing:
+                    doShopping = IsChance(TouristShoppingChance);
+                    break;
+
+                case EventState.Finished:
+                    doShopping = !FindRandomVisitPlace(instance, citizenId, ref citizen, 0, visitBuilding);
+                    break;
+
+                default:
+                    doShopping = false;
+                    break;
             }
 
             if (doShopping || !FindRandomVisitPlace(instance, citizenId, ref citizen, TouristDoNothingProbability, visitBuilding))
@@ -190,11 +200,17 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            touristAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, hotel);
-            CitizenProxy.SetVisitPlace(ref citizen, citizenId, hotel);
-            CitizenProxy.SetVisitBuilding(ref citizen, hotel);
+            StartMovingToVisitBuilding(instance, citizenId, ref citizen, currentBuilding, hotel);
+
             touristAI.AddTouristVisit(instance, citizenId, hotel);
             Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} stays in a hotel {hotel}");
+        }
+
+        private void StartMovingToVisitBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort currentBuilding, ushort visitBuilding)
+        {
+            touristAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding);
+            CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
+            CitizenProxy.SetVisitBuilding(ref citizen, visitBuilding);
         }
     }
 }

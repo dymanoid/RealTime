@@ -47,6 +47,11 @@ namespace RealTime.CustomAI
 
             Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} leaves their workplace {workBuilding}");
 
+            if (CitizenGoesToEvent(instance, citizenId, ref citizen))
+            {
+                return;
+            }
+
             if (!CitizenGoesShopping(instance, citizenId, ref citizen) && !CitizenGoesRelaxing(instance, citizenId, ref citizen))
             {
                 residentAI.StartMoving(instance, citizenId, ref citizen, workBuilding, CitizenProxy.GetHomeBuilding(ref citizen));

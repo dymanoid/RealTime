@@ -111,6 +111,22 @@ namespace RealTime.CustomAI
             }
         }
 
+        private bool StartMovingToVisitBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort visitBuilding)
+        {
+            if (visitBuilding == 0)
+            {
+                return false;
+            }
+
+            ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
+
+            residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding);
+            CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
+            CitizenProxy.SetVisitBuilding(ref citizen, visitBuilding);
+
+            return true;
+        }
+
         private ResidentState GetResidentState(ref TCitizen citizen)
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);

@@ -8,6 +8,8 @@ namespace RealTime.Core
     using System.Security.Permissions;
     using RealTime.Config;
     using RealTime.CustomAI;
+    using RealTime.Events;
+    using RealTime.Events.Storage;
     using RealTime.GameConnection;
     using RealTime.Simulation;
     using RealTime.Tools;
@@ -39,14 +41,20 @@ namespace RealTime.Core
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="config"/> is null.</exception>
         ///
         /// <param name="config">The configuration to run with.</param>
+        /// <param name="rootPath">The path to the mod's assembly. Additinal files are stored here too.</param>
         ///
         /// <returns>A <see cref="RealTimeCore"/> instance that can be used to stop the mod.</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public static RealTimeCore Run(RealTimeConfig config)
+        public static RealTimeCore Run(RealTimeConfig config, string rootPath)
         {
             if (config == null)
             {
                 throw new ArgumentNullException(nameof(config));
+            }
+
+            if (string.IsNullOrEmpty(rootPath))
+            {
+                throw new ArgumentException("The root path cannot be null or empty string", nameof(rootPath));
             }
 
             var timeAdjustment = new TimeAdjustment();
@@ -65,7 +73,17 @@ namespace RealTime.Core
                 buildingManager,
                 new SimulationManagerConnection());
 
-            SetupCustomAI(timeInfo, config, gameConnections);
+            var eventManager = new RealTimeEventManager(
+                config,
+                EventsLoader.Istance,
+                new EventManagerConnection(),
+                buildingManager,
+                timeInfo);
+
+            SetupCustomAI(timeInfo, config, gameConnections, eventManager);
+
+            RealTimeEventSimulation.EventManager = eventManager;
+            EventsLoader.Istance.ReloadEvents(rootPath);
 
             try
             {
@@ -110,19 +128,25 @@ namespace RealTime.Core
             isEnabled = false;
         }
 
-        private static void SetupCustomAI(TimeInfo timeInfo, RealTimeConfig config, GameConnections<Citizen> gameConnections)
+        private static void SetupCustomAI(
+            TimeInfo timeInfo,
+            RealTimeConfig config,
+            GameConnections<Citizen> gameConnections,
+            RealTimeEventManager eventManager)
         {
             var realTimeResidentAI = new RealTimeResidentAI<ResidentAI, Citizen>(
                 config,
                 gameConnections,
-                ResidentAIHook.GetResidentAIConnection());
+                ResidentAIHook.GetResidentAIConnection(),
+                eventManager);
 
             ResidentAIHook.RealTimeAI = realTimeResidentAI;
 
             var realTimeTouristAI = new RealTimeTouristAI<TouristAI, Citizen>(
                 config,
                 gameConnections,
-                TouristAIHook.GetTouristAIConnection());
+                TouristAIHook.GetTouristAIConnection(),
+                eventManager);
 
             TouristAIHook.RealTimeAI = realTimeTouristAI;
 

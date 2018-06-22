@@ -7,10 +7,10 @@ namespace RealTime.CustomAI
     using System;
     using ColossalFramework.Math;
     using RealTime.Config;
+    using RealTime.Events;
     using RealTime.GameConnection;
     using RealTime.Simulation;
     using RealTime.Tools;
-    using UnityEngine;
     using static Constants;
 
     internal abstract class RealTimeHumanAIBase<TCitizen>
@@ -18,10 +18,10 @@ namespace RealTime.CustomAI
     {
         private Randomizer randomizer;
 
-        protected RealTimeHumanAIBase(RealTimeConfig config, GameConnections<TCitizen> connections)
+        protected RealTimeHumanAIBase(RealTimeConfig config, GameConnections<TCitizen> connections, RealTimeEventManager eventManager)
         {
             Config = config ?? throw new ArgumentNullException(nameof(config));
-
+            EventManager = eventManager ?? throw new ArgumentNullException(nameof(eventManager));
             if (connections == null)
             {
                 throw new ArgumentNullException(nameof(connections));
@@ -39,6 +39,8 @@ namespace RealTime.CustomAI
         protected bool IsWorkDay => !Config.IsWeekendEnabled || !TimeInfo.Now.IsWeekend();
 
         protected RealTimeConfig Config { get; }
+
+        protected RealTimeEventManager EventManager { get; }
 
         protected ICitizenConnection<TCitizen> CitizenProxy { get; }
 
@@ -96,18 +98,9 @@ namespace RealTime.CustomAI
             uint weekdayModifier;
             if (Config.IsWeekendEnabled)
             {
-                switch (TimeInfo.Now.DayOfWeek)
-                {
-                    case DayOfWeek.Friday when currentHour >= GetSpareTimeBeginHour(citizenAge):
-                    case DayOfWeek.Saturday:
-                    case DayOfWeek.Sunday when currentHour < TimeInfo.SunsetHour:
-                        weekdayModifier = 11u;
-                        break;
-
-                    default:
-                        weekdayModifier = 1u;
-                        break;
-                }
+                weekdayModifier = TimeInfo.Now.IsWeekendTime(GetSpareTimeBeginHour(citizenAge), TimeInfo.SunsetHour)
+                    ? 11u
+                    : 1u;
             }
             else
             {
@@ -184,6 +177,22 @@ namespace RealTime.CustomAI
             }
 
             return true;
+        }
+
+        protected bool AttendUpcomingEvent(uint citizenId, ref TCitizen citizen, out ushort eventBuildingId)
+        {
+            eventBuildingId = default;
+
+            ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
+            if (EventManager.GetEventState(currentBuilding, DateTime.MaxValue) == EventState.OnGoing)
+            {
+                return false;
+            }
+
+            DateTime earliestStart = TimeInfo.Now.AddHours(MinHoursOnTheWay);
+            DateTime latestStart = TimeInfo.Now.AddHours(MaxHoursOnTheWay);
+
+            return EventManager.TryAttendEvent(earliestStart, latestStart, out eventBuildingId);
         }
 
         protected string GetCitizenDesc(uint citizenId, ref TCitizen citizen)

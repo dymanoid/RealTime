@@ -18,6 +18,7 @@ namespace RealTime.CustomAI
         public const uint ReturnFromVisitChance = 40;
         public const uint FindHotelChance = 80;
         public const uint TouristShoppingChance = 50;
+        public const uint TouristEventChance = 70;
 
         public const int TouristDoNothingProbability = 5000;
 

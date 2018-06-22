@@ -6,6 +6,7 @@ namespace RealTime.CustomAI
 {
     using System;
     using RealTime.Config;
+    using RealTime.Events;
     using RealTime.GameConnection;
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen> : RealTimeHumanAIBase<TCitizen>
@@ -23,8 +24,13 @@ namespace RealTime.CustomAI
         /// <param name="config">A <see cref="RealTimeConfig"/> instance containing the mod's configuration.</param>
         /// <param name="connections">A <see cref="GameConnections{T}"/> instance that provides the game connection implementation.</param>
         /// <param name="residentAI">A connection to the game's resident AI.</param>
-        public RealTimeResidentAI(RealTimeConfig config, GameConnections<TCitizen> connections, ResidentAIConnection<TAI, TCitizen> residentAI)
-            : base(config, connections)
+        /// <param name="eventManager">A <see cref="RealTimeEventManager"/> instance.</param>
+        public RealTimeResidentAI(
+            RealTimeConfig config,
+            GameConnections<TCitizen> connections,
+            ResidentAIConnection<TAI, TCitizen> residentAI,
+            RealTimeEventManager eventManager)
+            : base(config, connections, eventManager)
         {
             this.residentAI = residentAI ?? throw new ArgumentNullException(nameof(residentAI));
         }

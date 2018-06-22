@@ -4,6 +4,7 @@
 
 namespace RealTime.CustomAI
 {
+    using System;
     using RealTime.Tools;
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
@@ -34,10 +35,12 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            if (!CitizenGoesShopping(instance, citizenId, ref citizen))
+            if (CitizenGoesShopping(instance, citizenId, ref citizen) || CitizenGoesToEvent(instance, citizenId, ref citizen))
             {
-                CitizenGoesRelaxing(instance, citizenId, ref citizen);
+                return;
             }
+
+            CitizenGoesRelaxing(instance, citizenId, ref citizen);
         }
 
         private bool IsBusyAtHomeInTheMorning(Citizen.AgeGroup citizenAge)

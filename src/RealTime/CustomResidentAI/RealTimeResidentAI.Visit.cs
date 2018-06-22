@@ -4,6 +4,8 @@
 
 namespace RealTime.CustomAI
 {
+    using System;
+    using RealTime.Events;
     using RealTime.Tools;
     using static Constants;
 
@@ -35,7 +37,13 @@ namespace RealTime.CustomAI
                     return;
 
                 case ResidentState.Shopping:
-                    if (CitizenGoesWorking(instance, citizenId, ref citizen))
+                    if ((CitizenProxy.GetFlags(ref citizen) & Citizen.Flags.NeedGoods) != 0)
+                    {
+                        BuildingManager.ModifyMaterialBuffer(CitizenProxy.GetVisitBuilding(ref citizen), TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
+                        CitizenProxy.RemoveFlags(ref citizen, Citizen.Flags.NeedGoods);
+                    }
+
+                    if (CitizenGoesWorking(instance, citizenId, ref citizen) || CitizenGoesToEvent(instance, citizenId, ref citizen))
                     {
                         return;
                     }
@@ -44,19 +52,9 @@ namespace RealTime.CustomAI
                     {
                         Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} returning from shopping back home");
                         ReturnFromVisit(instance, citizenId, ref citizen, CitizenProxy.GetHomeBuilding(ref citizen));
-                        return;
                     }
 
-                    break;
-
-                default:
                     return;
-            }
-
-            if ((CitizenProxy.GetFlags(ref citizen) & Citizen.Flags.NeedGoods) != 0)
-            {
-                BuildingManager.ModifyMaterialBuffer(CitizenProxy.GetVisitBuilding(ref citizen), TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
-                CitizenProxy.RemoveFlags(ref citizen, Citizen.Flags.NeedGoods);
             }
         }
 
@@ -81,16 +79,16 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            ushort eventId = BuildingManager.GetEvent(visitBuilding);
-            if (eventId != 0)
+            switch (EventManager.GetEventState(visitBuilding, TimeInfo.Now.AddHours(MaxHoursOnTheWay)))
             {
-                if ((EventManager.GetEventFlags(eventId) & (EventData.Flags.Preparing | EventData.Flags.Active | EventData.Flags.Ready)) == 0)
-                {
-                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} returning from an event {eventId} at {visitBuilding} back home to {homeBuilding}");
-                    ReturnFromVisit(instance, citizenId, ref citizen, homeBuilding);
-                }
+                case EventState.Upcoming:
+                case EventState.OnGoing:
+                    return false;
 
-                return true;
+                case EventState.Finished:
+                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} returning from an event at {visitBuilding} back home to {homeBuilding}");
+                    ReturnFromVisit(instance, citizenId, ref citizen, homeBuilding);
+                    return true;
             }
 
             if (IsChance(ReturnFromVisitChance))
@@ -161,9 +159,24 @@ namespace RealTime.CustomAI
             return false;
         }
 
+        private bool CitizenGoesToEvent(TAI instance, uint citizenId, ref TCitizen citizen)
+        {
+            if (!IsChance(GetGoOutChance(CitizenProxy.GetAge(ref citizen))))
+            {
+                return false;
+            }
+
+            if (!AttendUpcomingEvent(citizenId, ref citizen, out ushort buildingId))
+            {
+                return false;
+            }
+
+            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanna attend an event at '{buildingId}', on the way now.");
+            return StartMovingToVisitBuilding(instance, citizenId, ref citizen, buildingId);
+        }
+
         private bool CitizenGoesRelaxing(TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            // TODO: add events here
             Citizen.AgeGroup citizenAge = CitizenProxy.GetAge(ref citizen);
             if (!IsChance(GetGoOutChance(citizenAge)))
             {
@@ -202,19 +215,12 @@ namespace RealTime.CustomAI
             }
 
             ushort foundBuilding = BuildingManager.FindActiveBuilding(buildingId, distance, ItemClass.Service.Commercial);
-
             if (foundBuilding == CitizenProxy.GetWorkBuilding(ref citizen))
             {
                 return 0;
             }
 
-            if (foundBuilding != 0)
-            {
-                residentAI.StartMoving(instance, citizenId, ref citizen, buildingId, foundBuilding);
-                CitizenProxy.SetVisitPlace(ref citizen, citizenId, foundBuilding);
-                CitizenProxy.SetVisitBuilding(ref citizen, foundBuilding);
-            }
-
+            StartMovingToVisitBuilding(instance, citizenId, ref citizen, foundBuilding);
             return foundBuilding;
         }
 
@@ -231,13 +237,7 @@ namespace RealTime.CustomAI
                 return 0;
             }
 
-            if (leisureBuilding != 0)
-            {
-                residentAI.StartMoving(instance, citizenId, ref citizen, buildingId, leisureBuilding);
-                CitizenProxy.SetVisitPlace(ref citizen, citizenId, leisureBuilding);
-                CitizenProxy.SetVisitBuilding(ref citizen, leisureBuilding);
-            }
-
+            StartMovingToVisitBuilding(instance, citizenId, ref citizen, leisureBuilding);
             return leisureBuilding;
         }
     }
