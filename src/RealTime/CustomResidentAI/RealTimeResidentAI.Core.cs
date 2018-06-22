@@ -12,39 +12,34 @@ namespace RealTime.CustomAI
     {
         private bool IsLunchHour => IsWorkDayAndBetweenHours(Config.LunchBegin, Config.LunchEnd);
 
-        private bool ShouldBeAwakeWhenAtHome(Citizen.AgeGroup citizenAge)
+        private bool IsBusyAtHomeInTheMorning(Citizen.AgeGroup citizenAge)
         {
             float offset = IsWeekend ? 2 : 0;
             switch (citizenAge)
             {
                 case Citizen.AgeGroup.Child:
-                    return ShouldBeAwake(8 + offset);
+                    return IsBusyAtHomeInTheMorning(8 + offset);
 
                 case Citizen.AgeGroup.Teen:
                 case Citizen.AgeGroup.Young:
-                    return ShouldBeAwake(9 + offset);
+                    return IsBusyAtHomeInTheMorning(9 + offset);
 
                 case Citizen.AgeGroup.Adult:
-                    return ShouldBeAwake(8 + (offset / 2f));
+                    return IsBusyAtHomeInTheMorning(8 + (offset / 2f));
 
                 case Citizen.AgeGroup.Senior:
-                    return ShouldBeAwake(7);
+                    return IsBusyAtHomeInTheMorning(7);
 
                 default:
                     return true;
             }
 
-            bool ShouldBeAwake(float latestHour)
+            bool IsBusyAtHomeInTheMorning(float latestHour)
             {
-                if (TimeInfo.IsNightTime)
+                float currentHour = TimeInfo.CurrentHour;
+                if (currentHour >= latestHour || currentHour < TimeInfo.SunriseHour)
                 {
                     return false;
-                }
-
-                float currentHour = TimeInfo.CurrentHour;
-                if (currentHour >= latestHour)
-                {
-                    return true;
                 }
 
                 float sunriseHour = TimeInfo.SunriseHour;
@@ -53,7 +48,7 @@ namespace RealTime.CustomAI
 
                 // A cubic probability curve from sunrise (0%) to latestHour (100%)
                 uint chance = (uint)((100f / dx * x) - ((dx - x) * (dx - x) * x));
-                return IsChance(chance);
+                return !IsChance(chance);
             }
         }
 
@@ -172,38 +167,6 @@ namespace RealTime.CustomAI
             }
 
             return false;
-        }
-
-        private bool ShouldFindEntertainment(Citizen.AgeGroup citizenAge)
-        {
-            float dayHourStart;
-            float dayHourEnd;
-
-            switch (citizenAge)
-            {
-                case Citizen.AgeGroup.Child:
-                    dayHourStart = WakeUpHour;
-                    dayHourEnd = TimeInfo.SunsetHour - 1f;
-                    break;
-
-                case Citizen.AgeGroup.Teen:
-                    dayHourStart = WakeUpHour;
-                    dayHourEnd = LatestTeenEntertainmentHour;
-                    break;
-
-                case Citizen.AgeGroup.Senior:
-                    dayHourStart = WakeUpHour;
-                    dayHourEnd = TimeInfo.SunsetHour;
-                    break;
-
-                default:
-                    dayHourStart = WakeUpHour;
-                    dayHourEnd = LatestAdultEntertainmentHour;
-                    break;
-            }
-
-            float currentHour = TimeInfo.CurrentHour;
-            return IsChance(GetGoOutChance(citizenAge, currentHour > dayHourStart && currentHour < dayHourEnd));
         }
     }
 }

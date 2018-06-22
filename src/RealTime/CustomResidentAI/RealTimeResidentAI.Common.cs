@@ -149,7 +149,7 @@ namespace RealTime.CustomAI
                     {
                         case ItemClass.Service.Commercial:
                             if (CitizenProxy.GetWorkBuilding(ref citizen) != 0 && IsWorkDay
-                                && TimeInfo.CurrentHour > Config.LunchBegin && !ShouldReturnFromSchoolOrWork(CitizenProxy.GetAge(ref citizen)))
+                                && TimeInfo.CurrentHour > Config.LunchBegin && TimeInfo.CurrentHour < GetSpareTimeBeginHour(CitizenProxy.GetAge(ref citizen)))
                             {
                                 return ResidentState.AtLunch;
                             }

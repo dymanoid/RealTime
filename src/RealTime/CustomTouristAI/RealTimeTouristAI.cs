@@ -145,7 +145,7 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            if (!IsChance(GetGoOutChance(CitizenProxy.GetAge(ref citizen), !TimeInfo.IsNightTime)))
+            if (!IsChance(GetGoOutChance(CitizenProxy.GetAge(ref citizen))))
             {
                 FindHotel(instance, citizenId, ref citizen);
                 return true;

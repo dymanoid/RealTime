@@ -92,36 +92,76 @@ namespace RealTime.CustomAI
             return currentHour >= TimeInfo.SunriseHour && currentHour <= workBeginHour;
         }
 
-        protected uint GetGoOutChance(Citizen.AgeGroup citizenAge, bool isDayTime)
+        protected uint GetGoOutChance(Citizen.AgeGroup citizenAge)
         {
             float currentHour = TimeInfo.CurrentHour;
-            uint multiplier;
 
-            if ((IsWeekend && TimeInfo.Now.IsWeekendAfter(AssumedGoOutDuration)) || TimeInfo.Now.DayOfWeek == DayOfWeek.Friday)
+            uint weekdayModifier;
+            if (Config.IsWeekendEnabled)
             {
-                multiplier = isDayTime
-                    ? 5u
-                    : (uint)Mathf.Clamp(Mathf.Abs(TimeInfo.SunriseHour - currentHour), 0f, 5f);
+                switch (TimeInfo.Now.DayOfWeek)
+                {
+                    case DayOfWeek.Friday when currentHour >= GetSpareTimeBeginHour(citizenAge):
+                    case DayOfWeek.Saturday:
+                    case DayOfWeek.Sunday when currentHour < TimeInfo.SunsetHour:
+                        weekdayModifier = 11u;
+                        break;
+
+                    default:
+                        weekdayModifier = 1u;
+                        break;
+                }
             }
             else
             {
-                multiplier = 1u;
+                weekdayModifier = 1u;
+            }
+
+            bool isDayTime = !TimeInfo.IsNightTime;
+            float timeModifier;
+            if (isDayTime)
+            {
+                timeModifier = 5f;
+            }
+            else
+            {
+                float nightDuration = TimeInfo.NightDuration;
+                float relativeHour = currentHour - TimeInfo.SunsetHour;
+                if (relativeHour < 0)
+                {
+                    relativeHour += 24f;
+                }
+
+                timeModifier = 5f / nightDuration * (nightDuration - relativeHour);
             }
 
             switch (citizenAge)
             {
                 case Citizen.AgeGroup.Child when isDayTime:
-                    return 60 + (4 * multiplier);
-
                 case Citizen.AgeGroup.Teen when isDayTime:
                 case Citizen.AgeGroup.Young:
-                    return 50 + (8 * multiplier);
-
                 case Citizen.AgeGroup.Adult:
-                    return 30 + (6 * multiplier);
+                    return (uint)((timeModifier + weekdayModifier) * timeModifier);
 
                 case Citizen.AgeGroup.Senior when isDayTime:
-                    return 90;
+                    return 80 + weekdayModifier;
+
+                default:
+                    return 0;
+            }
+        }
+
+        protected float GetSpareTimeBeginHour(Citizen.AgeGroup citiztenAge)
+        {
+            switch (citiztenAge)
+            {
+                case Citizen.AgeGroup.Child:
+                case Citizen.AgeGroup.Teen:
+                    return Config.SchoolEnd;
+
+                case Citizen.AgeGroup.Young:
+                case Citizen.AgeGroup.Adult:
+                    return Config.WorkEnd;
 
                 default:
                     return 0;

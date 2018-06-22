@@ -144,7 +144,7 @@ namespace RealTime.CustomAI
 
             if (TimeInfo.IsNightTime)
             {
-                if (IsChance(GetGoOutChance(CitizenProxy.GetAge(ref citizen), false)))
+                if (IsChance(GetGoOutChance(CitizenProxy.GetAge(ref citizen))))
                 {
                     ushort localVisitPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance);
                     Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanna go shopping at night, trying local shop '{localVisitPlace}'");
@@ -187,7 +187,7 @@ namespace RealTime.CustomAI
         {
             // TODO: add events here
             Citizen.AgeGroup citizenAge = CitizenProxy.GetAge(ref citizen);
-            if (!ShouldFindEntertainment(citizenAge))
+            if (!IsChance(GetGoOutChance(citizenAge)))
             {
                 return false;
             }
@@ -252,6 +252,7 @@ namespace RealTime.CustomAI
             {
                 return 0;
             }
+
             if (leisureBuilding != 0)
             {
                 residentAI.StartMoving(instance, citizenId, ref citizen, buildingId, leisureBuilding);

@@ -23,21 +23,5 @@ namespace RealTime.Tools
         {
             return dateTime.DayOfWeek == DayOfWeek.Saturday || dateTime.DayOfWeek == DayOfWeek.Sunday;
         }
-
-        /// <summary>
-        /// Determines whether the <see cref="DateTime"/>'s day of week will still be Saturday or Sunday
-        /// after the provided time <paramref name="interval"/> is elapsed.
-        /// </summary>
-        ///
-        /// <param name="dateTime">The base <see cref="DateTime"/> to check.</param>
-        /// <param name="interval">A <see cref="TimeSpan"/> that represents an interval relative to the
-        /// <see cref="DateTime"/> to check.</param>
-        ///
-        /// <returns>True if the <see cref="DateTime"/>'s day of week value is Saturday or Sunday after
-        /// the provided time <paramref name="interval"/> is elapsed; otherwise, false.</returns>
-        public static bool IsWeekendAfter(this DateTime dateTime, TimeSpan interval)
-        {
-            return (dateTime + interval).IsWeekend();
-        }
     }
 }
