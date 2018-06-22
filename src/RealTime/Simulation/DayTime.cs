@@ -12,8 +12,8 @@ namespace RealTime.Simulation
     /// </summary>
     internal sealed class DayTime
     {
-        private double phase;
-        private double halfAmplitude;
+        private float phase;
+        private float halfAmplitude;
 
         /// <summary>
         /// Gets a value indicating whether this object has been properly set up
@@ -33,9 +33,9 @@ namespace RealTime.Simulation
             bool southSemisphere = latitude < 0;
 
             latitude = Mathf.Clamp(Mathf.Abs(latitude), 0f, 80f);
-            halfAmplitude = (0.5 + (latitude / 15d)) / 2d;
+            halfAmplitude = (0.5f + (latitude / 15f)) / 2f;
 
-            phase = southSemisphere ? 0 : Math.PI;
+            phase = southSemisphere ? 0f : (float)Math.PI;
 
             IsReady = true;
         }
@@ -51,7 +51,7 @@ namespace RealTime.Simulation
         /// <param name="sunsetHour">The calculated sunset hour (relative to the midnight).</param>
         ///
         /// <returns>True when the values are successfully calculated; otherwise, false.</returns>
-        public bool Calculate(DateTime date, out TimeSpan sunriseHour, out TimeSpan sunsetHour)
+        public bool Calculate(DateTime date, out float sunriseHour, out float sunsetHour)
         {
             if (!IsReady)
             {
@@ -60,9 +60,9 @@ namespace RealTime.Simulation
                 return false;
             }
 
-            double modifier = Math.Cos((2 * Math.PI * (date.DayOfYear + 10) / 365.25) + phase);
-            sunriseHour = TimeSpan.FromHours(6d - (halfAmplitude * modifier));
-            sunsetHour = TimeSpan.FromHours(18d + (halfAmplitude * modifier));
+            float modifier = (float)Math.Cos((2 * Math.PI * (date.DayOfYear + 10) / 365.25) + phase);
+            sunriseHour = 6f - (halfAmplitude * modifier);
+            sunsetHour = 18f + (halfAmplitude * modifier);
             return true;
         }
     }

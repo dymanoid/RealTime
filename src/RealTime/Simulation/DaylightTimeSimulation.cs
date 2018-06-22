@@ -6,7 +6,6 @@ namespace RealTime.Simulation
 {
     using System;
     using ICities;
-    using RealTime.Tools;
 
     /// <summary>
     /// A simulation extension that manages the daytime calculation (sunrise and sunset).
@@ -49,16 +48,13 @@ namespace RealTime.Simulation
 
         private void CalculateDaylight(DateTime date)
         {
-            if (!dayTime.Calculate(date, out TimeSpan sunriseHour, out TimeSpan sunsetHour))
+            if (!dayTime.Calculate(date, out float sunriseHour, out float sunsetHour))
             {
                 return;
             }
 
-            SimulationManager.SUNRISE_HOUR = (float)sunriseHour.TotalHours;
-            SimulationManager.SUNSET_HOUR = (float)sunsetHour.TotalHours;
-
-            Log.Info($"New day: {date.Date:d}, sunrise at {sunriseHour.Hours}:{sunriseHour.Minutes:00}, sunset at {sunsetHour.Hours}:{sunsetHour.Minutes:00}");
-
+            SimulationManager.SUNRISE_HOUR = sunriseHour;
+            SimulationManager.SUNSET_HOUR = sunsetHour;
             lastCalculation = date.Date;
         }
     }
