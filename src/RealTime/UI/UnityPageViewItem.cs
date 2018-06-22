@@ -12,7 +12,6 @@ namespace RealTime.UI
     internal sealed class UnityPageViewItem : IContainerViewItem
     {
         private const string LabelName = "Label";
-        private readonly UIHelperBase page;
         private readonly string id;
 
         public UnityPageViewItem(UIHelperBase page, string id)
@@ -22,15 +21,15 @@ namespace RealTime.UI
                 throw new ArgumentException("The page ID cannot be null or empty string", nameof(id));
             }
 
-            this.page = page ?? throw new ArgumentNullException(nameof(page));
+            Container = page ?? throw new ArgumentNullException(nameof(page));
             this.id = id;
         }
 
-        public UIHelperBase Container => page;
+        public UIHelperBase Container { get; }
 
         public void Translate(LocalizationProvider localizationProvider)
         {
-            var content = page as UIHelper;
+            var content = Container as UIHelper;
             if (content == null)
             {
                 return;
