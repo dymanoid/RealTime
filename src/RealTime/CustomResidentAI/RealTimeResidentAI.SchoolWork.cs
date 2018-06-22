@@ -42,7 +42,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} leaves their workplace");
+            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} leaves their workplace {workBuilding}");
 
             if (!CitizenGoesShopping(instance, citizenId, ref citizen) && !CitizenGoesRelaxing(instance, citizenId, ref citizen))
             {
@@ -61,7 +61,7 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} to school/work {workBuilding}");
+            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} ({CitizenProxy.GetLocation(ref citizen)}) to school/work {workBuilding}");
 
             residentAI.StartMoving(instance, citizenId, ref citizen, homeBuilding, workBuilding);
             return true;

@@ -21,6 +21,7 @@ namespace RealTime.CustomAI
                     CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
                 }
 
+                Log.Debug($"Teleporting {GetCitizenDesc(citizenId, ref citizen)} back home because they are moving but no instance is specified");
                 CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
                 CitizenProxy.SetArrested(ref citizen, false);
 
