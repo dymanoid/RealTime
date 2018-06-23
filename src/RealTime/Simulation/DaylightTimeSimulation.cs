@@ -40,9 +40,10 @@ namespace RealTime.Simulation
                 }
             }
 
-            if (threadingManager.simulationTime.Date != lastCalculation)
+            DateTime currentDate = SimulationManager.instance.m_currentGameTime.Date;
+            if (currentDate != lastCalculation)
             {
-                CalculateDaylight(threadingManager.simulationTime);
+                CalculateDaylight(currentDate);
             }
         }
 
