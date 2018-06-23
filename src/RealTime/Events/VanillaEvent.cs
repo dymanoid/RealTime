@@ -4,7 +4,7 @@
 
 namespace RealTime.Events
 {
-    internal sealed class VanillaEvent : RealTimeEventBase
+    internal sealed class VanillaEvent : CityEventBase
     {
         private readonly float duration;
 

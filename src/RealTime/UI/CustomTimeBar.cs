@@ -29,7 +29,7 @@ namespace RealTime.UI
 
         private static readonly Color32 EventColor = new Color32(180, 0, 90, 160);
 
-        private readonly List<IRealTimeEvent> displayedEvents = new List<IRealTimeEvent>();
+        private readonly List<ICityEvent> displayedEvents = new List<ICityEvent>();
         private RealTimeUIDateTimeWrapper customDateTimeWrapper;
         private UIDateTimeWrapper originalWrapper;
         private UISprite progressSprite;
@@ -71,7 +71,7 @@ namespace RealTime.UI
             customDateTimeWrapper = null;
         }
 
-        public void UpdateEventsDisplay(IEnumerable<IRealTimeEvent> availableEvents)
+        public void UpdateEventsDisplay(IEnumerable<ICityEvent> availableEvents)
         {
             DateTime todayStart = customDateTimeWrapper.CurrentValue.Date;
             DateTime todayEnd = todayStart.AddDays(1).AddMilliseconds(-1);
@@ -93,7 +93,7 @@ namespace RealTime.UI
             }
 
             displayedEvents.AddRange(eventsToDisplay);
-            foreach (IRealTimeEvent cityEvent in displayedEvents)
+            foreach (ICityEvent cityEvent in displayedEvents)
             {
                 DisplayCityEvent(cityEvent, todayStart, todayEnd);
             }
@@ -197,7 +197,7 @@ namespace RealTime.UI
             return ReplaceUIDateTimeWrapperInPanel(infoPanel, wrapper);
         }
 
-        private void DisplayCityEvent(IRealTimeEvent cityEvent, DateTime todayStart, DateTime todayEnd)
+        private void DisplayCityEvent(ICityEvent cityEvent, DateTime todayStart, DateTime todayEnd)
         {
             float startPercent;
             float endPercent;
@@ -251,7 +251,7 @@ namespace RealTime.UI
                 return;
             }
 
-            foreach (IRealTimeEvent cityEvent in displayedEvents)
+            foreach (ICityEvent cityEvent in displayedEvents)
             {
                 UISprite sprite = progressSprite.Find<UISprite>(UISpriteEvent + cityEvent.BuildingId);
                 if (sprite != null)
@@ -266,7 +266,7 @@ namespace RealTime.UI
 
         private void EventSprite_Clicked(UIComponent component, UIMouseEventParameter eventParam)
         {
-            if (component.objectUserData is IRealTimeEvent cityEvent)
+            if (component.objectUserData is ICityEvent cityEvent)
             {
                 OnCityEventClick(cityEvent.BuildingId);
             }

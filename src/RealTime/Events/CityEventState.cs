@@ -1,10 +1,10 @@
-﻿// <copyright file="EventState.cs" company="dymanoid">
+﻿// <copyright file="CityEventState.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
 namespace RealTime.Events
 {
-    internal enum EventState
+    internal enum CityEventState
     {
         None,
         Upcoming,

@@ -95,11 +95,11 @@ namespace RealTime.CustomAI
             ushort visitBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
             switch (EventMgr.GetEventState(visitBuilding, TimeInfo.Now.AddHours(MaxHoursOnTheWay)))
             {
-                case EventState.Upcoming:
-                case EventState.OnGoing:
+                case CityEventState.Upcoming:
+                case CityEventState.OnGoing:
                     return false;
 
-                case EventState.Finished:
+                case CityEventState.Finished:
                     Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} returning from an event at {visitBuilding} back home to {homeBuilding}");
                     ReturnFromVisit(instance, citizenId, ref citizen, homeBuilding);
                     return true;

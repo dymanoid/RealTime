@@ -1,4 +1,4 @@
-﻿// <copyright file="CityEvent.cs" company="dymanoid">
+﻿// <copyright file="CityEventTemplate.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -7,10 +7,10 @@ namespace RealTime.Events.Storage
     using System.Collections.Generic;
     using System.Xml.Serialization;
 
-    public sealed class CityEvent
+    public sealed class CityEventTemplate
     {
         [XmlAttribute("EventName")]
-        public string Name { get; set; } = string.Empty;
+        public string EventName { get; set; } = string.Empty;
 
         [XmlAttribute("BuildingName")]
         public string BuildingClassName { get; set; } = string.Empty;
@@ -22,13 +22,13 @@ namespace RealTime.Events.Storage
         public int Capacity { get; set; } = 1000;
 
         [XmlAttribute("LengthInHours")]
-        public double Length { get; set; } = 1.5;
+        public double Duration { get; set; } = 1.5;
 
         [XmlAttribute("SupportsRandomEvents")]
         public bool SupportsRandomEvents { get; set; } = true;
 
         [XmlAttribute("SupportsUserEvents")]
-        public bool SupportUserEvents { get; set; }
+        public bool SupportsUserEvents { get; set; }
 
         [XmlAttribute("CanBeWatchedOnTV")]
         public bool CanBeWatchedOnTV { get; set; }

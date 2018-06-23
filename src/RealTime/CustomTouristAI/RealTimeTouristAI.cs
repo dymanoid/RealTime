@@ -129,11 +129,11 @@ namespace RealTime.CustomAI
             bool doShopping;
             switch (EventMgr.GetEventState(visitBuilding, DateTime.MaxValue))
             {
-                case EventState.OnGoing:
+                case CityEventState.OnGoing:
                     doShopping = IsChance(TouristShoppingChance);
                     break;
 
-                case EventState.Finished:
+                case CityEventState.Finished:
                     doShopping = !FindRandomVisitPlace(instance, citizenId, ref citizen, 0, visitBuilding);
                     break;
 

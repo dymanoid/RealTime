@@ -1,4 +1,4 @@
-﻿// <copyright file="RealTimeEventBase.cs" company="dymanoid">
+﻿// <copyright file="CityEventBase.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -6,7 +6,7 @@ namespace RealTime.Events
 {
     using System;
 
-    internal abstract class RealTimeEventBase : IRealTimeEvent
+    internal abstract class CityEventBase : ICityEvent
     {
         public DateTime StartTime { get; private set; }
 
@@ -16,11 +16,11 @@ namespace RealTime.Events
 
         public string BuildingName { get; private set; }
 
-        public virtual void Attend()
+        public virtual void AcceptAttendee()
         {
         }
 
-        public virtual bool CanAttend()
+        public virtual bool AcceptsAttendees()
         {
             return true;
         }

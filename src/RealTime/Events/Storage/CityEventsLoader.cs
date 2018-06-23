@@ -11,12 +11,12 @@ namespace RealTime.Events.Storage
     using System.Xml.Serialization;
     using RealTime.Tools;
 
-    internal sealed class CityEventsLoader : IEventProvider
+    internal sealed class CityEventsLoader : ICityEventsProvider
     {
         private const string EventsFolder = "Events";
         private const string EventFileSearchPattern = "*.xml";
 
-        private readonly List<CityEvent> events = new List<CityEvent>();
+        private readonly List<CityEventTemplate> events = new List<CityEventTemplate>();
 
         private CityEventsLoader()
         {
@@ -42,8 +42,13 @@ namespace RealTime.Events.Storage
             events.Clear();
         }
 
-        IRealTimeEvent IEventProvider.GetRandomEvent(string buildingClass)
+        ICityEvent ICityEventsProvider.GetRandomEvent(string buildingClass)
         {
+            if (buildingClass == null)
+            {
+                throw new ArgumentNullException(nameof(buildingClass));
+            }
+
             var buildingEvents = events.Where(e => e.BuildingClassName == buildingClass).ToList();
             if (buildingEvents.Count == 0)
             {
@@ -51,7 +56,7 @@ namespace RealTime.Events.Storage
             }
 
             int eventNumber = SimulationManager.instance.m_randomizer.Int32((uint)buildingEvents.Count);
-            return new RealTimeEvent(buildingEvents[eventNumber]);
+            return new RealTimeCityEvent(buildingEvents[eventNumber]);
         }
 
         private void LoadEvents(IEnumerable<string> files)
@@ -65,10 +70,10 @@ namespace RealTime.Events.Storage
                     using (var sr = new StreamReader(file))
                     {
                         var container = (CityEventContainer)serializer.Deserialize(sr);
-                        foreach (CityEvent @event in container.Events.Where(e => !events.Any(ev => ev.Name == e.Name)))
+                        foreach (CityEventTemplate @event in container.Templates.Where(e => !events.Any(ev => ev.EventName == e.EventName)))
                         {
                             events.Add(@event);
-                            Log.Debug($"Loaded event '{@event.Name}' for '{@event.BuildingClassName}'");
+                            Log.Debug($"Loaded event '{@event.EventName}' for '{@event.BuildingClassName}'");
                         }
                     }
                 }

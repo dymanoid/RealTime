@@ -1,4 +1,4 @@
-﻿// <copyright file="IRealTimeEvent.cs" company="dymanoid">
+﻿// <copyright file="ICityEvent.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -6,7 +6,7 @@ namespace RealTime.Events
 {
     using System;
 
-    internal interface IRealTimeEvent
+    internal interface ICityEvent
     {
         DateTime StartTime { get; }
 
@@ -18,8 +18,8 @@ namespace RealTime.Events
 
         void Configure(ushort buildingId, string buildingName, DateTime startTime);
 
-        bool CanAttend();
+        bool AcceptsAttendees();
 
-        void Attend();
+        void AcceptAttendee();
     }
 }

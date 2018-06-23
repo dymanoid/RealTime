@@ -26,21 +26,21 @@ namespace RealTime.Events
 
         private static readonly ItemClass.Service[] EventBuildingServices = new[] { ItemClass.Service.Monument, ItemClass.Service.Beautification };
 
-        private readonly LinkedList<IRealTimeEvent> upcomingEvents;
+        private readonly LinkedList<ICityEvent> upcomingEvents;
         private readonly RealTimeConfig config;
-        private readonly IEventProvider eventProvider;
+        private readonly ICityEventsProvider eventProvider;
         private readonly IEventManagerConnection eventManager;
         private readonly IBuildingManagerConnection buildingManager;
         private readonly ISimulationManagerConnection simulationManager;
         private readonly ITimeInfo timeInfo;
 
-        private IRealTimeEvent lastActiveEvent;
-        private IRealTimeEvent activeEvent;
+        private ICityEvent lastActiveEvent;
+        private ICityEvent activeEvent;
         private DateTime lastProcessed;
 
         public RealTimeEventManager(
             RealTimeConfig config,
-            IEventProvider eventProvider,
+            ICityEventsProvider eventProvider,
             IEventManagerConnection eventManager,
             IBuildingManagerConnection buildingManager,
             ISimulationManagerConnection simulationManager,
@@ -52,12 +52,12 @@ namespace RealTime.Events
             this.buildingManager = buildingManager ?? throw new ArgumentNullException(nameof(buildingManager));
             this.simulationManager = simulationManager ?? throw new ArgumentNullException(nameof(simulationManager));
             this.timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
-            upcomingEvents = new LinkedList<IRealTimeEvent>();
+            upcomingEvents = new LinkedList<ICityEvent>();
         }
 
         public event EventHandler EventsChanged;
 
-        public IEnumerable<IRealTimeEvent> CityEvents
+        public IEnumerable<ICityEvent> CityEvents
         {
             get
             {
@@ -71,18 +71,18 @@ namespace RealTime.Events
                     yield return activeEvent;
                 }
 
-                foreach (IRealTimeEvent upcomingEvent in upcomingEvents)
+                foreach (ICityEvent upcomingEvent in upcomingEvents)
                 {
                     yield return upcomingEvent;
                 }
             }
         }
 
-        public EventState GetEventState(ushort buildingId, DateTime latestStart)
+        public CityEventState GetEventState(ushort buildingId, DateTime latestStart)
         {
             if (buildingId == 0)
             {
-                return EventState.None;
+                return CityEventState.None;
             }
 
             ushort eventId = buildingManager.GetEvent(buildingId);
@@ -93,36 +93,36 @@ namespace RealTime.Events
                 {
                     if (eventManager.TryGetEventInfo(eventId, out _, out DateTime startTime, out _) && startTime <= latestStart)
                     {
-                        return EventState.Upcoming;
+                        return CityEventState.Upcoming;
                     }
 
-                    return EventState.None;
+                    return CityEventState.None;
                 }
                 else if ((vanillaEventState & EventData.Flags.Active) != 0)
                 {
-                    return EventState.OnGoing;
+                    return CityEventState.OnGoing;
                 }
                 else if (vanillaEventState != EventData.Flags.None)
                 {
-                    return EventState.Finished;
+                    return CityEventState.Finished;
                 }
             }
 
             if (activeEvent != null && activeEvent.BuildingId == buildingId)
             {
-                return EventState.OnGoing;
+                return CityEventState.OnGoing;
             }
             else if (lastActiveEvent != null && lastActiveEvent.BuildingId == buildingId)
             {
-                return EventState.Finished;
+                return CityEventState.Finished;
             }
 
             if (upcomingEvents.FirstOrDefaultNode(e => e.BuildingId == buildingId && e.StartTime <= latestStart) != null)
             {
-                return EventState.Upcoming;
+                return CityEventState.Upcoming;
             }
 
-            return EventState.None;
+            return CityEventState.None;
         }
 
         public bool TryAttendEvent(DateTime earliestStartTime, DateTime latestStartTime, out ushort buildingId)
@@ -134,10 +134,10 @@ namespace RealTime.Events
                 return false;
             }
 
-            IRealTimeEvent upcomingEvent = upcomingEvents.First.Value;
-            if (upcomingEvent.StartTime >= earliestStartTime && upcomingEvent.StartTime <= latestStartTime && upcomingEvent.CanAttend())
+            ICityEvent upcomingEvent = upcomingEvents.First.Value;
+            if (upcomingEvent.StartTime >= earliestStartTime && upcomingEvent.StartTime <= latestStartTime && upcomingEvent.AcceptsAttendees())
             {
-                upcomingEvent.Attend();
+                upcomingEvent.AcceptAttendee();
                 buildingId = upcomingEvent.BuildingId;
                 return true;
             }
@@ -195,7 +195,7 @@ namespace RealTime.Events
                 eventsChanged = true;
                 Log.Debug(timeInfo.Now, $"Vanilla event registered for {newEvent.BuildingId}, start time {newEvent.StartTime}, end time {newEvent.EndTime}");
 
-                LinkedListNode<IRealTimeEvent> existingEvent = upcomingEvents.FirstOrDefaultNode(e => e.StartTime > startTime);
+                LinkedListNode<ICityEvent> existingEvent = upcomingEvents.FirstOrDefaultNode(e => e.StartTime > startTime);
                 if (existingEvent == null)
                 {
                     upcomingEvents.AddLast(newEvent);
@@ -211,7 +211,7 @@ namespace RealTime.Events
                 return;
             }
 
-            IRealTimeEvent upcomingEvent = upcomingEvents.First.Value;
+            ICityEvent upcomingEvent = upcomingEvents.First.Value;
             if (upcomingEvent.StartTime <= timeInfo.Now)
             {
                 activeEvent = upcomingEvent;
@@ -234,7 +234,7 @@ namespace RealTime.Events
                 return;
             }
 
-            IRealTimeEvent newEvent = eventProvider.GetRandomEvent(buildingClass);
+            ICityEvent newEvent = eventProvider.GetRandomEvent(buildingClass);
             if (newEvent == null)
             {
                 return;
