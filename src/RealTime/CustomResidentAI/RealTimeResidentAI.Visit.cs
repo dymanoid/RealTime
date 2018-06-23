@@ -58,6 +58,32 @@ namespace RealTime.CustomAI
             }
         }
 
+        private bool CitzenReturnsFromShelter(TAI instance, uint citizenId, ref TCitizen citizen)
+        {
+            ushort visitBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
+            if (BuildingMgr.GetBuildingService(visitBuilding) != ItemClass.Service.Disaster)
+            {
+                return true;
+            }
+
+            if ((BuildingMgr.GetBuildingFlags(visitBuilding) & Building.Flags.Downgrading) == 0)
+            {
+                return false;
+            }
+
+            ushort homeBuilding = CitizenProxy.GetHomeBuilding(ref citizen);
+            if (homeBuilding == 0)
+            {
+                Log.Debug($"WARNING: {GetCitizenDesc(citizenId, ref citizen)} was in a shelter but seems to be homeless. Releasing the citizen.");
+                CitizenMgr.ReleaseCitizen(citizenId);
+                return true;
+            }
+
+            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} returning from evacuation place back home");
+            ReturnFromVisit(instance, citizenId, ref citizen, homeBuilding);
+            return true;
+        }
+
         private bool CitizenReturnsHomeFromVisit(TAI instance, uint citizenId, ref TCitizen citizen)
         {
             ushort homeBuilding = CitizenProxy.GetHomeBuilding(ref citizen);
@@ -67,19 +93,7 @@ namespace RealTime.CustomAI
             }
 
             ushort visitBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
-            if (BuildingManager.GetBuildingService(visitBuilding) == ItemClass.Service.Disaster)
-            {
-                if ((BuildingManager.GetBuildingFlags(visitBuilding) & Building.Flags.Downgrading) != 0)
-                {
-                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} returning from evacuation place back home");
-                    ReturnFromVisit(instance, citizenId, ref citizen, homeBuilding);
-                    return true;
-                }
-
-                return false;
-            }
-
-            switch (EventManager.GetEventState(visitBuilding, TimeInfo.Now.AddHours(MaxHoursOnTheWay)))
+            switch (EventMgr.GetEventState(visitBuilding, TimeInfo.Now.AddHours(MaxHoursOnTheWay)))
             {
                 case EventState.Upcoming:
                 case EventState.OnGoing:

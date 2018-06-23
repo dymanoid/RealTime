@@ -13,5 +13,7 @@ namespace RealTime.GameConnection
         CitizenInstance.Flags GetInstanceFlags(ushort instanceId);
 
         byte GetInstanceWaitCounter(ushort instanceId);
+
+        bool IsAreaEvacuating(ushort instanceId);
     }
 }

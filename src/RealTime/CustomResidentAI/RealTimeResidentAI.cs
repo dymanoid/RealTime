@@ -95,6 +95,10 @@ namespace RealTime.CustomAI
                 case ResidentState.Evacuating:
                     ProcessCitizenEvacuation(instance, citizenId, ref citizen);
                     break;
+
+                case ResidentState.InShelter:
+                    CitzenReturnsFromShelter(instance, citizenId, ref citizen);
+                    return;
             }
         }
     }

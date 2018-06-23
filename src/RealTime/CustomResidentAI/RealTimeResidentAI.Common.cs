@@ -130,7 +130,10 @@ namespace RealTime.CustomAI
         private ResidentState GetResidentState(ref TCitizen citizen)
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
-            if ((BuildingManager.GetBuildingFlags(currentBuilding) & Building.Flags.Evacuating) != 0)
+            ItemClass.Service buildingService = BuildingMgr.GetBuildingService(currentBuilding);
+
+            if ((BuildingMgr.GetBuildingFlags(currentBuilding) & Building.Flags.Evacuating) != 0
+                && buildingService != ItemClass.Service.Disaster)
             {
                 return ResidentState.Evacuating;
             }
@@ -151,6 +154,11 @@ namespace RealTime.CustomAI
                     return ResidentState.Unknown;
 
                 case Citizen.Location.Work:
+                    if (buildingService == ItemClass.Service.Disaster && CitizenProxy.GetFlags(ref citizen) == Citizen.Flags.Evacuating)
+                    {
+                        return ResidentState.InShelter;
+                    }
+
                     return currentBuilding != 0
                         ? ResidentState.AtSchoolOrWork
                         : ResidentState.Unknown;
@@ -161,7 +169,7 @@ namespace RealTime.CustomAI
                         return ResidentState.Unknown;
                     }
 
-                    switch (BuildingManager.GetBuildingService(currentBuilding))
+                    switch (buildingService)
                     {
                         case ItemClass.Service.Commercial:
                             if (CitizenProxy.GetWorkBuilding(ref citizen) != 0 && IsWorkDay
@@ -179,6 +187,9 @@ namespace RealTime.CustomAI
 
                         case ItemClass.Service.Beautification:
                             return ResidentState.AtLeisureArea;
+
+                        case ItemClass.Service.Disaster:
+                            return ResidentState.InShelter;
                     }
 
                     return ResidentState.Visiting;

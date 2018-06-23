@@ -4,6 +4,8 @@
 
 namespace RealTime.GameConnection
 {
+    using UnityEngine;
+
     internal sealed class CitizenManagerConnection : ICitizenManagerConnection
     {
         public void ReleaseCitizen(uint citizenId)
@@ -36,6 +38,17 @@ namespace RealTime.GameConnection
             return instanceId == 0
                ? (byte)0
                : CitizenManager.instance.m_instances.m_buffer[instanceId].m_waitCounter;
+        }
+
+        public bool IsAreaEvacuating(ushort instanceId)
+        {
+            if (instanceId == 0)
+            {
+                return false;
+            }
+
+            Vector3 position = CitizenManager.instance.m_instances.m_buffer[instanceId].GetLastFramePosition();
+            return DisasterManager.instance.IsEvacuating(position);
         }
     }
 }

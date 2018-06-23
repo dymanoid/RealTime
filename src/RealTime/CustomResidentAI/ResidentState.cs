@@ -16,6 +16,7 @@ namespace RealTime.CustomAI
         Shopping,
         AtLeisureArea,
         Visiting,
-        Evacuating
+        Evacuating,
+        InShelter
     }
 }

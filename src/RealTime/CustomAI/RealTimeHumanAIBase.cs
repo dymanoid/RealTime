@@ -199,6 +199,11 @@ namespace RealTime.CustomAI
             return EventMgr.TryAttendEvent(earliestStart, latestStart, out eventBuildingId);
         }
 
+        protected void FindEvacuationPlace(uint citizenId, TransferManager.TransferReason reason)
+        {
+            TransferMgr.AddOutgoingOfferFromCurrentPosition(citizenId, reason);
+        }
+
         protected string GetCitizenDesc(uint citizenId, ref TCitizen citizen)
         {
             string employment = CitizenProxy.GetWorkBuilding(ref citizen) == 0 ? "unempl." : "empl.";

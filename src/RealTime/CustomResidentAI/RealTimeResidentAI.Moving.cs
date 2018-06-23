@@ -28,7 +28,14 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            CitizenInstance.Flags instanceFlags = CitizenManager.GetInstanceFlags(instanceId);
+            if (CitizenMgr.IsAreaEvacuating(instanceId) && (CitizenProxy.GetFlags(ref citizen) & Citizen.Flags.Evacuating) == 0)
+            {
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} was on the way, but the area evacuates. Finding an evacuation place.");
+                TransferMgr.AddOutgoingOfferFromCurrentPosition(citizenId, residentAI.GetEvacuationReason(instance, 0));
+                return;
+            }
+
+            CitizenInstance.Flags instanceFlags = CitizenMgr.GetInstanceFlags(instanceId);
             CitizenInstance.Flags onTourFlags = CitizenInstance.Flags.TargetIsNode | CitizenInstance.Flags.OnTour;
 
             if ((instanceFlags & onTourFlags) == onTourFlags)
