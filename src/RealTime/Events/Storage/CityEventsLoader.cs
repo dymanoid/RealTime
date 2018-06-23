@@ -30,18 +30,16 @@ namespace RealTime.Events.Storage
             string searchPath = Path.Combine(rootPath, EventsFolder);
             if (!Directory.Exists(searchPath))
             {
+                Log.Warning($"The 'Real Time' mod did not found any events, the directory '{searchPath}' doesn't exist");
                 return;
             }
 
-            try
-            {
-                LoadEvents(Directory.GetFiles(searchPath, EventFileSearchPattern));
-            }
-            catch (Exception ex)
-            {
-                Log.Error("The 'Real Time' mod was unable to load the events, error message: " + ex.Message);
-                events.Clear();
-            }
+            LoadEvents(Directory.GetFiles(searchPath, EventFileSearchPattern));
+        }
+
+        public void Clear()
+        {
+            events.Clear();
         }
 
         IRealTimeEvent IEventProvider.GetRandomEvent(string buildingClass)
@@ -49,12 +47,10 @@ namespace RealTime.Events.Storage
             var buildingEvents = events.Where(e => e.BuildingClassName == buildingClass).ToList();
             if (buildingEvents.Count == 0)
             {
-                Log.Debug("No events found for the building class " + buildingClass);
                 return null;
             }
 
             int eventNumber = SimulationManager.instance.m_randomizer.Int32((uint)buildingEvents.Count);
-            Log.Debug($"EVENTS! {buildingEvents.Count} events found for the building class {buildingClass}, choosing a random event number {eventNumber}");
             return new RealTimeEvent(buildingEvents[eventNumber]);
         }
 
@@ -64,13 +60,21 @@ namespace RealTime.Events.Storage
 
             foreach (string file in files)
             {
-                using (var sr = new StreamReader(file))
+                try
                 {
-                    var container = (CityEventContainer)serializer.Deserialize(sr);
-                    foreach (CityEvent @event in container.Events.Where(e => !events.Any(ev => ev.Name == e.Name)))
+                    using (var sr = new StreamReader(file))
                     {
-                        events.Add(@event);
+                        var container = (CityEventContainer)serializer.Deserialize(sr);
+                        foreach (CityEvent @event in container.Events.Where(e => !events.Any(ev => ev.Name == e.Name)))
+                        {
+                            events.Add(@event);
+                            Log.Debug($"Loaded event '{@event.Name}' for '{@event.BuildingClassName}'");
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error($"The 'Real Time' mod was unable to load an event from file '{file}', error message: '{ex.Message}'");
                 }
             }
 
