@@ -50,6 +50,7 @@ namespace RealTime.CustomAI
 
         protected IBuildingManagerConnection BuildingMgr { get; }
 
+        protected ITransferManagerConnection TransferMgr { get; }
 
         protected ITimeInfo TimeInfo { get; }
 

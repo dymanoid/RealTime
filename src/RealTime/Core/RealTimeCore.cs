@@ -71,7 +71,8 @@ namespace RealTime.Core
                 new CitizenConnection(),
                 new CitizenManagerConnection(),
                 buildingManager,
-                simulationManager);
+                simulationManager,
+                new TransferManagerConnection());
 
             var eventManager = new RealTimeEventManager(
                 config,

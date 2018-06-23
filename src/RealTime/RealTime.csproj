@@ -80,6 +80,7 @@
     <Compile Include="GameConnection\ICitizenConnection.cs" />
     <Compile Include="GameConnection\ISimulationManagerConnection.cs" />
     <Compile Include="GameConnection\IToolManagerConnection.cs" />
+    <Compile Include="GameConnection\ITransferManagerConnection.cs" />
     <Compile Include="GameConnection\PrivateBuildingAIHook.cs" />
     <Compile Include="GameConnection\TouristAIConnection.cs" />
     <Compile Include="GameConnection\TouristAIHook.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Core\RealTimeCore.cs" />
     <Compile Include="GameConnection\SimulationManagerConnection.cs" />
     <Compile Include="GameConnection\ToolManagerConnection.cs" />
+    <Compile Include="GameConnection\TransferManagerConnection.cs" />
     <Compile Include="Localization\Constants.cs" />
     <Compile Include="Localization\LocalizationProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
