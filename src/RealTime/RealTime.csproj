@@ -75,6 +75,7 @@
     <Compile Include="Events\Storage\CityEventsLoader.cs" />
     <Compile Include="Events\Storage\CityEventIncentive.cs" />
     <Compile Include="Events\VanillaEvent.cs" />
+    <Compile Include="GameConnection\CameraHelper.cs" />
     <Compile Include="GameConnection\CitizenConnection.cs" />
     <Compile Include="GameConnection\ICitizenConnection.cs" />
     <Compile Include="GameConnection\ISimulationManagerConnection.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="GameConnection\TimeInfo.cs" />
     <Compile Include="Tools\DateTimeExtensions.cs" />
     <Compile Include="Tools\LinkedListExtensions.cs" />
+    <Compile Include="UI\CustomTimeBarClickEventArgs.cs" />
     <Compile Include="UI\ConfigItemAttribute.cs" />
     <Compile Include="UI\ConfigItemCheckBoxAttribute.cs" />
     <Compile Include="UI\ConfigItemSliderAttribute.cs" />

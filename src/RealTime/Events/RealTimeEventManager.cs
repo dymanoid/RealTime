@@ -55,6 +55,29 @@ namespace RealTime.Events
             upcomingEvents = new LinkedList<IRealTimeEvent>();
         }
 
+        public event EventHandler EventsChanged;
+
+        public IEnumerable<IRealTimeEvent> CityEvents
+        {
+            get
+            {
+                if (lastActiveEvent != null)
+                {
+                    yield return lastActiveEvent;
+                }
+
+                if (activeEvent != null)
+                {
+                    yield return activeEvent;
+                }
+
+                foreach (IRealTimeEvent upcomingEvent in upcomingEvents)
+                {
+                    yield return upcomingEvent;
+                }
+            }
+        }
+
         public EventState GetEventState(ushort buildingId, DateTime latestStart)
         {
             if (buildingId == 0)
@@ -155,6 +178,7 @@ namespace RealTime.Events
                 activeEvent = null;
             }
 
+            bool eventsChanged = false;
             foreach (ushort eventId in eventManager.GetUpcomingEvents(timeInfo.Now.AddDays(1)))
             {
                 eventManager.TryGetEventInfo(eventId, out ushort buildingId, out DateTime startTime, out float duration);
@@ -167,7 +191,8 @@ namespace RealTime.Events
                 }
 
                 var newEvent = new VanillaEvent(duration);
-                newEvent.Configure(buildingId, startTime);
+                newEvent.Configure(buildingId, buildingManager.GetBuildingName(buildingId), startTime);
+                eventsChanged = true;
                 Log.Debug(timeInfo.Now, $"Vanilla event registered for {newEvent.BuildingId}, start time {newEvent.StartTime}, end time {newEvent.EndTime}");
 
                 LinkedListNode<IRealTimeEvent> existingEvent = upcomingEvents.FirstOrDefaultNode(e => e.StartTime > startTime);
@@ -191,7 +216,13 @@ namespace RealTime.Events
             {
                 activeEvent = upcomingEvent;
                 upcomingEvents.RemoveFirst();
+                eventsChanged = true;
                 Log.Debug(timeInfo.Now, $"Event started! Building {activeEvent.BuildingId}, ends on {activeEvent.EndTime}");
+            }
+
+            if (eventsChanged)
+            {
+                OnEventsChanged();
             }
         }
 
@@ -212,6 +243,7 @@ namespace RealTime.Events
             DateTime startTime = GetRandomEventStartTime();
             newEvent.Configure(buildingId, buildingManager.GetBuildingName(buildingId), startTime);
             upcomingEvents.AddLast(newEvent);
+            OnEventsChanged();
             Log.Debug(timeInfo.Now, $"New event created for building {newEvent.BuildingId}, starts on {newEvent.StartTime}, ends on {newEvent.EndTime}");
         }
 
@@ -247,6 +279,11 @@ namespace RealTime.Events
             }
 
             return result;
+        }
+
+        private void OnEventsChanged()
+        {
+            EventsChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

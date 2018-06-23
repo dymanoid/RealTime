@@ -24,6 +24,11 @@ namespace RealTime.Simulation
         }
 
         /// <summary>
+        /// Occurs whent a new day in the game begins.
+        /// </summary>
+        internal static event EventHandler NewDay;
+
+        /// <summary>
         /// Called after each game simulation tick. Performs the actual work.
         /// </summary>
         public override void OnAfterSimulationTick()
@@ -44,7 +49,13 @@ namespace RealTime.Simulation
             if (currentDate != lastCalculation)
             {
                 CalculateDaylight(currentDate);
+                OnNewDay(this);
             }
+        }
+
+        private static void OnNewDay(DaylightTimeSimulation sender)
+        {
+            NewDay?.Invoke(sender, EventArgs.Empty);
         }
 
         private void CalculateDaylight(DateTime date)

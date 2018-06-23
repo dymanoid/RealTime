@@ -23,8 +23,11 @@ namespace RealTime.UI
         internal RealTimeUIDateTimeWrapper(DateTime initial)
             : base(initial)
         {
+            CurrentValue = initial;
             Convert();
         }
+
+        public DateTime CurrentValue { get; private set; }
 
         /// <summary>
         /// Checks the provided <see cref="DateTime"/> value whether it should be converted to a
@@ -40,6 +43,7 @@ namespace RealTime.UI
             }
 
             m_Value = newVal;
+            CurrentValue = newVal;
             Convert();
         }
 

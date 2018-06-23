@@ -14,7 +14,9 @@ namespace RealTime.Events
 
         ushort BuildingId { get; }
 
-        void Configure(ushort buildingId, DateTime startTime);
+        string BuildingName { get; }
+
+        void Configure(ushort buildingId, string buildingName, DateTime startTime);
 
         bool CanAttend();
 

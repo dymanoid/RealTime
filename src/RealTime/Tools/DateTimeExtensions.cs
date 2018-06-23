@@ -37,5 +37,11 @@ namespace RealTime.Tools
                     return false;
             }
         }
+
+        public static DateTime RoundCeil(this DateTime dateTime, TimeSpan interval)
+        {
+            long overflow = dateTime.Ticks % interval.Ticks;
+            return overflow == 0 ? dateTime : dateTime.AddTicks(interval.Ticks - overflow);
+        }
     }
 }

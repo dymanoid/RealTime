@@ -22,6 +22,8 @@ namespace RealTime.Tools
         private DateTime lastValue;
         private string tooltip;
 
+        public string IgnoredComponentNamePrefix { get; set; }
+
         /// <summary>
         /// <see cref="Start"/> is called on the frame when a script is enabled
         /// just before any of the <see cref="Update"/> methods are called the first time.
@@ -49,11 +51,22 @@ namespace RealTime.Tools
 
             lastValue = newValue;
 
-            if (target.containsMouse)
+            if (!target.containsMouse)
             {
-                target.tooltip = tooltip;
-                target.RefreshTooltip();
+                return;
             }
+
+            if (!string.IsNullOrEmpty(IgnoredComponentNamePrefix))
+            {
+                UIComponent hovered = UIInput.hoveredComponent;
+                if (hovered != null && hovered.name != null && hovered.name.StartsWith(IgnoredComponentNamePrefix))
+                {
+                    return;
+                }
+            }
+
+            target.tooltip = tooltip;
+            target.RefreshTooltip();
         }
     }
 }

@@ -24,13 +24,15 @@ namespace RealTime.Core
     {
         private readonly TimeAdjustment timeAdjustment;
         private readonly CustomTimeBar timeBar;
+        private readonly RealTimeEventManager eventManager;
 
         private bool isEnabled;
 
-        private RealTimeCore(TimeAdjustment timeAdjustment, CustomTimeBar timeBar)
+        private RealTimeCore(TimeAdjustment timeAdjustment, CustomTimeBar timeBar, RealTimeEventManager eventManager)
         {
             this.timeAdjustment = timeAdjustment;
             this.timeBar = timeBar;
+            this.eventManager = eventManager;
             isEnabled = true;
         }
 
@@ -60,9 +62,6 @@ namespace RealTime.Core
             var timeAdjustment = new TimeAdjustment();
             DateTime gameDate = timeAdjustment.Enable();
 
-            var customTimeBar = new CustomTimeBar();
-            customTimeBar.Enable(gameDate);
-
             var timeInfo = new TimeInfo();
             var buildingManager = new BuildingManagerConnection();
             var simulationManager = new SimulationManagerConnection();
@@ -87,6 +86,14 @@ namespace RealTime.Core
             RealTimeEventSimulation.EventManager = eventManager;
             CityEventsLoader.Istance.ReloadEvents(rootPath);
 
+            var customTimeBar = new CustomTimeBar();
+            customTimeBar.Enable(gameDate);
+            customTimeBar.CityEventClick += CustomTimeBar_CityEventClick;
+
+            var result = new RealTimeCore(timeAdjustment, customTimeBar, eventManager);
+            eventManager.EventsChanged += result.EventManager_EventsChanged;
+            DaylightTimeSimulation.NewDay += result.EventManager_EventsChanged;
+
             try
             {
                 int redirectedCount = Redirector.PerformRedirections();
@@ -97,7 +104,7 @@ namespace RealTime.Core
                 Log.Error("Failed to perform method redirections: " + ex.Message);
             }
 
-            return new RealTimeCore(timeAdjustment, customTimeBar);
+            return result;
         }
 
         /// <summary>
@@ -112,10 +119,17 @@ namespace RealTime.Core
             }
 
             timeAdjustment.Disable();
+            timeBar.CityEventClick -= CustomTimeBar_CityEventClick;
             timeBar.Disable();
+            eventManager.EventsChanged -= EventManager_EventsChanged;
+            DaylightTimeSimulation.NewDay -= EventManager_EventsChanged;
+
+            CityEventsLoader.Istance.Clear();
+
             ResidentAIHook.RealTimeAI = null;
             TouristAIHook.RealTimeAI = null;
             PrivateBuildingAIHook.RealTimeAI = null;
+            RealTimeEventSimulation.EventManager = null;
 
             try
             {
@@ -157,6 +171,16 @@ namespace RealTime.Core
                 new ToolManagerConnection());
 
             PrivateBuildingAIHook.RealTimeAI = realTimePrivateBuildingAI;
+        }
+
+        private static void CustomTimeBar_CityEventClick(object sender, CustomTimeBarClickEventArgs e)
+        {
+            CameraHelper.NavigateToBuilding(e.CityEventBuildingId);
+        }
+
+        private void EventManager_EventsChanged(object sender, EventArgs e)
+        {
+            timeBar.UpdateEventsDisplay(eventManager.CityEvents);
         }
     }
 }

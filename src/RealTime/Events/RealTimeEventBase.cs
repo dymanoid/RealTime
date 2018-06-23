@@ -14,6 +14,8 @@ namespace RealTime.Events
 
         public ushort BuildingId { get; private set; }
 
+        public string BuildingName { get; private set; }
+
         public virtual void Attend()
         {
         }
@@ -23,9 +25,10 @@ namespace RealTime.Events
             return true;
         }
 
-        public void Configure(ushort buildingId, DateTime startTime)
+        public void Configure(ushort buildingId, string buildingName, DateTime startTime)
         {
             BuildingId = buildingId;
+            BuildingName = buildingName ?? string.Empty;
             StartTime = startTime;
         }
 

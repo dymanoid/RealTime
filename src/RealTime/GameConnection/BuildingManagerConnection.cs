@@ -4,6 +4,7 @@
 
 namespace RealTime.GameConnection
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
@@ -85,6 +86,20 @@ namespace RealTime.GameConnection
                 : BuildingManager.instance.m_buildings.m_buffer[buildingId].m_eventIndex;
         }
 
+        /// <summary>
+        /// Gets a random building ID for a bulding in the city that belongs
+        /// to any of the provided <paramref name="services"/>.
+        /// </summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
+        ///
+        /// <param name="services">A collection of <see cref="ItemClass.Service"/> that specifies
+        /// in which services to search the random building in.</param>
+        ///
+        /// <returns>An ID of a building; or 0 if none found.</returns>
+        ///
+        /// <remarks>NOTE: this method creates objects on the heap. To avoid memory pressure,
+        /// don't call it on every simulation step.</remarks>
         public ushort GetRandomBuilding(IEnumerable<ItemClass.Service> services)
         {
             // No memory pressure here because this method will not be called on each simulation step
@@ -124,6 +139,13 @@ namespace RealTime.GameConnection
             return buildingId == 0
                 ? string.Empty
                 : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info.name;
+        }
+
+        public string GetBuildingName(ushort buildingId)
+        {
+            return buildingId == 0
+                ? string.Empty
+                : BuildingManager.instance.GetBuildingName(buildingId, InstanceID.Empty);
         }
     }
 }
