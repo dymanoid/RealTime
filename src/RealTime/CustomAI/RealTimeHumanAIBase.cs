@@ -21,14 +21,16 @@ namespace RealTime.CustomAI
         protected RealTimeHumanAIBase(RealTimeConfig config, GameConnections<TCitizen> connections, RealTimeEventManager eventManager)
         {
             Config = config ?? throw new ArgumentNullException(nameof(config));
-            EventManager = eventManager ?? throw new ArgumentNullException(nameof(eventManager));
+            EventMgr = eventManager ?? throw new ArgumentNullException(nameof(eventManager));
+
             if (connections == null)
             {
                 throw new ArgumentNullException(nameof(connections));
             }
 
-            CitizenManager = connections.CitizenManager;
-            BuildingManager = connections.BuildingManager;
+            CitizenMgr = connections.CitizenManager;
+            BuildingMgr = connections.BuildingManager;
+            TransferMgr = connections.TransferManager;
             CitizenProxy = connections.CitizenConnection;
             TimeInfo = connections.TimeInfo;
             randomizer = connections.SimulationManager.GetRandomizer();
@@ -40,13 +42,14 @@ namespace RealTime.CustomAI
 
         protected RealTimeConfig Config { get; }
 
-        protected RealTimeEventManager EventManager { get; }
+        protected RealTimeEventManager EventMgr { get; }
 
         protected ICitizenConnection<TCitizen> CitizenProxy { get; }
 
-        protected ICitizenManagerConnection CitizenManager { get; }
+        protected ICitizenManagerConnection CitizenMgr { get; }
 
-        protected IBuildingManagerConnection BuildingManager { get; }
+        protected IBuildingManagerConnection BuildingMgr { get; }
+
 
         protected ITimeInfo TimeInfo { get; }
 
@@ -166,7 +169,7 @@ namespace RealTime.CustomAI
                 && CitizenProxy.GetInstance(ref citizen) == 0
                 && CitizenProxy.GetVehicle(ref citizen) == 0)
             {
-                CitizenManager.ReleaseCitizen(citizenId);
+                CitizenMgr.ReleaseCitizen(citizenId);
                 return false;
             }
 
@@ -184,7 +187,7 @@ namespace RealTime.CustomAI
             eventBuildingId = default;
 
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
-            if (EventManager.GetEventState(currentBuilding, DateTime.MaxValue) == EventState.OnGoing)
+            if (EventMgr.GetEventState(currentBuilding, DateTime.MaxValue) == EventState.OnGoing)
             {
                 return false;
             }
@@ -192,7 +195,7 @@ namespace RealTime.CustomAI
             DateTime earliestStart = TimeInfo.Now.AddHours(MinHoursOnTheWay);
             DateTime latestStart = TimeInfo.Now.AddHours(MaxHoursOnTheWay);
 
-            return EventManager.TryAttendEvent(earliestStart, latestStart, out eventBuildingId);
+            return EventMgr.TryAttendEvent(earliestStart, latestStart, out eventBuildingId);
         }
 
         protected string GetCitizenDesc(uint citizenId, ref TCitizen citizen)

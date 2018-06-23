@@ -39,7 +39,7 @@ namespace RealTime.CustomAI
                 case ResidentState.Shopping:
                     if ((CitizenProxy.GetFlags(ref citizen) & Citizen.Flags.NeedGoods) != 0)
                     {
-                        BuildingManager.ModifyMaterialBuffer(CitizenProxy.GetVisitBuilding(ref citizen), TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
+                        BuildingMgr.ModifyMaterialBuffer(CitizenProxy.GetVisitBuilding(ref citizen), TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
                         CitizenProxy.RemoveFlags(ref citizen, Citizen.Flags.NeedGoods);
                     }
 
@@ -214,7 +214,7 @@ namespace RealTime.CustomAI
                 return 0;
             }
 
-            ushort foundBuilding = BuildingManager.FindActiveBuilding(buildingId, distance, ItemClass.Service.Commercial);
+            ushort foundBuilding = BuildingMgr.FindActiveBuilding(buildingId, distance, ItemClass.Service.Commercial);
             if (foundBuilding == CitizenProxy.GetWorkBuilding(ref citizen))
             {
                 return 0;
@@ -226,7 +226,7 @@ namespace RealTime.CustomAI
 
         private ushort MoveToLeisure(TAI instance, uint citizenId, ref TCitizen citizen, ushort buildingId)
         {
-            ushort leisureBuilding = BuildingManager.FindActiveBuilding(
+            ushort leisureBuilding = BuildingMgr.FindActiveBuilding(
                 buildingId,
                 FullSearchDistance,
                 ItemClass.Service.Commercial,

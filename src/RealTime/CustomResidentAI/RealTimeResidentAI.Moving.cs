@@ -42,7 +42,7 @@ namespace RealTime.CustomAI
             }
             else if ((instanceFlags & (CitizenInstance.Flags.WaitingTransport | CitizenInstance.Flags.WaitingTaxi)) != 0)
             {
-                if (mayCancel && CitizenManager.GetInstanceWaitCounter(instanceId) == 255 && IsChance(AbandonTransportWaitChance))
+                if (mayCancel && CitizenMgr.GetInstanceWaitCounter(instanceId) == 255 && IsChance(AbandonTransportWaitChance))
                 {
                     ushort home = CitizenProxy.GetHomeBuilding(ref citizen);
                     if (home == 0)

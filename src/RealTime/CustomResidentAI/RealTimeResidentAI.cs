@@ -66,7 +66,7 @@ namespace RealTime.CustomAI
             switch (residentState)
             {
                 case ResidentState.LeftCity:
-                    CitizenManager.ReleaseCitizen(citizenId);
+                    CitizenMgr.ReleaseCitizen(citizenId);
                     break;
 
                 case ResidentState.MovingHome:

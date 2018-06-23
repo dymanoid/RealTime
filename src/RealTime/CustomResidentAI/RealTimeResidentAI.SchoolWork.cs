@@ -125,7 +125,7 @@ namespace RealTime.CustomAI
                 leaveWorkHour += Config.MaxOvertime;
             }
 
-            float distance = BuildingManager.GetDistanceBetweenBuildings(currentBuilding, workBuilding);
+            float distance = BuildingMgr.GetDistanceBetweenBuildings(currentBuilding, workBuilding);
             float onTheWay = Mathf.Clamp(distance / OnTheWayDistancePerHour, MinHoursOnTheWay, MaxHoursOnTheWay);
 
             gotoWorkHour -= onTheWay;

@@ -16,7 +16,7 @@ namespace RealTime.CustomAI
             if (currentBuilding == 0 || (currentLocation == Citizen.Location.Moving && CitizenProxy.GetVehicle(ref citizen) == 0))
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is released");
-                CitizenManager.ReleaseCitizen(citizenId);
+                CitizenMgr.ReleaseCitizen(citizenId);
                 return;
             }
 
@@ -41,7 +41,7 @@ namespace RealTime.CustomAI
             }
 
             if (currentLocation == Citizen.Location.Visit
-                && BuildingManager.GetBuildingService(CitizenProxy.GetVisitBuilding(ref citizen)) == ItemClass.Service.HealthCare)
+                && BuildingMgr.GetBuildingService(CitizenProxy.GetVisitBuilding(ref citizen)) == ItemClass.Service.HealthCare)
             {
                 return;
             }
@@ -57,7 +57,7 @@ namespace RealTime.CustomAI
                 case Citizen.Location.Moving:
                     return false;
                 case Citizen.Location.Visit
-                    when BuildingManager.GetBuildingService(CitizenProxy.GetVisitBuilding(ref citizen)) == ItemClass.Service.PoliceDepartment:
+                    when BuildingMgr.GetBuildingService(CitizenProxy.GetVisitBuilding(ref citizen)) == ItemClass.Service.PoliceDepartment:
                     return true;
             }
 
@@ -89,7 +89,7 @@ namespace RealTime.CustomAI
 
             if (currentLocation == Citizen.Location.Visit)
             {
-                ItemClass.Service service = BuildingManager.GetBuildingService(CitizenProxy.GetVisitBuilding(ref citizen));
+                ItemClass.Service service = BuildingMgr.GetBuildingService(CitizenProxy.GetVisitBuilding(ref citizen));
                 if (service == ItemClass.Service.HealthCare || service == ItemClass.Service.Disaster)
                 {
                     return true;
@@ -170,7 +170,7 @@ namespace RealTime.CustomAI
                                 return ResidentState.AtLunch;
                             }
 
-                            if (BuildingManager.GetBuildingSubService(currentBuilding) == ItemClass.SubService.CommercialLeisure)
+                            if (BuildingMgr.GetBuildingSubService(currentBuilding) == ItemClass.SubService.CommercialLeisure)
                             {
                                 return ResidentState.AtLeisureArea;
                             }
@@ -185,7 +185,7 @@ namespace RealTime.CustomAI
 
                 case Citizen.Location.Moving:
                     ushort homeBuilding = CitizenProxy.GetHomeBuilding(ref citizen);
-                    return homeBuilding != 0 && CitizenManager.GetTargetBuilding(CitizenProxy.GetInstance(ref citizen)) == homeBuilding
+                    return homeBuilding != 0 && CitizenMgr.GetTargetBuilding(CitizenProxy.GetInstance(ref citizen)) == homeBuilding
                         ? ResidentState.MovingHome
                         : ResidentState.MovingToTarget;
 

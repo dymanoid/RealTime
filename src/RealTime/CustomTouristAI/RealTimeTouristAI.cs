@@ -36,7 +36,7 @@ namespace RealTime.CustomAI
 
             if (CitizenProxy.IsDead(ref citizen) || CitizenProxy.IsSick(ref citizen))
             {
-                CitizenManager.ReleaseCitizen(citizenId);
+                CitizenMgr.ReleaseCitizen(citizenId);
                 return;
             }
 
@@ -44,7 +44,7 @@ namespace RealTime.CustomAI
             {
                 case Citizen.Location.Home:
                 case Citizen.Location.Work:
-                    CitizenManager.ReleaseCitizen(citizenId);
+                    CitizenMgr.ReleaseCitizen(citizenId);
                     break;
 
                 case Citizen.Location.Visit:
@@ -64,14 +64,14 @@ namespace RealTime.CustomAI
             {
                 if (CitizenProxy.GetVehicle(ref citizen) == 0)
                 {
-                    CitizenManager.ReleaseCitizen(citizenId);
+                    CitizenMgr.ReleaseCitizen(citizenId);
                 }
 
                 return;
             }
 
             CitizenInstance.Flags flags = CitizenInstance.Flags.TargetIsNode | CitizenInstance.Flags.OnTour;
-            if ((CitizenManager.GetInstanceFlags(instanceId) & flags) == flags)
+            if ((CitizenMgr.GetInstanceFlags(instanceId) & flags) == flags)
             {
                 FindRandomVisitPlace(instance, citizenId, ref citizen, TouristDoNothingProbability, 0);
             }
@@ -82,18 +82,18 @@ namespace RealTime.CustomAI
             ushort visitBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
             if (visitBuilding == 0)
             {
-                CitizenManager.ReleaseCitizen(citizenId);
+                CitizenMgr.ReleaseCitizen(citizenId);
                 return;
             }
 
-            Building.Flags buildingFlags = BuildingManager.GetBuildingFlags(visitBuilding);
+            Building.Flags buildingFlags = BuildingMgr.GetBuildingFlags(visitBuilding);
             if ((buildingFlags & Building.Flags.Evacuating) != 0)
             {
                 touristAI.FindEvacuationPlace(instance, citizenId, visitBuilding, touristAI.GetEvacuationReason(instance, visitBuilding));
                 return;
             }
 
-            switch (BuildingManager.GetBuildingService(visitBuilding))
+            switch (BuildingMgr.GetBuildingService(visitBuilding))
             {
                 case ItemClass.Service.Disaster:
                     if ((buildingFlags & Building.Flags.Downgrading) != 0)
@@ -105,7 +105,7 @@ namespace RealTime.CustomAI
 
                 // Tourist is sleeping in a hotel
                 case ItemClass.Service.Commercial
-                    when TimeInfo.IsNightTime && BuildingManager.GetBuildingSubService(visitBuilding) == ItemClass.SubService.CommercialTourist:
+                    when TimeInfo.IsNightTime && BuildingMgr.GetBuildingSubService(visitBuilding) == ItemClass.SubService.CommercialTourist:
                     return;
             }
 
@@ -118,7 +118,7 @@ namespace RealTime.CustomAI
             }
 
             bool doShopping;
-            switch (EventManager.GetEventState(visitBuilding, DateTime.MaxValue))
+            switch (EventMgr.GetEventState(visitBuilding, DateTime.MaxValue))
             {
                 case EventState.OnGoing:
                     doShopping = IsChance(TouristShoppingChance);
@@ -135,7 +135,7 @@ namespace RealTime.CustomAI
 
             if (doShopping || !FindRandomVisitPlace(instance, citizenId, ref citizen, TouristDoNothingProbability, visitBuilding))
             {
-                BuildingManager.ModifyMaterialBuffer(visitBuilding, TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
+                BuildingMgr.ModifyMaterialBuffer(visitBuilding, TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
                 touristAI.AddTouristVisit(instance, citizenId, visitBuilding);
             }
         }
@@ -187,7 +187,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            ushort hotel = BuildingManager.FindActiveBuilding(
+            ushort hotel = BuildingMgr.FindActiveBuilding(
                 currentBuilding,
                 FullSearchDistance,
                 ItemClass.Service.Commercial,

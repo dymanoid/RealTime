@@ -14,7 +14,7 @@ namespace RealTime.CustomAI
             if (CitizenProxy.GetHomeBuilding(ref citizen) == 0)
             {
                 Log.Debug($"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is in corrupt state: at home with no home building. Releasing the poor citizen.");
-                CitizenManager.ReleaseCitizen(citizenId);
+                CitizenMgr.ReleaseCitizen(citizenId);
                 return;
             }
 
