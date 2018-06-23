@@ -12,9 +12,10 @@ namespace RealTime.CustomAI
         private void ProcessCitizenMoving(TAI instance, uint citizenId, ref TCitizen citizen, bool mayCancel)
         {
             ushort instanceId = CitizenProxy.GetInstance(ref citizen);
+            ushort vehicleId = CitizenProxy.GetVehicle(ref citizen);
 
             // TODO: implement bored of traffic jam trip abandon
-            if (CitizenProxy.GetVehicle(ref citizen) == 0 && instanceId == 0)
+            if (vehicleId == 0 && instanceId == 0)
             {
                 if (CitizenProxy.GetVisitBuilding(ref citizen) != 0)
                 {
@@ -28,7 +29,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            if (CitizenMgr.IsAreaEvacuating(instanceId) && (CitizenProxy.GetFlags(ref citizen) & Citizen.Flags.Evacuating) == 0)
+            if (vehicleId == 0 && CitizenMgr.IsAreaEvacuating(instanceId) && (CitizenProxy.GetFlags(ref citizen) & Citizen.Flags.Evacuating) == 0)
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} was on the way, but the area evacuates. Finding an evacuation place.");
                 TransferMgr.AddOutgoingOfferFromCurrentPosition(citizenId, residentAI.GetEvacuationReason(instance, 0));

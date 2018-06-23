@@ -60,9 +60,11 @@ namespace RealTime.CustomAI
         private void ProcessMoving(TAI instance, uint citizenId, ref TCitizen citizen)
         {
             ushort instanceId = CitizenProxy.GetInstance(ref citizen);
+            ushort vehicleId = CitizenProxy.GetVehicle(ref citizen);
+
             if (instanceId == 0)
             {
-                if (CitizenProxy.GetVehicle(ref citizen) == 0)
+                if (vehicleId == 0)
                 {
                     CitizenMgr.ReleaseCitizen(citizenId);
                 }
@@ -70,7 +72,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            if (CitizenMgr.IsAreaEvacuating(instanceId) && (CitizenProxy.GetFlags(ref citizen) & Citizen.Flags.Evacuating) == 0)
+            if (vehicleId == 0 && CitizenMgr.IsAreaEvacuating(instanceId) && (CitizenProxy.GetFlags(ref citizen) & Citizen.Flags.Evacuating) == 0)
             {
                 Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} was on the way, but the area evacuates. Leaving the city.");
                 touristAI.FindVisitPlace(instance, citizenId, CitizenProxy.GetCurrentBuilding(ref citizen), touristAI.GetLeavingReason(instance, citizenId, ref citizen));
