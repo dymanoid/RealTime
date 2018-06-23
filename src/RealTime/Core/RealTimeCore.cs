@@ -5,6 +5,7 @@
 namespace RealTime.Core
 {
     using System;
+    using System.Collections.Generic;
     using System.Security.Permissions;
     using RealTime.Config;
     using RealTime.CustomAI;
@@ -22,6 +23,7 @@ namespace RealTime.Core
     /// </summary>
     internal sealed class RealTimeCore
     {
+        private readonly List<IStorageData> storageData = new List<IStorageData>();
         private readonly TimeAdjustment timeAdjustment;
         private readonly CustomTimeBar timeBar;
         private readonly RealTimeEventManager eventManager;
@@ -57,6 +59,17 @@ namespace RealTime.Core
             if (string.IsNullOrEmpty(rootPath))
             {
                 throw new ArgumentException("The root path cannot be null or empty string", nameof(rootPath));
+            }
+
+            try
+            {
+                int redirectedCount = Redirector.PerformRedirections();
+                Log.Info($"Successfully redirected {redirectedCount} methods.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Failed to perform method redirections: " + ex.Message);
+                return null;
             }
 
             var timeAdjustment = new TimeAdjustment();
@@ -95,15 +108,9 @@ namespace RealTime.Core
             eventManager.EventsChanged += result.CityEventsChanged;
             DaylightTimeSimulation.NewDay += result.CityEventsChanged;
 
-            try
-            {
-                int redirectedCount = Redirector.PerformRedirections();
-                Log.Info($"Successfully redirected {redirectedCount} methods.");
-            }
-            catch (Exception ex)
-            {
-                Log.Error("Failed to perform method redirections: " + ex.Message);
-            }
+            RealTimeStorage.Instance.GameSaving += result.GameSaving;
+            result.storageData.Add(eventManager);
+            result.LoadStorageData();
 
             return result;
         }
@@ -126,6 +133,8 @@ namespace RealTime.Core
             DaylightTimeSimulation.NewDay -= CityEventsChanged;
 
             CityEventsLoader.Istance.Clear();
+
+            RealTimeStorage.Instance.GameSaving -= GameSaving;
 
             ResidentAIHook.RealTimeAI = null;
             TouristAIHook.RealTimeAI = null;
@@ -182,6 +191,23 @@ namespace RealTime.Core
         private void CityEventsChanged(object sender, EventArgs e)
         {
             timeBar.UpdateEventsDisplay(eventManager.CityEvents);
+        }
+
+        private void LoadStorageData()
+        {
+            foreach (IStorageData item in storageData)
+            {
+                RealTimeStorage.Instance.Deserialize(item);
+            }
+        }
+
+        private void GameSaving(object sender, EventArgs e)
+        {
+            var storage = (RealTimeStorage)sender;
+            foreach (IStorageData item in storageData)
+            {
+                storage.Serialize(item);
+            }
         }
     }
 }

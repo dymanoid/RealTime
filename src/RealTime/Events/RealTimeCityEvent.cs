@@ -17,6 +17,12 @@ namespace RealTime.Events
             this.eventTemplate = eventTemplate ?? throw new ArgumentNullException(nameof(eventTemplate));
         }
 
+        public RealTimeCityEvent(CityEventTemplate eventTemplate, int attendeesCount)
+            : this(eventTemplate)
+        {
+            this.attendeesCount = attendeesCount;
+        }
+
         public override void AcceptAttendee()
         {
             attendeesCount++;
@@ -25,6 +31,19 @@ namespace RealTime.Events
         public override bool AcceptsAttendees()
         {
             return attendeesCount < eventTemplate.Capacity;
+        }
+
+        public RealTimeEventStorage GetStorageData()
+        {
+            return new RealTimeEventStorage
+            {
+                EventName = eventTemplate.EventName,
+                BuildingClassName = eventTemplate.BuildingClassName,
+                StartTime = StartTime.Ticks,
+                BuildingId = BuildingId,
+                BuildingName = BuildingName,
+                AttendeesCount = attendeesCount
+            };
         }
 
         protected override float GetDuration()

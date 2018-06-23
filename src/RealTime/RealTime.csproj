@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Config\ConfigurationProvider.cs" />
     <Compile Include="Core\IStorageData.cs" />
+    <Compile Include="Core\RealTimeStorage.cs" />
     <Compile Include="CustomAI\Constants.cs" />
     <Compile Include="CustomAI\RealTimeHumanAIBase.cs" />
     <Compile Include="CustomResidentAI\ResidentState.cs" />
@@ -75,6 +76,8 @@
     <Compile Include="Events\Storage\CityEventContainer.cs" />
     <Compile Include="Events\Storage\CityEventsLoader.cs" />
     <Compile Include="Events\Storage\CityEventIncentive.cs" />
+    <Compile Include="Events\Storage\RealTimeEventStorage.cs" />
+    <Compile Include="Events\Storage\RealTimeEventStorageContainer.cs" />
     <Compile Include="Events\VanillaEvent.cs" />
     <Compile Include="GameConnection\CameraHelper.cs" />
     <Compile Include="GameConnection\CitizenConnection.cs" />
@@ -113,7 +116,6 @@
     <Compile Include="GameConnection\TimeInfo.cs" />
     <Compile Include="Tools\DateTimeExtensions.cs" />
     <Compile Include="Tools\LinkedListExtensions.cs" />
-    <Compile Include="Tools\ValueChangedEventArgs.cs" />
     <Compile Include="UI\CustomTimeBarClickEventArgs.cs" />
     <Compile Include="UI\ConfigItemAttribute.cs" />
     <Compile Include="UI\ConfigItemCheckBoxAttribute.cs" />

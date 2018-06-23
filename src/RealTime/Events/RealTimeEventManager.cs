@@ -6,19 +6,24 @@ namespace RealTime.Events
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using System.Xml.Serialization;
     using RealTime.Config;
+    using RealTime.Core;
+    using RealTime.Events.Storage;
     using RealTime.GameConnection;
     using RealTime.Simulation;
     using RealTime.Tools;
 
-    internal sealed class RealTimeEventManager
+    internal sealed class RealTimeEventManager : IStorageData
     {
         private const int MaximumEventsCount = 5;
         private const float EarliestHourEventStartWeekday = 16f;
         private const float LatestHourEventStartWeekday = 20f;
         private const float EarliestHourEventStartWeekend = 8f;
         private const float LatestHourEventStartWeekend = 22f;
+        private const string StorageDataId = "RealTimeEvents";
 
         private static readonly TimeSpan MinimumIntervalBetweenEvents = TimeSpan.FromHours(3);
         private static readonly TimeSpan EventStartTimeGranularity = TimeSpan.FromMinutes(30);
@@ -77,6 +82,8 @@ namespace RealTime.Events
                 }
             }
         }
+
+        string IStorageData.StorageDataId => StorageDataId;
 
         public CityEventState GetEventState(ushort buildingId, DateTime latestStart)
         {
@@ -167,6 +174,58 @@ namespace RealTime.Events
             }
 
             CreateRandomEvent(building);
+        }
+
+        void IStorageData.ReadData(Stream source)
+        {
+            upcomingEvents.Clear();
+
+            var serializer = new XmlSerializer(typeof(RealTimeEventStorageContainer));
+            var data = (RealTimeEventStorageContainer)serializer.Deserialize(source);
+            foreach (RealTimeEventStorage storedEvent in data.Events)
+            {
+                if (string.IsNullOrEmpty(storedEvent.EventName) || string.IsNullOrEmpty(storedEvent.BuildingClassName))
+                {
+                    continue;
+                }
+
+                CityEventTemplate template = eventProvider.GetEventTemplate(storedEvent.EventName, storedEvent.BuildingClassName);
+                var realTimeEvent = new RealTimeCityEvent(template, storedEvent.AttendeesCount);
+                realTimeEvent.Configure(storedEvent.BuildingId, storedEvent.BuildingName, new DateTime(storedEvent.StartTime));
+
+                if (realTimeEvent.EndTime < timeInfo.Now)
+                {
+                    lastActiveEvent = realTimeEvent;
+                }
+                else
+                {
+                    upcomingEvents.AddLast(realTimeEvent);
+                }
+            }
+
+            OnEventsChanged();
+        }
+
+        void IStorageData.StoreData(Stream target)
+        {
+            var serializer = new XmlSerializer(typeof(RealTimeEventStorageContainer));
+            var data = new RealTimeEventStorageContainer();
+            AddEventToStorage(lastActiveEvent);
+            AddEventToStorage(activeEvent);
+            foreach (ICityEvent cityEvent in upcomingEvents)
+            {
+                AddEventToStorage(cityEvent);
+            }
+
+            serializer.Serialize(target, data);
+
+            void AddEventToStorage(ICityEvent cityEvent)
+            {
+                if (cityEvent != null && cityEvent is RealTimeCityEvent realTimeEvent)
+                {
+                    data.Events.Add(realTimeEvent.GetStorageData());
+                }
+            }
         }
 
         private void Update()

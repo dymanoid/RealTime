@@ -30,7 +30,7 @@ namespace RealTime.Events.Storage
             string searchPath = Path.Combine(rootPath, EventsFolder);
             if (!Directory.Exists(searchPath))
             {
-                Log.Warning($"The 'Real Time' mod did not found any events, the directory '{searchPath}' doesn't exist");
+                Log.Warning($"The 'Real Time' mod did not found any event templates, the directory '{searchPath}' doesn't exist");
                 return;
             }
 
@@ -59,6 +59,21 @@ namespace RealTime.Events.Storage
             return new RealTimeCityEvent(buildingEvents[eventNumber]);
         }
 
+        CityEventTemplate ICityEventsProvider.GetEventTemplate(string eventName, string buildingClassName)
+        {
+            if (eventName == null)
+            {
+                throw new ArgumentNullException(nameof(eventName));
+            }
+
+            if (buildingClassName == null)
+            {
+                throw new ArgumentNullException(nameof(buildingClassName));
+            }
+
+            return events.FirstOrDefault(e => e.EventName == eventName && e.BuildingClassName == buildingClassName);
+        }
+
         private void LoadEvents(IEnumerable<string> files)
         {
             var serializer = new XmlSerializer(typeof(CityEventContainer));
@@ -73,17 +88,17 @@ namespace RealTime.Events.Storage
                         foreach (CityEventTemplate @event in container.Templates.Where(e => !events.Any(ev => ev.EventName == e.EventName)))
                         {
                             events.Add(@event);
-                            Log.Debug($"Loaded event '{@event.EventName}' for '{@event.BuildingClassName}'");
+                            Log.Debug($"Loaded event template '{@event.EventName}' for '{@event.BuildingClassName}'");
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Log.Error($"The 'Real Time' mod was unable to load an event from file '{file}', error message: '{ex.Message}'");
+                    Log.Error($"The 'Real Time' mod was unable to load an event template from file '{file}', error message: '{ex.Message}'");
                 }
             }
 
-            Log.Debug($"Successfully loaded {events.Count} events");
+            Log.Debug($"Successfully loaded {events.Count} event templates");
         }
     }
 }
