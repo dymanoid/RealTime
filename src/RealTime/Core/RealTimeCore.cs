@@ -65,19 +65,21 @@ namespace RealTime.Core
 
             var timeInfo = new TimeInfo();
             var buildingManager = new BuildingManagerConnection();
+            var simulationManager = new SimulationManagerConnection();
 
             var gameConnections = new GameConnections<Citizen>(
                 timeInfo,
                 new CitizenConnection(),
                 new CitizenManagerConnection(),
                 buildingManager,
-                new SimulationManagerConnection());
+                simulationManager);
 
             var eventManager = new RealTimeEventManager(
                 config,
                 CityEventsLoader.Istance,
                 new EventManagerConnection(),
                 buildingManager,
+                simulationManager,
                 timeInfo);
 
             SetupCustomAI(timeInfo, config, gameConnections, eventManager);

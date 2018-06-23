@@ -15,12 +15,13 @@ namespace RealTime.Events
     internal sealed class RealTimeEventManager
     {
         private const int MaximumEventsCount = 5;
-        private const int IntervalBetweenEvents = 3;
         private const float EarliestHourEventStartWeekday = 16f;
         private const float LatestHourEventStartWeekday = 20f;
         private const float EarliestHourEventStartWeekend = 8f;
         private const float LatestHourEventStartWeekend = 22f;
 
+        private static readonly TimeSpan MinimumIntervalBetweenEvents = TimeSpan.FromHours(3);
+        private static readonly TimeSpan EventStartTimeGranularity = TimeSpan.FromMinutes(30);
         private static readonly TimeSpan EventProcessInterval = TimeSpan.FromMinutes(15);
 
         private static readonly ItemClass.Service[] EventBuildingServices = new[] { ItemClass.Service.Monument, ItemClass.Service.Beautification };
@@ -30,6 +31,7 @@ namespace RealTime.Events
         private readonly IEventProvider eventProvider;
         private readonly IEventManagerConnection eventManager;
         private readonly IBuildingManagerConnection buildingManager;
+        private readonly ISimulationManagerConnection simulationManager;
         private readonly ITimeInfo timeInfo;
 
         private IRealTimeEvent lastActiveEvent;
@@ -41,12 +43,14 @@ namespace RealTime.Events
             IEventProvider eventProvider,
             IEventManagerConnection eventManager,
             IBuildingManagerConnection buildingManager,
+            ISimulationManagerConnection simulationManager,
             ITimeInfo timeInfo)
         {
             this.config = config ?? throw new ArgumentNullException(nameof(config));
             this.eventProvider = eventProvider ?? throw new ArgumentNullException(nameof(eventProvider));
             this.eventManager = eventManager ?? throw new ArgumentNullException(nameof(eventManager));
             this.buildingManager = buildingManager ?? throw new ArgumentNullException(nameof(buildingManager));
+            this.simulationManager = simulationManager ?? throw new ArgumentNullException(nameof(simulationManager));
             this.timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
             upcomingEvents = new LinkedList<IRealTimeEvent>();
         }
@@ -205,12 +209,21 @@ namespace RealTime.Events
                 return;
             }
 
-            DateTime start = upcomingEvents.Count == 0 ? timeInfo.Now : upcomingEvents.Last.Value.EndTime;
-            start = start.AddHours(IntervalBetweenEvents);
+            DateTime startTime = GetRandomEventStartTime();
+            newEvent.Configure(buildingId, buildingManager.GetBuildingName(buildingId), startTime);
+            upcomingEvents.AddLast(newEvent);
+            Log.Debug(timeInfo.Now, $"New event created for building {newEvent.BuildingId}, starts on {newEvent.StartTime}, ends on {newEvent.EndTime}");
+        }
+
+        private DateTime GetRandomEventStartTime()
+        {
+            DateTime result = upcomingEvents.Count == 0
+                ? timeInfo.Now
+                : upcomingEvents.Last.Value.EndTime.Add(MinimumIntervalBetweenEvents);
 
             float earliestHour;
             float latestHour;
-            if (config.IsWeekendEnabled && timeInfo.Now.IsWeekend())
+            if (config.IsWeekendEnabled && result.IsWeekend())
             {
                 earliestHour = EarliestHourEventStartWeekend;
                 latestHour = LatestHourEventStartWeekend;
@@ -221,18 +234,19 @@ namespace RealTime.Events
                 latestHour = LatestHourEventStartWeekday;
             }
 
-            if (start.Hour >= latestHour)
+            float randomOffset = simulationManager.GetRandomizer().Int32((uint)((latestHour - earliestHour) * 60f)) / 60f;
+            result = result.AddHours(randomOffset).RoundCeil(EventStartTimeGranularity);
+
+            if (result.Hour >= latestHour)
             {
-                start = start.Date.AddHours(24 + earliestHour);
+                result = result.Date.AddHours(24 + earliestHour + randomOffset).RoundCeil(EventStartTimeGranularity);
             }
-            else if (start.Hour < earliestHour)
+            else if (result.Hour < earliestHour)
             {
-                start = start.AddHours(earliestHour - start.Hour);
+                result = result.AddHours(earliestHour - result.Hour + randomOffset).RoundCeil(EventStartTimeGranularity);
             }
 
-            newEvent.Configure(buildingId, start);
-            upcomingEvents.AddLast(newEvent);
-            Log.Debug(timeInfo.Now, $"New event created for building {newEvent.BuildingId}, starts on {newEvent.StartTime}, ends on {newEvent.EndTime}");
+            return result;
         }
     }
 }
