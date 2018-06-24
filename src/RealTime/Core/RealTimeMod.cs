@@ -21,6 +21,8 @@ namespace RealTime.Core
     /// </summary>
     public sealed class RealTimeMod : LoadingExtensionBase, IUserMod
     {
+        private const long WorkshopId = 1420955187;
+
         private readonly string modVersion = GitVersion.GetAssemblyVersion(typeof(RealTimeMod).Assembly);
         private readonly string modPath = GetModPath();
 
@@ -119,8 +121,10 @@ namespace RealTime.Core
 
         private static string GetModPath()
         {
+            string assemblyName = typeof(RealTimeMod).Assembly.GetName().Name;
+
             PluginManager.PluginInfo pluginInfo = PluginManager.instance.GetPluginsInfo()
-                .FirstOrDefault(pi => pi.name == typeof(RealTimeMod).Assembly.GetName().Name);
+                .FirstOrDefault(pi => pi.name == assemblyName || pi.publishedFileID.AsUInt64 == WorkshopId);
 
             return pluginInfo == null
                 ? Environment.CurrentDirectory
