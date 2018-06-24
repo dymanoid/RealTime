@@ -20,6 +20,7 @@ namespace RealTime.Events
     {
         private const int MaximumEventsCount = 5;
         private const string StorageDataId = "RealTimeEvents";
+        private const uint EventIntervalVariance = 48u;
 
         private static readonly TimeSpan MinimumIntervalBetweenEvents = TimeSpan.FromHours(3);
         private static readonly TimeSpan EventStartTimeGranularity = TimeSpan.FromMinutes(30);
@@ -38,6 +39,7 @@ namespace RealTime.Events
         private ICityEvent lastActiveEvent;
         private ICityEvent activeEvent;
         private DateTime lastProcessed;
+        private DateTime earliestEvent;
 
         public RealTimeEventManager(
             RealTimeConfig config,
@@ -171,6 +173,9 @@ namespace RealTime.Events
 
             var serializer = new XmlSerializer(typeof(RealTimeEventStorageContainer));
             var data = (RealTimeEventStorageContainer)serializer.Deserialize(source);
+
+            earliestEvent = new DateTime(data.EarliestEvent);
+
             foreach (RealTimeEventStorage storedEvent in data.Events)
             {
                 if (string.IsNullOrEmpty(storedEvent.EventName) || string.IsNullOrEmpty(storedEvent.BuildingClassName))
@@ -199,6 +204,9 @@ namespace RealTime.Events
         {
             var serializer = new XmlSerializer(typeof(RealTimeEventStorageContainer));
             var data = new RealTimeEventStorageContainer();
+
+            data.EarliestEvent = earliestEvent.Ticks;
+
             AddEventToStorage(lastActiveEvent);
             AddEventToStorage(activeEvent);
             foreach (ICityEvent cityEvent in upcomingEvents)
@@ -289,6 +297,13 @@ namespace RealTime.Events
             }
 
             DateTime startTime = GetRandomEventStartTime();
+            if (startTime < earliestEvent)
+            {
+                return;
+            }
+
+            earliestEvent = startTime.AddHours(simulationManager.GetRandomizer().Int32(EventIntervalVariance));
+
             newEvent.Configure(buildingId, buildingManager.GetBuildingName(buildingId), startTime);
             upcomingEvents.AddLast(newEvent);
             OnEventsChanged();

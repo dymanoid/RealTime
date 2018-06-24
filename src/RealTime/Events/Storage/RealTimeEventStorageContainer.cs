@@ -13,6 +13,9 @@ namespace RealTime.Events.Storage
         [XmlAttribute]
         public int Version { get; set; } = 1;
 
+        [XmlElement]
+        public long EarliestEvent { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "XML serialization")]
         [XmlArray("Events")]
         [XmlArrayItem("RealTimeEventStorage")]
