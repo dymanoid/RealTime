@@ -155,10 +155,10 @@
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Localization\ru.xml">
+    <Content Include="Localization\Translations\ru.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Localization\en.xml">
+    <Content Include="Localization\Translations\en.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="RealTimeEvents\Aquarium.xml" />
@@ -175,7 +175,7 @@
   <PropertyGroup>
     <PostBuildEvent>if not exist "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)" mkdir "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"
 xcopy /y /q /d "$(TargetPath)" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"
-xcopy /y /q /i /d "$(TargetDir)Localization" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)\Localization"
+xcopy /y /q /i /d "$(TargetDir)Localization\Translations" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)\Localization"
 xcopy /y /q /i /d "$(ProjectDir)RealTimeEvents" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)\Events"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets" Condition="Exists('..\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets')" />
