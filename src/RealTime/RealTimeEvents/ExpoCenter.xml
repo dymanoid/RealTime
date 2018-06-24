@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EventContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Events>
+		<Event EventName="BusinessExpo" BuildingName="ExpoCenter" UserEventName="Business Expo" Capacity="5000" LengthInHours="2" SupportsRandomEvents="true" SupportsUserEvents="true" CanBeWatchedOnTV="false">
+			<InitialisedMessages>
+				<Message>Anyone else going to the #business expo in {0}? I need someone to give me a #lift #event</Message>
+                <Message>If anyone's going to the #business expo in {0}, you better get tickets quick! #event</Message>
+			</InitialisedMessages>
+			
+			<BeginMessages>
+				<Message>Talk about a lot of stalls! I didn't even realise you could fit this many people into the Expo Center. #event</Message>
+                <Message>The #business expo has begun! #event</Message>
+			</BeginMessages>
+			
+			<EndMessages>
+			</EndMessages>
+			
+			<ChanceOfAttendingPercentage>
+				<Males>70</Males>
+				<Females>70</Females>
+				
+				<Children>0</Children>
+				<Teens>0</Teens>
+				<YoungAdults>50</YoungAdults>
+				<Adults>100</Adults>
+				<Seniors>10</Seniors>
+				
+				<LowWealth>0</LowWealth>
+				<MediumWealth>20</MediumWealth>
+				<HighWealth>100</HighWealth>
+				
+				<Uneducated>0</Uneducated>
+				<OneSchool>20</OneSchool>
+				<TwoSchools>60</TwoSchools>
+				<ThreeSchools>100</ThreeSchools>
+				
+				<BadHappiness>0</BadHappiness>
+				<PoorHappiness>30</PoorHappiness>
+				<GoodHappiness>80</GoodHappiness>				
+				<ExcellentHappiness>100</ExcellentHappiness>
+				<SuperbHappiness>100</SuperbHappiness>
+				
+				<VeryUnhappyWellbeing>0</VeryUnhappyWellbeing>
+				<UnhappyWellbeing>10</UnhappyWellbeing>
+				<SatisfiedWellbeing>50</SatisfiedWellbeing>
+				<HappyWellbeing>100</HappyWellbeing>
+				<VeryHappyWellbeing>100</VeryHappyWellbeing>
+			</ChanceOfAttendingPercentage>
+			
+			<Costs>
+				<Creation>120000</Creation>
+				<PerHead>20</PerHead>
+				<AdvertisingSigns>5000</AdvertisingSigns>
+				<AdvertisingTV>5000</AdvertisingTV>
+				<EntryCost>100</EntryCost>
+			</Costs>
+			
+			<Incentives>
+				<Incentive Name="Food" Cost="7" ReturnCost="15" ActiveWhenRandomEvent="true">
+					<Description>Allows citizens to buy food at the event.</Description>
+					<PositiveEffect>0</PositiveEffect>
+					<NegativeEffect>25</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Free food" Cost="20" ReturnCost="0" ActiveWhenRandomEvent="false">
+					<Description>Gives citizens free food at the event. Costs more to purchase, and there's no return on your investment.</Description>
+					<PositiveEffect>30</PositiveEffect>
+					<NegativeEffect>0</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Paid WiFi" Cost="2" ReturnCost="10" ActiveWhenRandomEvent="true">
+					<Description>Allows attendees to use WiFi in the event for a small cost.</Description>
+					<PositiveEffect>10</PositiveEffect>
+					<NegativeEffect>10</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Free WiFi" Cost="8" ReturnCost="0" ActiveWhenRandomEvent="false">
+					<Description>Gives citizens free WiFi at the event. Costs more to purchase, and there's no return on your investment.</Description>
+					<PositiveEffect>30</PositiveEffect>
+					<NegativeEffect>0</NegativeEffect>
+				</Incentive>
+			</Incentives>
+		</Event>
+		
+		<Event EventName="CaravanExpo" BuildingName="ExpoCenter" Capacity="500" LengthInHours="1.5">
+			<InitialisedMessages>
+				<Message>Awww, there's only a #caravan expo going on in {0}... I was hoping for something more exciting. #event</Message>
+			</InitialisedMessages>
+			
+			<!-- Old people don't use Chirper -->
+			<BeginMessages>
+			</BeginMessages>
+			
+			<EndMessages>
+			</EndMessages>
+			
+			<ChanceOfAttendingPercentage>
+				<Males>100</Males>
+				<Females>40</Females>
+				
+				<Children>0</Children>
+				<Teens>0</Teens>
+				<YoungAdults>0</YoungAdults>
+				<Adults>20</Adults>
+				<Seniors>100</Seniors>
+				
+				<LowWealth>0</LowWealth>
+				<MediumWealth>20</MediumWealth>
+				<HighWealth>100</HighWealth>
+				
+				<Uneducated>0</Uneducated>
+				<OneSchool>20</OneSchool>
+				<TwoSchools>60</TwoSchools>
+				<ThreeSchools>100</ThreeSchools>
+				
+				<BadHappiness>0</BadHappiness>
+				<PoorHappiness>30</PoorHappiness>
+				<GoodHappiness>80</GoodHappiness>				
+				<ExcellentHappiness>100</ExcellentHappiness>
+				<SuperbHappiness>100</SuperbHappiness>
+				
+				<VeryUnhappyWellbeing>0</VeryUnhappyWellbeing>
+				<UnhappyWellbeing>10</UnhappyWellbeing>
+				<SatisfiedWellbeing>50</SatisfiedWellbeing>
+				<HappyWellbeing>100</HappyWellbeing>
+				<VeryHappyWellbeing>100</VeryHappyWellbeing>
+			</ChanceOfAttendingPercentage>
+		</Event>
+		
+		<Event EventName="ComicExpo" BuildingName="ExpoCenter" UserEventName="Comic Book Expo" Capacity="9000" LengthInHours="6" SupportsRandomEvents="true" SupportsUserEvents="true" CanBeWatchedOnTV="false">
+			<InitialisedMessages>
+				<Message>YES! FINALLY! An actually exciting #event going on at the Expo Center. #comicbooks</Message>
+			</InitialisedMessages>
+			
+			<BeginMessages>
+				<Message>The doors have opened! #comicbooks #event</Message>
+			</BeginMessages>
+			
+			<EndMessages>
+				<Message>Shame it closes so early. I still had tons of places to visit #comicbooks #event</Message>
+			</EndMessages>
+			
+			<ChanceOfAttendingPercentage>
+				<Males>80</Males>
+				<Females>20</Females>
+				
+				<Children>5</Children>
+				<Teens>100</Teens>
+				<YoungAdults>100</YoungAdults>
+				<Adults>20</Adults>
+				<Seniors>0</Seniors>
+				
+				<LowWealth>0</LowWealth>
+				<MediumWealth>80</MediumWealth>
+				<HighWealth>100</HighWealth>
+				
+				<Uneducated>0</Uneducated>
+				<OneSchool>20</OneSchool>
+				<TwoSchools>100</TwoSchools>
+				<ThreeSchools>100</ThreeSchools>
+				
+				<BadHappiness>0</BadHappiness>
+				<PoorHappiness>30</PoorHappiness>
+				<GoodHappiness>80</GoodHappiness>				
+				<ExcellentHappiness>100</ExcellentHappiness>
+				<SuperbHappiness>100</SuperbHappiness>
+				
+				<VeryUnhappyWellbeing>0</VeryUnhappyWellbeing>
+				<UnhappyWellbeing>10</UnhappyWellbeing>
+				<SatisfiedWellbeing>50</SatisfiedWellbeing>
+				<HappyWellbeing>100</HappyWellbeing>
+				<VeryHappyWellbeing>100</VeryHappyWellbeing>
+			</ChanceOfAttendingPercentage>
+			
+			<Costs>
+				<Creation>160000</Creation>
+				<PerHead>20</PerHead>
+				<AdvertisingSigns>5000</AdvertisingSigns>
+				<AdvertisingTV>5000</AdvertisingTV>
+				<EntryCost>100</EntryCost>
+			</Costs>
+			
+			<Incentives>
+				<Incentive Name="Food" Cost="10" ReturnCost="15" ActiveWhenRandomEvent="true">
+					<Description>Allows citizens to buy food at the event.</Description>
+					<PositiveEffect>0</PositiveEffect>
+					<NegativeEffect>25</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Drinks" Cost="6" ReturnCost="10" ActiveWhenRandomEvent="true">
+					<Description>Allows citizens to buy drinks at the event.</Description>
+					<PositiveEffect>0</PositiveEffect>
+					<NegativeEffect>50</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Free food" Cost="20" ReturnCost="0" ActiveWhenRandomEvent="false">
+					<Description>Gives citizens free food at the event. Costs more to purchase, and there's no return on your investment.</Description>
+					<PositiveEffect>30</PositiveEffect>
+					<NegativeEffect>0</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Free drinks" Cost="20" ReturnCost="0" ActiveWhenRandomEvent="false">
+					<Description>Gives citizens free drinks at the event. Costs more to purchase, and there's no return on your investment.</Description>
+					<PositiveEffect>30</PositiveEffect>
+					<NegativeEffect>0</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Paid WiFi" Cost="2" ReturnCost="10" ActiveWhenRandomEvent="true">
+					<Description>Allows attendees to use WiFi in the event for a small cost.</Description>
+					<PositiveEffect>10</PositiveEffect>
+					<NegativeEffect>10</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Free WiFi" Cost="8" ReturnCost="0" ActiveWhenRandomEvent="false">
+					<Description>Gives citizens free WiFi at the event. Costs more to purchase, and there's no return on your investment.</Description>
+					<PositiveEffect>30</PositiveEffect>
+					<NegativeEffect>0</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Comic signing" Cost="20" ReturnCost="80" ActiveWhenRandomEvent="false">
+					<Description>Allows citizens to get their comic books signed by the authors.</Description>
+					<PositiveEffect>30</PositiveEffect>
+					<NegativeEffect>0</NegativeEffect>
+				</Incentive>
+			</Incentives>
+		</Event>
+		
+		<Event EventName="ElectronicExpo" UserEventName="Electronics Expo" BuildingName="ExpoCenter" Capacity="2000" LengthInHours="3" SupportsRandomEvents="true" SupportsUserEvents="true" CanBeWatchedOnTV="false">
+			<InitialisedMessages>
+				<Message>An electronic expo?! In {0}?! Tickets please! #event</Message>
+			</InitialisedMessages>
+			
+			<BeginMessages>
+				<Message>I wonder how much all these #electronics cost... #event</Message>
+			</BeginMessages>
+			
+			<EndMessages>
+				<Message>Awwww, the event's over already? I was enjoying myself :( #event</Message>
+				<Message>Got myself some awesome stuff! A new #chirper phone? Yes please! #event</Message>
+			</EndMessages>
+			
+			<ChanceOfAttendingPercentage>
+				<Males>80</Males>
+				<Females>60</Females>
+				
+				<Children>0</Children>
+				<Teens>100</Teens>
+				<YoungAdults>100</YoungAdults>
+				<Adults>100</Adults>
+				<Seniors>40</Seniors>
+				
+				<LowWealth>0</LowWealth>
+				<MediumWealth>80</MediumWealth>
+				<HighWealth>100</HighWealth>
+				
+				<Uneducated>0</Uneducated>
+				<OneSchool>20</OneSchool>
+				<TwoSchools>60</TwoSchools>
+				<ThreeSchools>100</ThreeSchools>
+				
+				<BadHappiness>0</BadHappiness>
+				<PoorHappiness>30</PoorHappiness>
+				<GoodHappiness>80</GoodHappiness>				
+				<ExcellentHappiness>100</ExcellentHappiness>
+				<SuperbHappiness>100</SuperbHappiness>
+				
+				<VeryUnhappyWellbeing>0</VeryUnhappyWellbeing>
+				<UnhappyWellbeing>10</UnhappyWellbeing>
+				<SatisfiedWellbeing>50</SatisfiedWellbeing>
+				<HappyWellbeing>100</HappyWellbeing>
+				<VeryHappyWellbeing>100</VeryHappyWellbeing>
+			</ChanceOfAttendingPercentage>
+			
+			<Costs>
+				<Creation>200000</Creation>
+				<PerHead>10</PerHead>
+				<AdvertisingSigns>5000</AdvertisingSigns>
+				<AdvertisingTV>5000</AdvertisingTV>
+				<EntryCost>120</EntryCost>
+			</Costs>
+			
+			<Incentives>
+				<Incentive Name="Food" Cost="10" ReturnCost="15" ActiveWhenRandomEvent="true">
+					<Description>Allows citizens to buy food at the event.</Description>
+					<PositiveEffect>0</PositiveEffect>
+					<NegativeEffect>25</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Drinks" Cost="6" ReturnCost="10" ActiveWhenRandomEvent="true">
+					<Description>Allows citizens to buy drinks at the event.</Description>
+					<PositiveEffect>0</PositiveEffect>
+					<NegativeEffect>50</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Free food" Cost="20" ReturnCost="0" ActiveWhenRandomEvent="false">
+					<Description>Gives citizens free food at the event. Costs more to purchase, and there's no return on your investment.</Description>
+					<PositiveEffect>30</PositiveEffect>
+					<NegativeEffect>0</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Free drinks" Cost="20" ReturnCost="0" ActiveWhenRandomEvent="false">
+					<Description>Gives citizens free drinks at the event. Costs more to purchase, and there's no return on your investment.</Description>
+					<PositiveEffect>30</PositiveEffect>
+					<NegativeEffect>0</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Paid WiFi" Cost="2" ReturnCost="10" ActiveWhenRandomEvent="true">
+					<Description>Allows attendees to use WiFi in the event for a small cost.</Description>
+					<PositiveEffect>10</PositiveEffect>
+					<NegativeEffect>10</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Free WiFi" Cost="8" ReturnCost="0" ActiveWhenRandomEvent="false">
+					<Description>Gives citizens free WiFi at the event. Costs more to purchase, and there's no return on your investment.</Description>
+					<PositiveEffect>30</PositiveEffect>
+					<NegativeEffect>0</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Free electronics" Cost="100" ReturnCost="0" ActiveWhenRandomEvent="false">
+					<Description>Allows citizens to have the chance to win some electronics!</Description>
+					<PositiveEffect>50</PositiveEffect>
+					<NegativeEffect>0</NegativeEffect>
+				</Incentive>
+			</Incentives>
+		</Event>
+		
+		<Event EventName="GameExpo" UserEventName="Games Expo" BuildingName="ExpoCenter" Capacity="9000" LengthInHours="6" SupportsRandomEvents="true" SupportsUserEvents="true" CanBeWatchedOnTV="false">
+			<InitialisedMessages>
+				<Message>A #games expo? In my city? In {0}? Whaaaat? #event</Message>
+                <Message>Can't wait to see what companies are attending the #games expo in {0}. I wonder if the city building game will be there... #event</Message>
+                <Message>Got my tickets for the #game expo in {0}! So excited! #event</Message>
+			</InitialisedMessages>
+			
+			<BeginMessages>
+				<Message>So many #games! I'm so excited! #event</Message>
+                <Message>Can't wait to get my hands on some of the #VR equipment! #event</Message>
+                <Message>The games are so realistic this year! #event</Message>
+			</BeginMessages>
+			
+			<EndMessages>
+				<Message>Over already? I can't believe it. I hope there's another soon. #event</Message>
+			</EndMessages>
+			
+			<ChanceOfAttendingPercentage>
+				<Males>80</Males>
+				<Females>30</Females>
+				
+				<Children>5</Children>
+				<Teens>100</Teens>
+				<YoungAdults>100</YoungAdults>
+				<Adults>20</Adults>
+				<Seniors>0</Seniors>
+				
+				<LowWealth>0</LowWealth>
+				<MediumWealth>80</MediumWealth>
+				<HighWealth>100</HighWealth>
+				
+				<Uneducated>0</Uneducated>
+				<OneSchool>20</OneSchool>
+				<TwoSchools>60</TwoSchools>
+				<ThreeSchools>100</ThreeSchools>
+				
+				<BadHappiness>0</BadHappiness>
+				<PoorHappiness>30</PoorHappiness>
+				<GoodHappiness>80</GoodHappiness>				
+				<ExcellentHappiness>100</ExcellentHappiness>
+				<SuperbHappiness>100</SuperbHappiness>
+				
+				<VeryUnhappyWellbeing>0</VeryUnhappyWellbeing>
+				<UnhappyWellbeing>10</UnhappyWellbeing>
+				<SatisfiedWellbeing>50</SatisfiedWellbeing>
+				<HappyWellbeing>100</HappyWellbeing>
+				<VeryHappyWellbeing>100</VeryHappyWellbeing>
+			</ChanceOfAttendingPercentage>
+			
+			<Costs>
+				<Creation>120000</Creation>
+				<PerHead>30</PerHead>
+				<AdvertisingSigns>5000</AdvertisingSigns>
+				<AdvertisingTV>5000</AdvertisingTV>
+				<EntryCost>110</EntryCost>
+			</Costs>
+			
+			<Incentives>
+				<Incentive Name="Food" Cost="10" ReturnCost="15" ActiveWhenRandomEvent="true">
+					<Description>Allows citizens to buy food at the event.</Description>
+					<PositiveEffect>0</PositiveEffect>
+					<NegativeEffect>25</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Drinks" Cost="6" ReturnCost="10" ActiveWhenRandomEvent="true">
+					<Description>Allows citizens to buy drinks at the event.</Description>
+					<PositiveEffect>0</PositiveEffect>
+					<NegativeEffect>50</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Free food" Cost="20" ReturnCost="0" ActiveWhenRandomEvent="false">
+					<Description>Gives citizens free food at the event. Costs more to purchase, and there's no return on your investment.</Description>
+					<PositiveEffect>30</PositiveEffect>
+					<NegativeEffect>0</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Free drinks" Cost="20" ReturnCost="0" ActiveWhenRandomEvent="false">
+					<Description>Gives citizens free drinks at the event. Costs more to purchase, and there's no return on your investment.</Description>
+					<PositiveEffect>30</PositiveEffect>
+					<NegativeEffect>0</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Paid WiFi" Cost="2" ReturnCost="10" ActiveWhenRandomEvent="true">
+					<Description>Allows attendees to use WiFi in the event for a small cost.</Description>
+					<PositiveEffect>10</PositiveEffect>
+					<NegativeEffect>10</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Free WiFi" Cost="8" ReturnCost="0" ActiveWhenRandomEvent="false">
+					<Description>Gives citizens free WiFi at the event. Costs more to purchase, and there's no return on your investment.</Description>
+					<PositiveEffect>30</PositiveEffect>
+					<NegativeEffect>0</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Games" Cost="20" ReturnCost="60" ActiveWhenRandomEvent="false">
+					<Description>Allows citizens to buy games!</Description>
+					<PositiveEffect>7</PositiveEffect>
+					<NegativeEffect>5</NegativeEffect>
+				</Incentive>
+				<Incentive Name="Free games" Cost="60" ReturnCost="0" ActiveWhenRandomEvent="false">
+					<Description>Allows citizens to have the chance to win some games!</Description>
+					<PositiveEffect>50</PositiveEffect>
+					<NegativeEffect>0</NegativeEffect>
+				</Incentive>
+			</Incentives>
+		</Event>
+	</Events>
+</EventContainer>

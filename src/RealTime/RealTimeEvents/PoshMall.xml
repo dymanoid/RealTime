@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EventContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Events>
+		<Event EventName="PoshMallShopOpening" BuildingName="Posh Mall" Capacity="1000" LengthInHours="0.8">
+			<InitialisedMessages>
+				<Message>Yet another shop opening in {0}? How many more can they fit in there? #event</Message>
+                <Message>Finally! They're opening another shop! #event</Message>
+			</InitialisedMessages>
+			
+			<BeginMessages>
+				<Message>This #shop's pretty huge! It's going to take years to get around here. #event</Message>
+				<Message>Wow, and I thought I'd seen everything. #event</Message>
+				<Message>So... Expensive... #event</Message>
+			</BeginMessages>
+			
+			<EndMessages>
+				<Message>Got sooo much stuff... #event</Message>
+                <Message>Ok... How am I going to get all this stuff home? Could someone pick me up? #shops #event</Message>
+                <Message>Well, that was #underwhelming... #event</Message>
+			</EndMessages>
+			
+			<ChanceOfAttendingPercentage>
+				<Males>60</Males>
+				<Females>100</Females>
+				
+				<Children>10</Children>
+				<Teens>50</Teens>
+				<YoungAdults>100</YoungAdults>
+				<Adults>60</Adults>
+				<Seniors>5</Seniors>
+				
+				<LowWealth>0</LowWealth>
+				<MediumWealth>10</MediumWealth>
+				<HighWealth>100</HighWealth>
+				
+				<Uneducated>0</Uneducated>
+				<OneSchool>10</OneSchool>
+				<TwoSchools>80</TwoSchools>
+				<ThreeSchools>100</ThreeSchools>
+				
+				<BadHappiness>0</BadHappiness>
+				<PoorHappiness>30</PoorHappiness>
+				<GoodHappiness>80</GoodHappiness>				
+				<ExcellentHappiness>100</ExcellentHappiness>
+				<SuperbHappiness>100</SuperbHappiness>
+				
+				<VeryUnhappyWellbeing>0</VeryUnhappyWellbeing>
+				<UnhappyWellbeing>10</UnhappyWellbeing>
+				<SatisfiedWellbeing>50</SatisfiedWellbeing>
+				<HappyWellbeing>100</HappyWellbeing>
+				<VeryHappyWellbeing>100</VeryHappyWellbeing>
+			</ChanceOfAttendingPercentage>
+		</Event>
+	</Events>
+</EventContainer>

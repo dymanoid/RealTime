@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7CD7702C-E7D3-4E61-BF3A-B10F7950DE52}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RealTime</RootNamespace>
+    <AssemblyName>RealTime</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>..\BuildEnvironment\RealTime.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>..\BuildEnvironment\RealTime.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ColossalManaged">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ICities">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Config\ConfigurationProvider.cs" />
+    <Compile Include="Core\IStorageData.cs" />
+    <Compile Include="Core\RealTimeStorage.cs" />
+    <Compile Include="CustomAI\Constants.cs" />
+    <Compile Include="CustomAI\RealTimeHumanAIBase.cs" />
+    <Compile Include="CustomResidentAI\ResidentState.cs" />
+    <Compile Include="CustomBuildingAI\RealTimePrivateBuildingAI.cs" />
+    <Compile Include="CustomResidentAI\RealTimeResidentAI.Common.cs" />
+    <Compile Include="CustomResidentAI\RealTimeResidentAI.cs" />
+    <Compile Include="CustomTouristAI\RealTimeTouristAI.cs" />
+    <Compile Include="Events\CityEventState.cs" />
+    <Compile Include="Events\ICityEventsProvider.cs" />
+    <Compile Include="Events\ICityEvent.cs" />
+    <Compile Include="Events\RealTimeCityEvent.cs" />
+    <Compile Include="Events\CityEventBase.cs" />
+    <Compile Include="Events\RealTimeEventManager.cs" />
+    <Compile Include="Events\RealTimeEventSimulation.cs" />
+    <Compile Include="Events\Storage\CityEventAttendees.cs" />
+    <Compile Include="Events\Storage\CityEventCosts.cs" />
+    <Compile Include="Events\Storage\CityEventTemplate.cs" />
+    <Compile Include="Events\Storage\CityEventContainer.cs" />
+    <Compile Include="Events\Storage\CityEventsLoader.cs" />
+    <Compile Include="Events\Storage\CityEventIncentive.cs" />
+    <Compile Include="Events\Storage\RealTimeEventStorage.cs" />
+    <Compile Include="Events\Storage\RealTimeEventStorageContainer.cs" />
+    <Compile Include="Events\VanillaEvent.cs" />
+    <Compile Include="GameConnection\CameraHelper.cs" />
+    <Compile Include="GameConnection\CitizenConnection.cs" />
+    <Compile Include="GameConnection\ICitizenConnection.cs" />
+    <Compile Include="GameConnection\ISimulationManagerConnection.cs" />
+    <Compile Include="GameConnection\IToolManagerConnection.cs" />
+    <Compile Include="GameConnection\ITransferManagerConnection.cs" />
+    <Compile Include="GameConnection\PrivateBuildingAIHook.cs" />
+    <Compile Include="GameConnection\TouristAIConnection.cs" />
+    <Compile Include="GameConnection\TouristAIHook.cs" />
+    <Compile Include="GameConnection\ResidentAIHook.cs" />
+    <Compile Include="CustomResidentAI\RealTimeResidentAI.Moving.cs" />
+    <Compile Include="CustomResidentAI\RealTimeResidentAI.Visit.cs" />
+    <Compile Include="CustomResidentAI\RealTimeResidentAI.SchoolWork.cs" />
+    <Compile Include="GameConnection\BuildingManagerConnection.cs" />
+    <Compile Include="GameConnection\CitizenManagerConnection.cs" />
+    <Compile Include="GameConnection\GameConnections.cs" />
+    <Compile Include="GameConnection\EventManagerConnection.cs" />
+    <Compile Include="GameConnection\IBuildingManagerConnection.cs" />
+    <Compile Include="GameConnection\ICitizenManagerConnection.cs" />
+    <Compile Include="GameConnection\IEventManagerConnection.cs" />
+    <Compile Include="GameConnection\ResidentAIConnection.cs" />
+    <Compile Include="Config\RealTimeConfig.cs" />
+    <Compile Include="Core\RealTimeCore.cs" />
+    <Compile Include="GameConnection\SimulationManagerConnection.cs" />
+    <Compile Include="GameConnection\ToolManagerConnection.cs" />
+    <Compile Include="GameConnection\TransferManagerConnection.cs" />
+    <Compile Include="Localization\Constants.cs" />
+    <Compile Include="Localization\LocalizationProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Core\RealTimeMod.cs" />
+    <Compile Include="Simulation\DaylightTimeSimulation.cs" />
+    <Compile Include="Simulation\DayTime.cs" />
+    <Compile Include="Simulation\ITimeInfo.cs" />
+    <Compile Include="Simulation\TimeAdjustment.cs" />
+    <Compile Include="GameConnection\TimeInfo.cs" />
+    <Compile Include="Tools\DateTimeExtensions.cs" />
+    <Compile Include="Tools\LinkedListExtensions.cs" />
+    <Compile Include="UI\CustomTimeBarClickEventArgs.cs" />
+    <Compile Include="UI\ConfigItemAttribute.cs" />
+    <Compile Include="UI\ConfigItemCheckBoxAttribute.cs" />
+    <Compile Include="UI\ConfigItemSliderAttribute.cs" />
+    <Compile Include="UI\ConfigItemUIBaseAttribute.cs" />
+    <Compile Include="UI\ConfigUI.cs" />
+    <Compile Include="UI\DateTooltipBehavior.cs" />
+    <Compile Include="Tools\GitVersion.cs" />
+    <Compile Include="Tools\Log.cs" />
+    <Compile Include="UI\IContainerViewItem.cs" />
+    <Compile Include="UI\IViewItem.cs" />
+    <Compile Include="UI\IViewItemFactory.cs" />
+    <Compile Include="UI\RealTimeUIDateTimeWrapper.cs" />
+    <Compile Include="UI\CustomTimeBar.cs" />
+    <Compile Include="UI\SliderValueType.cs" />
+    <Compile Include="UI\UnityCheckBoxItem.cs" />
+    <Compile Include="UI\UnityPageViewItem.cs" />
+    <Compile Include="UI\UnitySliderItem.cs" />
+    <Compile Include="UI\UnityViewItem.cs" />
+    <Compile Include="UI\UnityViewItemFactory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Redirection\Redirection.csproj">
+      <Project>{7dcc08ef-dc85-47a4-bd6f-79fc52c7ef13}</Project>
+      <Name>Redirection</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="..\BuildEnvironment\stylecop.json">
+      <Link>stylecop.json</Link>
+    </AdditionalFiles>
+    <Compile Include="CustomResidentAI\RealTimeResidentAI.Home.cs" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Localization\Translations\de.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Localization\Translations\ru.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Localization\Translations\en.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RealTimeEvents\Aquarium.xml" />
+    <Content Include="RealTimeEvents\ArtMuseum.xml" />
+    <Content Include="RealTimeEvents\ExpoCenter.xml" />
+    <Content Include="RealTimeEvents\Library.xml" />
+    <Content Include="RealTimeEvents\Opera.xml" />
+    <Content Include="RealTimeEvents\PoshMall.xml" />
+    <Content Include="RealTimeEvents\Stadium.xml" />
+    <Content Include="RealTimeEvents\Theater.xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if not exist "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)" mkdir "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"
+xcopy /y /q /d "$(TargetPath)" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"
+xcopy /y /q /i /d "$(TargetDir)Localization\Translations" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)\Localization"
+xcopy /y /q /i /d "$(ProjectDir)RealTimeEvents" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)\Events"</PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="..\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets" Condition="Exists('..\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets'))" />
+  </Target>
+</Project>

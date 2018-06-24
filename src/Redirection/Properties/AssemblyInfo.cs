@@ -5,10 +5,10 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("RealTime")]
-[assembly: AssemblyDescription("A mod for the Cities:Skylines game")]
+[assembly: AssemblyTitle("Redirection")]
+[assembly: AssemblyDescription("Provides a toolset for method calls redirection")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("dymanoid")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("RealTime")]
 [assembly: AssemblyCopyright("Copyright © dymanoid 2018")]
 [assembly: AssemblyTrademark("")]

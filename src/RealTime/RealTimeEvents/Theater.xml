@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EventContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Events>
+		<Event EventName="TheaterEvent" BuildingName="Theater of Wonders" Capacity="700" LengthInHours="2.3">
+			<InitialisedMessages>
+				<Message>Anyone want to go to the #theater with me in {0}? I've got some free time. #event</Message>
+			</InitialisedMessages>
+			
+			<BeginMessages>
+				<Message>Wow, this really is a theater of wonders! #event</Message>
+			</BeginMessages>
+			
+			<EndMessages>
+				<Message>That was awesome! #event</Message>
+			</EndMessages>
+			
+			<ChanceOfAttendingPercentage>
+				<Males>100</Males>
+				<Females>100</Females>
+				
+				<Children>20</Children>
+				<Teens>40</Teens>
+				<YoungAdults>100</YoungAdults>
+				<Adults>100</Adults>
+				<Seniors>60</Seniors>
+				
+				<LowWealth>0</LowWealth>
+				<MediumWealth>60</MediumWealth>
+				<HighWealth>100</HighWealth>
+				
+				<Uneducated>0</Uneducated>
+				<OneSchool>20</OneSchool>
+				<TwoSchools>50</TwoSchools>
+				<ThreeSchools>100</ThreeSchools>
+				
+				<BadHappiness>0</BadHappiness>
+				<PoorHappiness>30</PoorHappiness>
+				<GoodHappiness>80</GoodHappiness>				
+				<ExcellentHappiness>100</ExcellentHappiness>
+				<SuperbHappiness>100</SuperbHappiness>
+				
+				<VeryUnhappyWellbeing>0</VeryUnhappyWellbeing>
+				<UnhappyWellbeing>10</UnhappyWellbeing>
+				<SatisfiedWellbeing>50</SatisfiedWellbeing>
+				<HappyWellbeing>100</HappyWellbeing>
+				<VeryHappyWellbeing>100</VeryHappyWellbeing>
+			</ChanceOfAttendingPercentage>
+		</Event>
+	</Events>
+</EventContainer>
