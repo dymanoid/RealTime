@@ -25,6 +25,14 @@ namespace RealTime.Config
         [ConfigItemCheckBox]
         public bool IsLunchtimeEnabled { get; set; } = true;
 
+        [ConfigItem("1General", 2)]
+        [ConfigItemCheckBox]
+        public bool StopConstructionAtNight { get; set; } = true;
+
+        [ConfigItem("1General", 3)]
+        [ConfigItemSlider(1, 100)]
+        public uint ConstructionSpeed { get; set; } = 30;
+
         /// <summary>
         /// Gets or sets the percentage of the Cims that will go out for lunch.
         /// Valid values are 0..100.

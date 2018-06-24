@@ -196,6 +196,7 @@ namespace RealTime.Core
             TouristAIHook.RealTimeAI = realTimeTouristAI;
 
             var realTimePrivateBuildingAI = new RealTimePrivateBuildingAI(
+                config,
                 timeInfo,
                 new ToolManagerConnection());
 

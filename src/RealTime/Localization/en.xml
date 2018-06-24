@@ -6,6 +6,10 @@
   <translation id="IsWeekendEnabledTooltip" value="Cims don't go to work or school on weekends" />
   <translation id="IsLunchtimeEnabled" value="Enable Lunch time" />
   <translation id="IsLunchtimeEnabledTooltip" value="Cims should go out at lunch for food" />
+  <translation id="StopConstructionAtNight" value="Pause the building construction and upgrade at night time" />
+  <translation id="StopConstructionAtNightTooltip" value="The construction site workers need to sleep too" />
+  <translation id="ConstructionSpeed" value="Construction speed" />
+  <translation id="ConstructionSpeedTooltip" value="Buildings construction and upgrading speed" />
 
   <translation id="2Quotas" value="Probabilities" />
   <translation id="LunchQuota" value="Lunch probability" />

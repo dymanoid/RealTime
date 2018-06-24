@@ -6,6 +6,10 @@
   <translation id="IsWeekendEnabledTooltip" value="Жители не ходят в школу и на работу по выходным" />
   <translation id="IsLunchtimeEnabled" value="Включить обед" />
   <translation id="IsLunchtimeEnabledTooltip" value="Работники выходят на обед в близлежащие заведения" />
+  <translation id="StopConstructionAtNight" value="Приостановить стройку и улучшение зданий ночью" />
+  <translation id="StopConstructionAtNightTooltip" value="Строители тоже хотят поспать" />
+  <translation id="ConstructionSpeed" value="Скорость постройки" />
+  <translation id="ConstructionSpeedTooltip" value="Скорость постройки и улучшения зданий" />
 
   <translation id="2Quotas" value="Вероятности" />
   <translation id="LunchQuota" value="Пойти обедать" />
