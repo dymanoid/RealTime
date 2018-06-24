@@ -16,7 +16,7 @@ namespace RealTime.GameConnection
                 : EventManager.instance.m_events.m_buffer[eventId].m_flags;
         }
 
-        public IEnumerable<ushort> GetUpcomingEvents(DateTime latestTime)
+        public IEnumerable<ushort> GetUpcomingEvents(DateTime earliestTime, DateTime latestTime)
         {
             FastList<EventData> events = EventManager.instance.m_events;
             for (ushort i = 0; i < events.m_size && i < EventManager.MAX_EVENT_COUNT; ++i)
@@ -27,7 +27,7 @@ namespace RealTime.GameConnection
                     continue;
                 }
 
-                if (eventData.StartTime < latestTime)
+                if (eventData.StartTime >= earliestTime && eventData.StartTime < latestTime)
                 {
                     yield return i;
                 }

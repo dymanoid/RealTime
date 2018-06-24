@@ -227,13 +227,13 @@ namespace RealTime.Events
             }
 
             bool eventsChanged = false;
-            foreach (ushort eventId in eventManager.GetUpcomingEvents(timeInfo.Now.AddDays(1)))
+            foreach (ushort eventId in eventManager.GetUpcomingEvents(timeInfo.Now, timeInfo.Now.AddDays(1)))
             {
                 eventManager.TryGetEventInfo(eventId, out ushort buildingId, out DateTime startTime, out float duration, out float ticketPrice);
-                if (upcomingEvents
+
+                if (upcomingEvents.Concat(new[] { activeEvent })
                     .OfType<VanillaEvent>()
-                    .Where(e => e.EventId == eventId && e.BuildingId == buildingId)
-                    .Any())
+                    .Any(e => e.BuildingId == buildingId && e.StartTime == startTime))
                 {
                     continue;
                 }
