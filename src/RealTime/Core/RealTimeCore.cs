@@ -12,6 +12,7 @@ namespace RealTime.Core
     using RealTime.Events;
     using RealTime.Events.Storage;
     using RealTime.GameConnection;
+    using RealTime.Localization;
     using RealTime.Simulation;
     using RealTime.Tools;
     using RealTime.UI;
@@ -46,10 +47,11 @@ namespace RealTime.Core
         ///
         /// <param name="config">The configuration to run with.</param>
         /// <param name="rootPath">The path to the mod's assembly. Additinal files are stored here too.</param>
+        /// <param name="localizationProvider">The <see cref="LocalizationProvider"/> to use for text translation.</param>
         ///
         /// <returns>A <see cref="RealTimeCore"/> instance that can be used to stop the mod.</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public static RealTimeCore Run(RealTimeConfig config, string rootPath)
+        public static RealTimeCore Run(RealTimeConfig config, string rootPath, LocalizationProvider localizationProvider)
         {
             if (config == null)
             {
@@ -59,6 +61,11 @@ namespace RealTime.Core
             if (string.IsNullOrEmpty(rootPath))
             {
                 throw new ArgumentException("The root path cannot be null or empty string", nameof(rootPath));
+            }
+
+            if (localizationProvider == null)
+            {
+                throw new ArgumentNullException(nameof(localizationProvider));
             }
 
             try
@@ -112,6 +119,8 @@ namespace RealTime.Core
             result.storageData.Add(eventManager);
             result.LoadStorageData();
 
+            result.Translate(localizationProvider);
+
             return result;
         }
 
@@ -152,6 +161,16 @@ namespace RealTime.Core
             }
 
             isEnabled = false;
+        }
+
+        public void Translate(LocalizationProvider localizationProvider)
+        {
+            if (localizationProvider == null)
+            {
+                throw new ArgumentNullException(nameof(localizationProvider));
+            }
+
+            timeBar.Translate(localizationProvider.CurrentCulture);
         }
 
         private static void SetupCustomAI(

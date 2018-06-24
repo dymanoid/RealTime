@@ -43,6 +43,31 @@ namespace RealTime.Localization
             }
         }
 
+        private static string GetLocaleNameFromLanguage(string language)
+        {
+            switch (language.ToLowerInvariant())
+            {
+                case "de":
+                    return "de-DE";
+                case "es":
+                    return "es-ES";
+                case "fr":
+                    return "fr-FR";
+                case "ko":
+                    return "ko-KR";
+                case "pl":
+                    return "pl-PL";
+                case "pt":
+                    return "pt-PT";
+                case "ru":
+                    return "ru-RU";
+                case "zh":
+                    return "zh-CN";
+                default:
+                    return "en-US";
+            }
+        }
+
         private bool Load(string language)
         {
             translation.Clear();
@@ -63,7 +88,14 @@ namespace RealTime.Localization
                     translation[node.Attributes[XmlKeyAttribute].Value] = node.Attributes[XmlValueAttribute].Value;
                 }
 
-                CurrentCulture = LocaleManager.cultureInfo;
+                try
+                {
+                    CurrentCulture = new CultureInfo(GetLocaleNameFromLanguage(language));
+                }
+                catch
+                {
+                    CurrentCulture = LocaleManager.cultureInfo;
+                }
             }
             catch
             {

@@ -47,7 +47,7 @@ namespace RealTime.Core
             Log.Info("The 'Real Time' mod has been enabled, version: " + modVersion);
             config = ConfigurationProvider.LoadConfiguration();
             localizationProvider = new LocalizationProvider(modPath);
-            LocaleManager.eventUIComponentLocaleChanged += LocaleManager_UIComponentLocaleChanged;
+            LocaleManager.eventLocaleChanged += ApplyLanguage;
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace RealTime.Core
         {
             Log.Info("The 'Real Time' mod has been disabled.");
             ConfigurationProvider.SaveConfiguration(config);
-            LocaleManager.eventUIComponentLocaleChanged -= LocaleManager_UIComponentLocaleChanged;
+            LocaleManager.eventLocaleChanged -= ApplyLanguage;
             config = null;
             configUI = null;
         }
@@ -72,11 +72,9 @@ namespace RealTime.Core
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Must be instance method due to C:S API")]
         public void OnSettingsUI(UIHelperBase helper)
         {
-            localizationProvider.LoadTranslation(LocaleManager.instance.language);
-
             IViewItemFactory itemFactory = new UnityViewItemFactory(helper);
             configUI = ConfigUI.Create(config, itemFactory);
-            configUI.Translate(localizationProvider);
+            ApplyLanguage();
         }
 
         /// <summary>
@@ -100,7 +98,7 @@ namespace RealTime.Core
                     return;
             }
 
-            core = RealTimeCore.Run(config, modPath);
+            core = RealTimeCore.Run(config, modPath, localizationProvider);
         }
 
         /// <summary>
@@ -129,7 +127,7 @@ namespace RealTime.Core
                 : pluginInfo.modPath;
         }
 
-        private void LocaleManager_UIComponentLocaleChanged()
+        private void ApplyLanguage()
         {
             if (!SingletonLite<LocaleManager>.exists)
             {
@@ -139,6 +137,7 @@ namespace RealTime.Core
             Log.Info($"The 'Real Time' mod changes the language to '{LocaleManager.instance.language}'.");
             localizationProvider.LoadTranslation(LocaleManager.instance.language);
             configUI?.Translate(localizationProvider);
+            core?.Translate(localizationProvider);
         }
     }
 }

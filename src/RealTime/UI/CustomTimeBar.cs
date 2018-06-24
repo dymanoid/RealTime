@@ -6,9 +6,9 @@ namespace RealTime.UI
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Reflection;
-    using ColossalFramework.Globalization;
     using ColossalFramework.UI;
     using RealTime.Events;
     using RealTime.Tools;
@@ -30,6 +30,8 @@ namespace RealTime.UI
         private static readonly Color32 EventColor = new Color32(180, 0, 90, 160);
 
         private readonly List<ICityEvent> displayedEvents = new List<ICityEvent>();
+
+        private CultureInfo cultureInfo = CultureInfo.CurrentCulture;
         private RealTimeUIDateTimeWrapper customDateTimeWrapper;
         private UIDateTimeWrapper originalWrapper;
         private UISprite progressSprite;
@@ -69,6 +71,20 @@ namespace RealTime.UI
             originalWrapper = null;
             progressSprite = null;
             customDateTimeWrapper = null;
+        }
+
+        public void Translate(CultureInfo cultureInfo)
+        {
+            this.cultureInfo = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
+            customDateTimeWrapper.Translate(cultureInfo);
+            TranslateTooltip(progressSprite, cultureInfo);
+
+            DateTime todayStart = customDateTimeWrapper.CurrentValue.Date;
+            DateTime todayEnd = todayStart.AddDays(1).AddMilliseconds(-1);
+            foreach (UISprite item in progressSprite.components.Where(c => c.name != null && c.name.StartsWith(UISpriteEvent)))
+            {
+                SetEventTooltip(item, todayStart, todayEnd);
+            }
         }
 
         public void UpdateEventsDisplay(IEnumerable<ICityEvent> availableEvents)
@@ -160,17 +176,27 @@ namespace RealTime.UI
             dateLabel.relativePosition = new Vector3(0, 0, 0);
         }
 
-        private static void SetTooltip(UIComponent component, bool customize)
+        private static void SetTooltip(UIComponent component, CultureInfo cultureInfo, bool customize)
         {
             DateTooltipBehavior tooltipBehavior = component.gameObject.GetComponent<DateTooltipBehavior>();
             if (tooltipBehavior == null && customize)
             {
                 tooltipBehavior = component.gameObject.AddComponent<DateTooltipBehavior>();
                 tooltipBehavior.IgnoredComponentNamePrefix = UISpriteEvent;
+                tooltipBehavior.Translate(cultureInfo);
             }
             else if (tooltipBehavior != null && !customize)
             {
                 UnityEngine.Object.Destroy(tooltipBehavior);
+            }
+        }
+
+        private static void TranslateTooltip(UIComponent tooltipParent, CultureInfo cultureInfo)
+        {
+            DateTooltipBehavior tooltipBehavior = tooltipParent.gameObject.GetComponent<DateTooltipBehavior>();
+            if (tooltipBehavior != null)
+            {
+                tooltipBehavior.Translate(cultureInfo);
             }
         }
 
@@ -186,7 +212,7 @@ namespace RealTime.UI
             progressSprite = GetProgressSprite(infoPanel);
             if (progressSprite != null)
             {
-                SetTooltip(progressSprite, customize);
+                SetTooltip(progressSprite, cultureInfo, customize);
 
                 if (customize)
                 {
@@ -199,32 +225,13 @@ namespace RealTime.UI
 
         private void DisplayCityEvent(ICityEvent cityEvent, DateTime todayStart, DateTime todayEnd)
         {
-            float startPercent;
-            float endPercent;
-            string startString;
-            string endString;
+            float startPercent = cityEvent.StartTime <= todayStart
+                ? startPercent = 0
+                : (float)cityEvent.StartTime.TimeOfDay.TotalHours / 24f;
 
-            if (cityEvent.StartTime <= todayStart)
-            {
-                startPercent = 0;
-                startString = cityEvent.StartTime.ToString(LocaleManager.cultureInfo);
-            }
-            else
-            {
-                startPercent = (float)cityEvent.StartTime.TimeOfDay.TotalHours / 24f;
-                startString = cityEvent.StartTime.ToString("t", LocaleManager.cultureInfo);
-            }
-
-            if (cityEvent.EndTime >= todayEnd)
-            {
-                endPercent = 1f;
-                endString = cityEvent.EndTime.ToString(LocaleManager.cultureInfo);
-            }
-            else
-            {
-                endPercent = (float)cityEvent.EndTime.TimeOfDay.TotalHours / 24f;
-                endString = cityEvent.EndTime.ToString("t", LocaleManager.cultureInfo);
-            }
+            float endPercent = cityEvent.EndTime >= todayEnd
+                ? endPercent = 1f
+                : (float)cityEvent.EndTime.TimeOfDay.TotalHours / 24f;
 
             float startPosition = progressSprite.width * startPercent;
             float endPosition = progressSprite.width * endPercent;
@@ -241,7 +248,23 @@ namespace RealTime.UI
             eventSprite.fillAmount = 1f;
             eventSprite.objectUserData = cityEvent;
             eventSprite.eventClicked += EventSprite_Clicked;
-            eventSprite.tooltip = $"{cityEvent.BuildingName} ({startString} - {endString})";
+            SetEventTooltip(eventSprite, todayStart, todayEnd);
+        }
+
+        private void SetEventTooltip(UISprite eventSprite, DateTime todayStart, DateTime todayEnd)
+        {
+            if (eventSprite.objectUserData is ICityEvent cityEvent)
+            {
+                string startString = cityEvent.StartTime <= todayStart
+                ? cityEvent.StartTime.ToString(cultureInfo)
+                : cityEvent.StartTime.ToString("t", cultureInfo);
+
+                string endString = cityEvent.EndTime >= todayEnd
+                    ? cityEvent.EndTime.ToString(cultureInfo)
+                    : cityEvent.EndTime.ToString("t", cultureInfo);
+
+                eventSprite.tooltip = $"{cityEvent.BuildingName} ({startString} - {endString})";
+            }
         }
 
         private void RemoveAllCityEvents()

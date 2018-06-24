@@ -6,15 +6,16 @@ namespace RealTime.UI
 {
     using System;
     using System.Globalization;
-    using ColossalFramework.Globalization;
 
     /// <summary>
     /// A wrapper that converts a <see cref="DateTime"/> value to a string representation
-    /// containing the day of week and the time parts. The current <see cref="LocaleManager.cultureInfo"/>
+    /// containing the day of week and the time parts. The current <see cref="CultureInfo"/>
     /// is used for string conversion.
     /// </summary>
     public sealed class RealTimeUIDateTimeWrapper : UIDateTimeWrapper
     {
+        private CultureInfo cultureInfo = CultureInfo.CurrentCulture;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RealTimeUIDateTimeWrapper"/> class.
         /// </summary>
@@ -47,9 +48,14 @@ namespace RealTime.UI
             Convert();
         }
 
+        public void Translate(CultureInfo cultureInfo)
+        {
+            this.cultureInfo = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
+            Convert();
+        }
+
         private void Convert()
         {
-            CultureInfo cultureInfo = LocaleManager.cultureInfo;
             m_String = m_Value.ToString("t", cultureInfo) + ", " + m_Value.ToString("dddd", cultureInfo);
         }
     }

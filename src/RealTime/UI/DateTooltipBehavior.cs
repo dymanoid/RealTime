@@ -5,7 +5,7 @@
 namespace RealTime.Tools
 {
     using System;
-    using ColossalFramework.Globalization;
+    using System.Globalization;
     using ColossalFramework.UI;
     using UnityEngine;
 
@@ -13,7 +13,7 @@ namespace RealTime.Tools
     /// A script that can be attached to any <see cref="UIComponent"/>.
     /// Observes the <see cref="SimulationManager.m_currentGameTime"/> value and sets the tooltip
     /// of the <see cref="UIComponent"/> to the date part of that value. The current
-    /// <see cref="LocaleManager.cultureInfo"/> is used for string conversion.
+    /// <see cref="CultureInfo"/> is used for string conversion.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Instantiated by Unity Engine")]
     internal sealed class DateTooltipBehavior : MonoBehaviour
@@ -21,8 +21,14 @@ namespace RealTime.Tools
         private UIComponent target;
         private DateTime lastValue;
         private string tooltip;
+        private CultureInfo cultureInfo = CultureInfo.CurrentCulture;
 
         public string IgnoredComponentNamePrefix { get; set; }
+
+        public void Translate(CultureInfo cultureInfo)
+        {
+            this.cultureInfo = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
+        }
 
         /// <summary>
         /// <see cref="Start"/> is called on the frame when a script is enabled
@@ -46,7 +52,7 @@ namespace RealTime.Tools
             DateTime newValue = SimulationManager.instance.m_currentGameTime;
             if (lastValue.Date != newValue.Date)
             {
-                tooltip = newValue.ToString("d", LocaleManager.cultureInfo);
+                tooltip = newValue.ToString("d", cultureInfo);
             }
 
             lastValue = newValue;
