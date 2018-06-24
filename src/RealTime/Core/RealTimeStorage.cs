@@ -59,6 +59,11 @@ namespace RealTime.Core
             try
             {
                 byte[] rawData = serializableDataManager.LoadData(dataKey);
+                if (rawData == null)
+                {
+                    return;
+                }
+
                 using (var stream = new MemoryStream(rawData))
                 {
                     data.ReadData(stream);
