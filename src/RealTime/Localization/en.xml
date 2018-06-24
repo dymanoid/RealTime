@@ -4,8 +4,8 @@
   <translation id="1General" value="General" />
   <translation id="IsWeekendEnabled" value="Enable Weekends" />
   <translation id="IsWeekendEnabledTooltip" value="Cims don't go to work or school on weekends" />
-  <translation id="IsLunchTimeEnabled" value="Enable Lunch time" />
-  <translation id="IsLunchTimeEnabledTooltip" value="Cims should go out at lunch for food" />
+  <translation id="IsLunchtimeEnabled" value="Enable Lunch time" />
+  <translation id="IsLunchtimeEnabledTooltip" value="Cims should go out at lunch for food" />
 
   <translation id="2Quotas" value="Probabilities" />
   <translation id="LunchQuota" value="Lunch probability" />
@@ -29,13 +29,13 @@
   <translation id="MaxOvertime" value="Max. Overtime" />
   <translation id="MaxOvertimeTooltip" value="The maximum overtime for the Cims - they come to work earlier or stay at work longer" />
   <translation id="SchoolBegin" value="School start hour" />
-  <translation id="SchoolBeginTooltip" value="The school start daytime hour - the young Cims must be at school or university" />
-  <translation id="SchoolEnd" value="School end hour " />
-  <translation id="SchoolEndTooltip" value="The daytime hour when the young Cims return from school or university" />
+  <translation id="SchoolBeginTooltip" value="The school start daytime hour - the young Cims must be at school" />
+  <translation id="SchoolEnd" value="School end hour" />
+  <translation id="SchoolEndTooltip" value="The daytime hour when the young Cims return from school" />
   <translation id="WorkBegin" value="Work start hour" />
-  <translation id="WorkBeginTooltip" value="The work start daytime hour - the adult Cims must be at work" />
+  <translation id="WorkBeginTooltip" value="The work start daytime hour - the adult Cims must be at work or university" />
   <translation id="WorkEnd" value="Work end hour" />
-  <translation id="WorkEndTooltip" value="The daytime hour when the adult Cims return from work" />
+  <translation id="WorkEndTooltip" value="The daytime hour when the adult Cims return from work or university" />
   <translation id="LunchBegin" value="Lunch begin hour" />
   <translation id="LunchBeginTooltip" value="The daytime hour when the Cims go out for lunch" />
   <translation id="LunchEnd" value="Lunch end hour" />

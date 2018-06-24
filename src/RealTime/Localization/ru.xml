@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<language id="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <translation id="1General" value="Основные" />
+  <translation id="IsWeekendEnabled" value="Включить выходные" />
+  <translation id="IsWeekendEnabledTooltip" value="Жители не ходят в школу и на работу по выходным" />
+  <translation id="IsLunchtimeEnabled" value="Включить обед" />
+  <translation id="IsLunchtimeEnabledTooltip" value="Работники выходят на обед в близлежащие заведения" />
+
+  <translation id="2Quotas" value="Вероятности" />
+  <translation id="LunchQuota" value="Пойти обедать" />
+  <translation id="LunchQuotaTooltip" value="Процент жителей, которые будут выходить на обед" />
+  <translation id="LocalBuildingSearchQuota" value="Покупки поблизости" />
+  <translation id="LocalBuildingSearchQuotaTooltip" value="Процент жителей, которые будут искать магазины поблизости" />
+  <translation id="OnTimeQuota" value="Без сверхурочных" />
+  <translation id="OnTimeQuotaTooltip" value="Процент жителей, которые будут ходить в школу и на работу без сверхурочных" />
+
+  <translation id="3Events" value="Мероприятия" />
+  <translation id="EarliestHourEventStartWeekday" value="Самое раннее по будням" />
+  <translation id="EarliestHourEventStartWeekdayTooltip" value="Самое раннее время, когда мероприятие может начаться в будний день" />
+  <translation id="LatestHourEventStartWeekday" value="Самое позднее по будням" />
+  <translation id="LatestHourEventStartWeekdayTooltip" value="Самое позднее время, когда мероприятие может начаться в будний день" />
+  <translation id="EarliestHourEventStartWeekend" value="Самое раннее по вых." />
+  <translation id="EarliestHourEventStartWeekendTooltip" value="Самое раннее время, когда мероприятие может начаться в выходной день" />
+  <translation id="LatestHourEventStartWeekend" value="Самое позднее по вых." />
+  <translation id="LatestHourEventStartWeekendTooltip" value="Самое позднее время, когда мероприятие может начаться в выходной день" />
+    
+  <translation id="4Time" value="Время" />
+  <translation id="MaxOvertime" value="Макс. сверхурочные" />
+  <translation id="MaxOvertimeTooltip" value="Максимальные сверхурочные для жителей - они придут на работу раньше и уйдут позже" />
+  <translation id="SchoolBegin" value="Начало школы" />
+  <translation id="SchoolBeginTooltip" value="Время начала занятий в школе - дети будут учиться" />
+  <translation id="SchoolEnd" value="Окончание школы" />
+  <translation id="SchoolEndTooltip" value="Время окончания занятий в школе - дети покинут школу" />
+  <translation id="WorkBegin" value="Начало рабочей смены" />
+  <translation id="WorkBeginTooltip" value="Время начала рабочей смены - жители будут на работе или в университете" />
+  <translation id="WorkEnd" value="Оконч. рабочей смены" />
+  <translation id="WorkEndTooltip" value="Время окончания рабочей смены - жители покинут рабочие места или университет" />
+  <translation id="LunchBegin" value="Начало обеда" />
+  <translation id="LunchBeginTooltip" value="Начало обеденного времени - жители пойдут пообедать" />
+  <translation id="LunchEnd" value="Оконч. обеда" />
+  <translation id="LunchEndTooltip" value="Конец обеденного времени - жители вернутся с обеда на работу" />
+    
+</language>
