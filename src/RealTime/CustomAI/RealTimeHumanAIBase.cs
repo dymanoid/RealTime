@@ -196,7 +196,14 @@ namespace RealTime.CustomAI
             DateTime earliestStart = TimeInfo.Now.AddHours(MinHoursOnTheWay);
             DateTime latestStart = TimeInfo.Now.AddHours(MaxHoursOnTheWay);
 
-            return EventMgr.TryAttendEvent(earliestStart, latestStart, out eventBuildingId);
+            ICityEvent upcomingEvent = EventMgr.GetUpcomingCityEvent(earliestStart, latestStart);
+            if (upcomingEvent != null && CanAttendEvent(citizenId, ref citizen, upcomingEvent))
+            {
+                eventBuildingId = upcomingEvent.BuildingId;
+                return true;
+            }
+
+            return false;
         }
 
         protected void FindEvacuationPlace(uint citizenId, TransferManager.TransferReason reason)
@@ -208,6 +215,18 @@ namespace RealTime.CustomAI
         {
             string employment = CitizenProxy.GetWorkBuilding(ref citizen) == 0 ? "unempl." : "empl.";
             return $"Citizen {citizenId} ({employment}, {CitizenProxy.GetAge(ref citizen)})";
+        }
+
+        private bool CanAttendEvent(uint citizenId, ref TCitizen citizen, ICityEvent cityEvent)
+        {
+            Citizen.AgeGroup age = CitizenProxy.GetAge(ref citizen);
+            Citizen.Gender gender = CitizenProxy.GetGender(citizenId);
+            Citizen.Education education = CitizenProxy.GetEducationLevel(ref citizen);
+            Citizen.Wealth wealth = CitizenProxy.GetWealthLevel(ref citizen);
+            Citizen.Wellbeing wellbeing = CitizenProxy.GetWellbeingLevel(ref citizen);
+            Citizen.Happiness happiness = CitizenProxy.GetHappinessLevel(ref citizen);
+
+            return cityEvent.TryAcceptAttendee(age, gender, education, wealth, wellbeing, happiness, ref randomizer);
         }
     }
 }

@@ -13,6 +13,6 @@ namespace RealTime.GameConnection
 
         IEnumerable<ushort> GetUpcomingEvents(DateTime latestTime);
 
-        bool TryGetEventInfo(ushort eventId, out ushort buildingId, out DateTime startTime, out float duration);
+        bool TryGetEventInfo(ushort eventId, out ushort buildingId, out DateTime startTime, out float duration, out float ticketPrice);
     }
 }

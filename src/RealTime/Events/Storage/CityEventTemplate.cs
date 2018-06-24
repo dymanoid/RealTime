@@ -37,7 +37,7 @@ namespace RealTime.Events.Storage
         public CityEventAttendees Attendees { get; set; } = new CityEventAttendees();
 
         [XmlElement("Costs", IsNullable = false)]
-        public CityEventCosts Costs { get; set; } = new CityEventCosts();
+        public CityEventCosts Costs { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "XML serialization")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "XML serialization")]

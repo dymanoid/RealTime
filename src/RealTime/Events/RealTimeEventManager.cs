@@ -98,7 +98,7 @@ namespace RealTime.Events
                 EventData.Flags vanillaEventState = eventManager.GetEventFlags(eventId);
                 if ((vanillaEventState & (EventData.Flags.Preparing | EventData.Flags.Ready)) != 0)
                 {
-                    if (eventManager.TryGetEventInfo(eventId, out _, out DateTime startTime, out _) && startTime <= latestStart)
+                    if (eventManager.TryGetEventInfo(eventId, out _, out DateTime startTime, out _, out _) && startTime <= latestStart)
                     {
                         return CityEventState.Upcoming;
                     }
@@ -132,24 +132,17 @@ namespace RealTime.Events
             return CityEventState.None;
         }
 
-        public bool TryAttendEvent(DateTime earliestStartTime, DateTime latestStartTime, out ushort buildingId)
+        public ICityEvent GetUpcomingCityEvent(DateTime earliestStartTime, DateTime latestStartTime)
         {
-            buildingId = default;
-
             if (upcomingEvents.Count == 0)
             {
-                return false;
+                return null;
             }
 
             ICityEvent upcomingEvent = upcomingEvents.First.Value;
-            if (upcomingEvent.StartTime >= earliestStartTime && upcomingEvent.StartTime <= latestStartTime && upcomingEvent.AcceptsAttendees())
-            {
-                upcomingEvent.AcceptAttendee();
-                buildingId = upcomingEvent.BuildingId;
-                return true;
-            }
-
-            return false;
+            return upcomingEvent.StartTime >= earliestStartTime && upcomingEvent.StartTime <= latestStartTime
+                ? upcomingEvent
+                : null;
         }
 
         public void ProcessEvents()
@@ -240,7 +233,7 @@ namespace RealTime.Events
             bool eventsChanged = false;
             foreach (ushort eventId in eventManager.GetUpcomingEvents(timeInfo.Now.AddDays(1)))
             {
-                eventManager.TryGetEventInfo(eventId, out ushort buildingId, out DateTime startTime, out float duration);
+                eventManager.TryGetEventInfo(eventId, out ushort buildingId, out DateTime startTime, out float duration, out float ticketPrice);
                 if (upcomingEvents
                     .OfType<VanillaEvent>()
                     .Where(e => e.EventId == eventId && e.BuildingId == buildingId)
@@ -249,7 +242,7 @@ namespace RealTime.Events
                     continue;
                 }
 
-                var newEvent = new VanillaEvent(duration);
+                var newEvent = new VanillaEvent(duration, ticketPrice);
                 newEvent.Configure(buildingId, buildingManager.GetBuildingName(buildingId), startTime);
                 eventsChanged = true;
                 Log.Debug(timeInfo.Now, $"Vanilla event registered for {newEvent.BuildingId}, start time {newEvent.StartTime}, end time {newEvent.EndTime}");

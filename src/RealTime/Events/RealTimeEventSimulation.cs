@@ -10,7 +10,7 @@ namespace RealTime.Events
     {
         internal static RealTimeEventManager EventManager { get; set; }
 
-        public override void OnBeforeSimulationTick()
+        public override void OnAfterSimulationTick()
         {
             EventManager?.ProcessEvents();
         }

@@ -37,6 +37,16 @@ namespace RealTime.GameConnection
 
         Citizen.AgeGroup GetAge(ref T citizen);
 
+        Citizen.Wealth GetWealthLevel(ref T citizen);
+
+        Citizen.Education GetEducationLevel(ref T citizen);
+
+        Citizen.Gender GetGender(uint citizenId);
+
+        Citizen.Happiness GetHappinessLevel(ref T citizen);
+
+        Citizen.Wellbeing GetWellbeingLevel(ref T citizen);
+
         Citizen.Flags GetFlags(ref T citizen);
 
         void SetHome(ref T citizen, uint citizenId, ushort buildingId);

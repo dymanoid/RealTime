@@ -18,6 +18,31 @@ namespace RealTime.GameConnection
             return Citizen.GetAgeGroup(citizen.m_age);
         }
 
+        public Citizen.Wealth GetWealthLevel(ref Citizen citizen)
+        {
+            return citizen.WealthLevel;
+        }
+
+        public Citizen.Education GetEducationLevel(ref Citizen citizen)
+        {
+            return citizen.EducationLevel;
+        }
+
+        public Citizen.Gender GetGender(uint citizenId)
+        {
+            return Citizen.GetGender(citizenId);
+        }
+
+        public Citizen.Happiness GetHappinessLevel(ref Citizen citizen)
+        {
+            return Citizen.GetHappinessLevel(Citizen.GetHappiness(citizen.m_health, citizen.m_wellbeing));
+        }
+
+        public Citizen.Wellbeing GetWellbeingLevel(ref Citizen citizen)
+        {
+            return Citizen.GetWellbeingLevel(citizen.EducationLevel, citizen.m_wellbeing);
+        }
+
         public ushort GetCurrentBuilding(ref Citizen citizen)
         {
             return citizen.GetBuildingByLocation();

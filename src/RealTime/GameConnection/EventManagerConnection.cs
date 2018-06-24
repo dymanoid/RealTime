@@ -34,11 +34,12 @@ namespace RealTime.GameConnection
             }
         }
 
-        public bool TryGetEventInfo(ushort eventId, out ushort buildingId, out DateTime startTime, out float duration)
+        public bool TryGetEventInfo(ushort eventId, out ushort buildingId, out DateTime startTime, out float duration, out float ticketPrice)
         {
             buildingId = default;
             duration = default;
             startTime = default;
+            ticketPrice = default;
             if (eventId == 0 || eventId >= EventManager.instance.m_events.m_size)
             {
                 return false;
@@ -48,6 +49,7 @@ namespace RealTime.GameConnection
             buildingId = eventData.m_building;
             startTime = eventData.StartTime;
             duration = eventData.Info.m_eventAI.m_eventDuration;
+            ticketPrice = eventData.m_ticketPrice / 100f;
             return true;
         }
     }

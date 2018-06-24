@@ -5,6 +5,7 @@
 namespace RealTime.Events
 {
     using System;
+    using ColossalFramework.Math;
 
     internal interface ICityEvent
     {
@@ -18,8 +19,13 @@ namespace RealTime.Events
 
         void Configure(ushort buildingId, string buildingName, DateTime startTime);
 
-        bool AcceptsAttendees();
-
-        void AcceptAttendee();
+        bool TryAcceptAttendee(
+            Citizen.AgeGroup age,
+            Citizen.Gender gender,
+            Citizen.Education education,
+            Citizen.Wealth wealth,
+            Citizen.Wellbeing wellbeing,
+            Citizen.Happiness happiness,
+            ref Randomizer randomizer);
     }
 }
