@@ -31,7 +31,7 @@ namespace RealTime.Config
 
         [ConfigItem("1General", 3)]
         [ConfigItemSlider(1, 100)]
-        public uint ConstructionSpeed { get; set; } = 30;
+        public uint ConstructionSpeed { get; set; } = 50;
 
         /// <summary>
         /// Gets or sets the percentage of the Cims that will go out for lunch.
