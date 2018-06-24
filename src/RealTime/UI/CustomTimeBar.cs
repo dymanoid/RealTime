@@ -31,7 +31,7 @@ namespace RealTime.UI
 
         private readonly List<ICityEvent> displayedEvents = new List<ICityEvent>();
 
-        private CultureInfo cultureInfo = CultureInfo.CurrentCulture;
+        private CultureInfo currentCulture = CultureInfo.CurrentCulture;
         private RealTimeUIDateTimeWrapper customDateTimeWrapper;
         private UIDateTimeWrapper originalWrapper;
         private UISprite progressSprite;
@@ -75,13 +75,13 @@ namespace RealTime.UI
 
         public void Translate(CultureInfo cultureInfo)
         {
-            this.cultureInfo = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
+            currentCulture = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
             customDateTimeWrapper.Translate(cultureInfo);
             TranslateTooltip(progressSprite, cultureInfo);
 
             DateTime todayStart = customDateTimeWrapper.CurrentValue.Date;
             DateTime todayEnd = todayStart.AddDays(1).AddMilliseconds(-1);
-            foreach (UISprite item in progressSprite.components.Where(c => c.name != null && c.name.StartsWith(UISpriteEvent)))
+            foreach (UISprite item in progressSprite.components.Where(c => c.name != null && c.name.StartsWith(UISpriteEvent, StringComparison.Ordinal)))
             {
                 SetEventTooltip(item, todayStart, todayEnd);
             }
@@ -212,7 +212,7 @@ namespace RealTime.UI
             progressSprite = GetProgressSprite(infoPanel);
             if (progressSprite != null)
             {
-                SetTooltip(progressSprite, cultureInfo, customize);
+                SetTooltip(progressSprite, currentCulture, customize);
 
                 if (customize)
                 {
@@ -256,12 +256,12 @@ namespace RealTime.UI
             if (eventSprite.objectUserData is ICityEvent cityEvent)
             {
                 string startString = cityEvent.StartTime <= todayStart
-                ? cityEvent.StartTime.ToString(cultureInfo)
-                : cityEvent.StartTime.ToString("t", cultureInfo);
+                ? cityEvent.StartTime.ToString(currentCulture)
+                : cityEvent.StartTime.ToString("t", currentCulture);
 
                 string endString = cityEvent.EndTime >= todayEnd
-                    ? cityEvent.EndTime.ToString(cultureInfo)
-                    : cityEvent.EndTime.ToString("t", cultureInfo);
+                    ? cityEvent.EndTime.ToString(currentCulture)
+                    : cityEvent.EndTime.ToString("t", currentCulture);
 
                 eventSprite.tooltip = $"{cityEvent.BuildingName} ({startString} - {endString})";
             }

@@ -16,6 +16,7 @@ namespace RealTime.Events.Storage
         [XmlElement]
         public long EarliestEvent { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "XML serialization")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "XML serialization")]
         [XmlArray("Events")]
         [XmlArrayItem("RealTimeEventStorage")]

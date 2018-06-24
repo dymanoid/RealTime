@@ -14,7 +14,7 @@ namespace RealTime.UI
     /// </summary>
     public sealed class RealTimeUIDateTimeWrapper : UIDateTimeWrapper
     {
-        private CultureInfo cultureInfo = CultureInfo.CurrentCulture;
+        private CultureInfo currentCulture = CultureInfo.CurrentCulture;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RealTimeUIDateTimeWrapper"/> class.
@@ -50,13 +50,13 @@ namespace RealTime.UI
 
         public void Translate(CultureInfo cultureInfo)
         {
-            this.cultureInfo = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
+            currentCulture = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
             Convert();
         }
 
         private void Convert()
         {
-            m_String = m_Value.ToString("t", cultureInfo) + ", " + m_Value.ToString("dddd", cultureInfo);
+            m_String = m_Value.ToString("t", currentCulture) + ", " + m_Value.ToString("dddd", currentCulture);
         }
     }
 }

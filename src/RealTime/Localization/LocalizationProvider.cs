@@ -43,6 +43,7 @@ namespace RealTime.Localization
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "No security issues here")]
         private static string GetLocaleNameFromLanguage(string language)
         {
             switch (language.ToLowerInvariant())

@@ -21,13 +21,13 @@ namespace RealTime.Tools
         private UIComponent target;
         private DateTime lastValue;
         private string tooltip;
-        private CultureInfo cultureInfo = CultureInfo.CurrentCulture;
+        private CultureInfo currentCulture = CultureInfo.CurrentCulture;
 
         public string IgnoredComponentNamePrefix { get; set; }
 
         public void Translate(CultureInfo cultureInfo)
         {
-            this.cultureInfo = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
+            currentCulture = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace RealTime.Tools
             DateTime newValue = SimulationManager.instance.m_currentGameTime;
             if (lastValue.Date != newValue.Date)
             {
-                tooltip = newValue.ToString("d", cultureInfo);
+                tooltip = newValue.ToString("d", currentCulture);
             }
 
             lastValue = newValue;
@@ -65,7 +65,7 @@ namespace RealTime.Tools
             if (!string.IsNullOrEmpty(IgnoredComponentNamePrefix))
             {
                 UIComponent hovered = UIInput.hoveredComponent;
-                if (hovered != null && hovered.name != null && hovered.name.StartsWith(IgnoredComponentNamePrefix))
+                if (hovered != null && hovered.name != null && hovered.name.StartsWith(IgnoredComponentNamePrefix, StringComparison.Ordinal))
                 {
                     return;
                 }
