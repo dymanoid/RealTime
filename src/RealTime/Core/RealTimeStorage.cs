@@ -19,6 +19,7 @@ namespace RealTime.Core
 
         public override void OnSaveData()
         {
+            // TODO: investigate the exception on overwriting an existing game file
             GameSaving?.Invoke(this, EventArgs.Empty);
         }
 

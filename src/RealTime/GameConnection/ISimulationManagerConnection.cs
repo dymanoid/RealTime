@@ -8,6 +8,7 @@ namespace RealTime.GameConnection
 
     internal interface ISimulationManagerConnection
     {
+        // TODO: implement randomizer abstraction to get rid of refs and ColossalFramework.Math dependency
         ref Randomizer GetRandomizer();
     }
 }
