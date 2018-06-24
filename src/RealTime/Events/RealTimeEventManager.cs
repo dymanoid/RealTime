@@ -19,10 +19,6 @@ namespace RealTime.Events
     internal sealed class RealTimeEventManager : IStorageData
     {
         private const int MaximumEventsCount = 5;
-        private const float EarliestHourEventStartWeekday = 16f;
-        private const float LatestHourEventStartWeekday = 20f;
-        private const float EarliestHourEventStartWeekend = 8f;
-        private const float LatestHourEventStartWeekend = 22f;
         private const string StorageDataId = "RealTimeEvents";
 
         private static readonly TimeSpan MinimumIntervalBetweenEvents = TimeSpan.FromHours(3);
@@ -309,13 +305,13 @@ namespace RealTime.Events
             float latestHour;
             if (config.IsWeekendEnabled && result.IsWeekend())
             {
-                earliestHour = EarliestHourEventStartWeekend;
-                latestHour = LatestHourEventStartWeekend;
+                earliestHour = config.EarliestHourEventStartWeekend;
+                latestHour = config.LatestHourEventStartWeekend;
             }
             else
             {
-                earliestHour = EarliestHourEventStartWeekday;
-                latestHour = LatestHourEventStartWeekday;
+                earliestHour = config.EarliestHourEventStartWeekday;
+                latestHour = config.LatestHourEventStartWeekday;
             }
 
             float randomOffset = simulationManager.GetRandomizer().Int32((uint)((latestHour - earliestHour) * 60f)) / 60f;
