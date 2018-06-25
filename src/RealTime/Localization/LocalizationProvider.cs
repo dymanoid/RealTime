@@ -21,6 +21,14 @@ namespace RealTime.Localization
             localeStorage = Path.Combine(rootPath, LocaleFolder);
         }
 
+        private enum LoadingResult
+        {
+            None,
+            Success,
+            Failure,
+            AlreadyLoaded
+        }
+
         public string CurrentLanguage { get; private set; } = "en";
 
         public CultureInfo CurrentCulture { get; private set; } = CultureInfo.CurrentCulture;
@@ -35,12 +43,15 @@ namespace RealTime.Localization
             return NoLocale;
         }
 
-        public void LoadTranslation(string language)
+        public bool LoadTranslation(string language)
         {
-            if (!Load(language))
+            LoadingResult result = Load(language);
+            if (result == LoadingResult.Failure)
             {
-                Load("en");
+                result = Load("en");
             }
+
+            return result == LoadingResult.Success;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "No security issues here")]
@@ -69,14 +80,19 @@ namespace RealTime.Localization
             }
         }
 
-        private bool Load(string language)
+        private LoadingResult Load(string language)
         {
+            if (CurrentCulture.TwoLetterISOLanguageName == language && translation.Count != 0)
+            {
+                return LoadingResult.AlreadyLoaded;
+            }
+
             translation.Clear();
 
             string path = Path.Combine(localeStorage, language + FileExtension);
             if (!File.Exists(path))
             {
-                return false;
+                return LoadingResult.Failure;
             }
 
             try
@@ -101,11 +117,11 @@ namespace RealTime.Localization
             catch
             {
                 translation.Clear();
-                return false;
+                return LoadingResult.Failure;
             }
 
             CurrentLanguage = language;
-            return true;
+            return LoadingResult.Success;
         }
     }
 }
