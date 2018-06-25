@@ -28,6 +28,7 @@ namespace RealTime.Tools
         public void Translate(CultureInfo cultureInfo)
         {
             currentCulture = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
+            UpdateTooltip(true);
         }
 
         /// <summary>
@@ -44,13 +45,18 @@ namespace RealTime.Tools
         /// </summary>
         public void Update()
         {
+            UpdateTooltip();
+        }
+
+        private void UpdateTooltip(bool force = false)
+        {
             if (target == null)
             {
                 return;
             }
 
             DateTime newValue = SimulationManager.instance.m_currentGameTime;
-            if (lastValue.Date != newValue.Date)
+            if (lastValue.Date != newValue.Date || force)
             {
                 tooltip = newValue.ToString("d", currentCulture);
             }
