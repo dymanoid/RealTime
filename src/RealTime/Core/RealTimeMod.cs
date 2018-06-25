@@ -49,7 +49,6 @@ namespace RealTime.Core
             Log.Info("The 'Real Time' mod has been enabled, version: " + modVersion);
             config = ConfigurationProvider.LoadConfiguration();
             localizationProvider = new LocalizationProvider(modPath);
-            LocaleManager.eventLocaleChanged += ApplyLanguage;
         }
 
         /// <summary>
@@ -60,7 +59,6 @@ namespace RealTime.Core
         {
             Log.Info("The 'Real Time' mod has been disabled.");
             ConfigurationProvider.SaveConfiguration(config);
-            LocaleManager.eventLocaleChanged -= ApplyLanguage;
             config = null;
             configUI = null;
         }
@@ -138,10 +136,12 @@ namespace RealTime.Core
                 return;
             }
 
-            Log.Info($"The 'Real Time' mod changes the language to '{LocaleManager.instance.language}'.");
-            localizationProvider.LoadTranslation(LocaleManager.instance.language);
-            configUI?.Translate(localizationProvider);
-            core?.Translate(localizationProvider);
+            if (localizationProvider.LoadTranslation(LocaleManager.instance.language))
+            {
+                Log.Info($"The 'Real Time' mod changes the language to '{LocaleManager.instance.language}'.");
+                core?.Translate(localizationProvider);
+                configUI?.Translate(localizationProvider);
+            }
         }
     }
 }
