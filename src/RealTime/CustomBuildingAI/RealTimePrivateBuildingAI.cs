@@ -17,8 +17,10 @@ namespace RealTime.CustomAI
         private readonly ITimeInfo timeInfo;
         private readonly IToolManagerConnection toolManager;
 
+#if !DEBUG
         private uint lastConfigValue;
         private double value;
+#endif
 
         public RealTimePrivateBuildingAI(RealTimeConfig config, ITimeInfo timeInfo, IToolManagerConnection toolManager)
         {
