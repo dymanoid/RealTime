@@ -43,6 +43,8 @@ namespace RealTime.GameConnection
         /// don't call it on every simulation step.</remarks>
         ushort GetRandomBuilding(IEnumerable<ItemClass.Service> services);
 
+        void DecrementOutgoingProblemTimer(ushort buildingIdFrom, ushort buildingIdTo, ItemClass.Service service);
+
         string GetBuildingClassName(ushort buildingId);
 
         string GetBuildingName(ushort buildingId);

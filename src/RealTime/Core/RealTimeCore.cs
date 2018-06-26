@@ -7,6 +7,7 @@ namespace RealTime.Core
     using System;
     using System.Collections.Generic;
     using System.Security.Permissions;
+    using RealTime.BuildingAI;
     using RealTime.Config;
     using RealTime.CustomAI;
     using RealTime.Events;
@@ -82,8 +83,6 @@ namespace RealTime.Core
             var timeAdjustment = new TimeAdjustment();
             DateTime gameDate = timeAdjustment.Enable();
 
-            SimulationHandler.DayTimeSimulation = new DayTimeSimulation();
-
             var timeInfo = new TimeInfo();
             var buildingManager = new BuildingManagerConnection();
             var simulationManager = new SimulationManagerConnection();
@@ -106,7 +105,6 @@ namespace RealTime.Core
 
             SetupCustomAI(timeInfo, config, gameConnections, eventManager);
 
-            SimulationHandler.EventManager = eventManager;
             CityEventsLoader.Istance.ReloadEvents(rootPath);
 
             var customTimeBar = new CustomTimeBar();
@@ -116,6 +114,10 @@ namespace RealTime.Core
             var result = new RealTimeCore(timeAdjustment, customTimeBar, eventManager);
             eventManager.EventsChanged += result.CityEventsChanged;
             SimulationHandler.NewDay += result.CityEventsChanged;
+
+            SimulationHandler.DayTimeSimulation = new DayTimeSimulation();
+            SimulationHandler.EventManager = eventManager;
+            SimulationHandler.CommercialAI = new CommercialAI(timeInfo, buildingManager);
 
             RealTimeStorage.Instance.GameSaving += result.GameSaving;
             result.storageData.Add(eventManager);
@@ -152,6 +154,7 @@ namespace RealTime.Core
             PrivateBuildingAIHook.RealTimeAI = null;
             SimulationHandler.EventManager = null;
             SimulationHandler.DayTimeSimulation = null;
+            SimulationHandler.CommercialAI = null;
 
             try
             {

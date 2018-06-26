@@ -6,6 +6,7 @@ namespace RealTime.Simulation
 {
     using System;
     using ICities;
+    using RealTime.BuildingAI;
     using RealTime.Events;
 
     /// <summary>
@@ -24,6 +25,8 @@ namespace RealTime.Simulation
 
         internal static DayTimeSimulation DayTimeSimulation { get; set; }
 
+        internal static CommercialAI CommercialAI { get; set; }
+
         /// <summary>
         /// Called after each game simulation tick. Performs the actual work.
         /// </summary>
@@ -38,6 +41,11 @@ namespace RealTime.Simulation
                 DayTimeSimulation?.Process(currentDate);
                 OnNewDay(this);
             }
+        }
+
+        public override void OnAfterSimulationFrame()
+        {
+            CommercialAI?.Process(SimulationManager.instance.m_currentFrameIndex);
         }
 
         private static void OnNewDay(SimulationHandler sender)
