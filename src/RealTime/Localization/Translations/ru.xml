@@ -32,9 +32,9 @@
   <translation id="4Time" value="Время" />
   <translation id="MaxOvertime" value="Макс. сверхурочные" />
   <translation id="MaxOvertimeTooltip" value="Максимальные сверхурочные для жителей - они придут на работу раньше и уйдут позже" />
-  <translation id="SchoolBegin" value="Начало школы" />
+  <translation id="SchoolBegin" value="Начало учеб. дня" />
   <translation id="SchoolBeginTooltip" value="Время начала занятий в школе - дети будут учиться" />
-  <translation id="SchoolEnd" value="Окончание школы" />
+  <translation id="SchoolEnd" value="Конец учеб. дня" />
   <translation id="SchoolEndTooltip" value="Время окончания занятий в школе - дети покинут школу" />
   <translation id="WorkBegin" value="Начало рабочей смены" />
   <translation id="WorkBeginTooltip" value="Время начала рабочей смены - жители будут на работе или в университете" />
@@ -42,7 +42,7 @@
   <translation id="WorkEndTooltip" value="Время окончания рабочей смены - жители покинут рабочие места или университет" />
   <translation id="LunchBegin" value="Начало обеда" />
   <translation id="LunchBeginTooltip" value="Начало обеденного времени - жители пойдут пообедать" />
-  <translation id="LunchEnd" value="Оконч. обеда" />
+  <translation id="LunchEnd" value="Конец обеда" />
   <translation id="LunchEndTooltip" value="Конец обеденного времени - жители вернутся с обеда на работу" />
     
 </language>

@@ -138,10 +138,10 @@ namespace RealTime.Core
 
             if (localizationProvider.LoadTranslation(LocaleManager.instance.language))
             {
-                Log.Info($"The 'Real Time' mod changes the language to '{LocaleManager.instance.language}'.");
                 core?.Translate(localizationProvider);
-                configUI?.Translate(localizationProvider);
             }
+
+            configUI?.Translate(localizationProvider);
         }
     }
 }
