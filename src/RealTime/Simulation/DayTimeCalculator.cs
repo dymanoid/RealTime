@@ -1,43 +1,37 @@
-﻿// <copyright file="DayTime.cs" company="dymanoid">
+﻿// <copyright file="DayTimeCalculator.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
 namespace RealTime.Simulation
 {
     using System;
-    using UnityEngine;
 
     /// <summary>
     /// Calculates the sunrise and sunset time based on the map latitude and current date.
     /// </summary>
-    internal sealed class DayTime
+    internal sealed class DayTimeCalculator
     {
-        private float phase;
-        private float halfAmplitude;
+        private readonly float phase;
+        private readonly float halfAmplitude;
 
         /// <summary>
-        /// Gets a value indicating whether this object has been properly set up
-        /// and can be used for the calculations.
-        /// </summary>
-        public bool IsReady { get; private set; }
-
-        /// <summary>
-        /// Sets up this object so that it can correctly perform the sunrise and sunset time
-        /// calculations.
+        /// Initializes a new instance of the <see cref="DayTimeCalculator"/> class.
         /// </summary>
         ///
         /// <param name="latitude">The latitude coordinate to assume for the city.
-        /// Valid values are -80° to 80°. </param>
-        public void Setup(float latitude)
+        /// Valid values are -80° to 80°.</param>
+        public DayTimeCalculator(float latitude)
         {
             bool southSemisphere = latitude < 0;
 
-            latitude = Mathf.Clamp(Mathf.Abs(latitude), 0f, 80f);
+            latitude = Math.Abs(latitude);
+            if (latitude > 80f)
+            {
+                latitude = 80f;
+            }
+
             halfAmplitude = (0.5f + (latitude / 15f)) / 2f;
-
             phase = southSemisphere ? 0f : (float)Math.PI;
-
-            IsReady = true;
         }
 
         /// <summary>
@@ -49,21 +43,11 @@ namespace RealTime.Simulation
         /// <param name="date">The game date to calculate the sunrise and sunset times for.</param>
         /// <param name="sunriseHour">The calculated sunrise hour (relative to the midnight).</param>
         /// <param name="sunsetHour">The calculated sunset hour (relative to the midnight).</param>
-        ///
-        /// <returns>True when the values are successfully calculated; otherwise, false.</returns>
-        public bool Calculate(DateTime date, out float sunriseHour, out float sunsetHour)
+        public void Calculate(DateTime date, out float sunriseHour, out float sunsetHour)
         {
-            if (!IsReady)
-            {
-                sunriseHour = default;
-                sunsetHour = default;
-                return false;
-            }
-
             float modifier = (float)Math.Cos((2 * Math.PI * (date.DayOfYear + 10) / 365.25) + phase);
             sunriseHour = 6f - (halfAmplitude * modifier);
             sunsetHour = 18f + (halfAmplitude * modifier);
-            return true;
         }
     }
 }
