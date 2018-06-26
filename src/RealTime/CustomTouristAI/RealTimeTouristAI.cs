@@ -127,7 +127,7 @@ namespace RealTime.CustomAI
             bool doShopping;
             switch (EventMgr.GetEventState(visitBuilding, DateTime.MaxValue))
             {
-                case CityEventState.OnGoing:
+                case CityEventState.Ongoing:
                     doShopping = IsChance(TouristShoppingChance);
                     break;
 

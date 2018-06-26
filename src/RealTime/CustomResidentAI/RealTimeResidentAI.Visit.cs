@@ -96,7 +96,7 @@ namespace RealTime.CustomAI
             switch (EventMgr.GetEventState(visitBuilding, TimeInfo.Now.AddHours(MaxHoursOnTheWay)))
             {
                 case CityEventState.Upcoming:
-                case CityEventState.OnGoing:
+                case CityEventState.Ongoing:
                     return false;
 
                 case CityEventState.Finished:

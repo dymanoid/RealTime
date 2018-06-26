@@ -105,7 +105,7 @@ namespace RealTime.Events
                 }
                 else if ((vanillaEventState & EventData.Flags.Active) != 0)
                 {
-                    return CityEventState.OnGoing;
+                    return CityEventState.Ongoing;
                 }
                 else if (vanillaEventState != EventData.Flags.None)
                 {
@@ -115,7 +115,7 @@ namespace RealTime.Events
 
             if (activeEvent != null && activeEvent.BuildingId == buildingId)
             {
-                return CityEventState.OnGoing;
+                return CityEventState.Ongoing;
             }
             else if (lastActiveEvent != null && lastActiveEvent.BuildingId == buildingId)
             {

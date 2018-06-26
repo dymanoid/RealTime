@@ -188,7 +188,7 @@ namespace RealTime.CustomAI
             eventBuildingId = default;
 
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
-            if (EventMgr.GetEventState(currentBuilding, DateTime.MaxValue) == CityEventState.OnGoing)
+            if (EventMgr.GetEventState(currentBuilding, DateTime.MaxValue) == CityEventState.Ongoing)
             {
                 return false;
             }

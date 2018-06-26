@@ -8,7 +8,7 @@ namespace RealTime.Events
     {
         None,
         Upcoming,
-        OnGoing,
+        Ongoing,
         Finished
     }
 }
