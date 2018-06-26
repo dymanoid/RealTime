@@ -252,7 +252,7 @@ namespace RealTime.CustomAI
         {
             ushort leisureBuilding = BuildingMgr.FindActiveBuilding(
                 buildingId,
-                FullSearchDistance,
+                LeisureSearchDistance,
                 ItemClass.Service.Commercial,
                 ItemClass.SubService.CommercialLeisure);
 
