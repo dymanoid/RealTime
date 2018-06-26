@@ -132,7 +132,7 @@ namespace RealTime.CustomAI
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
             ItemClass.Service buildingService = BuildingMgr.GetBuildingService(currentBuilding);
 
-            if ((BuildingMgr.GetBuildingFlags(currentBuilding) & Building.Flags.Evacuating) != 0
+            if (BuildingMgr.BuildingHasFlags(currentBuilding, Building.Flags.Evacuating)
                 && buildingService != ItemClass.Service.Disaster)
             {
                 return ResidentState.Evacuating;
@@ -141,7 +141,7 @@ namespace RealTime.CustomAI
             switch (CitizenProxy.GetLocation(ref citizen))
             {
                 case Citizen.Location.Home:
-                    if ((CitizenProxy.GetFlags(ref citizen) & Citizen.Flags.MovingIn) != 0)
+                    if (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.MovingIn))
                     {
                         return ResidentState.LeftCity;
                     }
@@ -154,7 +154,7 @@ namespace RealTime.CustomAI
                     return ResidentState.Unknown;
 
                 case Citizen.Location.Work:
-                    if (buildingService == ItemClass.Service.Disaster && CitizenProxy.GetFlags(ref citizen) == Citizen.Flags.Evacuating)
+                    if (buildingService == ItemClass.Service.Disaster && CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating))
                     {
                         return ResidentState.InShelter;
                     }

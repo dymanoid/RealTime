@@ -26,11 +26,17 @@ namespace RealTime.GameConnection
                 : (ushort)0;
         }
 
-        public CitizenInstance.Flags GetInstanceFlags(ushort instanceId)
+        public bool InstanceHasFlags(ushort instanceId, CitizenInstance.Flags flags, bool exact = false)
         {
-            return instanceId == 0
-               ? CitizenInstance.Flags.None
-               : CitizenManager.instance.m_instances.m_buffer[instanceId].m_flags;
+            if (instanceId == 0)
+            {
+                return false;
+            }
+
+            CitizenInstance.Flags currentFlags = CitizenManager.instance.m_instances.m_buffer[instanceId].m_flags;
+            return exact
+                ? currentFlags == flags
+                : currentFlags != 0;
         }
 
         public byte GetInstanceWaitCounter(ushort instanceId)

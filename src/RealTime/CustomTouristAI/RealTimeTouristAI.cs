@@ -72,15 +72,14 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            if (vehicleId == 0 && CitizenMgr.IsAreaEvacuating(instanceId) && (CitizenProxy.GetFlags(ref citizen) & Citizen.Flags.Evacuating) == 0)
+            if (vehicleId == 0 && CitizenMgr.IsAreaEvacuating(instanceId) && !CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating))
             {
                 Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} was on the way, but the area evacuates. Leaving the city.");
                 touristAI.FindVisitPlace(instance, citizenId, CitizenProxy.GetCurrentBuilding(ref citizen), touristAI.GetLeavingReason(instance, citizenId, ref citizen));
                 return;
             }
 
-            CitizenInstance.Flags flags = CitizenInstance.Flags.TargetIsNode | CitizenInstance.Flags.OnTour;
-            if ((CitizenMgr.GetInstanceFlags(instanceId) & flags) == flags)
+            if (CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.TargetIsNode | CitizenInstance.Flags.OnTour, true))
             {
                 FindRandomVisitPlace(instance, citizenId, ref citizen, TouristDoNothingProbability, 0);
             }
@@ -95,8 +94,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            Building.Flags buildingFlags = BuildingMgr.GetBuildingFlags(visitBuilding);
-            if ((buildingFlags & Building.Flags.Evacuating) != 0)
+            if (BuildingMgr.BuildingHasFlags(visitBuilding, Building.Flags.Evacuating))
             {
                 touristAI.FindEvacuationPlace(instance, citizenId, visitBuilding, touristAI.GetEvacuationReason(instance, visitBuilding));
                 return;
@@ -105,7 +103,7 @@ namespace RealTime.CustomAI
             switch (BuildingMgr.GetBuildingService(visitBuilding))
             {
                 case ItemClass.Service.Disaster:
-                    if ((buildingFlags & Building.Flags.Downgrading) != 0)
+                    if (BuildingMgr.BuildingHasFlags(visitBuilding, Building.Flags.Downgrading))
                     {
                         FindRandomVisitPlace(instance, citizenId, ref citizen, 0, visitBuilding);
                     }
@@ -129,7 +127,7 @@ namespace RealTime.CustomAI
             bool doShopping;
             switch (EventMgr.GetEventState(visitBuilding, DateTime.MaxValue))
             {
-                case CityEventState.OnGoing:
+                case CityEventState.Ongoing:
                     doShopping = IsChance(TouristShoppingChance);
                     break;
 

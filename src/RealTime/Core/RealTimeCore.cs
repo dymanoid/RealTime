@@ -7,6 +7,7 @@ namespace RealTime.Core
     using System;
     using System.Collections.Generic;
     using System.Security.Permissions;
+    using RealTime.BuildingAI;
     using RealTime.Config;
     using RealTime.CustomAI;
     using RealTime.Events;
@@ -104,7 +105,6 @@ namespace RealTime.Core
 
             SetupCustomAI(timeInfo, config, gameConnections, eventManager);
 
-            RealTimeEventSimulation.EventManager = eventManager;
             CityEventsLoader.Istance.ReloadEvents(rootPath);
 
             var customTimeBar = new CustomTimeBar();
@@ -113,7 +113,11 @@ namespace RealTime.Core
 
             var result = new RealTimeCore(timeAdjustment, customTimeBar, eventManager);
             eventManager.EventsChanged += result.CityEventsChanged;
-            DaylightTimeSimulation.NewDay += result.CityEventsChanged;
+            SimulationHandler.NewDay += result.CityEventsChanged;
+
+            SimulationHandler.DayTimeSimulation = new DayTimeSimulation();
+            SimulationHandler.EventManager = eventManager;
+            SimulationHandler.CommercialAI = new CommercialAI(timeInfo, buildingManager);
 
             RealTimeStorage.Instance.GameSaving += result.GameSaving;
             result.storageData.Add(eventManager);
@@ -139,7 +143,7 @@ namespace RealTime.Core
             timeBar.CityEventClick -= CustomTimeBarCityEventClick;
             timeBar.Disable();
             eventManager.EventsChanged -= CityEventsChanged;
-            DaylightTimeSimulation.NewDay -= CityEventsChanged;
+            SimulationHandler.NewDay -= CityEventsChanged;
 
             CityEventsLoader.Istance.Clear();
 
@@ -148,7 +152,9 @@ namespace RealTime.Core
             ResidentAIHook.RealTimeAI = null;
             TouristAIHook.RealTimeAI = null;
             PrivateBuildingAIHook.RealTimeAI = null;
-            RealTimeEventSimulation.EventManager = null;
+            SimulationHandler.EventManager = null;
+            SimulationHandler.DayTimeSimulation = null;
+            SimulationHandler.CommercialAI = null;
 
             try
             {

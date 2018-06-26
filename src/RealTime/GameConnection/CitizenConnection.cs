@@ -48,9 +48,9 @@ namespace RealTime.GameConnection
             return citizen.GetBuildingByLocation();
         }
 
-        public Citizen.Flags GetFlags(ref Citizen citizen)
+        public bool HasFlags(ref Citizen citizen, Citizen.Flags flags)
         {
-            return citizen.m_flags;
+            return (citizen.m_flags & flags) != 0;
         }
 
         public ushort GetHomeBuilding(ref Citizen citizen)

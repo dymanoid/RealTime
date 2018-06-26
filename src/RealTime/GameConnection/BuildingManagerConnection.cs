@@ -4,7 +4,6 @@
 
 namespace RealTime.GameConnection
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
@@ -25,11 +24,11 @@ namespace RealTime.GameConnection
                 : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info.m_class.m_subService;
         }
 
-        public Building.Flags GetBuildingFlags(ushort buildingId)
+        public bool BuildingHasFlags(ushort buildingId, Building.Flags flags)
         {
             return buildingId == 0
-                ? Building.Flags.None
-                : BuildingManager.instance.m_buildings.m_buffer[buildingId].m_flags;
+                ? false
+                : (BuildingManager.instance.m_buildings.m_buffer[buildingId].m_flags & flags) != 0;
         }
 
         public float GetDistanceBetweenBuildings(ushort building1, ushort building2)
@@ -132,6 +131,28 @@ namespace RealTime.GameConnection
             }
 
             return 0;
+        }
+
+        public void DecrementOutgoingProblemTimer(ushort buildingIdFrom, ushort buildingIdTo, ItemClass.Service service)
+        {
+            if (service == ItemClass.Service.None)
+            {
+                return;
+            }
+
+            for (ushort buildingId = buildingIdFrom; buildingId <= buildingIdTo; buildingId++)
+            {
+                ref Building building = ref BuildingManager.instance.m_buildings.m_buffer[buildingId];
+                if ((building.m_flags & Building.Flags.Created) == 0 || building.Info.m_class.m_service != service)
+                {
+                    continue;
+                }
+
+                if (building.m_outgoingProblemTimer > 0)
+                {
+                    building.m_outgoingProblemTimer -= 1;
+                }
+            }
         }
 
         public string GetBuildingClassName(ushort buildingId)

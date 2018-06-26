@@ -53,6 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuildingAI\CommercialAI.cs" />
     <Compile Include="Config\ConfigurationProvider.cs" />
     <Compile Include="Core\IStorageData.cs" />
     <Compile Include="Core\RealTimeStorage.cs" />
@@ -69,7 +70,6 @@
     <Compile Include="Events\RealTimeCityEvent.cs" />
     <Compile Include="Events\CityEventBase.cs" />
     <Compile Include="Events\RealTimeEventManager.cs" />
-    <Compile Include="Events\RealTimeEventSimulation.cs" />
     <Compile Include="Events\Storage\CityEventAttendees.cs" />
     <Compile Include="Events\Storage\CityEventCosts.cs" />
     <Compile Include="Events\Storage\CityEventTemplate.cs" />
@@ -109,8 +109,9 @@
     <Compile Include="Localization\LocalizationProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\RealTimeMod.cs" />
-    <Compile Include="Simulation\DaylightTimeSimulation.cs" />
-    <Compile Include="Simulation\DayTime.cs" />
+    <Compile Include="Simulation\DayTimeSimulation.cs" />
+    <Compile Include="Simulation\SimulationHandler.cs" />
+    <Compile Include="Simulation\DayTimeCalculator.cs" />
     <Compile Include="Simulation\ITimeInfo.cs" />
     <Compile Include="Simulation\TimeAdjustment.cs" />
     <Compile Include="GameConnection\TimeInfo.cs" />

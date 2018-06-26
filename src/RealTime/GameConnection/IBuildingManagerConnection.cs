@@ -13,7 +13,7 @@ namespace RealTime.GameConnection
 
         ItemClass.SubService GetBuildingSubService(ushort buildingId);
 
-        Building.Flags GetBuildingFlags(ushort buildingId);
+        bool BuildingHasFlags(ushort buildingId, Building.Flags flags);
 
         float GetDistanceBetweenBuildings(ushort building1, ushort building2);
 
@@ -42,6 +42,8 @@ namespace RealTime.GameConnection
         /// <remarks>NOTE: this method creates objects on the heap. To avoid memory pressure,
         /// don't call it on every simulation step.</remarks>
         ushort GetRandomBuilding(IEnumerable<ItemClass.Service> services);
+
+        void DecrementOutgoingProblemTimer(ushort buildingIdFrom, ushort buildingIdTo, ItemClass.Service service);
 
         string GetBuildingClassName(ushort buildingId);
 

@@ -10,7 +10,7 @@ namespace RealTime.GameConnection
 
         ushort GetTargetBuilding(ushort instanceId);
 
-        CitizenInstance.Flags GetInstanceFlags(ushort instanceId);
+        bool InstanceHasFlags(ushort instanceId, CitizenInstance.Flags flags, bool exact = false);
 
         byte GetInstanceWaitCounter(ushort instanceId);
 

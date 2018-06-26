@@ -47,7 +47,7 @@ namespace RealTime.GameConnection
 
         Citizen.Wellbeing GetWellbeingLevel(ref T citizen);
 
-        Citizen.Flags GetFlags(ref T citizen);
+        bool HasFlags(ref T citizen, Citizen.Flags flags);
 
         void SetHome(ref T citizen, uint citizenId, ushort buildingId);
 

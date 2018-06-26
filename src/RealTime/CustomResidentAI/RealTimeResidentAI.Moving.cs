@@ -29,17 +29,14 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            if (vehicleId == 0 && CitizenMgr.IsAreaEvacuating(instanceId) && (CitizenProxy.GetFlags(ref citizen) & Citizen.Flags.Evacuating) == 0)
+            if (vehicleId == 0 && CitizenMgr.IsAreaEvacuating(instanceId) && !CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating))
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} was on the way, but the area evacuates. Finding an evacuation place.");
                 TransferMgr.AddOutgoingOfferFromCurrentPosition(citizenId, residentAI.GetEvacuationReason(instance, 0));
                 return;
             }
 
-            CitizenInstance.Flags instanceFlags = CitizenMgr.GetInstanceFlags(instanceId);
-            CitizenInstance.Flags onTourFlags = CitizenInstance.Flags.TargetIsNode | CitizenInstance.Flags.OnTour;
-
-            if ((instanceFlags & onTourFlags) == onTourFlags)
+            if (CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.TargetIsNode | CitizenInstance.Flags.OnTour, true))
             {
                 ushort homeBuilding = CitizenProxy.GetHomeBuilding(ref citizen);
                 if (IsChance(AbandonTourChance) && homeBuilding != 0)
@@ -48,7 +45,7 @@ namespace RealTime.CustomAI
                     residentAI.StartMoving(instance, citizenId, ref citizen, 0, homeBuilding);
                 }
             }
-            else if ((instanceFlags & (CitizenInstance.Flags.WaitingTransport | CitizenInstance.Flags.WaitingTaxi)) != 0)
+            else if (CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.WaitingTransport | CitizenInstance.Flags.WaitingTaxi))
             {
                 if (mayCancel && CitizenMgr.GetInstanceWaitCounter(instanceId) == 255 && IsChance(AbandonTransportWaitChance))
                 {

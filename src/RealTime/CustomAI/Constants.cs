@@ -8,7 +8,8 @@ namespace RealTime.CustomAI
     {
         public const int ShoppingGoodsAmount = 100;
 
-        public const float LocalSearchDistance = 500f;
+        public const float LocalSearchDistance = 270f * 2;
+        public const float LeisureSearchDistance = 270f * 3;
         public const float FullSearchDistance = 270f * 64f / 2f;
 
         public const uint AbandonTourChance = 25;
