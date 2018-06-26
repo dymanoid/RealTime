@@ -4,11 +4,13 @@
 
 namespace RealTime.Localization
 {
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
     using System.Xml;
     using ColossalFramework.Globalization;
+    using RealTime.Tools;
     using static Constants;
 
     internal sealed class LocalizationProvider
@@ -82,6 +84,7 @@ namespace RealTime.Localization
         {
             if (CurrentCulture.TwoLetterISOLanguageName == language && translation.Count != 0)
             {
+                Log.Debug($"The localization data for '{language}' will not be loaded, because it was alread loaded");
                 return LoadingResult.AlreadyLoaded;
             }
 
@@ -90,6 +93,7 @@ namespace RealTime.Localization
             string path = Path.Combine(localeStorage, language + FileExtension);
             if (!File.Exists(path))
             {
+                Log.Error($"The 'Real Time' mod cannot find a required localization file '{path}'");
                 return LoadingResult.Failure;
             }
 
@@ -112,8 +116,9 @@ namespace RealTime.Localization
                     CurrentCulture = LocaleManager.cultureInfo;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Log.Error($"The 'Real Time' cannot load data from localization file '{path}', error message: {ex.Message}");
                 translation.Clear();
                 return LoadingResult.Failure;
             }
