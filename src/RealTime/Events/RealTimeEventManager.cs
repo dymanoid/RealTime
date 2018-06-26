@@ -159,7 +159,7 @@ namespace RealTime.Events
             }
 
             ushort building = buildingManager.GetRandomBuilding(EventBuildingServices);
-            if ((buildingManager.GetBuildingFlags(building) & Building.Flags.Active) == 0)
+            if (!buildingManager.BuildingHasFlags(building, Building.Flags.Active))
             {
                 return;
             }

@@ -13,7 +13,7 @@ namespace RealTime.GameConnection
 
         ItemClass.SubService GetBuildingSubService(ushort buildingId);
 
-        Building.Flags GetBuildingFlags(ushort buildingId);
+        bool BuildingHasFlags(ushort buildingId, Building.Flags flags);
 
         float GetDistanceBetweenBuildings(ushort building1, ushort building2);
 

@@ -25,11 +25,11 @@ namespace RealTime.GameConnection
                 : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info.m_class.m_subService;
         }
 
-        public Building.Flags GetBuildingFlags(ushort buildingId)
+        public bool BuildingHasFlags(ushort buildingId, Building.Flags flags)
         {
             return buildingId == 0
-                ? Building.Flags.None
-                : BuildingManager.instance.m_buildings.m_buffer[buildingId].m_flags;
+                ? false
+                : (BuildingManager.instance.m_buildings.m_buffer[buildingId].m_flags & flags) != 0;
         }
 
         public float GetDistanceBetweenBuildings(ushort building1, ushort building2)

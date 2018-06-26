@@ -37,7 +37,7 @@ namespace RealTime.CustomAI
                     return;
 
                 case ResidentState.Shopping:
-                    if ((CitizenProxy.GetFlags(ref citizen) & Citizen.Flags.NeedGoods) != 0)
+                    if (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods))
                     {
                         BuildingMgr.ModifyMaterialBuffer(CitizenProxy.GetVisitBuilding(ref citizen), TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
                         CitizenProxy.RemoveFlags(ref citizen, Citizen.Flags.NeedGoods);
@@ -66,7 +66,7 @@ namespace RealTime.CustomAI
                 return true;
             }
 
-            if ((BuildingMgr.GetBuildingFlags(visitBuilding) & Building.Flags.Downgrading) == 0)
+            if (!BuildingMgr.BuildingHasFlags(visitBuilding, Building.Flags.Downgrading))
             {
                 return false;
             }
@@ -127,7 +127,7 @@ namespace RealTime.CustomAI
 
         private bool CitizenGoesShopping(TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            if ((CitizenProxy.GetFlags(ref citizen) & Citizen.Flags.NeedGoods) == 0)
+            if (!CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods))
             {
                 return false;
             }
