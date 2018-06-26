@@ -13,7 +13,8 @@ namespace RealTime.CustomAI
     {
         private void ProcessCitizenVisit(TAI instance, ResidentState citizenState, uint citizenId, ref TCitizen citizen)
         {
-            if (CitizenProxy.GetVisitBuilding(ref citizen) == 0)
+            ushort currentBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
+            if (currentBuilding == 0)
             {
                 Log.Debug($"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is in corrupt state: visiting with no visit building. Teleporting home.");
                 CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
@@ -28,6 +29,15 @@ namespace RealTime.CustomAI
                     return;
 
                 case ResidentState.AtLeisureArea:
+                    if (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods) 
+                        && BuildingMgr.GetBuildingSubService(currentBuilding) == ItemClass.SubService.CommercialLeisure)
+                    {
+                        // No Citizen.Flags.NeedGoods flag reset here, because we only bought 'beer' or 'champagne' in a leisure building.
+                        BuildingMgr.ModifyMaterialBuffer(CitizenProxy.GetVisitBuilding(ref citizen), TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
+                    }
+
+                    goto case ResidentState.Visiting;
+
                 case ResidentState.Visiting:
                     if (!CitizenGoesWorking(instance, citizenId, ref citizen))
                     {
