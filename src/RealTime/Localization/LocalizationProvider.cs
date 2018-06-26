@@ -9,7 +9,6 @@ namespace RealTime.Localization
     using System.Globalization;
     using System.IO;
     using System.Xml;
-    using ColossalFramework.Globalization;
     using RealTime.Tools;
     using static Constants;
 
@@ -99,21 +98,14 @@ namespace RealTime.Localization
 
             try
             {
+                CurrentCulture = new CultureInfo(GetLocaleNameFromLanguage(language));
+
                 var doc = new XmlDocument();
                 doc.Load(path);
 
                 foreach (XmlNode node in doc.DocumentElement.ChildNodes)
                 {
                     translation[node.Attributes[XmlKeyAttribute].Value] = node.Attributes[XmlValueAttribute].Value;
-                }
-
-                try
-                {
-                    CurrentCulture = new CultureInfo(GetLocaleNameFromLanguage(language));
-                }
-                catch
-                {
-                    CurrentCulture = LocaleManager.cultureInfo;
                 }
             }
             catch (Exception ex)
