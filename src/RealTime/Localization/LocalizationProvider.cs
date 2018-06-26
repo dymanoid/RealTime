@@ -29,8 +29,6 @@ namespace RealTime.Localization
             AlreadyLoaded
         }
 
-        public string CurrentLanguage { get; private set; } = "en";
-
         public CultureInfo CurrentCulture { get; private set; } = CultureInfo.CurrentCulture;
 
         public string Translate(string id)
@@ -120,7 +118,6 @@ namespace RealTime.Localization
                 return LoadingResult.Failure;
             }
 
-            CurrentLanguage = language;
             return LoadingResult.Success;
         }
     }
