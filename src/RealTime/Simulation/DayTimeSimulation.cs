@@ -25,6 +25,9 @@ namespace RealTime.Simulation
             calculator.Calculate(date, out float sunriseHour, out float sunsetHour);
             SimulationManager.SUNRISE_HOUR = sunriseHour;
             SimulationManager.SUNSET_HOUR = sunsetHour;
+
+            SimulationManager.RELATIVE_DAY_LENGTH = (int)((sunsetHour - sunriseHour) * 100 / 24);
+            SimulationManager.RELATIVE_NIGHT_LENGTH = 100 - SimulationManager.RELATIVE_DAY_LENGTH;
         }
     }
 }
