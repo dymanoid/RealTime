@@ -118,7 +118,7 @@ namespace RealTime.Core
             SimulationHandler.EventManager = eventManager;
             SimulationHandler.CommercialAI = new RealTimeCommercialBuildingAI(timeInfo, buildingManager);
 
-            RealTimeStorage.Instance.GameSaving += result.GameSaving;
+            RealTimeStorage.CurrentLevelStorage.GameSaving += result.GameSaving;
             result.storageData.Add(eventManager);
             result.LoadStorageData();
 
@@ -146,7 +146,7 @@ namespace RealTime.Core
 
             CityEventsLoader.Istance.Clear();
 
-            RealTimeStorage.Instance.GameSaving -= GameSaving;
+            RealTimeStorage.CurrentLevelStorage.GameSaving -= GameSaving;
 
             ResidentAIHook.RealTimeAI = null;
             TouristAIHook.RealTimeAI = null;
@@ -222,7 +222,7 @@ namespace RealTime.Core
         {
             foreach (IStorageData item in storageData)
             {
-                RealTimeStorage.Instance.Deserialize(item);
+                RealTimeStorage.CurrentLevelStorage.Deserialize(item);
             }
         }
 

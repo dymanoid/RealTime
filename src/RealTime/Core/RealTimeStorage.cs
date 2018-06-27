@@ -15,28 +15,36 @@ namespace RealTime.Core
 
         internal event EventHandler GameSaving;
 
-        internal static RealTimeStorage Instance { get; private set; }
+        /// <summary>
+        /// Gets an instance of the <see cref="RealTimeStorage"/> class that is used with the current game level.
+        /// This is not a singleton instance, and is allowed to be null.
+        /// </summary>
+        internal static RealTimeStorage CurrentLevelStorage { get; private set; }
 
         public override void OnSaveData()
         {
-            // TODO: investigate the exception on overwriting an existing game file
             GameSaving?.Invoke(this, EventArgs.Empty);
         }
 
         public override void OnCreated(ISerializableData serializableData)
         {
             base.OnCreated(serializableData);
-            Instance = this;
+            CurrentLevelStorage = this;
         }
 
         public override void OnReleased()
         {
             base.OnReleased();
-            Instance = null;
+            CurrentLevelStorage = null;
         }
 
         internal void Serialize(IStorageData data)
         {
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
             string dataKey = StorageDataPrefix + data.StorageDataId;
 
             try
@@ -55,6 +63,11 @@ namespace RealTime.Core
 
         internal void Deserialize(IStorageData data)
         {
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
             string dataKey = StorageDataPrefix + data.StorageDataId;
 
             try
