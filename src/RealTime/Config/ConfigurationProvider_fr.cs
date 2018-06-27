@@ -38,7 +38,7 @@ namespace RealTime.Config
             }
             catch (Exception ex)
             {
-                Log.Error("The 'Real Time' mod cannot save its configuration, error message: " + ex.Message);
+                Log.Error("Le mode 'Real Time' ne peut pas enregistrer sa configuration, message d'erreur : " + ex.Message);
             }
         }
 
