@@ -7,19 +7,19 @@ namespace RealTime.Config
     using RealTime.UI;
 
     /// <summary>
-    /// The mod's configuration.
+    /// Configuration du mode.
     /// </summary>
     public sealed class RealTimeConfig
     {
         /// <summary>
-        /// Gets or sets a value indicating whether the weekends are enabled. Cims don't go to work on weekends.
+        /// Définit une valeur indiquant si les week-ends sont activés. Les gens ne vont pas au travail le week-end.
         /// </summary>
         [ConfigItem("1General", 0)]
         [ConfigItemCheckBox]
         public bool IsWeekendEnabled { get; set; } = true;
 
         /// <summary>
-        /// Gets or sets a value indicating whether Cims should go out at lunch for food.
+        /// Définit une valeur indiquant si les gens devraient sortir au déjeûner pour s'alimenter.
         /// </summary>
         [ConfigItem("1General", 1)]
         [ConfigItemCheckBox]
@@ -34,25 +34,25 @@ namespace RealTime.Config
         public uint ConstructionSpeed { get; set; } = 50;
 
         /// <summary>
-        /// Gets or sets the percentage of the Cims that will go out for lunch.
-        /// Valid values are 0..100.
+        /// Définit le pourcentage de gens qui vont sortir pour le déjeûner.
+        /// Valeurs comprises entre 0 et 100.
         /// </summary>
         [ConfigItem("2Quotas", 0)]
         [ConfigItemSlider(0, 100)]
         public uint LunchQuota { get; set; } = 80;
 
         /// <summary>
-        /// Gets or sets the percentage of the population that will search locally for buildings.
-        /// Valid values are 0..100.
+        /// Définit le pourcentage de la population qui recherchera localement un bâtiment.
+        /// Valeurs comprises entre 0 et 100.
         /// </summary>
         [ConfigItem("2Quotas", 1)]
         [ConfigItemSlider(0, 100)]
         public uint LocalBuildingSearchQuota { get; set; } = 60;
 
         /// <summary>
-        /// Gets or sets the percentage of the Cims that will go to and leave their work or school
-        /// on time (no overtime!).
-        /// Valid values are 0..100.
+        /// Définit le pourcentage de gens qui iront et quitteront leur travail ainsi que les élèves ou les étudiants
+        /// à temps (pas d'heures supplémentaires !).
+        /// Valeurs comprises entre 0 et 100.
         /// </summary>
         [ConfigItem("2Quotas", 2)]
         [ConfigItemSlider(0, 100)]
@@ -75,51 +75,51 @@ namespace RealTime.Config
         public float LatestHourEventStartWeekend { get; set; } = 22f;
 
         /// <summary>
-        /// Gets or sets the work start daytime hour. The adult Cims must be at work.
+        /// Définit le travail des heures de jour. Les adultes doivent être au travail.
         /// </summary>
         [ConfigItem("4Time", 0)]
         [ConfigItemSlider(4, 11, 0.25f, SliderValueType.Time)]
         public float WorkBegin { get; set; } = 9f;
 
         /// <summary>
-        /// Gets or sets the daytime hour when the adult Cims return from work.
+        /// Définit l'heure de la journée lorsque les adultes reviennet du travail.
         /// </summary>
         [ConfigItem("4Time", 1)]
         [ConfigItemSlider(12, 20, 0.25f, SliderValueType.Time)]
         public float WorkEnd { get; set; } = 18f;
 
         /// <summary>
-        /// Gets or sets the daytime hour when the Cims go out for lunch.
+        /// Définit l'heure de la journée lorsque les gens sortent pour le déjeûner.
         /// </summary>
         [ConfigItem("4Time", 2)]
         [ConfigItemSlider(11, 13, 0.25f, SliderValueType.Time)]
         public float LunchBegin { get; set; } = 12f;
 
         /// <summary>
-        /// Gets or sets the daytime hour when the Cims return from lunch back to work.
+        /// Définit l'heure de la journée lorsque les gens reviennent du déjeûner au travail.
         /// </summary>
         [ConfigItem("4Time", 3)]
         [ConfigItemSlider(13, 15, 0.25f, SliderValueType.Time)]
         public float LunchEnd { get; set; } = 13f;
 
         /// <summary>
-        /// Gets or sets the maximum overtime for the Cims. They come to work earlier or stay at work longer for at most this
-        /// amout of hours. This applies only for those Cims that are not on time, see <see cref="OnTimeQuota"/>.
-        /// The young Cims (school and university) don't do overtime.
+        /// Définit le temps supplémentaire maximum pour les gens. Ils viennent travailler plus tôt ou restent au travail plus longtemps
+        /// selon le temps d'heures imparties. Ceci s'applique aux gens qui sont en retard, voir <see cref="OnTimeQuota"/>.
+        /// Les enfants et adolescants (élèves et étudiants) ne font pas d'heures supplémentaires.
         /// </summary>
         [ConfigItem("4Time", 4)]
         [ConfigItemSlider(0, 4, 0.25f, SliderValueType.Duration)]
         public float MaxOvertime { get; set; } = 2f;
 
         /// <summary>
-        /// Gets or sets the school start daytime hour. The young Cims must be at school or university.
+        /// Définit l'heure de début des cours de l'école ou de l'université. Les élèves ou les étudiants doivent être en cours.
         /// </summary>
         [ConfigItem("4Time", 5)]
         [ConfigItemSlider(4, 10, 0.25f, SliderValueType.Time)]
         public float SchoolBegin { get; set; } = 8f;
 
         /// <summary>
-        /// Gets or sets the daytime hour when the young Cims return from school or university.
+        /// Définit l'heure de la journée lorsque les élèves ou les étudiants reviennent des cours.
         /// </summary>
         [ConfigItem("4Time", 6)]
         [ConfigItemSlider(11, 16, 0.25f, SliderValueType.Time)]
