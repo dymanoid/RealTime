@@ -7,7 +7,6 @@ namespace RealTime.Core
     using System;
     using System.Collections.Generic;
     using System.Security.Permissions;
-    using RealTime.BuildingAI;
     using RealTime.Config;
     using RealTime.CustomAI;
     using RealTime.Events;
@@ -117,7 +116,7 @@ namespace RealTime.Core
 
             SimulationHandler.DayTimeSimulation = new DayTimeSimulation();
             SimulationHandler.EventManager = eventManager;
-            SimulationHandler.CommercialAI = new CommercialAI(timeInfo, buildingManager);
+            SimulationHandler.CommercialAI = new RealTimeCommercialBuildingAI(timeInfo, buildingManager);
 
             RealTimeStorage.Instance.GameSaving += result.GameSaving;
             result.storageData.Add(eventManager);
