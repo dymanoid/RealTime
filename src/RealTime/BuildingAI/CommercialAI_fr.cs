@@ -26,9 +26,9 @@ namespace RealTime.BuildingAI
             uint buildingFrom = frameId * 192u;
             uint buildingTo = ((frameId + 1u) * 192u) - 1u;
 
-            // We have only few customers at night - that's an inteded behavior.
-            // To avoid commercial building from collapsing due to lack of customers,
-            // we force the problem timer to pause at night time.
+            // La nuit, nous n'avons que peu de clients - c'est un comportement intentionné.
+            // Pour éviter que le bâtiment ne s'effondre en raison du manque de clients,
+            // nous forçons le problème en faisant une pause pendant la nuit du temporisateur.
             if (timeInfo.IsNightTime)
             {
                 BuildingMgr.DecrementOutgoingProblemTimer((ushort)buildingFrom, (ushort)buildingTo, ItemClass.Service.Commercial);
