@@ -11,12 +11,28 @@ namespace RealTime.CustomAI
     using RealTime.Tools;
     using static Constants;
 
+    /// <summary>
+    /// A class incorporating the custom logic for the tourists that visit the city.
+    /// </summary>
+    /// <typeparam name="TAI">The type of the tourist AI.</typeparam>
+    /// <typeparam name="TCitizen">The type of the citizen objects.</typeparam>
+    /// <seealso cref="RealTimeHumanAIBase{TCitizen}" />
     internal sealed class RealTimeTouristAI<TAI, TCitizen> : RealTimeHumanAIBase<TCitizen>
         where TAI : class
         where TCitizen : struct
     {
         private readonly TouristAIConnection<TAI, TCitizen> touristAI;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RealTimeTouristAI{TAI, TCitizen}"/> class.
+        /// </summary>
+        ///
+        /// <param name="config">The configuration to run with.</param>
+        /// <param name="connections">A <see cref="GameConnections{T}"/> instance that provides the game connection implementation.</param>
+        /// <param name="touristAI">A connection to game's tourist AI.</param>
+        /// <param name="eventManager">The custom event manager.</param>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
         public RealTimeTouristAI(
             RealTimeConfig config,
             GameConnections<TCitizen> connections,
@@ -27,6 +43,13 @@ namespace RealTime.CustomAI
             this.touristAI = touristAI ?? throw new System.ArgumentNullException(nameof(touristAI));
         }
 
+        /// <summary>
+        /// The entry method of the custom AI.
+        /// </summary>
+        ///
+        /// <param name="instance">A reference to an object instance of the original AI.</param>
+        /// <param name="citizenId">The ID of the citizen to process.</param>
+        /// <param name="citizen">A <typeparamref name="TCitizen"/> reference to process.</param>
         public void UpdateLocation(TAI instance, uint citizenId, ref TCitizen citizen)
         {
             if (!EnsureCitizenValid(citizenId, ref citizen))

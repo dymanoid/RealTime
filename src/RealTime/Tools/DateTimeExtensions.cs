@@ -24,6 +24,17 @@ namespace RealTime.Tools
             return dateTime.DayOfWeek == DayOfWeek.Saturday || dateTime.DayOfWeek == DayOfWeek.Sunday;
         }
 
+        /// <summary>
+        /// Determines whether this <see cref="DateTime"/> represents the Friday night or the Weekend time.
+        /// </summary>
+        ///
+        /// <param name="dateTime">The <see cref="DateTime"/> to check.</param>
+        /// <param name="fridayStartHour">The Friday's start hour to assume as the Weekend start.</param>
+        /// <param name="sundayEndHour">The Sunday's end hour to assume as the Weekend end.</param>
+        ///
+        /// <returns>
+        ///   <c>true</c> if this <see cref="DateTime"/> represents the Friday night or the Weekend time; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsWeekendTime(this DateTime dateTime, float fridayStartHour, float sundayEndHour)
         {
             switch (dateTime.DayOfWeek)
@@ -38,6 +49,14 @@ namespace RealTime.Tools
             }
         }
 
+        /// <summary>
+        /// Rounds this <see cref="DateTime"/> to the provided <paramref name="interval"/> (ceiling).
+        /// </summary>
+        ///
+        /// <param name="dateTime">The <see cref="DateTime"/> to round.</param>
+        /// <param name="interval">The interval to round to.</param>
+        ///
+        /// <returns>The rounded <see cref="DateTime"/>.</returns>
         public static DateTime RoundCeil(this DateTime dateTime, TimeSpan interval)
         {
             long overflow = dateTime.Ticks % interval.Ticks;

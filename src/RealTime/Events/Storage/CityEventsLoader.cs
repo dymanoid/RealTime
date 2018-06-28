@@ -1,5 +1,5 @@
 ﻿// <copyright file="CityEventsLoader.cs" company="dymanoid">
-// Copyright (c) dymanoid. All rights reserved.
+//     Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
 namespace RealTime.Events.Storage
@@ -11,6 +11,12 @@ namespace RealTime.Events.Storage
     using System.Xml.Serialization;
     using RealTime.Tools;
 
+    /// <summary>
+    /// A city event template management class that can load the city events templates from a file
+    /// storage and create <see cref="RealTimeCityEvent"/> instances from templates for particular
+    /// building classes.
+    /// </summary>
+    /// <seealso cref="ICityEventsProvider"/>
     internal sealed class CityEventsLoader : ICityEventsProvider
     {
         private const string EventsFolder = "Events";
@@ -22,12 +28,26 @@ namespace RealTime.Events.Storage
         {
         }
 
-        public static CityEventsLoader Istance { get; } = new CityEventsLoader();
+        /// <summary>Gets the one and only instance of this class.</summary>
+        public static CityEventsLoader Instance { get; } = new CityEventsLoader();
 
-        public void ReloadEvents(string rootPath)
+        /// <summary>
+        /// Reloads the event templates from the storage file that is located in a subdirectory of
+        /// the provided path.
+        /// </summary>
+        /// <param name="dataPath">The path where the mod's custom data files are stored.</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the <paramref name="dataPath"/> is null or an empty string.
+        /// </exception>
+        public void ReloadEvents(string dataPath)
         {
+            if (string.IsNullOrEmpty(dataPath))
+            {
+                throw new ArgumentException("The data path cannot be null or empty string", nameof(dataPath));
+            }
+
             events.Clear();
-            string searchPath = Path.Combine(rootPath, EventsFolder);
+            string searchPath = Path.Combine(dataPath, EventsFolder);
             if (!Directory.Exists(searchPath))
             {
                 Log.Warning($"The 'Real Time' mod did not found any event templates, the directory '{searchPath}' doesn't exist");
@@ -37,16 +57,26 @@ namespace RealTime.Events.Storage
             LoadEvents(Directory.GetFiles(searchPath, EventFileSearchPattern));
         }
 
+        /// <summary>Clears the currently loaded city events templates collection.</summary>
         public void Clear()
         {
             events.Clear();
         }
 
+        /// <summary>
+        /// Gets a randomly created city event for a building of provided class. If no city event
+        /// could be created, returns <c>null</c>.
+        /// </summary>
+        /// <param name="buildingClass">The building class to create a city event for.</param>
+        /// <returns>An instance of <see cref="ICityEvent"/> or null.</returns>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the argument is null or an empty string.
+        /// </exception>
         ICityEvent ICityEventsProvider.GetRandomEvent(string buildingClass)
         {
-            if (buildingClass == null)
+            if (string.IsNullOrEmpty(buildingClass))
             {
-                throw new ArgumentNullException(nameof(buildingClass));
+                throw new ArgumentException("The building class cannot be null or empty string", nameof(buildingClass));
             }
 
             var buildingEvents = events.Where(e => e.BuildingClassName == buildingClass).ToList();
@@ -59,16 +89,28 @@ namespace RealTime.Events.Storage
             return new RealTimeCityEvent(buildingEvents[eventNumber]);
         }
 
+        /// <summary>
+        /// Gets the event template that has the provided name and is configured for the provided
+        /// building class.
+        /// </summary>
+        /// <param name="eventName">The unique name of the city event template.</param>
+        /// <param name="buildingClassName">
+        /// The name of the building class the searched template is configured for.
+        /// </param>
+        /// <returns>An instance of <see cref="CityEventTemplate"/> or null of none found.</returns>
+        /// <exception cref="ArgumentException">
+        /// Thrown when any argument is null or an empty string.
+        /// </exception>
         CityEventTemplate ICityEventsProvider.GetEventTemplate(string eventName, string buildingClassName)
         {
-            if (eventName == null)
+            if (string.IsNullOrEmpty(eventName))
             {
-                throw new ArgumentNullException(nameof(eventName));
+                throw new ArgumentException("The event name cannot be null or empty string", nameof(eventName));
             }
 
-            if (buildingClassName == null)
+            if (string.IsNullOrEmpty(buildingClassName))
             {
-                throw new ArgumentNullException(nameof(buildingClassName));
+                throw new ArgumentException("The building class name cannot be null or empty string", nameof(buildingClassName));
             }
 
             return events.FirstOrDefault(e => e.EventName == eventName && e.BuildingClassName == buildingClassName);

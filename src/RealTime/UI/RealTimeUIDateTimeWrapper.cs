@@ -1,5 +1,5 @@
 ﻿// <copyright file="RealTimeUIDateTimeWrapper.cs" company="dymanoid">
-// Copyright (c) dymanoid. All rights reserved.
+//     Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
 namespace RealTime.UI
@@ -8,9 +8,9 @@ namespace RealTime.UI
     using System.Globalization;
 
     /// <summary>
-    /// A wrapper that converts a <see cref="DateTime"/> value to a string representation
-    /// containing the day of week and the time parts. The current <see cref="CultureInfo"/>
-    /// is used for string conversion.
+    /// A wrapper that converts a <see cref="DateTime"/> value to a string representation containing
+    /// the day of week and the time parts. The configured <see cref="CultureInfo"/> is used for
+    /// string conversion.
     /// </summary>
     public sealed class RealTimeUIDateTimeWrapper : UIDateTimeWrapper
     {
@@ -19,22 +19,22 @@ namespace RealTime.UI
         /// <summary>
         /// Initializes a new instance of the <see cref="RealTimeUIDateTimeWrapper"/> class.
         /// </summary>
-        ///
+        /// ///
         /// <param name="initial">The initial <see cref="DateTime"/> value to use for conversion.</param>
         internal RealTimeUIDateTimeWrapper(DateTime initial)
             : base(initial)
         {
-            CurrentValue = initial;
             Convert();
         }
 
-        public DateTime CurrentValue { get; private set; }
+        /// <summary>Gets the current date and time value that is processed by this wrapper.</summary>
+        public DateTime CurrentValue => m_Value;
 
         /// <summary>
         /// Checks the provided <see cref="DateTime"/> value whether it should be converted to a
         /// string representation. Converts the value when necessary.
         /// </summary>
-        ///
+        /// ///
         /// <param name="newVal">The <see cref="DateTime"/> value to process.</param>
         public override void Check(DateTime newVal)
         {
@@ -44,10 +44,12 @@ namespace RealTime.UI
             }
 
             m_Value = newVal;
-            CurrentValue = newVal;
             Convert();
         }
 
+        /// <summary>Translates this wrapper using the specified culture information.</summary>
+        /// <param name="cultureInfo">The culture information to use for translation.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
         public void Translate(CultureInfo cultureInfo)
         {
             currentCulture = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));

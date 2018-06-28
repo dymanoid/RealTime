@@ -1,6 +1,4 @@
-﻿// <copyright file="RealTimeCityEvent.cs" company="dymanoid">
-// Copyright (c) dymanoid. All rights reserved.
-// </copyright>
+﻿// <copyright file="RealTimeCityEvent.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
 
 namespace RealTime.Events
 {
@@ -9,6 +7,8 @@ namespace RealTime.Events
     using ColossalFramework.Math;
     using RealTime.Events.Storage;
 
+    /// <summary>A custom city event.</summary>
+    /// <seealso cref="CityEventBase"/>
     internal sealed class RealTimeCityEvent : CityEventBase
     {
         private readonly CityEventTemplate eventTemplate;
@@ -17,6 +17,11 @@ namespace RealTime.Events
 
         private int attendeesCount;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RealTimeCityEvent"/> class using the specified <paramref name="eventTemplate"/>.
+        /// </summary>
+        /// <param name="eventTemplate">The event template this city event is created from.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
         public RealTimeCityEvent(CityEventTemplate eventTemplate)
         {
             this.eventTemplate = eventTemplate ?? throw new ArgumentNullException(nameof(eventTemplate));
@@ -27,12 +32,30 @@ namespace RealTime.Events
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RealTimeCityEvent"/> class using the specified
+        /// <paramref name="eventTemplate"/> and the already known current <paramref name="attendeesCount"/>.
+        /// </summary>
+        /// <param name="eventTemplate">The event template this city event is created from.</param>
+        /// <param name="attendeesCount">The current attendees count of this city event.</param>
         public RealTimeCityEvent(CityEventTemplate eventTemplate, int attendeesCount)
             : this(eventTemplate)
         {
             this.attendeesCount = attendeesCount;
         }
 
+        /// <summary>Accepts an event attendee with provided properties.</summary>
+        /// <param name="age">The attendee age.</param>
+        /// <param name="gender">The attendee gender.</param>
+        /// <param name="education">The attendee education.</param>
+        /// <param name="wealth">The attendee wealth.</param>
+        /// <param name="wellbeing">The attendee wellbeing.</param>
+        /// <param name="happiness">The attendee happiness.</param>
+        /// <param name="randomizer">A reference to the game's randomizer.</param>
+        /// <returns>
+        /// <c>true</c> if the event attendee with provided properties is accepted and can attend this city event;
+        /// otherwise, <c>false</c>.
+        /// </returns>
         public override bool TryAcceptAttendee(
             Citizen.AgeGroup age,
             Citizen.Gender gender,
@@ -96,6 +119,10 @@ namespace RealTime.Events
             return true;
         }
 
+        /// <summary>
+        /// Creates an instance of the <see cref="RealTimeEventStorage"/> class that contains the current city event data.
+        /// </summary>
+        /// <returns>A new instance of the <see cref="RealTimeEventStorage"/> class.</returns>
         public RealTimeEventStorage GetStorageData()
         {
             return new RealTimeEventStorage
@@ -109,6 +136,8 @@ namespace RealTime.Events
             };
         }
 
+        /// <summary>Calculates the city event duration.</summary>
+        /// <returns>This city event duration in hours.</returns>
         protected override float GetDuration()
         {
             return (float)eventTemplate.Duration;
@@ -120,12 +149,16 @@ namespace RealTime.Events
             {
                 case Citizen.AgeGroup.Child:
                     return randomPercentage < attendees.Children;
+
                 case Citizen.AgeGroup.Teen:
                     return randomPercentage < attendees.Teens;
+
                 case Citizen.AgeGroup.Young:
                     return randomPercentage < attendees.YoungAdults;
+
                 case Citizen.AgeGroup.Adult:
                     return randomPercentage < attendees.Adults;
+
                 case Citizen.AgeGroup.Senior:
                     return randomPercentage < attendees.Seniors;
             }
@@ -139,12 +172,16 @@ namespace RealTime.Events
             {
                 case Citizen.Wellbeing.VeryUnhappy:
                     return randomPercentage < attendees.VeryUnhappyWellbeing;
+
                 case Citizen.Wellbeing.Unhappy:
                     return randomPercentage < attendees.UnhappyWellbeing;
+
                 case Citizen.Wellbeing.Satisfied:
                     return randomPercentage < attendees.SatisfiedWellbeing;
+
                 case Citizen.Wellbeing.Happy:
                     return randomPercentage < attendees.HappyWellbeing;
+
                 case Citizen.Wellbeing.VeryHappy:
                     return randomPercentage < attendees.VeryHappyWellbeing;
             }
@@ -158,12 +195,16 @@ namespace RealTime.Events
             {
                 case Citizen.Happiness.Bad:
                     return randomPercentage < attendees.BadHappiness;
+
                 case Citizen.Happiness.Poor:
                     return randomPercentage < attendees.PoorHappiness;
+
                 case Citizen.Happiness.Good:
                     return randomPercentage < attendees.GoodHappiness;
+
                 case Citizen.Happiness.Excellent:
                     return randomPercentage < attendees.ExcellentHappiness;
+
                 case Citizen.Happiness.Suberb:
                     return randomPercentage < attendees.SuperbHappiness;
             }
@@ -177,6 +218,7 @@ namespace RealTime.Events
             {
                 case Citizen.Gender.Female:
                     return randomPercentage < attendees.Females;
+
                 case Citizen.Gender.Male:
                     return randomPercentage < attendees.Males;
             }
@@ -190,10 +232,13 @@ namespace RealTime.Events
             {
                 case Citizen.Education.Uneducated:
                     return randomPercentage < attendees.Uneducated;
+
                 case Citizen.Education.OneSchool:
                     return randomPercentage < attendees.OneSchool;
+
                 case Citizen.Education.TwoSchools:
                     return randomPercentage < attendees.TwoSchools;
+
                 case Citizen.Education.ThreeSchools:
                     return randomPercentage < attendees.ThreeSchools;
             }
@@ -207,8 +252,10 @@ namespace RealTime.Events
             {
                 case Citizen.Wealth.Low:
                     return randomPercentage < attendees.LowWealth;
+
                 case Citizen.Wealth.Medium:
                     return randomPercentage < attendees.MediumWealth;
+
                 case Citizen.Wealth.High:
                     return randomPercentage < attendees.HighWealth;
             }

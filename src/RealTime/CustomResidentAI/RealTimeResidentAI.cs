@@ -1,6 +1,4 @@
-﻿// <copyright file="RealTimeResidentAI.cs" company="dymanoid">
-// Copyright (c) dymanoid. All rights reserved.
-// </copyright>
+﻿// <copyright file="RealTimeResidentAI.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
 
 namespace RealTime.CustomAI
 {
@@ -9,18 +7,18 @@ namespace RealTime.CustomAI
     using RealTime.Events;
     using RealTime.GameConnection;
 
+    /// <summary>A class incorporating the custom logic for a city resident.</summary>
+    /// <typeparam name="TAI">The type of the citizen AI.</typeparam>
+    /// <typeparam name="TCitizen">The type of the citizen objects.</typeparam>
+    /// <seealso cref="RealTimeHumanAIBase{TCitizen}"/>
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen> : RealTimeHumanAIBase<TCitizen>
         where TAI : class
         where TCitizen : struct
     {
         private readonly ResidentAIConnection<TAI, TCitizen> residentAI;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RealTimeResidentAI{TAI, TCitizen}"/> class.
-        /// </summary>
-        ///
+        /// <summary>Initializes a new instance of the <see cref="RealTimeResidentAI{TAI, TCitizen}"/> class.</summary>
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
-        ///
         /// <param name="config">A <see cref="RealTimeConfig"/> instance containing the mod's configuration.</param>
         /// <param name="connections">A <see cref="GameConnections{T}"/> instance that provides the game connection implementation.</param>
         /// <param name="residentAI">A connection to the game's resident AI.</param>
@@ -35,13 +33,10 @@ namespace RealTime.CustomAI
             this.residentAI = residentAI ?? throw new ArgumentNullException(nameof(residentAI));
         }
 
-        /// <summary>
-        /// The main method of the custom AI.
-        /// </summary>
-        ///
+        /// <summary>The entry method of the custom AI.</summary>
         /// <param name="instance">A reference to an object instance of the original AI.</param>
         /// <param name="citizenId">The ID of the citizen to process.</param>
-        /// <param name="citizen">A <see cref="Citizen"/> reference to process.</param>
+        /// <param name="citizen">A <typeparamref name="TCitizen"/> reference to process.</param>
         public void UpdateLocation(TAI instance, uint citizenId, ref TCitizen citizen)
         {
             if (!EnsureCitizenValid(citizenId, ref citizen))

@@ -14,7 +14,6 @@ namespace RealTime.CustomAI
             ushort instanceId = CitizenProxy.GetInstance(ref citizen);
             ushort vehicleId = CitizenProxy.GetVehicle(ref citizen);
 
-            // TODO: implement bored of traffic jam trip abandon
             if (vehicleId == 0 && instanceId == 0)
             {
                 if (CitizenProxy.GetVisitBuilding(ref citizen) != 0)

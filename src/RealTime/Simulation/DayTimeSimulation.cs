@@ -6,10 +6,19 @@ namespace RealTime.Simulation
 {
     using System;
 
+    /// <summary>
+    /// A class that performs the simulation of real daytime and applies the values
+    /// to the <see cref="SimulationManager"/>.
+    /// </summary>
     internal sealed class DayTimeSimulation
     {
         private DayTimeCalculator calculator;
 
+        /// <summary>
+        /// Processes the simulation for the specified date.
+        /// </summary>
+        ///
+        /// <param name="date">The date to perform the simulation for.</param>
         public void Process(DateTime date)
         {
             if (calculator == null && DayNightProperties.instance != null)

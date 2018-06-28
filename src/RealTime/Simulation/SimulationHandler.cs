@@ -6,29 +6,40 @@ namespace RealTime.Simulation
 {
     using System;
     using ICities;
-    using RealTime.BuildingAI;
+    using RealTime.CustomAI;
     using RealTime.Events;
 
     /// <summary>
-    /// A simulation extension that manages the daytime calculation (sunrise and sunset).
+    /// A central simulation handler that dispatches the simulation frame processing
+    /// to the custom logic class instances.
     /// </summary>
     public sealed class SimulationHandler : ThreadingExtensionBase
     {
         private DateTime lastHandledDate;
 
         /// <summary>
-        /// Occurs whent a new day in the game begins.
+        /// Occurs when a new day in the game begins.
         /// </summary>
         internal static event EventHandler NewDay;
 
+        /// <summary>
+        /// Gets or sets the custom event manager simulation class instance.
+        /// </summary>
         internal static RealTimeEventManager EventManager { get; set; }
 
+        /// <summary>
+        /// Gets or sets the day time simulation class instance.
+        /// </summary>
         internal static DayTimeSimulation DayTimeSimulation { get; set; }
 
-        internal static CommercialAI CommercialAI { get; set; }
+        /// <summary>
+        /// Gets or sets the custom commercial building simulation class instance.
+        /// </summary>
+        internal static RealTimeCommercialBuildingAI CommercialAI { get; set; }
 
         /// <summary>
-        /// Called after each game simulation tick. Performs the actual work.
+        /// Called after each game simulation tick. A tick contains multiple frames.
+        /// Performs the dispatching for this simulation phase.
         /// </summary>
         public override void OnAfterSimulationTick()
         {
@@ -43,6 +54,9 @@ namespace RealTime.Simulation
             }
         }
 
+        /// <summary>
+        /// Called after each game simulation frame. Performs the dispatching for this simulation phase.
+        /// </summary>
         public override void OnAfterSimulationFrame()
         {
             CommercialAI?.Process(SimulationManager.instance.m_currentFrameIndex);

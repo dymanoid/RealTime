@@ -13,11 +13,25 @@ namespace RealTime.CustomAI
     using RealTime.Tools;
     using static Constants;
 
+    /// <summary>
+    /// A base class for the custom logic of a human in the game.
+    /// </summary>
+    ///
+    /// <typeparam name="TCitizen">The type of the human object to process.</typeparam>
     internal abstract class RealTimeHumanAIBase<TCitizen>
         where TCitizen : struct
     {
         private Randomizer randomizer;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RealTimeHumanAIBase{TCitizen}"/> class.
+        /// </summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
+        ///
+        /// <param name="config">A configuration to use with this custom logic.</param>
+        /// <param name="connections">An object providing the proxies that connect the method calls to the game methods.</param>
+        /// <param name="eventManager">A reference an <see cref="RealTimeEventManager"/> instance.</param>
         protected RealTimeHumanAIBase(RealTimeConfig config, GameConnections<TCitizen> connections, RealTimeEventManager eventManager)
         {
             Config = config ?? throw new ArgumentNullException(nameof(config));
@@ -36,37 +50,95 @@ namespace RealTime.CustomAI
             randomizer = connections.SimulationManager.GetRandomizer();
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the current date represents a Weekend day.
+        /// </summary>
         protected bool IsWeekend => Config.IsWeekendEnabled && TimeInfo.Now.IsWeekend();
 
+        /// <summary>
+        /// Gets a value indicating whether the current date represents a work day.
+        /// </summary>
         protected bool IsWorkDay => !Config.IsWeekendEnabled || !TimeInfo.Now.IsWeekend();
 
+        /// <summary>
+        /// Gets the current game configuration.
+        /// </summary>
         protected RealTimeConfig Config { get; }
 
+        /// <summary>
+        /// Gets a reference to the event manager.
+        /// </summary>
         protected RealTimeEventManager EventMgr { get; }
 
+        /// <summary>
+        /// Gets a reference to the proxy class that provides access to citizen's methods and fields.
+        /// </summary>
         protected ICitizenConnection<TCitizen> CitizenProxy { get; }
 
+        /// <summary>
+        /// Gets a reference to the citizen manager proxy object.
+        /// </summary>
         protected ICitizenManagerConnection CitizenMgr { get; }
 
+        /// <summary>
+        /// Gets a reference to the building manager proxy object.
+        /// </summary>
         protected IBuildingManagerConnection BuildingMgr { get; }
 
+        /// <summary>
+        /// Gets a reference to the transfer manager proxy object.
+        /// </summary>
         protected ITransferManagerConnection TransferMgr { get; }
 
+        /// <summary>
+        /// Gets the current time information.
+        /// </summary>
         protected ITimeInfo TimeInfo { get; }
 
+        /// <summary>
+        /// Gets a reference to the game's randomizer.
+        /// </summary>
         protected ref Randomizer Randomizer => ref randomizer;
 
+        /// <summary>
+        /// Determines whether a randomly generated value meets the specified probability.
+        /// </summary>
+        ///
+        /// <param name="chance">The probability value to check. Valid values are 0..100</param>
+        /// <returns>
+        ///   <c>true</c> if the randomly generated value meets the specified probability; otherwise, <c>false</c>.
+        /// </returns>
         protected bool IsChance(uint chance)
         {
             return Randomizer.UInt32(100u) < chance;
         }
 
+        /// <summary>
+        /// Determines whether the current date and time represent the specified time interval on a work day.
+        /// </summary>
+        ///
+        /// <param name="fromInclusive">The hour representing the interval start to check (inclusive).</param>
+        /// <param name="toExclusive">The hour representing the interval end to check (exclusive).</param>
+        /// <returns>
+        ///   <c>true</c> if the current date and time represent the specified time interval on a work day; otherwise, <c>false</c>.
+        /// </returns>
         protected bool IsWorkDayAndBetweenHours(float fromInclusive, float toExclusive)
         {
             float currentHour = TimeInfo.CurrentHour;
             return IsWorkDay && (currentHour >= fromInclusive && currentHour < toExclusive);
         }
 
+        /// <summary>
+        /// Determines whether the current time represents a morning hour of a work day
+        /// for a citizen with the provided <paramref name="citizenAge"/>.
+        /// </summary>
+        ///
+        /// <param name="citizenAge">The citizen age to check.</param>
+        ///
+        /// <returns>
+        ///   <c>true</c> if the current time represents a morning hour of a work day
+        /// for a citizen with the provided age; otherwise, <c>false</c>.
+        /// </returns>
         protected bool IsWorkDayMorning(Citizen.AgeGroup citizenAge)
         {
             if (!IsWorkDay)
@@ -95,6 +167,14 @@ namespace RealTime.CustomAI
             return currentHour >= TimeInfo.SunriseHour && currentHour <= workBeginHour;
         }
 
+        /// <summary>
+        /// Gets the probability whether a citizen with provided age would go out on current time.
+        /// </summary>
+        ///
+        /// <param name="citizenAge">The citizen age to check.</param>
+        ///
+        /// <returns>A percentage value in range of 0..100 that describes the probability whether
+        /// a citizen with provided age would go out on current time.</returns>
         protected uint GetGoOutChance(Citizen.AgeGroup citizenAge)
         {
             float currentHour = TimeInfo.CurrentHour;
@@ -145,9 +225,16 @@ namespace RealTime.CustomAI
             }
         }
 
-        protected float GetSpareTimeBeginHour(Citizen.AgeGroup citiztenAge)
+        /// <summary>
+        /// Gets the spare time begin hour for a citizen with provided age.
+        /// </summary>
+        ///
+        /// <param name="citizenAge">The citizen age to check.</param>
+        ///
+        /// <returns>A value representing the hour of the day when the citizen's spare time begins.</returns>
+        protected float GetSpareTimeBeginHour(Citizen.AgeGroup citizenAge)
         {
-            switch (citiztenAge)
+            switch (citizenAge)
             {
                 case Citizen.AgeGroup.Child:
                 case Citizen.AgeGroup.Teen:
@@ -162,6 +249,14 @@ namespace RealTime.CustomAI
             }
         }
 
+        /// <summary>
+        /// Ensures that the provided citizen is in a valid state.
+        /// </summary>
+        ///
+        /// <param name="citizenId">The citizen ID to check.</param>
+        /// <param name="citizen">The citizen data reference.</param>
+        ///
+        /// <returns><c>true</c> if the provided citizen is in a valid state; otherwise, <c>false</c>.</returns>
         protected bool EnsureCitizenValid(uint citizenId, ref TCitizen citizen)
         {
             if (CitizenProxy.GetHomeBuilding(ref citizen) == 0
@@ -183,6 +278,15 @@ namespace RealTime.CustomAI
             return true;
         }
 
+        /// <summary>
+        /// Lets the provided citizen try attending the next upcoming event.
+        /// </summary>
+        ///
+        /// <param name="citizenId">The citizen ID.</param>
+        /// <param name="citizen">The citizen data reference.</param>
+        /// <param name="eventBuildingId">The building ID where the upcoming event will take place.</param>
+        ///
+        /// <returns><c>true</c> if the provided citizen will attend the next event; otherwise, <c>false</c>.</returns>
         protected bool AttendUpcomingEvent(uint citizenId, ref TCitizen citizen, out ushort eventBuildingId)
         {
             eventBuildingId = default;
@@ -206,11 +310,26 @@ namespace RealTime.CustomAI
             return false;
         }
 
+        /// <summary>
+        /// Finds an evacuation place for the provided citizen.
+        /// </summary>
+        ///
+        /// <param name="citizenId">The citizen ID to find an evacuation place for.</param>
+        ///
+        /// <param name="reason">The evacuation reason.</param>
         protected void FindEvacuationPlace(uint citizenId, TransferManager.TransferReason reason)
         {
             TransferMgr.AddOutgoingOfferFromCurrentPosition(citizenId, reason);
         }
 
+        /// <summary>
+        /// Gets a string that describes the provided citizen.
+        /// </summary>
+        ///
+        /// <param name="citizenId">The citizen ID.</param>
+        /// <param name="citizen">The citizen data reference.</param>
+        ///
+        /// <returns>A short string describing the provided citizen.</returns>
         protected string GetCitizenDesc(uint citizenId, ref TCitizen citizen)
         {
             string employment = CitizenProxy.GetWorkBuilding(ref citizen) == 0 ? "unempl." : "empl.";

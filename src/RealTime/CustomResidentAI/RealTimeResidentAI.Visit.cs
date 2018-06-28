@@ -4,7 +4,6 @@
 
 namespace RealTime.CustomAI
 {
-    using System;
     using RealTime.Events;
     using RealTime.Tools;
     using static Constants;
@@ -29,7 +28,7 @@ namespace RealTime.CustomAI
                     return;
 
                 case ResidentState.AtLeisureArea:
-                    if (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods) 
+                    if (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods)
                         && BuildingMgr.GetBuildingSubService(currentBuilding) == ItemClass.SubService.CommercialLeisure)
                     {
                         // No Citizen.Flags.NeedGoods flag reset here, because we only bought 'beer' or 'champagne' in a leisure building.

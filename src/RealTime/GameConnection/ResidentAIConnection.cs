@@ -6,6 +6,11 @@ namespace RealTime.GameConnection
 {
     using System;
 
+    /// <summary>
+    /// A class that incorporates the game connection to the original resident AI.
+    /// </summary>
+    /// <typeparam name="TAI">The type of the resident AI.</typeparam>
+    /// <typeparam name="TCitizen">The type of the citizen object.</typeparam>
     internal sealed class ResidentAIConnection<TAI, TCitizen>
         where TAI : class
         where TCitizen : struct

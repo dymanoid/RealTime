@@ -1,5 +1,5 @@
 ﻿// <copyright file="CustomTimeBar.cs" company="dymanoid">
-// Copyright (c) dymanoid. All rights reserved.
+//     Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
 namespace RealTime.UI
@@ -15,8 +15,8 @@ namespace RealTime.UI
     using UnityEngine;
 
     /// <summary>
-    /// Manages the time bar customization. The customized time bar will show the day of the week
-    /// and the current time instead of the date. The date will be displayed in the time bar's tooltip.
+    /// Manages the time bar customization. The customized time bar will show the day of the week and
+    /// the current time instead of the date. The date will be displayed in the time bar's tool tip.
     /// </summary>
     internal sealed class CustomTimeBar
     {
@@ -36,12 +36,12 @@ namespace RealTime.UI
         private UIDateTimeWrapper originalWrapper;
         private UISprite progressSprite;
 
+        /// <summary>Occurs when a city event bar is clicked by mouse.</summary>
         public event EventHandler<CustomTimeBarClickEventArgs> CityEventClick;
 
         /// <summary>
         /// Enables the time bar customization. If the customization is already enabled, has no effect.
         /// </summary>
-        ///
         /// <param name="currentDate">The current game date to set as the time bar's initial value.</param>
         public void Enable(DateTime currentDate)
         {
@@ -56,8 +56,8 @@ namespace RealTime.UI
         }
 
         /// <summary>
-        /// Disables the time bar configuration. If the customization is already disabled or was not enabled,
-        /// has no effect.
+        /// Disables the time bar configuration. If the customization is already disabled or was not
+        /// enabled, has no effect.
         /// </summary>
         public void Disable()
         {
@@ -73,6 +73,9 @@ namespace RealTime.UI
             customDateTimeWrapper = null;
         }
 
+        /// <summary>Translates the time bar using the specified culture information.</summary>
+        /// <param name="cultureInfo">The culture information to use for translation.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
         public void Translate(CultureInfo cultureInfo)
         {
             currentCulture = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
@@ -87,6 +90,8 @@ namespace RealTime.UI
             }
         }
 
+        /// <summary>Updates the events bars on this time bar.</summary>
+        /// <param name="availableEvents">The currently available events that need to be displayed.</param>
         public void UpdateEventsDisplay(IEnumerable<ICityEvent> availableEvents)
         {
             DateTime todayStart = customDateTimeWrapper.CurrentValue.Date;

@@ -1,6 +1,4 @@
-﻿// <copyright file="LocalizationProvider.cs" company="dymanoid">
-// Copyright (c) dymanoid. All rights reserved.
-// </copyright>
+﻿// <copyright file="LocalizationProvider.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
 
 namespace RealTime.Localization
 {
@@ -12,14 +10,23 @@ namespace RealTime.Localization
     using RealTime.Tools;
     using static Constants;
 
+    /// <summary>Manages the mod's localization.</summary>
     internal sealed class LocalizationProvider
     {
         private readonly string localeStorage;
         private readonly Dictionary<string, string> translation = new Dictionary<string, string>();
 
-        public LocalizationProvider(string rootPath)
+        /// <summary>Initializes a new instance of the <see cref="LocalizationProvider"/> class.</summary>
+        /// <param name="dataPath">The root path.</param>
+        /// <exception cref="ArgumentException">Thrown when the argument is null or empty string.</exception>
+        public LocalizationProvider(string dataPath)
         {
-            localeStorage = Path.Combine(rootPath, LocaleFolder);
+            if (string.IsNullOrEmpty(dataPath))
+            {
+                throw new ArgumentException("The data path cannot be null or empty string", nameof(dataPath));
+            }
+
+            localeStorage = Path.Combine(dataPath, LocaleFolder);
         }
 
         private enum LoadingResult
@@ -30,8 +37,12 @@ namespace RealTime.Localization
             AlreadyLoaded
         }
 
+        /// <summary>Gets the current culture this object represents.</summary>
         public CultureInfo CurrentCulture { get; private set; } = CultureInfo.CurrentCulture;
 
+        /// <summary>Translates a value that has the specified ID.</summary>
+        /// <param name="id">The value ID.</param>
+        /// <returns>The translated string value or the <see cref="NoLocale"/> placeholder text on failure.</returns>
         public string Translate(string id)
         {
             if (translation.TryGetValue(id, out string value))
@@ -42,8 +53,16 @@ namespace RealTime.Localization
             return NoLocale;
         }
 
+        /// <summary>Loads the translation data for the specified language.</summary>
+        /// <param name="language">The language to load the translation for.</param>
+        /// <returns><c>true</c> when the translation data was loaded; otherwise, <c>false</c>.</returns>
         public bool LoadTranslation(string language)
         {
+            if (string.IsNullOrEmpty(language))
+            {
+                return false;
+            }
+
             LoadingResult result = Load(language);
             if (result == LoadingResult.Failure)
             {
@@ -60,20 +79,28 @@ namespace RealTime.Localization
             {
                 case "de":
                     return "de-DE";
+
                 case "es":
                     return "es-ES";
+
                 case "fr":
                     return "fr-FR";
+
                 case "ko":
                     return "ko-KR";
+
                 case "pl":
                     return "pl-PL";
+
                 case "pt":
                     return "pt-PT";
+
                 case "ru":
                     return "ru-RU";
+
                 case "zh":
                     return "zh-CN";
+
                 default:
                     return "en-US";
             }
@@ -83,7 +110,7 @@ namespace RealTime.Localization
         {
             if (CurrentCulture.TwoLetterISOLanguageName == language && translation.Count != 0)
             {
-                Log.Debug($"The localization data for '{language}' will not be loaded, because it was alread loaded");
+                Log.Debug($"The localization data for '{language}' will not be loaded, because it was already loaded");
                 return LoadingResult.AlreadyLoaded;
             }
 

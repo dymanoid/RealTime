@@ -4,7 +4,6 @@
 
 namespace RealTime.CustomAI
 {
-    using System;
     using RealTime.Tools;
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
