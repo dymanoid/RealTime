@@ -117,6 +117,7 @@
     <Compile Include="GameConnection\TimeInfo.cs" />
     <Compile Include="Tools\DateTimeExtensions.cs" />
     <Compile Include="Tools\LinkedListExtensions.cs" />
+    <Compile Include="UI\ConfigItemComboBoxAttribute.cs" />
     <Compile Include="UI\CustomTimeBarClickEventArgs.cs" />
     <Compile Include="UI\ConfigItemAttribute.cs" />
     <Compile Include="UI\ConfigItemCheckBoxAttribute.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="UI\RealTimeUIDateTimeWrapper.cs" />
     <Compile Include="UI\CustomTimeBar.cs" />
     <Compile Include="UI\SliderValueType.cs" />
+    <Compile Include="UI\UnityComboBoxItem.cs" />
     <Compile Include="UI\UnityCheckBoxItem.cs" />
     <Compile Include="UI\UnityPageViewItem.cs" />
     <Compile Include="UI\UnitySliderItem.cs" />

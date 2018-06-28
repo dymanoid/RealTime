@@ -89,6 +89,9 @@ namespace RealTime.UI
                 case ConfigItemCheckBoxAttribute _ when property.PropertyType == typeof(bool):
                     return itemFactory.CreateCheckBox(container, property.Name, property, config);
 
+                case ConfigItemComboBoxAttribute _ when property.PropertyType.IsEnum:
+                    return itemFactory.CreateComboBox(container, property.Name, property, config, Enum.GetNames(property.PropertyType));
+
                 default:
                     return null;
             }

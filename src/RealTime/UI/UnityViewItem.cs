@@ -44,13 +44,17 @@ namespace RealTime.UI
             this.property = property ?? throw new ArgumentNullException(nameof(property));
             this.config = config ?? throw new ArgumentNullException(nameof(config));
 
-            TItem component = CreateItem(uiHelper, Value);
-            component.name = id ?? throw new ArgumentNullException(nameof(id));
-            if (id.Length == 0)
+            if (id == null)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+            else if (id.Length == 0)
             {
                 throw new ArgumentException("The view item ID cannot be an empty string", nameof(id));
             }
 
+            TItem component = CreateItem(uiHelper, Value);
+            component.name = id;
             UIComponent = component;
         }
 
@@ -61,7 +65,13 @@ namespace RealTime.UI
         protected TValue Value
         {
             get => (TValue)Convert.ChangeType(property.GetValue(config, null), typeof(TValue));
-            private set => property.SetValue(config, Convert.ChangeType(value, property.PropertyType), null);
+            private set
+            {
+                object newValue = property.PropertyType.IsEnum
+                    ? Enum.ToObject(property.PropertyType, value)
+                    : Convert.ChangeType(value, property.PropertyType);
+                property.SetValue(config, newValue, null);
+            }
         }
 
         /// <summary>
