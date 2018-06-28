@@ -12,30 +12,37 @@ namespace RealTime.Config
     public sealed class RealTimeConfig
     {
         /// <summary>
-        /// Gets or sets a value indicating whether the weekends are enabled. Cims don't go to work on weekends.
+        /// Gets or sets the virtual citizens mode.
         /// </summary>
         [ConfigItem("1General", 0)]
+        [ConfigItemComboBox]
+        public VirtualCitizensLevel VirtualCitizens { get; set; } = VirtualCitizensLevel.Few;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the weekends are enabled. Cims don't go to work on weekends.
+        /// </summary>
+        [ConfigItem("1General", 1)]
         [ConfigItemCheckBox]
         public bool IsWeekendEnabled { get; set; } = true;
 
         /// <summary>
         /// Gets or sets a value indicating whether Cims should go out at lunch for food.
         /// </summary>
-        [ConfigItem("1General", 1)]
+        [ConfigItem("1General", 2)]
         [ConfigItemCheckBox]
         public bool IsLunchtimeEnabled { get; set; } = true;
 
         /// <summary>
         /// Gets or sets a value indicating whether the construction sites should pause at night time.
         /// </summary>
-        [ConfigItem("1General", 2)]
+        [ConfigItem("1General", 3)]
         [ConfigItemCheckBox]
         public bool StopConstructionAtNight { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the percentage value of the building construction speed. Valid values are 1..100.
         /// </summary>
-        [ConfigItem("1General", 3)]
+        [ConfigItem("1General", 4)]
         [ConfigItemSlider(1, 100)]
         public uint ConstructionSpeed { get; set; } = 50;
 

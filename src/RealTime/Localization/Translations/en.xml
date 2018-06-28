@@ -2,6 +2,12 @@
 <language id="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="1General" value="General" />
+  <translation id="VirtualCitizens" value="Citizens simulation mode (real and virtual)" />
+  <translation id="VirtualCitizensTooltip" value="Select 'All' for a real city (but max 65.535 citizens), select 'Vanilla' or 'More' if your PC is weak" />
+  <translation id="VirtualCitizens.None" value="All citizens are real" />
+  <translation id="VirtualCitizens.Few" value="Almost all citizens are real" />
+  <translation id="VirtualCitizens.Vanilla" value="Like in the vanilla game" />
+  <translation id="VirtualCitizens.Many" value="More virtual citizens" />
   <translation id="IsWeekendEnabled" value="Enable Weekends" />
   <translation id="IsWeekendEnabledTooltip" value="Cims don't go to work or school on weekends" />
   <translation id="IsLunchtimeEnabled" value="Enable Lunch time" />
@@ -9,7 +15,7 @@
   <translation id="StopConstructionAtNight" value="Pause the building construction and upgrade at night time" />
   <translation id="StopConstructionAtNightTooltip" value="The construction site workers need to sleep too" />
   <translation id="ConstructionSpeed" value="Construction speed" />
-  <translation id="ConstructionSpeedTooltip" value="Buildings construction and upgrading speed" />
+  <translation id="ConstructionSpeedTooltip" value="Buildings construction and upgrading speed" />  
 
   <translation id="2Quotas" value="Probabilities" />
   <translation id="LunchQuota" value="Lunch probability" />

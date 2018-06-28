@@ -2,6 +2,12 @@
 <language id="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="1General" value="Основные" />
+  <translation id="VirtualCitizens" value="Метод симуляции жителей (реальных и виртуальных)" />
+  <translation id="VirtualCitizensTooltip" value="Выберите 'Все' для реального города (но макс. 65.535 жителей или 'Оригинально' / 'Больше', если компьютер слаб" />
+  <translation id="VirtualCitizens.None" value="Все жители города реальные" />
+  <translation id="VirtualCitizens.Few" value="Почти все жители реальные" />
+  <translation id="VirtualCitizens.Vanilla" value="Как в оригинальной игре" />
+  <translation id="VirtualCitizens.Many" value="Больше виртуальных жителей" />
   <translation id="IsWeekendEnabled" value="Включить выходные" />
   <translation id="IsWeekendEnabledTooltip" value="Жители не ходят в школу и на работу по выходным" />
   <translation id="IsLunchtimeEnabled" value="Включить обед" />

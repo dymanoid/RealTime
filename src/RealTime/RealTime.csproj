@@ -53,6 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\VirtualCitizensLevel.cs" />
     <Compile Include="CustomBuildingAI\RealTimeCommercialBuildingAI.cs" />
     <Compile Include="Config\ConfigurationProvider.cs" />
     <Compile Include="Core\IStorageData.cs" />
