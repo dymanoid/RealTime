@@ -29,7 +29,7 @@
   <translation id="LatestHourEventStartWeekend" value="Evento en fin de semana más tarde" />
   <translation id="LatestHourEventStartWeekendTooltip" value="Lo más tarde que un evento puede empezar en fin de semana" />
     
-  <translation id="4Time" value="Time" />
+  <translation id="4Time" value="Horas" />
   <translation id="MaxOvertime" value="Horas Extras" />
   <translation id="MaxOvertimeTooltip" value="Las máximas horas extras que harán los Cims - Ellos llegaran al trabajo antes o saldrán más tarde" />
   <translation id="SchoolBegin" value="Inicio de la Escuela" />
