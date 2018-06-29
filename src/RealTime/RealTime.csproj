@@ -82,6 +82,7 @@
     <Compile Include="Events\VanillaEvent.cs" />
     <Compile Include="GameConnection\CameraHelper.cs" />
     <Compile Include="GameConnection\CitizenConnection.cs" />
+    <Compile Include="GameConnection\HumanAIConnectionBase.cs" />
     <Compile Include="GameConnection\ICitizenConnection.cs" />
     <Compile Include="GameConnection\ISimulationManagerConnection.cs" />
     <Compile Include="GameConnection\IToolManagerConnection.cs" />
