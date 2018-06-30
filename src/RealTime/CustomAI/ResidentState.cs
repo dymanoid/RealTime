@@ -8,6 +8,9 @@ namespace RealTime.CustomAI
         /// <summary>The state could not be determined.</summary>
         Unknown,
 
+        /// <summary>The citizen should be ignored, just a dummy traffic.</summary>
+        Ignored,
+
         /// <summary>The citizen is moving to the home building.</summary>
         MovingHome,
 

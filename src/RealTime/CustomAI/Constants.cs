@@ -51,6 +51,9 @@ namespace RealTime.CustomAI
         /// <summary>An assumed minimum on-the-way time to a target building.</summary>
         public const float MinHoursOnTheWay = 0.5f;
 
+        /// <summary>A minimum work shift duration in hours.</summary>
+        public const float MinimumWorkShiftDuration = 2f;
+
         /// <summary>An assumed average speed of a citizen when moving to target
         /// (this is not just a walking speed, but also takes into account moving by car or public transport).</summary>
         public const float OnTheWayDistancePerHour = 500f;

@@ -83,7 +83,7 @@ namespace RealTime.CustomAI
             }
         }
 
-        private bool CitzenReturnsFromShelter(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
+        private bool CitizenReturnsFromShelter(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
         {
             ushort visitBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
             if (BuildingMgr.GetBuildingService(visitBuilding) != ItemClass.Service.Disaster)
@@ -148,19 +148,23 @@ namespace RealTime.CustomAI
             Citizen.Location targetLocation,
             bool isVirtual)
         {
-            if (targetBuilding != 0 && CitizenProxy.GetVehicle(ref citizen) == 0)
+            if (targetBuilding == 0 || targetLocation == Citizen.Location.Visit || CitizenProxy.GetVehicle(ref citizen) != 0)
             {
-                CitizenProxy.RemoveFlags(ref citizen, Citizen.Flags.Evacuating);
-                CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
+                return;
+            }
 
-                if (isVirtual)
-                {
-                    CitizenProxy.SetLocation(ref citizen, targetLocation);
-                }
-                else
-                {
-                    residentAI.StartMoving(instance, citizenId, ref citizen, CitizenProxy.GetVisitBuilding(ref citizen), targetBuilding);
-                }
+            ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
+
+            CitizenProxy.RemoveFlags(ref citizen, Citizen.Flags.Evacuating);
+            CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
+
+            if (isVirtual || targetBuilding == currentBuilding)
+            {
+                CitizenProxy.SetLocation(ref citizen, targetLocation);
+            }
+            else
+            {
+                residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, targetBuilding);
             }
         }
 

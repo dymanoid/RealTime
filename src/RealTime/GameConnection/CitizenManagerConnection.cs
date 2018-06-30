@@ -34,11 +34,11 @@ namespace RealTime.GameConnection
         /// <summary>Determines whether the citizen's instance with provided ID has particular flags.</summary>
         /// <param name="instanceId">The instance ID to check.</param>
         /// <param name="flags">The flags to check.</param>
-        /// <param name="any">
-        /// <c>true</c> to check any flag from the provided <paramref name="flags"/>, <c>false</c> to check all flags.
+        /// <param name="all">
+        /// <c>true</c> to check all flags from the provided <paramref name="flags"/>, <c>false</c> to check any flags.
         /// </param>
         /// <returns><c>true</c> if the citizen instance has the specified flags; otherwise, <c>false</c>.</returns>
-        public bool InstanceHasFlags(ushort instanceId, CitizenInstance.Flags flags, bool any = true)
+        public bool InstanceHasFlags(ushort instanceId, CitizenInstance.Flags flags, bool all = false)
         {
             if (instanceId == 0)
             {
@@ -46,9 +46,9 @@ namespace RealTime.GameConnection
             }
 
             CitizenInstance.Flags currentFlags = CitizenManager.instance.m_instances.m_buffer[instanceId].m_flags & flags;
-            return any
-                ? currentFlags != 0
-                : currentFlags == flags;
+            return all
+                ? currentFlags == flags
+                : currentFlags != 0;
         }
 
         /// <summary>Gets the current wait counter value of the citizen's instance with specified ID.</summary>
