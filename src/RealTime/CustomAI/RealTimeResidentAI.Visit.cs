@@ -83,7 +83,7 @@ namespace RealTime.CustomAI
             }
         }
 
-        private bool CitzenReturnsFromShelter(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
+        private bool CitizenReturnsFromShelter(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
         {
             ushort visitBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
             if (BuildingMgr.GetBuildingService(visitBuilding) != ItemClass.Service.Disaster)

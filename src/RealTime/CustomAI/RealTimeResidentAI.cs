@@ -98,8 +98,8 @@ namespace RealTime.CustomAI
 
                 case ResidentState.InShelter:
                     isVirtual = IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen);
-                    CitzenReturnsFromShelter(instance, citizenId, ref citizen, isVirtual);
-                    return;
+                    CitizenReturnsFromShelter(instance, citizenId, ref citizen, isVirtual);
+                    break;
             }
         }
 
