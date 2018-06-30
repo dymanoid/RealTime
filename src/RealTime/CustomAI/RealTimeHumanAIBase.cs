@@ -340,8 +340,8 @@ namespace RealTime.CustomAI
             ushort workBuilding = CitizenProxy.GetWorkBuilding(ref citizen);
             string employment = workBuilding == 0 ? "unemployed" : "works at " + workBuilding;
             Citizen.Location location = CitizenProxy.GetLocation(ref citizen);
-            string virt = isVirtual.HasValue ? (isVirtual.Value ? "(virtual)" : "(real)") : null;
-            return $"Citizen {citizenId} ({CitizenProxy.GetAge(ref citizen)}, {home}, {employment}, currently {location}) / instance {CitizenProxy.GetInstance(ref citizen)} {virt}";
+            string virt = isVirtual.HasValue ? (isVirtual.Value ? " (virtual)" : " (real)") : null;
+            return $"Citizen {citizenId} ({CitizenProxy.GetAge(ref citizen)}, {home}, {employment}, currently {location} at {CitizenProxy.GetCurrentBuilding(ref citizen)}) / instance {CitizenProxy.GetInstance(ref citizen)}{virt}";
         }
 
         /// <summary>Determines whether the specified citizen must be processed as a virtual citizen.</summary>
