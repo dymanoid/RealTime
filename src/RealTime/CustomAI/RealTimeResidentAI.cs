@@ -6,6 +6,7 @@ namespace RealTime.CustomAI
     using RealTime.Config;
     using RealTime.Events;
     using RealTime.GameConnection;
+    using RealTime.Tools;
 
     /// <summary>A class incorporating the custom logic for a city resident.</summary>
     /// <typeparam name="TAI">The type of the citizen AI.</typeparam>
@@ -39,7 +40,7 @@ namespace RealTime.CustomAI
         /// <param name="citizen">A <typeparamref name="TCitizen"/> reference to process.</param>
         public void UpdateLocation(TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            if (!EnsureCitizenValid(citizenId, ref citizen))
+            if (!EnsureCitizenCanBeProcessed(citizenId, ref citizen))
             {
                 return;
             }
@@ -57,19 +58,17 @@ namespace RealTime.CustomAI
             }
 
             ResidentState residentState = GetResidentState(ref citizen);
+            bool isVirtual;
 
             switch (residentState)
             {
-                case ResidentState.LeftCity:
-                    CitizenMgr.ReleaseCitizen(citizenId);
-                    break;
-
                 case ResidentState.MovingHome:
                     ProcessCitizenMoving(instance, citizenId, ref citizen, false);
                     break;
 
                 case ResidentState.AtHome:
-                    ProcessCitizenAtHome(instance, citizenId, ref citizen);
+                    isVirtual = IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen);
+                    ProcessCitizenAtHome(instance, citizenId, ref citizen, isVirtual);
                     break;
 
                 case ResidentState.MovingToTarget:
@@ -77,14 +76,20 @@ namespace RealTime.CustomAI
                     break;
 
                 case ResidentState.AtSchoolOrWork:
-                    ProcessCitizenAtSchoolOrWork(instance, citizenId, ref citizen);
+                    isVirtual = IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen);
+                    ProcessCitizenAtSchoolOrWork(instance, citizenId, ref citizen, isVirtual);
                     break;
 
                 case ResidentState.AtLunch:
                 case ResidentState.Shopping:
                 case ResidentState.AtLeisureArea:
                 case ResidentState.Visiting:
-                    ProcessCitizenVisit(instance, residentState, citizenId, ref citizen);
+                    isVirtual = IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen);
+                    ProcessCitizenVisit(instance, residentState, citizenId, ref citizen, isVirtual);
+                    break;
+
+                case ResidentState.OnTour:
+                    ProcessCitizenOnTour(instance, citizenId, ref citizen);
                     break;
 
                 case ResidentState.Evacuating:
@@ -92,9 +97,15 @@ namespace RealTime.CustomAI
                     break;
 
                 case ResidentState.InShelter:
-                    CitzenReturnsFromShelter(instance, citizenId, ref citizen);
+                    isVirtual = IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen);
+                    CitzenReturnsFromShelter(instance, citizenId, ref citizen, isVirtual);
                     return;
             }
+        }
+
+        private bool ShouldRealizeCitizen(TAI ai)
+        {
+            return residentAI.DoRandomMove(ai);
         }
     }
 }

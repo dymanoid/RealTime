@@ -250,20 +250,22 @@ namespace RealTime.CustomAI
         }
 
         /// <summary>
-        /// Ensures that the provided citizen is in a valid state.
+        /// Ensures that the provided citizen is in a valid state and can be processed.
         /// </summary>
         ///
         /// <param name="citizenId">The citizen ID to check.</param>
         /// <param name="citizen">The citizen data reference.</param>
         ///
         /// <returns><c>true</c> if the provided citizen is in a valid state; otherwise, <c>false</c>.</returns>
-        protected bool EnsureCitizenValid(uint citizenId, ref TCitizen citizen)
+        protected bool EnsureCitizenCanBeProcessed(uint citizenId, ref TCitizen citizen)
         {
-            if (CitizenProxy.GetHomeBuilding(ref citizen) == 0
+            if ((CitizenProxy.GetHomeBuilding(ref citizen) == 0
                 && CitizenProxy.GetWorkBuilding(ref citizen) == 0
                 && CitizenProxy.GetVisitBuilding(ref citizen) == 0
                 && CitizenProxy.GetInstance(ref citizen) == 0
                 && CitizenProxy.GetVehicle(ref citizen) == 0)
+                ||
+                (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.MovingIn) && CitizenProxy.GetLocation(ref citizen) == Citizen.Location.Home))
             {
                 CitizenMgr.ReleaseCitizen(citizenId);
                 return false;
@@ -271,7 +273,7 @@ namespace RealTime.CustomAI
 
             if (CitizenProxy.IsCollapsed(ref citizen))
             {
-                Log.Debug($"{GetCitizenDesc(citizenId, ref citizen)} is collapsed, doing nothing...");
+                Log.Debug($"{GetCitizenDesc(citizenId, ref citizen, false)} is collapsed, doing nothing...");
                 return false;
             }
 
@@ -328,12 +330,50 @@ namespace RealTime.CustomAI
         ///
         /// <param name="citizenId">The citizen ID.</param>
         /// <param name="citizen">The citizen data reference.</param>
+        /// <param name="isVirtual"><c>true</c> if the citizen is in a virtual mode; otherwise, <c>false</c>.</param>
         ///
         /// <returns>A short string describing the provided citizen.</returns>
-        protected string GetCitizenDesc(uint citizenId, ref TCitizen citizen)
+        protected string GetCitizenDesc(uint citizenId, ref TCitizen citizen, bool? isVirtual)
         {
-            string employment = CitizenProxy.GetWorkBuilding(ref citizen) == 0 ? "unempl." : "empl.";
-            return $"Citizen {citizenId} ({employment}, {CitizenProxy.GetAge(ref citizen)})";
+            ushort homeBuilding = CitizenProxy.GetHomeBuilding(ref citizen);
+            string home = homeBuilding == 0 ? "homeless" : "lives at " + homeBuilding;
+            ushort workBuilding = CitizenProxy.GetWorkBuilding(ref citizen);
+            string employment = workBuilding == 0 ? "unemployed" : "works at " + workBuilding;
+            Citizen.Location location = CitizenProxy.GetLocation(ref citizen);
+            string virt = isVirtual.HasValue ? (isVirtual.Value ? "(virtual)" : "(real)") : null;
+            return $"Citizen {citizenId} ({CitizenProxy.GetAge(ref citizen)}, {home}, {employment}, currently {location}) / instance {CitizenProxy.GetInstance(ref citizen)} {virt}";
+        }
+
+        /// <summary>Determines whether the specified citizen must be processed as a virtual citizen.</summary>
+        /// <typeparam name="TAI">The type of the citizen's AI.</typeparam>
+        /// <param name="humanAI">The citizen AI reference.</param>
+        /// <param name="citizen">The citizen to check.</param>
+        /// <param name="realizeCitizen">A callback to determine whether a virtual citizen should be realized.</param>
+        /// <returns><c>true</c> if the citizen must be processed as a virtual citizen; otherwise, <c>false</c>.</returns>
+        protected bool IsCitizenVirtual<TAI>(TAI humanAI, ref TCitizen citizen, Func<TAI, bool> realizeCitizen)
+        {
+            uint virtualChance;
+            switch (Config.VirtualCitizens)
+            {
+                case VirtualCitizensLevel.None:
+                    return false;
+
+                case VirtualCitizensLevel.Few:
+                    virtualChance = FewVirtualCitizensChance;
+                    break;
+
+                case VirtualCitizensLevel.Vanilla:
+                    return CitizenProxy.GetInstance(ref citizen) == 0 && !realizeCitizen(humanAI);
+
+                case VirtualCitizensLevel.Many:
+                    virtualChance = ManyVirtualCitizensChance;
+                    break;
+
+                default:
+                    return false;
+            }
+
+            return !IsChance(virtualChance);
         }
 
         private bool CanAttendEvent(uint citizenId, ref TCitizen citizen, ICityEvent cityEvent)

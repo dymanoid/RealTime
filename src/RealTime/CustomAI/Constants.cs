@@ -21,9 +21,6 @@ namespace RealTime.CustomAI
         /// <summary>A distance in game units that corresponds to the complete map.</summary>
         public const float FullSearchDistance = 270f * 64f / 2f;
 
-        /// <summary>A chance in percent for a citizen that is on tour to abandon this tour.</summary>
-        public const uint AbandonTourChance = 25;
-
         /// <summary>A chance in percent for a citizen to abandon the transport waiting if it lasts too long.</summary>
         public const uint AbandonTransportWaitChance = 80;
 
@@ -31,7 +28,7 @@ namespace RealTime.CustomAI
         public const uint GoShoppingChance = 50;
 
         /// <summary>A chance in percent for a citizen to return shopping.</summary>
-        public const uint ReturnFromShoppingChance = 25;
+        public const uint ReturnFromShoppingChance = 60;
 
         /// <summary>A chance in percent for a citizen to return from a visited building.</summary>
         public const uint ReturnFromVisitChance = 40;
@@ -57,5 +54,11 @@ namespace RealTime.CustomAI
         /// <summary>An assumed average speed of a citizen when moving to target
         /// (this is not just a walking speed, but also takes into account moving by car or public transport).</summary>
         public const float OnTheWayDistancePerHour = 500f;
+
+        /// <summary>A chance in percent that a virtual citizen will not be realized in 'few virtual citizens' mode.</summary>
+        public const uint FewVirtualCitizensChance = 15;
+
+        /// <summary>A chance in percent that a virtual citizen will not be realized in 'many virtual citizen' mode.</summary>
+        public const uint ManyVirtualCitizensChance = 50;
     }
 }

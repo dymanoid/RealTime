@@ -54,17 +54,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\VirtualCitizensLevel.cs" />
-    <Compile Include="CustomBuildingAI\RealTimeCommercialBuildingAI.cs" />
+    <Compile Include="CustomAI\RealTimeCommercialBuildingAI.cs" />
     <Compile Include="Config\ConfigurationProvider.cs" />
     <Compile Include="Core\IStorageData.cs" />
     <Compile Include="Core\RealTimeStorage.cs" />
     <Compile Include="CustomAI\Constants.cs" />
     <Compile Include="CustomAI\RealTimeHumanAIBase.cs" />
-    <Compile Include="CustomResidentAI\ResidentState.cs" />
-    <Compile Include="CustomBuildingAI\RealTimePrivateBuildingAI.cs" />
-    <Compile Include="CustomResidentAI\RealTimeResidentAI.Common.cs" />
-    <Compile Include="CustomResidentAI\RealTimeResidentAI.cs" />
-    <Compile Include="CustomTouristAI\RealTimeTouristAI.cs" />
+    <Compile Include="CustomAI\ResidentState.cs" />
+    <Compile Include="CustomAI\RealTimePrivateBuildingAI.cs" />
+    <Compile Include="CustomAI\RealTimeResidentAI.Common.cs" />
+    <Compile Include="CustomAI\RealTimeResidentAI.cs" />
+    <Compile Include="CustomAI\RealTimeTouristAI.cs" />
     <Compile Include="Events\CityEventState.cs" />
     <Compile Include="Events\ICityEventsProvider.cs" />
     <Compile Include="Events\ICityEvent.cs" />
@@ -91,9 +91,9 @@
     <Compile Include="GameConnection\TouristAIConnection.cs" />
     <Compile Include="GameConnection\TouristAIHook.cs" />
     <Compile Include="GameConnection\ResidentAIHook.cs" />
-    <Compile Include="CustomResidentAI\RealTimeResidentAI.Moving.cs" />
-    <Compile Include="CustomResidentAI\RealTimeResidentAI.Visit.cs" />
-    <Compile Include="CustomResidentAI\RealTimeResidentAI.SchoolWork.cs" />
+    <Compile Include="CustomAI\RealTimeResidentAI.Moving.cs" />
+    <Compile Include="CustomAI\RealTimeResidentAI.Visit.cs" />
+    <Compile Include="CustomAI\RealTimeResidentAI.SchoolWork.cs" />
     <Compile Include="GameConnection\BuildingManagerConnection.cs" />
     <Compile Include="GameConnection\CitizenManagerConnection.cs" />
     <Compile Include="GameConnection\GameConnections.cs" />
@@ -152,7 +152,7 @@
     <AdditionalFiles Include="..\BuildEnvironment\stylecop.json">
       <Link>stylecop.json</Link>
     </AdditionalFiles>
-    <Compile Include="CustomResidentAI\RealTimeResidentAI.Home.cs" />
+    <Compile Include="CustomAI\RealTimeResidentAI.Home.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

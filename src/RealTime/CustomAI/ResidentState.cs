@@ -8,9 +8,6 @@ namespace RealTime.CustomAI
         /// <summary>The state could not be determined.</summary>
         Unknown,
 
-        /// <summary>The citizen left the city.</summary>
-        LeftCity,
-
         /// <summary>The citizen is moving to the home building.</summary>
         MovingHome,
 
@@ -34,6 +31,9 @@ namespace RealTime.CustomAI
 
         /// <summary>The citizen visits a building.</summary>
         Visiting,
+
+        /// <summary>The citizen is on a guided tour.</summary>
+        OnTour,
 
         /// <summary>The citizen is evacuating.</summary>
         Evacuating,

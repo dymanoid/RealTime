@@ -40,7 +40,7 @@ namespace RealTime.CustomAI
             RealTimeEventManager eventManager)
             : base(config, connections, eventManager)
         {
-            this.touristAI = touristAI ?? throw new System.ArgumentNullException(nameof(touristAI));
+            this.touristAI = touristAI ?? throw new ArgumentNullException(nameof(touristAI));
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace RealTime.CustomAI
         /// <param name="citizen">A <typeparamref name="TCitizen"/> reference to process.</param>
         public void UpdateLocation(TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            if (!EnsureCitizenValid(citizenId, ref citizen))
+            if (!EnsureCitizenCanBeProcessed(citizenId, ref citizen))
             {
                 return;
             }
@@ -71,7 +71,7 @@ namespace RealTime.CustomAI
                     break;
 
                 case Citizen.Location.Visit:
-                    ProcessVisit(instance, citizenId, ref citizen);
+                    ProcessVisit(instance, citizenId, ref citizen, IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen));
                     break;
 
                 case Citizen.Location.Moving:
@@ -97,18 +97,19 @@ namespace RealTime.CustomAI
 
             if (vehicleId == 0 && CitizenMgr.IsAreaEvacuating(instanceId) && !CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating))
             {
-                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} was on the way, but the area evacuates. Leaving the city.");
+                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, false)} was on the way, but the area evacuates. Leaving the city.");
                 touristAI.FindVisitPlace(instance, citizenId, CitizenProxy.GetCurrentBuilding(ref citizen), touristAI.GetLeavingReason(instance, citizenId, ref citizen));
                 return;
             }
 
-            if (CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.TargetIsNode | CitizenInstance.Flags.OnTour, true))
+            if (CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.TargetIsNode | CitizenInstance.Flags.OnTour, false))
             {
-                FindRandomVisitPlace(instance, citizenId, ref citizen, TouristDoNothingProbability, 0);
+                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, false)} abandons the guided tour.");
+                FindRandomVisitPlace(instance, citizenId, ref citizen, TouristDoNothingProbability, 0, false);
             }
         }
 
-        private void ProcessVisit(TAI instance, uint citizenId, ref TCitizen citizen)
+        private void ProcessVisit(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
         {
             ushort visitBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
             if (visitBuilding == 0)
@@ -128,7 +129,7 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.Disaster:
                     if (BuildingMgr.BuildingHasFlags(visitBuilding, Building.Flags.Downgrading))
                     {
-                        FindRandomVisitPlace(instance, citizenId, ref citizen, 0, visitBuilding);
+                        FindRandomVisitPlace(instance, citizenId, ref citizen, 0, visitBuilding, false);
                     }
 
                     return;
@@ -141,78 +142,82 @@ namespace RealTime.CustomAI
 
             if (IsChance(TouristEventChance) && AttendUpcomingEvent(citizenId, ref citizen, out ushort eventBuilding))
             {
-                StartMovingToVisitBuilding(instance, citizenId, ref citizen, CitizenProxy.GetCurrentBuilding(ref citizen), eventBuilding);
-                touristAI.AddTouristVisit(instance, citizenId, eventBuilding);
-                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} attending an event at {eventBuilding}");
+                StartMovingToVisitBuilding(instance, citizenId, ref citizen, CitizenProxy.GetCurrentBuilding(ref citizen), eventBuilding, isVirtual);
+                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, isVirtual)} attending an event at {eventBuilding}");
                 return;
             }
 
-            bool doShopping;
+            int doNothingChance;
             switch (EventMgr.GetEventState(visitBuilding, DateTime.MaxValue))
             {
                 case CityEventState.Ongoing:
-                    doShopping = IsChance(TouristShoppingChance);
-                    break;
+                    if (IsChance(TouristShoppingChance))
+                    {
+                        BuildingMgr.ModifyMaterialBuffer(visitBuilding, TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
+                    }
+
+                    return;
 
                 case CityEventState.Finished:
-                    doShopping = !FindRandomVisitPlace(instance, citizenId, ref citizen, 0, visitBuilding);
+                    doNothingChance = 0;
                     break;
 
                 default:
-                    doShopping = false;
+                    doNothingChance = TouristDoNothingProbability;
                     break;
             }
 
-            if (doShopping || !FindRandomVisitPlace(instance, citizenId, ref citizen, TouristDoNothingProbability, visitBuilding))
-            {
-                BuildingMgr.ModifyMaterialBuffer(visitBuilding, TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
-                touristAI.AddTouristVisit(instance, citizenId, visitBuilding);
-            }
+            FindRandomVisitPlace(instance, citizenId, ref citizen, doNothingChance, visitBuilding, isVirtual);
         }
 
-        private bool FindRandomVisitPlace(TAI instance, uint citizenId, ref TCitizen citizen, int doNothingProbability, ushort visitBuilding)
+        private void FindRandomVisitPlace(TAI instance, uint citizenId, ref TCitizen citizen, int doNothingProbability, ushort currentBuilding, bool isVirtual)
         {
             int targetType = touristAI.GetRandomTargetType(instance, doNothingProbability);
             if (targetType == 1)
             {
-                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} decides to leave the city");
-                touristAI.FindVisitPlace(instance, citizenId, visitBuilding, touristAI.GetLeavingReason(instance, citizenId, ref citizen));
-                return true;
-            }
-
-            if (CitizenProxy.GetInstance(ref citizen) == 0 && !touristAI.DoRandomMove(instance))
-            {
-                return false;
+                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, isVirtual)} decides to leave the city");
+                touristAI.FindVisitPlace(instance, citizenId, currentBuilding, touristAI.GetLeavingReason(instance, citizenId, ref citizen));
+                return;
             }
 
             if (!IsChance(GetGoOutChance(CitizenProxy.GetAge(ref citizen))))
             {
-                FindHotel(instance, citizenId, ref citizen);
-                return true;
+                FindHotel(instance, citizenId, ref citizen, isVirtual);
+                return;
+            }
+
+            if (isVirtual)
+            {
+                if (IsChance(TouristShoppingChance) && BuildingMgr.GetBuildingService(currentBuilding) == ItemClass.Service.Commercial)
+                {
+                    BuildingMgr.ModifyMaterialBuffer(currentBuilding, TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
+                }
+
+                touristAI.AddTouristVisit(instance, citizenId, currentBuilding);
+
+                return;
             }
 
             switch (targetType)
             {
                 case 2:
-                    touristAI.FindVisitPlace(instance, citizenId, visitBuilding, touristAI.GetShoppingReason(instance));
-                    Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} stays in the city, goes shopping");
+                    touristAI.FindVisitPlace(instance, citizenId, currentBuilding, touristAI.GetShoppingReason(instance));
+                    Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, isVirtual)} stays in the city, goes shopping");
                     break;
 
                 case 3:
-                    Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} stays in the city, goes relaxing");
-                    touristAI.FindVisitPlace(instance, citizenId, visitBuilding, touristAI.GetEntertainmentReason(instance));
+                    Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, isVirtual)} stays in the city, goes relaxing");
+                    touristAI.FindVisitPlace(instance, citizenId, currentBuilding, touristAI.GetEntertainmentReason(instance));
                     break;
             }
-
-            return true;
         }
 
-        private void FindHotel(TAI instance, uint citizenId, ref TCitizen citizen)
+        private void FindHotel(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
             if (!IsChance(FindHotelChance))
             {
-                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} didn't want to stay in a hotel, leaving the city");
+                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, isVirtual)} didn't want to stay in a hotel, leaving the city");
                 touristAI.FindVisitPlace(instance, citizenId, currentBuilding, touristAI.GetLeavingReason(instance, citizenId, ref citizen));
                 return;
             }
@@ -225,22 +230,34 @@ namespace RealTime.CustomAI
 
             if (hotel == 0)
             {
-                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} didn't find a hotel, leaving the city");
+                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, isVirtual)} didn't find a hotel, leaving the city");
                 touristAI.FindVisitPlace(instance, citizenId, currentBuilding, touristAI.GetLeavingReason(instance, citizenId, ref citizen));
                 return;
             }
 
-            StartMovingToVisitBuilding(instance, citizenId, ref citizen, currentBuilding, hotel);
-
-            touristAI.AddTouristVisit(instance, citizenId, hotel);
-            Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} stays in a hotel {hotel}");
+            StartMovingToVisitBuilding(instance, citizenId, ref citizen, currentBuilding, hotel, isVirtual);
+            Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, isVirtual)} stays in a hotel {hotel}");
         }
 
-        private void StartMovingToVisitBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort currentBuilding, ushort visitBuilding)
+        private void StartMovingToVisitBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort currentBuilding, ushort visitBuilding, bool isVirtual)
         {
-            touristAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding);
             CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
             CitizenProxy.SetVisitBuilding(ref citizen, visitBuilding);
+
+            if (isVirtual)
+            {
+                CitizenProxy.SetLocation(ref citizen, Citizen.Location.Visit);
+                touristAI.AddTouristVisit(instance, citizenId, visitBuilding);
+            }
+            else
+            {
+                touristAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding);
+            }
+        }
+
+        private bool ShouldRealizeCitizen(TAI ai)
+        {
+            return touristAI.DoRandomMove(ai);
         }
     }
 }
