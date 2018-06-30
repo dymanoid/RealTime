@@ -122,7 +122,7 @@ namespace RealTime.CustomAI
 
             CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
             CitizenProxy.SetVisitBuilding(ref citizen, visitBuilding);
-            if (isVirtual)
+            if (isVirtual || currentBuilding == visitBuilding)
             {
                 CitizenProxy.SetLocation(ref citizen, Citizen.Location.Visit);
             }
@@ -183,7 +183,7 @@ namespace RealTime.CustomAI
                     {
                         case ItemClass.Service.Commercial:
                             if (CitizenProxy.GetWorkBuilding(ref citizen) != 0 && IsWorkDay
-                                && TimeInfo.CurrentHour > Config.LunchBegin && TimeInfo.CurrentHour < GetSpareTimeBeginHour(CitizenProxy.GetAge(ref citizen)))
+                                && TimeInfo.CurrentHour > Config.LunchBegin && TimeInfo.CurrentHour < Config.WorkEnd)
                             {
                                 return ResidentState.AtLunch;
                             }
