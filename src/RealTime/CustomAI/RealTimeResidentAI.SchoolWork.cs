@@ -47,6 +47,7 @@ namespace RealTime.CustomAI
         {
             switch (service)
             {
+                case ItemClass.Service.Commercial:
                 case ItemClass.Service.Tourism:
                 case ItemClass.Service.Electricity:
                 case ItemClass.Service.Water:
