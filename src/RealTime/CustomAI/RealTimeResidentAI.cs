@@ -100,6 +100,11 @@ namespace RealTime.CustomAI
                     isVirtual = IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen);
                     CitizenReturnsFromShelter(instance, citizenId, ref citizen, isVirtual);
                     break;
+
+                case ResidentState.Unknown:
+                    Log.Debug(TimeInfo.Now, $"WARNING: {GetCitizenDesc(citizenId, ref citizen, null)} is in an UNKNOWN state! Releasing the citizen.");
+                    CitizenMgr.ReleaseCitizen(citizenId);
+                    break;
             }
         }
 
