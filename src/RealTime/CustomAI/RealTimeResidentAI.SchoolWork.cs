@@ -391,7 +391,7 @@ namespace RealTime.CustomAI
 
                 if (ShouldWorkAtDawn(sevice, subService))
                 {
-                    begin = TimeInfo.SunriseHour;
+                    begin = Mathf.Min(TimeInfo.SunriseHour, EarliestWakeUp);
                 }
                 else
                 {

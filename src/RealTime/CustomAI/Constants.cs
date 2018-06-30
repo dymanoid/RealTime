@@ -54,6 +54,9 @@ namespace RealTime.CustomAI
         /// <summary>A minimum work shift duration in hours.</summary>
         public const float MinimumWorkShiftDuration = 2f;
 
+        /// <summary>An earliest hour when citizens wake up at home.</summary>
+        public const float EarliestWakeUp = 5.5f;
+
         /// <summary>An assumed average speed of a citizen when moving to target
         /// (this is not just a walking speed, but also takes into account moving by car or public transport).</summary>
         public const float OnTheWayDistancePerHour = 500f;

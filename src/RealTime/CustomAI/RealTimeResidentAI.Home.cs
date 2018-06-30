@@ -5,6 +5,7 @@
 namespace RealTime.CustomAI
 {
     using RealTime.Tools;
+    using static Constants;
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
@@ -44,42 +45,42 @@ namespace RealTime.CustomAI
 
         private bool IsBusyAtHomeInTheMorning(Citizen.AgeGroup citizenAge)
         {
+            float currentHour = TimeInfo.CurrentHour;
             float offset = IsWeekend ? 2 : 0;
             switch (citizenAge)
             {
                 case Citizen.AgeGroup.Child:
-                    return IsBusyAtHomeInTheMorning(8 + offset);
+                    return IsBusyAtHomeInTheMorning(currentHour, 8 + offset);
 
                 case Citizen.AgeGroup.Teen:
                 case Citizen.AgeGroup.Young:
-                    return IsBusyAtHomeInTheMorning(9 + offset);
+                    return IsBusyAtHomeInTheMorning(currentHour, 9 + offset);
 
                 case Citizen.AgeGroup.Adult:
-                    return IsBusyAtHomeInTheMorning(8 + (offset / 2f));
+                    return IsBusyAtHomeInTheMorning(currentHour, 8 + (offset / 2f));
 
                 case Citizen.AgeGroup.Senior:
-                    return IsBusyAtHomeInTheMorning(7);
+                    return IsBusyAtHomeInTheMorning(currentHour, 7);
 
                 default:
                     return true;
             }
+        }
 
-            bool IsBusyAtHomeInTheMorning(float latestHour)
+        private bool IsBusyAtHomeInTheMorning(float currentHour, float latestHour)
+        {
+            if (currentHour >= latestHour || currentHour < EarliestWakeUp)
             {
-                float currentHour = TimeInfo.CurrentHour;
-                if (currentHour >= latestHour || currentHour < TimeInfo.SunriseHour)
-                {
-                    return false;
-                }
-
-                float sunriseHour = TimeInfo.SunriseHour;
-                float dx = latestHour - sunriseHour;
-                float x = currentHour - sunriseHour;
-
-                // A cubic probability curve from sunrise (0%) to latestHour (100%)
-                uint chance = (uint)((100f / dx * x) - ((dx - x) * (dx - x) * x));
-                return !IsChance(chance);
+                return false;
             }
+
+            float sunriseHour = EarliestWakeUp;
+            float dx = latestHour - sunriseHour;
+            float x = currentHour - sunriseHour;
+
+            // A cubic probability curve from the earliest wake up hour (0%) to latest hour (100%)
+            uint chance = (uint)((100f / dx * x) - ((dx - x) * (dx - x) * x));
+            return !IsChance(chance);
         }
     }
 }
