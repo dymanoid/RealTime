@@ -33,7 +33,7 @@ namespace RealTime.Events
         private readonly ICityEventsProvider eventProvider;
         private readonly IEventManagerConnection eventManager;
         private readonly IBuildingManagerConnection buildingManager;
-        private readonly ISimulationManagerConnection simulationManager;
+        private readonly IRandomizer randomizer;
         private readonly ITimeInfo timeInfo;
 
         private ICityEvent lastActiveEvent;
@@ -50,8 +50,8 @@ namespace RealTime.Events
         /// <param name="buildingManager">
         /// A proxy object that provides a way to call the game-specific methods of the <see cref="global::BuildingManager"/> class.
         /// </param>
-        /// <param name="simulationManager">
-        /// A proxy object that provides a way to call the game-specific methods of the <see cref="global::SimulationManager"/> class.
+        /// <param name="randomizer">
+        /// An object that implements of the <see cref="IRandomizer"/> interface.
         /// </param>
         /// <param name="timeInfo">The time information source.</param>
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
@@ -60,14 +60,14 @@ namespace RealTime.Events
             ICityEventsProvider eventProvider,
             IEventManagerConnection eventManager,
             IBuildingManagerConnection buildingManager,
-            ISimulationManagerConnection simulationManager,
+            IRandomizer randomizer,
             ITimeInfo timeInfo)
         {
             this.config = config ?? throw new ArgumentNullException(nameof(config));
             this.eventProvider = eventProvider ?? throw new ArgumentNullException(nameof(eventProvider));
             this.eventManager = eventManager ?? throw new ArgumentNullException(nameof(eventManager));
             this.buildingManager = buildingManager ?? throw new ArgumentNullException(nameof(buildingManager));
-            this.simulationManager = simulationManager ?? throw new ArgumentNullException(nameof(simulationManager));
+            this.randomizer = randomizer ?? throw new ArgumentNullException(nameof(randomizer));
             this.timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
             upcomingEvents = new LinkedList<ICityEvent>();
         }
@@ -339,7 +339,7 @@ namespace RealTime.Events
                 return;
             }
 
-            earliestEvent = startTime.AddHours(simulationManager.GetRandomizer().Int32(EventIntervalVariance));
+            earliestEvent = startTime.AddHours(randomizer.GetRandomValue(EventIntervalVariance));
 
             newEvent.Configure(buildingId, buildingManager.GetBuildingName(buildingId), startTime);
             upcomingEvents.AddLast(newEvent);
@@ -366,7 +366,7 @@ namespace RealTime.Events
                 latestHour = config.LatestHourEventStartWeekday;
             }
 
-            float randomOffset = simulationManager.GetRandomizer().Int32((uint)((latestHour - earliestHour) * 60f)) / 60f;
+            float randomOffset = randomizer.GetRandomValue((uint)((latestHour - earliestHour) * 60f)) / 60f;
             result = result.AddHours(randomOffset).RoundCeil(EventStartTimeGranularity);
 
             if (result.Hour >= latestHour)

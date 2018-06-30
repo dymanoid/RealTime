@@ -5,7 +5,7 @@
 namespace RealTime.Events
 {
     using System;
-    using ColossalFramework.Math;
+    using RealTime.Simulation;
 
     /// <summary>An interface for a city event that is taking pace or being prepared.</summary>
     internal interface ICityEvent
@@ -52,6 +52,6 @@ namespace RealTime.Events
             Citizen.Wealth wealth,
             Citizen.Wellbeing wellbeing,
             Citizen.Happiness happiness,
-            ref Randomizer randomizer);
+            IRandomizer randomizer);
     }
 }

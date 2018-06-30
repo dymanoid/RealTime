@@ -5,7 +5,6 @@
 namespace RealTime.CustomAI
 {
     using System;
-    using ColossalFramework.Math;
     using RealTime.Config;
     using RealTime.Events;
     using RealTime.GameConnection;
@@ -21,8 +20,6 @@ namespace RealTime.CustomAI
     internal abstract class RealTimeHumanAIBase<TCitizen>
         where TCitizen : struct
     {
-        private Randomizer randomizer;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RealTimeHumanAIBase{TCitizen}"/> class.
         /// </summary>
@@ -47,7 +44,7 @@ namespace RealTime.CustomAI
             TransferMgr = connections.TransferManager;
             CitizenProxy = connections.CitizenConnection;
             TimeInfo = connections.TimeInfo;
-            randomizer = connections.SimulationManager.GetRandomizer();
+            Random = connections.Random;
         }
 
         /// <summary>
@@ -98,20 +95,7 @@ namespace RealTime.CustomAI
         /// <summary>
         /// Gets a reference to the game's randomizer.
         /// </summary>
-        protected ref Randomizer Randomizer => ref randomizer;
-
-        /// <summary>
-        /// Determines whether a randomly generated value meets the specified probability.
-        /// </summary>
-        ///
-        /// <param name="chance">The probability value to check. Valid values are 0..100</param>
-        /// <returns>
-        ///   <c>true</c> if the randomly generated value meets the specified probability; otherwise, <c>false</c>.
-        /// </returns>
-        protected bool IsChance(uint chance)
-        {
-            return Randomizer.UInt32(100u) < chance;
-        }
+        protected IRandomizer Random { get; }
 
         /// <summary>
         /// Determines whether the current date and time represent the specified time interval on a work day.
@@ -373,7 +357,7 @@ namespace RealTime.CustomAI
                     return false;
             }
 
-            return !IsChance(virtualChance);
+            return !Random.ShouldOccur(virtualChance);
         }
 
         private bool CanAttendEvent(uint citizenId, ref TCitizen citizen, ICityEvent cityEvent)
@@ -385,7 +369,7 @@ namespace RealTime.CustomAI
             Citizen.Wellbeing wellbeing = CitizenProxy.GetWellbeingLevel(ref citizen);
             Citizen.Happiness happiness = CitizenProxy.GetHappinessLevel(ref citizen);
 
-            return cityEvent.TryAcceptAttendee(age, gender, education, wealth, wellbeing, happiness, ref randomizer);
+            return cityEvent.TryAcceptAttendee(age, gender, education, wealth, wellbeing, happiness, Random);
         }
     }
 }

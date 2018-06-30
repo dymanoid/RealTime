@@ -82,9 +82,9 @@
     <Compile Include="Events\VanillaEvent.cs" />
     <Compile Include="GameConnection\CameraHelper.cs" />
     <Compile Include="GameConnection\CitizenConnection.cs" />
+    <Compile Include="GameConnection\GameRandomizer.cs" />
     <Compile Include="GameConnection\HumanAIConnectionBase.cs" />
     <Compile Include="GameConnection\ICitizenConnection.cs" />
-    <Compile Include="GameConnection\ISimulationManagerConnection.cs" />
     <Compile Include="GameConnection\IToolManagerConnection.cs" />
     <Compile Include="GameConnection\ITransferManagerConnection.cs" />
     <Compile Include="GameConnection\PrivateBuildingAIHook.cs" />
@@ -104,7 +104,6 @@
     <Compile Include="GameConnection\ResidentAIConnection.cs" />
     <Compile Include="Config\RealTimeConfig.cs" />
     <Compile Include="Core\RealTimeCore.cs" />
-    <Compile Include="GameConnection\SimulationManagerConnection.cs" />
     <Compile Include="GameConnection\ToolManagerConnection.cs" />
     <Compile Include="GameConnection\TransferManagerConnection.cs" />
     <Compile Include="Localization\Constants.cs" />
@@ -112,6 +111,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\RealTimeMod.cs" />
     <Compile Include="Simulation\DayTimeSimulation.cs" />
+    <Compile Include="Simulation\IRandomizer.cs" />
     <Compile Include="Simulation\SimulationHandler.cs" />
     <Compile Include="Simulation\DayTimeCalculator.cs" />
     <Compile Include="Simulation\ITimeInfo.cs" />

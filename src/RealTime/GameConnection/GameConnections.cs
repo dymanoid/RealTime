@@ -21,8 +21,8 @@ namespace RealTime.GameConnection
         /// <param name="buildingManager">
         /// A proxy object that provides a way to call the game-specific methods of the <see cref="global::BuildingManager"/> class.
         /// </param>
-        /// <param name="simulationManager">
-        /// A proxy object that provides a way to call the game-specific methods of the <see cref="global::SimulationManager"/> class.
+        /// <param name="randomizer">
+        /// An object that implements of the <see cref="IRandomizer"/> interface.
         /// </param>
         /// <param name="transferManager">
         /// A proxy object that provides a way to call the game-specific methods of the <see cref="global::TransferManager"/> class.
@@ -32,14 +32,14 @@ namespace RealTime.GameConnection
             ICitizenConnection<TCitizen> citizenConnection,
             ICitizenManagerConnection citizenManager,
             IBuildingManagerConnection buildingManager,
-            ISimulationManagerConnection simulationManager,
+            IRandomizer randomizer,
             ITransferManagerConnection transferManager)
         {
             TimeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
             CitizenConnection = citizenConnection ?? throw new ArgumentNullException(nameof(citizenConnection));
             CitizenManager = citizenManager ?? throw new ArgumentNullException(nameof(citizenManager));
             BuildingManager = buildingManager ?? throw new ArgumentNullException(nameof(buildingManager));
-            SimulationManager = simulationManager ?? throw new ArgumentNullException(nameof(simulationManager));
+            Random = randomizer ?? throw new ArgumentNullException(nameof(randomizer));
             TransferManager = transferManager ?? throw new ArgumentNullException(nameof(transferManager));
         }
 
@@ -55,8 +55,8 @@ namespace RealTime.GameConnection
         /// <summary>Gets the <see cref="IBuildingManagerConnection"/> implementation.</summary>
         public IBuildingManagerConnection BuildingManager { get; }
 
-        /// <summary>Gets the <see cref="ISimulationManagerConnection"/> implementation.</summary>
-        public ISimulationManagerConnection SimulationManager { get; }
+        /// <summary>Gets the <see cref="IRandomizer"/> implementation.</summary>
+        public IRandomizer Random { get; }
 
         /// <summary>Gets the <see cref="ITransferManagerConnection"/> implementation.</summary>
         public ITransferManagerConnection TransferManager { get; }

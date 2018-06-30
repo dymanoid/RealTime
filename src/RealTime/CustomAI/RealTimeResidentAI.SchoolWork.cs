@@ -215,7 +215,7 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            float overtime = IsChance(Config.OnTimeQuota) ? 0 : Config.MaxOvertime * Randomizer.Int32(100u) / 200f;
+            float overtime = Random.ShouldOccur(Config.OnTimeQuota) ? 0 : Config.MaxOvertime * Random.GetRandomValue(100u) / 200f;
 
             return ShouldMoveToSchoolOrWork(currentBuilding, workBuilding, workBeginHour, workEndHour, overtime);
         }
@@ -300,7 +300,7 @@ namespace RealTime.CustomAI
                 }
                 else if (currentHour >= workEndHour)
                 {
-                    return IsChance(Config.OnTimeQuota);
+                    return Random.ShouldOccur(Config.OnTimeQuota);
                 }
             }
             else
@@ -311,7 +311,7 @@ namespace RealTime.CustomAI
                 }
                 else if (currentHour >= workEndHour && currentHour < earliestGotoHour)
                 {
-                    return IsChance(Config.OnTimeQuota);
+                    return Random.ShouldOccur(Config.OnTimeQuota);
                 }
             }
 
@@ -336,7 +336,7 @@ namespace RealTime.CustomAI
             float currentHour = TimeInfo.CurrentHour;
             if (currentHour >= Config.LunchBegin && currentHour <= Config.LunchEnd)
             {
-                return IsChance(Config.LunchQuota);
+                return Random.ShouldOccur(Config.LunchQuota);
             }
 
             return false;

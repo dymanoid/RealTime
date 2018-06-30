@@ -140,7 +140,7 @@ namespace RealTime.CustomAI
                     return;
             }
 
-            if (IsChance(TouristEventChance) && AttendUpcomingEvent(citizenId, ref citizen, out ushort eventBuilding))
+            if (Random.ShouldOccur(TouristEventChance) && AttendUpcomingEvent(citizenId, ref citizen, out ushort eventBuilding))
             {
                 StartMovingToVisitBuilding(instance, citizenId, ref citizen, CitizenProxy.GetCurrentBuilding(ref citizen), eventBuilding, isVirtual);
                 Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, isVirtual)} attending an event at {eventBuilding}");
@@ -151,7 +151,7 @@ namespace RealTime.CustomAI
             switch (EventMgr.GetEventState(visitBuilding, DateTime.MaxValue))
             {
                 case CityEventState.Ongoing:
-                    if (IsChance(TouristShoppingChance))
+                    if (Random.ShouldOccur(TouristShoppingChance))
                     {
                         BuildingMgr.ModifyMaterialBuffer(visitBuilding, TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
                     }
@@ -180,7 +180,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            if (!IsChance(GetGoOutChance(CitizenProxy.GetAge(ref citizen))))
+            if (!Random.ShouldOccur(GetGoOutChance(CitizenProxy.GetAge(ref citizen))))
             {
                 FindHotel(instance, citizenId, ref citizen, isVirtual);
                 return;
@@ -188,7 +188,7 @@ namespace RealTime.CustomAI
 
             if (isVirtual)
             {
-                if (IsChance(TouristShoppingChance) && BuildingMgr.GetBuildingService(currentBuilding) == ItemClass.Service.Commercial)
+                if (Random.ShouldOccur(TouristShoppingChance) && BuildingMgr.GetBuildingService(currentBuilding) == ItemClass.Service.Commercial)
                 {
                     BuildingMgr.ModifyMaterialBuffer(currentBuilding, TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
                 }
@@ -215,7 +215,7 @@ namespace RealTime.CustomAI
         private void FindHotel(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
-            if (!IsChance(FindHotelChance))
+            if (!Random.ShouldOccur(FindHotelChance))
             {
                 Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, isVirtual)} didn't want to stay in a hotel, leaving the city");
                 touristAI.FindVisitPlace(instance, citizenId, currentBuilding, touristAI.GetLeavingReason(instance, citizenId, ref citizen));

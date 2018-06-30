@@ -58,7 +58,7 @@ namespace RealTime.CustomAI
                         return;
                     }
 
-                    if (IsChance(ReturnFromShoppingChance) || IsWorkDayMorning(CitizenProxy.GetAge(ref citizen)))
+                    if (Random.ShouldOccur(ReturnFromShoppingChance) || IsWorkDayMorning(CitizenProxy.GetAge(ref citizen)))
                     {
                         Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} returning from shopping at {currentBuilding} back home");
                         ReturnFromVisit(instance, citizenId, ref citizen, CitizenProxy.GetHomeBuilding(ref citizen), Citizen.Location.Home, isVirtual);
@@ -130,7 +130,7 @@ namespace RealTime.CustomAI
                     return true;
             }
 
-            if (IsChance(ReturnFromVisitChance))
+            if (Random.ShouldOccur(ReturnFromVisitChance))
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} returning from visit back home");
                 ReturnFromVisit(instance, citizenId, ref citizen, homeBuilding, Citizen.Location.Home, isVirtual);
@@ -177,7 +177,7 @@ namespace RealTime.CustomAI
 
             if (TimeInfo.IsNightTime)
             {
-                if (IsChance(GetGoOutChance(CitizenProxy.GetAge(ref citizen))))
+                if (Random.ShouldOccur(GetGoOutChance(CitizenProxy.GetAge(ref citizen))))
                 {
                     ushort localVisitPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, isVirtual);
                     Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} wanna go shopping at night, trying local shop '{localVisitPlace}'");
@@ -187,12 +187,12 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            if (IsChance(GoShoppingChance))
+            if (Random.ShouldOccur(GoShoppingChance))
             {
                 bool localOnly = CitizenProxy.GetWorkBuilding(ref citizen) != 0 && IsWorkDayMorning(CitizenProxy.GetAge(ref citizen));
                 ushort localVisitPlace = 0;
 
-                if (IsChance(Config.LocalBuildingSearchQuota))
+                if (Random.ShouldOccur(Config.LocalBuildingSearchQuota))
                 {
                     localVisitPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, isVirtual);
                     Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} wanna go shopping, tries a local shop '{localVisitPlace}'");
@@ -218,7 +218,7 @@ namespace RealTime.CustomAI
 
         private bool CitizenGoesToEvent(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
         {
-            if (!IsChance(GetGoOutChance(CitizenProxy.GetAge(ref citizen))))
+            if (!Random.ShouldOccur(GetGoOutChance(CitizenProxy.GetAge(ref citizen))))
             {
                 return false;
             }
@@ -235,7 +235,7 @@ namespace RealTime.CustomAI
         private bool CitizenGoesRelaxing(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
         {
             Citizen.AgeGroup citizenAge = CitizenProxy.GetAge(ref citizen);
-            if (!IsChance(GetGoOutChance(citizenAge)))
+            if (!Random.ShouldOccur(GetGoOutChance(citizenAge)))
             {
                 return false;
             }

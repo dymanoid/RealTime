@@ -80,7 +80,7 @@ namespace RealTime.CustomAI
 
             // A cubic probability curve from the earliest wake up hour (0%) to latest hour (100%)
             uint chance = (uint)((100f / dx * x) - ((dx - x) * (dx - x) * x));
-            return !IsChance(chance);
+            return !Random.ShouldOccur(chance);
         }
     }
 }
