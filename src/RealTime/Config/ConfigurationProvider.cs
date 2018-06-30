@@ -34,8 +34,9 @@ namespace RealTime.Config
 
                 return Deserialize();
             }
-            catch
+            catch (Exception ex)
             {
+                Log.Warning($"The ' Real Time' mod has encountered an error while trying to load the configuration, error message: " + ex.Message);
                 return new RealTimeConfig();
             }
         }

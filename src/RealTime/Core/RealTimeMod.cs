@@ -77,6 +77,12 @@ namespace RealTime.Core
                 return;
             }
 
+            if (config == null)
+            {
+                Log.Warning("The 'Real Time' mod wants to display the configuration page, but the configuration is unexpectedly missing.");
+                config = ConfigurationProvider.LoadConfiguration();
+            }
+
             IViewItemFactory itemFactory = new UnityViewItemFactory(helper);
             configUI = ConfigUI.Create(config, itemFactory);
             ApplyLanguage();
