@@ -5,7 +5,7 @@
 namespace RealTime.Events
 {
     using System;
-    using ColossalFramework.Math;
+    using RealTime.Simulation;
 
     /// <summary>A base class for a city event.</summary>
     /// <seealso cref="ICityEvent"/>
@@ -42,7 +42,7 @@ namespace RealTime.Events
             Citizen.Wealth wealth,
             Citizen.Wellbeing wellbeing,
             Citizen.Happiness happiness,
-            ref Randomizer randomizer)
+            IRandomizer randomizer)
         {
             return true;
         }
@@ -70,18 +70,18 @@ namespace RealTime.Events
         /// <param name="wealth">The citizen's wealth.</param>
         /// <param name="randomizer">A reference to the game's randomizer.</param>
         /// <returns>The citizen's budget for attending an event.</returns>
-        protected static float GetCitizenBudgetForEvent(Citizen.Wealth wealth, ref Randomizer randomizer)
+        protected static float GetCitizenBudgetForEvent(Citizen.Wealth wealth, IRandomizer randomizer)
         {
             switch (wealth)
             {
                 case Citizen.Wealth.Low:
-                    return 30f + randomizer.Int32(60);
+                    return 30f + randomizer.GetRandomValue(60);
 
                 case Citizen.Wealth.Medium:
-                    return 80f + randomizer.Int32(80);
+                    return 80f + randomizer.GetRandomValue(80);
 
                 case Citizen.Wealth.High:
-                    return 120f + randomizer.Int32(320);
+                    return 120f + randomizer.GetRandomValue(320);
 
                 default:
                     return 0;

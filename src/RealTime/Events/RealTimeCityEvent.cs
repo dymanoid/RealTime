@@ -4,8 +4,8 @@ namespace RealTime.Events
 {
     using System;
     using System.Linq;
-    using ColossalFramework.Math;
     using RealTime.Events.Storage;
+    using RealTime.Simulation;
 
     /// <summary>A custom city event.</summary>
     /// <seealso cref="CityEventBase"/>
@@ -63,14 +63,14 @@ namespace RealTime.Events
             Citizen.Wealth wealth,
             Citizen.Wellbeing wellbeing,
             Citizen.Happiness happiness,
-            ref Randomizer randomizer)
+            IRandomizer randomizer)
         {
             if (attendeesCount > eventTemplate.Capacity)
             {
                 return false;
             }
 
-            if (eventTemplate.Costs != null && eventTemplate.Costs.Entry > GetCitizenBudgetForEvent(wealth, ref randomizer))
+            if (eventTemplate.Costs != null && eventTemplate.Costs.Entry > GetCitizenBudgetForEvent(wealth, randomizer))
             {
                 return false;
             }
@@ -78,38 +78,38 @@ namespace RealTime.Events
             CityEventAttendees attendees = eventTemplate.Attendees;
             float chanceAdjustment = 1f + (attendChanceAdjustment / 100f);
 
-            float randomPercentage = randomizer.Int32(100u) / chanceAdjustment;
+            float randomPercentage = randomizer.GetRandomValue(100u) / chanceAdjustment;
 
             if (!CheckAge(age, attendees, randomPercentage))
             {
                 return false;
             }
 
-            randomPercentage = randomizer.Int32(100u) / chanceAdjustment;
+            randomPercentage = randomizer.GetRandomValue(100u) / chanceAdjustment;
             if (!CheckGender(gender, attendees, randomPercentage))
             {
                 return false;
             }
 
-            randomPercentage = randomizer.Int32(100u) / chanceAdjustment;
+            randomPercentage = randomizer.GetRandomValue(100u) / chanceAdjustment;
             if (!CheckEducation(education, attendees, randomPercentage))
             {
                 return false;
             }
 
-            randomPercentage = randomizer.Int32(100u) / chanceAdjustment;
+            randomPercentage = randomizer.GetRandomValue(100u) / chanceAdjustment;
             if (!CheckWealth(wealth, attendees, randomPercentage))
             {
                 return false;
             }
 
-            randomPercentage = randomizer.Int32(100u) / chanceAdjustment;
+            randomPercentage = randomizer.GetRandomValue(100u) / chanceAdjustment;
             if (!CheckWellbeing(wellbeing, attendees, randomPercentage))
             {
                 return false;
             }
 
-            randomPercentage = randomizer.Int32(100u) / chanceAdjustment;
+            randomPercentage = randomizer.GetRandomValue(100u) / chanceAdjustment;
             if (!CheckHappiness(happiness, attendees, randomPercentage))
             {
                 return false;

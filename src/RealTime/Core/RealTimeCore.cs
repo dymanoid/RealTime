@@ -85,14 +85,14 @@ namespace RealTime.Core
 
             var timeInfo = new TimeInfo();
             var buildingManager = new BuildingManagerConnection();
-            var simulationManager = new SimulationManagerConnection();
+            var randomizer = new GameRandomizer();
 
             var gameConnections = new GameConnections<Citizen>(
                 timeInfo,
                 new CitizenConnection(),
                 new CitizenManagerConnection(),
                 buildingManager,
-                simulationManager,
+                randomizer,
                 new TransferManagerConnection());
 
             var eventManager = new RealTimeEventManager(
@@ -100,7 +100,7 @@ namespace RealTime.Core
                 CityEventsLoader.Instance,
                 new EventManagerConnection(),
                 buildingManager,
-                simulationManager,
+                randomizer,
                 timeInfo);
 
             SetupCustomAI(timeInfo, config, gameConnections, eventManager);

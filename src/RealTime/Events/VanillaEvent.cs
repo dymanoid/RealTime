@@ -4,7 +4,7 @@
 
 namespace RealTime.Events
 {
-    using ColossalFramework.Math;
+    using RealTime.Simulation;
 
     /// <summary>A class for the default game city event.</summary>
     /// <seealso cref="RealTime.Events.CityEventBase"/>
@@ -42,9 +42,9 @@ namespace RealTime.Events
             Citizen.Wealth wealth,
             Citizen.Wellbeing wellbeing,
             Citizen.Happiness happiness,
-            ref Randomizer randomizer)
+            IRandomizer randomizer)
         {
-            return ticketPrice <= GetCitizenBudgetForEvent(wealth, ref randomizer);
+            return ticketPrice <= GetCitizenBudgetForEvent(wealth, randomizer);
         }
 
         /// <summary>Calculates the city event duration.</summary>
