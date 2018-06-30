@@ -102,9 +102,9 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            if (CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.TargetIsNode | CitizenInstance.Flags.OnTour, false))
+            if (CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.TargetIsNode | CitizenInstance.Flags.OnTour, true))
             {
-                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, false)} abandons the guided tour.");
+                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, false)} exits the guided tour.");
                 FindRandomVisitPlace(instance, citizenId, ref citizen, TouristDoNothingProbability, 0, false);
             }
         }

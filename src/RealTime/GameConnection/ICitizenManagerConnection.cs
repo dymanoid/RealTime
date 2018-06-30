@@ -16,19 +16,14 @@ namespace RealTime.GameConnection
         /// <returns>The ID of the building the citizen is moving to, or 0 if none.</returns>
         ushort GetTargetBuilding(ushort instanceId);
 
-        /// <summary>
-        /// Determines whether the citizen's instance with provided ID has particular flags.
-        /// </summary>
+        /// <summary>Determines whether the citizen's instance with provided ID has particular flags.</summary>
         /// <param name="instanceId">The instance ID to check.</param>
         /// <param name="flags">The flags to check.</param>
-        /// <param name="exact">
-        /// if set to <c>true</c>, the method returns <c>true</c> only if the instance flags exactly
-        /// matches the specified value.
+        /// <param name="all">
+        /// <c>true</c> to check all flags from the provided <paramref name="flags"/>, <c>false</c> to check any flags.
         /// </param>
-        /// <returns>
-        /// <c>true</c> if the citizen instance has the specified flags; otherwise, <c>false</c>.
-        /// </returns>
-        bool InstanceHasFlags(ushort instanceId, CitizenInstance.Flags flags, bool exact = false);
+        /// <returns><c>true</c> if the citizen instance has the specified flags; otherwise, <c>false</c>.</returns>
+        bool InstanceHasFlags(ushort instanceId, CitizenInstance.Flags flags, bool all = false);
 
         /// <summary>
         /// Gets the current wait counter value of the citizen's instance with specified ID.
@@ -38,14 +33,10 @@ namespace RealTime.GameConnection
         byte GetInstanceWaitCounter(ushort instanceId);
 
         /// <summary>
-        /// Determines whether the area around the citizen's instance with specified ID is currently
-        /// marked for evacuation.
+        /// Determines whether the area around the citizen's instance with specified ID is currently marked for evacuation.
         /// </summary>
         /// <param name="instanceId">The ID of the citizen's instance to check.</param>
-        /// <returns>
-        /// <c>true</c> if the area around the citizen's instance is marked for evacuation;
-        /// otherwise, <c>false</c>.
-        /// </returns>
+        /// <returns><c>true</c> if the area around the citizen's instance is marked for evacuation; otherwise, <c>false</c>.</returns>
         bool IsAreaEvacuating(ushort instanceId);
     }
 }

@@ -206,7 +206,7 @@ namespace RealTime.CustomAI
 
                 case Citizen.Location.Moving:
                     ushort instanceId = CitizenProxy.GetInstance(ref citizen);
-                    if (CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.OnTour | CitizenInstance.Flags.TargetIsNode, false))
+                    if (CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.OnTour | CitizenInstance.Flags.TargetIsNode, true))
                     {
                         return ResidentState.OnTour;
                     }
