@@ -45,7 +45,7 @@ namespace RealTime.Simulation
         {
             float modifier = (float)Math.Cos((2 * Math.PI * (date.DayOfYear + 10) / 365.25) + phase);
             sunriseHour = 6f - (halfAmplitude * modifier);
-            sunsetHour = 18f + (halfAmplitude * modifier);
+            sunsetHour = 19.5f + (halfAmplitude * modifier);
         }
     }
 }
