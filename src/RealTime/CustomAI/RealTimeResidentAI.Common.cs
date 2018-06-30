@@ -138,7 +138,7 @@ namespace RealTime.CustomAI
         {
             if (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.DummyTraffic))
             {
-                return ResidentState.Unknown;
+                return ResidentState.Ignored;
             }
 
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
