@@ -1,18 +1,23 @@
-﻿// <copyright file="CitizenManagerConnection.cs" company="dymanoid">
-// Copyright (c) dymanoid. All rights reserved.
-// </copyright>
+﻿// <copyright file="CitizenManagerConnection.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
 
 namespace RealTime.GameConnection
 {
     using UnityEngine;
 
+    /// <summary>The default implementation of the <see cref="ICitizenManagerConnection"/> interface.</summary>
+    /// <seealso cref="ICitizenManagerConnection"/>
     internal sealed class CitizenManagerConnection : ICitizenManagerConnection
     {
+        /// <summary>Releases the specified citizen.</summary>
+        /// <param name="citizenId">The ID of the citizen to release.</param>
         public void ReleaseCitizen(uint citizenId)
         {
             CitizenManager.instance.ReleaseCitizen(citizenId);
         }
 
+        /// <summary>Gets the ID of the building this citizen is currently moving to.</summary>
+        /// <param name="instanceId">The citizen's instance ID.</param>
+        /// <returns>The ID of the building the citizen is moving to, or 0 if none.</returns>
         public ushort GetTargetBuilding(ushort instanceId)
         {
             if (instanceId == 0)
@@ -26,19 +31,29 @@ namespace RealTime.GameConnection
                 : (ushort)0;
         }
 
-        public bool InstanceHasFlags(ushort instanceId, CitizenInstance.Flags flags, bool exact = false)
+        /// <summary>Determines whether the citizen's instance with provided ID has particular flags.</summary>
+        /// <param name="instanceId">The instance ID to check.</param>
+        /// <param name="flags">The flags to check.</param>
+        /// <param name="any">
+        /// <c>true</c> to check any flag from the provided <paramref name="flags"/>, <c>false</c> to check all flags.
+        /// </param>
+        /// <returns><c>true</c> if the citizen instance has the specified flags; otherwise, <c>false</c>.</returns>
+        public bool InstanceHasFlags(ushort instanceId, CitizenInstance.Flags flags, bool any = true)
         {
             if (instanceId == 0)
             {
                 return false;
             }
 
-            CitizenInstance.Flags currentFlags = CitizenManager.instance.m_instances.m_buffer[instanceId].m_flags;
-            return exact
-                ? currentFlags == flags
-                : currentFlags != 0;
+            CitizenInstance.Flags currentFlags = CitizenManager.instance.m_instances.m_buffer[instanceId].m_flags & flags;
+            return any
+                ? currentFlags != 0
+                : currentFlags == flags;
         }
 
+        /// <summary>Gets the current wait counter value of the citizen's instance with specified ID.</summary>
+        /// <param name="instanceId">The instance ID to check.</param>
+        /// <returns>The wait counter value of the citizen's instance.</returns>
         public byte GetInstanceWaitCounter(ushort instanceId)
         {
             return instanceId == 0
@@ -46,6 +61,11 @@ namespace RealTime.GameConnection
                : CitizenManager.instance.m_instances.m_buffer[instanceId].m_waitCounter;
         }
 
+        /// <summary>
+        /// Determines whether the area around the citizen's instance with specified ID is currently marked for evacuation.
+        /// </summary>
+        /// <param name="instanceId">The ID of the citizen's instance to check.</param>
+        /// <returns><c>true</c> if the area around the citizen's instance is marked for evacuation; otherwise, <c>false</c>.</returns>
         public bool IsAreaEvacuating(ushort instanceId)
         {
             if (instanceId == 0)

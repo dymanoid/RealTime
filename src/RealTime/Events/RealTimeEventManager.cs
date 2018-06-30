@@ -1,6 +1,4 @@
-﻿// <copyright file="RealTimeEventManager.cs" company="dymanoid">
-// Copyright (c) dymanoid. All rights reserved.
-// </copyright>
+﻿// <copyright file="RealTimeEventManager.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
 
 namespace RealTime.Events
 {
@@ -16,6 +14,8 @@ namespace RealTime.Events
     using RealTime.Simulation;
     using RealTime.Tools;
 
+    /// <summary>The central class for the custom city events logic.</summary>
+    /// <seealso cref="IStorageData"/>
     internal sealed class RealTimeEventManager : IStorageData
     {
         private const int MaximumEventsCount = 5;
@@ -41,6 +41,20 @@ namespace RealTime.Events
         private DateTime lastProcessed;
         private DateTime earliestEvent;
 
+        /// <summary>Initializes a new instance of the <see cref="RealTimeEventManager"/> class.</summary>
+        /// <param name="config">The configuration to run with.</param>
+        /// <param name="eventProvider">The city event provider implementation.</param>
+        /// <param name="eventManager">
+        /// A proxy object that provides a way to call the game-specific methods of the <see cref="global::EventManager"/> class.
+        /// </param>
+        /// <param name="buildingManager">
+        /// A proxy object that provides a way to call the game-specific methods of the <see cref="global::BuildingManager"/> class.
+        /// </param>
+        /// <param name="simulationManager">
+        /// A proxy object that provides a way to call the game-specific methods of the <see cref="global::SimulationManager"/> class.
+        /// </param>
+        /// <param name="timeInfo">The time information source.</param>
+        /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
         public RealTimeEventManager(
             RealTimeConfig config,
             ICityEventsProvider eventProvider,
@@ -58,8 +72,10 @@ namespace RealTime.Events
             upcomingEvents = new LinkedList<ICityEvent>();
         }
 
+        /// <summary>Occurs when currently preparing, ready, ongoing, or recently finished events change.</summary>
         public event EventHandler EventsChanged;
 
+        /// <summary>Gets the currently preparing, ready, ongoing, or recently finished city events.</summary>
         public IEnumerable<ICityEvent> CityEvents
         {
             get
@@ -81,8 +97,15 @@ namespace RealTime.Events
             }
         }
 
+        /// <summary>Gets an unique ID of this storage data set.</summary>
         string IStorageData.StorageDataId => StorageDataId;
 
+        /// <summary>Gets the state of a city event in the provided building.</summary>
+        /// <param name="buildingId">The building ID to check events in.</param>
+        /// <param name="latestStart">The latest start time of events to consider.</param>
+        /// <returns>
+        /// The state of an event that meets the specified criteria, or <see cref="CityEventState.None"/> if none found.
+        /// </returns>
         public CityEventState GetEventState(ushort buildingId, DateTime latestStart)
         {
             if (buildingId == 0)
@@ -130,6 +153,12 @@ namespace RealTime.Events
             return CityEventState.None;
         }
 
+        /// <summary>
+        /// Gets the <see cref="ICityEvent"/> instance of an upcoming city event whose start time is between the specified values.
+        /// </summary>
+        /// <param name="earliestStartTime">The earliest city event start time to consider.</param>
+        /// <param name="latestStartTime">The latest city event start time to consider.</param>
+        /// <returns>An <see cref="ICityEvent"/> instance of the first matching city event, or null if none found.</returns>
         public ICityEvent GetUpcomingCityEvent(DateTime earliestStartTime, DateTime latestStartTime)
         {
             if (upcomingEvents.Count == 0)
@@ -143,6 +172,10 @@ namespace RealTime.Events
                 : null;
         }
 
+        /// <summary>
+        /// Processes the city events simulation step. The method can be called frequently, but the processing occurs periodically
+        /// at an interval specified by <see cref="EventProcessInterval"/>.
+        /// </summary>
         public void ProcessEvents()
         {
             if ((timeInfo.Now - lastProcessed) < EventProcessInterval)
@@ -167,6 +200,8 @@ namespace RealTime.Events
             CreateRandomEvent(building);
         }
 
+        /// <summary>Reads the data set from the provided <see cref="Stream"/>.</summary>
+        /// <param name="source">A <see cref="Stream"/> to read the data set from.</param>
         void IStorageData.ReadData(Stream source)
         {
             upcomingEvents.Clear();
@@ -200,6 +235,8 @@ namespace RealTime.Events
             OnEventsChanged();
         }
 
+        /// <summary>Reads the data set to the provided <see cref="Stream"/>.</summary>
+        /// <param name="target">A <see cref="Stream"/> to write the data set to.</param>
         void IStorageData.StoreData(Stream target)
         {
             var serializer = new XmlSerializer(typeof(RealTimeEventStorageContainer));

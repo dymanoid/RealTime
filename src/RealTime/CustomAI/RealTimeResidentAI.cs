@@ -1,6 +1,4 @@
-﻿// <copyright file="RealTimeResidentAI.cs" company="dymanoid">
-// Copyright (c) dymanoid. All rights reserved.
-// </copyright>
+﻿// <copyright file="RealTimeResidentAI.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
 
 namespace RealTime.CustomAI
 {
@@ -8,19 +6,20 @@ namespace RealTime.CustomAI
     using RealTime.Config;
     using RealTime.Events;
     using RealTime.GameConnection;
+    using RealTime.Tools;
 
+    /// <summary>A class incorporating the custom logic for a city resident.</summary>
+    /// <typeparam name="TAI">The type of the citizen AI.</typeparam>
+    /// <typeparam name="TCitizen">The type of the citizen objects.</typeparam>
+    /// <seealso cref="RealTimeHumanAIBase{TCitizen}"/>
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen> : RealTimeHumanAIBase<TCitizen>
         where TAI : class
         where TCitizen : struct
     {
         private readonly ResidentAIConnection<TAI, TCitizen> residentAI;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RealTimeResidentAI{TAI, TCitizen}"/> class.
-        /// </summary>
-        ///
+        /// <summary>Initializes a new instance of the <see cref="RealTimeResidentAI{TAI, TCitizen}"/> class.</summary>
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
-        ///
         /// <param name="config">A <see cref="RealTimeConfig"/> instance containing the mod's configuration.</param>
         /// <param name="connections">A <see cref="GameConnections{T}"/> instance that provides the game connection implementation.</param>
         /// <param name="residentAI">A connection to the game's resident AI.</param>
@@ -35,16 +34,13 @@ namespace RealTime.CustomAI
             this.residentAI = residentAI ?? throw new ArgumentNullException(nameof(residentAI));
         }
 
-        /// <summary>
-        /// The main method of the custom AI.
-        /// </summary>
-        ///
+        /// <summary>The entry method of the custom AI.</summary>
         /// <param name="instance">A reference to an object instance of the original AI.</param>
         /// <param name="citizenId">The ID of the citizen to process.</param>
-        /// <param name="citizen">A <see cref="Citizen"/> reference to process.</param>
+        /// <param name="citizen">A <typeparamref name="TCitizen"/> reference to process.</param>
         public void UpdateLocation(TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            if (!EnsureCitizenValid(citizenId, ref citizen))
+            if (!EnsureCitizenCanBeProcessed(citizenId, ref citizen))
             {
                 return;
             }
@@ -62,19 +58,17 @@ namespace RealTime.CustomAI
             }
 
             ResidentState residentState = GetResidentState(ref citizen);
+            bool isVirtual;
 
             switch (residentState)
             {
-                case ResidentState.LeftCity:
-                    CitizenMgr.ReleaseCitizen(citizenId);
-                    break;
-
                 case ResidentState.MovingHome:
                     ProcessCitizenMoving(instance, citizenId, ref citizen, false);
                     break;
 
                 case ResidentState.AtHome:
-                    ProcessCitizenAtHome(instance, citizenId, ref citizen);
+                    isVirtual = IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen);
+                    ProcessCitizenAtHome(instance, citizenId, ref citizen, isVirtual);
                     break;
 
                 case ResidentState.MovingToTarget:
@@ -82,14 +76,20 @@ namespace RealTime.CustomAI
                     break;
 
                 case ResidentState.AtSchoolOrWork:
-                    ProcessCitizenAtSchoolOrWork(instance, citizenId, ref citizen);
+                    isVirtual = IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen);
+                    ProcessCitizenAtSchoolOrWork(instance, citizenId, ref citizen, isVirtual);
                     break;
 
                 case ResidentState.AtLunch:
                 case ResidentState.Shopping:
                 case ResidentState.AtLeisureArea:
                 case ResidentState.Visiting:
-                    ProcessCitizenVisit(instance, residentState, citizenId, ref citizen);
+                    isVirtual = IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen);
+                    ProcessCitizenVisit(instance, residentState, citizenId, ref citizen, isVirtual);
+                    break;
+
+                case ResidentState.OnTour:
+                    ProcessCitizenOnTour(instance, citizenId, ref citizen);
                     break;
 
                 case ResidentState.Evacuating:
@@ -97,9 +97,15 @@ namespace RealTime.CustomAI
                     break;
 
                 case ResidentState.InShelter:
-                    CitzenReturnsFromShelter(instance, citizenId, ref citizen);
+                    isVirtual = IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen);
+                    CitzenReturnsFromShelter(instance, citizenId, ref citizen, isVirtual);
                     return;
             }
+        }
+
+        private bool ShouldRealizeCitizen(TAI ai)
+        {
+            return residentAI.DoRandomMove(ai);
         }
     }
 }

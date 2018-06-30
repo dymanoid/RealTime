@@ -9,34 +9,66 @@ namespace RealTime.Core
     using ICities;
     using RealTime.Tools;
 
+    /// <summary>
+    /// A game component that helps to load and store the mod's private data in a save game.
+    /// </summary>
     public sealed class RealTimeStorage : SerializableDataExtensionBase
     {
         private static readonly string StorageDataPrefix = typeof(RealTimeStorage).Assembly.GetName().Name + ".";
 
+        /// <summary>
+        /// Occurs when the current game level is about to be saved to a save game.
+        /// </summary>
         internal event EventHandler GameSaving;
 
-        internal static RealTimeStorage Instance { get; private set; }
+        /// <summary>
+        /// Gets an instance of the <see cref="RealTimeStorage"/> class that is used with the current game level.
+        /// This is not a singleton instance, and is allowed to be null.
+        /// </summary>
+        internal static RealTimeStorage CurrentLevelStorage { get; private set; }
 
+        /// <summary>
+        /// Called when the level is being saved.
+        /// </summary>
         public override void OnSaveData()
         {
-            // TODO: investigate the exception on overwriting an existing game file
             GameSaving?.Invoke(this, EventArgs.Empty);
         }
 
+        /// <summary>
+        /// Called when an instance of this class is being initialized by the game engine.
+        /// </summary>
+        ///
+        /// <param name="serializableData">An instance of the <see cref="ISerializableData"/> service.</param>
         public override void OnCreated(ISerializableData serializableData)
         {
             base.OnCreated(serializableData);
-            Instance = this;
+            CurrentLevelStorage = this;
         }
 
+        /// <summary>
+        /// Called when this game object is released by the game engine.
+        /// </summary>
         public override void OnReleased()
         {
             base.OnReleased();
-            Instance = null;
+            CurrentLevelStorage = null;
         }
 
+        /// <summary>
+        /// Serializes the data described by the provided <paramref name="data"/> to this level's storage.
+        /// </summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
+        ///
+        /// <param name="data">An <see cref="IStorageData"/> instance that describes the data to serialize.</param>
         internal void Serialize(IStorageData data)
         {
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
             string dataKey = StorageDataPrefix + data.StorageDataId;
 
             try
@@ -53,8 +85,20 @@ namespace RealTime.Core
             }
         }
 
+        /// <summary>
+        /// Deserializes the data described by the provided <paramref name="data"/> from this level's storage.
+        /// </summary>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
+        ///
+        /// <param name="data">An <see cref="IStorageData"/> instance that describes the data to deserialize.</param>
         internal void Deserialize(IStorageData data)
         {
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
             string dataKey = StorageDataPrefix + data.StorageDataId;
 
             try

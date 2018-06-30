@@ -1,5 +1,5 @@
 ﻿// <copyright file="UnitySliderItem.cs" company="dymanoid">
-// Copyright (c) dymanoid. All rights reserved.
+//     Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
 namespace RealTime.UI
@@ -11,6 +11,7 @@ namespace RealTime.UI
     using ICities;
     using RealTime.Localization;
 
+    /// <summary>A slider view item.</summary>
     internal sealed class UnitySliderItem : UnityViewItem<UISlider, float>
     {
         private const string LabelName = "Label";
@@ -20,6 +21,21 @@ namespace RealTime.UI
         private readonly SliderValueType valueType;
         private CultureInfo currentCulture;
 
+        /// <summary>Initializes a new instance of the <see cref="UnitySliderItem"/> class.</summary>
+        /// <param name="uiHelper">The game's UI helper reference.</param>
+        /// <param name="id">The view item's unique ID.</param>
+        /// <param name="property">
+        /// The property description that specifies the target property where to store the value.
+        /// </param>
+        /// <param name="config">The configuration storage object for the value.</param>
+        /// <param name="min">The minimum slider value.</param>
+        /// <param name="max">The maximum slider value.</param>
+        /// <param name="step">The slider step value. Default is 1.</param>
+        /// <param name="valueType">The type of the value to display. Default is <see cref="SliderValueType.Percentage"/>.</param>
+        /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
+        /// <exception cref="ArgumentException">
+        /// thrown when the <paramref name="id"/> is an empty string.
+        /// </exception>
         public UnitySliderItem(
             UIHelperBase uiHelper,
             string id,
@@ -52,6 +68,9 @@ namespace RealTime.UI
             }
         }
 
+        /// <summary>Translates this view item using the specified localization provider.</summary>
+        /// <param name="localizationProvider">The localization provider to use for translation.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
         public override void Translate(LocalizationProvider localizationProvider)
         {
             if (localizationProvider == null)
@@ -77,6 +96,13 @@ namespace RealTime.UI
             UpdateValueLabel(Value);
         }
 
+        /// <summary>Creates the view item using the provided <see cref="UIHelperBase"/>.</summary>
+        /// <param name="uiHelper">The UI helper to use for item creation.</param>
+        /// <param name="defaultValue">The item's default value.</param>
+        /// <returns>A newly created view item.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="uiHelper"/> is null.
+        /// </exception>
         protected override UISlider CreateItem(UIHelperBase uiHelper, float defaultValue)
         {
             if (uiHelper == null)
@@ -87,6 +113,8 @@ namespace RealTime.UI
             return (UISlider)uiHelper.AddSlider(Constants.Placeholder, defaultValue, defaultValue + 1, 1, defaultValue, ValueChanged);
         }
 
+        /// <summary>Updates the current configuration item value.</summary>
+        /// <param name="newValue">The new item value.</param>
         protected override void ValueChanged(float newValue)
         {
             base.ValueChanged(newValue);

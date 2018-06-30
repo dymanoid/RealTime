@@ -72,13 +72,24 @@ namespace RealTime.Core
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Must be instance method due to C:S API")]
         public void OnSettingsUI(UIHelperBase helper)
         {
+            if (helper == null)
+            {
+                return;
+            }
+
+            if (config == null)
+            {
+                Log.Warning("The 'Real Time' mod wants to display the configuration page, but the configuration is unexpectedly missing.");
+                config = ConfigurationProvider.LoadConfiguration();
+            }
+
             IViewItemFactory itemFactory = new UnityViewItemFactory(helper);
             configUI = ConfigUI.Create(config, itemFactory);
             ApplyLanguage();
         }
 
         /// <summary>
-        /// Calles when a game level is loaded. If applicable, activates the Real Time mod
+        /// Called when a game level is loaded. If applicable, activates the Real Time mod
         /// for the loaded level.
         /// </summary>
         ///
@@ -102,7 +113,7 @@ namespace RealTime.Core
         }
 
         /// <summary>
-        /// Calles when a game level is about to be unloaded. If the Real Time mod was activated
+        /// Called when a game level is about to be unloaded. If the Real Time mod was activated
         /// for this level, deactivates the mod for this level.
         /// </summary>
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]

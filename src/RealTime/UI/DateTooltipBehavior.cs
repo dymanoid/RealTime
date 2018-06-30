@@ -1,8 +1,8 @@
 ﻿// <copyright file="DateTooltipBehavior.cs" company="dymanoid">
-// Copyright (c) dymanoid. All rights reserved.
+//     Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
-namespace RealTime.Tools
+namespace RealTime.UI
 {
     using System;
     using System.Globalization;
@@ -10,9 +10,9 @@ namespace RealTime.Tools
     using UnityEngine;
 
     /// <summary>
-    /// A script that can be attached to any <see cref="UIComponent"/>.
-    /// Observes the <see cref="SimulationManager.m_currentGameTime"/> value and sets the tooltip
-    /// of the <see cref="UIComponent"/> to the date part of that value. The current
+    /// A script that can be attached to any <see cref="UIComponent"/>. Observes the
+    /// <see cref="SimulationManager.m_currentGameTime"/> value and sets the tool tip of the
+    /// <see cref="UIComponent"/> to the date part of that value. The configured
     /// <see cref="CultureInfo"/> is used for string conversion.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Instantiated by Unity Engine")]
@@ -23,8 +23,14 @@ namespace RealTime.Tools
         private string tooltip;
         private CultureInfo currentCulture = CultureInfo.CurrentCulture;
 
+        /// <summary>
+        /// Gets or sets the name prefix of the child components whose tool tips should not be updated.
+        /// </summary>
         public string IgnoredComponentNamePrefix { get; set; }
 
+        /// <summary>Translates the tool tip behavior using the specified culture information.</summary>
+        /// <param name="cultureInfo">The culture information to use for translation.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
         public void Translate(CultureInfo cultureInfo)
         {
             currentCulture = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
@@ -32,8 +38,8 @@ namespace RealTime.Tools
         }
 
         /// <summary>
-        /// <see cref="Start"/> is called on the frame when a script is enabled
-        /// just before any of the <see cref="Update"/> methods are called the first time.
+        /// <see cref="Start"/> is called on the frame when a script is enabled just before any of
+        /// the <see cref="Update"/> methods are called the first time.
         /// </summary>
         public void Start()
         {

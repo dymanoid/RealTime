@@ -1,5 +1,5 @@
 ﻿// <copyright file="ConfigUI.cs" company="dymanoid">
-// Copyright (c) dymanoid. All rights reserved.
+//     Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
 namespace RealTime.UI
@@ -10,6 +10,7 @@ namespace RealTime.UI
     using System.Reflection;
     using RealTime.Localization;
 
+    /// <summary>Manages the mod's configuration page.</summary>
     internal sealed class ConfigUI
     {
         private readonly IEnumerable<IViewItem> viewItems;
@@ -19,6 +20,13 @@ namespace RealTime.UI
             this.viewItems = viewItems;
         }
 
+        /// <summary>
+        /// Creates the mod's configuration page using the specified object as data source.
+        /// </summary>
+        /// <param name="config">The configuration object to use as data source.</param>
+        /// <param name="itemFactory">The view item factory to use for creating the UI elements.</param>
+        /// <returns>A configured instance of the <see cref="ConfigUI"/> class.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
         public static ConfigUI Create(object config, IViewItemFactory itemFactory)
         {
             if (config == null)
@@ -55,6 +63,8 @@ namespace RealTime.UI
             return new ConfigUI(viewItems);
         }
 
+        /// <summary>Translates the UI using the specified localization provider.</summary>
+        /// <param name="localizationProvider">The localization provider to use for translation.</param>
         public void Translate(LocalizationProvider localizationProvider)
         {
             foreach (IViewItem item in viewItems)
@@ -78,6 +88,9 @@ namespace RealTime.UI
 
                 case ConfigItemCheckBoxAttribute _ when property.PropertyType == typeof(bool):
                     return itemFactory.CreateCheckBox(container, property.Name, property, config);
+
+                case ConfigItemComboBoxAttribute _ when property.PropertyType.IsEnum:
+                    return itemFactory.CreateComboBox(container, property.Name, property, config, Enum.GetNames(property.PropertyType));
 
                 default:
                     return null;

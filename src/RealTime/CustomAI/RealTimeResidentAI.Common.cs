@@ -15,7 +15,7 @@ namespace RealTime.CustomAI
 
             if (currentBuilding == 0 || (currentLocation == Citizen.Location.Moving && CitizenProxy.GetVehicle(ref citizen) == 0))
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is released");
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, false)} is released");
                 CitizenMgr.ReleaseCitizen(citizenId);
                 return;
             }
@@ -47,7 +47,7 @@ namespace RealTime.CustomAI
             }
 
             residentAI.FindHospital(instance, citizenId, currentBuilding, TransferManager.TransferReason.Dead);
-            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is dead, body should get serviced");
+            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, false)} is dead, body should get serviced");
         }
 
         private bool ProcessCitizenArrested(ref TCitizen citizen)
@@ -77,7 +77,7 @@ namespace RealTime.CustomAI
 
             if (currentLocation != Citizen.Location.Home && currentBuilding == 0)
             {
-                Log.Warning($"Teleporting {GetCitizenDesc(citizenId, ref citizen)} back home because they are sick but no building is specified");
+                Log.Debug($"Teleporting {GetCitizenDesc(citizenId, ref citizen, false)} back home because they are sick but no building is specified");
                 CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
                 return true;
             }
@@ -96,7 +96,7 @@ namespace RealTime.CustomAI
                 }
             }
 
-            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is sick, trying to get to a hospital");
+            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, false)} is sick, trying to get to a hospital");
             residentAI.FindHospital(instance, citizenId, currentBuilding, TransferManager.TransferReason.Sick);
             return true;
         }
@@ -106,12 +106,12 @@ namespace RealTime.CustomAI
             ushort building = CitizenProxy.GetCurrentBuilding(ref citizen);
             if (building != 0)
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is trying to find an evacuation place");
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, false)} is trying to find an evacuation place");
                 residentAI.FindEvacuationPlace(instance, citizenId, building, residentAI.GetEvacuationReason(instance, building));
             }
         }
 
-        private bool StartMovingToVisitBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort visitBuilding)
+        private bool StartMovingToVisitBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort visitBuilding, bool isVirtual)
         {
             if (visitBuilding == 0)
             {
@@ -120,15 +120,27 @@ namespace RealTime.CustomAI
 
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
 
-            residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding);
             CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
             CitizenProxy.SetVisitBuilding(ref citizen, visitBuilding);
+            if (isVirtual)
+            {
+                CitizenProxy.SetLocation(ref citizen, Citizen.Location.Visit);
+            }
+            else
+            {
+                residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding);
+            }
 
             return true;
         }
 
         private ResidentState GetResidentState(ref TCitizen citizen)
         {
+            if (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.DummyTraffic))
+            {
+                return ResidentState.Unknown;
+            }
+
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
             ItemClass.Service buildingService = BuildingMgr.GetBuildingService(currentBuilding);
 
@@ -141,22 +153,20 @@ namespace RealTime.CustomAI
             switch (CitizenProxy.GetLocation(ref citizen))
             {
                 case Citizen.Location.Home:
-                    if (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.MovingIn))
-                    {
-                        return ResidentState.LeftCity;
-                    }
-
-                    if (currentBuilding != 0)
-                    {
-                        return ResidentState.AtHome;
-                    }
-
-                    return ResidentState.Unknown;
+                    return currentBuilding != 0
+                        ? ResidentState.AtHome
+                        : ResidentState.Unknown;
 
                 case Citizen.Location.Work:
                     if (buildingService == ItemClass.Service.Disaster && CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating))
                     {
                         return ResidentState.InShelter;
+                    }
+
+                    if (CitizenProxy.GetVisitBuilding(ref citizen) == currentBuilding)
+                    {
+                        // A citizen may visit their own work building (e.g. shopping)
+                        goto case Citizen.Location.Visit;
                     }
 
                     return currentBuilding != 0
@@ -195,8 +205,14 @@ namespace RealTime.CustomAI
                     return ResidentState.Visiting;
 
                 case Citizen.Location.Moving:
+                    ushort instanceId = CitizenProxy.GetInstance(ref citizen);
+                    if (CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.OnTour | CitizenInstance.Flags.TargetIsNode, false))
+                    {
+                        return ResidentState.OnTour;
+                    }
+
                     ushort homeBuilding = CitizenProxy.GetHomeBuilding(ref citizen);
-                    return homeBuilding != 0 && CitizenMgr.GetTargetBuilding(CitizenProxy.GetInstance(ref citizen)) == homeBuilding
+                    return homeBuilding != 0 && CitizenMgr.GetTargetBuilding(instanceId) == homeBuilding
                         ? ResidentState.MovingHome
                         : ResidentState.MovingToTarget;
 

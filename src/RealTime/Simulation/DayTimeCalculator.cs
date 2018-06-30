@@ -18,8 +18,8 @@ namespace RealTime.Simulation
         /// Initializes a new instance of the <see cref="DayTimeCalculator"/> class.
         /// </summary>
         ///
-        /// <param name="latitude">The latitude coordinate to assume for the city.
-        /// Valid values are -80° to 80°.</param>
+        /// <param name="latitude">The latitude coordinate (in degrees) to perform the calculation for.
+        /// Valid values are -80..+80.</param>
         public DayTimeCalculator(float latitude)
         {
             bool southSemisphere = latitude < 0;
@@ -36,8 +36,6 @@ namespace RealTime.Simulation
 
         /// <summary>
         /// Calculates the sunrise and sunset hours for the provided <paramref name="date"/>.
-        /// If this object is not properly set up yet (so <see cref="IsReady"/> returns false),
-        /// then the out values will be initialized with default empty <see cref="TimeSpan"/>s.
         /// </summary>
         ///
         /// <param name="date">The game date to calculate the sunrise and sunset times for.</param>
@@ -47,7 +45,7 @@ namespace RealTime.Simulation
         {
             float modifier = (float)Math.Cos((2 * Math.PI * (date.DayOfYear + 10) / 365.25) + phase);
             sunriseHour = 6f - (halfAmplitude * modifier);
-            sunsetHour = 18f + (halfAmplitude * modifier);
+            sunsetHour = 19.5f + (halfAmplitude * modifier);
         }
     }
 }

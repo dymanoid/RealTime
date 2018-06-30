@@ -12,12 +12,12 @@ namespace RealTime.CustomAI
     {
         private bool IsLunchHour => IsWorkDayAndBetweenHours(Config.LunchBegin, Config.LunchEnd);
 
-        private void ProcessCitizenAtSchoolOrWork(TAI instance, uint citizenId, ref TCitizen citizen)
+        private void ProcessCitizenAtSchoolOrWork(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
         {
             ushort workBuilding = CitizenProxy.GetWorkBuilding(ref citizen);
             if (workBuilding == 0)
             {
-                Log.Debug($"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is in corrupt state: at school/work with no work building. Teleporting home.");
+                Log.Debug($"WARNING: {GetCitizenDesc(citizenId, ref citizen, isVirtual)} is in corrupt state: at school/work with no work building. Teleporting home.");
                 CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
                 return;
             }
@@ -25,16 +25,15 @@ namespace RealTime.CustomAI
             if (ShouldGoToLunch(CitizenProxy.GetAge(ref citizen)))
             {
                 ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
-                Citizen.Location currentLocation = CitizenProxy.GetLocation(ref citizen);
 
-                ushort lunchPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance);
+                ushort lunchPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, isVirtual);
                 if (lunchPlace != 0)
                 {
-                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going for lunch from {currentBuilding} ({currentLocation}) to {lunchPlace}");
+                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} is going for lunch from {currentBuilding} to {lunchPlace}");
                 }
                 else
                 {
-                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted to go for lunch from {currentBuilding} ({currentLocation}), but there were no buildings close enough");
+                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} wanted to go for lunch from {currentBuilding}, but there were no buildings close enough");
                 }
 
                 return;
@@ -45,20 +44,27 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} leaves their workplace {workBuilding}");
+            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} leaves their workplace {workBuilding}");
 
-            if (CitizenGoesToEvent(instance, citizenId, ref citizen))
+            if (CitizenGoesToEvent(instance, citizenId, ref citizen, isVirtual))
             {
                 return;
             }
 
-            if (!CitizenGoesShopping(instance, citizenId, ref citizen) && !CitizenGoesRelaxing(instance, citizenId, ref citizen))
+            if (!CitizenGoesShopping(instance, citizenId, ref citizen, isVirtual) && !CitizenGoesRelaxing(instance, citizenId, ref citizen, isVirtual))
             {
-                residentAI.StartMoving(instance, citizenId, ref citizen, workBuilding, CitizenProxy.GetHomeBuilding(ref citizen));
+                if (isVirtual)
+                {
+                    CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
+                }
+                else
+                {
+                    residentAI.StartMoving(instance, citizenId, ref citizen, workBuilding, CitizenProxy.GetHomeBuilding(ref citizen));
+                }
             }
         }
 
-        private bool CitizenGoesWorking(TAI instance, uint citizenId, ref TCitizen citizen)
+        private bool CitizenGoesWorking(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
         {
             ushort homeBuilding = CitizenProxy.GetHomeBuilding(ref citizen);
             ushort workBuilding = CitizenProxy.GetWorkBuilding(ref citizen);
@@ -69,9 +75,17 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} ({CitizenProxy.GetLocation(ref citizen)}) to school/work {workBuilding}");
+            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} is going from {currentBuilding} ({CitizenProxy.GetLocation(ref citizen)}) to school/work {workBuilding}");
 
-            residentAI.StartMoving(instance, citizenId, ref citizen, homeBuilding, workBuilding);
+            if (isVirtual)
+            {
+                CitizenProxy.SetLocation(ref citizen, Citizen.Location.Work);
+            }
+            else
+            {
+                residentAI.StartMoving(instance, citizenId, ref citizen, homeBuilding, workBuilding);
+            }
+
             return true;
         }
 
@@ -192,7 +206,7 @@ namespace RealTime.CustomAI
             return false;
         }
 
-        private bool CitizenReturnsFromLunch(TAI instance, uint citizenId, ref TCitizen citizen)
+        private bool CitizenReturnsFromLunch(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
         {
             if (IsLunchHour)
             {
@@ -202,12 +216,12 @@ namespace RealTime.CustomAI
             ushort workBuilding = CitizenProxy.GetWorkBuilding(ref citizen);
             if (workBuilding != 0)
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} returning from lunch to {workBuilding}");
-                ReturnFromVisit(instance, citizenId, ref citizen, workBuilding);
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} returning from lunch to {workBuilding}");
+                ReturnFromVisit(instance, citizenId, ref citizen, workBuilding, Citizen.Location.Work, isVirtual);
             }
             else
             {
-                Log.Debug($"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is at lunch but no work building. Teleporting home.");
+                Log.Debug($"WARNING: {GetCitizenDesc(citizenId, ref citizen, isVirtual)} is at lunch but no work building. Teleporting home.");
                 CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
             }
 

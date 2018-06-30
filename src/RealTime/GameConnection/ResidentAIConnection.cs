@@ -1,15 +1,51 @@
 ﻿// <copyright file="ResidentAIConnection.cs" company="dymanoid">
-// Copyright (c) dymanoid. All rights reserved.
+//     Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
 namespace RealTime.GameConnection
 {
     using System;
 
-    internal sealed class ResidentAIConnection<TAI, TCitizen>
+    /// <summary>A class that incorporates the game connection to the original resident AI.</summary>
+    /// <typeparam name="TAI">The type of the resident AI class.</typeparam>
+    /// <typeparam name="TCitizen">The type of the citizen object.</typeparam>
+    internal sealed class ResidentAIConnection<TAI, TCitizen> : HumanAIConnectionBase<TAI, TCitizen>
         where TAI : class
         where TCitizen : struct
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResidentAIConnection{TAI, TCitizen}"/> class.
+        /// </summary>
+        /// <param name="doRandomMove">
+        /// A method that corresponds to the AI's original <c>RandomMove</c> method.
+        /// </param>
+        /// <param name="findEvacuationPlace">
+        /// A method that corresponds to the AI's original <c>FindEvacuationPlace</c> method.
+        /// </param>
+        /// <param name="findHospital">
+        /// A method that corresponds to the AI's original <c>FindHospital</c> method.
+        /// </param>
+        /// <param name="findVisitPlace">
+        /// A method that corresponds to the AI's original <c>FindVisitPlace</c> method.
+        /// </param>
+        /// <param name="getEntertainmentReason">
+        /// A method that corresponds to the AI's original <c>GetEntertainmentReason</c> method.
+        /// </param>
+        /// <param name="getEvacuationReason">
+        /// A method that corresponds to the AI's original <c>GetEvacuationReason</c> method.
+        /// </param>
+        /// <param name="getShoppingReason">
+        /// A method that corresponds to the AI's original <c>GetShoppingReason</c> method.
+        /// </param>
+        /// <param name="startMoving">
+        /// A method that corresponds to the AI's original <c>StartMoving</c> method specifying a
+        /// target building ID.
+        /// </param>
+        /// <param name="startMovingWithOffer">
+        /// A method that corresponds to the AI's original <c>StartMoving</c> method specifying a
+        /// transfer offer.
+        /// </param>
+        /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
         public ResidentAIConnection(
             DoRandomMoveDelegate doRandomMove,
             FindEvacuationPlaceDelegate findEvacuationPlace,
@@ -20,52 +56,46 @@ namespace RealTime.GameConnection
             GetShoppingReasonDelegate getShoppingReason,
             StartMovingDelegate startMoving,
             StartMovingWithOfferDelegate startMovingWithOffer)
+        : base(doRandomMove, findEvacuationPlace, findVisitPlace, getEntertainmentReason, getEvacuationReason, getShoppingReason, startMoving)
         {
-            DoRandomMove = doRandomMove ?? throw new ArgumentNullException(nameof(doRandomMove));
-            FindEvacuationPlace = findEvacuationPlace ?? throw new ArgumentNullException(nameof(findEvacuationPlace));
             FindHospital = findHospital ?? throw new ArgumentNullException(nameof(findHospital));
-            FindVisitPlace = findVisitPlace ?? throw new ArgumentNullException(nameof(findVisitPlace));
-            GetEntertainmentReason = getEntertainmentReason ?? throw new ArgumentNullException(nameof(getEntertainmentReason));
-            GetEvacuationReason = getEvacuationReason ?? throw new ArgumentNullException(nameof(getEvacuationReason));
-            GetShoppingReason = getShoppingReason ?? throw new ArgumentNullException(nameof(getShoppingReason));
-            StartMoving = startMoving ?? throw new ArgumentNullException(nameof(startMoving));
             StartMovingWithOffer = startMovingWithOffer ?? throw new ArgumentNullException(nameof(startMovingWithOffer));
         }
 
-        public delegate bool DoRandomMoveDelegate(TAI instance);
-
-        public delegate void FindEvacuationPlaceDelegate(TAI instance, uint citizenId, ushort sourceBuilding, TransferManager.TransferReason reason);
-
+        /// <summary>
+        /// Represents the method that corresponds to the AI's original <c>FindHospital</c> method.
+        /// </summary>
+        /// <param name="instance">The AI instance the method is called on.</param>
+        /// <param name="citizenId">The citizen ID to process.</param>
+        /// <param name="sourceBuilding">
+        /// The ID of the building the citizen is currently located in.
+        /// </param>
+        /// <param name="reason">The transfer reason for the citizen.</param>
+        /// <returns>
+        /// <c>true</c> if a hospital building was found and the transfer beings; otherwise, <c>false</c>.
+        /// </returns>
         public delegate bool FindHospitalDelegate(TAI instance, uint citizenId, ushort sourceBuilding, TransferManager.TransferReason reason);
 
-        public delegate void FindVisitPlaceDelegate(TAI instance, uint citizenId, ushort sourceBuilding, TransferManager.TransferReason reason);
-
-        public delegate TransferManager.TransferReason GetEntertainmentReasonDelegate(TAI instance);
-
-        public delegate TransferManager.TransferReason GetEvacuationReasonDelegate(TAI instance, ushort sourceBuilding);
-
-        public delegate TransferManager.TransferReason GetShoppingReasonDelegate(TAI instance);
-
-        public delegate bool StartMovingDelegate(TAI instance, uint citizenId, ref TCitizen citizen, ushort sourceBuilding, ushort targetBuilding);
-
+        /// <summary>
+        /// Represents the method that corresponds to the AI's original <c>StartMoving</c> method
+        /// specifying a transfer offer.
+        /// </summary>
+        /// <param name="instance">The AI instance the method is called on.</param>
+        /// <param name="citizenId">The citizen ID to process.</param>
+        /// <param name="citizen">The citizen object to process.</param>
+        /// <param name="sourceBuilding">
+        /// The ID of the building the citizen is currently located in.
+        /// </param>
+        /// <param name="offer">The transfer offer for the movement.</param>
+        /// <returns>
+        /// <c>true</c> if the citizen started moving to the target building; otherwise, <c>false</c>.
+        /// </returns>
         public delegate bool StartMovingWithOfferDelegate(TAI instance, uint citizenId, ref TCitizen citizen, ushort sourceBuilding, TransferManager.TransferOffer offer);
 
-        public DoRandomMoveDelegate DoRandomMove { get; }
-
-        public FindEvacuationPlaceDelegate FindEvacuationPlace { get; }
-
+        /// <summary>Gets a method that calls a <see cref="FindHospitalDelegate"/>.</summary>
         public FindHospitalDelegate FindHospital { get; }
 
-        public FindVisitPlaceDelegate FindVisitPlace { get; }
-
-        public GetEntertainmentReasonDelegate GetEntertainmentReason { get; }
-
-        public GetEvacuationReasonDelegate GetEvacuationReason { get; }
-
-        public GetShoppingReasonDelegate GetShoppingReason { get; }
-
-        public StartMovingDelegate StartMoving { get; }
-
+        /// <summary>Gets a method that calls a <see cref="StartMovingWithOfferDelegate"/>.</summary>
         public StartMovingWithOfferDelegate StartMovingWithOffer { get; }
     }
 }
