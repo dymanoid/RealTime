@@ -4,6 +4,7 @@
 
 namespace RealTime.Config
 {
+    using System.Collections.Generic;
     using RealTime.UI;
 
     /// <summary>
@@ -149,5 +150,45 @@ namespace RealTime.Config
         [ConfigItem("4Time", 6)]
         [ConfigItemSlider(11, 16, 0.25f, SliderValueType.Time)]
         public float SchoolEnd { get; set; } = 14f;
+
+        /// <summary>Validates this instance and corrects possible invalid property values.</summary>
+        /// <returns>This instance.</returns>
+        public RealTimeConfig Validate()
+        {
+            VirtualCitizens = (VirtualCitizensLevel)Clamp((int)VirtualCitizens, (int)VirtualCitizensLevel.None, (int)VirtualCitizensLevel.Many);
+            ConstructionSpeed = Clamp(ConstructionSpeed, 0u, 100u);
+            LunchQuota = Clamp(LunchQuota, 0u, 100u);
+            LocalBuildingSearchQuota = Clamp(LocalBuildingSearchQuota, 0u, 100u);
+            OnTimeQuota = Clamp(OnTimeQuota, 0u, 100u);
+            EarliestHourEventStartWeekday = Clamp(EarliestHourEventStartWeekday, 0f, 23.75f);
+            LatestHourEventStartWeekday = Clamp(LatestHourEventStartWeekday, 0f, 23.75f);
+            EarliestHourEventStartWeekend = Clamp(EarliestHourEventStartWeekend, 0f, 23.75f);
+            LatestHourEventStartWeekend = Clamp(LatestHourEventStartWeekend, 0f, 23.75f);
+            WorkBegin = Clamp(WorkBegin, 4f, 11f);
+            WorkEnd = Clamp(WorkEnd, 12f, 20f);
+            LunchBegin = Clamp(LunchBegin, 11f, 13f);
+            LunchEnd = Clamp(LunchEnd, 13f, 15f);
+            SchoolBegin = Clamp(SchoolBegin, 4f, 10f);
+            SchoolEnd = Clamp(SchoolEnd, 11f, 16f);
+            MaxOvertime = Clamp(MaxOvertime, 0f, 4f);
+            return this;
+        }
+
+        private static T Clamp<T>(T value, T min, T max)
+            where T : struct
+        {
+            Comparer<T> comparer = Comparer<T>.Default;
+            if (comparer.Compare(value, min) < 0)
+            {
+                return min;
+            }
+
+            if (comparer.Compare(value, max) > 0)
+            {
+                return max;
+            }
+
+            return value;
+        }
     }
 }
