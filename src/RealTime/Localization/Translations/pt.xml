@@ -27,7 +27,7 @@
   <translation id="LocalBuildingSearchQuota" value="Local shopping ratio" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="The percentage of the population that will search for local shopping" />
   <translation id="OnTimeQuota" value="On-time ratio" />
-  <translation id="OnTimeQuotaTooltip" value="The percentage of the Cims that will go to and leave their work or school on time" />
+  <translation id="OnTimeQuotaTooltip" value="The percentage of the Cims that will go to and leave their work on time" />
 
   <translation id="3Events" value="Events" />
   <translation id="EarliestHourEventStartWeekday" value="Earliest weekday event" />

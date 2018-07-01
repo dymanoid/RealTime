@@ -27,7 +27,7 @@
   <translation id="LocalBuildingSearchQuota" value="Taux d'achats local" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="Le pourcentage de la population qui chercher des achats locaux" />
   <translation id="OnTimeQuota" value="Rapport sur le temps" />
-  <translation id="OnTimeQuotaTooltip" value="Le pourcentage de citoyens qui iront et quitteront leur travail ou leur école ou université à temps" />
+  <translation id="OnTimeQuotaTooltip" value="Le pourcentage de citoyens qui iront et quitteront leur travail à temps" />
 
   <translation id="3Events" value="Événements" />
   <translation id="EarliestHourEventStartWeekday" value="Premier événement en semaine" />
