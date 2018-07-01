@@ -37,6 +37,9 @@ namespace RealTime.Simulation
         /// </summary>
         internal static RealTimeCommercialBuildingAI CommercialAI { get; set; }
 
+        /// <summary>Gets or sets the time adjustment simulation class instance.</summary>
+        internal static TimeAdjustment TimeAdjustment { get; set; }
+
         /// <summary>
         /// Called after each game simulation tick. A tick contains multiple frames.
         /// Performs the dispatching for this simulation phase.
@@ -44,6 +47,7 @@ namespace RealTime.Simulation
         public override void OnAfterSimulationTick()
         {
             EventManager?.ProcessEvents();
+            TimeAdjustment?.Update();
 
             DateTime currentDate = SimulationManager.instance.m_currentGameTime.Date;
             if (currentDate != lastHandledDate)

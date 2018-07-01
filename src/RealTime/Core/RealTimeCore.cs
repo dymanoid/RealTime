@@ -80,8 +80,9 @@ namespace RealTime.Core
                 return null;
             }
 
-            var timeAdjustment = new TimeAdjustment();
+            var timeAdjustment = new TimeAdjustment(config);
             DateTime gameDate = timeAdjustment.Enable();
+            SimulationHandler.TimeAdjustment = timeAdjustment;
 
             var timeInfo = new TimeInfo();
             var buildingManager = new BuildingManagerConnection();
@@ -155,6 +156,7 @@ namespace RealTime.Core
             SimulationHandler.EventManager = null;
             SimulationHandler.DayTimeSimulation = null;
             SimulationHandler.CommercialAI = null;
+            SimulationHandler.TimeAdjustment = null;
 
             try
             {
