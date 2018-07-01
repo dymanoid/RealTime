@@ -1,56 +1,62 @@
-﻿// <copyright file="TimeAdjustment.cs" company="dymanoid">
-// Copyright (c) dymanoid. All rights reserved.
-// </copyright>
+﻿// <copyright file="TimeAdjustment.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
 
 namespace RealTime.Simulation
 {
     using System;
-    using RealTime.Tools;
+    using RealTime.Config;
 
     /// <summary>
     /// Manages the customized time adjustment. This class depends on the <see cref="SimulationManager"/> class.
     /// </summary>
     internal sealed class TimeAdjustment
     {
-        private const int CustomFramesPerDay = 1 << 17;
-        private static readonly TimeSpan CustomTimePerFrame = new TimeSpan(24L * 3600L * 10_000_000L / CustomFramesPerDay);
-
+        private const int RealtimeSpeed = 23;
         private readonly uint vanillaFramesPerDay;
-        private readonly TimeSpan vanillaTimePerFrame;
+        private readonly RealTimeConfig config;
+        private uint lastDayTimeSpeed;
+        private uint lastNightTimeSpeed;
+        private bool isDayTime;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TimeAdjustment"/> class.
-        /// </summary>
-        public TimeAdjustment()
+        /// <summary>Initializes a new instance of the <see cref="TimeAdjustment"/> class.</summary>
+        /// <param name="config">The configuration to run with.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
+        public TimeAdjustment(RealTimeConfig config)
         {
+            this.config = config ?? throw new ArgumentNullException(nameof(config));
+            lastDayTimeSpeed = config.DayTimeSpeed;
+            lastNightTimeSpeed = config.NightTimeSpeed;
             vanillaFramesPerDay = SimulationManager.DAYTIME_FRAMES;
-            vanillaTimePerFrame = SimulationManager.instance.m_timePerFrame;
         }
 
-        /// <summary>
-        /// Enables the customized time adjustment.
-        /// </summary>
-        ///
+        /// <summary>Enables the customized time adjustment.</summary>
         /// <returns>The current game date and time.</returns>
         public DateTime Enable()
         {
-            if (vanillaTimePerFrame == CustomTimePerFrame)
-            {
-                Log.Warning("The 'Real Time' mod has not been properly deactivated! Check the TimeAdjustment.Disable() calls.");
-            }
-
-            return UpdateTimeSimulationValues(CustomFramesPerDay, CustomTimePerFrame);
+            isDayTime = !SimulationManager.instance.m_isNightTime;
+            return UpdateTimeSimulationValues(CalculateFramesPerDay());
         }
 
-        /// <summary>
-        /// Disables the customized time adjustment restoring the default vanilla values.
-        /// </summary>
+        /// <summary>Updates the time adjustment to be synchronized with the configuration and the daytime.</summary>
+        public void Update()
+        {
+            if (SimulationManager.instance.m_isNightTime == isDayTime
+                || lastDayTimeSpeed != config.DayTimeSpeed
+                || lastNightTimeSpeed != config.NightTimeSpeed)
+            {
+                isDayTime = !SimulationManager.instance.m_isNightTime;
+                lastDayTimeSpeed = config.DayTimeSpeed;
+                lastNightTimeSpeed = config.NightTimeSpeed;
+                UpdateTimeSimulationValues(CalculateFramesPerDay());
+            }
+        }
+
+        /// <summary>Disables the customized time adjustment restoring the default vanilla values.</summary>
         public void Disable()
         {
-            UpdateTimeSimulationValues(vanillaFramesPerDay, vanillaTimePerFrame);
+            UpdateTimeSimulationValues(vanillaFramesPerDay);
         }
 
-        private static DateTime UpdateTimeSimulationValues(uint framesPerDay, TimeSpan timePerFrame)
+        private static DateTime UpdateTimeSimulationValues(uint framesPerDay)
         {
             SimulationManager sm = SimulationManager.instance;
             DateTime originalDate = sm.m_ThreadingWrapper.simulationTime;
@@ -59,7 +65,7 @@ namespace RealTime.Simulation
             SimulationManager.DAYTIME_FRAME_TO_HOUR = 24f / SimulationManager.DAYTIME_FRAMES;
             SimulationManager.DAYTIME_HOUR_TO_FRAME = SimulationManager.DAYTIME_FRAMES / 24f;
 
-            sm.m_timePerFrame = timePerFrame;
+            sm.m_timePerFrame = new TimeSpan(24L * 3600L * 10_000_000L / framesPerDay);
             sm.m_timeOffsetTicks = originalDate.Ticks - (sm.m_currentFrameIndex * sm.m_timePerFrame.Ticks);
             sm.m_currentGameTime = originalDate;
 
@@ -68,6 +74,12 @@ namespace RealTime.Simulation
             sm.m_dayTimeOffsetFrames = sm.m_dayTimeFrame - sm.m_currentFrameIndex & SimulationManager.DAYTIME_FRAMES - 1;
 
             return sm.m_currentGameTime;
+        }
+
+        private uint CalculateFramesPerDay()
+        {
+            uint offset = isDayTime ? lastDayTimeSpeed : lastNightTimeSpeed;
+            return 1u << (int)(RealtimeSpeed - offset);
         }
     }
 }

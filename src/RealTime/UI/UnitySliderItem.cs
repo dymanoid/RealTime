@@ -145,7 +145,8 @@ namespace RealTime.UI
                     break;
 
                 default:
-                    return;
+                    valueString = value.ToString();
+                    break;
             }
 
             valueLabel.text = valueString;
