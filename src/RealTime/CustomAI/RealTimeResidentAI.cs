@@ -102,8 +102,12 @@ namespace RealTime.CustomAI
                     break;
 
                 case ResidentState.Unknown:
-                    Log.Debug(TimeInfo.Now, $"WARNING: {GetCitizenDesc(citizenId, ref citizen, null)} is in an UNKNOWN state! Releasing the citizen.");
-                    CitizenMgr.ReleaseCitizen(citizenId);
+                    Log.Debug(TimeInfo.Now, $"WARNING: {GetCitizenDesc(citizenId, ref citizen, null)} is in an UNKNOWN state! Teleporting back home");
+                    if (CitizenProxy.GetHomeBuilding(ref citizen) != 0)
+                    {
+                        CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
+                    }
+
                     break;
             }
         }
