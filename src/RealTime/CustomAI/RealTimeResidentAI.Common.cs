@@ -120,18 +120,20 @@ namespace RealTime.CustomAI
 
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
 
-            CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
-            CitizenProxy.SetVisitBuilding(ref citizen, visitBuilding);
             if (isVirtual || currentBuilding == visitBuilding)
             {
+                CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
+                CitizenProxy.SetVisitBuilding(ref citizen, visitBuilding);
                 CitizenProxy.SetLocation(ref citizen, Citizen.Location.Visit);
+                return true;
             }
-            else
+            else if (residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding))
             {
-                residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding);
+                CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
+                return true;
             }
 
-            return true;
+            return false;
         }
 
         private ResidentState GetResidentState(ref TCitizen citizen)
