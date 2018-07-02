@@ -286,6 +286,13 @@ namespace RealTime.CustomAI
 
             if (StartMovingToVisitBuilding(instance, citizenId, ref citizen, foundBuilding, isVirtual))
             {
+                ushort homeBuilding = CitizenProxy.GetHomeBuilding(ref citizen);
+                uint homeUnit = BuildingMgr.GetCitizenUnit(homeBuilding);
+                uint citizenUnit = CitizenProxy.GetContainingUnit(ref citizen, citizenId, homeUnit, CitizenUnit.Flags.Home);
+                if (citizenUnit != 0)
+                {
+                    CitizenMgr.ModifyUnitGoods(citizenUnit, 100);
+                }
             }
 
             return foundBuilding;
