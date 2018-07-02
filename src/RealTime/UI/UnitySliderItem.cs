@@ -19,6 +19,7 @@ namespace RealTime.UI
 
         private readonly UILabel valueLabel;
         private readonly SliderValueType valueType;
+        private readonly float displayMultiplier;
         private CultureInfo currentCulture;
 
         /// <summary>Initializes a new instance of the <see cref="UnitySliderItem"/> class.</summary>
@@ -32,6 +33,7 @@ namespace RealTime.UI
         /// <param name="max">The maximum slider value.</param>
         /// <param name="step">The slider step value. Default is 1.</param>
         /// <param name="valueType">The type of the value to display. Default is <see cref="SliderValueType.Percentage"/>.</param>
+        /// <param name="displayMultiplier">A value that will be multiplied with original values for displaying purposes.</param>
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
         /// <exception cref="ArgumentException">
         /// thrown when the <paramref name="id"/> is an empty string.
@@ -44,14 +46,15 @@ namespace RealTime.UI
             float min,
             float max,
             float step,
-            SliderValueType valueType)
+            SliderValueType valueType,
+            float displayMultiplier)
             : base(uiHelper, id, property, config)
         {
             UIComponent.minValue = min;
             UIComponent.maxValue = max;
             UIComponent.stepSize = step;
             this.valueType = valueType;
-
+            this.displayMultiplier = displayMultiplier;
             var parentPanel = UIComponent.parent as UIPanel;
             if (parentPanel != null)
             {
@@ -132,7 +135,7 @@ namespace RealTime.UI
             switch (valueType)
             {
                 case SliderValueType.Percentage:
-                    valueString = (value / 100).ToString("P0", currentCulture ?? CultureInfo.CurrentCulture);
+                    valueString = (value * displayMultiplier / 100f).ToString("P0", currentCulture ?? CultureInfo.CurrentCulture);
                     break;
 
                 case SliderValueType.Time:
@@ -145,7 +148,7 @@ namespace RealTime.UI
                     break;
 
                 default:
-                    valueString = value.ToString();
+                    valueString = (value * displayMultiplier).ToString();
                     break;
             }
 
