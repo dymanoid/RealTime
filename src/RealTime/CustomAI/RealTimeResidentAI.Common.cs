@@ -130,6 +130,7 @@ namespace RealTime.CustomAI
             else if (residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding))
             {
                 CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
+                CitizenProxy.SetVisitBuilding(ref citizen, visitBuilding);
                 return true;
             }
 

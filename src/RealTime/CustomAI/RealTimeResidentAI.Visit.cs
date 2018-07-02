@@ -291,7 +291,7 @@ namespace RealTime.CustomAI
                 uint citizenUnit = CitizenProxy.GetContainingUnit(ref citizen, citizenId, homeUnit, CitizenUnit.Flags.Home);
                 if (citizenUnit != 0)
                 {
-                    CitizenMgr.ModifyUnitGoods(citizenUnit, 100);
+                    CitizenMgr.ModifyUnitGoods(citizenUnit, ShoppingGoodsAmount);
                 }
             }
 
