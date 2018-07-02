@@ -76,5 +76,20 @@ namespace RealTime.GameConnection
             Vector3 position = CitizenManager.instance.m_instances.m_buffer[instanceId].GetLastFramePosition();
             return DisasterManager.instance.IsEvacuating(position);
         }
+
+        /// <summary>Modifies the goods storage in the specified unit.</summary>
+        /// <param name="unitId">The unit ID to process.</param>
+        /// <param name="amount">The amount to modify the storage by.</param>
+        /// <returns><c>true</c> on success; otherwise, <c>false</c>.</returns>
+        public bool ModifyUnitGoods(uint unitId, ushort amount)
+        {
+            if (unitId == 0)
+            {
+                return false;
+            }
+
+            CitizenManager.instance.m_units.m_buffer[unitId].m_goods += amount;
+            return true;
+        }
     }
 }

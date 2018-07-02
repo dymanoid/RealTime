@@ -26,6 +26,11 @@ namespace RealTime.GameConnection
         /// </returns>
         ItemClass.SubService GetBuildingSubService(ushort buildingId);
 
+        /// <summary>Gets the citizen unit ID for the building with specified ID.</summary>
+        /// <param name="buildingId">The building ID to search the citizen unit for.</param>
+        /// <returns>The ID of the building's citizen unit, or 0 if none.</returns>
+        uint GetCitizenUnit(ushort buildingId);
+
         /// <summary>
         /// Gets a value indicating whether the building with specified ID has particular flags.
         /// </summary>
@@ -104,5 +109,15 @@ namespace RealTime.GameConnection
         /// <param name="buildingId">The building ID to get the name of.</param>
         /// <returns>A localized building name string, or null if none found.</returns>
         string GetBuildingName(ushort buildingId);
+
+        /// <summary>
+        /// Determines whether the building with specified ID is located in a noise restricted district.
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the building with specified ID is located in a noise restricted district;
+        ///   otherwise, <c>false</c>.
+        /// </returns>
+        bool IsBuildingNoiseRestricted(ushort buildingId);
     }
 }

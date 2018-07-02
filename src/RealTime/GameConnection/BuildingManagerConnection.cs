@@ -40,6 +40,16 @@ namespace RealTime.GameConnection
                 : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info.m_class.m_subService;
         }
 
+        /// <summary>Gets the citizen unit ID for the building with specified ID.</summary>
+        /// <param name="buildingId">The building ID to search the citizen unit for.</param>
+        /// <returns>The ID of the building's citizen unit, or 0 if none.</returns>
+        public uint GetCitizenUnit(ushort buildingId)
+        {
+            return buildingId == 0
+                ? 0
+                : BuildingManager.instance.m_buildings.m_buffer[buildingId].m_citizenUnits;
+        }
+
         /// <summary>
         /// Gets a value indicating whether the building with specified ID has particular flags.
         /// </summary>
@@ -224,6 +234,27 @@ namespace RealTime.GameConnection
             return buildingId == 0
                 ? string.Empty
                 : BuildingManager.instance.GetBuildingName(buildingId, InstanceID.Empty);
+        }
+
+        /// <summary>
+        /// Determines whether the building with specified ID is located in a noise restricted district.
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the building with specified ID is located in a noise restricted district;
+        ///   otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsBuildingNoiseRestricted(ushort buildingId)
+        {
+            if (buildingId == 0)
+            {
+                return false;
+            }
+
+            Vector3 location = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_position;
+            byte district = DistrictManager.instance.GetDistrict(location);
+            DistrictPolicies.CityPlanning policies = DistrictManager.instance.m_districts.m_buffer[district].m_cityPlanningPolicies;
+            return (policies & DistrictPolicies.CityPlanning.NoLoudNoises) != 0;
         }
     }
 }
