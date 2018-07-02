@@ -158,5 +158,13 @@ namespace RealTime.GameConnection
         /// <param name="flags">The flags to remove.</param>
         /// <returns>The current citizen's flags after removing the specified flags.</returns>
         Citizen.Flags RemoveFlags(ref T citizen, Citizen.Flags flags);
+
+        /// <summary>Gets the unit ID that contains the specified citizen.</summary>
+        /// <param name="citizen">The citizen to get the unit ID for.</param>
+        /// <param name="citizenId">The citizen ID to get the unit ID for.</param>
+        /// <param name="unitId">The unit ID of the citizen's building specified by the <paramref name="flag"/>.</param>
+        /// <param name="flag">The citizen unit mode.</param>
+        /// <returns>An ID of the citizen unit that contains the specified citizen</returns>
+        uint GetContainingUnit(ref T citizen, uint citizenId, uint unitId, CitizenUnit.Flags flag);
     }
 }

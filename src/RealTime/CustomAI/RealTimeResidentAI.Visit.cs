@@ -130,7 +130,9 @@ namespace RealTime.CustomAI
                     return true;
             }
 
-            if (Random.ShouldOccur(ReturnFromVisitChance))
+            ItemClass.SubService visitedSubService = BuildingMgr.GetBuildingSubService(visitBuilding);
+            if (Random.ShouldOccur(ReturnFromVisitChance) ||
+                (visitedSubService == ItemClass.SubService.CommercialLeisure && TimeInfo.IsNightTime && BuildingMgr.IsBuildingNoiseRestricted(visitBuilding)))
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} returning from visit back home");
                 ReturnFromVisit(instance, citizenId, ref citizen, homeBuilding, Citizen.Location.Home, isVirtual);
@@ -276,7 +278,23 @@ namespace RealTime.CustomAI
             }
 
             ushort foundBuilding = BuildingMgr.FindActiveBuilding(buildingId, distance, ItemClass.Service.Commercial);
-            StartMovingToVisitBuilding(instance, citizenId, ref citizen, foundBuilding, isVirtual);
+            if (IsBuildingNoiseRestricted(foundBuilding))
+            {
+                Log.Debug($"Citizen {citizenId} won't go to the commercial building {foundBuilding}, it has a NIMBY policy");
+                return 0;
+            }
+
+            if (StartMovingToVisitBuilding(instance, citizenId, ref citizen, foundBuilding, isVirtual))
+            {
+                ushort homeBuilding = CitizenProxy.GetHomeBuilding(ref citizen);
+                uint homeUnit = BuildingMgr.GetCitizenUnit(homeBuilding);
+                uint citizenUnit = CitizenProxy.GetContainingUnit(ref citizen, citizenId, homeUnit, CitizenUnit.Flags.Home);
+                if (citizenUnit != 0)
+                {
+                    CitizenMgr.ModifyUnitGoods(citizenUnit, 100);
+                }
+            }
+
             return foundBuilding;
         }
 
@@ -288,8 +306,22 @@ namespace RealTime.CustomAI
                 ItemClass.Service.Commercial,
                 ItemClass.SubService.CommercialLeisure);
 
+            if (IsBuildingNoiseRestricted(leisureBuilding))
+            {
+                Log.Debug($"Citizen {citizenId} won't go to the leisure building {leisureBuilding}, it has a NIMBY policy");
+                return 0;
+            }
+
             StartMovingToVisitBuilding(instance, citizenId, ref citizen, leisureBuilding, isVirtual);
             return leisureBuilding;
+        }
+
+        private bool IsBuildingNoiseRestricted(ushort building)
+        {
+            float arriveHour = (float)TimeInfo.Now.AddHours(MaxHoursOnTheWay).TimeOfDay.TotalHours;
+            return (arriveHour >= TimeInfo.SunsetHour || TimeInfo.CurrentHour >= TimeInfo.SunsetHour
+                || arriveHour <= TimeInfo.SunriseHour || TimeInfo.CurrentHour <= TimeInfo.SunriseHour)
+                && BuildingMgr.IsBuildingNoiseRestricted(building);
         }
     }
 }

@@ -42,6 +42,7 @@ namespace RealTime.UI
             Max = max;
             Step = step;
             ValueType = valueType;
+            DisplayMultiplier = 1f;
         }
 
         /// <summary>
@@ -74,5 +75,8 @@ namespace RealTime.UI
 
         /// <summary>Gets or sets the type of the value that will be displayed.</summary>
         public SliderValueType ValueType { get; set; }
+
+        /// <summary>Gets or sets a value that will be multiplied with the original value for displaying purpose only.</summary>
+        public float DisplayMultiplier { get; set; }
     }
 }

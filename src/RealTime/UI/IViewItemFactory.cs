@@ -33,6 +33,7 @@ namespace RealTime.UI
         /// <param name="max">The maximum slider value.</param>
         /// <param name="step">The slider step value.</param>
         /// <param name="valueType">Type of the value to be represented by the slider.</param>
+        /// <param name="displayMultiplier">A value that will be multiplied with original values for displaying purposes.</param>
         /// <returns>A newly created <see cref="IViewItem"/> instance representing a slider.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown when any argument is null.</exception>
         /// <exception cref="System.ArgumentException">Thrown when <paramref name="id"/> is an empty string.</exception>
@@ -50,7 +51,8 @@ namespace RealTime.UI
             float min,
             float max,
             float step,
-            SliderValueType valueType);
+            SliderValueType valueType,
+            float displayMultiplier);
 
         /// <summary>Creates a new combo box view item.</summary>
         /// <param name="container">The parent container for the created item.</param>

@@ -2,9 +2,9 @@
 <language id="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="1General" value="Основные" />
-  <translation id="DayTimeSpeed" value="Скорось времени (день)" />
+  <translation id="DayTimeSpeed" value="Скорость времени (день)" />
   <translation id="DayTimeSpeedTooltip" value="Скорость течения времени днём. '1' очень медленно - почти реальное время!" />
-  <translation id="NightTimeSpeed" value="Скорось времени (ночь)" />
+  <translation id="NightTimeSpeed" value="Скорость времени (ночь)" />
   <translation id="NightTimeSpeedTooltip" value="Скорость течения времени ночью. '1' очень медленно - почти реальное время!" />
   <translation id="VirtualCitizens" value="Метод симуляции жителей (реальных и виртуальных)" />
   <translation id="VirtualCitizensTooltip" value="Выберите 'Все' для реального города (но макс. 65.535 жителей или 'Оригинально' / 'Больше', если компьютер слаб" />
@@ -22,12 +22,16 @@
   <translation id="ConstructionSpeedTooltip" value="Скорость постройки и улучшения зданий" />
 
   <translation id="2Quotas" value="Вероятности" />
+  <translation id="SecondShiftQuota" value="Вторая смена" />
+  <translation id="SecondShiftQuotaTooltip" value="Процент жителей, работающих во вторую смену" />
+  <translation id="NightShiftQuota" value="Ночная смена" />
+  <translation id="NightShiftQuotaTooltip" value="Процент жителей, работающих в ночную смену" />
   <translation id="LunchQuota" value="Пойти обедать" />
   <translation id="LunchQuotaTooltip" value="Процент жителей, которые будут выходить на обед" />
   <translation id="LocalBuildingSearchQuota" value="Покупки поблизости" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="Процент жителей, которые будут искать магазины поблизости" />
   <translation id="OnTimeQuota" value="Без сверхурочных" />
-  <translation id="OnTimeQuotaTooltip" value="Процент жителей, которые будут ходить в школу и на работу без сверхурочных" />
+  <translation id="OnTimeQuotaTooltip" value="Процент жителей, которые будут ходить на работу без сверхурочных" />
 
   <translation id="3Events" value="Мероприятия" />
   <translation id="EarliestHourEventStartWeekday" value="Самое раннее по будням" />

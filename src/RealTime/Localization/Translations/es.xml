@@ -1,58 +1,62 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <language id="es" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
+  <translation id="DayTimeSpeed" value="Velocidad de reloj 24h (dia)" />
+  <translation id="DayTimeSpeedTooltip" value="'1' es muy lento, casi en tiempo real!" />
+  <translation id="NightTimeSpeed" value="Velocidad reloj 24h (noche)" />
+  <translation id="NightTimeSpeedTooltip" value="'1' es muy lento, casi en tiempo real!" />
+  <translation id="VirtualCitizens" value="Modo simulacion de Cims (real y virtual)" />
+  <translation id="VirtualCitizensTooltip" value="Seleccionar TODOS para una city real (maximo 65.535 cims activos), seleccionar 'Original' o 'MAS' si tu PC es flojo" />
+  <translation id="VirtualCitizens.None" value="TODOS los cims son reales" />
+  <translation id="VirtualCitizens.Few" value="Casi todos los cims son reales" />
+  <translation id="VirtualCitizens.Vanilla" value="Como en juego Original" />
+  <translation id="VirtualCitizens.Many" value="MAS virtuales cims" />
   <translation id="1General" value="General" />
-  <translation id="DayTimeSpeed" value="Time speed (day)" />
-  <translation id="DayTimeSpeedTooltip" value="The speed of the time flow on daytime. '1' is very slow - almost real time!" />
-  <translation id="NightTimeSpeed" value="Time speed (night)" />
-  <translation id="NightTimeSpeedTooltip" value="The speed of the time flow on night time. '1' is very slow - almost real time!" />
-  <translation id="VirtualCitizens" value="Citizens simulation mode (real and virtual)" />
-  <translation id="VirtualCitizensTooltip" value="Select 'All' for a real city (but max 65.535 citizens), select 'Vanilla' or 'More' if your PC is weak" />
-  <translation id="VirtualCitizens.None" value="All citizens are real" />
-  <translation id="VirtualCitizens.Few" value="Almost all citizens are real" />
-  <translation id="VirtualCitizens.Vanilla" value="Like in the vanilla game" />
-  <translation id="VirtualCitizens.Many" value="More virtual citizens" />
-  <translation id="IsWeekendEnabled" value="Habilitar Fines de Semana" />
-  <translation id="IsWeekendEnabledTooltip" value="Los Cims no van a trabajar o estudiar los Fines de Semana" />
-  <translation id="IsLunchtimeEnabled" value="Habiiltar Hora de Comer" />
-  <translation id="IsLunchtimeEnabledTooltip" value="Los Cims saldrán a comer" />
-  <translation id="StopConstructionAtNight" value="Pausar la construcción y mejora de edificios durante la noche" />
-  <translation id="StopConstructionAtNightTooltip" value="Los trabajadores de la construcción también necesitan dormir" />
-  <translation id="ConstructionSpeed" value="Velocidad de Construcción" />
-  <translation id="ConstructionSpeedTooltip" value="Velocidad de construcción y mejora de edificios" />
+  <translation id="IsWeekendEnabled" value="Activar Fines de Semana" />
+  <translation id="IsWeekendEnabledTooltip" value="Cims no trabajan ni van a las escuelas en fin de semana" />
+  <translation id="IsLunchtimeEnabled" value="Activar hora de Almuerzo" />
+  <translation id="IsLunchtimeEnabledTooltip" value="Cims salen a almorzar durante el trabajo" />
+  <translation id="StopConstructionAtNight" value="Pausar construccion y mejora de edificios en la noche" />
+  <translation id="StopConstructionAtNightTooltip" value="Trabajadores de la construccion tambien necesitan dormir" />
+  <translation id="ConstructionSpeed" value="Velocidad construccion" />
+  <translation id="ConstructionSpeedTooltip" value="Velocidad de construccion y de mejora de edificios" />
 
   <translation id="2Quotas" value="Probabilidades" />
-  <translation id="LunchQuota" value="Hora de Comer" />
-  <translation id="LunchQuotaTooltip" value="El porcentaje de Cims que saldrán a comer" />
-  <translation id="LocalBuildingSearchQuota" value="Compras Locales" />
-  <translation id="LocalBuildingSearchQuotaTooltip" value="El porcentaje de la población que harán compras locales" />
-  <translation id="OnTimeQuota" value="Puntualidad" />
-  <translation id="OnTimeQuotaTooltip" value="El porcentaje de los Cims que llegarán y saldrán de su trabajo o escuela con puntualidad" />
+  <translation id="SecondShiftQuota" value="Second shift workers" />
+  <translation id="SecondShiftQuotaTooltip" value="The percentage of the citizens that work second shift" />
+  <translation id="NightShiftQuota" value="Night shift workers" />
+  <translation id="NightShiftQuotaTooltip" value="The percentage of the citizens that work night shift" />
+  <translation id="LunchQuota" value="Almuerzo" />
+  <translation id="LunchQuotaTooltip" value="Porcentaje de cims que salen a almorzar" />
+  <translation id="LocalBuildingSearchQuota" value="Compras locales" />
+  <translation id="LocalBuildingSearchQuotaTooltip" value="Porcentaje de cims que van a tiendas locales cerca de su vivienda o de su trabajo" />
+  <translation id="OnTimeQuota" value="En horario" />
+  <translation id="OnTimeQuotaTooltip" value="Porcentaje de cims que trabajan dentro del horario establecido, sin horas extras" />
 
   <translation id="3Events" value="Eventos" />
-  <translation id="EarliestHourEventStartWeekday" value="Evento entre semana más temprano" />
-  <translation id="EarliestHourEventStartWeekdayTooltip" value="Lo más temprano que un evento puede empezar entre semana" />
-  <translation id="LatestHourEventStartWeekday" value="Evento entre semana más tarde" />
-  <translation id="LatestHourEventStartWeekdayTooltip" value="Lo más tarde que un evento puede empezar entre semana" />
-  <translation id="EarliestHourEventStartWeekend" value="Evento en fin de semana más temprano" />
-  <translation id="EarliestHourEventStartWeekendTooltip" value="Lo más temprano que un evento puede empezar en fin de semana" />
-  <translation id="LatestHourEventStartWeekend" value="Evento en fin de semana más tarde" />
-  <translation id="LatestHourEventStartWeekendTooltip" value="Lo más tarde que un evento puede empezar en fin de semana" />
-    
-  <translation id="4Time" value="Horas" />
-  <translation id="MaxOvertime" value="Horas Extras" />
-  <translation id="MaxOvertimeTooltip" value="Las máximas horas extras que harán los Cims - Ellos llegaran al trabajo antes o saldrán más tarde" />
-  <translation id="SchoolBegin" value="Inicio de la Escuela" />
-  <translation id="SchoolBeginTooltip" value="Hora del día que comienza la escuela - los Cims más jóvenes deben ir a estudiar" />
-  <translation id="SchoolEnd" value="Fin de la Escuela" />
-  <translation id="SchoolEndTooltip" value="La hora del día que los Cims más jóvenes volverán de la escuela" />
-  <translation id="WorkBegin" value="Inicio del Trabajo" />
-  <translation id="WorkBeginTooltip" value="La hora del día que comienzan los trabajos - los Cims adultos deben ir a trabajar o a la universidad" />
-  <translation id="WorkEnd" value="Fin del Trabajo" />
-  <translation id="WorkEndTooltip" value="La hora del día que los Cims adultos volverán del trabajo o universidad" />
-  <translation id="LunchBegin" value="Inicio de Hora de Comer" />
-  <translation id="LunchBeginTooltip" value="La hora del día que los Cims saldan a comer" />
-  <translation id="LunchEnd" value="Fin de Hora de Comer" />
-  <translation id="LunchEndTooltip" value="La hora del día que los Cims volverán a trabajar despues de comer" />
+  <translation id="EarliestHourEventStartWeekday" value="Dia por semana: hora minima inicio" />
+  <translation id="EarliestHourEventStartWeekdayTooltip" value="hora minima del dia de inicio de evento" />
+  <translation id="LatestHourEventStartWeekday" value="Dia por semana: hora maxima inicio" />
+  <translation id="LatestHourEventStartWeekdayTooltip" value="Hora maxima del dia de inicio de evento" />
+  <translation id="EarliestHourEventStartWeekend" value="FindeSemana: hora minina inicio" />
+  <translation id="EarliestHourEventStartWeekendTooltip" value="hora minima del dia de inicio de evento" />
+  <translation id="LatestHourEventStartWeekend" value="FindeSemana: hora maxima inicio" />
+  <translation id="LatestHourEventStartWeekendTooltip" value="Hora maxima del dia de inicio de evento" />
+
+  <translation id="4Time" value="Tiempo: horarios" />
+  <translation id="MaxOvertime" value="Horas Extras en trabajo" />
+  <translation id="MaxOvertimeTooltip" value="Tiempo maximo que cims van antes o salen despues del horario de trabajo establecido" />
+  <translation id="SchoolBegin" value="Escuela: hora de inicio" />
+  <translation id="SchoolBeginTooltip" value="Hora de inicio de escuelas - cims jovenes van a la escuela" />
+  <translation id="SchoolEnd" value="Escuela: hora de salida" />
+  <translation id="SchoolEndTooltip" value="Hora final de escuelas - cims jovenes salen de escuelas" />
+  <translation id="WorkBegin" value="Trabajo: hora de inicio" />
+  <translation id="WorkBeginTooltip" value="Hora de inicio del trabajo" />
+  <translation id="WorkEnd" value="Trabajo: hora de salida" />
+  <translation id="WorkEndTooltip" value="Hora de salida de trabajos" />
+  <translation id="LunchBegin" value="Almuerzo: hora inicial" />
+  <translation id="LunchBeginTooltip" value="Hora inicial para almorzar" />
+  <translation id="LunchEnd" value="Almuerzo: hora final" />
+  <translation id="LunchEndTooltip" value="Final de hora de almorzar - cims retornan al trabajo" />
     
 </language>

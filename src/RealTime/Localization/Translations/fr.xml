@@ -22,12 +22,16 @@
   <translation id="ConstructionSpeedTooltip" value="Mise à niveau de la vitesse et de la construction de bâtiments" />
 
   <translation id="2Quotas" value="Probabilités" />
+  <translation id="SecondShiftQuota" value="Second shift workers" />
+  <translation id="SecondShiftQuotaTooltip" value="The percentage of the citizens that work second shift" />
+  <translation id="NightShiftQuota" value="Night shift workers" />
+  <translation id="NightShiftQuotaTooltip" value="The percentage of the citizens that work night shift" />
   <translation id="LunchQuota" value="Probabilité de déjeûner" />
   <translation id="LunchQuotaTooltip" value="Le pourcentage de citoyens qui sortira pour aller déjeûner" />
   <translation id="LocalBuildingSearchQuota" value="Taux d'achats local" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="Le pourcentage de la population qui chercher des achats locaux" />
   <translation id="OnTimeQuota" value="Rapport sur le temps" />
-  <translation id="OnTimeQuotaTooltip" value="Le pourcentage de citoyens qui iront et quitteront leur travail ou leur école ou université à temps" />
+  <translation id="OnTimeQuotaTooltip" value="Le pourcentage de citoyens qui iront et quitteront leur travail à temps" />
 
   <translation id="3Events" value="Événements" />
   <translation id="EarliestHourEventStartWeekday" value="Premier événement en semaine" />

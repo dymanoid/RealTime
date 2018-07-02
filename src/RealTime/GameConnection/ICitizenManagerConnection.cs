@@ -38,5 +38,11 @@ namespace RealTime.GameConnection
         /// <param name="instanceId">The ID of the citizen's instance to check.</param>
         /// <returns><c>true</c> if the area around the citizen's instance is marked for evacuation; otherwise, <c>false</c>.</returns>
         bool IsAreaEvacuating(ushort instanceId);
+
+        /// <summary>Modifies the goods storage in the specified unit.</summary>
+        /// <param name="unitId">The unit ID to process.</param>
+        /// <param name="amount">The amount to modify the storage by.</param>
+        /// <returns><c>true</c> on success; otherwise, <c>false</c>.</returns>
+        bool ModifyUnitGoods(uint unitId, ushort amount);
     }
 }
