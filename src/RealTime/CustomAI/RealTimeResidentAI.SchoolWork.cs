@@ -65,7 +65,17 @@ namespace RealTime.CustomAI
 
         private static bool ShouldWorkAtDawn(ItemClass.Service service, ItemClass.SubService subService)
         {
-            return service == ItemClass.Service.Commercial && subService == ItemClass.SubService.CommercialLow;
+            switch (service)
+            {
+                case ItemClass.Service.Commercial when subService == ItemClass.SubService.CommercialLow:
+                case ItemClass.Service.Beautification:
+                case ItemClass.Service.Garbage:
+                case ItemClass.Service.Road:
+                    return true;
+
+                default:
+                    return false;
+            }
         }
 
         private static bool CheckMinimumShiftDuration(float beginHour, float endHour)
