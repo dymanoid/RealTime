@@ -10,6 +10,14 @@ namespace RealTime.CustomAI
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
+        private const int ShiftBitsCount = 5;
+        private const uint WorkShiftsMask = (1u << ShiftBitsCount) - 1;
+
+        private uint secondShiftQuota;
+        private uint nightShiftQuota;
+        private uint secondShiftValue;
+        private uint nightShiftValue;
+
         private enum WorkerShift
         {
             None,
@@ -43,11 +51,23 @@ namespace RealTime.CustomAI
             }
         }
 
-        private static bool IsBuildingActive24h(ItemClass.Service service)
+        private static int GetBuildingWorkShiftCount(ItemClass.Service service)
         {
             switch (service)
             {
+                case ItemClass.Service.Office:
+                case ItemClass.Service.Garbage:
+                case ItemClass.Service.Education:
+                    return 1;
+
+                case ItemClass.Service.Road:
+                case ItemClass.Service.Beautification:
+                case ItemClass.Service.Monument:
+                case ItemClass.Service.Citizen:
+                    return 2;
+
                 case ItemClass.Service.Commercial:
+                case ItemClass.Service.Industrial:
                 case ItemClass.Service.Tourism:
                 case ItemClass.Service.Electricity:
                 case ItemClass.Service.Water:
@@ -56,10 +76,11 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.FireDepartment:
                 case ItemClass.Service.PublicTransport:
                 case ItemClass.Service.Disaster:
-                    return true;
+                case ItemClass.Service.Natural:
+                    return 3;
 
                 default:
-                    return false;
+                    return 1;
             }
         }
 
@@ -110,17 +131,34 @@ namespace RealTime.CustomAI
             return true;
         }
 
-        private static WorkerShift GetWorkerShift(uint citizenId)
+        private WorkerShift GetWorkerShift(uint citizenId)
         {
-            switch (citizenId & 0b_11)
+            if (secondShiftQuota != Config.SecondShiftQuota || nightShiftQuota != Config.NightShiftQuota)
             {
-                case 0b_01:
-                    return WorkerShift.Second;
-                case 0b_10:
-                    return WorkerShift.Night;
-                default:
-                    return WorkerShift.Any;
+                secondShiftQuota = Config.SecondShiftQuota;
+                nightShiftQuota = Config.NightShiftQuota;
+                CalculateWorkShiftValues();
             }
+
+            uint value = citizenId & WorkShiftsMask;
+            if (value <= secondShiftValue)
+            {
+                return WorkerShift.Second;
+            }
+
+            value = (citizenId >> ShiftBitsCount) & WorkShiftsMask;
+            if (value <= nightShiftValue)
+            {
+                return WorkerShift.Night;
+            }
+
+            return WorkerShift.First;
+        }
+
+        private void CalculateWorkShiftValues()
+        {
+            secondShiftValue = Config.SecondShiftQuota - 1;
+            nightShiftValue = Config.NightShiftQuota - 1;
         }
 
         private void ProcessCitizenAtSchoolOrWork(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
@@ -379,7 +417,8 @@ namespace RealTime.CustomAI
             float begin = -1;
             float end = -1;
 
-            if (IsBuildingActive24h(sevice))
+            int shiftCount = GetBuildingWorkShiftCount(sevice);
+            if (shiftCount > 1)
             {
                 switch (GetWorkerShift(citizenId))
                 {
@@ -388,7 +427,7 @@ namespace RealTime.CustomAI
                         end = 0;
                         break;
 
-                    case WorkerShift.Night:
+                    case WorkerShift.Night when shiftCount == 3:
                         begin = 0;
                         end = Config.WorkBegin;
                         break;

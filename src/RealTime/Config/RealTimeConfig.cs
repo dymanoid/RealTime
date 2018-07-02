@@ -62,6 +62,22 @@ namespace RealTime.Config
         public uint ConstructionSpeed { get; set; } = 50;
 
         /// <summary>
+        /// Gets or sets a value that determines the percentage of the Cims that will work second shift.
+        /// Valid values are 1..8.
+        /// </summary>
+        [ConfigItem("2Quotas", 0)]
+        [ConfigItemSlider(1, 8, DisplayMultiplier = 3.125f)]
+        public uint SecondShiftQuota { get; set; } = 4;
+
+        /// <summary>
+        /// Gets or sets a value that determines the percentage of the Cims that will work night shift.
+        /// Valid values are 1..8.
+        /// </summary>
+        [ConfigItem("2Quotas", 0)]
+        [ConfigItemSlider(1, 8, DisplayMultiplier = 3.125f)]
+        public uint NightShiftQuota { get; set; } = 2;
+
+        /// <summary>
         /// Gets or sets the percentage of the Cims that will go out for lunch.
         /// Valid values are 0..100.
         /// </summary>
@@ -173,6 +189,8 @@ namespace RealTime.Config
             NightTimeSpeed = Clamp(NightTimeSpeed, 1u, 7u);
             VirtualCitizens = (VirtualCitizensLevel)Clamp((int)VirtualCitizens, (int)VirtualCitizensLevel.None, (int)VirtualCitizensLevel.Many);
             ConstructionSpeed = Clamp(ConstructionSpeed, 0u, 100u);
+            SecondShiftQuota = Clamp(SecondShiftQuota, 1u, 8u);
+            NightShiftQuota = Clamp(NightShiftQuota, 1u, 8u);
             LunchQuota = Clamp(LunchQuota, 0u, 100u);
             LocalBuildingSearchQuota = Clamp(LocalBuildingSearchQuota, 0u, 100u);
             OnTimeQuota = Clamp(OnTimeQuota, 0u, 100u);

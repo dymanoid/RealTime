@@ -22,6 +22,10 @@
   <translation id="ConstructionSpeedTooltip" value="Geschwindigkeit des Neubaus und des Gebäude-Upgrades" />
 
   <translation id="2Quotas" value="Wahrscheinlichkeit" />
+  <translation id="SecondShiftQuota" value="Zweite Schicht" />
+  <translation id="SecondShiftQuotaTooltip" value="Anteil der Cims, die in der zweiten Schicht arbeiten" />
+  <translation id="NightShiftQuota" value="Nachtschicht" />
+  <translation id="NightShiftQuotaTooltip" value="Anteil der Cims, die in der Nachtschicht arbeiten" />
   <translation id="LunchQuota" value="Mittagspause" />
   <translation id="LunchQuotaTooltip" value="Anteil der Cims, die eine Mittagspause machen" />
   <translation id="LocalBuildingSearchQuota" value="Lokale Einkäufe" />
