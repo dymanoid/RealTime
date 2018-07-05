@@ -2,16 +2,16 @@
 <language id="fr" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="1General" value="Général" />
-  <translation id="DayTimeSpeed" value="Time speed (day)" />
-  <translation id="DayTimeSpeedTooltip" value="The speed of the time flow on daytime. '1' is very slow - almost real time!" />
-  <translation id="NightTimeSpeed" value="Time speed (night)" />
-  <translation id="NightTimeSpeedTooltip" value="The speed of the time flow on night time. '1' is very slow - almost real time!" />
-  <translation id="VirtualCitizens" value="Citizens simulation mode (real and virtual)" />
-  <translation id="VirtualCitizensTooltip" value="Select 'All' for a real city (but max 65.53k citizens), select 'Vanilla' or 'More' if your PC is weak" />
-  <translation id="VirtualCitizens.None" value="All citizens are real" />
-  <translation id="VirtualCitizens.Few" value="Almost all citizens are real" />
-  <translation id="VirtualCitizens.Vanilla" value="Like in the vanilla game" />
-  <translation id="VirtualCitizens.Many" value="More virtual citizens" />
+  <translation id="DayTimeSpeed" value="Vitesse du temps (en journée)" />
+  <translation id="DayTimeSpeedTooltip" value="La vitesse du flux de temps sur la journée. '1' est très lent - presque en temps réel !" />
+  <translation id="NightTimeSpeed" value="Vitesse du temps (la nuit)" />
+  <translation id="NightTimeSpeedTooltip" value="La vitesse du flux du temps la nuit. '1' est très lent - presque en temps réel !" />
+  <translation id="VirtualCitizens" value="Mode de similation des Citoyens (réel et virtuel)" />
+  <translation id="VirtualCitizensTooltip" value="Sélectionnez 'Tous' pour une vraie ville (mais maximum 65,53k citoyens), sélectionnez 'Vanilla' ou 'Plus' si votre configuration est faible" />
+  <translation id="VirtualCitizens.None" value="Tous les citoyens sont réels" />
+  <translation id="VirtualCitizens.Few" value="Presque tous les citoyens sont réels" />
+  <translation id="VirtualCitizens.Vanilla" value="Comme dans le jeu Vanilla" />
+  <translation id="VirtualCitizens.Many" value="Encore plus de citoyens virtuels" />
   <translation id="IsWeekendEnabled" value="Activer les Week-ends" />
   <translation id="IsWeekendEnabledTooltip" value="Les citoyens ne vont pas au travail  ou à l'école ou à l'université le week-end" />
   <translation id="IsLunchtimeEnabled" value="Activer l'heure du déjeûner" />
@@ -22,14 +22,14 @@
   <translation id="ConstructionSpeedTooltip" value="Mise à niveau de la vitesse et de la construction de bâtiments" />
 
   <translation id="2Quotas" value="Probabilités" />
-  <translation id="SecondShiftQuota" value="Second shift workers" />
-  <translation id="SecondShiftQuotaTooltip" value="The percentage of the citizens that work second shift" />
-  <translation id="NightShiftQuota" value="Night shift workers" />
-  <translation id="NightShiftQuotaTooltip" value="The percentage of the citizens that work night shift" />
+  <translation id="SecondShiftQuota" value="Travailleurs en 2/8" />
+  <translation id="SecondShiftQuotaTooltip" value="Le pourcentage des citoyens qui travaillent en 2/8" />
+  <translation id="NightShiftQuota" value="Travailleurs de nuit" />
+  <translation id="NightShiftQuotaTooltip" value="Le pourcentage de citoyens qui travaillent la nuit" />
   <translation id="LunchQuota" value="Probabilité de déjeûner" />
   <translation id="LunchQuotaTooltip" value="Le pourcentage de citoyens qui sortira pour aller déjeûner" />
   <translation id="LocalBuildingSearchQuota" value="Taux d'achats local" />
-  <translation id="LocalBuildingSearchQuotaTooltip" value="Le pourcentage de la population qui chercher des achats locaux" />
+  <translation id="LocalBuildingSearchQuotaTooltip" value="Le pourcentage de la population qui va chercher des achats locaux" />
   <translation id="OnTimeQuota" value="Rapport sur le temps" />
   <translation id="OnTimeQuotaTooltip" value="Le pourcentage de citoyens qui iront et quitteront leur travail à temps" />
 
