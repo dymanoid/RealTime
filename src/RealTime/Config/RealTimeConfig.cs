@@ -187,17 +187,30 @@ namespace RealTime.Config
         {
             DayTimeSpeed = Clamp(DayTimeSpeed, 1u, 7u);
             NightTimeSpeed = Clamp(NightTimeSpeed, 1u, 7u);
+
             VirtualCitizens = (VirtualCitizensLevel)Clamp((int)VirtualCitizens, (int)VirtualCitizensLevel.None, (int)VirtualCitizensLevel.Many);
             ConstructionSpeed = Clamp(ConstructionSpeed, 0u, 100u);
+
             SecondShiftQuota = Clamp(SecondShiftQuota, 1u, 8u);
             NightShiftQuota = Clamp(NightShiftQuota, 1u, 8u);
             LunchQuota = Clamp(LunchQuota, 0u, 100u);
             LocalBuildingSearchQuota = Clamp(LocalBuildingSearchQuota, 0u, 100u);
             OnTimeQuota = Clamp(OnTimeQuota, 0u, 100u);
+
             EarliestHourEventStartWeekday = Clamp(EarliestHourEventStartWeekday, 0f, 23.75f);
             LatestHourEventStartWeekday = Clamp(LatestHourEventStartWeekday, 0f, 23.75f);
+            if (LatestHourEventStartWeekday < EarliestHourEventStartWeekday)
+            {
+                LatestHourEventStartWeekday = EarliestHourEventStartWeekday;
+            }
+
             EarliestHourEventStartWeekend = Clamp(EarliestHourEventStartWeekend, 0f, 23.75f);
             LatestHourEventStartWeekend = Clamp(LatestHourEventStartWeekend, 0f, 23.75f);
+            if (LatestHourEventStartWeekend < EarliestHourEventStartWeekend)
+            {
+                LatestHourEventStartWeekend = EarliestHourEventStartWeekend;
+            }
+
             WorkBegin = Clamp(WorkBegin, 4f, 11f);
             WorkEnd = Clamp(WorkEnd, 12f, 20f);
             LunchBegin = Clamp(LunchBegin, 11f, 13f);
