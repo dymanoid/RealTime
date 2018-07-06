@@ -45,6 +45,7 @@ namespace RealTime.CustomAI
             CitizenProxy = connections.CitizenConnection;
             TimeInfo = connections.TimeInfo;
             Random = connections.Random;
+            WeatherInfo = connections.WeatherInfo;
         }
 
         /// <summary>
@@ -96,6 +97,9 @@ namespace RealTime.CustomAI
         /// Gets a reference to the game's randomizer.
         /// </summary>
         protected IRandomizer Random { get; }
+
+        /// <summary>Gets the current weather info.</summary>
+        protected IWeatherInfo WeatherInfo { get; }
 
         /// <summary>
         /// Determines whether the current date and time represent the specified time interval on a work day.

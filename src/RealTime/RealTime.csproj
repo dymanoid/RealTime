@@ -65,6 +65,7 @@
     <Compile Include="CustomAI\RealTimeResidentAI.Common.cs" />
     <Compile Include="CustomAI\RealTimeResidentAI.cs" />
     <Compile Include="CustomAI\RealTimeTouristAI.cs" />
+    <Compile Include="CustomAI\WeatherInfo.cs" />
     <Compile Include="Events\CityEventState.cs" />
     <Compile Include="Events\ICityEventsProvider.cs" />
     <Compile Include="Events\ICityEvent.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="GameConnection\ICitizenConnection.cs" />
     <Compile Include="GameConnection\IToolManagerConnection.cs" />
     <Compile Include="GameConnection\ITransferManagerConnection.cs" />
+    <Compile Include="GameConnection\IWeatherManagerConnection.cs" />
     <Compile Include="GameConnection\PrivateBuildingAIHook.cs" />
     <Compile Include="GameConnection\TouristAIConnection.cs" />
     <Compile Include="GameConnection\TouristAIHook.cs" />
@@ -106,12 +108,14 @@
     <Compile Include="Core\RealTimeCore.cs" />
     <Compile Include="GameConnection\ToolManagerConnection.cs" />
     <Compile Include="GameConnection\TransferManagerConnection.cs" />
+    <Compile Include="GameConnection\WeatherManagerConnection.cs" />
     <Compile Include="Localization\Constants.cs" />
     <Compile Include="Localization\LocalizationProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\RealTimeMod.cs" />
     <Compile Include="Simulation\DayTimeSimulation.cs" />
     <Compile Include="Simulation\IRandomizer.cs" />
+    <Compile Include="Simulation\IWeatherInfo.cs" />
     <Compile Include="Simulation\SimulationHandler.cs" />
     <Compile Include="Simulation\DayTimeCalculator.cs" />
     <Compile Include="Simulation\ITimeInfo.cs" />
