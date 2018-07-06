@@ -29,6 +29,7 @@ namespace RealTime.Config
         /// <summary>
         /// Gets or sets the speed of the time flow on daytime. Valid values are 1..7.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "DayTime", Justification = "Reviewed")]
         [ConfigItem("1General", 1)]
         [ConfigItemSlider(1, 7, ValueType = SliderValueType.Default)]
         public uint DayTimeSpeed { get; set; }
@@ -36,6 +37,7 @@ namespace RealTime.Config
         /// <summary>
         /// Gets or sets the speed of the time flow on night time. Valid values are 1..7.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "NightTime", Justification = "Reviewed")]
         [ConfigItem("1General", 2)]
         [ConfigItemSlider(1, 7, ValueType = SliderValueType.Default)]
         public uint NightTimeSpeed { get; set; }
@@ -87,6 +89,7 @@ namespace RealTime.Config
         /// Gets or sets a value that determines the percentage of the Cims that will work night shift.
         /// Valid values are 1..8.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "NightShift", Justification = "Reviewed")]
         [ConfigItem("2Quotas", 0)]
         [ConfigItemSlider(1, 8, DisplayMultiplier = 3.125f)]
         public uint NightShiftQuota { get; set; }

@@ -51,6 +51,7 @@ namespace RealTime.Core
         /// <param name="localizationProvider">The <see cref="LocalizationProvider"/> to use for text translation.</param>
         ///
         /// <returns>A <see cref="RealTimeCore"/> instance that can be used to stop the mod.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "This is the entry point and needs to instantiate all parts")]
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public static RealTimeCore Run(RealTimeConfig config, string rootPath, LocalizationProvider localizationProvider)
         {
