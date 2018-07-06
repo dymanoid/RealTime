@@ -8,11 +8,19 @@ namespace RealTime.UI
     /// <summary>An interface for a factory of view items.</summary>
     internal interface IViewItemFactory
     {
+        /// <summary>Creates a new tab item.</summary>
+        /// <param name="id">The ID of the tab to create.</param>
+        /// <returns>A newly created <see cref="IContainerViewItem"/> instance representing a tab item.</returns>
+        /// <exception cref="System.ArgumentException">Thrown when <paramref name="id"/> is null or empty string.</exception>
+        IContainerViewItem CreateTabItem(string id);
+
         /// <summary>Creates a new group view item.</summary>
+        /// <param name="container">The parent container for the created item.</param>
         /// <param name="id">The ID of the group to create.</param>
         /// <returns>A newly created <see cref="IContainerViewItem"/> instance representing a group.</returns>
-        /// <exception cref="System.ArgumentException">Thrown when <paramref name="id"/> is null or empty string.</exception>
-        IContainerViewItem CreateGroup(string id);
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="container"/> is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="id"/> is null or an empty string.</exception>
+        IContainerViewItem CreateGroup(IContainerViewItem container, string id);
 
         /// <summary>Creates a new check box view item.</summary>
         /// <param name="container">The parent container for the created item.</param>

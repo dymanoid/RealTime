@@ -45,17 +45,31 @@ namespace RealTime.UI
 
             var viewItems = new List<IViewItem>();
 
-            foreach (var group in properties.GroupBy(p => p.Attribute.GroupId).OrderBy(p => p.Key))
+            foreach (var tab in properties.GroupBy(p => p.Attribute.TabId).OrderBy(p => p.Key))
             {
-                IContainerViewItem groupItem = itemFactory.CreateGroup(group.Key);
-                viewItems.Add(groupItem);
+                IContainerViewItem tabItem = itemFactory.CreateTabItem(tab.Key);
+                viewItems.Add(tabItem);
 
-                foreach (var item in group.OrderBy(i => i.Attribute.Order))
+                foreach (var group in tab.GroupBy(p => p.Attribute.GroupId).OrderBy(p => p.Key))
                 {
-                    IViewItem viewItem = CreateViewItem(groupItem, item.Property, config, itemFactory);
-                    if (viewItem != null)
+                    IContainerViewItem containerItem;
+                    if (string.IsNullOrEmpty(group.Key))
                     {
-                        viewItems.Add(viewItem);
+                        containerItem = tabItem;
+                    }
+                    else
+                    {
+                        containerItem = itemFactory.CreateGroup(tabItem, group.Key);
+                        viewItems.Add(containerItem);
+                    }
+
+                    foreach (var item in group.OrderBy(i => i.Attribute.Order))
+                    {
+                        IViewItem viewItem = CreateViewItem(containerItem, item.Property, config, itemFactory);
+                        if (viewItem != null)
+                        {
+                            viewItems.Add(viewItem);
+                        }
                     }
                 }
             }

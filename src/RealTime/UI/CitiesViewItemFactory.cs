@@ -7,6 +7,7 @@ namespace RealTime.UI
     using System;
     using System.Collections.Generic;
     using System.Reflection;
+    using ColossalFramework.UI;
     using ICities;
     using RealTime.Localization;
 
@@ -15,6 +16,7 @@ namespace RealTime.UI
     internal sealed class CitiesViewItemFactory : IViewItemFactory
     {
         private readonly UIHelperBase uiHelper;
+        private readonly UITabstrip tabStrip;
 
         /// <summary>Initializes a new instance of the <see cref="CitiesViewItemFactory"/> class.</summary>
         /// <param name="uiHelper">The game's UI helper reference.</param>
@@ -22,20 +24,60 @@ namespace RealTime.UI
         public CitiesViewItemFactory(UIHelperBase uiHelper)
         {
             this.uiHelper = uiHelper ?? throw new ArgumentNullException(nameof(uiHelper));
+
+            var root = (uiHelper as UIHelper)?.self as UIComponent;
+            if (root != null)
+            {
+                tabStrip = root.AddUIComponent<UITabstrip>();
+
+                UITabContainer tabContainer = root.AddUIComponent<UITabContainer>();
+                tabContainer.width = root.width - 20f;
+                tabContainer.height = root.height - tabStrip.height - 20f;
+
+                tabStrip.tabPages = tabContainer;
+            }
+        }
+
+        /// <summary>Creates a new tab item. If it cannot be created, returns a group instead.</summary>
+        /// <param name="id">The ID of the tab to create.</param>
+        /// <returns>A newly created <see cref="IContainerViewItem"/> instance representing a tab item.</returns>
+        /// <exception cref="System.ArgumentException">Thrown when <paramref name="id"/> is null or empty string.</exception>
+        public IContainerViewItem CreateTabItem(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                throw new ArgumentException("The tab ID cannot be null or empty string", nameof(id));
+            }
+
+            IContainerViewItem result = null;
+            if (tabStrip != null)
+            {
+                result = CitiesTabItem.Create(tabStrip, id);
+                tabStrip.selectedIndex = tabStrip.tabCount - 1;
+            }
+
+            return result ?? new CitiesGroupItem(uiHelper.AddGroup(Constants.Placeholder), id);
         }
 
         /// <summary>Creates a new group view item.</summary>
+        /// <param name="container">The parent container for the created item.</param>
         /// <param name="id">The ID of the group to create.</param>
         /// <returns>A newly created <see cref="IContainerViewItem"/> instance representing a group.</returns>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="id"/> is null or empty string.</exception>
-        public IContainerViewItem CreateGroup(string id)
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="container"/> is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="id"/> is null or an empty string.</exception>
+        public IContainerViewItem CreateGroup(IContainerViewItem container, string id)
         {
+            if (container == null)
+            {
+                throw new ArgumentNullException(nameof(container));
+            }
+
             if (string.IsNullOrEmpty(id))
             {
                 throw new ArgumentException("The group ID cannot be null or empty string", nameof(id));
             }
 
-            return new CitiesGroupViewItem(uiHelper.AddGroup(Constants.Placeholder), id);
+            return new CitiesGroupItem(container.Container.AddGroup(Constants.Placeholder), id);
         }
 
         /// <summary>Creates a new check box view item.</summary>
