@@ -1,5 +1,5 @@
-﻿// <copyright file="UnityCheckBoxItem.cs" company="dymanoid">
-//     Copyright (c) dymanoid. All rights reserved.
+﻿// <copyright file="CitiesCheckBoxItem.cs" company="dymanoid">
+// Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
 namespace RealTime.UI
@@ -10,9 +10,9 @@ namespace RealTime.UI
     using RealTime.Localization;
 
     /// <summary>A check box item.</summary>
-    internal sealed class UnityCheckBoxItem : UnityViewItem<UICheckBox, bool>
+    internal sealed class CitiesCheckBoxItem : CitiesViewItem<UICheckBox, bool>
     {
-        /// <summary>Initializes a new instance of the <see cref="UnityCheckBoxItem"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="CitiesCheckBoxItem"/> class.</summary>
         /// <param name="uiHelper">The game's UI helper reference.</param>
         /// <param name="id">The view item's unique ID.</param>
         /// <param name="property">
@@ -23,7 +23,7 @@ namespace RealTime.UI
         /// <exception cref="System.ArgumentException">
         /// thrown when the <paramref name="id"/> is an empty string.
         /// </exception>
-        public UnityCheckBoxItem(UIHelperBase uiHelper, string id, PropertyInfo property, object config)
+        public CitiesCheckBoxItem(UIHelperBase uiHelper, string id, PropertyInfo property, object config)
             : base(uiHelper, id, property, config)
         {
         }

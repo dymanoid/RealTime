@@ -1,5 +1,5 @@
-﻿// <copyright file="UnityPageViewItem.cs" company="dymanoid">
-//     Copyright (c) dymanoid. All rights reserved.
+﻿// <copyright file="CitiesGroupViewItem.cs" company="dymanoid">
+// Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
 namespace RealTime.UI
@@ -9,23 +9,23 @@ namespace RealTime.UI
     using ICities;
     using RealTime.Localization;
 
-    /// <summary>A page view item.</summary>
+    /// <summary>A group view item.</summary>
     /// <seealso cref="IContainerViewItem"/>
-    internal sealed class UnityPageViewItem : IContainerViewItem
+    internal sealed class CitiesGroupViewItem : IContainerViewItem
     {
         private const string LabelName = "Label";
         private readonly string id;
 
-        /// <summary>Initializes a new instance of the <see cref="UnityPageViewItem"/> class.</summary>
-        /// <param name="page">The game's page item.</param>
-        /// <param name="id">The page's unique ID.</param>
-        /// <exception cref="ArgumentException">Thrown when any argument is null.</exception>
-        /// <exception cref="ArgumentNullException">
+        /// <summary>Initializes a new instance of the <see cref="CitiesGroupViewItem"/> class.</summary>
+        /// <param name="group">The game's group view item.</param>
+        /// <param name="id">The groups's unique ID.</param>
+        /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
+        /// <exception cref="ArgumentException">
         /// Thrown when <paramref name="id"/> is an empty string.
         /// </exception>
-        public UnityPageViewItem(UIHelperBase page, string id)
+        public CitiesGroupViewItem(UIHelperBase group, string id)
         {
-            Container = page ?? throw new ArgumentNullException(nameof(page));
+            Container = group ?? throw new ArgumentNullException(nameof(group));
             this.id = id ?? throw new ArgumentNullException(nameof(id));
             if (id.Length == 0)
             {

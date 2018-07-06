@@ -1,4 +1,6 @@
-﻿// <copyright file="UnityViewItemFactory.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
+﻿// <copyright file="CitiesViewItemFactory.cs" company="dymanoid">
+// Copyright (c) dymanoid. All rights reserved.
+// </copyright>
 
 namespace RealTime.UI
 {
@@ -10,14 +12,14 @@ namespace RealTime.UI
 
     /// <summary>The default implementation of the <see cref="IViewItemFactory"/> interface.</summary>
     /// <seealso cref="IViewItemFactory"/>
-    internal sealed class UnityViewItemFactory : IViewItemFactory
+    internal sealed class CitiesViewItemFactory : IViewItemFactory
     {
         private readonly UIHelperBase uiHelper;
 
-        /// <summary>Initializes a new instance of the <see cref="UnityViewItemFactory"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="CitiesViewItemFactory"/> class.</summary>
         /// <param name="uiHelper">The game's UI helper reference.</param>
         /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
-        public UnityViewItemFactory(UIHelperBase uiHelper)
+        public CitiesViewItemFactory(UIHelperBase uiHelper)
         {
             this.uiHelper = uiHelper ?? throw new ArgumentNullException(nameof(uiHelper));
         }
@@ -33,7 +35,7 @@ namespace RealTime.UI
                 throw new ArgumentException("The group ID cannot be null or empty string", nameof(id));
             }
 
-            return new UnityPageViewItem(uiHelper.AddGroup(Constants.Placeholder), id);
+            return new CitiesGroupViewItem(uiHelper.AddGroup(Constants.Placeholder), id);
         }
 
         /// <summary>Creates a new check box view item.</summary>
@@ -46,7 +48,7 @@ namespace RealTime.UI
         /// <exception cref="System.ArgumentException">Thrown when <paramref name="id"/> is an empty string.</exception>
         public IViewItem CreateCheckBox(IContainerViewItem container, string id, PropertyInfo property, object config)
         {
-            return new UnityCheckBoxItem(container.Container, id, property, config);
+            return new CitiesCheckBoxItem(container.Container, id, property, config);
         }
 
         /// <summary>Creates a new slider view item.</summary>
@@ -79,7 +81,7 @@ namespace RealTime.UI
             SliderValueType valueType,
             float displayMultiplier)
         {
-            return new UnitySliderItem(container.Container, id, property, config, min, max, step, valueType, displayMultiplier);
+            return new CitiesSliderItem(container.Container, id, property, config, min, max, step, valueType, displayMultiplier);
         }
 
         /// <summary>Creates a new combo box view item.</summary>
@@ -98,7 +100,7 @@ namespace RealTime.UI
             object config,
             IEnumerable<string> itemIds)
         {
-            return new UnityComboBoxItem(container.Container, id, property, config, itemIds);
+            return new CitiesComboBoxItem(container.Container, id, property, config, itemIds);
         }
     }
 }

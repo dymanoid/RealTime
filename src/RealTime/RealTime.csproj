@@ -135,12 +135,12 @@
     <Compile Include="UI\RealTimeUIDateTimeWrapper.cs" />
     <Compile Include="UI\CustomTimeBar.cs" />
     <Compile Include="UI\SliderValueType.cs" />
-    <Compile Include="UI\UnityComboBoxItem.cs" />
-    <Compile Include="UI\UnityCheckBoxItem.cs" />
-    <Compile Include="UI\UnityPageViewItem.cs" />
-    <Compile Include="UI\UnitySliderItem.cs" />
-    <Compile Include="UI\UnityViewItem.cs" />
     <Compile Include="UI\UnityViewItemFactory.cs" />
+    <Compile Include="UI\CitiesComboBoxItem.cs" />
+    <Compile Include="UI\CitiesCheckBoxItem.cs" />
+    <Compile Include="UI\CitiesGroupViewItem.cs" />
+    <Compile Include="UI\CitiesSliderItem.cs" />
+    <Compile Include="UI\CitiesViewItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Redirection\Redirection.csproj">
