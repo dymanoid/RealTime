@@ -5,6 +5,7 @@
 namespace RealTime.Simulation
 {
     using System;
+    using RealTime.Config;
 
     /// <summary>
     /// A class that performs the simulation of real daytime and applies the values
@@ -12,7 +13,21 @@ namespace RealTime.Simulation
     /// </summary>
     internal sealed class DayTimeSimulation
     {
+        private readonly float vanillaSunrise;
+        private readonly float vanillaSunset;
+        private readonly RealTimeConfig config;
+
         private DayTimeCalculator calculator;
+
+        /// <summary>Initializes a new instance of the <see cref="DayTimeSimulation"/> class.</summary>
+        /// <param name="config">The configuration to run with.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
+        public DayTimeSimulation(RealTimeConfig config)
+        {
+            vanillaSunrise = SimulationManager.SUNRISE_HOUR;
+            vanillaSunset = SimulationManager.SUNSET_HOUR;
+            this.config = config ?? throw new ArgumentNullException(nameof(config));
+        }
 
         /// <summary>
         /// Processes the simulation for the specified date.
@@ -31,11 +46,26 @@ namespace RealTime.Simulation
                 return;
             }
 
-            calculator.Calculate(date, out float sunriseHour, out float sunsetHour);
+            float sunriseHour, sunsetHour;
+            if (config.IsDynamicDayLengthEnabled)
+            {
+                calculator.Calculate(date, out sunriseHour, out sunsetHour);
+            }
+            else
+            {
+                if (SimulationManager.SUNRISE_HOUR == vanillaSunrise && SimulationManager.SUNSET_HOUR == vanillaSunset)
+                {
+                    return;
+                }
+
+                sunriseHour = vanillaSunrise;
+                sunsetHour = vanillaSunset;
+            }
+
             SimulationManager.SUNRISE_HOUR = sunriseHour;
             SimulationManager.SUNSET_HOUR = sunsetHour;
 
-            SimulationManager.RELATIVE_DAY_LENGTH = (int)((sunsetHour - sunriseHour) * 100 / 24);
+            SimulationManager.RELATIVE_DAY_LENGTH = (int)(100f * (sunsetHour - sunriseHour) / 24f);
             SimulationManager.RELATIVE_NIGHT_LENGTH = 100 - SimulationManager.RELATIVE_DAY_LENGTH;
         }
     }

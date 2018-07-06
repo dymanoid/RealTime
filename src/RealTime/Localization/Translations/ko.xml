@@ -9,7 +9,9 @@
   <translation id="DayTimeSpeedTooltip" value="The speed of the time flow on daytime. '1' is very slow - almost real time!" />
   <translation id="NightTimeSpeed" value="Time speed (night)" />
   <translation id="NightTimeSpeedTooltip" value="The speed of the time flow on night time. '1' is very slow - almost real time!" />
-  <translation id="VirtualCitizens" value="Citizens simulation mode (real and virtual)" />
+  <translation id="IsDynamicDayLengthEnabled" value="Dynamic day length" />
+  <translation id="IsDynamicDayLengthEnabledTooltip" value="Day length depends on the map's theme and day of the year. In winter the days are shorter than in summer." />
+  <translation id="VirtualCitizens" value="Citizens simulation mode (real and virtual)" />  
   <translation id="VirtualCitizensTooltip" value="Select 'All' for a real city (but max 65.535 citizens), select 'Vanilla' or 'More' if your PC is weak" />
   <translation id="VirtualCitizens.None" value="All citizens are real" />
   <translation id="VirtualCitizens.Few" value="Almost all citizens are real" />

@@ -8,6 +8,8 @@
   <translation id="DayTimeSpeedTooltip" value="'1' es muy lento, casi en tiempo real!" />
   <translation id="NightTimeSpeed" value="Velocidad reloj 24h (noche)" />
   <translation id="NightTimeSpeedTooltip" value="'1' es muy lento, casi en tiempo real!" />
+  <translation id="IsDynamicDayLengthEnabled" value="Dynamic day length" />
+  <translation id="IsDynamicDayLengthEnabledTooltip" value="Day length depends on the map's theme and day of the year. In winter the days are shorter than in summer." />
   <translation id="VirtualCitizens" value="Modo simulacion de Cims (real y virtual)" />
   <translation id="VirtualCitizensTooltip" value="Seleccionar TODOS para una city real (maximo 65.535 cims activos), seleccionar 'Original' o 'MAS' si tu PC es flojo" />
   <translation id="VirtualCitizens.None" value="TODOS los cims son reales" />

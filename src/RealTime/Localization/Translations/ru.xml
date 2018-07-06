@@ -9,6 +9,8 @@
   <translation id="DayTimeSpeedTooltip" value="Скорость течения времени днём. '1' очень медленно - почти реальное время!" />
   <translation id="NightTimeSpeed" value="Скорость времени (ночь)" />
   <translation id="NightTimeSpeedTooltip" value="Скорость течения времени ночью. '1' очень медленно - почти реальное время!" />
+  <translation id="IsDynamicDayLengthEnabled" value="Динамическая долгота дня" />
+  <translation id="IsDynamicDayLengthEnabledTooltip" value="Долгота дня завист от темы карты и от времени года. Зимой дни короче, чем летом." />
   <translation id="VirtualCitizens" value="Метод симуляции жителей (реальных и виртуальных)" />
   <translation id="VirtualCitizensTooltip" value="Выберите 'Все' для реального города (но макс. 65.535 жителей или 'Оригинально' / 'Больше', если компьютер слаб" />
   <translation id="VirtualCitizens.None" value="Все жители города реальные" />

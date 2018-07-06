@@ -19,51 +19,59 @@ namespace RealTime.Config
         }
 
         /// <summary>
-        /// Gets or sets the speed of the time flow on daytime. Valid values are 1..7.
+        /// Gets or sets a value indicating whether the dynamic day length is enabled.
+        /// The dynamic day length depends on map's location and day of the year.
         /// </summary>
         [ConfigItem("1General", 0)]
+        [ConfigItemCheckBox]
+        public bool IsDynamicDayLengthEnabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets the speed of the time flow on daytime. Valid values are 1..7.
+        /// </summary>
+        [ConfigItem("1General", 1)]
         [ConfigItemSlider(1, 7, ValueType = SliderValueType.Default)]
         public uint DayTimeSpeed { get; set; }
 
         /// <summary>
         /// Gets or sets the speed of the time flow on night time. Valid values are 1..7.
         /// </summary>
-        [ConfigItem("1General", 1)]
+        [ConfigItem("1General", 2)]
         [ConfigItemSlider(1, 7, ValueType = SliderValueType.Default)]
         public uint NightTimeSpeed { get; set; }
 
         /// <summary>
         /// Gets or sets the virtual citizens mode.
         /// </summary>
-        [ConfigItem("1General", 2)]
+        [ConfigItem("1General", 3)]
         [ConfigItemComboBox]
         public VirtualCitizensLevel VirtualCitizens { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the weekends are enabled. Cims don't go to work on weekends.
         /// </summary>
-        [ConfigItem("1General", 3)]
+        [ConfigItem("1General", 4)]
         [ConfigItemCheckBox]
         public bool IsWeekendEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether Cims should go out at lunch for food.
         /// </summary>
-        [ConfigItem("1General", 4)]
+        [ConfigItem("1General", 5)]
         [ConfigItemCheckBox]
         public bool IsLunchtimeEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the construction sites should pause at night time.
         /// </summary>
-        [ConfigItem("1General", 5)]
+        [ConfigItem("1General", 6)]
         [ConfigItemCheckBox]
         public bool StopConstructionAtNight { get; set; }
 
         /// <summary>
         /// Gets or sets the percentage value of the building construction speed. Valid values are 1..100.
         /// </summary>
-        [ConfigItem("1General", 6)]
+        [ConfigItem("1General", 7)]
         [ConfigItemSlider(1, 100)]
         public uint ConstructionSpeed { get; set; }
 
@@ -230,6 +238,7 @@ namespace RealTime.Config
         /// <summary>Resets all values to their defaults.</summary>
         public void ResetToDefaults()
         {
+            IsDynamicDayLengthEnabled = true;
             DayTimeSpeed = 5;
             NightTimeSpeed = 5;
 

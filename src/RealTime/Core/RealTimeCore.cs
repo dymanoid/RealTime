@@ -116,7 +116,7 @@ namespace RealTime.Core
             eventManager.EventsChanged += result.CityEventsChanged;
             SimulationHandler.NewDay += result.CityEventsChanged;
 
-            SimulationHandler.DayTimeSimulation = new DayTimeSimulation();
+            SimulationHandler.DayTimeSimulation = new DayTimeSimulation(config);
             SimulationHandler.EventManager = eventManager;
             SimulationHandler.CommercialAI = new RealTimeCommercialBuildingAI(timeInfo, buildingManager);
 
