@@ -75,6 +75,23 @@ namespace RealTime.Tools
         }
 
         /// <summary>
+        /// Logs a debug information. This method won't be compiled in the 'Release' mode.
+        /// </summary>
+        ///
+        /// <param name="condition">A condition whether the debug logging should occur.</param>
+        /// <param name="text">The text to log.</param>
+        [Conditional("DEBUG")]
+        public static void DebugIf(bool condition, string text)
+        {
+#if DEBUG
+            if (condition)
+            {
+                DebugLog(text, TypeDebug);
+            }
+#endif
+        }
+
+        /// <summary>
         /// Logs an information text.
         /// </summary>
         ///
