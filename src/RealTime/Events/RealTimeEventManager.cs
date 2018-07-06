@@ -178,6 +178,11 @@ namespace RealTime.Events
         /// </summary>
         public void ProcessEvents()
         {
+            if (RemoveCanceledEvents())
+            {
+                OnEventsChanged();
+            }
+
             if ((timeInfo.Now - lastProcessed) < EventProcessInterval)
             {
                 return;
@@ -317,6 +322,54 @@ namespace RealTime.Events
             {
                 OnEventsChanged();
             }
+        }
+
+        private bool RemoveCanceledEvents()
+        {
+            if (lastActiveEvent != null && MustCancelEvent(lastActiveEvent))
+            {
+                lastActiveEvent = null;
+            }
+
+            bool eventsChanged = false;
+            if (activeEvent != null && MustCancelEvent(activeEvent))
+            {
+                Log.Debug($"The active event in building {activeEvent.BuildingId} must be canceled");
+                activeEvent = null;
+                eventsChanged = true;
+            }
+
+            if (upcomingEvents.Count == 0)
+            {
+                return eventsChanged;
+            }
+
+            LinkedListNode<ICityEvent> cityEvent = upcomingEvents.First;
+            while (cityEvent != null)
+            {
+                if (MustCancelEvent(cityEvent.Value))
+                {
+                    Log.Debug($"The upcoming event in building {cityEvent.Value.BuildingId} must be canceled");
+                    eventsChanged = true;
+                    LinkedListNode<ICityEvent> nextEvent = cityEvent.Next;
+                    upcomingEvents.Remove(cityEvent);
+                    cityEvent = nextEvent;
+                }
+                else
+                {
+                    cityEvent = cityEvent.Next;
+                }
+            }
+
+            return eventsChanged;
+        }
+
+        private bool MustCancelEvent(ICityEvent cityEvent)
+        {
+            Building.Flags flags = Building.Flags.Abandoned | Building.Flags.BurnedDown | Building.Flags.Collapsed
+                | Building.Flags.Deleted | Building.Flags.Demolishing | Building.Flags.Evacuating | Building.Flags.Flooded;
+
+            return buildingManager.BuildingHasFlags(cityEvent.BuildingId, flags, true);
         }
 
         private void CreateRandomEvent(ushort buildingId)

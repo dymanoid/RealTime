@@ -52,18 +52,24 @@ namespace RealTime.GameConnection
 
         /// <summary>
         /// Gets a value indicating whether the building with specified ID has particular flags.
+        /// The single <see cref="Building.Flags.None"/> value can also be checked for.
         /// </summary>
         /// <param name="buildingId">The ID of the building to check the flags of.</param>
         /// <param name="flags">The building flags to check.</param>
+        /// <param name="includeZero"><c>true</c> if a building without any flags can also be considered.</param>
         /// <returns>
         /// <c>true</c> if the building with the specified ID has the <paramref name="flags" />
         /// provided; otherwise, <c>false</c>.
         /// </returns>
-        public bool BuildingHasFlags(ushort buildingId, Building.Flags flags)
+        public bool BuildingHasFlags(ushort buildingId, Building.Flags flags, bool includeZero = false)
         {
-            return buildingId == 0
-                ? false
-                : (BuildingManager.instance.m_buildings.m_buffer[buildingId].m_flags & flags) != 0;
+            if (buildingId == 0)
+            {
+                return false;
+            }
+
+            Building.Flags buildingFlags = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_flags;
+            return (buildingFlags & flags) != 0 || (includeZero && buildingFlags == Building.Flags.None);
         }
 
         /// <summary>
