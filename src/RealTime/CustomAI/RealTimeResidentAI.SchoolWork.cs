@@ -173,7 +173,7 @@ namespace RealTime.CustomAI
             }
 
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
-            if (ShouldGoToLunch(CitizenProxy.GetAge(ref citizen)))
+            if (ShouldGoToLunch(CitizenProxy.GetAge(ref citizen), citizenId))
             {
                 ushort lunchPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, isVirtual);
                 if (lunchPlace != 0)
@@ -367,7 +367,7 @@ namespace RealTime.CustomAI
             return false;
         }
 
-        private bool ShouldGoToLunch(Citizen.AgeGroup citizenAge)
+        private bool ShouldGoToLunch(Citizen.AgeGroup citizenAge, uint citizenId)
         {
             if (!Config.IsLunchtimeEnabled)
             {
@@ -383,7 +383,7 @@ namespace RealTime.CustomAI
             }
 
             float currentHour = TimeInfo.CurrentHour;
-            if (currentHour >= Config.LunchBegin && currentHour <= Config.LunchEnd)
+            if (!IsBadWeather(citizenId) && currentHour >= Config.LunchBegin && currentHour <= Config.LunchEnd)
             {
                 return Random.ShouldOccur(Config.LunchQuota);
             }

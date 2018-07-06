@@ -40,6 +40,18 @@ namespace RealTime.Simulation
         /// <summary>Gets or sets the time adjustment simulation class instance.</summary>
         internal static TimeAdjustment TimeAdjustment { get; set; }
 
+        /// <summary>Gets or sets the weather information class instance.</summary>
+        internal static WeatherInfo WeatherInfo { get; set; }
+
+        /// <summary>
+        /// Called before each game simulation tick. A tick contains multiple frames.
+        /// Performs the dispatching for this simulation phase.
+        /// </summary>
+        public override void OnBeforeSimulationTick()
+        {
+            WeatherInfo?.Update();
+        }
+
         /// <summary>
         /// Called after each game simulation tick. A tick contains multiple frames.
         /// Performs the dispatching for this simulation phase.

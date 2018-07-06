@@ -123,6 +123,7 @@ namespace RealTime.Core
             SimulationHandler.DayTimeSimulation = new DayTimeSimulation(config);
             SimulationHandler.EventManager = eventManager;
             SimulationHandler.CommercialAI = new RealTimeCommercialBuildingAI(timeInfo, buildingManager);
+            SimulationHandler.WeatherInfo = weatherInfo;
 
             RealTimeStorage.CurrentLevelStorage.GameSaving += result.GameSaving;
             result.storageData.Add(eventManager);
@@ -161,6 +162,7 @@ namespace RealTime.Core
             SimulationHandler.DayTimeSimulation = null;
             SimulationHandler.CommercialAI = null;
             SimulationHandler.TimeAdjustment = null;
+            SimulationHandler.WeatherInfo = null;
 
             try
             {
