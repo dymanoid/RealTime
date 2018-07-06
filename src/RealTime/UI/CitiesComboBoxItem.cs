@@ -1,4 +1,4 @@
-﻿// <copyright file="UnityComboBoxItem.cs" company="dymanoid">
+﻿// <copyright file="CitiesComboBoxItem.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -13,13 +13,13 @@ namespace RealTime.UI
     using RealTime.Localization;
 
     /// <summary>A check box item.</summary>
-    internal sealed class UnityComboBoxItem : UnityViewItem<UIDropDown, int>
+    internal sealed class CitiesComboBoxItem : CitiesViewItem<UIDropDown, int>
     {
         private const string LabelName = "Label";
 
         private readonly IEnumerable<string> itemIds;
 
-        /// <summary>Initializes a new instance of the <see cref="UnityComboBoxItem"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="CitiesComboBoxItem"/> class.</summary>
         /// <param name="uiHelper">The game's UI helper reference.</param>
         /// <param name="id">The view item's unique ID.</param>
         /// <param name="property">
@@ -31,7 +31,7 @@ namespace RealTime.UI
         /// <exception cref="ArgumentException">
         /// thrown when the <paramref name="id"/> is an empty string.
         /// </exception>
-        public UnityComboBoxItem(UIHelperBase uiHelper, string id, PropertyInfo property, object config, IEnumerable<string> itemIds)
+        public CitiesComboBoxItem(UIHelperBase uiHelper, string id, PropertyInfo property, object config, IEnumerable<string> itemIds)
             : base(uiHelper, id, property, config)
         {
             this.itemIds = itemIds ?? throw new ArgumentNullException(nameof(itemIds));
@@ -69,6 +69,14 @@ namespace RealTime.UI
             }
 
             UIComponent.items = itemIds.Select(item => localizationProvider.Translate($"{UIComponent.name}.{item}")).ToArray();
+            UIComponent.selectedIndex = Value;
+        }
+
+        /// <summary>
+        /// Refreshes this view item by re-fetching its value from the bound configuration property.
+        /// </summary>
+        public override void Refresh()
+        {
             UIComponent.selectedIndex = Value;
         }
 

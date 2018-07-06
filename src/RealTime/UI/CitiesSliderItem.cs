@@ -1,5 +1,5 @@
-﻿// <copyright file="UnitySliderItem.cs" company="dymanoid">
-//     Copyright (c) dymanoid. All rights reserved.
+﻿// <copyright file="CitiesSliderItem.cs" company="dymanoid">
+// Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
 namespace RealTime.UI
@@ -12,7 +12,7 @@ namespace RealTime.UI
     using RealTime.Localization;
 
     /// <summary>A slider view item.</summary>
-    internal sealed class UnitySliderItem : UnityViewItem<UISlider, float>
+    internal sealed class CitiesSliderItem : CitiesViewItem<UISlider, float>
     {
         private const string LabelName = "Label";
         private const int SliderValueLabelPadding = 20;
@@ -22,7 +22,7 @@ namespace RealTime.UI
         private readonly float displayMultiplier;
         private CultureInfo currentCulture;
 
-        /// <summary>Initializes a new instance of the <see cref="UnitySliderItem"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="CitiesSliderItem"/> class.</summary>
         /// <param name="uiHelper">The game's UI helper reference.</param>
         /// <param name="id">The view item's unique ID.</param>
         /// <param name="property">
@@ -38,7 +38,7 @@ namespace RealTime.UI
         /// <exception cref="ArgumentException">
         /// thrown when the <paramref name="id"/> is an empty string.
         /// </exception>
-        public UnitySliderItem(
+        public CitiesSliderItem(
             UIHelperBase uiHelper,
             string id,
             PropertyInfo property,
@@ -97,6 +97,14 @@ namespace RealTime.UI
 
             currentCulture = localizationProvider.CurrentCulture;
             UpdateValueLabel(Value);
+        }
+
+        /// <summary>
+        /// Refreshes this view item by re-fetching its value from the bound configuration property.
+        /// </summary>
+        public override void Refresh()
+        {
+            UIComponent.value = Value;
         }
 
         /// <summary>Creates the view item using the provided <see cref="UIHelperBase"/>.</summary>

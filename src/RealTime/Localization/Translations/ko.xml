@@ -1,11 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <language id="ko" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
+  <translation id="Tools" value="Tools" />
+  <translation id="ResetToDefaults" value="Reset all to defaults" />
+
   <translation id="1General" value="일반" />
   <translation id="DayTimeSpeed" value="시간 속도 (낮중)" />
   <translation id="DayTimeSpeedTooltip" value="낮 동안의 시간 속도를 정합니다. '1'은 매우 느리며, 거의 현실 시간과 같습니다!" />
   <translation id="NightTimeSpeed" value="시간 속도 (밤중)" />
   <translation id="NightTimeSpeedTooltip" value="밤 동안의 시간 속도를 정합니다. '1'은 매우 느리며, 거의 현실 시간과 같습니다!" />
+  <translation id="IsDynamicDayLengthEnabled" value="Dynamic day length" />
+  <translation id="IsDynamicDayLengthEnabledTooltip" value="Day length depends on the map's theme and day of the year. In winter the days are shorter than in summer." />
   <translation id="VirtualCitizens" value="시민 시뮬레이션 모드 (현실 그리고 가상적인)" />
   <translation id="VirtualCitizensTooltip" value="'전체' 도시의(그러나 게임내 제한인 63,535 명을 넘을수 없습니다) 시민 시뮬레이션 정도를 정합니다. 사양이 낮으시다면 '바닐라' 혹은 '더 가상적인 시민들' 같은 설정으로 맞춰주세요" />
   <translation id="VirtualCitizens.None" value="전부 사실같은 시뮬레이션" />

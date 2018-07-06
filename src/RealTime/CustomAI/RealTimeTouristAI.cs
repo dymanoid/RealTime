@@ -102,10 +102,19 @@ namespace RealTime.CustomAI
                 return;
             }
 
+            bool badWeather = IsBadWeather(citizenId);
             if (CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.TargetIsNode | CitizenInstance.Flags.OnTour, true))
             {
                 Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, false)} exits the guided tour.");
-                FindRandomVisitPlace(instance, citizenId, ref citizen, TouristDoNothingProbability, 0, false);
+                if (!badWeather)
+                {
+                    FindRandomVisitPlace(instance, citizenId, ref citizen, TouristDoNothingProbability, 0, false);
+                }
+            }
+
+            if (badWeather)
+            {
+                FindHotel(instance, citizenId, ref citizen, false);
             }
         }
 
@@ -140,7 +149,9 @@ namespace RealTime.CustomAI
                     return;
             }
 
-            if (Random.ShouldOccur(TouristEventChance) && AttendUpcomingEvent(citizenId, ref citizen, out ushort eventBuilding))
+            if (Random.ShouldOccur(TouristEventChance)
+                && !IsBadWeather(citizenId)
+                && AttendUpcomingEvent(citizenId, ref citizen, out ushort eventBuilding))
             {
                 StartMovingToVisitBuilding(instance, citizenId, ref citizen, CitizenProxy.GetCurrentBuilding(ref citizen), eventBuilding, isVirtual);
                 Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, isVirtual)} attending an event at {eventBuilding}");
@@ -180,7 +191,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            if (!Random.ShouldOccur(GetGoOutChance(CitizenProxy.GetAge(ref citizen))))
+            if (!Random.ShouldOccur(GetGoOutChance(CitizenProxy.GetAge(ref citizen))) || IsBadWeather(citizenId))
             {
                 FindHotel(instance, citizenId, ref citizen, isVirtual);
                 return;

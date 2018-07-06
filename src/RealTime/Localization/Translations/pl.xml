@@ -1,11 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <language id="pl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
+  <translation id="Tools" value="Tools" />
+  <translation id="ResetToDefaults" value="Reset all to defaults" />
+
   <translation id="1General" value="General" />
   <translation id="DayTimeSpeed" value="Time speed (day)" />
   <translation id="DayTimeSpeedTooltip" value="The speed of the time flow on daytime. '1' is very slow - almost real time!" />
   <translation id="NightTimeSpeed" value="Time speed (night)" />
   <translation id="NightTimeSpeedTooltip" value="The speed of the time flow on night time. '1' is very slow - almost real time!" />
+  <translation id="IsDynamicDayLengthEnabled" value="Dynamic day length" />
+  <translation id="IsDynamicDayLengthEnabledTooltip" value="Day length depends on the map's theme and day of the year. In winter the days are shorter than in summer." />
   <translation id="VirtualCitizens" value="Citizens simulation mode (real and virtual)" />
   <translation id="VirtualCitizensTooltip" value="Select 'All' for a real city (but max 65.535 citizens), select 'Vanilla' or 'More' if your PC is weak" />
   <translation id="VirtualCitizens.None" value="All citizens are real" />

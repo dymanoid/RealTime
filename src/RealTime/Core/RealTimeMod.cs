@@ -83,7 +83,7 @@ namespace RealTime.Core
                 config = ConfigurationProvider.LoadConfiguration();
             }
 
-            IViewItemFactory itemFactory = new UnityViewItemFactory(helper);
+            IViewItemFactory itemFactory = new CitiesViewItemFactory(helper);
             configUI = ConfigUI.Create(config, itemFactory);
             ApplyLanguage();
         }

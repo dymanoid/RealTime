@@ -1,11 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <language id="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
+  <translation id="Tools" value="Утилиты" />
+  <translation id="ResetToDefaults" value="Вернуть опции по умолчанию" />
+
   <translation id="1General" value="Основные" />
   <translation id="DayTimeSpeed" value="Скорость времени (день)" />
   <translation id="DayTimeSpeedTooltip" value="Скорость течения времени днём. '1' очень медленно - почти реальное время!" />
   <translation id="NightTimeSpeed" value="Скорость времени (ночь)" />
   <translation id="NightTimeSpeedTooltip" value="Скорость течения времени ночью. '1' очень медленно - почти реальное время!" />
+  <translation id="IsDynamicDayLengthEnabled" value="Динамическая долгота дня" />
+  <translation id="IsDynamicDayLengthEnabledTooltip" value="Долгота дня завист от темы карты и от времени года. Зимой дни короче, чем летом." />
   <translation id="VirtualCitizens" value="Метод симуляции жителей (реальных и виртуальных)" />
   <translation id="VirtualCitizensTooltip" value="Выберите 'Все' для реального города (но макс. 65.535 жителей или 'Оригинально' / 'Больше', если компьютер слаб" />
   <translation id="VirtualCitizens.None" value="Все жители города реальные" />

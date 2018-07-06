@@ -33,15 +33,16 @@ namespace RealTime.GameConnection
 
         /// <summary>
         /// Gets a value indicating whether the building with specified ID has particular flags.
+        /// The single <see cref="Building.Flags.None"/> value can also be checked for.
         /// </summary>
         /// <param name="buildingId">The ID of the building to check the flags of.</param>
         /// <param name="flags">The building flags to check.</param>
-        /// ///
+        /// <param name="includeZero"><c>true</c> if a building without any flags can also be considered.</param>
         /// <returns>
         /// <c>true</c> if the building with the specified ID has the <paramref name="flags"/>
         /// provided; otherwise, <c>false</c>.
         /// </returns>
-        bool BuildingHasFlags(ushort buildingId, Building.Flags flags);
+        bool BuildingHasFlags(ushort buildingId, Building.Flags flags, bool includeZero = false);
 
         /// <summary>Gets the distance in game units between two buildings with specified IDs.</summary>
         /// <param name="building1">The ID of the first building.</param>

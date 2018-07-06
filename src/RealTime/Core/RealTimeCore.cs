@@ -51,6 +51,7 @@ namespace RealTime.Core
         /// <param name="localizationProvider">The <see cref="LocalizationProvider"/> to use for text translation.</param>
         ///
         /// <returns>A <see cref="RealTimeCore"/> instance that can be used to stop the mod.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "This is the entry point and needs to instantiate all parts")]
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public static RealTimeCore Run(RealTimeConfig config, string rootPath, LocalizationProvider localizationProvider)
         {
@@ -88,13 +89,16 @@ namespace RealTime.Core
             var buildingManager = new BuildingManagerConnection();
             var randomizer = new GameRandomizer();
 
+            var weatherInfo = new WeatherInfo(new WeatherManagerConnection());
+
             var gameConnections = new GameConnections<Citizen>(
                 timeInfo,
                 new CitizenConnection(),
                 new CitizenManagerConnection(),
                 buildingManager,
                 randomizer,
-                new TransferManagerConnection());
+                new TransferManagerConnection(),
+                weatherInfo);
 
             var eventManager = new RealTimeEventManager(
                 config,
@@ -116,9 +120,10 @@ namespace RealTime.Core
             eventManager.EventsChanged += result.CityEventsChanged;
             SimulationHandler.NewDay += result.CityEventsChanged;
 
-            SimulationHandler.DayTimeSimulation = new DayTimeSimulation();
+            SimulationHandler.DayTimeSimulation = new DayTimeSimulation(config);
             SimulationHandler.EventManager = eventManager;
             SimulationHandler.CommercialAI = new RealTimeCommercialBuildingAI(timeInfo, buildingManager);
+            SimulationHandler.WeatherInfo = weatherInfo;
 
             RealTimeStorage.CurrentLevelStorage.GameSaving += result.GameSaving;
             result.storageData.Add(eventManager);
@@ -157,6 +162,7 @@ namespace RealTime.Core
             SimulationHandler.DayTimeSimulation = null;
             SimulationHandler.CommercialAI = null;
             SimulationHandler.TimeAdjustment = null;
+            SimulationHandler.WeatherInfo = null;
 
             try
             {

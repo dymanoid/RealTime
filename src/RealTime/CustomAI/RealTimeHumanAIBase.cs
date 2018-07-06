@@ -45,6 +45,7 @@ namespace RealTime.CustomAI
             CitizenProxy = connections.CitizenConnection;
             TimeInfo = connections.TimeInfo;
             Random = connections.Random;
+            WeatherInfo = connections.WeatherInfo;
         }
 
         /// <summary>
@@ -96,6 +97,9 @@ namespace RealTime.CustomAI
         /// Gets a reference to the game's randomizer.
         /// </summary>
         protected IRandomizer Random { get; }
+
+        /// <summary>Gets the current weather info.</summary>
+        protected IWeatherInfo WeatherInfo { get; }
 
         /// <summary>
         /// Determines whether the current date and time represent the specified time interval on a work day.
@@ -358,6 +362,27 @@ namespace RealTime.CustomAI
             }
 
             return !Random.ShouldOccur(virtualChance);
+        }
+
+        /// <summary>Determines whether the weather is currently so bad that the citizen would like to stay inside a building.</summary>
+        /// <param name="citizenId">The ID of the citizen to check the weather for.</param>
+        /// <returns>
+        ///   <c>true</c> if the weather is bad; otherwise, <c>false</c>.</returns>
+        protected bool IsBadWeather(uint citizenId)
+        {
+            if (WeatherInfo.IsDisasterHazardActive)
+            {
+                Log.Debug($"Citizen {citizenId} is uncomfortable because of a disaster");
+                return true;
+            }
+
+            bool result = WeatherInfo.StayInsideChance != 0 && Random.ShouldOccur(WeatherInfo.StayInsideChance);
+            if (result)
+            {
+                Log.Debug($"Citizen {citizenId} is uncomfortable because of bad weather");
+            }
+
+            return result;
         }
 
         private bool CanAttendEvent(uint citizenId, ref TCitizen citizen, ICityEvent cityEvent)

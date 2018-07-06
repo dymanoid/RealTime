@@ -27,13 +27,15 @@ namespace RealTime.GameConnection
         /// <param name="transferManager">
         /// A proxy object that provides a way to call the game-specific methods of the <see cref="global::TransferManager"/> class.
         /// </param>
+        /// <param name="weatherInfo">An object that provides the game weather information.</param>
         public GameConnections(
             ITimeInfo timeInfo,
             ICitizenConnection<TCitizen> citizenConnection,
             ICitizenManagerConnection citizenManager,
             IBuildingManagerConnection buildingManager,
             IRandomizer randomizer,
-            ITransferManagerConnection transferManager)
+            ITransferManagerConnection transferManager,
+            IWeatherInfo weatherInfo)
         {
             TimeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
             CitizenConnection = citizenConnection ?? throw new ArgumentNullException(nameof(citizenConnection));
@@ -41,6 +43,7 @@ namespace RealTime.GameConnection
             BuildingManager = buildingManager ?? throw new ArgumentNullException(nameof(buildingManager));
             Random = randomizer ?? throw new ArgumentNullException(nameof(randomizer));
             TransferManager = transferManager ?? throw new ArgumentNullException(nameof(transferManager));
+            WeatherInfo = weatherInfo ?? throw new ArgumentNullException(nameof(weatherInfo));
         }
 
         /// <summary>Gets the <see cref="ITimeInfo"/> implementation.</summary>
@@ -60,5 +63,8 @@ namespace RealTime.GameConnection
 
         /// <summary>Gets the <see cref="ITransferManagerConnection"/> implementation.</summary>
         public ITransferManagerConnection TransferManager { get; }
+
+        /// <summary>Gets the <see cref="IWeatherInfo"/> implementation.</summary>
+        public IWeatherInfo WeatherInfo { get; }
     }
 }

@@ -172,7 +172,7 @@ namespace RealTime.CustomAI
 
         private bool CitizenGoesShopping(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
         {
-            if (!CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods))
+            if (!CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods) || IsBadWeather(citizenId))
             {
                 return false;
             }
@@ -181,8 +181,9 @@ namespace RealTime.CustomAI
             {
                 if (Random.ShouldOccur(GetGoOutChance(CitizenProxy.GetAge(ref citizen))))
                 {
+                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} wanna go shopping at night");
                     ushort localVisitPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, isVirtual);
-                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} wanna go shopping at night, trying local shop '{localVisitPlace}'");
+                    Log.DebugIf(localVisitPlace != 0, $"Citizen {citizenId} is going shopping at night to a local shop {localVisitPlace}");
                     return localVisitPlace > 0;
                 }
 
@@ -196,8 +197,9 @@ namespace RealTime.CustomAI
 
                 if (Random.ShouldOccur(Config.LocalBuildingSearchQuota))
                 {
+                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} wanna go shopping");
                     localVisitPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, isVirtual);
-                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} wanna go shopping, tries a local shop '{localVisitPlace}'");
+                    Log.DebugIf(localVisitPlace != 0, $"Citizen {citizenId} is going shopping to a local shop {localVisitPlace}");
                 }
 
                 if (localVisitPlace == 0)
@@ -220,7 +222,7 @@ namespace RealTime.CustomAI
 
         private bool CitizenGoesToEvent(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
         {
-            if (!Random.ShouldOccur(GetGoOutChance(CitizenProxy.GetAge(ref citizen))))
+            if (!Random.ShouldOccur(GetGoOutChance(CitizenProxy.GetAge(ref citizen))) || IsBadWeather(citizenId))
             {
                 return false;
             }
@@ -237,7 +239,7 @@ namespace RealTime.CustomAI
         private bool CitizenGoesRelaxing(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
         {
             Citizen.AgeGroup citizenAge = CitizenProxy.GetAge(ref citizen);
-            if (!Random.ShouldOccur(GetGoOutChance(citizenAge)))
+            if (!Random.ShouldOccur(GetGoOutChance(citizenAge)) || IsBadWeather(citizenId))
             {
                 return false;
             }
@@ -250,8 +252,9 @@ namespace RealTime.CustomAI
 
             if (TimeInfo.IsNightTime)
             {
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} wanna relax at night");
                 ushort leisure = MoveToLeisure(instance, citizenId, ref citizen, buildingId, isVirtual);
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} wanna relax at night, trying leisure area '{leisure}'");
+                Log.DebugIf(leisure != 0, $"Citizen {citizenId} is heading to leisure building {leisure}");
                 return leisure != 0;
             }
 

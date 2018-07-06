@@ -1,5 +1,5 @@
-﻿// <copyright file="UnityViewItem.cs" company="dymanoid">
-//     Copyright (c) dymanoid. All rights reserved.
+﻿// <copyright file="CitiesViewItem.cs" company="dymanoid">
+// Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
 namespace RealTime.UI
@@ -14,14 +14,14 @@ namespace RealTime.UI
     /// <typeparam name="TItem">The type of the view item.</typeparam>
     /// <typeparam name="TValue">The type of the item's value.</typeparam>
     /// <seealso cref="IViewItem"/>
-    internal abstract class UnityViewItem<TItem, TValue> : IViewItem
+    internal abstract class CitiesViewItem<TItem, TValue> : IViewItem, IValueViewItem
         where TItem : UIComponent
     {
         private readonly PropertyInfo property;
         private readonly object config;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UnityViewItem{TItem, TValue}"/> class.
+        /// Initializes a new instance of the <see cref="CitiesViewItem{TItem, TValue}"/> class.
         /// </summary>
         /// <param name="uiHelper">The game's UI helper reference.</param>
         /// <param name="id">The view item's unique ID.</param>
@@ -34,7 +34,7 @@ namespace RealTime.UI
         /// thrown when the <paramref name="id"/> is an empty string.
         /// </exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Justification = "Pure methods invoked")]
-        protected UnityViewItem(UIHelperBase uiHelper, string id, PropertyInfo property, object config)
+        protected CitiesViewItem(UIHelperBase uiHelper, string id, PropertyInfo property, object config)
         {
             if (uiHelper == null)
             {
@@ -75,6 +75,11 @@ namespace RealTime.UI
         }
 
         /// <summary>
+        /// Refreshes this view item by re-fetching its value from the bound configuration property.
+        /// </summary>
+        public abstract void Refresh();
+
+        /// <summary>
         /// When overridden in derived classes, translates this view item using the specified
         /// localization provider.
         /// </summary>
@@ -87,6 +92,9 @@ namespace RealTime.UI
         /// <param name="defaultValue">The item's default value.</param>
         /// <returns>A newly created view item.</returns>
         /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
+        /// <remarks>IMPORTANT: this method must be a pure method, it must not access any class members!
+        /// This virtual method is called by the base class' .ctor, thus the class fields might be
+        /// not initialized at that time.</remarks>
         protected abstract TItem CreateItem(UIHelperBase uiHelper, TValue defaultValue);
 
         /// <summary>Updates the current configuration item value.</summary>

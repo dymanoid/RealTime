@@ -1,11 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <language id="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
+  <translation id="Tools" value="Tools" />
+  <translation id="ResetToDefaults" value="Alle Optionen zurücksetzen" />
+
   <translation id="1General" value="Allgemein" />
   <translation id="DayTimeSpeed" value="Zeitgeschw. (Tag)" />
   <translation id="DayTimeSpeedTooltip" value="Die Zeitgeschwindigkeit am Tag. '1' ist sehr langsam - fast in Echtzeit!" />
   <translation id="NightTimeSpeed" value="Zeitgeschw. (Nacht)" />
   <translation id="NightTimeSpeedTooltip" value="Die Zeitgeschwindigkeit in der Nacht. '1' ist sehr langsam - fast in Echtzeit!" />
+  <translation id="IsDynamicDayLengthEnabled" value="Dynamische Tageslänge" />
+  <translation id="IsDynamicDayLengthEnabledTooltip" value="Die Tageslänge hängt von der Lanschdschaft der Karte und von der Jahrezeit ab." />
   <translation id="VirtualCitizens" value="Simulation der Einwohner (real und virtuell)" />
   <translation id="VirtualCitizensTooltip" value="Wählen sie 'Alle' aus für eine reale Stadt (aber max 65.535 Einw.) oder 'Original' / 'Mehr' bei schwachem PC" />
   <translation id="VirtualCitizens.None" value="Alle Einwohner sind real" />

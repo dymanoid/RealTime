@@ -1,12 +1,8 @@
-﻿// <copyright file="Constants.cs" company="dymanoid">
-// Copyright (c) dymanoid. All rights reserved.
-// </copyright>
+﻿// <copyright file="Constants.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
 
 namespace RealTime.CustomAI
 {
-    /// <summary>
-    /// A static class containing various constant values for the custom logic classes.
-    /// </summary>
+    /// <summary>A static class containing various constant values for the custom logic classes.</summary>
     internal static class Constants
     {
         /// <summary>The goods amount to buy for one citizens at one time.</summary>
@@ -57,14 +53,22 @@ namespace RealTime.CustomAI
         /// <summary>An earliest hour when citizens wake up at home.</summary>
         public const float EarliestWakeUp = 5.5f;
 
-        /// <summary>An assumed average speed of a citizen when moving to target
-        /// (this is not just a walking speed, but also takes into account moving by car or public transport).</summary>
+        /// <summary>
+        /// An assumed average speed of a citizen when moving to target (this is not just a walking speed, but also takes
+        /// into account moving by car or public transport).
+        /// </summary>
         public const float OnTheWayDistancePerHour = 500f;
 
         /// <summary>A chance in percent that a virtual citizen will not be realized in 'few virtual citizens' mode.</summary>
-        public const uint FewVirtualCitizensChance = 15;
+        public const uint FewVirtualCitizensChance = 10;
 
         /// <summary>A chance in percent that a virtual citizen will not be realized in 'many virtual citizen' mode.</summary>
         public const uint ManyVirtualCitizensChance = 50;
+
+        /// <summary>A precipitation threshold that indicates when the citizens think it's a bad weather.</summary>
+        public const float BadWeatherPrecipitationThreshold = 0.05f;
+
+        /// <summary>The minimum probability that a citizen will stay inside a building on any precipitation.</summary>
+        public const uint MinimumStayInsideChanceOnPrecipitation = 75u;
     }
 }
