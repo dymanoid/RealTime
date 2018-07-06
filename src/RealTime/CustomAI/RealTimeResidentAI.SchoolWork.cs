@@ -44,6 +44,7 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.FireDepartment:
                 case ItemClass.Service.PublicTransport:
                 case ItemClass.Service.Disaster:
+                case ItemClass.Service.Monument:
                     return true;
 
                 default:
