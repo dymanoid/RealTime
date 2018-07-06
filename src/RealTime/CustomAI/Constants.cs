@@ -9,13 +9,13 @@ namespace RealTime.CustomAI
         public const int ShoppingGoodsAmount = 100;
 
         /// <summary>A distance in game units where to search a 'local' building.</summary>
-        public const float LocalSearchDistance = 270f * 2;
+        public const float LocalSearchDistance = BuildingManager.BUILDINGGRID_RESOLUTION * 2;
 
         /// <summary>A distance in game units where to search a leisure building.</summary>
-        public const float LeisureSearchDistance = 270f * 3;
+        public const float LeisureSearchDistance = BuildingManager.BUILDINGGRID_RESOLUTION * 3;
 
         /// <summary>A distance in game units that corresponds to the complete map.</summary>
-        public const float FullSearchDistance = 270f * 64f / 2f;
+        public const float FullSearchDistance = BuildingManager.BUILDINGGRID_RESOLUTION * BuildingManager.BUILDINGGRID_CELL_SIZE / 2f;
 
         /// <summary>A chance in percent for a citizen to abandon the transport waiting if it lasts too long.</summary>
         public const uint AbandonTransportWaitChance = 80;
