@@ -37,19 +37,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="ColossalManaged">
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="ICities">
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +111,8 @@
     <Compile Include="GameConnection\WeatherManagerConnection.cs" />
     <Compile Include="Localization\Constants.cs" />
     <Compile Include="Localization\LocalizationProvider.cs" />
+    <Compile Include="Patching\FastDelegate.cs" />
+    <Compile Include="Patching\MethodPatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\RealTimeMod.cs" />
     <Compile Include="Simulation\DayTimeSimulation.cs" />
@@ -151,9 +153,9 @@
     <Compile Include="UI\CitiesViewItemFactory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Redirection\Redirection.csproj">
-      <Project>{7dcc08ef-dc85-47a4-bd6f-79fc52c7ef13}</Project>
-      <Name>Redirection</Name>
+    <ProjectReference Include="..\Harmony\Harmony\Harmony.csproj">
+      <Project>{26596721-10eb-453e-aac4-f8c540ff55aa}</Project>
+      <Name>Harmony</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +210,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /y /q /d "$(TargetPath)" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
+xcopy /y /q /d "$(SolutionDir)Harmony\Harmony\build\$(ConfigurationName)\net35\0Harmony.dll" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
 xcopy /y /q /i /d "$(TargetDir)Localization\Translations" "d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187\Localization"
 xcopy /y /q /i /d "$(ProjectDir)RealTimeEvents" "d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187\Events"</PostBuildEvent>
   </PropertyGroup>
