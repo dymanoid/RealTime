@@ -13,9 +13,11 @@ namespace RealTime.Simulation
         private const int RealtimeSpeed = 23;
         private readonly uint vanillaFramesPerDay;
         private readonly RealTimeConfig config;
-        private uint lastDayTimeSpeed;
-        private uint lastNightTimeSpeed;
-        private bool isDayTime;
+
+        private uint dayTimeSpeed;
+        private uint nightTimeSpeed;
+        private bool isNightTime;
+        private bool isNightEnabled;
 
         /// <summary>Initializes a new instance of the <see cref="TimeAdjustment"/> class.</summary>
         /// <param name="config">The configuration to run with.</param>
@@ -23,8 +25,6 @@ namespace RealTime.Simulation
         public TimeAdjustment(RealTimeConfig config)
         {
             this.config = config ?? throw new ArgumentNullException(nameof(config));
-            lastDayTimeSpeed = config.DayTimeSpeed;
-            lastNightTimeSpeed = config.NightTimeSpeed;
             vanillaFramesPerDay = SimulationManager.DAYTIME_FRAMES;
         }
 
@@ -32,22 +32,33 @@ namespace RealTime.Simulation
         /// <returns>The current game date and time.</returns>
         public DateTime Enable()
         {
-            isDayTime = !SimulationManager.instance.m_isNightTime;
+            dayTimeSpeed = config.DayTimeSpeed;
+            nightTimeSpeed = config.NightTimeSpeed;
+            isNightTime = SimulationManager.instance.m_isNightTime;
+            isNightEnabled = SimulationManager.instance.m_enableDayNight;
             return UpdateTimeSimulationValues(CalculateFramesPerDay());
         }
 
         /// <summary>Updates the time adjustment to be synchronized with the configuration and the daytime.</summary>
         public void Update()
         {
-            if (SimulationManager.instance.m_isNightTime == isDayTime
-                || lastDayTimeSpeed != config.DayTimeSpeed
-                || lastNightTimeSpeed != config.NightTimeSpeed)
+            if (SimulationManager.instance.m_enableDayNight != isNightEnabled)
             {
-                isDayTime = !SimulationManager.instance.m_isNightTime;
-                lastDayTimeSpeed = config.DayTimeSpeed;
-                lastNightTimeSpeed = config.NightTimeSpeed;
-                UpdateTimeSimulationValues(CalculateFramesPerDay());
+                isNightEnabled = SimulationManager.instance.m_enableDayNight;
             }
+            else if (!SimulationManager.instance.m_enableDayNight ||
+                (SimulationManager.instance.m_isNightTime == isNightTime
+                && dayTimeSpeed == config.DayTimeSpeed
+                && nightTimeSpeed == config.NightTimeSpeed))
+            {
+                return;
+            }
+
+            isNightTime = SimulationManager.instance.m_isNightTime;
+            dayTimeSpeed = config.DayTimeSpeed;
+            nightTimeSpeed = config.NightTimeSpeed;
+
+            UpdateTimeSimulationValues(CalculateFramesPerDay());
         }
 
         /// <summary>Disables the customized time adjustment restoring the default vanilla values.</summary>
@@ -78,7 +89,7 @@ namespace RealTime.Simulation
 
         private uint CalculateFramesPerDay()
         {
-            uint offset = isDayTime ? lastDayTimeSpeed : lastNightTimeSpeed;
+            uint offset = isNightTime ? nightTimeSpeed : dayTimeSpeed;
             return 1u << (int)(RealtimeSpeed - offset);
         }
     }
