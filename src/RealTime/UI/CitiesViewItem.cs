@@ -14,7 +14,7 @@ namespace RealTime.UI
     /// <typeparam name="TItem">The type of the view item.</typeparam>
     /// <typeparam name="TValue">The type of the item's value.</typeparam>
     /// <seealso cref="IViewItem"/>
-    internal abstract class CitiesViewItem<TItem, TValue> : IViewItem
+    internal abstract class CitiesViewItem<TItem, TValue> : IViewItem, IValueViewItem
         where TItem : UIComponent
     {
         private readonly PropertyInfo property;
@@ -73,6 +73,11 @@ namespace RealTime.UI
                 property.SetValue(config, newValue, null);
             }
         }
+
+        /// <summary>
+        /// Refreshes this view item by re-fetching its value from the bound configuration property.
+        /// </summary>
+        public abstract void Refresh();
 
         /// <summary>
         /// When overridden in derived classes, translates this view item using the specified

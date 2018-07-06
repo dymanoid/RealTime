@@ -119,6 +119,7 @@
     <Compile Include="GameConnection\TimeInfo.cs" />
     <Compile Include="Tools\DateTimeExtensions.cs" />
     <Compile Include="Tools\LinkedListExtensions.cs" />
+    <Compile Include="UI\CitiesButtonViewItem.cs" />
     <Compile Include="UI\CitiesContainerItemBase.cs" />
     <Compile Include="UI\CitiesTabItem.cs" />
     <Compile Include="UI\ConfigItemComboBoxAttribute.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Tools\GitVersion.cs" />
     <Compile Include="Tools\Log.cs" />
     <Compile Include="UI\IContainerViewItem.cs" />
+    <Compile Include="UI\IValueViewItem.cs" />
     <Compile Include="UI\IViewItem.cs" />
     <Compile Include="UI\IViewItemFactory.cs" />
     <Compile Include="UI\RealTimeUIDateTimeWrapper.cs" />

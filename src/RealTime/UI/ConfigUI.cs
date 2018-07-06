@@ -8,15 +8,21 @@ namespace RealTime.UI
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using RealTime.Config;
     using RealTime.Localization;
 
     /// <summary>Manages the mod's configuration page.</summary>
     internal sealed class ConfigUI
     {
+        private const string ResetToDefaultsId = "ResetToDefaults";
+        private const string ToolsId = "Tools";
+
+        private readonly RealTimeConfig config;
         private readonly IEnumerable<IViewItem> viewItems;
 
-        private ConfigUI(IEnumerable<IViewItem> viewItems)
+        private ConfigUI(RealTimeConfig config, IEnumerable<IViewItem> viewItems)
         {
+            this.config = config;
             this.viewItems = viewItems;
         }
 
@@ -27,7 +33,7 @@ namespace RealTime.UI
         /// <param name="itemFactory">The view item factory to use for creating the UI elements.</param>
         /// <returns>A configured instance of the <see cref="ConfigUI"/> class.</returns>
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
-        public static ConfigUI Create(object config, IViewItemFactory itemFactory)
+        public static ConfigUI Create(RealTimeConfig config, IViewItemFactory itemFactory)
         {
             if (config == null)
             {
@@ -74,7 +80,14 @@ namespace RealTime.UI
                 }
             }
 
-            return new ConfigUI(viewItems);
+            var result = new ConfigUI(config, viewItems);
+
+            IContainerViewItem toolsTab = itemFactory.CreateTabItem(ToolsId);
+            viewItems.Add(toolsTab);
+            IViewItem resetButton = itemFactory.CreateButton(toolsTab, ResetToDefaultsId, result.ResetToDefaults);
+            viewItems.Add(resetButton);
+
+            return result;
         }
 
         /// <summary>Translates the UI using the specified localization provider.</summary>
@@ -124,6 +137,15 @@ namespace RealTime.UI
             where T : Attribute
         {
             return (T)property.GetCustomAttributes(typeof(T), inherit).FirstOrDefault();
+        }
+
+        private void ResetToDefaults()
+        {
+            config.ResetToDefaults();
+            foreach (IValueViewItem item in viewItems.OfType<IValueViewItem>())
+            {
+                item.Refresh();
+            }
         }
     }
 }

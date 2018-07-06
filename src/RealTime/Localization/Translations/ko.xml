@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <language id="ko" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
+  <translation id="Tools" value="Tools" />
+  <translation id="ResetToDefaults" value="Reset all to defaults" />
+
   <translation id="1General" value="General" />
   <translation id="DayTimeSpeed" value="Time speed (day)" />
   <translation id="DayTimeSpeedTooltip" value="The speed of the time flow on daytime. '1' is very slow - almost real time!" />

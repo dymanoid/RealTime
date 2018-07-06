@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <language id="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
+  <translation id="Tools" value="Tools" />
+  <translation id="ResetToDefaults" value="Alle Optionen zurücksetzen" />
+
   <translation id="1General" value="Allgemein" />
   <translation id="DayTimeSpeed" value="Zeitgeschw. (Tag)" />
   <translation id="DayTimeSpeedTooltip" value="Die Zeitgeschwindigkeit am Tag. '1' ist sehr langsam - fast in Echtzeit!" />

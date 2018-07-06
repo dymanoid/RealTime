@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <language id="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
+  <translation id="Tools" value="Утилиты" />
+  <translation id="ResetToDefaults" value="Вернуть опции по умолчанию" />
+
   <translation id="1General" value="Основные" />
   <translation id="DayTimeSpeed" value="Скорость времени (день)" />
   <translation id="DayTimeSpeedTooltip" value="Скорость течения времени днём. '1' очень медленно - почти реальное время!" />

@@ -72,6 +72,14 @@ namespace RealTime.UI
             UIComponent.selectedIndex = Value;
         }
 
+        /// <summary>
+        /// Refreshes this view item by re-fetching its value from the bound configuration property.
+        /// </summary>
+        public override void Refresh()
+        {
+            UIComponent.selectedIndex = Value;
+        }
+
         /// <summary>Creates the view item using the provided <see cref="UIHelperBase"/>.</summary>
         /// <param name="uiHelper">The UI helper to use for item creation.</param>
         /// <param name="defaultValue">The item's default value.</param>

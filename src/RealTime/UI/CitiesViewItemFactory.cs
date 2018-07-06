@@ -41,7 +41,7 @@ namespace RealTime.UI
         /// <summary>Creates a new tab item. If it cannot be created, returns a group instead.</summary>
         /// <param name="id">The ID of the tab to create.</param>
         /// <returns>A newly created <see cref="IContainerViewItem"/> instance representing a tab item.</returns>
-        /// <exception cref="System.ArgumentException">Thrown when <paramref name="id"/> is null or empty string.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="id"/> is null or empty string.</exception>
         public IContainerViewItem CreateTabItem(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -80,14 +80,31 @@ namespace RealTime.UI
             return new CitiesGroupItem(container.Container.AddGroup(Constants.Placeholder), id);
         }
 
+        /// <summary>Creates a new button. If <paramref name="container"/> is not specified, the button is placed into the root element.</summary>
+        /// <param name="container">The container.</param>
+        /// <param name="id">The ID of the button to create.</param>
+        /// <param name="clickHandler">A method that will be called when the button is clicked.</param>
+        /// <returns>A newly created <see cref="IViewItem"/> instance representing a button item.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="clickHandler"/> is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="id"/> is null or empty string.</exception>
+        public IViewItem CreateButton(IContainerViewItem container, string id, Action clickHandler)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                throw new ArgumentException("The button ID cannot be null or empty string", nameof(id));
+            }
+
+            return new CitiesButtonViewItem(container?.Container ?? uiHelper, id, clickHandler);
+        }
+
         /// <summary>Creates a new check box view item.</summary>
         /// <param name="container">The parent container for the created item.</param>
         /// <param name="id">The ID of the item to create.</param>
         /// <param name="property">The property description that specifies the target property where to store the value.</param>
         /// <param name="config">The configuration storage object for the value.</param>
         /// <returns>A newly created <see cref="IViewItem"/> instance representing a check box.</returns>
-        /// <exception cref="System.ArgumentNullException">Thrown when any argument is null.</exception>
-        /// <exception cref="System.ArgumentException">Thrown when <paramref name="id"/> is an empty string.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="id"/> is an empty string.</exception>
         public IViewItem CreateCheckBox(IContainerViewItem container, string id, PropertyInfo property, object config)
         {
             return new CitiesCheckBoxItem(container.Container, id, property, config);
@@ -104,12 +121,12 @@ namespace RealTime.UI
         /// <param name="valueType">Type of the value to be represented by the slider.</param>
         /// <param name="displayMultiplier">A value that will be multiplied with original values for displaying purposes.</param>
         /// <returns>A newly created <see cref="IViewItem"/> instance representing a slider.</returns>
-        /// <exception cref="System.ArgumentNullException">Thrown when any argument is null.</exception>
-        /// <exception cref="System.ArgumentException">Thrown when <paramref name="id"/> is an empty string.</exception>
-        /// <exception cref="System.ArgumentException">
+        /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="id"/> is an empty string.</exception>
+        /// <exception cref="ArgumentException">
         /// Thrown when the <paramref name="max"/> value is less or equal to the <paramref name="min"/> value.
         /// </exception>
-        /// <exception cref="System.ArgumentException">
+        /// <exception cref="ArgumentException">
         /// Thrown when the <paramref name="step"/> value is less or equal to zero.
         /// </exception>
         public IViewItem CreateSlider(
@@ -133,8 +150,8 @@ namespace RealTime.UI
         /// <param name="config">The configuration storage object for the value.</param>
         /// <param name="itemIds">A collection of the item IDs for the combo box values.</param>
         /// <returns>A newly created <see cref="IViewItem"/> instance representing a combo box.</returns>
-        /// <exception cref="System.ArgumentNullException">Thrown when any argument is null.</exception>
-        /// <exception cref="System.ArgumentException">Thrown when <paramref name="id"/> is an empty string.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="id"/> is an empty string.</exception>
         public IViewItem CreateComboBox(
             IContainerViewItem container,
             string id,
