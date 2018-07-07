@@ -110,6 +110,7 @@ namespace RealTime.Core
             core = RealTimeCore.Run(config, modPath, localizationProvider);
             if (core == null)
             {
+                Log.Warning("Showing a warning message to user because the mod isn't working");
                 MessageBox.Show(
                     localizationProvider.Translate(TranslationKeys.Warning),
                     localizationProvider.Translate(TranslationKeys.ModNotWorkingMessage));

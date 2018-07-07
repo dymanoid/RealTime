@@ -137,7 +137,7 @@ namespace RealTime.Localization
             }
             catch (Exception ex)
             {
-                Log.Error($"The 'Real Time' cannot load data from localization file '{path}', error message: {ex.Message}");
+                Log.Error($"The 'Real Time' cannot load data from localization file '{path}', error message: {ex}");
                 translation.Clear();
                 return LoadingResult.Failure;
             }
