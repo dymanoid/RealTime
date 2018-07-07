@@ -33,9 +33,9 @@ namespace RealTime.Simulation
         internal static DayTimeSimulation DayTimeSimulation { get; set; }
 
         /// <summary>
-        /// Gets or sets the custom commercial building simulation class instance.
+        /// Gets or sets the custom building simulation class instance.
         /// </summary>
-        internal static RealTimeCommercialBuildingAI CommercialAI { get; set; }
+        internal static RealTimeBuildingAI Buildings { get; set; }
 
         /// <summary>Gets or sets the time adjustment simulation class instance.</summary>
         internal static TimeAdjustment TimeAdjustment { get; set; }
@@ -71,11 +71,14 @@ namespace RealTime.Simulation
         }
 
         /// <summary>
-        /// Called after each game simulation frame. Performs the dispatching for this simulation phase.
+        /// Called before each game simulation frame. Performs the dispatching for this simulation phase.
         /// </summary>
-        public override void OnAfterSimulationFrame()
+        public override void OnBeforeSimulationFrame()
         {
-            CommercialAI?.Process(SimulationManager.instance.m_currentFrameIndex);
+            if ((SimulationManager.instance.m_currentFrameIndex & 0xFF) == 0)
+            {
+                Buildings?.StartBuildingProcessingFrame();
+            }
         }
 
         private static void OnNewDay(SimulationHandler sender)

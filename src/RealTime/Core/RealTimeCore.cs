@@ -13,10 +13,10 @@ namespace RealTime.Core
     using RealTime.Events.Storage;
     using RealTime.GameConnection;
     using RealTime.Localization;
+    using RealTime.Patching;
     using RealTime.Simulation;
     using RealTime.Tools;
     using RealTime.UI;
-    using Redirection;
 
     /// <summary>
     /// The core component of the Real Time mod. Activates and deactivates
@@ -28,14 +28,16 @@ namespace RealTime.Core
         private readonly TimeAdjustment timeAdjustment;
         private readonly CustomTimeBar timeBar;
         private readonly RealTimeEventManager eventManager;
+        private readonly MethodPatcher patcher;
 
         private bool isEnabled;
 
-        private RealTimeCore(TimeAdjustment timeAdjustment, CustomTimeBar timeBar, RealTimeEventManager eventManager)
+        private RealTimeCore(TimeAdjustment timeAdjustment, CustomTimeBar timeBar, RealTimeEventManager eventManager, MethodPatcher patcher)
         {
             this.timeAdjustment = timeAdjustment;
             this.timeBar = timeBar;
             this.eventManager = eventManager;
+            this.patcher = patcher;
             isEnabled = true;
         }
 
@@ -70,20 +72,16 @@ namespace RealTime.Core
                 throw new ArgumentNullException(nameof(localizationProvider));
             }
 
+            var patcher = new MethodPatcher();
             try
             {
-                int redirectedCount = Redirector.PerformRedirections();
-                Log.Info($"Successfully redirected {redirectedCount} methods.");
+                patcher.Apply();
             }
             catch (Exception ex)
             {
                 Log.Error("Failed to perform method redirections: " + ex.Message);
                 return null;
             }
-
-            var timeAdjustment = new TimeAdjustment(config);
-            DateTime gameDate = timeAdjustment.Enable();
-            SimulationHandler.TimeAdjustment = timeAdjustment;
 
             var timeInfo = new TimeInfo();
             var buildingManager = new BuildingManagerConnection();
@@ -108,7 +106,14 @@ namespace RealTime.Core
                 randomizer,
                 timeInfo);
 
-            SetupCustomAI(timeInfo, config, gameConnections, eventManager);
+            if (!SetupCustomAI(timeInfo, config, gameConnections, eventManager))
+            {
+                patcher.Revert();
+                return null;
+            }
+
+            var timeAdjustment = new TimeAdjustment(config);
+            DateTime gameDate = timeAdjustment.Enable();
 
             CityEventsLoader.Instance.ReloadEvents(rootPath);
 
@@ -116,14 +121,19 @@ namespace RealTime.Core
             customTimeBar.Enable(gameDate);
             customTimeBar.CityEventClick += CustomTimeBarCityEventClick;
 
-            var result = new RealTimeCore(timeAdjustment, customTimeBar, eventManager);
+            var result = new RealTimeCore(timeAdjustment, customTimeBar, eventManager, patcher);
             eventManager.EventsChanged += result.CityEventsChanged;
             SimulationHandler.NewDay += result.CityEventsChanged;
 
+            RealTimeBuildingAI buildingAI = new RealTimeBuildingAI(timeInfo, buildingManager);
+
+            SimulationHandler.TimeAdjustment = timeAdjustment;
             SimulationHandler.DayTimeSimulation = new DayTimeSimulation(config);
             SimulationHandler.EventManager = eventManager;
-            SimulationHandler.CommercialAI = new RealTimeCommercialBuildingAI(timeInfo, buildingManager);
             SimulationHandler.WeatherInfo = weatherInfo;
+            SimulationHandler.Buildings = buildingAI;
+
+            BuildingAIHooks.Buildings = buildingAI;
 
             RealTimeStorage.CurrentLevelStorage.GameSaving += result.GameSaving;
             result.storageData.Add(eventManager);
@@ -160,14 +170,15 @@ namespace RealTime.Core
             PrivateBuildingAIHook.RealTimeAI = null;
             SimulationHandler.EventManager = null;
             SimulationHandler.DayTimeSimulation = null;
-            SimulationHandler.CommercialAI = null;
             SimulationHandler.TimeAdjustment = null;
             SimulationHandler.WeatherInfo = null;
+            SimulationHandler.Buildings = null;
+
+            BuildingAIHooks.Buildings = null;
 
             try
             {
-                Redirector.RevertRedirections();
-                Log.Info($"Successfully reverted all method redirections.");
+                patcher.Revert();
             }
             catch (Exception ex)
             {
@@ -195,24 +206,36 @@ namespace RealTime.Core
             timeBar.Translate(localizationProvider.CurrentCulture);
         }
 
-        private static void SetupCustomAI(
+        private static bool SetupCustomAI(
             TimeInfo timeInfo,
             RealTimeConfig config,
             GameConnections<Citizen> gameConnections,
             RealTimeEventManager eventManager)
         {
+            ResidentAIConnection<ResidentAI, Citizen> residentAIConnection = ResidentAIHook.GetResidentAIConnection();
+            if (residentAIConnection == null)
+            {
+                return false;
+            }
+
             var realTimeResidentAI = new RealTimeResidentAI<ResidentAI, Citizen>(
                 config,
                 gameConnections,
-                ResidentAIHook.GetResidentAIConnection(),
+                residentAIConnection,
                 eventManager);
 
             ResidentAIHook.RealTimeAI = realTimeResidentAI;
 
+            TouristAIConnection<TouristAI, Citizen> touristAIConnection = TouristAIHook.GetTouristAIConnection();
+            if (touristAIConnection == null)
+            {
+                return false;
+            }
+
             var realTimeTouristAI = new RealTimeTouristAI<TouristAI, Citizen>(
                 config,
                 gameConnections,
-                TouristAIHook.GetTouristAIConnection(),
+                touristAIConnection,
                 eventManager);
 
             TouristAIHook.RealTimeAI = realTimeTouristAI;
@@ -223,6 +246,7 @@ namespace RealTime.Core
                 new ToolManagerConnection());
 
             PrivateBuildingAIHook.RealTimeAI = realTimePrivateBuildingAI;
+            return true;
         }
 
         private static void CustomTimeBarCityEventClick(object sender, CustomTimeBarClickEventArgs e)
