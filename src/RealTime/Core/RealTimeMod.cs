@@ -108,6 +108,12 @@ namespace RealTime.Core
             }
 
             core = RealTimeCore.Run(config, modPath, localizationProvider);
+            if (core == null)
+            {
+                MessageBox.Show(
+                    localizationProvider.Translate(TranslationKeys.Warning),
+                    localizationProvider.Translate(TranslationKeys.ModNotWorkingMessage));
+            }
         }
 
         /// <summary>
