@@ -1,22 +1,31 @@
-﻿// <copyright file="TouristAIHook.cs" company="dymanoid">
+﻿// <copyright file="TouristAIPatch.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
-namespace RealTime.GameConnection
+namespace RealTime.GameConnection.Patches
 {
     using System;
-    using Harmony;
+    using System.Reflection;
     using RealTime.CustomAI;
     using RealTime.Patching;
     using RealTime.Tools;
     using static HumanAIConnectionBase<TouristAI, Citizen>;
     using static TouristAIConnection<TouristAI, Citizen>;
 
-    internal static class TouristAIHook
+    /// <summary>
+    /// A static class that provides the patch objects and the game connection objects for the tourist AI .
+    /// </summary>
+    internal static class TouristAIPatch
     {
-        internal static RealTimeTouristAI<TouristAI, Citizen> RealTimeAI { get; set; }
+        /// <summary>Gets or sets the custom AI object for tourists.</summary>
+        public static RealTimeTouristAI<TouristAI, Citizen> RealTimeAI { get; set; }
 
-        internal static TouristAIConnection<TouristAI, Citizen> GetTouristAIConnection()
+        /// <summary>Gets the patch object for the location method.</summary>
+        public static IPatch Location { get; } = new TouristAI_UpdateLocation();
+
+        /// <summary>Creates a game connection object for the tourist AI class.</summary>
+        /// <returns>A new <see cref="TouristAIConnection{TouristAI, Citizen}"/> object.</returns>
+        public static TouristAIConnection<TouristAI, Citizen> GetTouristAIConnection()
         {
             try
             {
@@ -69,16 +78,25 @@ namespace RealTime.GameConnection
             }
         }
 
-        [HarmonyPatch(typeof(TouristAI), nameof(UpdateLocation), null)]
-        private static class UpdateLocation
+        private sealed class TouristAI_UpdateLocation : PatchBase
         {
+            protected override MethodInfo GetMethod()
+            {
+                return typeof(TouristAI).GetMethod(
+                    "UpdateLocation",
+                    BindingFlags.Instance | BindingFlags.NonPublic,
+                    null,
+                    new[] { typeof(uint), typeof(Citizen).MakeByRefType() },
+                    new ParameterModifier[0]);
+            }
+
 #pragma warning disable SA1313 // Parameter names must begin with lower-case letter
-            public static bool Prefix(TouristAI __instance, uint citizenID, ref Citizen data)
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
+            private static bool Prefix(TouristAI __instance, uint citizenID, ref Citizen data)
             {
                 RealTimeAI?.UpdateLocation(__instance, citizenID, ref data);
                 return false;
             }
+#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
     }
 }

@@ -11,6 +11,7 @@ namespace RealTime.Core
     using RealTime.Events;
     using RealTime.Events.Storage;
     using RealTime.GameConnection;
+    using RealTime.GameConnection.Patches;
     using RealTime.Localization;
     using RealTime.Patching;
     using RealTime.Simulation;
@@ -70,7 +71,13 @@ namespace RealTime.Core
                 throw new ArgumentNullException(nameof(localizationProvider));
             }
 
-            var patcher = new MethodPatcher();
+            var patcher = new MethodPatcher(
+                BuildingAIPatches.PrivateConstructionTime,
+                BuildingAIPatches.PrivateHandleWorkers,
+                BuildingAIPatches.CommercialSimulation,
+                ResidentAIPatch.Location,
+                TouristAIPatch.Location);
+
             try
             {
                 patcher.Apply();
@@ -146,6 +153,7 @@ namespace RealTime.Core
             SimulationHandler.DayTimeSimulation = new DayTimeSimulation(config);
             SimulationHandler.EventManager = eventManager;
             SimulationHandler.WeatherInfo = weatherInfo;
+            SimulationHandler.Buildings = BuildingAIPatches.RealTimeAI;
 
             RealTimeStorage.CurrentLevelStorage.GameSaving += result.GameSaving;
             result.storageData.Add(eventManager);
@@ -176,16 +184,14 @@ namespace RealTime.Core
 
             RealTimeStorage.CurrentLevelStorage.GameSaving -= GameSaving;
 
-            ResidentAIHook.RealTimeAI = null;
-            TouristAIHook.RealTimeAI = null;
-            PrivateBuildingAIHook.RealTimeAI = null;
+            ResidentAIPatch.RealTimeAI = null;
+            TouristAIPatch.RealTimeAI = null;
+            BuildingAIPatches.RealTimeAI = null;
             SimulationHandler.EventManager = null;
             SimulationHandler.DayTimeSimulation = null;
             SimulationHandler.TimeAdjustment = null;
             SimulationHandler.WeatherInfo = null;
             SimulationHandler.Buildings = null;
-
-            BuildingAIHooks.Buildings = null;
 
             try
             {
@@ -223,7 +229,7 @@ namespace RealTime.Core
             GameConnections<Citizen> gameConnections,
             RealTimeEventManager eventManager)
         {
-            ResidentAIConnection<ResidentAI, Citizen> residentAIConnection = ResidentAIHook.GetResidentAIConnection();
+            ResidentAIConnection<ResidentAI, Citizen> residentAIConnection = ResidentAIPatch.GetResidentAIConnection();
             if (residentAIConnection == null)
             {
                 return false;
@@ -235,9 +241,9 @@ namespace RealTime.Core
                 residentAIConnection,
                 eventManager);
 
-            ResidentAIHook.RealTimeAI = realTimeResidentAI;
+            ResidentAIPatch.RealTimeAI = realTimeResidentAI;
 
-            TouristAIConnection<TouristAI, Citizen> touristAIConnection = TouristAIHook.GetTouristAIConnection();
+            TouristAIConnection<TouristAI, Citizen> touristAIConnection = TouristAIPatch.GetTouristAIConnection();
             if (touristAIConnection == null)
             {
                 return false;
@@ -249,7 +255,7 @@ namespace RealTime.Core
                 touristAIConnection,
                 eventManager);
 
-            TouristAIHook.RealTimeAI = realTimeTouristAI;
+            TouristAIPatch.RealTimeAI = realTimeTouristAI;
 
             var realTimePrivateBuildingAI = new RealTimePrivateBuildingAI(
                 config,
@@ -257,7 +263,7 @@ namespace RealTime.Core
                 gameConnections.BuildingManager,
                 new ToolManagerConnection());
 
-            PrivateBuildingAIHook.RealTimeAI = realTimePrivateBuildingAI;
+            BuildingAIPatches.RealTimeAI = realTimePrivateBuildingAI;
             return true;
         }
 
