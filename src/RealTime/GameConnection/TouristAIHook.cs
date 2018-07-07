@@ -73,7 +73,7 @@ namespace RealTime.GameConnection
         private static class UpdateLocation
         {
 #pragma warning disable SA1313 // Parameter names must begin with lower-case letter
-            public static bool Prefix(TouristAI __instance, [HarmonyArgument("citizenID")]uint citizenID, [HarmonyArgument("data")]ref Citizen data)
+            public static bool Prefix(TouristAI __instance, uint citizenID, ref Citizen data)
 #pragma warning restore SA1313 // Parameter names must begin with lower-case letter
             {
                 RealTimeAI?.UpdateLocation(__instance, citizenID, ref data);
