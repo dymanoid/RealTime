@@ -49,7 +49,7 @@
   <translation id="LatestHourEventStartWeekendTooltip" value="Hora más tardía en la cual pueden empezar los eventos en fin de semana" />
 
   <translation id="4Time" value="Horarios" />
-  <translation id="MaxOvertime" value=Máximas Horas Extras" />
+  <translation id="MaxOvertime" value="Máximas Horas Extras" />
   <translation id="MaxOvertimeTooltip" value="Máximas horas extras que los ciudadanos podrán realizar - Irán antes al trabajo o saldrán más tarde de trabajar" />
   <translation id="SchoolBegin" value="Colegio e Instituto: hora de entrada" />
   <translation id="SchoolBeginTooltip" value="Hora a la que empiezan los colegios e institutos - los jóvenes deberan estar en las escuelas" />
