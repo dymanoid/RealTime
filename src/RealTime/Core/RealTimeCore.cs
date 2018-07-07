@@ -81,19 +81,12 @@ namespace RealTime.Core
             try
             {
                 patcher.Apply();
+                Log.Info("The 'Real Time' successfully performed the methods redirections");
             }
             catch (Exception ex)
             {
-                try
-                {
-                    patcher.Revert();
-                }
-                catch
-                {
-                    Log.Warning("Failed to revert method redirections while cleaning up a failed patching");
-                }
-
                 Log.Error("The 'Real Time' mod failed to perform method redirections: " + ex);
+                SafeRevertPatches(patcher);
                 return null;
             }
 
@@ -123,16 +116,7 @@ namespace RealTime.Core
             if (!SetupCustomAI(timeInfo, config, gameConnections, eventManager))
             {
                 Log.Error("The 'Real Time' mod failed to setup the customized AI and will now be deactivated.");
-
-                try
-                {
-                    patcher.Revert();
-                }
-                catch
-                {
-                    Log.Warning("Failed to revert method redirections while cleaning up");
-                }
-
+                SafeRevertPatches(patcher);
                 return null;
             }
 
@@ -174,6 +158,8 @@ namespace RealTime.Core
                 return;
             }
 
+            SafeRevertPatches(patcher);
+
             timeAdjustment.Disable();
             timeBar.CityEventClick -= CustomTimeBarCityEventClick;
             timeBar.Disable();
@@ -192,16 +178,6 @@ namespace RealTime.Core
             SimulationHandler.TimeAdjustment = null;
             SimulationHandler.WeatherInfo = null;
             SimulationHandler.Buildings = null;
-
-            try
-            {
-                patcher.Revert();
-            }
-            catch (Exception ex)
-            {
-                Log.Error("The 'Real Time' mod failed to revert method redirections: " + ex);
-            }
-
             isEnabled = false;
         }
 
@@ -221,6 +197,18 @@ namespace RealTime.Core
             }
 
             timeBar.Translate(localizationProvider.CurrentCulture);
+        }
+
+        private static void SafeRevertPatches(MethodPatcher patcher)
+        {
+            try
+            {
+                patcher.Revert();
+            }
+            catch (Exception ex)
+            {
+                Log.Warning("The 'Real Time' mod failed to revert method redirections: " + ex);
+            }
         }
 
         private static bool SetupCustomAI(
