@@ -2,18 +2,18 @@
 <language id="ko" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="Warning" value="Warning" />
-  <translation id="ModNotWorkingMessage" value="Oops! Something went wrong - the 'Real Time' mod could not be activated. Please share your game log file with the mod's developer." />
+  <translation id="ModNotWorkingMessage" value="어이쿠! 뭔자 잘못되었습니다 - 'Real Time' 모드가 작동하지 않습니다! 모드 제작자에게 게임로그 파일을 보내주세요." />
 
   <translation id="Tools" value="Tools" />
-  <translation id="ResetToDefaults" value="Reset all to defaults" />
+  <translation id="ResetToDefaults" value="모두 초기값으로 돌리기" />
 
   <translation id="1General" value="일반" />
   <translation id="DayTimeSpeed" value="시간 속도 (낮중)" />
   <translation id="DayTimeSpeedTooltip" value="낮 동안의 시간 속도를 정합니다. '1'은 매우 느리며, 거의 현실 시간과 같습니다!" />
   <translation id="NightTimeSpeed" value="시간 속도 (밤중)" />
   <translation id="NightTimeSpeedTooltip" value="밤 동안의 시간 속도를 정합니다. '1'은 매우 느리며, 거의 현실 시간과 같습니다!" />
-  <translation id="IsDynamicDayLengthEnabled" value="Dynamic day length" />
-  <translation id="IsDynamicDayLengthEnabledTooltip" value="Day length depends on the map's theme and day of the year. In winter the days are shorter than in summer." />
+  <translation id="IsDynamicDayLengthEnabled" value="동적인 하루 길이" />
+  <translation id="IsDynamicDayLengthEnabledTooltip" value="하루의 길이가 맵의 테마와 더불어 게임상의 년도에 따라 변합니다. 예를 들어 겨울은 여름보다 더 해가 짧습니다" />
   <translation id="VirtualCitizens" value="시민 시뮬레이션 모드 (현실 그리고 가상적인)" />
   <translation id="VirtualCitizensTooltip" value="'전체' 도시의(그러나 게임내 제한인 63,535 명을 넘을수 없습니다) 시민 시뮬레이션 정도를 정합니다. 사양이 낮으시다면 '바닐라' 혹은 '더 가상적인 시민들' 같은 설정으로 맞춰주세요" />
   <translation id="VirtualCitizens.None" value="전부 사실같은 시뮬레이션" />
