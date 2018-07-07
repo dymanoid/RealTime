@@ -6,7 +6,6 @@ namespace RealTime.Core
 {
     using System;
     using System.Collections.Generic;
-    using System.Security.Permissions;
     using RealTime.Config;
     using RealTime.CustomAI;
     using RealTime.Events;
@@ -54,7 +53,6 @@ namespace RealTime.Core
         ///
         /// <returns>A <see cref="RealTimeCore"/> instance that can be used to stop the mod.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "This is the entry point and needs to instantiate all parts")]
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public static RealTimeCore Run(RealTimeConfig config, string rootPath, LocalizationProvider localizationProvider)
         {
             if (config == null)
@@ -147,7 +145,6 @@ namespace RealTime.Core
         /// <summary>
         /// Stops the mod by deactivating all its parts.
         /// </summary>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public void Stop()
         {
             if (!isEnabled)

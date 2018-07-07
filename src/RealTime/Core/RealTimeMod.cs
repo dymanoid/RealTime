@@ -6,7 +6,6 @@ namespace RealTime.Core
 {
     using System;
     using System.Linq;
-    using System.Security.Permissions;
     using ColossalFramework;
     using ColossalFramework.Globalization;
     using ColossalFramework.Plugins;
@@ -94,7 +93,6 @@ namespace RealTime.Core
         /// </summary>
         ///
         /// <param name="mode">The <see cref="LoadMode"/> a game level is loaded in.</param>
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void OnLevelLoaded(LoadMode mode)
         {
             switch (mode)
@@ -116,7 +114,6 @@ namespace RealTime.Core
         /// Called when a game level is about to be unloaded. If the Real Time mod was activated
         /// for this level, deactivates the mod for this level.
         /// </summary>
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void OnLevelUnloading()
         {
             if (core != null)
