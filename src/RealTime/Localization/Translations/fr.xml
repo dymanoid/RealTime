@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <language id="fr" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-  <translation id="Warning" value="Warning" />
-  <translation id="ModNotWorkingMessage" value="Oops! Something went wrong - the 'Real Time' mod could not be activated. Please share your game log file with the mod's developer." />
+  <translation id="Warning" value="Attention" />
+  <translation id="ModNotWorkingMessage" value="Oops! Quelque chose s'est mal passé - le mod 'Temps réel' n'a pas pu être activé. Veuillez partager le journal du fichier du jeu avec le développeur du mod." />
 
-  <translation id="Tools" value="Tools" />
-  <translation id="ResetToDefaults" value="Reset all to defaults" />
+  <translation id="Tools" value="Outils" />
+  <translation id="ResetToDefaults" value="Tout réinitialiser aux valeurs par défaut" />
 
   <translation id="1General" value="Général" />
   <translation id="DayTimeSpeed" value="Vitesse du temps (en journée)" />
   <translation id="DayTimeSpeedTooltip" value="La vitesse du flux de temps sur la journée. '1' est très lent - presque en temps réel !" />
   <translation id="NightTimeSpeed" value="Vitesse du temps (la nuit)" />
   <translation id="NightTimeSpeedTooltip" value="La vitesse du flux du temps la nuit. '1' est très lent - presque en temps réel !" />
-  <translation id="IsDynamicDayLengthEnabled" value="Dynamic day length" />
-  <translation id="IsDynamicDayLengthEnabledTooltip" value="Day length depends on the map's theme and day of the year. In winter the days are shorter than in summer." />
+  <translation id="IsDynamicDayLengthEnabled" value="Longueur de jour dynamique" />
+  <translation id="IsDynamicDayLengthEnabledTooltip" value="La durée du jour dépend du thème de la carte et du jour de l'année. En hiver, les jours sont plus courts qu'en été." />
   <translation id="VirtualCitizens" value="Mode de similation des Citoyens (réel et virtuel)" />
   <translation id="VirtualCitizensTooltip" value="Sélectionnez 'Tous' pour une vraie ville (mais maximum 65,53k citoyens), sélectionnez 'Vanilla' ou 'Plus' si votre configuration est faible" />
   <translation id="VirtualCitizens.None" value="Tous les citoyens sont réels" />
@@ -21,7 +21,7 @@
   <translation id="VirtualCitizens.Vanilla" value="Comme dans le jeu Vanilla" />
   <translation id="VirtualCitizens.Many" value="Encore plus de citoyens virtuels" />
   <translation id="IsWeekendEnabled" value="Activer les Week-ends" />
-  <translation id="IsWeekendEnabledTooltip" value="Les citoyens ne vont pas au travail  ou à l'école ou à l'université le week-end" />
+  <translation id="IsWeekendEnabledTooltip" value="Les citoyens ne vont pas au travail ou en cours le week-end" />
   <translation id="IsLunchtimeEnabled" value="Activer l'heure du déjeûner" />
   <translation id="IsLunchtimeEnabledTooltip" value="Les citoyens devraient sortir au déjeûner pour s'alimenter" />
   <translation id="StopConstructionAtNight" value="Mettre en pause la construction du bâtiment et l'améliorer pendant la nuit" />
@@ -55,7 +55,7 @@
   <translation id="MaxOvertime" value="Heures supplémentaires maximum" />
   <translation id="MaxOvertimeTooltip" value="Les heures supplémentaires maximum pour les citoyens - ils viennent travailler plus tôt ou restent au travail plus longtemps" />
   <translation id="SchoolBegin" value="Heure de début des cours scolaire ou universitaire" />
-  <translation id="SchoolBeginTooltip" value="L'éducation se déroule en journée - les jeunes doivent être à l'école, au collège, au lycée ou à l'université en journée" />
+  <translation id="SchoolBeginTooltip" value="L'éducation se déroule en journée - les jeunes doivent être en cours en journée" />
   <translation id="SchoolEnd" value="Heure de fin des cours scolaire ou universitaire" />
   <translation id="SchoolEndTooltip" value="L'heure de la journée à laquelle les jeunes reviennent des cours" />
   <translation id="WorkBegin" value="L'heure de début du travail" />
