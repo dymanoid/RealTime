@@ -36,7 +36,7 @@ namespace RealTime.Config
             }
             catch (Exception ex)
             {
-                Log.Warning($"The ' Real Time' mod has encountered an error while trying to load the configuration, error message: " + ex.Message);
+                Log.Warning($"The 'Real Time' mod has encountered an error while trying to load the configuration, error message: " + ex);
                 return new RealTimeConfig();
             }
         }
@@ -61,7 +61,7 @@ namespace RealTime.Config
             }
             catch (Exception ex)
             {
-                Log.Error("The 'Real Time' mod cannot save its configuration, error message: " + ex.Message);
+                Log.Error("The 'Real Time' mod cannot save its configuration, error message: " + ex);
             }
         }
 

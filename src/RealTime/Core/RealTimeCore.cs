@@ -86,7 +86,7 @@ namespace RealTime.Core
                     Log.Warning("Failed to revert method redirections while cleaning up a failed patching");
                 }
 
-                Log.Error("Failed to perform method redirections: " + ex.Message);
+                Log.Error("The 'Real Time' mod failed to perform method redirections: " + ex);
                 return null;
             }
 
@@ -198,7 +198,7 @@ namespace RealTime.Core
             }
             catch (Exception ex)
             {
-                Log.Error("Failed to revert method redirections: " + ex.Message);
+                Log.Error("The 'Real Time' mod failed to revert method redirections: " + ex);
             }
 
             isEnabled = false;

@@ -60,7 +60,7 @@ namespace RealTime.GameConnection
             }
             catch (Exception e)
             {
-                Log.Error($"The 'Real Time' mod failed to create a delegate for type 'ResidentAI', no method patching for the class: '{e.Message}'");
+                Log.Error("The 'Real Time' mod failed to create a delegate for type 'ResidentAI', no method patching for the class: " + e);
                 return null;
             }
         }

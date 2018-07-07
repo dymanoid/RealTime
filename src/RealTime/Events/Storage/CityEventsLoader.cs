@@ -136,7 +136,7 @@ namespace RealTime.Events.Storage
                 }
                 catch (Exception ex)
                 {
-                    Log.Error($"The 'Real Time' mod was unable to load an event template from file '{file}', error message: '{ex.Message}'");
+                    Log.Error($"The 'Real Time' mod was unable to load an event template from file '{file}', error message: {ex}");
                 }
             }
 
