@@ -11,6 +11,7 @@ namespace RealTime.Core
     using RealTime.Events;
     using RealTime.Events.Storage;
     using RealTime.GameConnection;
+    using RealTime.GameConnection.Patches;
     using RealTime.Localization;
     using RealTime.Patching;
     using RealTime.Simulation;
@@ -70,23 +71,22 @@ namespace RealTime.Core
                 throw new ArgumentNullException(nameof(localizationProvider));
             }
 
-            var patcher = new MethodPatcher();
+            var patcher = new MethodPatcher(
+                BuildingAIPatches.PrivateConstructionTime,
+                BuildingAIPatches.PrivateHandleWorkers,
+                BuildingAIPatches.CommercialSimulation,
+                ResidentAIPatch.Location,
+                TouristAIPatch.Location);
+
             try
             {
                 patcher.Apply();
+                Log.Info("The 'Real Time' successfully performed the methods redirections");
             }
             catch (Exception ex)
             {
-                try
-                {
-                    patcher.Revert();
-                }
-                catch
-                {
-                    Log.Warning("Failed to revert method redirections while cleaning up a failed patching");
-                }
-
                 Log.Error("The 'Real Time' mod failed to perform method redirections: " + ex);
+                SafeRevertPatches(patcher);
                 return null;
             }
 
@@ -116,16 +116,7 @@ namespace RealTime.Core
             if (!SetupCustomAI(timeInfo, config, gameConnections, eventManager))
             {
                 Log.Error("The 'Real Time' mod failed to setup the customized AI and will now be deactivated.");
-
-                try
-                {
-                    patcher.Revert();
-                }
-                catch
-                {
-                    Log.Warning("Failed to revert method redirections while cleaning up");
-                }
-
+                SafeRevertPatches(patcher);
                 return null;
             }
 
@@ -142,15 +133,11 @@ namespace RealTime.Core
             eventManager.EventsChanged += result.CityEventsChanged;
             SimulationHandler.NewDay += result.CityEventsChanged;
 
-            RealTimeBuildingAI buildingAI = new RealTimeBuildingAI(timeInfo, buildingManager);
-
             SimulationHandler.TimeAdjustment = timeAdjustment;
             SimulationHandler.DayTimeSimulation = new DayTimeSimulation(config);
             SimulationHandler.EventManager = eventManager;
             SimulationHandler.WeatherInfo = weatherInfo;
-            SimulationHandler.Buildings = buildingAI;
-
-            BuildingAIHooks.Buildings = buildingAI;
+            SimulationHandler.Buildings = BuildingAIPatches.RealTimeAI;
 
             RealTimeStorage.CurrentLevelStorage.GameSaving += result.GameSaving;
             result.storageData.Add(eventManager);
@@ -171,6 +158,8 @@ namespace RealTime.Core
                 return;
             }
 
+            SafeRevertPatches(patcher);
+
             timeAdjustment.Disable();
             timeBar.CityEventClick -= CustomTimeBarCityEventClick;
             timeBar.Disable();
@@ -181,26 +170,14 @@ namespace RealTime.Core
 
             RealTimeStorage.CurrentLevelStorage.GameSaving -= GameSaving;
 
-            ResidentAIHook.RealTimeAI = null;
-            TouristAIHook.RealTimeAI = null;
-            PrivateBuildingAIHook.RealTimeAI = null;
+            ResidentAIPatch.RealTimeAI = null;
+            TouristAIPatch.RealTimeAI = null;
+            BuildingAIPatches.RealTimeAI = null;
             SimulationHandler.EventManager = null;
             SimulationHandler.DayTimeSimulation = null;
             SimulationHandler.TimeAdjustment = null;
             SimulationHandler.WeatherInfo = null;
             SimulationHandler.Buildings = null;
-
-            BuildingAIHooks.Buildings = null;
-
-            try
-            {
-                patcher.Revert();
-            }
-            catch (Exception ex)
-            {
-                Log.Error("The 'Real Time' mod failed to revert method redirections: " + ex);
-            }
-
             isEnabled = false;
         }
 
@@ -222,13 +199,25 @@ namespace RealTime.Core
             timeBar.Translate(localizationProvider.CurrentCulture);
         }
 
+        private static void SafeRevertPatches(MethodPatcher patcher)
+        {
+            try
+            {
+                patcher.Revert();
+            }
+            catch (Exception ex)
+            {
+                Log.Warning("The 'Real Time' mod failed to revert method redirections: " + ex);
+            }
+        }
+
         private static bool SetupCustomAI(
             TimeInfo timeInfo,
             RealTimeConfig config,
             GameConnections<Citizen> gameConnections,
             RealTimeEventManager eventManager)
         {
-            ResidentAIConnection<ResidentAI, Citizen> residentAIConnection = ResidentAIHook.GetResidentAIConnection();
+            ResidentAIConnection<ResidentAI, Citizen> residentAIConnection = ResidentAIPatch.GetResidentAIConnection();
             if (residentAIConnection == null)
             {
                 return false;
@@ -240,9 +229,9 @@ namespace RealTime.Core
                 residentAIConnection,
                 eventManager);
 
-            ResidentAIHook.RealTimeAI = realTimeResidentAI;
+            ResidentAIPatch.RealTimeAI = realTimeResidentAI;
 
-            TouristAIConnection<TouristAI, Citizen> touristAIConnection = TouristAIHook.GetTouristAIConnection();
+            TouristAIConnection<TouristAI, Citizen> touristAIConnection = TouristAIPatch.GetTouristAIConnection();
             if (touristAIConnection == null)
             {
                 return false;
@@ -254,14 +243,15 @@ namespace RealTime.Core
                 touristAIConnection,
                 eventManager);
 
-            TouristAIHook.RealTimeAI = realTimeTouristAI;
+            TouristAIPatch.RealTimeAI = realTimeTouristAI;
 
             var realTimePrivateBuildingAI = new RealTimePrivateBuildingAI(
                 config,
                 timeInfo,
+                gameConnections.BuildingManager,
                 new ToolManagerConnection());
 
-            PrivateBuildingAIHook.RealTimeAI = realTimePrivateBuildingAI;
+            BuildingAIPatches.RealTimeAI = realTimePrivateBuildingAI;
             return true;
         }
 

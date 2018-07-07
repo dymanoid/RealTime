@@ -54,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\VirtualCitizensLevel.cs" />
-    <Compile Include="CustomAI\RealTimeBuildingAI.cs" />
     <Compile Include="Config\ConfigurationProvider.cs" />
     <Compile Include="Core\IStorageData.cs" />
     <Compile Include="Core\RealTimeStorage.cs" />
@@ -83,17 +82,16 @@
     <Compile Include="Events\VanillaEvent.cs" />
     <Compile Include="GameConnection\CameraHelper.cs" />
     <Compile Include="GameConnection\CitizenConnection.cs" />
-    <Compile Include="GameConnection\BuildingAIHooks.cs" />
+    <Compile Include="GameConnection\Patches\BuildingAIPatches.cs" />
     <Compile Include="GameConnection\GameRandomizer.cs" />
     <Compile Include="GameConnection\HumanAIConnectionBase.cs" />
     <Compile Include="GameConnection\ICitizenConnection.cs" />
     <Compile Include="GameConnection\IToolManagerConnection.cs" />
     <Compile Include="GameConnection\ITransferManagerConnection.cs" />
     <Compile Include="GameConnection\IWeatherManagerConnection.cs" />
-    <Compile Include="GameConnection\PrivateBuildingAIHook.cs" />
     <Compile Include="GameConnection\TouristAIConnection.cs" />
-    <Compile Include="GameConnection\TouristAIHook.cs" />
-    <Compile Include="GameConnection\ResidentAIHook.cs" />
+    <Compile Include="GameConnection\Patches\TouristAIPatch.cs" />
+    <Compile Include="GameConnection\Patches\ResidentAIPatch.cs" />
     <Compile Include="CustomAI\RealTimeResidentAI.Moving.cs" />
     <Compile Include="CustomAI\RealTimeResidentAI.Visit.cs" />
     <Compile Include="CustomAI\RealTimeResidentAI.SchoolWork.cs" />
@@ -114,7 +112,11 @@
     <Compile Include="Localization\LocalizationProvider.cs" />
     <Compile Include="Localization\TranslationKeys.cs" />
     <Compile Include="Patching\FastDelegate.cs" />
+    <Compile Include="Patching\IPatch.cs" />
+    <Compile Include="Patching\IPatcher.cs" />
     <Compile Include="Patching\MethodPatcher.cs" />
+    <Compile Include="Patching\PatchBase.cs" />
+    <Compile Include="Patching\Patcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\RealTimeMod.cs" />
     <Compile Include="Simulation\DayTimeSimulation.cs" />

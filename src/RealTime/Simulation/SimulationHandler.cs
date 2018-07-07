@@ -35,7 +35,7 @@ namespace RealTime.Simulation
         /// <summary>
         /// Gets or sets the custom building simulation class instance.
         /// </summary>
-        internal static RealTimeBuildingAI Buildings { get; set; }
+        internal static RealTimePrivateBuildingAI Buildings { get; set; }
 
         /// <summary>Gets or sets the time adjustment simulation class instance.</summary>
         internal static TimeAdjustment TimeAdjustment { get; set; }

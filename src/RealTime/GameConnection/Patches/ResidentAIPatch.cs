@@ -1,22 +1,29 @@
-﻿// <copyright file="ResidentAIHook.cs" company="dymanoid">
-// Copyright (c) dymanoid. All rights reserved.
-// </copyright>
+﻿// <copyright file="ResidentAIPatch.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
 
-namespace RealTime.GameConnection
+namespace RealTime.GameConnection.Patches
 {
     using System;
-    using Harmony;
+    using System.Reflection;
     using RealTime.CustomAI;
     using RealTime.Patching;
     using RealTime.Tools;
     using static HumanAIConnectionBase<ResidentAI, Citizen>;
     using static ResidentAIConnection<ResidentAI, Citizen>;
 
-    internal static class ResidentAIHook
+    /// <summary>
+    /// A static class that provides the patch objects and the game connection objects for the resident AI .
+    /// </summary>
+    internal static class ResidentAIPatch
     {
-        internal static RealTimeResidentAI<ResidentAI, Citizen> RealTimeAI { get; set; }
+        /// <summary>Gets or sets the custom AI object for resident citizens.</summary>
+        public static RealTimeResidentAI<ResidentAI, Citizen> RealTimeAI { get; set; }
 
-        internal static ResidentAIConnection<ResidentAI, Citizen> GetResidentAIConnection()
+        /// <summary>Gets the patch object for the location method.</summary>
+        public static IPatch Location { get; } = new ResidentAI_UpdateLocation();
+
+        /// <summary>Creates a game connection object for the resident AI class.</summary>
+        /// <returns>A new <see cref="ResidentAIConnection{ResidentAI, Citizen}"/> object.</returns>
+        public static ResidentAIConnection<ResidentAI, Citizen> GetResidentAIConnection()
         {
             try
             {
@@ -65,16 +72,27 @@ namespace RealTime.GameConnection
             }
         }
 
-        [HarmonyPatch(typeof(ResidentAI), nameof(UpdateLocation), null)]
-        private static class UpdateLocation
+        private sealed class ResidentAI_UpdateLocation : PatchBase
         {
+            protected override MethodInfo GetMethod()
+            {
+                return typeof(ResidentAI).GetMethod(
+                    "UpdateLocation",
+                    BindingFlags.Instance | BindingFlags.NonPublic,
+                    null,
+                    new[] { typeof(uint), typeof(Citizen).MakeByRefType() },
+                    new ParameterModifier[0]);
+            }
+
 #pragma warning disable SA1313 // Parameter names must begin with lower-case letter
-            public static bool Prefix(ResidentAI __instance, uint citizenID, ref Citizen data)
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
+
+            private static bool Prefix(ResidentAI __instance, uint citizenID, ref Citizen data)
             {
                 RealTimeAI?.UpdateLocation(__instance, citizenID, ref data);
                 return false;
             }
+
+#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
     }
 }
