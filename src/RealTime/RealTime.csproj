@@ -143,6 +143,7 @@
     <Compile Include="UI\IValueViewItem.cs" />
     <Compile Include="UI\IViewItem.cs" />
     <Compile Include="UI\IViewItemFactory.cs" />
+    <Compile Include="UI\MessageBox.cs" />
     <Compile Include="UI\RealTimeUIDateTimeWrapper.cs" />
     <Compile Include="UI\CustomTimeBar.cs" />
     <Compile Include="UI\SliderValueType.cs" />
