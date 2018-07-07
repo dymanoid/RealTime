@@ -4,9 +4,11 @@
 
 namespace RealTime.Patching
 {
+    using System;
     using System.Linq;
     using System.Reflection;
     using Harmony;
+    using RealTime.Tools;
 
     /// <summary>
     /// A class that uses Harmony library for redirecting the game's methods.
@@ -26,7 +28,15 @@ namespace RealTime.Patching
         /// <summary>Applies all patches defined in the current assembly.</summary>
         public void Apply()
         {
-            Revert();
+            try
+            {
+                Revert();
+            }
+            catch (Exception ex)
+            {
+                Log.Warning("The 'Real Time' mod failed to clean up methods before patching: " + ex);
+            }
+
             harmony.PatchAll(typeof(MethodPatcher).Assembly);
         }
 
