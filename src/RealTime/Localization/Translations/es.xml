@@ -27,10 +27,10 @@
   <translation id="ConstructionSpeedTooltip" value="Velocidad de construccion y de mejora de edificios" />
 
   <translation id="2Quotas" value="Probabilidades" />
-  <translation id="SecondShiftQuota" value="Second shift workers" />
-  <translation id="SecondShiftQuotaTooltip" value="The percentage of the citizens that work second shift" />
-  <translation id="NightShiftQuota" value="Night shift workers" />
-  <translation id="NightShiftQuotaTooltip" value="The percentage of the citizens that work night shift" />
+  <translation id="SecondShiftQuota" value="Turno de Tarde de trabajo" />
+  <translation id="SecondShiftQuotaTooltip" value="% de cims que trabajaran al 2º turno, empieza cuando finaliza turno de dia" />
+  <translation id="NightShiftQuota" value="Turno de Noche de trabajo" />
+  <translation id="NightShiftQuotaTooltip" value="% de cims que trabajaran en turno de noche, empieza a medianoche" />
   <translation id="LunchQuota" value="Almuerzo" />
   <translation id="LunchQuotaTooltip" value="Porcentaje de cims que salen a almorzar" />
   <translation id="LocalBuildingSearchQuota" value="Compras locales" />
