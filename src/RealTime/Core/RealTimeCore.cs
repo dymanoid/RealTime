@@ -77,6 +77,15 @@ namespace RealTime.Core
             }
             catch (Exception ex)
             {
+                try
+                {
+                    patcher.Revert();
+                }
+                catch
+                {
+                    Log.Warning("Failed to revert method redirections while cleaning up a failed patching");
+                }
+
                 Log.Error("Failed to perform method redirections: " + ex.Message);
                 return null;
             }
@@ -106,7 +115,17 @@ namespace RealTime.Core
 
             if (!SetupCustomAI(timeInfo, config, gameConnections, eventManager))
             {
-                patcher.Revert();
+                Log.Error("The 'Real Time' mod failed to setup the customized AI and will now be deactivated.");
+
+                try
+                {
+                    patcher.Revert();
+                }
+                catch
+                {
+                    Log.Warning("Failed to revert method redirections while cleaning up");
+                }
+
                 return null;
             }
 
