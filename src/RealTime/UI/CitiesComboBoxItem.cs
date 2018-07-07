@@ -56,7 +56,7 @@ namespace RealTime.UI
                 throw new ArgumentNullException(nameof(localizationProvider));
             }
 
-            UIComponent.tooltip = localizationProvider.Translate(UIComponent.name + Constants.Tooltip);
+            UIComponent.tooltip = localizationProvider.Translate(UIComponent.name + TranslationKeys.Tooltip);
 
             UILabel label = UIComponent.parent?.Find<UILabel>(LabelName);
             if (label != null)

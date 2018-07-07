@@ -8,9 +8,6 @@ namespace RealTime.Localization
         /// <summary>The placeholder string.</summary>
         public const string Placeholder = "Placeholder";
 
-        /// <summary>The tool tip string.</summary>
-        public const string Tooltip = "Tooltip";
-
         /// <summary>The 'no locale' placeholder string.</summary>
         public const string NoLocale = "No Locale found";
 

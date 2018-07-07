@@ -39,7 +39,7 @@ namespace RealTime.UI
             }
 
             UIComponent.text = localizationProvider.Translate(UIComponent.name);
-            UIComponent.tooltip = localizationProvider.Translate(UIComponent.name + Constants.Tooltip);
+            UIComponent.tooltip = localizationProvider.Translate(UIComponent.name + TranslationKeys.Tooltip);
         }
 
         /// <summary>
