@@ -253,6 +253,12 @@ namespace RealTime.CustomAI
                 return false;
             }
 
+            if ((citizenId & 0x7FF) == TimeInfo.Now.Day)
+            {
+                Log.Debug(TimeInfo.Now, $"Citizen {citizenId} has a day off work today");
+                return false;
+            }
+
             if (citizenAge == Citizen.AgeGroup.Child || citizenAge == Citizen.AgeGroup.Teen)
             {
                 return ShouldMoveToSchoolOrWork(currentBuilding, workBuilding, Config.SchoolBegin, Config.SchoolEnd, 0);
