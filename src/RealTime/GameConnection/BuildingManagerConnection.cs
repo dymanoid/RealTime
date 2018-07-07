@@ -192,31 +192,28 @@ namespace RealTime.GameConnection
         }
 
         /// <summary>
-        /// Decrements the outgoing problem timer for all buildings of the specified service type and
-        /// whose IDs are between the specified values.
+        /// Sets the outgoing problem timer value for the building with specified ID.
         /// </summary>
-        /// <param name="buildingIdFrom">The left range value of the building IDs to process.</param>
-        /// <param name="buildingIdTo">The right range value of the building IDs to process.</param>
-        /// <param name="service">The service type to process buildings of.</param>
-        public void DecrementOutgoingProblemTimer(ushort buildingIdFrom, ushort buildingIdTo, ItemClass.Service service)
+        /// <param name="buildingId">The ID of building to set the problem timer for.</param>
+        /// <param name="value">The outgoing problem timer value to set.</param>
+        public void SetOutgoingProblemTimer(ushort buildingId, byte value)
         {
-            if (service == ItemClass.Service.None)
+            if (buildingId != 0)
             {
-                return;
+                BuildingManager.instance.m_buildings.m_buffer[buildingId].m_outgoingProblemTimer = value;
             }
+        }
 
-            for (ushort buildingId = buildingIdFrom; buildingId <= buildingIdTo; buildingId++)
+        /// <summary>
+        /// Sets the workers problem timer value for the building with specified ID.
+        /// </summary>
+        /// <param name="buildingId">The ID of building to set the problem timer for.</param>
+        /// <param name="value">The workers problem timer value to set.</param>
+        public void SetWorkersProblemTimer(ushort buildingId, byte value)
+        {
+            if (buildingId != 0)
             {
-                ref Building building = ref BuildingManager.instance.m_buildings.m_buffer[buildingId];
-                if ((building.m_flags & Building.Flags.Created) == 0 || building.Info.m_class.m_service != service)
-                {
-                    continue;
-                }
-
-                if (building.m_outgoingProblemTimer > 0)
-                {
-                    building.m_outgoingProblemTimer -= 1;
-                }
+                BuildingManager.instance.m_buildings.m_buffer[buildingId].m_workerProblemTimer = value;
             }
         }
 

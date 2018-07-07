@@ -93,13 +93,18 @@ namespace RealTime.GameConnection
         ushort GetRandomBuilding(IEnumerable<ItemClass.Service> services);
 
         /// <summary>
-        /// Decrements the outgoing problem timer for all buildings of the specified service type and
-        /// whose IDs are between the specified values.
+        /// Sets the outgoing problem timer value for the building with specified ID.
         /// </summary>
-        /// <param name="buildingIdFrom">The left range value of the building IDs to process.</param>
-        /// <param name="buildingIdTo">The right range value of the building IDs to process.</param>
-        /// <param name="service">The service type to process buildings of.</param>
-        void DecrementOutgoingProblemTimer(ushort buildingIdFrom, ushort buildingIdTo, ItemClass.Service service);
+        /// <param name="buildingId">The ID of building to set the problem timer for.</param>
+        /// <param name="value">The outgoing problem timer value to set.</param>
+        void SetOutgoingProblemTimer(ushort buildingId, byte value);
+
+        /// <summary>
+        /// Sets the workers problem timer value for the building with specified ID.
+        /// </summary>
+        /// <param name="buildingId">The ID of building to set the problem timer for.</param>
+        /// <param name="value">The workers problem timer value to set.</param>
+        void SetWorkersProblemTimer(ushort buildingId, byte value);
 
         /// <summary>Gets the class name of the building with specified ID.</summary>
         /// <param name="buildingId">The building ID to get the class name of.</param>

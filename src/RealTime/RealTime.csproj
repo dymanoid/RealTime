@@ -54,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\VirtualCitizensLevel.cs" />
-    <Compile Include="CustomAI\RealTimeCommercialBuildingAI.cs" />
+    <Compile Include="CustomAI\RealTimeBuildingAI.cs" />
     <Compile Include="Config\ConfigurationProvider.cs" />
     <Compile Include="Core\IStorageData.cs" />
     <Compile Include="Core\RealTimeStorage.cs" />
@@ -83,6 +83,7 @@
     <Compile Include="Events\VanillaEvent.cs" />
     <Compile Include="GameConnection\CameraHelper.cs" />
     <Compile Include="GameConnection\CitizenConnection.cs" />
+    <Compile Include="GameConnection\BuildingAIHooks.cs" />
     <Compile Include="GameConnection\GameRandomizer.cs" />
     <Compile Include="GameConnection\HumanAIConnectionBase.cs" />
     <Compile Include="GameConnection\ICitizenConnection.cs" />
