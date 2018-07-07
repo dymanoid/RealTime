@@ -87,7 +87,7 @@ namespace RealTime.UI
                 return;
             }
 
-            panel.tooltip = localizationProvider.Translate(UIComponent.name + Constants.Tooltip);
+            panel.tooltip = localizationProvider.Translate(UIComponent.name + TranslationKeys.Tooltip);
 
             UILabel label = panel.Find<UILabel>(LabelName);
             if (label != null)

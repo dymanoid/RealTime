@@ -1,9 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <language id="es" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
+  <translation id="Warning" value="Warning" />
+  <translation id="ModNotWorkingMessage" value="Oops! Something went wrong - the 'Real Time' mod could not be activated. Please share your game log file with the mod's developer." />
+
   <translation id="Tools" value="Herramientas" />
   <translation id="ResetToDefaults" value="Restablecer todo por defecto" />
 
+  <translation id="1General" value="General" />
   <translation id="DayTimeSpeed" value="Velocidad del tiempo (día)" />
   <translation id="DayTimeSpeedTooltip" value="La velocidad a la que fluye el tiempo diurno. '1' es muy lento, ¡casi en tiempo real!" />
   <translation id="NightTimeSpeed" value="Velocidad del tiempo (noche)" />
@@ -16,7 +20,6 @@
   <translation id="VirtualCitizens.Few" value="Casi todos los ciudadanos reales" />
   <translation id="VirtualCitizens.Vanilla" value="Como en juego Original" />
   <translation id="VirtualCitizens.Many" value="Más ciudadanos virtuales" />
-  <translation id="1General" value="General" />
   <translation id="IsWeekendEnabled" value="Activar Fines de Semana" />
   <translation id="IsWeekendEnabledTooltip" value="Los ciudadanos no van al trabajo ni a la escuela los fines de semana" />
   <translation id="IsLunchtimeEnabled" value="Activar hora de Almorzar" />

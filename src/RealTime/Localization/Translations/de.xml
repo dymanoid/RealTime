@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <language id="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
+  <translation id="Warning" value="Warnung" />
+  <translation id="ModNotWorkingMessage" value="Oh je! Etwas ist schief gelaufen - die Mod 'Real Time' kann nicht aktiviert werden. Bitte zeigen Sie das Log-File von Cities:Skylines dem Entwickler." />
+
   <translation id="Tools" value="Tools" />
   <translation id="ResetToDefaults" value="Alle Optionen zurücksetzen" />
 

@@ -112,6 +112,7 @@
     <Compile Include="GameConnection\WeatherManagerConnection.cs" />
     <Compile Include="Localization\Constants.cs" />
     <Compile Include="Localization\LocalizationProvider.cs" />
+    <Compile Include="Localization\TranslationKeys.cs" />
     <Compile Include="Patching\FastDelegate.cs" />
     <Compile Include="Patching\MethodPatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -143,6 +144,7 @@
     <Compile Include="UI\IValueViewItem.cs" />
     <Compile Include="UI\IViewItem.cs" />
     <Compile Include="UI\IViewItemFactory.cs" />
+    <Compile Include="UI\MessageBox.cs" />
     <Compile Include="UI\RealTimeUIDateTimeWrapper.cs" />
     <Compile Include="UI\CustomTimeBar.cs" />
     <Compile Include="UI\SliderValueType.cs" />
