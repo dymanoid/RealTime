@@ -142,15 +142,10 @@ namespace RealTime.Core
             eventManager.EventsChanged += result.CityEventsChanged;
             SimulationHandler.NewDay += result.CityEventsChanged;
 
-            RealTimeBuildingAI buildingAI = new RealTimeBuildingAI(timeInfo, buildingManager);
-
             SimulationHandler.TimeAdjustment = timeAdjustment;
             SimulationHandler.DayTimeSimulation = new DayTimeSimulation(config);
             SimulationHandler.EventManager = eventManager;
             SimulationHandler.WeatherInfo = weatherInfo;
-            SimulationHandler.Buildings = buildingAI;
-
-            BuildingAIHooks.Buildings = buildingAI;
 
             RealTimeStorage.CurrentLevelStorage.GameSaving += result.GameSaving;
             result.storageData.Add(eventManager);
@@ -259,6 +254,7 @@ namespace RealTime.Core
             var realTimePrivateBuildingAI = new RealTimePrivateBuildingAI(
                 config,
                 timeInfo,
+                gameConnections.BuildingManager,
                 new ToolManagerConnection());
 
             PrivateBuildingAIHook.RealTimeAI = realTimePrivateBuildingAI;

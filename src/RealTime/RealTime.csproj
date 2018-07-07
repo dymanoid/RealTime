@@ -54,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\VirtualCitizensLevel.cs" />
-    <Compile Include="CustomAI\RealTimeBuildingAI.cs" />
     <Compile Include="Config\ConfigurationProvider.cs" />
     <Compile Include="Core\IStorageData.cs" />
     <Compile Include="Core\RealTimeStorage.cs" />
