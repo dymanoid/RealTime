@@ -5,6 +5,7 @@
 namespace RealTime.Patching
 {
     using System;
+    using System.Reflection;
     using Harmony;
     using RealTime.Tools;
 
@@ -57,6 +58,41 @@ namespace RealTime.Patching
             foreach (IPatch patch in patches)
             {
                 patch.RevertPatch(patcher);
+            }
+        }
+
+        private sealed class Patcher : IPatcher
+        {
+            private readonly HarmonyInstance harmony;
+
+            public Patcher(HarmonyInstance harmony)
+            {
+                this.harmony = harmony;
+            }
+
+            public void ApplyPatch(MethodInfo method, MethodInfo prefixCall, MethodInfo postfixCall)
+            {
+                if (method == null)
+                {
+                    throw new ArgumentNullException(nameof(method));
+                }
+
+                if (prefixCall == null && postfixCall == null)
+                {
+                    throw new ArgumentException($"Both {nameof(prefixCall)} and {nameof(postfixCall)} cannot be null at the same time.");
+                }
+
+                harmony.Patch(method, new HarmonyMethod(prefixCall), new HarmonyMethod(postfixCall));
+            }
+
+            public void RevertPatch(MethodInfo method)
+            {
+                if (method == null)
+                {
+                    throw new ArgumentNullException(nameof(method));
+                }
+
+                harmony.RemovePatch(method, HarmonyPatchType.All, harmony.Id);
             }
         }
     }

@@ -91,7 +91,6 @@ namespace RealTime.GameConnection.Patches
                 RealTimeAI?.UpdateLocation(__instance, citizenID, ref data);
                 return false;
             }
-
 #pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
     }

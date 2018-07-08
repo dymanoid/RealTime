@@ -116,7 +116,6 @@
     <Compile Include="Patching\IPatcher.cs" />
     <Compile Include="Patching\MethodPatcher.cs" />
     <Compile Include="Patching\PatchBase.cs" />
-    <Compile Include="Patching\Patcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\RealTimeMod.cs" />
     <Compile Include="Simulation\DayTimeSimulation.cs" />
