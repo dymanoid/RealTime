@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <language id="es" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-  <translation id="Warning" value="Warning" />
-  <translation id="ModNotWorkingMessage" value="Oops! Something went wrong - the 'Real Time' mod could not be activated. Please share your game log file with the mod's developer." />
+  <translation id="Warning" value="Atención" />
+  <translation id="ModNotWorkingMessage" value="¡Oops! Algo ha ido mal - el mod 'Real Time' no se ha podido activar. Por favor, comparte el archivo log con el desarrollador del mod." />
 
   <translation id="Tools" value="Herramientas" />
   <translation id="ResetToDefaults" value="Restablecer todo por defecto" />
@@ -52,7 +52,7 @@
   <translation id="LatestHourEventStartWeekendTooltip" value="Hora más tardía en la cual pueden empezar los eventos en fin de semana" />
 
   <translation id="4Time" value="Horarios" />
-  <translation id="MaxOvertime" value="Máximas Horas Extras" />
+  <translation id="MaxOvertime" value=Máximas Horas Extras" />
   <translation id="MaxOvertimeTooltip" value="Máximas horas extras que los ciudadanos podrán realizar - Irán antes al trabajo o saldrán más tarde de trabajar" />
   <translation id="SchoolBegin" value="Colegio e Instituto: hora de entrada" />
   <translation id="SchoolBeginTooltip" value="Hora a la que empiezan los colegios e institutos - los jóvenes deberan estar en las escuelas" />
@@ -67,4 +67,4 @@
   <translation id="LunchEnd" value="Almuerzo: hora final" />
   <translation id="LunchEndTooltip" value="Hora del día en que los ciudadanos volverán al trabajo después de almorzar" />
     
-</language>
+</language>                                                                                                      
