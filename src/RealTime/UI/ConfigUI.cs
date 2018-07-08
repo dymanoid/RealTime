@@ -92,7 +92,7 @@ namespace RealTime.UI
 
         /// <summary>Translates the UI using the specified localization provider.</summary>
         /// <param name="localizationProvider">The localization provider to use for translation.</param>
-        public void Translate(LocalizationProvider localizationProvider)
+        public void Translate(ILocalizationProvider localizationProvider)
         {
             foreach (IViewItem item in viewItems)
             {

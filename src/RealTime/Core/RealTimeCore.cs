@@ -50,11 +50,11 @@ namespace RealTime.Core
         ///
         /// <param name="config">The configuration to run with.</param>
         /// <param name="rootPath">The path to the mod's assembly. Additional files are stored here too.</param>
-        /// <param name="localizationProvider">The <see cref="LocalizationProvider"/> to use for text translation.</param>
+        /// <param name="localizationProvider">The <see cref="ILocalizationProvider"/> to use for text translation.</param>
         ///
         /// <returns>A <see cref="RealTimeCore"/> instance that can be used to stop the mod.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "This is the entry point and needs to instantiate all parts")]
-        public static RealTimeCore Run(RealTimeConfig config, string rootPath, LocalizationProvider localizationProvider)
+        public static RealTimeCore Run(RealTimeConfig config, string rootPath, ILocalizationProvider localizationProvider)
         {
             if (config == null)
             {
@@ -188,8 +188,8 @@ namespace RealTime.Core
         ///
         /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
         ///
-        /// <param name="localizationProvider">An instance of the <see cref="LocalizationProvider"/> to use for translation.</param>
-        public void Translate(LocalizationProvider localizationProvider)
+        /// <param name="localizationProvider">An instance of the <see cref="ILocalizationProvider"/> to use for translation.</param>
+        public void Translate(ILocalizationProvider localizationProvider)
         {
             if (localizationProvider == null)
             {

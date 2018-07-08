@@ -11,7 +11,7 @@ namespace RealTime.Localization
     using static Constants;
 
     /// <summary>Manages the mod's localization.</summary>
-    internal sealed class LocalizationProvider
+    internal sealed class LocalizationProvider : ILocalizationProvider
     {
         private readonly string localeStorage;
         private readonly Dictionary<string, string> translation = new Dictionary<string, string>();
@@ -37,7 +37,7 @@ namespace RealTime.Localization
             AlreadyLoaded
         }
 
-        /// <summary>Gets the current culture this object represents.</summary>
+        /// <summary>Gets the current culture that is used for translation.</summary>
         public CultureInfo CurrentCulture { get; private set; } = CultureInfo.CurrentCulture;
 
         /// <summary>Translates a value that has the specified ID.</summary>

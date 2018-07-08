@@ -50,7 +50,7 @@ namespace RealTime.UI
         /// <summary>Translates this view item using the specified localization provider.</summary>
         /// <param name="localizationProvider">The localization provider to use for translation.</param>
         /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
-        public void Translate(LocalizationProvider localizationProvider)
+        public void Translate(ILocalizationProvider localizationProvider)
         {
             if (localizationProvider == null)
             {
