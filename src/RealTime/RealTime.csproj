@@ -89,6 +89,7 @@
     <Compile Include="GameConnection\IToolManagerConnection.cs" />
     <Compile Include="GameConnection\ITransferManagerConnection.cs" />
     <Compile Include="GameConnection\IWeatherManagerConnection.cs" />
+    <Compile Include="GameConnection\Patches\UIGraphPatches.cs" />
     <Compile Include="GameConnection\TouristAIConnection.cs" />
     <Compile Include="GameConnection\Patches\TouristAIPatch.cs" />
     <Compile Include="GameConnection\Patches\ResidentAIPatch.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="GameConnection\TransferManagerConnection.cs" />
     <Compile Include="GameConnection\WeatherManagerConnection.cs" />
     <Compile Include="Localization\Constants.cs" />
+    <Compile Include="Localization\ILocalizationProvider.cs" />
     <Compile Include="Localization\LocalizationProvider.cs" />
     <Compile Include="Localization\TranslationKeys.cs" />
     <Compile Include="Patching\FastDelegate.cs" />
@@ -116,7 +118,6 @@
     <Compile Include="Patching\IPatcher.cs" />
     <Compile Include="Patching\MethodPatcher.cs" />
     <Compile Include="Patching\PatchBase.cs" />
-    <Compile Include="Patching\Patcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\RealTimeMod.cs" />
     <Compile Include="Simulation\DayTimeSimulation.cs" />

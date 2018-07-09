@@ -85,7 +85,7 @@ namespace RealTime.UI
         /// </summary>
         /// <param name="localizationProvider">The localization provider to use for translation.</param>
         /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
-        public abstract void Translate(LocalizationProvider localizationProvider);
+        public abstract void Translate(ILocalizationProvider localizationProvider);
 
         /// <summary>Creates the view item using the provided <see cref="UIHelperBase"/>.</summary>
         /// <param name="uiHelper">The UI helper to use for item creation.</param>

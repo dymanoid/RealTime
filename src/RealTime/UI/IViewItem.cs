@@ -12,6 +12,6 @@ namespace RealTime.UI
         /// <summary>Translates this view item using the specified localization provider.</summary>
         /// <param name="localizationProvider">The localization provider to use for translation.</param>
         /// <exception cref="System.ArgumentNullException">Thrown when the argument is null.</exception>
-        void Translate(LocalizationProvider localizationProvider);
+        void Translate(ILocalizationProvider localizationProvider);
     }
 }

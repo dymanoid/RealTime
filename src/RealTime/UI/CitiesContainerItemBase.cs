@@ -40,7 +40,7 @@ namespace RealTime.UI
         /// <summary>Translates this view item using the specified localization provider.</summary>
         /// <param name="localizationProvider">The localization provider to use for translation.</param>
         /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
-        public void Translate(LocalizationProvider localizationProvider)
+        public void Translate(ILocalizationProvider localizationProvider)
         {
             if (localizationProvider == null)
             {
@@ -52,6 +52,6 @@ namespace RealTime.UI
 
         /// <summary>When overridden in derived classes, performs the actual view item translation.</summary>
         /// <param name="localizationProvider">The localization provider to use for translation. Guaranteed to be not null.</param>
-        protected abstract void TranslateImpl(LocalizationProvider localizationProvider);
+        protected abstract void TranslateImpl(ILocalizationProvider localizationProvider);
     }
 }
