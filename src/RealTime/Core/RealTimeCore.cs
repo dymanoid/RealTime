@@ -76,7 +76,10 @@ namespace RealTime.Core
                 BuildingAIPatches.PrivateHandleWorkers,
                 BuildingAIPatches.CommercialSimulation,
                 ResidentAIPatch.Location,
-                TouristAIPatch.Location);
+                TouristAIPatch.Location,
+                UIGraphPatches.MinDataPoints,
+                UIGraphPatches.VisibleEndTime,
+                UIGraphPatches.BuildLabels);
 
             try
             {
@@ -197,6 +200,7 @@ namespace RealTime.Core
             }
 
             timeBar.Translate(localizationProvider.CurrentCulture);
+            UIGraphPatches.Translate(localizationProvider.CurrentCulture);
         }
 
         private static void SafeRevertPatches(MethodPatcher patcher)

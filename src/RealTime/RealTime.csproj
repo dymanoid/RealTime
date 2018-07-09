@@ -89,6 +89,7 @@
     <Compile Include="GameConnection\IToolManagerConnection.cs" />
     <Compile Include="GameConnection\ITransferManagerConnection.cs" />
     <Compile Include="GameConnection\IWeatherManagerConnection.cs" />
+    <Compile Include="GameConnection\Patches\UIGraphPatches.cs" />
     <Compile Include="GameConnection\TouristAIConnection.cs" />
     <Compile Include="GameConnection\Patches\TouristAIPatch.cs" />
     <Compile Include="GameConnection\Patches\ResidentAIPatch.cs" />

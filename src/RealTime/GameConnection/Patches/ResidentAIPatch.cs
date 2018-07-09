@@ -85,7 +85,6 @@ namespace RealTime.GameConnection.Patches
             }
 
 #pragma warning disable SA1313 // Parameter names must begin with lower-case letter
-
             private static bool Prefix(ResidentAI __instance, uint citizenID, ref Citizen data)
             {
                 RealTimeAI?.UpdateLocation(__instance, citizenID, ref data);
