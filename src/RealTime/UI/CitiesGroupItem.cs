@@ -17,8 +17,8 @@ namespace RealTime.UI
         /// <summary>Initializes a new instance of the <see cref="CitiesGroupItem"/> class.</summary>
         /// <param name="group">The game's group item that represents this container.</param>
         /// <param name="id">The item's unique ID.</param>
-        /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="System.ArgumentNullException">Thrown when any argument is null.</exception>
+        /// <exception cref="System.ArgumentException">
         /// Thrown when <paramref name="id"/> is an empty string.
         /// </exception>
         public CitiesGroupItem(UIHelperBase group, string id)

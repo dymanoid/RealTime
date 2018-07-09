@@ -6,6 +6,10 @@ namespace RealTime.GameConnection
 {
     using RealTime.Simulation;
 
+    /// <summary>
+    /// The default implementation of the <see cref="IRandomizer"/> interface.
+    /// </summary>
+    /// <seealso cref="IRandomizer" />
     internal sealed class GameRandomizer : IRandomizer
     {
         /// <summary>Gets a random value that fits in a range from 0 to <paramref name="max"/> (inclusive).</summary>
