@@ -79,7 +79,8 @@ namespace RealTime.Core
                 TouristAIPatch.Location,
                 UIGraphPatches.MinDataPoints,
                 UIGraphPatches.VisibleEndTime,
-                UIGraphPatches.BuildLabels);
+                UIGraphPatches.BuildLabels,
+                WeatherManagerPatch.SimulationStepImpl);
 
             try
             {
