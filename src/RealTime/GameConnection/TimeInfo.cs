@@ -17,7 +17,7 @@ namespace RealTime.GameConnection
         public DateTime Now => SimulationManager.instance.m_currentGameTime;
 
         /// <summary>Gets the current daytime hour.</summary>
-        public float CurrentHour => SimulationManager.instance.m_currentDayTimeHour;
+        public float CurrentHour => (float)Now.TimeOfDay.TotalHours;
 
         /// <summary>Gets the sunrise hour of the current day.</summary>
         public float SunriseHour => SimulationManager.SUNRISE_HOUR;
@@ -26,7 +26,14 @@ namespace RealTime.GameConnection
         public float SunsetHour => SimulationManager.SUNSET_HOUR;
 
         /// <summary>Gets a value indicating whether the current time represents a night hour.</summary>
-        public bool IsNightTime => SimulationManager.instance.m_isNightTime;
+        public bool IsNightTime
+        {
+            get
+            {
+                float currentHour = CurrentHour;
+                return currentHour >= SunsetHour || currentHour < SunriseHour;
+            }
+        }
 
         /// <summary>Gets the duration of the current or last day.</summary>
         public float DayDuration => SunsetHour - SunriseHour;

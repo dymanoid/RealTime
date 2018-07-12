@@ -8,6 +8,12 @@
   <translation id="ResetToDefaults" value="Restablecer todo por defecto" />
 
   <translation id="1General" value="General" />
+  <translation id="0Time" value="Time options" />
+  <translation id="1Other" value="Other options" />
+  <translation id="WakeupHour" value="City wakes up" />
+  <translation id="WakeupHourTooltip" value="The time when most citizens start waking up. The budgets and the time speed switch to the 'day' mode!" />
+  <translation id="GoToSleepUpHour" value="City goes to sleep" />
+  <translation id="GoToSleepUpHourTooltip" value="The time when most citizens start going to sleep. The budgets and the time speed switch to the 'night' mode!" />
   <translation id="DayTimeSpeed" value="Velocidad del tiempo (día)" />
   <translation id="DayTimeSpeedTooltip" value="La velocidad a la que fluye el tiempo diurno. '1' es muy lento, ¡casi en tiempo real!" />
   <translation id="NightTimeSpeed" value="Velocidad del tiempo (noche)" />
