@@ -8,6 +8,12 @@
   <translation id="ResetToDefaults" value="모두 초기값으로 되돌리기" />
 
   <translation id="1General" value="일반" />
+  <translation id="0Time" value="시간 옵션" />
+  <translation id="1Other" value="기타 옵션" />
+  <translation id="WakeupHour" value="도시가 잠에서 깨는 시간" />
+  <translation id="WakeupHourTooltip" value="대다수 도시의 시민들이 잠에서 깨는 시간입니다. 예산과 시간 속도가 주간 속도로 맞춰집니다!" />
+  <translation id="GoToSleepUpHour" value="도시가 잠에 드는 시간" />
+  <translation id="GoToSleepUpHourTooltip" value="대다수 도시의 시민들이 잠에서 드는 시간입니다. 예산과 시간 속도가 야간 속도로 맞춰집니다!" />
   <translation id="DayTimeSpeed" value="시간 속도 (주간)" />
   <translation id="DayTimeSpeedTooltip" value="낮 동안의 시간 속도를 정합니다. '1'은 매우 느리며, 거의 현실 시간과 같습니다!" />
   <translation id="NightTimeSpeed" value="시간 속도 (야간)" />
