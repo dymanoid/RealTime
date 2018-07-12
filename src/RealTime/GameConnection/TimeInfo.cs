@@ -5,6 +5,7 @@
 namespace RealTime.GameConnection
 {
     using System;
+    using RealTime.Config;
     using RealTime.Simulation;
 
     /// <summary>
@@ -13,6 +14,16 @@ namespace RealTime.GameConnection
     /// <seealso cref="ITimeInfo" />
     internal sealed class TimeInfo : ITimeInfo
     {
+        private readonly RealTimeConfig config;
+
+        /// <summary>Initializes a new instance of the <see cref="TimeInfo" /> class.</summary>
+        /// <param name="config">The configuration to run with.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
+        public TimeInfo(RealTimeConfig config)
+        {
+            this.config = config ?? throw new ArgumentNullException(nameof(config));
+        }
+
         /// <summary>Gets the current game date and time.</summary>
         public DateTime Now => SimulationManager.instance.m_currentGameTime;
 
@@ -31,7 +42,7 @@ namespace RealTime.GameConnection
             get
             {
                 float currentHour = CurrentHour;
-                return currentHour >= SunsetHour || currentHour < SunriseHour;
+                return currentHour >= config.GoToSleepUpHour || currentHour < config.WakeupHour;
             }
         }
 

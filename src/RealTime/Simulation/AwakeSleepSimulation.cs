@@ -114,7 +114,7 @@ namespace RealTime.Simulation
 
         void ISimulationManager.SimulationStep(int subStep)
         {
-            if (subStep == 0)
+            if (subStep == 0 || !SimulationManager.instance.m_enableDayNight)
             {
                 return;
             }

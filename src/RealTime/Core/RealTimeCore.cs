@@ -94,7 +94,7 @@ namespace RealTime.Core
                 return null;
             }
 
-            var timeInfo = new TimeInfo();
+            var timeInfo = new TimeInfo(config);
             var buildingManager = new BuildingManagerConnection();
             var randomizer = new GameRandomizer();
 
