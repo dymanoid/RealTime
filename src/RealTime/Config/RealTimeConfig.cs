@@ -23,7 +23,7 @@ namespace RealTime.Config
         /// </summary>
         [ConfigItem("1General", "0Time", 0)]
         [ConfigItemSlider(4f, 8f, 0.25f, SliderValueType.Time)]
-        public float WakeUpHour { get; set; }
+        public float WakeupHour { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the city goes to sleep.
@@ -216,7 +216,7 @@ namespace RealTime.Config
         /// <returns>This instance.</returns>
         public RealTimeConfig Validate()
         {
-            WakeUpHour = Clamp(WakeUpHour, 4f, 8f);
+            WakeupHour = Clamp(WakeupHour, 4f, 8f);
             GoToSleepUpHour = Clamp(GoToSleepUpHour, 20f, 23.75f);
 
             DayTimeSpeed = Clamp(DayTimeSpeed, 1u, 7u);
@@ -258,7 +258,7 @@ namespace RealTime.Config
         /// <summary>Resets all values to their defaults.</summary>
         public void ResetToDefaults()
         {
-            WakeUpHour = 6f;
+            WakeupHour = 6f;
             GoToSleepUpHour = 22f;
 
             IsDynamicDayLengthEnabled = true;

@@ -10,8 +10,8 @@
   <translation id="1General" value="Allgemein" />
   <translation id="0Time" value="Zeitoptionen" />
   <translation id="1Other" value="Andere Optionen" />
-  <translation id="WakeUpHour" value="City wacht auf" />
-  <translation id="WakeUpHourTooltip" value="Die meisten Einwohner fangen an aufzuwachen. Die Budgets und die Zeitgeschwindigkeit schalten auf 'Tag' um!" />
+  <translation id="WakeupHour" value="City wacht auf" />
+  <translation id="WakeupHourTooltip" value="Die meisten Einwohner fangen an aufzuwachen. Die Budgets und die Zeitgeschwindigkeit schalten auf 'Tag' um!" />
   <translation id="GoToSleepUpHour" value="City geht schlafen" />
   <translation id="GoToSleepUpHourTooltip" value="Die meisten Einwohner gehen schlafen. Die Budgets und die Zeitgeschwindigkeit schalten auf 'Nacht' um!" />
   <translation id="DayTimeSpeed" value="Zeitgeschw. (Tag)" />

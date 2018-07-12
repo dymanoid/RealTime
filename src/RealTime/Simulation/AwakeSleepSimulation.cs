@@ -120,7 +120,7 @@ namespace RealTime.Simulation
             }
 
             float currentHour = (float)SimulationManager.instance.m_currentGameTime.TimeOfDay.TotalHours;
-            SimulationManager.instance.m_isNightTime = currentHour < config.WakeUpHour || currentHour >= config.GoToSleepUpHour;
+            SimulationManager.instance.m_isNightTime = currentHour < config.WakeupHour || currentHour >= config.GoToSleepUpHour;
         }
 
         void ISimulationManager.UpdateData(SimulationManager.UpdateMode mode)

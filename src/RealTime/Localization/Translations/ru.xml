@@ -10,8 +10,8 @@
   <translation id="1General" value="Основные" />
   <translation id="0Time" value="Настройки времени" />
   <translation id="1Other" value="Другие настройки" />
-  <translation id="WakeUpHour" value="Город просыпается" />
-  <translation id="WakeUpHourTooltip" value="Время, когда большинство жителей начинают просыпаться. Бюджеты и скорость времени переходят в режим 'день'!" />
+  <translation id="WakeupHour" value="Город просыпается" />
+  <translation id="WakeupHourTooltip" value="Время, когда большинство жителей начинают просыпаться. Бюджеты и скорость времени переходят в режим 'день'!" />
   <translation id="GoToSleepUpHour" value="Город ложится спать" />
   <translation id="GoToSleepUpHourTooltip" value="Время, когда большинство жителей ложатся спать. Бюджеты и скорость времени переходят в режим 'ночь'!" />
   <translation id="DayTimeSpeed" value="Скорость времени (день)" />
