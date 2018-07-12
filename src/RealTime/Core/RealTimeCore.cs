@@ -143,6 +143,8 @@ namespace RealTime.Core
             SimulationHandler.WeatherInfo = weatherInfo;
             SimulationHandler.Buildings = BuildingAIPatches.RealTimeAI;
 
+            AwakeSleepSimulation.Install(config);
+
             RealTimeStorage.CurrentLevelStorage.GameSaving += result.GameSaving;
             result.storageData.Add(eventManager);
             result.LoadStorageData();
@@ -172,6 +174,8 @@ namespace RealTime.Core
 
             CityEventsLoader.Instance.Clear();
 
+            AwakeSleepSimulation.Uninstall();
+
             RealTimeStorage.CurrentLevelStorage.GameSaving -= GameSaving;
 
             ResidentAIPatch.RealTimeAI = null;
@@ -182,6 +186,7 @@ namespace RealTime.Core
             SimulationHandler.TimeAdjustment = null;
             SimulationHandler.WeatherInfo = null;
             SimulationHandler.Buildings = null;
+
             isEnabled = false;
         }
 

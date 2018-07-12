@@ -19,10 +19,24 @@ namespace RealTime.Config
         }
 
         /// <summary>
+        /// Gets or sets the daytime hour when the city wakes up.
+        /// </summary>
+        [ConfigItem("1General", "0Time", 0)]
+        [ConfigItemSlider(4f, 8f, 0.25f, SliderValueType.Time)]
+        public float WakeUpHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the city goes to sleep.
+        /// </summary>
+        [ConfigItem("1General", "0Time", 1)]
+        [ConfigItemSlider(20f, 23.75f, 0.25f, SliderValueType.Time)]
+        public float GoToSleepUpHour { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the dynamic day length is enabled.
         /// The dynamic day length depends on map's location and day of the year.
         /// </summary>
-        [ConfigItem("1General", 0)]
+        [ConfigItem("1General", "0Time", 4)]
         [ConfigItemCheckBox]
         public bool IsDynamicDayLengthEnabled { get; set; }
 
@@ -30,7 +44,7 @@ namespace RealTime.Config
         /// Gets or sets the speed of the time flow on daytime. Valid values are 1..7.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "DayTime", Justification = "Reviewed")]
-        [ConfigItem("1General", 1)]
+        [ConfigItem("1General", "0Time", 2)]
         [ConfigItemSlider(1, 7, ValueType = SliderValueType.Default)]
         public uint DayTimeSpeed { get; set; }
 
@@ -38,42 +52,42 @@ namespace RealTime.Config
         /// Gets or sets the speed of the time flow on night time. Valid values are 1..7.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "NightTime", Justification = "Reviewed")]
-        [ConfigItem("1General", 2)]
+        [ConfigItem("1General", "0Time", 3)]
         [ConfigItemSlider(1, 7, ValueType = SliderValueType.Default)]
         public uint NightTimeSpeed { get; set; }
 
         /// <summary>
         /// Gets or sets the virtual citizens mode.
         /// </summary>
-        [ConfigItem("1General", 3)]
+        [ConfigItem("1General", "1Other", 0)]
         [ConfigItemComboBox]
         public VirtualCitizensLevel VirtualCitizens { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the weekends are enabled. Cims don't go to work on weekends.
         /// </summary>
-        [ConfigItem("1General", 4)]
+        [ConfigItem("1General", "0Time", 5)]
         [ConfigItemCheckBox]
         public bool IsWeekendEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether Cims should go out at lunch for food.
         /// </summary>
-        [ConfigItem("1General", 5)]
+        [ConfigItem("1General", "0Time", 6)]
         [ConfigItemCheckBox]
         public bool IsLunchtimeEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the construction sites should pause at night time.
         /// </summary>
-        [ConfigItem("1General", 6)]
+        [ConfigItem("1General", "1Other", 1)]
         [ConfigItemCheckBox]
         public bool StopConstructionAtNight { get; set; }
 
         /// <summary>
         /// Gets or sets the percentage value of the building construction speed. Valid values are 1..100.
         /// </summary>
-        [ConfigItem("1General", 7)]
+        [ConfigItem("1General", "1Other", 2)]
         [ConfigItemSlider(1, 100)]
         public uint ConstructionSpeed { get; set; }
 
@@ -202,6 +216,9 @@ namespace RealTime.Config
         /// <returns>This instance.</returns>
         public RealTimeConfig Validate()
         {
+            WakeUpHour = Clamp(WakeUpHour, 4f, 8f);
+            GoToSleepUpHour = Clamp(GoToSleepUpHour, 20f, 23.75f);
+
             DayTimeSpeed = Clamp(DayTimeSpeed, 1u, 7u);
             NightTimeSpeed = Clamp(NightTimeSpeed, 1u, 7u);
 
@@ -241,6 +258,9 @@ namespace RealTime.Config
         /// <summary>Resets all values to their defaults.</summary>
         public void ResetToDefaults()
         {
+            WakeUpHour = 6f;
+            GoToSleepUpHour = 22f;
+
             IsDynamicDayLengthEnabled = true;
             DayTimeSpeed = 5;
             NightTimeSpeed = 5;

@@ -8,6 +8,12 @@
   <translation id="ResetToDefaults" value="Alle Optionen zurücksetzen" />
 
   <translation id="1General" value="Allgemein" />
+  <translation id="0Time" value="Zeitoptionen" />
+  <translation id="1Other" value="Andere Optionen" />
+  <translation id="WakeUpHour" value="City wacht auf" />
+  <translation id="WakeUpHourTooltip" value="Die meisten Einwohner fangen an aufzuwachen. Die Budgets und die Zeitgeschwindigkeit schalten auf 'Tag' um!" />
+  <translation id="GoToSleepUpHour" value="City geht schlafen" />
+  <translation id="GoToSleepUpHourTooltip" value="Die meisten Einwohner gehen schlafen. Die Budgets und die Zeitgeschwindigkeit schalten auf 'Nacht' um!" />
   <translation id="DayTimeSpeed" value="Zeitgeschw. (Tag)" />
   <translation id="DayTimeSpeedTooltip" value="Die Zeitgeschwindigkeit am Tag. '1' ist sehr langsam - fast in Echtzeit!" />
   <translation id="NightTimeSpeed" value="Zeitgeschw. (Nacht)" />
