@@ -31,3 +31,7 @@ _ReSharper*/
 
 #Nuget packages folder
 packages/
+
+src/RealTime/\.DS_Store
+
+src/RealTime/Localization/\.DS_Store
