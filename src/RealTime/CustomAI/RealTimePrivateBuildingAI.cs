@@ -25,10 +25,8 @@ namespace RealTime.CustomAI
         private int lastProcessedMinute = -1;
         private bool minuteProcessed;
 
-#if !DEBUG
         private uint lastConfigConstructionSpeedValue;
         private double constructionSpeedValue;
-#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RealTimePrivateBuildingAI"/> class.
@@ -64,9 +62,6 @@ namespace RealTime.CustomAI
                 return 0;
             }
 
-#if DEBUG
-            return 0;
-#else
             if (config.ConstructionSpeed != lastConfigConstructionSpeedValue)
             {
                 lastConfigConstructionSpeedValue = config.ConstructionSpeed;
@@ -78,7 +73,6 @@ namespace RealTime.CustomAI
             return timeInfo.IsNightTime && config.StopConstructionAtNight
                 ? ConstructionSpeedPaused
                 : (int)(ConstructionSpeedMinimum * constructionSpeedValue);
-#endif
         }
 
         /// <summary>
