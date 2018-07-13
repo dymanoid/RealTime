@@ -90,7 +90,7 @@ namespace RealTime.Core
             catch (Exception ex)
             {
                 Log.Error("The 'Real Time' mod failed to perform method redirections: " + ex);
-                SafeRevertPatches(patcher);
+                patcher.Revert();
                 return null;
             }
 
@@ -120,7 +120,7 @@ namespace RealTime.Core
             if (!SetupCustomAI(timeInfo, config, gameConnections, eventManager))
             {
                 Log.Error("The 'Real Time' mod failed to setup the customized AI and will now be deactivated.");
-                SafeRevertPatches(patcher);
+                patcher.Revert();
                 return null;
             }
 
@@ -164,7 +164,7 @@ namespace RealTime.Core
                 return;
             }
 
-            SafeRevertPatches(patcher);
+            patcher.Revert();
 
             timeAdjustment.Disable();
             timeBar.CityEventClick -= CustomTimeBarCityEventClick;
@@ -207,18 +207,6 @@ namespace RealTime.Core
 
             timeBar.Translate(localizationProvider.CurrentCulture);
             UIGraphPatches.Translate(localizationProvider.CurrentCulture);
-        }
-
-        private static void SafeRevertPatches(MethodPatcher patcher)
-        {
-            try
-            {
-                patcher.Revert();
-            }
-            catch (Exception ex)
-            {
-                Log.Warning("The 'Real Time' mod failed to revert method redirections: " + ex);
-            }
         }
 
         private static bool SetupCustomAI(

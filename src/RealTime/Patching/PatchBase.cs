@@ -66,9 +66,10 @@ namespace RealTime.Patching
                 throw new ArgumentNullException(nameof(patcher));
             }
 
-            if (method != null)
+            MethodInfo patchedMethod = method ?? GetMethod();
+            if (patchedMethod != null)
             {
-                patcher.RevertPatch(method);
+                patcher.RevertPatch(patchedMethod);
                 method = null;
             }
         }
