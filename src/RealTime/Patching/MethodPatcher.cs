@@ -37,19 +37,13 @@ namespace RealTime.Patching
         /// <summary>Applies all patches this object knows about.</summary>
         public void Apply()
         {
-            try
-            {
-                Revert();
-            }
-            catch (Exception ex)
-            {
-                Log.Warning("The 'Real Time' mod failed to clean up methods before patching: " + ex);
-            }
-
+            Revert();
             foreach (IPatch patch in patches)
             {
                 patch.ApplyPatch(patcher);
             }
+
+            Log.Info($"The 'Real Time' mod successfully applied {patches.Length} method patches.");
         }
 
         /// <summary>Reverts all patches, if any applied.</summary>
@@ -57,7 +51,14 @@ namespace RealTime.Patching
         {
             foreach (IPatch patch in patches)
             {
-                patch.RevertPatch(patcher);
+                try
+                {
+                    patch.RevertPatch(patcher);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error($"The 'Real Time' mod failed to revert a patch {patch}. Error message: " + ex);
+                }
             }
         }
 
