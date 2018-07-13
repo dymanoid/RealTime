@@ -31,4 +31,6 @@ _ReSharper*/
 
 #Nuget packages folder
 packages/
+
+#MacOS stuff
 .DS_Store
