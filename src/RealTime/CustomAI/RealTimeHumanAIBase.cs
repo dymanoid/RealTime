@@ -373,7 +373,7 @@ namespace RealTime.CustomAI
 
             return CitizenMgr.GetInstancesCount() * 100 / CitizenInstancesMaxCount < virtualChance
                 ? !realizeCitizen(humanAI)
-                : !Random.ShouldOccur(virtualChance);
+                : Random.ShouldOccur(virtualChance);
         }
 
         /// <summary>Determines whether the weather is currently so bad that the citizen would like to stay inside a building.</summary>
