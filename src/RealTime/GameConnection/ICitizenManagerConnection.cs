@@ -52,5 +52,9 @@ namespace RealTime.GameConnection
         /// <summary>Gets the maximum count of the active citizens instances.</summary>
         /// <returns>The maximum number of active citizens instances.</returns>
         uint GetMaxInstancesCount();
+
+        /// <summary>Gets the maximum count of the citizens.</summary>
+        /// <returns>The maximum number of the citizens.</returns>
+        uint GetMaxCitizensCount();
     }
 }

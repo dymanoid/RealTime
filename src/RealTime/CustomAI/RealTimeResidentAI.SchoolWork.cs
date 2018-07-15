@@ -178,6 +178,7 @@ namespace RealTime.CustomAI
                 ushort lunchPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, isVirtual);
                 if (lunchPlace != 0)
                 {
+                    residentStates[citizenId].WorkStatus = WorkStatus.AtLunch;
                     Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} is going for lunch from {currentBuilding} to {lunchPlace}");
                 }
                 else
@@ -253,6 +254,7 @@ namespace RealTime.CustomAI
                 return false;
             }
 
+            // TODO: replace the day off logic.
             if ((citizenId & 0x7FF) == TimeInfo.Now.Day)
             {
                 Log.Debug(TimeInfo.Now, $"Citizen {citizenId} has a day off work today");
@@ -416,6 +418,7 @@ namespace RealTime.CustomAI
                 CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
             }
 
+            residentStates[citizenId].WorkStatus = WorkStatus.Default;
             return true;
         }
 

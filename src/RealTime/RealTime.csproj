@@ -64,7 +64,9 @@
     <Compile Include="CustomAI\RealTimeResidentAI.Common.cs" />
     <Compile Include="CustomAI\RealTimeResidentAI.cs" />
     <Compile Include="CustomAI\RealTimeTouristAI.cs" />
+    <Compile Include="CustomAI\ResidentStateDescriptor.cs" />
     <Compile Include="CustomAI\WeatherInfo.cs" />
+    <Compile Include="CustomAI\WorkStatus.cs" />
     <Compile Include="Events\CityEventState.cs" />
     <Compile Include="Events\ICityEventsProvider.cs" />
     <Compile Include="Events\ICityEvent.cs" />

@@ -3,7 +3,7 @@
 namespace RealTime.CustomAI
 {
     /// <summary>Possible citizen's states.</summary>
-    internal enum ResidentState
+    internal enum ResidentState : byte
     {
         /// <summary>The state could not be determined.</summary>
         Unknown,

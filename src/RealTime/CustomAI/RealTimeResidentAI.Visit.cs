@@ -24,7 +24,6 @@ namespace RealTime.CustomAI
             {
                 case ResidentState.AtLunch:
                     CitizenReturnsFromLunch(instance, citizenId, ref citizen, isVirtual);
-
                     return;
 
                 case ResidentState.AtLeisureArea:

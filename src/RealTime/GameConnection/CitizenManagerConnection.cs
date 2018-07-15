@@ -105,5 +105,12 @@ namespace RealTime.GameConnection
         {
             return CitizenManager.instance.m_instances.m_size;
         }
+
+        /// <summary>Gets the maximum count of the citizens.</summary>
+        /// <returns>The maximum number of the citizens.</returns>
+        public uint GetMaxCitizensCount()
+        {
+            return CitizenManager.instance.m_citizens.m_size;
+        }
     }
 }

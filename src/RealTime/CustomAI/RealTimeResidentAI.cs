@@ -17,6 +17,7 @@ namespace RealTime.CustomAI
         where TCitizen : struct
     {
         private readonly ResidentAIConnection<TAI, TCitizen> residentAI;
+        private readonly ResidentStateDescriptor[] residentStates;
 
         /// <summary>Initializes a new instance of the <see cref="RealTimeResidentAI{TAI, TCitizen}"/> class.</summary>
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
@@ -32,6 +33,7 @@ namespace RealTime.CustomAI
             : base(config, connections, eventManager)
         {
             this.residentAI = residentAI ?? throw new ArgumentNullException(nameof(residentAI));
+            residentStates = new ResidentStateDescriptor[CitizenMgr.GetMaxCitizensCount()];
         }
 
         /// <summary>The entry method of the custom AI.</summary>
@@ -57,7 +59,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            ResidentState residentState = GetResidentState(ref citizen);
+            ResidentState residentState = GetResidentState(citizenId, ref citizen);
             bool isVirtual;
 
             switch (residentState)
@@ -110,6 +112,9 @@ namespace RealTime.CustomAI
 
                     break;
             }
+
+            residentStates[citizenId].State = residentState;
+        }
         }
 
         private bool ShouldRealizeCitizen(TAI ai)

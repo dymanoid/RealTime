@@ -137,7 +137,7 @@ namespace RealTime.CustomAI
             return false;
         }
 
-        private ResidentState GetResidentState(ref TCitizen citizen)
+        private ResidentState GetResidentState(uint citizenId, ref TCitizen citizen)
         {
             if (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.DummyTraffic))
             {
@@ -185,8 +185,7 @@ namespace RealTime.CustomAI
                     switch (buildingService)
                     {
                         case ItemClass.Service.Commercial:
-                            if (CitizenProxy.GetWorkBuilding(ref citizen) != 0 && IsWorkDay
-                                && TimeInfo.CurrentHour > Config.LunchBegin && TimeInfo.CurrentHour < GetSpareTimeBeginHour(CitizenProxy.GetAge(ref citizen)))
+                            if (residentStates[citizenId].WorkStatus == WorkStatus.AtLunch)
                             {
                                 return ResidentState.AtLunch;
                             }
