@@ -91,5 +91,19 @@ namespace RealTime.GameConnection
             CitizenManager.instance.m_units.m_buffer[unitId].m_goods += amount;
             return true;
         }
+
+        /// <summary>Gets the count of the currently active citizens instances.</summary>
+        /// <returns>The number of active citizens instances.</returns>
+        public uint GetInstancesCount()
+        {
+            return CitizenManager.instance.m_instances.ItemCount();
+        }
+
+        /// <summary>Gets the maximum count of the active citizens instances.</summary>
+        /// <returns>The maximum number of active citizens instances.</returns>
+        public uint GetMaxInstancesCount()
+        {
+            return CitizenManager.instance.m_instances.m_size;
+        }
     }
 }
