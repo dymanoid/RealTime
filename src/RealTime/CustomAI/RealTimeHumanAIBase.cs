@@ -46,6 +46,8 @@ namespace RealTime.CustomAI
             TimeInfo = connections.TimeInfo;
             Random = connections.Random;
             WeatherInfo = connections.WeatherInfo;
+
+            CitizenInstancesMaxCount = CitizenMgr.GetMaxInstancesCount();
         }
 
         /// <summary>
@@ -100,6 +102,9 @@ namespace RealTime.CustomAI
 
         /// <summary>Gets the current weather info.</summary>
         protected IWeatherInfo WeatherInfo { get; }
+
+        /// <summary>Gets the maximum count of the citizen instances.</summary>
+        protected uint CitizenInstancesMaxCount { get; }
 
         /// <summary>
         /// Determines whether the current date and time represent the specified time interval on a work day.
@@ -366,7 +371,9 @@ namespace RealTime.CustomAI
                     return false;
             }
 
-            return !Random.ShouldOccur(virtualChance);
+            return CitizenMgr.GetInstancesCount() * 100 / CitizenInstancesMaxCount < virtualChance
+                ? !realizeCitizen(humanAI)
+                : !Random.ShouldOccur(virtualChance);
         }
 
         /// <summary>Determines whether the weather is currently so bad that the citizen would like to stay inside a building.</summary>
