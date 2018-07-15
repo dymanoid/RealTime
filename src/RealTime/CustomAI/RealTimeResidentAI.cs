@@ -115,6 +115,28 @@ namespace RealTime.CustomAI
 
             residentStates[citizenId].State = residentState;
         }
+
+        /// <summary>Notifies that a citizen has arrived their destination.</summary>
+        /// <param name="citizenId">The citizen ID to process.</param>
+        public void RegisterCitizenArrival(uint citizenId)
+        {
+            if (citizenId == 0 || citizenId >= residentStates.Length)
+            {
+                return;
+            }
+
+            switch (CitizenMgr.GetCitizenLocation(citizenId))
+            {
+                case Citizen.Location.Work:
+                    ref ResidentStateDescriptor state = ref residentStates[citizenId];
+                    state.UpdateTravelTimeToWork(TimeInfo.Now);
+                    state.DepartureTime = default;
+                    Log.Debug($"The citizen {citizenId} arrived at work at {TimeInfo.Now} and needs {residentStates[citizenId].TravelTimeToWork} hours to get to work");
+                    break;
+
+                default:
+                    return;
+            }
         }
 
         private bool ShouldRealizeCitizen(TAI ai)

@@ -30,7 +30,7 @@ namespace RealTime.CustomAI
         /// </param>
         public void UpdateTravelTimeToWork(DateTime arrivalTime)
         {
-            if (arrivalTime < DepartureTime)
+            if (arrivalTime < DepartureTime || DepartureTime == default)
             {
                 return;
             }

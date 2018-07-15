@@ -2,6 +2,7 @@
 
 namespace RealTime.GameConnection
 {
+    using System;
     using UnityEngine;
 
     /// <summary>The default implementation of the <see cref="ICitizenManagerConnection"/> interface.</summary>
@@ -111,6 +112,20 @@ namespace RealTime.GameConnection
         public uint GetMaxCitizensCount()
         {
             return CitizenManager.instance.m_citizens.m_size;
+        }
+
+        /// <summary>Gets the location of the citizen with specified ID.</summary>
+        /// <param name="citizenId">The ID of the citizen to query location of.</param>
+        /// <returns>A <see cref="Citizen.Location"/> value that describes the citizen's current location.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when the argument is 0.</exception>
+        public Citizen.Location GetCitizenLocation(uint citizenId)
+        {
+            if (citizenId == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(citizenId), "The citizen ID cannot be 0");
+            }
+
+            return CitizenManager.instance.m_citizens.m_buffer[citizenId].CurrentLocation;
         }
     }
 }

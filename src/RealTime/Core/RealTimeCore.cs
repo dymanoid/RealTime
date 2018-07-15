@@ -76,6 +76,7 @@ namespace RealTime.Core
                 BuildingAIPatches.PrivateHandleWorkers,
                 BuildingAIPatches.CommercialSimulation,
                 ResidentAIPatch.Location,
+                ResidentAIPatch.ArriveAtDestination,
                 TouristAIPatch.Location,
                 UIGraphPatches.MinDataPoints,
                 UIGraphPatches.VisibleEndTime,

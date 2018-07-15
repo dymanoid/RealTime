@@ -56,5 +56,11 @@ namespace RealTime.GameConnection
         /// <summary>Gets the maximum count of the citizens.</summary>
         /// <returns>The maximum number of the citizens.</returns>
         uint GetMaxCitizensCount();
+
+        /// <summary>Gets the location of the citizen with specified ID.</summary>
+        /// <param name="citizenId">The ID of the citizen to query location of.</param>
+        /// <returns>A <see cref="Citizen.Location"/> value that describes the citizen's current location.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the argument is 0.</exception>
+        Citizen.Location GetCitizenLocation(uint citizenId);
     }
 }

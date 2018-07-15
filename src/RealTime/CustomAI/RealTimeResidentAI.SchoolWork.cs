@@ -233,6 +233,7 @@ namespace RealTime.CustomAI
             }
             else
             {
+                residentStates[citizenId].DepartureTime = TimeInfo.Now;
                 residentAI.StartMoving(instance, citizenId, ref citizen, homeBuilding, workBuilding);
             }
 
