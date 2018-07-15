@@ -5,7 +5,6 @@
 namespace RealTime.CustomAI
 {
     using RealTime.Tools;
-    using static Constants;
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
@@ -27,7 +26,7 @@ namespace RealTime.CustomAI
                 }
                 else
                 {
-                    // TODO: check whether this makes sense and maybe remove/replace this logic
+                    // TODO: check whether this makes sense and maybe remove/replace this logic.
                     // Don't know why the original game does this...
                     CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
                     CitizenProxy.SetArrested(ref citizen, false);
@@ -43,35 +42,22 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            bool returnHome = false;
             ushort targetBuilding = CitizenMgr.GetTargetBuilding(instanceId);
-            if (targetBuilding != CitizenProxy.GetWorkBuilding(ref citizen))
+            if (targetBuilding == CitizenProxy.GetWorkBuilding(ref citizen))
             {
-                ItemClass.Service targetService = BuildingMgr.GetBuildingService(targetBuilding);
-                if (targetService == ItemClass.Service.Beautification && IsBadWeather(citizenId))
-                {
-                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, false)} cancels the trip to a park due to bad weather");
-                    returnHome = true;
-                }
+                return;
             }
 
-            if (!returnHome && CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.WaitingTransport | CitizenInstance.Flags.WaitingTaxi))
+            ItemClass.Service targetService = BuildingMgr.GetBuildingService(targetBuilding);
+            if (targetService != ItemClass.Service.Beautification || !IsBadWeather(citizenId))
             {
-                if (mayCancel && CitizenMgr.GetInstanceWaitCounter(instanceId) == 255 && Random.ShouldOccur(AbandonTransportWaitChance))
-                {
-                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, false)} goes back home");
-                    returnHome = true;
-                }
+                return;
             }
 
-            if (returnHome)
+            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, false)} cancels the trip to a park due to bad weather");
+            ushort home = CitizenProxy.GetHomeBuilding(ref citizen);
+            if (home != 0)
             {
-                ushort home = CitizenProxy.GetHomeBuilding(ref citizen);
-                if (home == 0)
-                {
-                    return;
-                }
-
                 residentAI.StartMoving(instance, citizenId, ref citizen, 0, home);
             }
         }

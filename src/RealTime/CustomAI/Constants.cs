@@ -17,9 +17,6 @@ namespace RealTime.CustomAI
         /// <summary>A distance in game units that corresponds to the complete map.</summary>
         public const float FullSearchDistance = BuildingManager.BUILDINGGRID_RESOLUTION * BuildingManager.BUILDINGGRID_CELL_SIZE / 2f;
 
-        /// <summary>A chance in percent for a citizen to abandon the transport waiting if it lasts too long.</summary>
-        public const uint AbandonTransportWaitChance = 80;
-
         /// <summary>A chance in percent for a citizen to go shopping.</summary>
         public const uint GoShoppingChance = 50;
 
