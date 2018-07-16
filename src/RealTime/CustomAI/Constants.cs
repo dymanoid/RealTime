@@ -60,7 +60,7 @@ namespace RealTime.CustomAI
         public const float OnTheWayDistancePerHour = 500f;
 
         /// <summary>A chance in percent that a virtual citizen will not be realized in 'few virtual citizens' mode.</summary>
-        public const uint FewVirtualCitizensChance = 10;
+        public const uint FewVirtualCitizensChance = 20;
 
         /// <summary>A chance in percent that a virtual citizen will not be realized in 'many virtual citizen' mode.</summary>
         public const uint ManyVirtualCitizensChance = 50;

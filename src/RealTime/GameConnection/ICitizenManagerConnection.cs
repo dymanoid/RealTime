@@ -44,5 +44,13 @@ namespace RealTime.GameConnection
         /// <param name="amount">The amount to modify the storage by.</param>
         /// <returns><c>true</c> on success; otherwise, <c>false</c>.</returns>
         bool ModifyUnitGoods(uint unitId, ushort amount);
+
+        /// <summary>Gets the count of the currently active citizens instances.</summary>
+        /// <returns>The number of active citizens instances.</returns>
+        uint GetInstancesCount();
+
+        /// <summary>Gets the maximum count of the active citizens instances.</summary>
+        /// <returns>The maximum number of active citizens instances.</returns>
+        uint GetMaxInstancesCount();
     }
 }

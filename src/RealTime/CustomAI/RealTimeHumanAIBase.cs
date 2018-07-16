@@ -46,6 +46,8 @@ namespace RealTime.CustomAI
             TimeInfo = connections.TimeInfo;
             Random = connections.Random;
             WeatherInfo = connections.WeatherInfo;
+
+            CitizenInstancesMaxCount = CitizenMgr.GetMaxInstancesCount();
         }
 
         /// <summary>
@@ -100,6 +102,9 @@ namespace RealTime.CustomAI
 
         /// <summary>Gets the current weather info.</summary>
         protected IWeatherInfo WeatherInfo { get; }
+
+        /// <summary>Gets the maximum count of the citizen instances.</summary>
+        protected uint CitizenInstancesMaxCount { get; }
 
         /// <summary>
         /// Determines whether the current date and time represent the specified time interval on a work day.
@@ -340,6 +345,11 @@ namespace RealTime.CustomAI
         /// <returns><c>true</c> if the citizen must be processed as a virtual citizen; otherwise, <c>false</c>.</returns>
         protected bool IsCitizenVirtual<TAI>(TAI humanAI, ref TCitizen citizen, Func<TAI, bool> realizeCitizen)
         {
+            if (CitizenProxy.GetInstance(ref citizen) != 0)
+            {
+                return false;
+            }
+
             uint virtualChance;
             switch (Config.VirtualCitizens)
             {
@@ -351,7 +361,7 @@ namespace RealTime.CustomAI
                     break;
 
                 case VirtualCitizensLevel.Vanilla:
-                    return CitizenProxy.GetInstance(ref citizen) == 0 && !realizeCitizen(humanAI);
+                    return !realizeCitizen(humanAI);
 
                 case VirtualCitizensLevel.Many:
                     virtualChance = ManyVirtualCitizensChance;
@@ -361,7 +371,9 @@ namespace RealTime.CustomAI
                     return false;
             }
 
-            return !Random.ShouldOccur(virtualChance);
+            return CitizenMgr.GetInstancesCount() * 100 / CitizenInstancesMaxCount < virtualChance
+                ? !realizeCitizen(humanAI)
+                : Random.ShouldOccur(virtualChance);
         }
 
         /// <summary>Determines whether the weather is currently so bad that the citizen would like to stay inside a building.</summary>
