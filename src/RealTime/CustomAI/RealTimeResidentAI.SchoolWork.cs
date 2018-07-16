@@ -220,7 +220,7 @@ namespace RealTime.CustomAI
             ushort workBuilding = CitizenProxy.GetWorkBuilding(ref citizen);
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
 
-            if (!ShouldMoveToSchoolOrWork(citizenId, workBuilding, currentBuilding, CitizenProxy.GetAge(ref citizen)))
+            if (!ShouldMoveToSchoolOrWork(citizenId, homeBuilding, currentBuilding, workBuilding, CitizenProxy.GetAge(ref citizen)))
             {
                 return false;
             }
@@ -240,7 +240,7 @@ namespace RealTime.CustomAI
             return true;
         }
 
-        private bool ShouldMoveToSchoolOrWork(uint citizenId, ushort workBuilding, ushort currentBuilding, Citizen.AgeGroup citizenAge)
+        private bool ShouldMoveToSchoolOrWork(uint citizenId, ushort homeBuilding, ushort currentBuilding, ushort workBuilding, Citizen.AgeGroup citizenAge)
         {
             if (workBuilding == 0 || citizenAge == Citizen.AgeGroup.Senior)
             {
@@ -262,9 +262,13 @@ namespace RealTime.CustomAI
                 return false;
             }
 
+            float travelTime = currentBuilding == homeBuilding
+                ? GetTravelTimeHomeToWork(citizenId, homeBuilding, workBuilding)
+                : 0;
+
             if (citizenAge == Citizen.AgeGroup.Child || citizenAge == Citizen.AgeGroup.Teen)
             {
-                return ShouldMoveToSchoolOrWork(currentBuilding, workBuilding, Config.SchoolBegin, Config.SchoolEnd, 0);
+                return ShouldMoveToSchoolOrWork(workBuilding, Config.SchoolBegin, Config.SchoolEnd, 0, travelTime);
             }
 
             GetWorkShiftTimes(citizenId, buildingSevice, buildingSubService, out float workBeginHour, out float workEndHour);
@@ -273,12 +277,14 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            float overtime = Random.ShouldOccur(Config.OnTimeQuota) ? 0 : Config.MaxOvertime * Random.GetRandomValue(100u) / 200f;
+            float overtime = currentBuilding != homeBuilding || Random.ShouldOccur(Config.OnTimeQuota)
+                ? 0
+                : Config.MaxOvertime * Random.GetRandomValue(100u) / 200f;
 
-            return ShouldMoveToSchoolOrWork(currentBuilding, workBuilding, workBeginHour, workEndHour, overtime);
+            return ShouldMoveToSchoolOrWork(workBuilding, workBeginHour, workEndHour, overtime, travelTime);
         }
 
-        private bool ShouldMoveToSchoolOrWork(ushort currentBuilding, ushort workBuilding, float workBeginHour, float workEndHour, float overtime)
+        private bool ShouldMoveToSchoolOrWork(ushort workBuilding, float workBeginHour, float workEndHour, float overtime, float travelTime)
         {
             float gotoHour = workBeginHour - overtime - MaxHoursOnTheWay;
             if (gotoHour < 0)
@@ -298,10 +304,7 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            float distance = BuildingMgr.GetDistanceBetweenBuildings(currentBuilding, workBuilding);
-            float onTheWay = Mathf.Clamp(distance / OnTheWayDistancePerHour, MinHoursOnTheWay, MaxHoursOnTheWay);
-
-            gotoHour = workBeginHour - overtime - onTheWay;
+            gotoHour = workBeginHour - overtime - travelTime;
             if (gotoHour < 0)
             {
                 gotoHour += 24f;
@@ -461,6 +464,18 @@ namespace RealTime.CustomAI
 
             beginHour = begin;
             endHour = end;
+        }
+
+        private float GetTravelTimeHomeToWork(uint citizenId, ushort homeBuilding, ushort workBuilding)
+        {
+            float result = residentStates[citizenId].TravelTimeToWork;
+            if (result <= 0)
+            {
+                float distance = BuildingMgr.GetDistanceBetweenBuildings(homeBuilding, workBuilding);
+                result = Mathf.Clamp(distance / OnTheWayDistancePerHour, MinHoursOnTheWay, MaxHoursOnTheWay);
+            }
+
+            return result;
         }
     }
 }

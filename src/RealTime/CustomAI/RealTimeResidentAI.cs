@@ -125,18 +125,19 @@ namespace RealTime.CustomAI
                 return;
             }
 
+            ref ResidentStateDescriptor citizenState = ref residentStates[citizenId];
             switch (CitizenMgr.GetCitizenLocation(citizenId))
             {
                 case Citizen.Location.Work:
-                    ref ResidentStateDescriptor state = ref residentStates[citizenId];
-                    state.UpdateTravelTimeToWork(TimeInfo.Now);
-                    state.DepartureTime = default;
+                    citizenState.UpdateTravelTimeToWork(TimeInfo.Now);
                     Log.Debug($"The citizen {citizenId} arrived at work at {TimeInfo.Now} and needs {residentStates[citizenId].TravelTimeToWork} hours to get to work");
                     break;
 
-                default:
+                case Citizen.Location.Moving:
                     return;
             }
+
+            citizenState.DepartureTime = default;
         }
 
         private bool ShouldRealizeCitizen(TAI ai)
