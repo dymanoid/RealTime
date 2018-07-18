@@ -160,7 +160,7 @@ namespace RealTime.CustomAI
             uint weekdayModifier;
             if (Config.IsWeekendEnabled)
             {
-                weekdayModifier = TimeInfo.Now.IsWeekendTime(GetSpareTimeBeginHour(citizenAge), TimeInfo.SunsetHour)
+                weekdayModifier = TimeInfo.Now.IsWeekendTime(GetSpareTimeBeginHour(citizenAge), Config.GoToSleepUpHour)
                     ? 11u
                     : 1u;
             }
@@ -177,8 +177,8 @@ namespace RealTime.CustomAI
             }
             else
             {
-                float nightDuration = TimeInfo.NightDuration;
-                float relativeHour = currentHour - TimeInfo.SunsetHour;
+                float nightDuration = 24f - (Config.GoToSleepUpHour - Config.WakeupHour);
+                float relativeHour = currentHour - Config.GoToSleepUpHour;
                 if (relativeHour < 0)
                 {
                     relativeHour += 24f;

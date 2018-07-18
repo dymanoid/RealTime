@@ -316,8 +316,8 @@ namespace RealTime.CustomAI
         private bool IsBuildingNoiseRestricted(ushort building)
         {
             float arriveHour = (float)TimeInfo.Now.AddHours(MaxHoursOnTheWay).TimeOfDay.TotalHours;
-            return (arriveHour >= TimeInfo.SunsetHour || TimeInfo.CurrentHour >= TimeInfo.SunsetHour
-                || arriveHour <= TimeInfo.SunriseHour || TimeInfo.CurrentHour <= TimeInfo.SunriseHour)
+            return (arriveHour >= Config.GoToSleepUpHour || TimeInfo.CurrentHour >= Config.GoToSleepUpHour
+                || arriveHour <= Config.WakeupHour || TimeInfo.CurrentHour <= Config.WakeupHour)
                 && BuildingMgr.IsBuildingNoiseRestricted(building);
         }
     }
