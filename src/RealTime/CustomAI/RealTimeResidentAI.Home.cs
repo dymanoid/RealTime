@@ -9,11 +9,11 @@ namespace RealTime.CustomAI
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
-        private void ProcessCitizenAtHome(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
+        private void ProcessCitizenAtHome(TAI instance, uint citizenId, ref TCitizen citizen)
         {
             if (CitizenProxy.GetHomeBuilding(ref citizen) == 0)
             {
-                Log.Debug($"WARNING: {GetCitizenDesc(citizenId, ref citizen, isVirtual)} is in corrupt state: at home with no home building. Releasing the poor citizen.");
+                Log.Debug($"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is in corrupt state: at home with no home building. Releasing the poor citizen.");
                 CitizenMgr.ReleaseCitizen(citizenId);
                 return;
             }
@@ -21,11 +21,11 @@ namespace RealTime.CustomAI
             ushort vehicle = CitizenProxy.GetVehicle(ref citizen);
             if (vehicle != 0)
             {
-                Log.Debug(TimeInfo.Now, $"WARNING: {GetCitizenDesc(citizenId, ref citizen, isVirtual)} is at home but vehicle = {vehicle}");
+                Log.Debug(TimeInfo.Now, $"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is at home but vehicle = {vehicle}");
                 return;
             }
 
-            if (CitizenGoesWorking(instance, citizenId, ref citizen, isVirtual))
+            if (CitizenGoesWorking(instance, citizenId, ref citizen))
             {
                 return;
             }
@@ -35,12 +35,12 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            if (CitizenGoesShopping(instance, citizenId, ref citizen, isVirtual) || CitizenGoesToEvent(instance, citizenId, ref citizen, isVirtual))
+            if (CitizenGoesShopping(instance, citizenId, ref citizen) || CitizenGoesToEvent(instance, citizenId, ref citizen))
             {
                 return;
             }
 
-            CitizenGoesRelaxing(instance, citizenId, ref citizen, isVirtual);
+            CitizenGoesRelaxing(instance, citizenId, ref citizen);
         }
 
         private bool IsBusyAtHomeInTheMorning(Citizen.AgeGroup citizenAge)

@@ -60,17 +60,14 @@ namespace RealTime.CustomAI
             }
 
             ResidentState residentState = GetResidentState(citizenId, ref citizen);
-            bool isVirtual;
-
             switch (residentState)
             {
                 case ResidentState.MovingHome:
                     ProcessCitizenMoving(instance, citizenId, ref citizen, false);
                     break;
 
-                case ResidentState.AtHome:
-                    isVirtual = IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen);
-                    ProcessCitizenAtHome(instance, citizenId, ref citizen, isVirtual);
+                case ResidentState.AtHome when !IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen):
+                    ProcessCitizenAtHome(instance, citizenId, ref citizen);
                     break;
 
                 case ResidentState.MovingToTarget:
@@ -78,16 +75,14 @@ namespace RealTime.CustomAI
                     break;
 
                 case ResidentState.AtSchoolOrWork:
-                    isVirtual = IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen);
-                    ProcessCitizenAtSchoolOrWork(instance, citizenId, ref citizen, isVirtual);
+                    ProcessCitizenAtSchoolOrWork(instance, citizenId, ref citizen);
                     break;
 
                 case ResidentState.AtLunch:
                 case ResidentState.Shopping:
                 case ResidentState.AtLeisureArea:
                 case ResidentState.Visiting:
-                    isVirtual = IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen);
-                    ProcessCitizenVisit(instance, residentState, citizenId, ref citizen, isVirtual);
+                    ProcessCitizenVisit(instance, residentState, citizenId, ref citizen);
                     break;
 
                 case ResidentState.OnTour:
@@ -99,12 +94,11 @@ namespace RealTime.CustomAI
                     break;
 
                 case ResidentState.InShelter:
-                    isVirtual = IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen);
-                    CitizenReturnsFromShelter(instance, citizenId, ref citizen, isVirtual);
+                    CitizenReturnsFromShelter(instance, citizenId, ref citizen);
                     break;
 
                 case ResidentState.Unknown:
-                    Log.Debug(TimeInfo.Now, $"WARNING: {GetCitizenDesc(citizenId, ref citizen, null)} is in an UNKNOWN state! Teleporting back home");
+                    Log.Debug(TimeInfo.Now, $"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is in an UNKNOWN state! Teleporting back home");
                     if (CitizenProxy.GetHomeBuilding(ref citizen) != 0)
                     {
                         CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);

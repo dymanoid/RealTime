@@ -266,7 +266,7 @@ namespace RealTime.CustomAI
 
             if (CitizenProxy.IsCollapsed(ref citizen))
             {
-                Log.Debug($"{GetCitizenDesc(citizenId, ref citizen, false)} is collapsed, doing nothing...");
+                Log.Debug($"{GetCitizenDesc(citizenId, ref citizen)} is collapsed, doing nothing...");
                 return false;
             }
 
@@ -323,18 +323,16 @@ namespace RealTime.CustomAI
         ///
         /// <param name="citizenId">The citizen ID.</param>
         /// <param name="citizen">The citizen data reference.</param>
-        /// <param name="isVirtual"><c>true</c> if the citizen is in a virtual mode; otherwise, <c>false</c>.</param>
         ///
         /// <returns>A short string describing the provided citizen.</returns>
-        protected string GetCitizenDesc(uint citizenId, ref TCitizen citizen, bool? isVirtual)
+        protected string GetCitizenDesc(uint citizenId, ref TCitizen citizen)
         {
             ushort homeBuilding = CitizenProxy.GetHomeBuilding(ref citizen);
             string home = homeBuilding == 0 ? "homeless" : "lives at " + homeBuilding;
             ushort workBuilding = CitizenProxy.GetWorkBuilding(ref citizen);
             string employment = workBuilding == 0 ? "unemployed" : "works at " + workBuilding;
             Citizen.Location location = CitizenProxy.GetLocation(ref citizen);
-            string virt = isVirtual.HasValue ? (isVirtual.Value ? " (virtual)" : " (real)") : null;
-            return $"Citizen {citizenId} ({CitizenProxy.GetAge(ref citizen)}, {home}, {employment}, currently {location} at {CitizenProxy.GetCurrentBuilding(ref citizen)}) / instance {CitizenProxy.GetInstance(ref citizen)}{virt}";
+            return $"Citizen {citizenId} ({CitizenProxy.GetAge(ref citizen)}, {home}, {employment}, currently {location} at {CitizenProxy.GetCurrentBuilding(ref citizen)}) / instance {CitizenProxy.GetInstance(ref citizen)}";
         }
 
         /// <summary>Determines whether the specified citizen must be processed as a virtual citizen.</summary>

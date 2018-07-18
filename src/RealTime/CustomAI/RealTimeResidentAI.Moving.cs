@@ -26,8 +26,6 @@ namespace RealTime.CustomAI
                 }
                 else
                 {
-                    // TODO: check whether this makes sense and maybe remove/replace this logic.
-                    // Don't know why the original game does this...
                     CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
                     CitizenProxy.SetArrested(ref citizen, false);
                 }
@@ -37,7 +35,7 @@ namespace RealTime.CustomAI
 
             if (vehicleId == 0 && CitizenMgr.IsAreaEvacuating(instanceId) && !CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating))
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, false)} was on the way, but the area evacuates. Finding an evacuation place.");
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} was on the way, but the area evacuates. Finding an evacuation place.");
                 TransferMgr.AddOutgoingOfferFromCurrentPosition(citizenId, residentAI.GetEvacuationReason(instance, 0));
                 return;
             }
@@ -54,7 +52,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, false)} cancels the trip to a park due to bad weather");
+            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} cancels the trip to a park due to bad weather");
             ushort home = CitizenProxy.GetHomeBuilding(ref citizen);
             if (home != 0)
             {

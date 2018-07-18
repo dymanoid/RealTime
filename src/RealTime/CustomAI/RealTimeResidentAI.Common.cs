@@ -15,7 +15,7 @@ namespace RealTime.CustomAI
 
             if (currentBuilding == 0 || (currentLocation == Citizen.Location.Moving && CitizenProxy.GetVehicle(ref citizen) == 0))
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, false)} is released");
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is released");
                 CitizenMgr.ReleaseCitizen(citizenId);
                 return;
             }
@@ -47,7 +47,7 @@ namespace RealTime.CustomAI
             }
 
             residentAI.FindHospital(instance, citizenId, currentBuilding, TransferManager.TransferReason.Dead);
-            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, false)} is dead, body should get serviced");
+            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is dead, body should get serviced");
         }
 
         private bool ProcessCitizenArrested(ref TCitizen citizen)
@@ -77,7 +77,7 @@ namespace RealTime.CustomAI
 
             if (currentLocation != Citizen.Location.Home && currentBuilding == 0)
             {
-                Log.Debug($"Teleporting {GetCitizenDesc(citizenId, ref citizen, false)} back home because they are sick but no building is specified");
+                Log.Debug($"Teleporting {GetCitizenDesc(citizenId, ref citizen)} back home because they are sick but no building is specified");
                 CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
                 return true;
             }
@@ -96,7 +96,7 @@ namespace RealTime.CustomAI
                 }
             }
 
-            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, false)} is sick, trying to get to a hospital");
+            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is sick, trying to get to a hospital");
             residentAI.FindHospital(instance, citizenId, currentBuilding, TransferManager.TransferReason.Sick);
             return true;
         }
@@ -106,12 +106,12 @@ namespace RealTime.CustomAI
             ushort building = CitizenProxy.GetCurrentBuilding(ref citizen);
             if (building != 0)
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, false)} is trying to find an evacuation place");
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is trying to find an evacuation place");
                 residentAI.FindEvacuationPlace(instance, citizenId, building, residentAI.GetEvacuationReason(instance, building));
             }
         }
 
-        private bool StartMovingToVisitBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort visitBuilding, bool isVirtual)
+        private bool StartMovingToVisitBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort visitBuilding)
         {
             if (visitBuilding == 0)
             {
@@ -120,7 +120,7 @@ namespace RealTime.CustomAI
 
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
 
-            if (isVirtual || currentBuilding == visitBuilding)
+            if (currentBuilding == visitBuilding)
             {
                 CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
                 CitizenProxy.SetVisitBuilding(ref citizen, visitBuilding);
