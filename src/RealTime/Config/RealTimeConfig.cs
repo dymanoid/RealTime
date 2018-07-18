@@ -4,7 +4,7 @@
 
 namespace RealTime.Config
 {
-    using System.Collections.Generic;
+    using RealTime.Tools;
     using RealTime.UI;
 
     /// <summary>
@@ -216,42 +216,42 @@ namespace RealTime.Config
         /// <returns>This instance.</returns>
         public RealTimeConfig Validate()
         {
-            WakeupHour = Clamp(WakeupHour, 4f, 8f);
-            GoToSleepUpHour = Clamp(GoToSleepUpHour, 20f, 23.75f);
+            WakeupHour = RealTimeMath.Clamp(WakeupHour, 4f, 8f);
+            GoToSleepUpHour = RealTimeMath.Clamp(GoToSleepUpHour, 20f, 23.75f);
 
-            DayTimeSpeed = Clamp(DayTimeSpeed, 1u, 7u);
-            NightTimeSpeed = Clamp(NightTimeSpeed, 1u, 7u);
+            DayTimeSpeed = RealTimeMath.Clamp(DayTimeSpeed, 1u, 7u);
+            NightTimeSpeed = RealTimeMath.Clamp(NightTimeSpeed, 1u, 7u);
 
-            VirtualCitizens = (VirtualCitizensLevel)Clamp((int)VirtualCitizens, (int)VirtualCitizensLevel.None, (int)VirtualCitizensLevel.Many);
-            ConstructionSpeed = Clamp(ConstructionSpeed, 0u, 100u);
+            VirtualCitizens = (VirtualCitizensLevel)RealTimeMath.Clamp((int)VirtualCitizens, (int)VirtualCitizensLevel.None, (int)VirtualCitizensLevel.Many);
+            ConstructionSpeed = RealTimeMath.Clamp(ConstructionSpeed, 0u, 100u);
 
-            SecondShiftQuota = Clamp(SecondShiftQuota, 1u, 8u);
-            NightShiftQuota = Clamp(NightShiftQuota, 1u, 8u);
-            LunchQuota = Clamp(LunchQuota, 0u, 100u);
-            LocalBuildingSearchQuota = Clamp(LocalBuildingSearchQuota, 0u, 100u);
-            OnTimeQuota = Clamp(OnTimeQuota, 0u, 100u);
+            SecondShiftQuota = RealTimeMath.Clamp(SecondShiftQuota, 1u, 8u);
+            NightShiftQuota = RealTimeMath.Clamp(NightShiftQuota, 1u, 8u);
+            LunchQuota = RealTimeMath.Clamp(LunchQuota, 0u, 100u);
+            LocalBuildingSearchQuota = RealTimeMath.Clamp(LocalBuildingSearchQuota, 0u, 100u);
+            OnTimeQuota = RealTimeMath.Clamp(OnTimeQuota, 0u, 100u);
 
-            EarliestHourEventStartWeekday = Clamp(EarliestHourEventStartWeekday, 0f, 23.75f);
-            LatestHourEventStartWeekday = Clamp(LatestHourEventStartWeekday, 0f, 23.75f);
+            EarliestHourEventStartWeekday = RealTimeMath.Clamp(EarliestHourEventStartWeekday, 0f, 23.75f);
+            LatestHourEventStartWeekday = RealTimeMath.Clamp(LatestHourEventStartWeekday, 0f, 23.75f);
             if (LatestHourEventStartWeekday < EarliestHourEventStartWeekday)
             {
                 LatestHourEventStartWeekday = EarliestHourEventStartWeekday;
             }
 
-            EarliestHourEventStartWeekend = Clamp(EarliestHourEventStartWeekend, 0f, 23.75f);
-            LatestHourEventStartWeekend = Clamp(LatestHourEventStartWeekend, 0f, 23.75f);
+            EarliestHourEventStartWeekend = RealTimeMath.Clamp(EarliestHourEventStartWeekend, 0f, 23.75f);
+            LatestHourEventStartWeekend = RealTimeMath.Clamp(LatestHourEventStartWeekend, 0f, 23.75f);
             if (LatestHourEventStartWeekend < EarliestHourEventStartWeekend)
             {
                 LatestHourEventStartWeekend = EarliestHourEventStartWeekend;
             }
 
-            WorkBegin = Clamp(WorkBegin, 4f, 11f);
-            WorkEnd = Clamp(WorkEnd, 12f, 20f);
-            LunchBegin = Clamp(LunchBegin, 11f, 13f);
-            LunchEnd = Clamp(LunchEnd, 13f, 15f);
-            SchoolBegin = Clamp(SchoolBegin, 4f, 10f);
-            SchoolEnd = Clamp(SchoolEnd, 11f, 16f);
-            MaxOvertime = Clamp(MaxOvertime, 0f, 4f);
+            WorkBegin = RealTimeMath.Clamp(WorkBegin, 4f, 11f);
+            WorkEnd = RealTimeMath.Clamp(WorkEnd, 12f, 20f);
+            LunchBegin = RealTimeMath.Clamp(LunchBegin, 11f, 13f);
+            LunchEnd = RealTimeMath.Clamp(LunchEnd, 13f, 15f);
+            SchoolBegin = RealTimeMath.Clamp(SchoolBegin, 4f, 10f);
+            SchoolEnd = RealTimeMath.Clamp(SchoolEnd, 11f, 16f);
+            MaxOvertime = RealTimeMath.Clamp(MaxOvertime, 0f, 4f);
             return this;
         }
 
@@ -292,23 +292,6 @@ namespace RealTime.Config
             MaxOvertime = 2f;
             SchoolBegin = 8f;
             SchoolEnd = 14f;
-        }
-
-        private static T Clamp<T>(T value, T min, T max)
-            where T : struct
-        {
-            Comparer<T> comparer = Comparer<T>.Default;
-            if (comparer.Compare(value, min) < 0)
-            {
-                return min;
-            }
-
-            if (comparer.Compare(value, max) > 0)
-            {
-                return max;
-            }
-
-            return value;
         }
     }
 }

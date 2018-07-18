@@ -5,7 +5,6 @@
 namespace RealTime.CustomAI
 {
     using RealTime.Tools;
-    using UnityEngine;
     using static Constants;
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
@@ -459,7 +458,7 @@ namespace RealTime.CustomAI
             if (result <= 0)
             {
                 float distance = BuildingMgr.GetDistanceBetweenBuildings(homeBuilding, workBuilding);
-                result = Mathf.Clamp(distance / OnTheWayDistancePerHour, MinHoursOnTheWay, MaxHoursOnTheWay);
+                result = RealTimeMath.Clamp(distance / OnTheWayDistancePerHour, MinHoursOnTheWay, MaxHoursOnTheWay);
             }
 
             return result;

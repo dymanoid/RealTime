@@ -134,6 +134,7 @@
     <Compile Include="GameConnection\TimeInfo.cs" />
     <Compile Include="Tools\DateTimeExtensions.cs" />
     <Compile Include="Tools\LinkedListExtensions.cs" />
+    <Compile Include="Tools\RealTimeMath.cs" />
     <Compile Include="UI\CitiesButtonViewItem.cs" />
     <Compile Include="UI\CitiesContainerItemBase.cs" />
     <Compile Include="UI\CitiesTabItem.cs" />
