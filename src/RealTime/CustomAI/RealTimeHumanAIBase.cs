@@ -107,21 +107,6 @@ namespace RealTime.CustomAI
         protected uint CitizenInstancesMaxCount { get; }
 
         /// <summary>
-        /// Determines whether the current date and time represent the specified time interval on a work day.
-        /// </summary>
-        ///
-        /// <param name="fromInclusive">The hour representing the interval start to check (inclusive).</param>
-        /// <param name="toExclusive">The hour representing the interval end to check (exclusive).</param>
-        /// <returns>
-        ///   <c>true</c> if the current date and time represent the specified time interval on a work day; otherwise, <c>false</c>.
-        /// </returns>
-        protected bool IsWorkDayAndBetweenHours(float fromInclusive, float toExclusive)
-        {
-            float currentHour = TimeInfo.CurrentHour;
-            return IsWorkDay && (currentHour >= fromInclusive && currentHour < toExclusive);
-        }
-
-        /// <summary>
         /// Determines whether the current time represents a morning hour of a work day
         /// for a citizen with the provided <paramref name="citizenAge"/>.
         /// </summary>
@@ -157,7 +142,7 @@ namespace RealTime.CustomAI
             }
 
             float currentHour = TimeInfo.CurrentHour;
-            return currentHour >= TimeInfo.SunriseHour && currentHour <= workBeginHour;
+            return currentHour >= Config.WakeupHour && currentHour <= workBeginHour;
         }
 
         /// <summary>

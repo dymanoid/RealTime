@@ -4,6 +4,7 @@
 
 namespace RealTime.CustomAI
 {
+    using System;
     using RealTime.Tools;
     using static Constants;
 
@@ -25,8 +26,6 @@ namespace RealTime.CustomAI
             Night,
             Any
         }
-
-        private bool IsLunchHour => IsWorkDayAndBetweenHours(Config.LunchBegin, Config.LunchEnd);
 
         private static bool IsBuildingActiveOnWeekend(ItemClass.Service service, ItemClass.SubService subService)
         {
@@ -84,7 +83,7 @@ namespace RealTime.CustomAI
             }
         }
 
-        private static bool ShouldWorkAtDawn(ItemClass.Service service, ItemClass.SubService subService)
+        private static bool HasExtendedFirstWorkShift(ItemClass.Service service, ItemClass.SubService subService)
         {
             switch (service)
             {
@@ -194,6 +193,7 @@ namespace RealTime.CustomAI
             }
 
             Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} leaves their workplace {workBuilding}");
+            residentStates[citizenId].WorkStatus = WorkStatus.Default;
 
             if (CitizenGoesToEvent(instance, citizenId, ref citizen))
             {
@@ -221,6 +221,7 @@ namespace RealTime.CustomAI
 
             ref ResidentStateDescriptor state = ref residentStates[citizenId];
             state.DepartureTime = TimeInfo.Now;
+            state.WorkStatus = WorkStatus.AtWork;
             residentAI.StartMoving(instance, citizenId, ref citizen, homeBuilding, workBuilding);
 
             return true;
@@ -391,7 +392,13 @@ namespace RealTime.CustomAI
 
         private bool CitizenReturnsFromLunch(TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            if (IsLunchHour)
+            if (citizenId == 0)
+            {
+                return false;
+            }
+
+            ref ResidentStateDescriptor state = ref residentStates[citizenId];
+            if (state.WorkStatus != WorkStatus.AtLunch || TimeInfo.CurrentHour < Config.LunchEnd)
             {
                 return false;
             }
@@ -401,14 +408,15 @@ namespace RealTime.CustomAI
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} returning from lunch to {workBuilding}");
                 ReturnFromVisit(instance, citizenId, ref citizen, workBuilding, Citizen.Location.Work);
+                state.WorkStatus = WorkStatus.AtWork;
             }
             else
             {
-                Log.Debug($"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is at lunch but no work building. Teleporting home.");
-                CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
+                Log.Debug($"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is at lunch but no work building.");
+                ReturnFromVisit(instance, citizenId, ref citizen, CitizenProxy.GetHomeBuilding(ref citizen), Citizen.Location.Home);
+                state.WorkStatus = WorkStatus.Default;
             }
 
-            residentStates[citizenId].WorkStatus = WorkStatus.Default;
             return true;
         }
 
@@ -437,15 +445,7 @@ namespace RealTime.CustomAI
             if (begin < 0 || end < 0)
             {
                 end = Config.WorkEnd;
-
-                if (ShouldWorkAtDawn(sevice, subService))
-                {
-                    begin = Mathf.Min(TimeInfo.SunriseHour, EarliestWakeUp);
-                }
-                else
-                {
-                    begin = Config.WorkBegin;
-                }
+                begin = HasExtendedFirstWorkShift(sevice, subService) ? Math.Min(Config.WakeupHour, EarliestWakeUp) : Config.WorkBegin;
             }
 
             beginHour = begin;

@@ -67,16 +67,17 @@ namespace RealTime.CustomAI
             }
         }
 
+        // TODO: make this method to a part of time simulation (no need to calculate for each citizen)
         private bool IsBusyAtHomeInTheMorning(float currentHour, float latestHour)
         {
-            if (currentHour >= latestHour || currentHour < EarliestWakeUp)
+            if (currentHour >= latestHour || currentHour < Config.WakeupHour)
             {
                 return false;
             }
 
-            float sunriseHour = EarliestWakeUp;
-            float dx = latestHour - sunriseHour;
-            float x = currentHour - sunriseHour;
+            float wakeupHour = Config.WakeupHour;
+            float dx = latestHour - wakeupHour;
+            float x = currentHour - wakeupHour;
 
             // A cubic probability curve from the earliest wake up hour (0%) to latest hour (100%)
             uint chance = (uint)((100f / dx * x) - ((dx - x) * (dx - x) * x));
