@@ -153,6 +153,7 @@ namespace RealTime.CustomAI
         ///
         /// <returns>A percentage value in range of 0..100 that describes the probability whether
         /// a citizen with provided age would go out on current time.</returns>
+        // TODO: make this method to a part of time simulation (no need to calculate for each citizen)
         protected uint GetGoOutChance(Citizen.AgeGroup citizenAge)
         {
             float currentHour = TimeInfo.CurrentHour;
@@ -169,22 +170,23 @@ namespace RealTime.CustomAI
                 weekdayModifier = 1u;
             }
 
-            bool isDayTime = !TimeInfo.IsNightTime;
+            float latestGoOutHour = Config.GoToSleepUpHour - 2f;
+            bool isDayTime = currentHour >= Config.WakeupHour && currentHour < latestGoOutHour;
             float timeModifier;
             if (isDayTime)
             {
-                timeModifier = 5f;
+                timeModifier = 4f;
             }
             else
             {
-                float nightDuration = 24f - (Config.GoToSleepUpHour - Config.WakeupHour);
-                float relativeHour = currentHour - Config.GoToSleepUpHour;
+                float nightDuration = 24f - (latestGoOutHour - Config.WakeupHour);
+                float relativeHour = currentHour - latestGoOutHour;
                 if (relativeHour < 0)
                 {
                     relativeHour += 24f;
                 }
 
-                timeModifier = 5f / nightDuration * (nightDuration - relativeHour);
+                timeModifier = 3f / nightDuration * (nightDuration - relativeHour);
             }
 
             switch (citizenAge)
@@ -196,7 +198,7 @@ namespace RealTime.CustomAI
                     return (uint)((timeModifier + weekdayModifier) * timeModifier);
 
                 case Citizen.AgeGroup.Senior when isDayTime:
-                    return 80 + weekdayModifier;
+                    return 30 + weekdayModifier;
 
                 default:
                     return 0;
@@ -367,14 +369,14 @@ namespace RealTime.CustomAI
         {
             if (WeatherInfo.IsDisasterHazardActive)
             {
-                Log.Debug($"Citizen {citizenId} is uncomfortable because of a disaster");
+                Log.Debug($"Citizen {citizenId} feels uncomfortable because of a disaster");
                 return true;
             }
 
             bool result = WeatherInfo.StayInsideChance != 0 && Random.ShouldOccur(WeatherInfo.StayInsideChance);
             if (result)
             {
-                Log.Debug($"Citizen {citizenId} is uncomfortable because of bad weather");
+                Log.Debug($"Citizen {citizenId} feels uncomfortable because of bad weather");
             }
 
             return result;
