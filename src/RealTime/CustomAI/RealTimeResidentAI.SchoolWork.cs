@@ -234,6 +234,12 @@ namespace RealTime.CustomAI
                 return false;
             }
 
+            ref ResidentStateDescriptor state = ref residentStates[citizenId];
+            if (state.WorkStatus == WorkStatus.OnVacation && state.VacationDaysLeft > 0)
+            {
+                return false;
+            }
+
             ItemClass.Service buildingSevice = BuildingMgr.GetBuildingService(workBuilding);
             ItemClass.SubService buildingSubService = BuildingMgr.GetBuildingSubService(workBuilding);
 

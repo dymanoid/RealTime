@@ -24,6 +24,9 @@ namespace RealTime.CustomAI
         /// </summary>
         public float TravelTimeToWork;
 
+        /// <summary>The number of days the citizen will be on vacation (as of current game date).</summary>
+        public byte VacationDaysLeft;
+
         /// <summary>Updates the travel time that the citizen needs to read the work building or school/university.</summary>
         /// <param name="arrivalTime">
         /// The arrival time at the work building or school/university. Must be great than <see cref="DepartureTime"/>.
