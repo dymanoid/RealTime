@@ -75,10 +75,8 @@ namespace RealTime.Simulation
         /// </summary>
         public override void OnBeforeSimulationFrame()
         {
-            if ((SimulationManager.instance.m_currentFrameIndex & 0xFF) == 0)
-            {
-                Buildings?.StartBuildingProcessingFrame();
-            }
+            uint currentFrame = SimulationManager.instance.m_currentFrameIndex;
+            Buildings?.ProcessFrame(currentFrame);
         }
 
         private static void OnNewDay(SimulationHandler sender)
