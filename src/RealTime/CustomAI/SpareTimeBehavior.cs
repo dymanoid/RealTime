@@ -60,7 +60,7 @@ namespace RealTime.CustomAI
             float timeModifier;
             if (isDayTime)
             {
-                timeModifier = RealTimeMath.Clamp(currentHour - config.WakeupHour - simulationCycle, 0, 4f);
+                timeModifier = RealTimeMath.Clamp((currentHour - config.WakeupHour) * 2f, 0, 4f);
             }
             else
             {
@@ -76,11 +76,18 @@ namespace RealTime.CustomAI
 
             uint defaultChance = (uint)((timeModifier + weekdayModifier) * timeModifier);
 
+            bool dump = chances[(int)Citizen.AgeGroup.Young] != defaultChance;
+
             chances[(int)Citizen.AgeGroup.Child] = isDayTime ? defaultChance : 0;
             chances[(int)Citizen.AgeGroup.Teen] = isDayTime ? defaultChance : 0;
             chances[(int)Citizen.AgeGroup.Young] = defaultChance;
             chances[(int)Citizen.AgeGroup.Adult] = defaultChance;
             chances[(int)Citizen.AgeGroup.Senior] = defaultChance;
+
+            if (dump)
+            {
+                Log.Debug($"GO OUT CHANCES for {timeInfo.Now}: child = {chances[0]}, teen = {chances[1]}, young = {chances[2]}, adult = {chances[3]}, senior = {chances[4]}");
+            }
         }
 
         /// <summary>
