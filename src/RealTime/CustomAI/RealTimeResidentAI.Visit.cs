@@ -60,12 +60,19 @@ namespace RealTime.CustomAI
                     return;
 
                 case ScheduleHint.AttendingEvent:
-                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanna attend an event at '{schedule.EventBuilding}', on the way now.");
-                    StartMovingToVisitBuilding(instance, citizenId, ref citizen, schedule.EventBuilding);
+                    DateTime returnTime;
                     ICityEvent cityEvent = EventMgr.GetUpcomingCityEvent(schedule.EventBuilding);
-                    DateTime returnTime = cityEvent == null
-                        ? default
-                        : cityEvent.EndTime;
+                    if (cityEvent == null)
+                    {
+                        returnTime = default;
+                        Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted attend an event at '{schedule.EventBuilding}', but there was no event there");
+                    }
+                    else
+                    {
+                        StartMovingToVisitBuilding(instance, citizenId, ref citizen, schedule.EventBuilding);
+                        returnTime = cityEvent.EndTime;
+                        Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanna attend an event at '{schedule.EventBuilding}', will return at {returnTime}");
+                    }
 
                     schedule.Schedule(ResidentState.Unknown, returnTime);
                     schedule.EventBuilding = 0;
@@ -126,7 +133,7 @@ namespace RealTime.CustomAI
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
 
-            if ((schedule.Hint & ScheduleHint.LocalShoppingOnly) != 0)
+            if (schedule.Hint == ScheduleHint.LocalShoppingOnly)
             {
                 schedule.Schedule(ResidentState.Unknown, default);
 
