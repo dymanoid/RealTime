@@ -245,6 +245,12 @@ namespace RealTime.CustomAI
             {
                 schedule.WorkBuilding = workBuilding;
                 workBehavior.UpdateWorkShift(ref schedule, CitizenProxy.GetAge(ref citizen));
+                if (schedule.CurrentState == ResidentState.AtSchoolOrWork && schedule.ScheduledStateTime == default)
+                {
+                    // When enabling for an existing game, the citizens that are working have no schedule yet
+                    schedule.Schedule(ResidentState.Unknown, TimeInfo.Now.FutureHour(schedule.WorkShiftEndHour));
+                }
+
                 Log.Debug($"Updated work shifts for citizen {citizenId}: work shift {schedule.WorkShift}, {schedule.WorkShiftStartHour} - {schedule.WorkShiftEndHour}, weekends: {schedule.WorksOnWeekends}");
             }
 

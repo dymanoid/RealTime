@@ -149,6 +149,7 @@ namespace RealTime.Core
 
             RealTimeStorage.CurrentLevelStorage.GameSaving += result.GameSaving;
             result.storageData.Add(eventManager);
+            result.storageData.Add(ResidentAIPatch.RealTimeAI.GetStorageService());
             result.LoadStorageData();
 
             result.Translate(localizationProvider);

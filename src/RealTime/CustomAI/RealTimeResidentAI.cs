@@ -3,7 +3,9 @@
 namespace RealTime.CustomAI
 {
     using System;
+    using System.IO;
     using RealTime.Config;
+    using RealTime.Core;
     using RealTime.Events;
     using RealTime.GameConnection;
     using RealTime.Tools;
@@ -146,6 +148,13 @@ namespace RealTime.CustomAI
         {
             simulationCycle = cyclePeriod;
             Log.Debug($"SIMULATION CYCLE PERIOD: {cyclePeriod} hours");
+        }
+
+        /// <summary>Gets an instance of the storage service that can read and write the custom schedule data.</summary>
+        /// <returns>An object that implements the <see cref="IStorageData"/> interface.</returns>
+        public IStorageData GetStorageService()
+        {
+            return new CitizenScheduleStorage(residentSchedules, CitizenMgr.GetCitizensArray(), TimeInfo);
         }
     }
 }

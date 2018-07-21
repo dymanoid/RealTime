@@ -68,7 +68,7 @@ namespace RealTime.CustomAI
 
             ItemClass.Service buildingSevice = buildingManager.GetBuildingService(schedule.WorkBuilding);
             float workBegin, workEnd;
-            WorkShift workShift;
+            WorkShift workShift = schedule.WorkShift;
 
             switch (citizenAge)
             {
@@ -81,7 +81,11 @@ namespace RealTime.CustomAI
 
                 case Citizen.AgeGroup.Young:
                 case Citizen.AgeGroup.Adult:
-                    workShift = GetWorkShift(GetBuildingWorkShiftCount(buildingSevice));
+                    if (workShift == WorkShift.Unemployed)
+                    {
+                        workShift = GetWorkShift(GetBuildingWorkShiftCount(buildingSevice));
+                    }
+
                     workBegin = config.WorkBegin;
                     workEnd = config.WorkEnd;
                     break;

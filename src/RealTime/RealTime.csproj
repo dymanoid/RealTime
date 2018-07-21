@@ -57,6 +57,7 @@
     <Compile Include="Config\ConfigurationProvider.cs" />
     <Compile Include="Core\IStorageData.cs" />
     <Compile Include="Core\RealTimeStorage.cs" />
+    <Compile Include="CustomAI\CitizenScheduleStorage.cs" />
     <Compile Include="CustomAI\Constants.cs" />
     <Compile Include="CustomAI\RealTimeHumanAIBase.cs" />
     <Compile Include="CustomAI\ResidentState.cs" />

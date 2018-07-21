@@ -62,5 +62,9 @@ namespace RealTime.GameConnection
         /// <returns>A <see cref="Citizen.Location"/> value that describes the citizen's current location.</returns>
         /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the argument is 0.</exception>
         Citizen.Location GetCitizenLocation(uint citizenId);
+
+        /// <summary>Gets the game's citizens array (direct reference).</summary>
+        /// <returns>The reference to the game's array containing the <see cref="Citizen"/> items.</returns>
+        Citizen[] GetCitizensArray();
     }
 }

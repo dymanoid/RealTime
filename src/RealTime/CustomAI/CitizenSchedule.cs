@@ -11,6 +11,9 @@ namespace RealTime.CustomAI
     /// Note that this struct is intentionally made mutable to increase performance.</summary>
     internal struct CitizenSchedule
     {
+        /// <summary>The size of the buffer in bytes to store the data.</summary>
+        public const int DataRecordSize = 6;
+
         /// <summary>The citizen's current state.</summary>
         public ResidentState CurrentState;
 
@@ -28,6 +31,8 @@ namespace RealTime.CustomAI
 
         /// <summary>The time when citizen started their last ride to the work building.</summary>
         public DateTime DepartureToWorkTime;
+
+        private const float TravelTimeMultiplier = ushort.MaxValue / MaxTravelTime;
 
         /// <summary>Gets the citizen's next scheduled state.</summary>
         public ResidentState ScheduledState { get; private set; }
@@ -95,6 +100,39 @@ namespace RealTime.CustomAI
         {
             ScheduledState = nextState;
             ScheduledStateTime = nextStateTime;
+        }
+
+        /// <summary>Writes this instance to the specified target buffer.</summary>
+        /// <param name="target">The target buffer. Must have length of <see cref="DataRecordSize"/> elements.</param>
+        /// <param name="referenceTime">The reference time (in ticks) to use for time serialization.</param>
+        public void Write(byte[] target, long referenceTime)
+        {
+            target[0] = (byte)(((int)WorkShift & 0xF) + ((int)WorkStatus << 4));
+            target[1] = (byte)ScheduledState;
+
+            ushort minutes = (ushort)((ScheduledStateTime.Ticks - referenceTime) / TimeSpan.TicksPerMinute);
+            target[2] = (byte)(minutes & 0xFF);
+            target[3] = (byte)(minutes >> 8);
+
+            ushort travelTime = (ushort)(TravelTimeToWork * TravelTimeMultiplier);
+            target[4] = (byte)(travelTime & 0xFF);
+            target[5] = (byte)(travelTime >> 8);
+        }
+
+        /// <summary>Reads this instance from the specified source buffer.</summary>
+        /// <param name="source">The source buffer. Must have length of <see cref="DataRecordSize"/> elements.</param>
+        /// <param name="referenceTime">The reference time (in ticks) to use for time deserialization.</param>
+        public void Read(byte[] source, long referenceTime)
+        {
+            WorkShift = (WorkShift)(source[0] & 0xF);
+            WorkStatus = (WorkStatus)(source[0] >> 4);
+            ScheduledState = (ResidentState)source[1];
+
+            int minutes = source[2] + (source[3] << 8);
+            ScheduledStateTime = new DateTime((minutes * TimeSpan.TicksPerMinute) + referenceTime);
+
+            int travelTime = source[4] + (source[5] << 8);
+            TravelTimeToWork = travelTime / TravelTimeMultiplier;
         }
     }
 }

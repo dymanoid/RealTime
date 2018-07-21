@@ -127,5 +127,12 @@ namespace RealTime.GameConnection
 
             return CitizenManager.instance.m_citizens.m_buffer[citizenId].CurrentLocation;
         }
+
+        /// <summary>Gets the game's citizens array (direct reference).</summary>
+        /// <returns>The reference to the game's array containing the <see cref="Citizen"/> items.</returns>
+        public Citizen[] GetCitizensArray()
+        {
+            return CitizenManager.instance.m_citizens.m_buffer;
+        }
     }
 }
