@@ -272,9 +272,10 @@ namespace RealTime.Events
         void IStorageData.StoreData(Stream target)
         {
             var serializer = new XmlSerializer(typeof(RealTimeEventStorageContainer));
-            var data = new RealTimeEventStorageContainer();
-
-            data.EarliestEvent = earliestEvent.Ticks;
+            var data = new RealTimeEventStorageContainer
+            {
+                EarliestEvent = earliestEvent.Ticks
+            };
 
             AddEventToStorage(lastActiveEvent);
             AddEventToStorage(activeEvent);
