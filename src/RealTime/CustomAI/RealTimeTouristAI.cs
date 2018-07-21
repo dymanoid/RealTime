@@ -102,7 +102,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            bool badWeather = IsBadWeather(citizenId);
+            bool badWeather = IsBadWeather();
             if (CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.TargetIsNode | CitizenInstance.Flags.OnTour, true))
             {
                 Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} exits the guided tour.");
@@ -149,13 +149,15 @@ namespace RealTime.CustomAI
                     return;
             }
 
-            if (Random.ShouldOccur(TouristEventChance)
-                && !IsBadWeather(citizenId)
-                && AttendUpcomingEvent(citizenId, ref citizen, out ushort eventBuilding))
+            if (Random.ShouldOccur(TouristEventChance) && !IsBadWeather())
             {
-                StartMovingToVisitBuilding(instance, citizenId, ref citizen, CitizenProxy.GetCurrentBuilding(ref citizen), eventBuilding);
-                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} attending an event at {eventBuilding}");
-                return;
+                ICityEvent cityEvent = GetUpcomingEventToAttend(citizenId, ref citizen);
+                if (cityEvent != null)
+                {
+                    StartMovingToVisitBuilding(instance, citizenId, ref citizen, CitizenProxy.GetCurrentBuilding(ref citizen), cityEvent.BuildingId);
+                    Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} attending an event at {cityEvent.BuildingId}");
+                    return;
+                }
             }
 
             int doNothingChance;
@@ -191,7 +193,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            if (!Random.ShouldOccur(GetGoOutChance(CitizenProxy.GetAge(ref citizen))) || IsBadWeather(citizenId))
+            if (!Random.ShouldOccur(GetGoOutChance(CitizenProxy.GetAge(ref citizen))) || IsBadWeather())
             {
                 FindHotel(instance, citizenId, ref citizen);
                 return;

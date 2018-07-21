@@ -173,6 +173,33 @@ namespace RealTime.Events
         }
 
         /// <summary>
+        /// Gets the <see cref="ICityEvent"/> instance of an upcoming city event that takes place in a building
+        /// with specified ID.
+        /// </summary>
+        /// <param name="buildingId">The ID of a building to search events for.</param>
+        /// <returns>An <see cref="ICityEvent"/> instance of the first matching city event, or null if none found.</returns>
+        public ICityEvent GetUpcomingCityEvent(ushort buildingId)
+        {
+            if (buildingId == 0 || upcomingEvents.Count == 0)
+            {
+                return null;
+            }
+
+            LinkedListNode<ICityEvent> upcomingEvent = upcomingEvents.First;
+            while (upcomingEvent != null)
+            {
+                if (upcomingEvent.Value.BuildingId == buildingId)
+                {
+                    return upcomingEvent.Value;
+                }
+
+                upcomingEvent = upcomingEvent.Next;
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Processes the city events simulation step. The method can be called frequently, but the processing occurs periodically
         /// at an interval specified by <see cref="EventProcessInterval"/>.
         /// </summary>

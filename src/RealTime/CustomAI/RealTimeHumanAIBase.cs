@@ -107,45 +107,6 @@ namespace RealTime.CustomAI
         protected uint CitizenInstancesMaxCount { get; }
 
         /// <summary>
-        /// Determines whether the current time represents a morning hour of a work day
-        /// for a citizen with the provided <paramref name="citizenAge"/>.
-        /// </summary>
-        ///
-        /// <param name="citizenAge">The citizen age to check.</param>
-        ///
-        /// <returns>
-        ///   <c>true</c> if the current time represents a morning hour of a work day
-        /// for a citizen with the provided age; otherwise, <c>false</c>.
-        /// </returns>
-        protected bool IsWorkDayMorning(Citizen.AgeGroup citizenAge)
-        {
-            if (!IsWorkDay)
-            {
-                return false;
-            }
-
-            float workBeginHour;
-            switch (citizenAge)
-            {
-                case Citizen.AgeGroup.Child:
-                case Citizen.AgeGroup.Teen:
-                    workBeginHour = Config.SchoolBegin;
-                    break;
-
-                case Citizen.AgeGroup.Young:
-                case Citizen.AgeGroup.Adult:
-                    workBeginHour = Config.WorkBegin;
-                    break;
-
-                default:
-                    return false;
-            }
-
-            float currentHour = TimeInfo.CurrentHour;
-            return currentHour >= Config.WakeupHour && currentHour <= workBeginHour;
-        }
-
-        /// <summary>
         /// Gets the probability whether a citizen with provided age would go out on current time.
         /// </summary>
         ///
@@ -161,7 +122,7 @@ namespace RealTime.CustomAI
             uint weekdayModifier;
             if (Config.IsWeekendEnabled)
             {
-                weekdayModifier = TimeInfo.Now.IsWeekendTime(GetSpareTimeBeginHour(citizenAge), Config.GoToSleepUpHour)
+                weekdayModifier = TimeInfo.Now.IsWeekendTime(12f, Config.GoToSleepUpHour)
                     ? 11u
                     : 1u;
             }
@@ -206,30 +167,6 @@ namespace RealTime.CustomAI
         }
 
         /// <summary>
-        /// Gets the spare time begin hour for a citizen with provided age.
-        /// </summary>
-        ///
-        /// <param name="citizenAge">The citizen age to check.</param>
-        ///
-        /// <returns>A value representing the hour of the day when the citizen's spare time begins.</returns>
-        protected float GetSpareTimeBeginHour(Citizen.AgeGroup citizenAge)
-        {
-            switch (citizenAge)
-            {
-                case Citizen.AgeGroup.Child:
-                case Citizen.AgeGroup.Teen:
-                    return Config.SchoolEnd;
-
-                case Citizen.AgeGroup.Young:
-                case Citizen.AgeGroup.Adult:
-                    return Config.WorkEnd;
-
-                default:
-                    return 0;
-            }
-        }
-
-        /// <summary>
         /// Ensures that the provided citizen is in a valid state and can be processed.
         /// </summary>
         ///
@@ -261,35 +198,32 @@ namespace RealTime.CustomAI
         }
 
         /// <summary>
-        /// Lets the provided citizen try attending the next upcoming event.
+        /// Searches for an upcoming event and checks whether the specified citizen ca attend it.
+        /// Returns null if no matching events found.
         /// </summary>
         ///
-        /// <param name="citizenId">The citizen ID.</param>
+        /// <param name="citizenId">The ID of the citizen to check.</param>
         /// <param name="citizen">The citizen data reference.</param>
-        /// <param name="eventBuildingId">The building ID where the upcoming event will take place.</param>
         ///
-        /// <returns><c>true</c> if the provided citizen will attend the next event; otherwise, <c>false</c>.</returns>
-        protected bool AttendUpcomingEvent(uint citizenId, ref TCitizen citizen, out ushort eventBuildingId)
+        /// <returns>The city event or null if none found.</returns>
+        protected ICityEvent GetUpcomingEventToAttend(uint citizenId, ref TCitizen citizen)
         {
-            eventBuildingId = default;
-
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
             if (EventMgr.GetEventState(currentBuilding, DateTime.MaxValue) == CityEventState.Ongoing)
             {
-                return false;
+                return null;
             }
 
-            DateTime earliestStart = TimeInfo.Now.AddHours(MinHoursOnTheWay);
-            DateTime latestStart = TimeInfo.Now.AddHours(MaxHoursOnTheWay);
+            DateTime earliestStart = TimeInfo.Now.AddHours(MinTravelTime);
+            DateTime latestStart = TimeInfo.Now.AddHours(MaxTravelTime);
 
             ICityEvent upcomingEvent = EventMgr.GetUpcomingCityEvent(earliestStart, latestStart);
             if (upcomingEvent != null && CanAttendEvent(citizenId, ref citizen, upcomingEvent))
             {
-                eventBuildingId = upcomingEvent.BuildingId;
-                return true;
+                return upcomingEvent;
             }
 
-            return false;
+            return null;
         }
 
         /// <summary>
@@ -362,24 +296,31 @@ namespace RealTime.CustomAI
         }
 
         /// <summary>Determines whether the weather is currently so bad that the citizen would like to stay inside a building.</summary>
-        /// <param name="citizenId">The ID of the citizen to check the weather for.</param>
         /// <returns>
         ///   <c>true</c> if the weather is bad; otherwise, <c>false</c>.</returns>
-        protected bool IsBadWeather(uint citizenId)
+        protected bool IsBadWeather()
         {
             if (WeatherInfo.IsDisasterHazardActive)
             {
-                Log.Debug($"Citizen {citizenId} feels uncomfortable because of a disaster");
                 return true;
             }
 
-            bool result = WeatherInfo.StayInsideChance != 0 && Random.ShouldOccur(WeatherInfo.StayInsideChance);
-            if (result)
+            return WeatherInfo.StayInsideChance != 0 && Random.ShouldOccur(WeatherInfo.StayInsideChance);
+        }
+
+        /// <summary>Gets an estimated travel time (in hours) between two specified buildings.</summary>
+        /// <param name="building1">The ID of the first building.</param>
+        /// <param name="building2">The ID of the second building.</param>
+        /// <returns>An estimated travel time in hours.</returns>
+        protected float GetEstimatedTravelTime(ushort building1, ushort building2)
+        {
+            if (building1 == 0 || building2 == 0)
             {
-                Log.Debug($"Citizen {citizenId} feels uncomfortable because of bad weather");
+                return 0;
             }
 
-            return result;
+            float distance = BuildingMgr.GetDistanceBetweenBuildings(building1, building2);
+            return RealTimeMath.Clamp(distance / OnTheWayDistancePerHour, MinTravelTime, MaxTravelTime);
         }
 
         private bool CanAttendEvent(uint citizenId, ref TCitizen citizen, ICityEvent cityEvent)

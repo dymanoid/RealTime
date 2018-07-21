@@ -187,6 +187,7 @@ namespace RealTime.Core
             SimulationHandler.TimeAdjustment = null;
             SimulationHandler.WeatherInfo = null;
             SimulationHandler.Buildings = null;
+            SimulationHandler.CitizenProcessor = null;
 
             isEnabled = false;
         }
@@ -229,6 +230,7 @@ namespace RealTime.Core
                 eventManager);
 
             ResidentAIPatch.RealTimeAI = realTimeResidentAI;
+            SimulationHandler.CitizenProcessor = new CitizenProcessor(realTimeResidentAI);
 
             TouristAIConnection<TouristAI, Citizen> touristAIConnection = TouristAIPatch.GetTouristAIConnection();
             if (touristAIConnection == null)

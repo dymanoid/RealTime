@@ -10,15 +10,9 @@ namespace RealTime.CustomAI
     internal enum WorkStatus : byte
     {
         /// <summary>No special handling.</summary>
-        Default,
+        None,
 
-        /// <summary>The citizen is at work or is heading to the work building.</summary>
-        AtWork,
-
-        /// <summary>The citizen takes a break and goes out for lunch.</summary>
-        AtLunch,
-
-        /// <summary>The citizen is on vacation or has a day off work.</summary>
-        OnVacation
+        /// <summary>The citizen has working hours.</summary>
+        Working
     }
 }

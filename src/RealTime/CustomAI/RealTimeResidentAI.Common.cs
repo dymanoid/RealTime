@@ -4,10 +4,19 @@
 
 namespace RealTime.CustomAI
 {
+    using System;
     using RealTime.Tools;
+    using static Constants;
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
+        private enum ScheduleAction
+        {
+            Ignore,
+            ProcessTransition,
+            ProcessState
+        }
+
         private void ProcessCitizenDead(TAI instance, uint citizenId, ref TCitizen citizen)
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
@@ -16,6 +25,7 @@ namespace RealTime.CustomAI
             if (currentBuilding == 0 || (currentLocation == Citizen.Location.Moving && CitizenProxy.GetVehicle(ref citizen) == 0))
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is released");
+                residentSchedules[citizenId] = default;
                 CitizenMgr.ReleaseCitizen(citizenId);
                 return;
             }
@@ -101,69 +111,89 @@ namespace RealTime.CustomAI
             return true;
         }
 
-        private void ProcessCitizenEvacuation(TAI instance, uint citizenId, ref TCitizen citizen)
+        private void DoScheduledEvacuation(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
         {
             ushort building = CitizenProxy.GetCurrentBuilding(ref citizen);
-            if (building != 0)
+            if (building == 0)
+            {
+                schedule.Schedule(ResidentState.AtHome, default);
+                return;
+            }
+
+            schedule.Schedule(ResidentState.InShelter, default);
+            if (schedule.CurrentState != ResidentState.InShelter)
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is trying to find an evacuation place");
                 residentAI.FindEvacuationPlace(instance, citizenId, building, residentAI.GetEvacuationReason(instance, building));
             }
         }
 
-        private bool StartMovingToVisitBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort visitBuilding)
+        private void ProcessCitizenInShelter(ref CitizenSchedule schedule, ref TCitizen citizen)
         {
-            if (visitBuilding == 0)
+            ushort shelter = CitizenProxy.GetVisitBuilding(ref citizen);
+            if (BuildingMgr.BuildingHasFlags(shelter, Building.Flags.Downgrading))
             {
-                return false;
+                schedule.Schedule(ResidentState.Unknown, default);
             }
-
-            ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
-
-            if (currentBuilding == visitBuilding)
-            {
-                CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
-                CitizenProxy.SetVisitBuilding(ref citizen, visitBuilding);
-                CitizenProxy.SetLocation(ref citizen, Citizen.Location.Visit);
-                return true;
-            }
-            else if (residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding))
-            {
-                CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
-                CitizenProxy.SetVisitBuilding(ref citizen, visitBuilding);
-                return true;
-            }
-
-            return false;
         }
 
-        private ResidentState GetResidentState(uint citizenId, ref TCitizen citizen)
+        private ScheduleAction UpdateCitizenState(uint citizenId, ref TCitizen citizen, ref CitizenSchedule schedule)
         {
+            if (schedule.CurrentState == ResidentState.Ignored)
+            {
+                return ScheduleAction.Ignore;
+            }
+
             if (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.DummyTraffic))
             {
-                return ResidentState.Ignored;
+                schedule.CurrentState = ResidentState.Ignored;
+                return ScheduleAction.Ignore;
+            }
+
+            Citizen.Location location = CitizenProxy.GetLocation(ref citizen);
+            if (location == Citizen.Location.Moving)
+            {
+                if (CitizenMgr.InstanceHasFlags(
+                    CitizenProxy.GetInstance(ref citizen),
+                    CitizenInstance.Flags.OnTour | CitizenInstance.Flags.TargetIsNode,
+                    true))
+                {
+                    // Guided tours are treated as visits
+                    schedule.CurrentState = ResidentState.Visiting;
+                    schedule.Hint = ScheduleHint.OnTour;
+                    return ScheduleAction.ProcessState;
+                }
+
+                return ScheduleAction.ProcessTransition;
             }
 
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
-            ItemClass.Service buildingService = BuildingMgr.GetBuildingService(currentBuilding);
+            if (currentBuilding == 0)
+            {
+                schedule.CurrentState = ResidentState.Unknown;
+                return ScheduleAction.ProcessState;
+            }
 
+            ItemClass.Service buildingService = BuildingMgr.GetBuildingService(currentBuilding);
             if (BuildingMgr.BuildingHasFlags(currentBuilding, Building.Flags.Evacuating)
                 && buildingService != ItemClass.Service.Disaster)
             {
-                return ResidentState.Evacuating;
+                schedule.CurrentState = ResidentState.Evacuation;
+                schedule.Schedule(ResidentState.InShelter, default);
+                return ScheduleAction.ProcessState;
             }
 
-            switch (CitizenProxy.GetLocation(ref citizen))
+            switch (location)
             {
                 case Citizen.Location.Home:
-                    return currentBuilding != 0
-                        ? ResidentState.AtHome
-                        : ResidentState.Unknown;
+                    schedule.CurrentState = ResidentState.AtHome;
+                    return ScheduleAction.ProcessState;
 
                 case Citizen.Location.Work:
                     if (buildingService == ItemClass.Service.Disaster && CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating))
                     {
-                        return ResidentState.InShelter;
+                        schedule.CurrentState = ResidentState.InShelter;
+                        return ScheduleAction.ProcessState;
                     }
 
                     if (CitizenProxy.GetVisitBuilding(ref citizen) == currentBuilding)
@@ -172,55 +202,178 @@ namespace RealTime.CustomAI
                         goto case Citizen.Location.Visit;
                     }
 
-                    return currentBuilding != 0
-                        ? ResidentState.AtSchoolOrWork
-                        : ResidentState.Unknown;
+                    schedule.CurrentState = ResidentState.AtSchoolOrWork;
+                    return ScheduleAction.ProcessState;
 
                 case Citizen.Location.Visit:
-                    if (currentBuilding == 0)
-                    {
-                        return ResidentState.Unknown;
-                    }
-
                     switch (buildingService)
                     {
-                        case ItemClass.Service.Commercial:
-                            if (residentStates[citizenId].WorkStatus == WorkStatus.AtLunch)
-                            {
-                                return ResidentState.AtLunch;
-                            }
-
-                            if (BuildingMgr.GetBuildingSubService(currentBuilding) == ItemClass.SubService.CommercialLeisure)
-                            {
-                                return ResidentState.AtLeisureArea;
-                            }
-
-                            return ResidentState.Shopping;
-
                         case ItemClass.Service.Beautification:
-                            return ResidentState.AtLeisureArea;
+                        case ItemClass.Service.Commercial
+                            when BuildingMgr.GetBuildingSubService(currentBuilding) == ItemClass.SubService.CommercialLeisure
+                                && schedule.WorkStatus != WorkStatus.Working:
+
+                            schedule.CurrentState = ResidentState.Relaxing;
+                            return ScheduleAction.ProcessState;
+
+                        case ItemClass.Service.Commercial:
+                            schedule.CurrentState = ResidentState.Shopping;
+                            return ScheduleAction.ProcessState;
 
                         case ItemClass.Service.Disaster:
-                            return ResidentState.InShelter;
+                            schedule.CurrentState = ResidentState.InShelter;
+                            return ScheduleAction.ProcessState;
                     }
 
-                    return ResidentState.Visiting;
-
-                case Citizen.Location.Moving:
-                    ushort instanceId = CitizenProxy.GetInstance(ref citizen);
-                    if (CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.OnTour | CitizenInstance.Flags.TargetIsNode, true))
-                    {
-                        return ResidentState.OnTour;
-                    }
-
-                    ushort homeBuilding = CitizenProxy.GetHomeBuilding(ref citizen);
-                    return homeBuilding != 0 && CitizenMgr.GetTargetBuilding(instanceId) == homeBuilding
-                        ? ResidentState.MovingHome
-                        : ResidentState.MovingToTarget;
-
-                default:
-                    return ResidentState.Unknown;
+                    schedule.CurrentState = ResidentState.Visiting;
+                    break;
             }
+
+            return ScheduleAction.Ignore;
+        }
+
+        private void UpdateCitizenSchedule(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
+        {
+            // If the game changed the work building, we have to update the work shifts first
+            ushort workBuilding = CitizenProxy.GetWorkBuilding(ref citizen);
+            if (schedule.WorkBuilding != workBuilding)
+            {
+                schedule.WorkBuilding = workBuilding;
+                workBehavior.UpdateWorkShift(ref schedule, CitizenProxy.GetAge(ref citizen));
+            }
+
+            if (schedule.ScheduledState != ResidentState.Unknown)
+            {
+                return;
+            }
+
+            Log.Debug($"Calculating schedule for citizen instance {CitizenProxy.GetInstance(ref citizen)}...");
+
+            if (schedule.WorkStatus == WorkStatus.Working)
+            {
+                schedule.WorkStatus = WorkStatus.None;
+            }
+
+            DateTime nextActivityTime = TimeInfo.Now.FutureHour(Config.WakeupHour);
+            if (schedule.CurrentState != ResidentState.AtSchoolOrWork && workBuilding != 0)
+            {
+                DateTime workTime = ScheduleWork(ref schedule, CitizenProxy.GetCurrentBuilding(ref citizen));
+                if (schedule.ScheduledState == ResidentState.AtSchoolOrWork)
+                {
+                    Log.Debug($"  - Schedule work at {workTime}");
+                    nextActivityTime = workTime;
+
+                    float timeLeft = (float)(nextActivityTime - TimeInfo.Now).TotalHours;
+                    if (timeLeft <= PrepareToWorkHours)
+                    {
+                        // Just sit at home if the work time will come soon
+                        Log.Debug($"  - Worktime in {timeLeft} hours, doing nothing");
+                        return;
+                    }
+
+                    if (timeLeft <= MaxTravelTime)
+                    {
+                        // If we have some time, try to shop locally.
+                        Log.Debug($"  - Worktime in {timeLeft} hours, trying local shop");
+                        ScheduleShopping(ref schedule, ref citizen, true);
+                        return;
+                    }
+                }
+            }
+
+            if (ScheduleShopping(ref schedule, ref citizen, false))
+            {
+                Log.Debug($"  - Schedule shopping");
+                return;
+            }
+
+            if (ScheduleRelaxing(ref schedule, citizenId, ref citizen))
+            {
+                Log.Debug($"  - Schedule relaxing");
+                return;
+            }
+
+            if (schedule.CurrentState == ResidentState.AtHome)
+            {
+                Log.Debug($"  - Scheduled sleeping at home until {nextActivityTime}");
+                schedule.Schedule(ResidentState.Unknown, nextActivityTime);
+            }
+            else
+            {
+                Log.Debug($"  - Schedule moving home");
+                schedule.Schedule(ResidentState.AtHome, default);
+            }
+        }
+
+        private void ExecuteCitizenSchedule(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
+        {
+            ProcessCurrentState(ref schedule, ref citizen);
+
+            if (TimeInfo.Now < schedule.ScheduledStateTime)
+            {
+                return;
+            }
+
+            if (schedule.CurrentState == ResidentState.AtHome && IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen))
+            {
+                Log.Debug($" *** Citizen {citizenId} is virtual this time");
+                schedule.Schedule(ResidentState.Unknown, default);
+                return;
+            }
+
+            switch (schedule.ScheduledState)
+            {
+                case ResidentState.AtHome:
+                    DoScheduledHome(ref schedule, instance, citizenId, ref citizen);
+                    break;
+
+                case ResidentState.AtSchoolOrWork:
+                    DoScheduledWork(ref schedule, instance, citizenId, ref citizen);
+                    break;
+
+                case ResidentState.Shopping when schedule.WorkStatus == WorkStatus.Working:
+                    DoScheduledLunch(ref schedule, instance, citizenId, ref citizen);
+                    break;
+
+                case ResidentState.Shopping:
+                    DoScheduledShopping(ref schedule, instance, citizenId, ref citizen);
+                    break;
+
+                case ResidentState.Relaxing:
+                    DoScheduledRelaxing(ref schedule, instance, citizenId, ref citizen);
+                    break;
+
+                case ResidentState.InShelter:
+                    DoScheduledEvacuation(ref schedule, instance, citizenId, ref citizen);
+                    break;
+            }
+        }
+
+        private void ProcessCurrentState(ref CitizenSchedule schedule, ref TCitizen citizen)
+        {
+            switch (schedule.CurrentState)
+            {
+                case ResidentState.Shopping:
+                    ProcessCitizenShopping(ref citizen);
+                    break;
+
+                case ResidentState.Relaxing:
+                    ProcessCitizenRelaxing(ref citizen);
+                    break;
+
+                case ResidentState.Visiting:
+                    ProcessCitizenVisit(ref schedule, ref citizen);
+                    break;
+
+                case ResidentState.InShelter:
+                    ProcessCitizenInShelter(ref schedule, ref citizen);
+                    break;
+            }
+        }
+
+        private bool ShouldRealizeCitizen(TAI ai)
+        {
+            return residentAI.DoRandomMove(ai);
         }
     }
 }
