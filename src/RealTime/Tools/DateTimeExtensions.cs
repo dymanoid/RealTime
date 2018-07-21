@@ -50,7 +50,7 @@ namespace RealTime.Tools
         }
 
         /// <summary>
-        /// Rounds this <see cref="DateTime"/> to the provided <paramref name="interval"/> (ceiling).
+        /// Rounds this <see cref="DateTime"/> to the specified <paramref name="interval"/> (ceiling).
         /// </summary>
         ///
         /// <param name="dateTime">The <see cref="DateTime"/> to round.</param>

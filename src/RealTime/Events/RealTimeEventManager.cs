@@ -100,7 +100,7 @@ namespace RealTime.Events
         /// <summary>Gets an unique ID of this storage data set.</summary>
         string IStorageData.StorageDataId => StorageDataId;
 
-        /// <summary>Gets the state of a city event in the provided building.</summary>
+        /// <summary>Gets the state of a city event in the specified building.</summary>
         /// <param name="buildingId">The building ID to check events in.</param>
         /// <param name="latestStart">The latest start time of events to consider.</param>
         /// <returns>
@@ -232,7 +232,7 @@ namespace RealTime.Events
             CreateRandomEvent(building);
         }
 
-        /// <summary>Reads the data set from the provided <see cref="Stream"/>.</summary>
+        /// <summary>Reads the data set from the specified <see cref="Stream"/>.</summary>
         /// <param name="source">A <see cref="Stream"/> to read the data set from.</param>
         void IStorageData.ReadData(Stream source)
         {
@@ -267,7 +267,7 @@ namespace RealTime.Events
             OnEventsChanged();
         }
 
-        /// <summary>Reads the data set to the provided <see cref="Stream"/>.</summary>
+        /// <summary>Reads the data set to the specified <see cref="Stream"/>.</summary>
         /// <param name="target">A <see cref="Stream"/> to write the data set to.</param>
         void IStorageData.StoreData(Stream target)
         {

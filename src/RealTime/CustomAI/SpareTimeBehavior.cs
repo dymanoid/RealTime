@@ -91,13 +91,13 @@ namespace RealTime.CustomAI
         }
 
         /// <summary>
-        /// Gets the probability whether a citizen with provided age would go out on current time.
+        /// Gets the probability whether a citizen with specified age would go out on current time.
         /// </summary>
         ///
         /// <param name="citizenAge">The citizen age to check.</param>
         ///
         /// <returns>A percentage value in range of 0..100 that describes the probability whether
-        /// a citizen with provided age would go out on current time.</returns>
+        /// a citizen with specified age would go out on current time.</returns>
         public uint GetGoOutChance(Citizen.AgeGroup citizenAge)
         {
             return chances[(int)citizenAge];

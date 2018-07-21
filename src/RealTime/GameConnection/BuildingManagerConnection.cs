@@ -58,8 +58,8 @@ namespace RealTime.GameConnection
         /// <param name="flags">The building flags to check.</param>
         /// <param name="includeZero"><c>true</c> if a building without any flags can also be considered.</param>
         /// <returns>
-        /// <c>true</c> if the building with the specified ID has the <paramref name="flags" />
-        /// provided; otherwise, <c>false</c>.
+        /// <c>true</c> if the building with the specified ID has the specified <paramref name="flags"/>;
+        /// otherwise, <c>false</c>.
         /// </returns>
         public bool BuildingHasFlags(ushort buildingId, Building.Flags flags, bool includeZero = false)
         {
@@ -137,7 +137,7 @@ namespace RealTime.GameConnection
                 restrictedFlags);
         }
 
-        /// <summary>Gets the ID of an event that takes place in the building with provided ID.</summary>
+        /// <summary>Gets the ID of an event that takes place in the building with specified ID.</summary>
         /// <param name="buildingId">The building ID to check.</param>
         /// <returns>An ID of an event that takes place in the building, or 0 if none.</returns>
         public ushort GetEvent(ushort buildingId)
@@ -148,7 +148,7 @@ namespace RealTime.GameConnection
         }
 
         /// <summary>
-        /// Gets an ID of a random building in the city that belongs to any of the provided <paramref name="services" />.
+        /// Gets an ID of a random building in the city that belongs to any of the specified <paramref name="services" />.
         /// </summary>
         /// <param name="services">A collection of <see cref="ItemClass.Service" /> that specifies in which services to
         /// search the random building in.</param>

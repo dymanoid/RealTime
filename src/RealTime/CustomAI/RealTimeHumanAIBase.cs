@@ -107,13 +107,13 @@ namespace RealTime.CustomAI
         protected uint CitizenInstancesMaxCount { get; }
 
         /// <summary>
-        /// Ensures that the provided citizen is in a valid state and can be processed.
+        /// Ensures that the specified citizen is in a valid state and can be processed.
         /// </summary>
         ///
         /// <param name="citizenId">The citizen ID to check.</param>
         /// <param name="citizen">The citizen data reference.</param>
         ///
-        /// <returns><c>true</c> if the provided citizen is in a valid state; otherwise, <c>false</c>.</returns>
+        /// <returns><c>true</c> if the specified citizen is in a valid state; otherwise, <c>false</c>.</returns>
         protected bool EnsureCitizenCanBeProcessed(uint citizenId, ref TCitizen citizen)
         {
             if ((CitizenProxy.GetHomeBuilding(ref citizen) == 0
@@ -167,7 +167,7 @@ namespace RealTime.CustomAI
         }
 
         /// <summary>
-        /// Finds an evacuation place for the provided citizen.
+        /// Finds an evacuation place for the specified citizen.
         /// </summary>
         ///
         /// <param name="citizenId">The citizen ID to find an evacuation place for.</param>
@@ -179,13 +179,13 @@ namespace RealTime.CustomAI
         }
 
         /// <summary>
-        /// Gets a string that describes the provided citizen.
+        /// Gets a string that describes the specified citizen.
         /// </summary>
         ///
         /// <param name="citizenId">The citizen ID.</param>
         /// <param name="citizen">The citizen data reference.</param>
         ///
-        /// <returns>A short string describing the provided citizen.</returns>
+        /// <returns>A short string describing the specified citizen.</returns>
         protected string GetCitizenDesc(uint citizenId, ref TCitizen citizen)
         {
             ushort homeBuilding = CitizenProxy.GetHomeBuilding(ref citizen);

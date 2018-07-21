@@ -32,11 +32,11 @@ namespace RealTime.GameConnection
                 : (ushort)0;
         }
 
-        /// <summary>Determines whether the citizen's instance with provided ID has particular flags.</summary>
+        /// <summary>Determines whether the citizen's instance with specified ID has particular flags.</summary>
         /// <param name="instanceId">The instance ID to check.</param>
         /// <param name="flags">The flags to check.</param>
         /// <param name="all">
-        /// <c>true</c> to check all flags from the provided <paramref name="flags"/>, <c>false</c> to check any flags.
+        /// <c>true</c> to check all flags from the specified <paramref name="flags"/>, <c>false</c> to check any flags.
         /// </param>
         /// <returns><c>true</c> if the citizen instance has the specified flags; otherwise, <c>false</c>.</returns>
         public bool InstanceHasFlags(ushort instanceId, CitizenInstance.Flags flags, bool all = false)

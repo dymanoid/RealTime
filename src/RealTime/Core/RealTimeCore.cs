@@ -195,7 +195,7 @@ namespace RealTime.Core
 
         /// <summary>
         /// Translates all the mod's component to a different language obtained from
-        /// the provided <paramref name="localizationProvider"/>.
+        /// the specified <paramref name="localizationProvider"/>.
         /// </summary>
         ///
         /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>

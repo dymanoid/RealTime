@@ -23,7 +23,7 @@ namespace RealTime.Events
         string BuildingName { get; }
 
         /// <summary>
-        /// Configures this event to take place in the provided building and at the provided start time.
+        /// Configures this event to take place in the specified building and at the specified start time.
         /// </summary>
         /// ///
         /// <param name="buildingId">The building ID this city event should take place in.</param>
@@ -33,7 +33,7 @@ namespace RealTime.Events
         /// <param name="startTime">The city event start time.</param>
         void Configure(ushort buildingId, string buildingName, DateTime startTime);
 
-        /// <summary>Accepts an event attendee with provided properties.</summary>
+        /// <summary>Accepts an event attendee with specified properties.</summary>
         /// <param name="age">The attendee age.</param>
         /// <param name="gender">The attendee gender.</param>
         /// <param name="education">The attendee education.</param>
@@ -42,7 +42,7 @@ namespace RealTime.Events
         /// <param name="happiness">The attendee happiness.</param>
         /// <param name="randomizer">A reference to the game's randomizer.</param>
         /// <returns>
-        /// <c>true</c> if the event attendee with provided properties is accepted and can attend
+        /// <c>true</c> if the event attendee with specified properties is accepted and can attend
         /// this city event; otherwise, <c>false</c>.
         /// </returns>
         bool TryAcceptAttendee(

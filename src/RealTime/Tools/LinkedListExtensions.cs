@@ -13,7 +13,7 @@ namespace RealTime.Tools
     internal static class LinkedListExtensions
     {
         /// <summary>
-        /// Gets the linked list's firsts node that matches the provided <paramref name="predicate"/>,
+        /// Gets the linked list's firsts node that matches the specified <paramref name="predicate"/>,
         /// or null if no matching node was found.
         /// </summary>
         ///
