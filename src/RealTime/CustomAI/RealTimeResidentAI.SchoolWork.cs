@@ -57,7 +57,12 @@ namespace RealTime.CustomAI
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
             schedule.WorkStatus = WorkStatus.Working;
 
-            if (residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, schedule.WorkBuilding)
+            if (currentBuilding == schedule.WorkBuilding && schedule.CurrentState != ResidentState.AtSchoolOrWork)
+            {
+                CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
+                CitizenProxy.SetLocation(ref citizen, Citizen.Location.Work);
+            }
+            else if (residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, schedule.WorkBuilding)
                 && schedule.CurrentState == ResidentState.AtHome)
             {
                 schedule.DepartureToWorkTime = TimeInfo.Now;
@@ -78,15 +83,20 @@ namespace RealTime.CustomAI
         private void DoScheduledLunch(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
+#if DEBUG
+            string citizenDesc = GetCitizenDesc(citizenId, ref citizen);
+#else
+            string citizenDesc = null;
+#endif
             ushort lunchPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance);
             if (lunchPlace != 0)
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going for lunch from {currentBuilding} to {lunchPlace}");
+                Log.Debug(TimeInfo.Now, $"{citizenDesc} is going for lunch from {currentBuilding} to {lunchPlace}");
                 workBehavior.ScheduleReturnFromLunch(ref schedule);
             }
             else
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted to go for lunch from {currentBuilding}, but there were no buildings close enough");
+                Log.Debug(TimeInfo.Now, $"{citizenDesc} wanted to go for lunch from {currentBuilding}, but there were no buildings close enough");
                 workBehavior.ScheduleReturnFromWork(ref schedule, CitizenProxy.GetAge(ref citizen));
             }
         }

@@ -148,7 +148,8 @@ namespace RealTime.CustomAI
         /// <returns><c>true</c> if a lunch time was scheduled; otherwise, <c>false</c>.</returns>
         public bool ScheduleLunch(ref CitizenSchedule schedule, Citizen.AgeGroup citizenAge)
         {
-            if (schedule.WorkStatus == WorkStatus.Working
+            if (timeInfo.Now < lunchBegin
+                && schedule.WorkStatus == WorkStatus.Working
                 && schedule.WorkShift == WorkShift.First
                 && WillGoToLunch(citizenAge))
             {
@@ -163,12 +164,10 @@ namespace RealTime.CustomAI
         /// <param name="schedule">The citizen's schedule to update.</param>
         public void ScheduleReturnFromLunch(ref CitizenSchedule schedule)
         {
-            if (schedule.WorkStatus != WorkStatus.Working || schedule.CurrentState != ResidentState.Shopping)
+            if (schedule.WorkStatus == WorkStatus.Working)
             {
-                return;
+                schedule.Schedule(ResidentState.AtSchoolOrWork, lunchEnd);
             }
-
-            schedule.Schedule(ResidentState.AtSchoolOrWork, lunchEnd);
         }
 
         /// <summary>Updates the citizen's work schedule by determining the time for returning from work.</summary>
