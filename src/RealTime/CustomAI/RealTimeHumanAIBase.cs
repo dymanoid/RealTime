@@ -107,66 +107,6 @@ namespace RealTime.CustomAI
         protected uint CitizenInstancesMaxCount { get; }
 
         /// <summary>
-        /// Gets the probability whether a citizen with provided age would go out on current time.
-        /// </summary>
-        ///
-        /// <param name="citizenAge">The citizen age to check.</param>
-        ///
-        /// <returns>A percentage value in range of 0..100 that describes the probability whether
-        /// a citizen with provided age would go out on current time.</returns>
-        // TODO: make this method to a part of time simulation (no need to calculate for each citizen)
-        protected uint GetGoOutChance(Citizen.AgeGroup citizenAge)
-        {
-            float currentHour = TimeInfo.CurrentHour;
-
-            uint weekdayModifier;
-            if (Config.IsWeekendEnabled)
-            {
-                weekdayModifier = TimeInfo.Now.IsWeekendTime(12f, Config.GoToSleepUpHour)
-                    ? 11u
-                    : 1u;
-            }
-            else
-            {
-                weekdayModifier = 1u;
-            }
-
-            float latestGoOutHour = Config.GoToSleepUpHour - 2f;
-            bool isDayTime = currentHour >= Config.WakeupHour && currentHour < latestGoOutHour;
-            float timeModifier;
-            if (isDayTime)
-            {
-                timeModifier = 4f;
-            }
-            else
-            {
-                float nightDuration = 24f - (latestGoOutHour - Config.WakeupHour);
-                float relativeHour = currentHour - latestGoOutHour;
-                if (relativeHour < 0)
-                {
-                    relativeHour += 24f;
-                }
-
-                timeModifier = 3f / nightDuration * (nightDuration - relativeHour);
-            }
-
-            switch (citizenAge)
-            {
-                case Citizen.AgeGroup.Child when isDayTime:
-                case Citizen.AgeGroup.Teen when isDayTime:
-                case Citizen.AgeGroup.Young:
-                case Citizen.AgeGroup.Adult:
-                    return (uint)((timeModifier + weekdayModifier) * timeModifier);
-
-                case Citizen.AgeGroup.Senior when isDayTime:
-                    return 30 + weekdayModifier;
-
-                default:
-                    return 0;
-            }
-        }
-
-        /// <summary>
         /// Ensures that the provided citizen is in a valid state and can be processed.
         /// </summary>
         ///

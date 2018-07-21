@@ -14,7 +14,7 @@ namespace RealTime.CustomAI
         private bool ScheduleRelaxing(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
             Citizen.AgeGroup citizenAge = CitizenProxy.GetAge(ref citizen);
-            if (!Random.ShouldOccur(GetGoOutChance(citizenAge)) || IsBadWeather())
+            if (!Random.ShouldOccur(spareTimeBehavior.GetGoOutChance(citizenAge)) || IsBadWeather())
             {
                 return false;
             }
@@ -101,7 +101,7 @@ namespace RealTime.CustomAI
 
             if (TimeInfo.IsNightTime)
             {
-                if (Random.ShouldOccur(GetGoOutChance(CitizenProxy.GetAge(ref citizen))))
+                if (Random.ShouldOccur(spareTimeBehavior.GetGoOutChance(CitizenProxy.GetAge(ref citizen))))
                 {
                     schedule.Hint = ScheduleHint.LocalShoppingOnly;
                     schedule.Schedule(ResidentState.Shopping, default);

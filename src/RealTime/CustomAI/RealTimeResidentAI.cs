@@ -18,6 +18,7 @@ namespace RealTime.CustomAI
     {
         private readonly ResidentAIConnection<TAI, TCitizen> residentAI;
         private readonly WorkBehavior workBehavior;
+        private readonly SpareTimeBehavior spareTimeBehavior;
         private readonly CitizenSchedule[] residentSchedules;
         private float simulationCycle;
 
@@ -27,14 +28,17 @@ namespace RealTime.CustomAI
         /// <param name="connections">A <see cref="GameConnections{T}"/> instance that provides the game connection implementation.</param>
         /// <param name="residentAI">A connection to the game's resident AI.</param>
         /// <param name="eventManager">A <see cref="RealTimeEventManager"/> instance.</param>
+        /// <param name="spareTimeBehavior">A behavior that provides simulation info for the citizens spare time.</param>
         public RealTimeResidentAI(
             RealTimeConfig config,
             GameConnections<TCitizen> connections,
             ResidentAIConnection<TAI, TCitizen> residentAI,
-            RealTimeEventManager eventManager)
+            RealTimeEventManager eventManager,
+            SpareTimeBehavior spareTimeBehavior)
             : base(config, connections, eventManager)
         {
             this.residentAI = residentAI ?? throw new ArgumentNullException(nameof(residentAI));
+            this.spareTimeBehavior = spareTimeBehavior ?? throw new ArgumentNullException(nameof(spareTimeBehavior));
             residentSchedules = new CitizenSchedule[CitizenMgr.GetMaxCitizensCount()];
             workBehavior = new WorkBehavior(config, connections.Random, connections.BuildingManager, connections.TimeInfo, GetEstimatedTravelTime);
         }
@@ -127,6 +131,7 @@ namespace RealTime.CustomAI
         /// <param name="citizenId">The citizen ID to process.</param>
         public void BeginNewDayForCitizen(uint citizenId)
         {
+            // TODO: use this method
             if (citizenId == 0)
             {
                 return;

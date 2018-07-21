@@ -16,14 +16,17 @@ namespace RealTime.Simulation
         private const uint StepMask = 0xFFF;
 
         private readonly RealTimeResidentAI<ResidentAI, Citizen> residentAI;
+        private readonly SpareTimeBehavior spareTimeBehavior;
         private int dayStartFrame;
 
         /// <summary>Initializes a new instance of the <see cref="CitizenProcessor"/> class.</summary>
         /// <param name="residentAI">The custom resident AI implementation.</param>
-        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
-        public CitizenProcessor(RealTimeResidentAI<ResidentAI, Citizen> residentAI)
+        /// <param name="spareTimeBehavior">A behavior that provides simulation info for the citizens spare time.</param>
+        /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
+        public CitizenProcessor(RealTimeResidentAI<ResidentAI, Citizen> residentAI, SpareTimeBehavior spareTimeBehavior)
         {
             this.residentAI = residentAI ?? throw new ArgumentNullException(nameof(residentAI));
+            this.spareTimeBehavior = spareTimeBehavior ?? throw new ArgumentNullException(nameof(spareTimeBehavior));
             dayStartFrame = int.MinValue;
         }
 
@@ -38,13 +41,17 @@ namespace RealTime.Simulation
         /// <param name="frameDuration">Duration of a simulation frame in hours.</param>
         public void SetFrameDuration(float frameDuration)
         {
-            residentAI.SetSimulationCyclePeriod(frameDuration * (StepMask + 1));
+            float cyclePeriod = frameDuration * (StepMask + 1);
+            residentAI.SetSimulationCyclePeriod(cyclePeriod);
+            spareTimeBehavior.SetSimulationCyclePeriod(cyclePeriod);
         }
 
         /// <summary>Processes the simulation frame.</summary>
         /// <param name="frameIndex">The index of the simulation frame to process.</param>
         public void ProcessFrame(uint frameIndex)
         {
+            spareTimeBehavior.RefreshGoOutChances();
+
             if (dayStartFrame == -1)
             {
                 return;

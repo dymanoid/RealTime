@@ -17,11 +17,13 @@ namespace RealTime.CustomAI
     /// <typeparam name="TAI">The type of the tourist AI.</typeparam>
     /// <typeparam name="TCitizen">The type of the citizen objects.</typeparam>
     /// <seealso cref="RealTimeHumanAIBase{TCitizen}" />
+    // TODO: tourist AI should be unified with resident AI where possible
     internal sealed class RealTimeTouristAI<TAI, TCitizen> : RealTimeHumanAIBase<TCitizen>
         where TAI : class
         where TCitizen : struct
     {
         private readonly TouristAIConnection<TAI, TCitizen> touristAI;
+        private readonly SpareTimeBehavior spareTimeBehavior;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RealTimeTouristAI{TAI, TCitizen}"/> class.
@@ -31,16 +33,19 @@ namespace RealTime.CustomAI
         /// <param name="connections">A <see cref="GameConnections{T}"/> instance that provides the game connection implementation.</param>
         /// <param name="touristAI">A connection to game's tourist AI.</param>
         /// <param name="eventManager">The custom event manager.</param>
+        /// <param name="spareTimeBehavior">A behavior that provides simulation info for the citizens spare time.</param>
         ///
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
         public RealTimeTouristAI(
             RealTimeConfig config,
             GameConnections<TCitizen> connections,
             TouristAIConnection<TAI, TCitizen> touristAI,
-            RealTimeEventManager eventManager)
+            RealTimeEventManager eventManager,
+            SpareTimeBehavior spareTimeBehavior)
             : base(config, connections, eventManager)
         {
             this.touristAI = touristAI ?? throw new ArgumentNullException(nameof(touristAI));
+            this.spareTimeBehavior = spareTimeBehavior ?? throw new ArgumentNullException(nameof(spareTimeBehavior));
         }
 
         /// <summary>
@@ -193,7 +198,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            if (!Random.ShouldOccur(GetGoOutChance(CitizenProxy.GetAge(ref citizen))) || IsBadWeather())
+            if (!Random.ShouldOccur(spareTimeBehavior.GetGoOutChance(CitizenProxy.GetAge(ref citizen))) || IsBadWeather())
             {
                 FindHotel(instance, citizenId, ref citizen);
                 return;
