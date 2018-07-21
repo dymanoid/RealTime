@@ -106,25 +106,26 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            ref CitizenSchedule citizenState = ref residentSchedules[citizenId];
+            ref CitizenSchedule schedule = ref residentSchedules[citizenId];
             switch (CitizenMgr.GetCitizenLocation(citizenId))
             {
                 case Citizen.Location.Work:
-                    citizenState.UpdateTravelTimeToWork(TimeInfo.Now);
-                    Log.Debug($"The citizen {citizenId} arrived at work at {TimeInfo.Now} and needs {residentSchedules[citizenId].TravelTimeToWork} hours to get to work");
+                    schedule.UpdateTravelTimeToWork(TimeInfo.Now);
+                    Log.Debug($"The citizen {citizenId} arrived at work at {TimeInfo.Now} and needs {schedule.TravelTimeToWork} hours to get to work");
                     break;
 
                 case Citizen.Location.Moving:
                     return;
             }
 
-            citizenState.DepartureToWorkTime = default;
+            schedule.DepartureToWorkTime = default;
         }
 
         /// <summary>Performs simulation for starting a new day for all citizens.</summary>
         public void BeginNewDay()
         {
             workBehavior.UpdateLunchTime();
+            todayWakeup = TimeInfo.Now.Date.AddHours(Config.WakeupHour);
         }
 
         /// <summary>Performs simulation for starting a new day for a citizen with specified ID.</summary>

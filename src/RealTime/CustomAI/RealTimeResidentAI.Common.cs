@@ -10,6 +10,8 @@ namespace RealTime.CustomAI
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
+        private DateTime todayWakeup;
+
         private enum ScheduleAction
         {
             Ignore,
@@ -128,13 +130,16 @@ namespace RealTime.CustomAI
             }
         }
 
-        private void ProcessCitizenInShelter(ref CitizenSchedule schedule, ref TCitizen citizen)
+        private bool ProcessCitizenInShelter(ref CitizenSchedule schedule, ref TCitizen citizen)
         {
             ushort shelter = CitizenProxy.GetVisitBuilding(ref citizen);
             if (BuildingMgr.BuildingHasFlags(shelter, Building.Flags.Downgrading))
             {
                 schedule.Schedule(ResidentState.Unknown, default);
+                return true;
             }
+
+            return false;
         }
 
         private ScheduleAction UpdateCitizenState(uint citizenId, ref TCitizen citizen, ref CitizenSchedule schedule)
@@ -255,37 +260,17 @@ namespace RealTime.CustomAI
                 schedule.WorkStatus = WorkStatus.None;
             }
 
-            DateTime nextActivityTime = TimeInfo.Now.FutureHour(Config.WakeupHour);
+            DateTime nextActivityTime = todayWakeup;
             if (schedule.CurrentState != ResidentState.AtSchoolOrWork && workBuilding != 0)
             {
-                DateTime workTime = ScheduleWork(ref schedule, CitizenProxy.GetCurrentBuilding(ref citizen));
-                if (schedule.ScheduledState == ResidentState.AtSchoolOrWork)
+                if (ScheduleWork(ref schedule, ref citizen))
                 {
-                    Log.Debug($"  - Schedule work at {workTime}");
-                    nextActivityTime = workTime;
+                    return;
+                }
 
-                    float timeLeft = (float)(nextActivityTime - TimeInfo.Now).TotalHours;
-                    if (timeLeft <= PrepareToWorkHours)
-                    {
-                        // Just sit at home if the work time will come soon
-                        Log.Debug($"  - Worktime in {timeLeft} hours, doing nothing");
-                        return;
-                    }
-
-                    if (timeLeft <= MaxTravelTime)
-                    {
-                        // If we have some time, try to shop locally.
-                        if (ScheduleShopping(ref schedule, ref citizen, true))
-                        {
-                            Log.Debug($"  - Worktime in {timeLeft} hours, trying local shop");
-                        }
-                        else
-                        {
-                            Log.Debug($"  - Worktime in {timeLeft} hours, doing nothing");
-                        }
-
-                        return;
-                    }
+                if (schedule.ScheduledStateTime > nextActivityTime)
+                {
+                    nextActivityTime = schedule.ScheduledStateTime;
                 }
             }
 
@@ -303,7 +288,12 @@ namespace RealTime.CustomAI
 
             if (schedule.CurrentState == ResidentState.AtHome)
             {
-                Log.Debug($"  - Scheduled sleeping at home until {nextActivityTime}");
+                if (Random.ShouldOccur(StayHomeAllDayChance))
+                {
+                    nextActivityTime = todayWakeup.FutureHour(Config.WakeupHour);
+                }
+
+                Log.Debug($"  - Schedule sleeping at home until {nextActivityTime}");
                 schedule.Schedule(ResidentState.Unknown, nextActivityTime);
             }
             else
@@ -315,7 +305,11 @@ namespace RealTime.CustomAI
 
         private void ExecuteCitizenSchedule(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            ProcessCurrentState(ref schedule, ref citizen);
+            if (ProcessCurrentState(ref schedule, ref citizen) && schedule.ScheduledState == ResidentState.Unknown)
+            {
+                // If the state processing changed the schedule, we need to update it
+                UpdateCitizenSchedule(ref schedule, citizenId, ref citizen);
+            }
 
             if (TimeInfo.Now < schedule.ScheduledStateTime)
             {
@@ -357,26 +351,26 @@ namespace RealTime.CustomAI
             }
         }
 
-        private void ProcessCurrentState(ref CitizenSchedule schedule, ref TCitizen citizen)
+        private bool ProcessCurrentState(ref CitizenSchedule schedule, ref TCitizen citizen)
         {
             switch (schedule.CurrentState)
             {
                 case ResidentState.Shopping:
                     ProcessCitizenShopping(ref citizen);
-                    break;
+                    return false;
 
                 case ResidentState.Relaxing:
                     ProcessCitizenRelaxing(ref citizen);
-                    break;
+                    return false;
 
                 case ResidentState.Visiting:
-                    ProcessCitizenVisit(ref schedule, ref citizen);
-                    break;
+                    return ProcessCitizenVisit(ref schedule, ref citizen);
 
                 case ResidentState.InShelter:
-                    ProcessCitizenInShelter(ref schedule, ref citizen);
-                    break;
+                    return ProcessCitizenInShelter(ref schedule, ref citizen);
             }
+
+            return false;
         }
 
         private bool ShouldRealizeCitizen(TAI ai)

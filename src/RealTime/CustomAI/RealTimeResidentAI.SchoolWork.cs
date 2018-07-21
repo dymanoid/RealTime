@@ -4,17 +4,52 @@
 
 namespace RealTime.CustomAI
 {
-    using System;
     using RealTime.Tools;
     using static Constants;
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
-        private DateTime ScheduleWork(ref CitizenSchedule schedule, ushort currentBuilding)
+        private bool ScheduleWork(ref CitizenSchedule schedule, ref TCitizen citizen)
         {
-            return workBehavior.ScheduleGoToWork(ref schedule, currentBuilding, simulationCycle)
-                ? schedule.ScheduledStateTime
-                : default;
+            ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
+            if (!workBehavior.ScheduleGoToWork(ref schedule, currentBuilding, simulationCycle))
+            {
+                return false;
+            }
+
+            Log.Debug($"  - Schedule work at {schedule.ScheduledStateTime}");
+
+            float timeLeft = (float)(schedule.ScheduledStateTime - TimeInfo.Now).TotalHours;
+            if (timeLeft <= PrepareToWorkHours)
+            {
+                // Just sit at home if the work time will come soon
+                Log.Debug($"  - Worktime in {timeLeft} hours, doing nothing");
+                return true;
+            }
+
+            if (timeLeft <= MaxTravelTime)
+            {
+                if (schedule.CurrentState != ResidentState.AtHome)
+                {
+                    Log.Debug($"  - Worktime in {timeLeft} hours, returning home");
+                    schedule.Schedule(ResidentState.AtHome, default);
+                    return true;
+                }
+
+                // If we have some time, try to shop locally.
+                if (ScheduleShopping(ref schedule, ref citizen, true))
+                {
+                    Log.Debug($"  - Worktime in {timeLeft} hours, trying local shop");
+                }
+                else
+                {
+                    Log.Debug($"  - Worktime in {timeLeft} hours, doing nothing");
+                }
+
+                return true;
+            }
+
+            return false;
         }
 
         private void DoScheduledWork(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)

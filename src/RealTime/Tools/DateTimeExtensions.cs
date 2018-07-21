@@ -78,7 +78,7 @@ namespace RealTime.Tools
             }
 
             float delta = hour - (float)dateTime.TimeOfDay.TotalHours;
-            return delta >= 0
+            return delta > 0
                 ? dateTime.AddHours(delta)
                 : dateTime.AddHours(24f + delta);
         }
