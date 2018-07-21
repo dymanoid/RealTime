@@ -54,9 +54,14 @@ namespace RealTime.Simulation
         {
             WeatherInfo?.Update();
             EventManager?.ProcessEvents();
-            if (TimeAdjustment != null && TimeAdjustment.Update())
+
+            if (CitizenProcessor != null)
             {
-                CitizenProcessor?.SetFrameDuration(TimeAdjustment.HoursPerFrame);
+                CitizenProcessor.ProcessTick();
+                if (TimeAdjustment != null && TimeAdjustment.Update())
+                {
+                    CitizenProcessor.SetFrameDuration(TimeAdjustment.HoursPerFrame);
+                }
             }
 
             DateTime currentDate = SimulationManager.instance.m_currentGameTime.Date;

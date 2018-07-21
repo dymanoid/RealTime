@@ -46,12 +46,16 @@ namespace RealTime.Simulation
             spareTimeBehavior.SetSimulationCyclePeriod(cyclePeriod);
         }
 
+        /// <summary>Processes the simulation tick.</summary>
+        public void ProcessTick()
+        {
+            spareTimeBehavior.RefreshGoOutChances();
+        }
+
         /// <summary>Processes the simulation frame.</summary>
         /// <param name="frameIndex">The index of the simulation frame to process.</param>
         public void ProcessFrame(uint frameIndex)
         {
-            spareTimeBehavior.RefreshGoOutChances();
-
             if (dayStartFrame == -1)
             {
                 return;
