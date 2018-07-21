@@ -253,7 +253,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            Log.Debug(TimeInfo.Now, $"Calculating schedule for {GetCitizenDesc(citizenId, ref citizen)}...");
+            Log.Debug(TimeInfo.Now, $"Scheduling for {GetCitizenDesc(citizenId, ref citizen)}...");
 
             if (schedule.WorkStatus == WorkStatus.Working)
             {
@@ -307,6 +307,8 @@ namespace RealTime.CustomAI
         {
             if (ProcessCurrentState(ref schedule, ref citizen) && schedule.ScheduledState == ResidentState.Unknown)
             {
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} will be rescheduled now");
+
                 // If the state processing changed the schedule, we need to update it
                 UpdateCitizenSchedule(ref schedule, citizenId, ref citizen);
             }

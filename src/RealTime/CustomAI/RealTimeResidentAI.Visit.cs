@@ -48,7 +48,11 @@ namespace RealTime.CustomAI
                     schedule.Schedule(ResidentState.Unknown, default);
 
                     ushort leisure = MoveToLeisureBuilding(instance, citizenId, ref citizen, buildingId);
-                    if (leisure != 0)
+                    if (leisure == 0)
+                    {
+                        Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted relax but didn't found a leisure building");
+                    }
+                    else
                     {
                         Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} heading to a leisure building {leisure}");
                     }
@@ -131,6 +135,10 @@ namespace RealTime.CustomAI
                 {
                     Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go shopping, but didn't find a local shop");
                 }
+                else
+                {
+                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} goes shopping at a local shop {shop}");
+                }
             }
             else
             {
@@ -179,6 +187,7 @@ namespace RealTime.CustomAI
                     && TimeInfo.IsNightTime
                     && BuildingMgr.IsBuildingNoiseRestricted(visitBuilding)))
             {
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} quits a visit (see next line for citizen ID)");
                 schedule.Schedule(ResidentState.Unknown, default);
                 return true;
             }
