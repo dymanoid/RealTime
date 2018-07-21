@@ -70,7 +70,7 @@ namespace RealTime.Config
             var serializer = new XmlSerializer(typeof(RealTimeConfig));
             using (var sr = new StreamReader(SettingsFileName))
             {
-                return ((RealTimeConfig)serializer.Deserialize(sr)).Validate();
+                return ((RealTimeConfig)serializer.Deserialize(sr)).MigrateWhenNecessary().Validate();
             }
         }
 

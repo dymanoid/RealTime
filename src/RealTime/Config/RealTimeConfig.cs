@@ -18,6 +18,9 @@ namespace RealTime.Config
             ResetToDefaults();
         }
 
+        /// <summary>Gets or sets the version number of this configuration.</summary>
+        public int Version { get; set; }
+
         /// <summary>
         /// Gets or sets the daytime hour when the city wakes up.
         /// </summary>
@@ -96,7 +99,7 @@ namespace RealTime.Config
         /// Valid values are 1..8.
         /// </summary>
         [ConfigItem("2Quotas", 0)]
-        [ConfigItemSlider(1, 8, DisplayMultiplier = 3.125f)]
+        [ConfigItemSlider(1, 25)]
         public uint SecondShiftQuota { get; set; }
 
         /// <summary>
@@ -104,15 +107,15 @@ namespace RealTime.Config
         /// Valid values are 1..8.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "NightShift", Justification = "Reviewed")]
-        [ConfigItem("2Quotas", 0)]
-        [ConfigItemSlider(1, 8, DisplayMultiplier = 3.125f)]
+        [ConfigItem("2Quotas", 1)]
+        [ConfigItemSlider(1, 25)]
         public uint NightShiftQuota { get; set; }
 
         /// <summary>
         /// Gets or sets the percentage of the Cims that will go out for lunch.
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 0)]
+        [ConfigItem("2Quotas", 2)]
         [ConfigItemSlider(0, 100)]
         public uint LunchQuota { get; set; }
 
@@ -120,7 +123,7 @@ namespace RealTime.Config
         /// Gets or sets the percentage of the population that will search locally for buildings.
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 1)]
+        [ConfigItem("2Quotas", 3)]
         [ConfigItemSlider(0, 100)]
         public uint LocalBuildingSearchQuota { get; set; }
 
@@ -129,7 +132,7 @@ namespace RealTime.Config
         /// on time (no overtime!).
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 2)]
+        [ConfigItem("2Quotas", 4)]
         [ConfigItemSlider(0, 100)]
         public uint OnTimeQuota { get; set; }
 
@@ -212,6 +215,20 @@ namespace RealTime.Config
         [ConfigItemSlider(11, 16, 0.25f, SliderValueType.Time)]
         public float SchoolEnd { get; set; }
 
+        /// <summary>Checks the version of the deserialized object and migrates it to the latest version when necessary.</summary>
+        /// <returns>This instance.</returns>
+        public RealTimeConfig MigrateWhenNecessary()
+        {
+            if (Version == 0)
+            {
+                SecondShiftQuota = (uint)(SecondShiftQuota * 3.125f);
+                NightShiftQuota = (uint)(NightShiftQuota * 3.125f);
+            }
+
+            Version = 1;
+            return this;
+        }
+
         /// <summary>Validates this instance and corrects possible invalid property values.</summary>
         /// <returns>This instance.</returns>
         public RealTimeConfig Validate()
@@ -225,8 +242,8 @@ namespace RealTime.Config
             VirtualCitizens = (VirtualCitizensLevel)RealTimeMath.Clamp((int)VirtualCitizens, (int)VirtualCitizensLevel.None, (int)VirtualCitizensLevel.Many);
             ConstructionSpeed = RealTimeMath.Clamp(ConstructionSpeed, 0u, 100u);
 
-            SecondShiftQuota = RealTimeMath.Clamp(SecondShiftQuota, 1u, 8u);
-            NightShiftQuota = RealTimeMath.Clamp(NightShiftQuota, 1u, 8u);
+            SecondShiftQuota = RealTimeMath.Clamp(SecondShiftQuota, 1u, 25u);
+            NightShiftQuota = RealTimeMath.Clamp(NightShiftQuota, 1u, 25u);
             LunchQuota = RealTimeMath.Clamp(LunchQuota, 0u, 100u);
             LocalBuildingSearchQuota = RealTimeMath.Clamp(LocalBuildingSearchQuota, 0u, 100u);
             OnTimeQuota = RealTimeMath.Clamp(OnTimeQuota, 0u, 100u);
@@ -273,8 +290,8 @@ namespace RealTime.Config
             StopConstructionAtNight = true;
             ConstructionSpeed = 50;
 
-            SecondShiftQuota = 4;
-            NightShiftQuota = 2;
+            SecondShiftQuota = 13;
+            NightShiftQuota = 6;
 
             LunchQuota = 80;
             LocalBuildingSearchQuota = 60;
