@@ -133,7 +133,7 @@ namespace RealTime.CustomAI
 
             DateTime workEndTime = now.FutureHour(schedule.WorkShiftEndHour);
             DateTime departureTime = now.AddHours(travelTime + simulationCycle) < workEndTime
-                ? default
+                ? now
                 : now.FutureHour(schedule.WorkShiftStartHour - travelTime - simulationCycle);
 
             schedule.Schedule(ResidentState.AtSchoolOrWork, departureTime);
