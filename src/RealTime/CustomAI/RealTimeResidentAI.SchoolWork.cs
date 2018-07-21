@@ -23,7 +23,7 @@ namespace RealTime.CustomAI
             if (timeLeft <= PrepareToWorkHours)
             {
                 // Just sit at home if the work time will come soon
-                Log.Debug($"  - Worktime in {timeLeft} hours, doing nothing");
+                Log.Debug($"  - Worktime in {timeLeft} hours, preparing for departure");
                 return true;
             }
 
@@ -63,11 +63,14 @@ namespace RealTime.CustomAI
                 schedule.DepartureToWorkTime = TimeInfo.Now;
             }
 
-            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} to school/work {schedule.WorkBuilding}");
-
             Citizen.AgeGroup citizenAge = CitizenProxy.GetAge(ref citizen);
-            if (!workBehavior.ScheduleLunch(ref schedule, citizenAge))
+            if (workBehavior.ScheduleLunch(ref schedule, citizenAge))
             {
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} to school/work {schedule.WorkBuilding} and will go to lunch at {schedule.ScheduledStateTime}");
+            }
+            else
+            {
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} to school/work {schedule.WorkBuilding} and will leave work at {schedule.ScheduledStateTime}");
                 workBehavior.ScheduleReturnFromWork(ref schedule, citizenAge);
             }
         }

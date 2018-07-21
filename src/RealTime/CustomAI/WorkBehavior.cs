@@ -132,9 +132,11 @@ namespace RealTime.CustomAI
             float travelTime = GetTravelTimeToWork(ref schedule, currentBuilding);
 
             DateTime workEndTime = now.FutureHour(schedule.WorkShiftEndHour);
-            DateTime departureTime = now.AddHours(travelTime + simulationCycle) < workEndTime
-                ? now
-                : now.FutureHour(schedule.WorkShiftStartHour - travelTime - simulationCycle);
+            DateTime departureTime = now.FutureHour(schedule.WorkShiftStartHour - travelTime - simulationCycle);
+            if (departureTime > workEndTime && now.AddHours(travelTime + simulationCycle) < workEndTime)
+            {
+                departureTime = now;
+            }
 
             schedule.Schedule(ResidentState.AtSchoolOrWork, departureTime);
             return true;
@@ -147,7 +149,6 @@ namespace RealTime.CustomAI
         public bool ScheduleLunch(ref CitizenSchedule schedule, Citizen.AgeGroup citizenAge)
         {
             if (schedule.WorkStatus == WorkStatus.Working
-                && schedule.CurrentState == ResidentState.AtSchoolOrWork
                 && schedule.WorkShift == WorkShift.First
                 && WillGoToLunch(citizenAge))
             {
