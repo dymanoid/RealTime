@@ -99,31 +99,23 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            if (TimeInfo.IsNightTime)
+            if (!Random.ShouldOccur(spareTimeBehavior.GetGoOutChance(CitizenProxy.GetAge(ref citizen)))
+                || !Random.ShouldOccur(GoShoppingChance))
             {
-                if (Random.ShouldOccur(spareTimeBehavior.GetGoOutChance(CitizenProxy.GetAge(ref citizen))))
-                {
-                    schedule.Hint = ScheduleHint.LocalShoppingOnly;
-                    schedule.Schedule(ResidentState.Shopping, default);
-                    return true;
-                }
-
                 return false;
             }
 
-            schedule.Hint = ScheduleHint.None;
-            if (Random.ShouldOccur(GoShoppingChance))
+            if (TimeInfo.IsNightTime || localOnly || Random.ShouldOccur(Config.LocalBuildingSearchQuota))
             {
-                if (localOnly || Random.ShouldOccur(Config.LocalBuildingSearchQuota))
-                {
-                    schedule.Hint = ScheduleHint.LocalShoppingOnly;
-                }
-
-                schedule.Schedule(ResidentState.Shopping, default);
-                return true;
+                schedule.Hint = ScheduleHint.LocalShoppingOnly;
+            }
+            else
+            {
+                schedule.Hint = ScheduleHint.None;
             }
 
-            return false;
+            schedule.Schedule(ResidentState.Shopping, default);
+            return true;
         }
 
         private void DoScheduledShopping(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
@@ -173,10 +165,14 @@ namespace RealTime.CustomAI
             CitizenProxy.RemoveFlags(ref citizen, Citizen.Flags.NeedGoods);
         }
 
-        private void ProcessCitizenVisit(ref CitizenSchedule schedule, ref TCitizen citizen)
+        private bool ProcessCitizenVisit(ref CitizenSchedule schedule, ref TCitizen citizen)
         {
-            ushort visitBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
+            if (schedule.ScheduledState != ResidentState.Unknown)
+            {
+                return false;
+            }
 
+            ushort visitBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
             if (schedule.Hint == ScheduleHint.OnTour
                 || Random.ShouldOccur(ReturnFromVisitChance)
                 || (BuildingMgr.GetBuildingSubService(visitBuilding) == ItemClass.SubService.CommercialLeisure
@@ -184,11 +180,10 @@ namespace RealTime.CustomAI
                     && BuildingMgr.IsBuildingNoiseRestricted(visitBuilding)))
             {
                 schedule.Schedule(ResidentState.Unknown, default);
+                return true;
             }
-            else
-            {
-                schedule.Schedule(ResidentState.Visiting, default);
-            }
+
+            return false;
         }
 
         private bool IsBuildingNoiseRestricted(ushort building)
