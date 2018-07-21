@@ -234,20 +234,21 @@ namespace RealTime.CustomAI
 
         private void UpdateCitizenSchedule(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
+            Log.Debug(TimeInfo.Now, $"Calculating schedule for {GetCitizenDesc(citizenId, ref citizen)}...");
+
             // If the game changed the work building, we have to update the work shifts first
             ushort workBuilding = CitizenProxy.GetWorkBuilding(ref citizen);
             if (schedule.WorkBuilding != workBuilding)
             {
                 schedule.WorkBuilding = workBuilding;
                 workBehavior.UpdateWorkShift(ref schedule, CitizenProxy.GetAge(ref citizen));
+                Log.Debug($"  - Updated work shifts: work shift {schedule.WorkShift}, {schedule.WorkShiftStartHour} - {schedule.WorkShiftEndHour}, weekends: {schedule.WorksOnWeekends}");
             }
 
             if (schedule.ScheduledState != ResidentState.Unknown)
             {
                 return;
             }
-
-            Log.Debug($"Calculating schedule for citizen instance {CitizenProxy.GetInstance(ref citizen)}...");
 
             if (schedule.WorkStatus == WorkStatus.Working)
             {
@@ -274,8 +275,15 @@ namespace RealTime.CustomAI
                     if (timeLeft <= MaxTravelTime)
                     {
                         // If we have some time, try to shop locally.
-                        Log.Debug($"  - Worktime in {timeLeft} hours, trying local shop");
-                        ScheduleShopping(ref schedule, ref citizen, true);
+                        if (ScheduleShopping(ref schedule, ref citizen, true))
+                        {
+                            Log.Debug($"  - Worktime in {timeLeft} hours, trying local shop");
+                        }
+                        else
+                        {
+                            Log.Debug($"  - Worktime in {timeLeft} hours, doing nothing");
+                        }
+
                         return;
                     }
                 }
