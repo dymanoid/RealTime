@@ -123,14 +123,20 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            if (config.IsWeekendEnabled && timeInfo.Now.IsWeekend() && !schedule.WorksOnWeekends)
+            DateTime now = timeInfo.Now;
+            if (config.IsWeekendEnabled && now.IsWeekend() && !schedule.WorksOnWeekends)
             {
                 return false;
             }
 
             float travelTime = GetTravelTimeToWork(ref schedule, currentBuilding);
-            float departureHour = schedule.WorkShiftStartHour - travelTime - simulationCycle;
-            schedule.Schedule(ResidentState.AtSchoolOrWork, timeInfo.Now.FutureHour(departureHour));
+
+            DateTime workEndTime = now.FutureHour(schedule.WorkShiftEndHour);
+            DateTime departureTime = now.AddHours(travelTime + simulationCycle) < workEndTime
+                ? default
+                : now.FutureHour(schedule.WorkShiftStartHour - travelTime - simulationCycle);
+
+            schedule.Schedule(ResidentState.AtSchoolOrWork, departureTime);
             return true;
         }
 
