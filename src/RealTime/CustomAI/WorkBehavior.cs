@@ -91,7 +91,7 @@ namespace RealTime.CustomAI
             }
 
             ItemClass.SubService buildingSubService = buildingManager.GetBuildingSubService(schedule.WorkBuilding);
-            switch (schedule.WorkShift)
+            switch (workShift)
             {
                 case WorkShift.First when HasExtendedFirstWorkShift(buildingSevice, buildingSubService):
                     workBegin = Math.Min(config.WakeupHour, EarliestWakeUp);
