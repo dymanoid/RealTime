@@ -82,7 +82,7 @@ namespace RealTime.CustomAI
             chances[(int)Citizen.AgeGroup.Teen] = isDayTime ? defaultChance : 0;
             chances[(int)Citizen.AgeGroup.Young] = defaultChance;
             chances[(int)Citizen.AgeGroup.Adult] = defaultChance;
-            chances[(int)Citizen.AgeGroup.Senior] = defaultChance;
+            chances[(int)Citizen.AgeGroup.Senior] = isDayTime ? defaultChance : 0;
 
             if (dump)
             {
