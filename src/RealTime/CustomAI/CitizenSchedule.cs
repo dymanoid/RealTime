@@ -110,7 +110,10 @@ namespace RealTime.CustomAI
             target[0] = (byte)(((int)WorkShift & 0xF) + ((int)WorkStatus << 4));
             target[1] = (byte)ScheduledState;
 
-            ushort minutes = (ushort)((ScheduledStateTime.Ticks - referenceTime) / TimeSpan.TicksPerMinute);
+            ushort minutes = ScheduledStateTime == default
+                ? (ushort)0
+                : (ushort)((ScheduledStateTime.Ticks - referenceTime) / TimeSpan.TicksPerMinute);
+
             target[2] = (byte)(minutes & 0xFF);
             target[3] = (byte)(minutes >> 8);
 
@@ -129,7 +132,9 @@ namespace RealTime.CustomAI
             ScheduledState = (ResidentState)source[1];
 
             int minutes = source[2] + (source[3] << 8);
-            ScheduledStateTime = new DateTime((minutes * TimeSpan.TicksPerMinute) + referenceTime);
+            ScheduledStateTime = minutes == 0
+                ? default
+                : new DateTime((minutes * TimeSpan.TicksPerMinute) + referenceTime);
 
             int travelTime = source[4] + (source[5] << 8);
             TravelTimeToWork = travelTime / TravelTimeMultiplier;
