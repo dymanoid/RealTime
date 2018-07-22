@@ -60,7 +60,7 @@ namespace RealTime.CustomAI
             float timeModifier;
             if (isDayTime)
             {
-                timeModifier = RealTimeMath.Clamp((currentHour - config.WakeupHour) * 2f, 0, 4f);
+                timeModifier = RealTimeMath.Clamp(currentHour - config.WakeupHour, 0, 4f);
             }
             else
             {
