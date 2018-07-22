@@ -254,7 +254,7 @@ namespace RealTime.CustomAI
         /// <returns>An estimated travel time in hours.</returns>
         protected float GetEstimatedTravelTime(ushort building1, ushort building2)
         {
-            if (building1 == 0 || building2 == 0)
+            if (building1 == 0 || building2 == 0 || building1 == building2)
             {
                 return 0;
             }

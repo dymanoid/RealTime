@@ -23,12 +23,6 @@ namespace RealTime.CustomAI
         /// <summary>A chance in percent for a citizen to go shopping.</summary>
         public const uint GoShoppingChance = 80;
 
-        /// <summary>A chance in percent for a citizen to return shopping.</summary>
-        public const uint ReturnFromShoppingChance = 75;
-
-        /// <summary>A chance in percent for a citizen to return from a visited building.</summary>
-        public const uint ReturnFromVisitChance = 50;
-
         /// <summary>A chance in percent for a citizen to go to sleep when he or she is at home and doesn't go out.</summary>
         public const uint GoSleepingChance = 75;
 

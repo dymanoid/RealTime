@@ -78,8 +78,7 @@ namespace RealTime.CustomAI
                 case ScheduleAction.Ignore:
                     return;
 
-                case ScheduleAction.ProcessTransition:
-                    ProcessCitizenMoving(instance, citizenId, ref citizen);
+                case ScheduleAction.ProcessTransition when ProcessCitizenMoving(ref schedule, instance, citizenId, ref citizen):
                     return;
             }
 

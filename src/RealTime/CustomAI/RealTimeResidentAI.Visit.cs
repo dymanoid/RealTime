@@ -76,7 +76,8 @@ namespace RealTime.CustomAI
                     return;
             }
 
-            ResidentState nextState = Random.ShouldOccur(ReturnFromVisitChance)
+            uint relaxChance = spareTimeBehavior.GetGoOutChance(CitizenProxy.GetAge(ref citizen));
+            ResidentState nextState = Random.ShouldOccur(relaxChance)
                     ? ResidentState.Unknown
                     : ResidentState.Relaxing;
 
@@ -84,12 +85,12 @@ namespace RealTime.CustomAI
 
             if (schedule.CurrentState != ResidentState.Relaxing)
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanna relax, heading to an entertainment building.");
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna relax and then schedules {nextState}, heading to an entertainment building.");
                 residentAI.FindVisitPlace(instance, citizenId, buildingId, residentAI.GetEntertainmentReason(instance));
             }
         }
 
-        private void ProcessCitizenRelaxing(ref TCitizen citizen)
+        private bool ProcessCitizenRelaxing(ref CitizenSchedule schedule, ref TCitizen citizen)
         {
             ushort currentBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
             if (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods)
@@ -98,6 +99,8 @@ namespace RealTime.CustomAI
                 // No Citizen.Flags.NeedGoods flag reset here, because we only bought 'beer' or 'champagne' in a leisure building.
                 BuildingMgr.ModifyMaterialBuffer(currentBuilding, TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
             }
+
+            return RescheduleVisit(ref schedule, ref citizen, currentBuilding);
         }
 
         private bool ScheduleShopping(ref CitizenSchedule schedule, ref TCitizen citizen, bool localOnly)
@@ -146,7 +149,8 @@ namespace RealTime.CustomAI
             }
             else
             {
-                ResidentState nextState = Random.ShouldOccur(ReturnFromShoppingChance)
+                uint moreShoppingChance = spareTimeBehavior.GetGoOutChance(CitizenProxy.GetAge(ref citizen));
+                ResidentState nextState = Random.ShouldOccur(moreShoppingChance)
                     ? ResidentState.Unknown
                     : ResidentState.Shopping;
 
@@ -154,57 +158,96 @@ namespace RealTime.CustomAI
 
                 if (schedule.CurrentState != ResidentState.Shopping)
                 {
-                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanna go shopping, heading to a random shop");
+                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna go shopping and schedules {nextState}, heading to a random shop");
                     residentAI.FindVisitPlace(instance, citizenId, currentBuilding, residentAI.GetShoppingReason(instance));
                 }
             }
         }
 
-        private void ProcessCitizenShopping(ref TCitizen citizen)
+        private bool ProcessCitizenShopping(ref CitizenSchedule schedule, ref TCitizen citizen)
         {
-            if (!CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods))
+            ushort currentBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
+            if (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods) && currentBuilding != 0)
             {
-                return;
+                BuildingMgr.ModifyMaterialBuffer(currentBuilding, TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
+                CitizenProxy.RemoveFlags(ref citizen, Citizen.Flags.NeedGoods);
             }
 
-            ushort shop = CitizenProxy.GetVisitBuilding(ref citizen);
-            if (shop == 0)
-            {
-                return;
-            }
-
-            BuildingMgr.ModifyMaterialBuffer(shop, TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
-            CitizenProxy.RemoveFlags(ref citizen, Citizen.Flags.NeedGoods);
+            return RescheduleVisit(ref schedule, ref citizen, currentBuilding);
         }
 
         private bool ProcessCitizenVisit(ref CitizenSchedule schedule, ref TCitizen citizen)
         {
-            if (schedule.ScheduledState != ResidentState.Unknown)
+            if (schedule.Hint == ScheduleHint.OnTour)
+            {
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} quits a tour (see next line for citizen ID)");
+                schedule.Schedule(ResidentState.Unknown, default);
+                return true;
+            }
+
+            return RescheduleVisit(ref schedule, ref citizen, CitizenProxy.GetVisitBuilding(ref citizen));
+        }
+
+        private bool IsBuildingNoiseRestricted(ushort targetBuilding, ushort currentBuilding)
+        {
+            if (BuildingMgr.GetBuildingSubService(targetBuilding) != ItemClass.SubService.CommercialLeisure)
             {
                 return false;
             }
 
-            ushort visitBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
-            if (schedule.Hint == ScheduleHint.OnTour
-                || Random.ShouldOccur(ReturnFromVisitChance)
-                || (BuildingMgr.GetBuildingSubService(visitBuilding) == ItemClass.SubService.CommercialLeisure
-                    && TimeInfo.IsNightTime
-                    && BuildingMgr.IsBuildingNoiseRestricted(visitBuilding)))
+            float currentHour = TimeInfo.CurrentHour;
+            if (currentHour >= Config.GoToSleepUpHour || currentHour <= Config.WakeupHour)
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} quits a visit (see next line for citizen ID)");
-                schedule.Schedule(ResidentState.Unknown, default);
-                return true;
+                return BuildingMgr.IsBuildingNoiseRestricted(targetBuilding);
+            }
+
+            float travelTime = GetEstimatedTravelTime(currentBuilding, targetBuilding);
+            if (travelTime == 0)
+            {
+                return false;
+            }
+
+            float arriveHour = (float)TimeInfo.Now.AddHours(travelTime).TimeOfDay.TotalHours;
+            if (arriveHour >= Config.GoToSleepUpHour || arriveHour <= Config.WakeupHour)
+            {
+                return BuildingMgr.IsBuildingNoiseRestricted(targetBuilding);
             }
 
             return false;
         }
 
-        private bool IsBuildingNoiseRestricted(ushort building)
+        private bool RescheduleVisit(ref CitizenSchedule schedule, ref TCitizen citizen, ushort currentBuilding)
         {
-            float arriveHour = (float)TimeInfo.Now.AddHours(MaxTravelTime).TimeOfDay.TotalHours;
-            return (arriveHour >= Config.GoToSleepUpHour || TimeInfo.CurrentHour >= Config.GoToSleepUpHour
-                || arriveHour <= Config.WakeupHour || TimeInfo.CurrentHour <= Config.WakeupHour)
-                && BuildingMgr.IsBuildingNoiseRestricted(building);
+            if (schedule.ScheduledState != ResidentState.Relaxing
+                && schedule.ScheduledState != ResidentState.Shopping
+                && schedule.ScheduledState != ResidentState.Visiting)
+            {
+                return false;
+            }
+
+            if (IsBadWeather())
+            {
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} quits a visit because of bad weather (see next line for citizen ID)");
+                schedule.Schedule(ResidentState.AtHome, default);
+                return true;
+            }
+
+            if (IsBuildingNoiseRestricted(currentBuilding, currentBuilding))
+            {
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} quits a visit because of NIMBY policy (see next line for citizen ID)");
+                schedule.Schedule(ResidentState.Unknown, default);
+                return true;
+            }
+
+            uint stayChance = spareTimeBehavior.GetGoOutChance(CitizenProxy.GetAge(ref citizen));
+            if (!Random.ShouldOccur(stayChance))
+            {
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} quits a visit because of time (see next line for citizen ID)");
+                schedule.Schedule(ResidentState.AtHome, default);
+                return true;
+            }
+
+            return false;
         }
     }
 }

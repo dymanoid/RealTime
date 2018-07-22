@@ -9,7 +9,7 @@ namespace RealTime.CustomAI
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
-        private void ProcessCitizenMoving(TAI instance, uint citizenId, ref TCitizen citizen)
+        private bool ProcessCitizenMoving(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
         {
             ushort instanceId = CitizenProxy.GetInstance(ref citizen);
             ushort vehicleId = CitizenProxy.GetVehicle(ref citizen);
@@ -24,52 +24,53 @@ namespace RealTime.CustomAI
                 if (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.MovingIn))
                 {
                     CitizenMgr.ReleaseCitizen(citizenId);
-                    residentSchedules[citizenId] = default;
+                    schedule = default;
                 }
                 else
                 {
                     CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
                     CitizenProxy.SetArrested(ref citizen, false);
+                    schedule.Schedule(ResidentState.Unknown, default);
                 }
 
-                return;
+                return true;
             }
 
             if (vehicleId == 0 && CitizenMgr.IsAreaEvacuating(instanceId) && !CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating))
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} was on the way, but the area evacuates. Finding an evacuation place.");
+                schedule.Schedule(ResidentState.Unknown, default);
                 TransferMgr.AddOutgoingOfferFromCurrentPosition(citizenId, residentAI.GetEvacuationReason(instance, 0));
-                return;
+                return true;
             }
 
             ushort targetBuilding = CitizenMgr.GetTargetBuilding(instanceId);
             if (targetBuilding == CitizenProxy.GetWorkBuilding(ref citizen))
             {
-                return;
+                return true;
             }
 
             ItemClass.Service targetService = BuildingMgr.GetBuildingService(targetBuilding);
             if (targetService == ItemClass.Service.Beautification && IsBadWeather())
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} cancels the trip to a park due to bad weather");
-                ushort home = CitizenProxy.GetHomeBuilding(ref citizen);
-                if (home != 0)
-                {
-                    residentAI.StartMoving(instance, citizenId, ref citizen, 0, home);
-                }
+                schedule.Schedule(ResidentState.AtHome, default);
+                return false;
             }
+
+            return true;
         }
 
         private ushort MoveToCommercialBuilding(TAI instance, uint citizenId, ref TCitizen citizen, float distance)
         {
-            ushort buildingId = CitizenProxy.GetCurrentBuilding(ref citizen);
-            if (buildingId == 0)
+            ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
+            if (currentBuilding == 0)
             {
                 return 0;
             }
 
-            ushort foundBuilding = BuildingMgr.FindActiveBuilding(buildingId, distance, ItemClass.Service.Commercial);
-            if (IsBuildingNoiseRestricted(foundBuilding))
+            ushort foundBuilding = BuildingMgr.FindActiveBuilding(currentBuilding, distance, ItemClass.Service.Commercial);
+            if (IsBuildingNoiseRestricted(foundBuilding, currentBuilding))
             {
                 Log.Debug($"Citizen {citizenId} won't go to the commercial building {foundBuilding}, it has a NIMBY policy");
                 return 0;
@@ -89,15 +90,15 @@ namespace RealTime.CustomAI
             return foundBuilding;
         }
 
-        private ushort MoveToLeisureBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort buildingId)
+        private ushort MoveToLeisureBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort currentBuilding)
         {
             ushort leisureBuilding = BuildingMgr.FindActiveBuilding(
-                buildingId,
+                currentBuilding,
                 LeisureSearchDistance,
                 ItemClass.Service.Commercial,
                 ItemClass.SubService.CommercialLeisure);
 
-            if (IsBuildingNoiseRestricted(leisureBuilding))
+            if (IsBuildingNoiseRestricted(leisureBuilding, currentBuilding))
             {
                 Log.Debug($"Citizen {citizenId} won't go to the leisure building {leisureBuilding}, it has a NIMBY policy");
                 return 0;

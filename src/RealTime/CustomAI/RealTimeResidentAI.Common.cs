@@ -214,6 +214,8 @@ namespace RealTime.CustomAI
                     switch (buildingService)
                     {
                         case ItemClass.Service.Beautification:
+                        case ItemClass.Service.Monument:
+                        case ItemClass.Service.Tourism:
                         case ItemClass.Service.Commercial
                             when BuildingMgr.GetBuildingSubService(currentBuilding) == ItemClass.SubService.CommercialLeisure
                                 && schedule.WorkStatus != WorkStatus.Working:
@@ -370,12 +372,10 @@ namespace RealTime.CustomAI
             switch (schedule.CurrentState)
             {
                 case ResidentState.Shopping:
-                    ProcessCitizenShopping(ref citizen);
-                    return false;
+                    return ProcessCitizenShopping(ref schedule, ref citizen);
 
                 case ResidentState.Relaxing:
-                    ProcessCitizenRelaxing(ref citizen);
-                    return false;
+                    return ProcessCitizenRelaxing(ref schedule, ref citizen);
 
                 case ResidentState.Visiting:
                     return ProcessCitizenVisit(ref schedule, ref citizen);
