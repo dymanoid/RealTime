@@ -228,7 +228,7 @@ namespace RealTime.Events
             lastProcessed = timeInfo.Now;
 
             Update();
-            if (upcomingEvents.Count >= MaximumEventsCount)
+            if (upcomingEvents.Count >= MaximumEventsCount || !config.AreEventsEnabled)
             {
                 return;
             }
@@ -404,6 +404,11 @@ namespace RealTime.Events
 
         private bool MustCancelEvent(ICityEvent cityEvent)
         {
+            if (!config.AreEventsEnabled && cityEvent is RealTimeCityEvent)
+            {
+                return true;
+            }
+
             Building.Flags flags = Building.Flags.Abandoned | Building.Flags.BurnedDown | Building.Flags.Collapsed
                 | Building.Flags.Deleted | Building.Flags.Demolishing | Building.Flags.Evacuating | Building.Flags.Flooded;
 
