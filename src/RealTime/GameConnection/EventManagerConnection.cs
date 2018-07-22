@@ -42,6 +42,12 @@ namespace RealTime.GameConnection
                     continue;
                 }
 
+                if ((eventData.m_flags
+                    & (EventData.Flags.Cancelled | EventData.Flags.Completed | EventData.Flags.Deleted | EventData.Flags.Expired)) != 0)
+                {
+                    continue;
+                }
+
                 if (eventData.StartTime >= earliestTime && eventData.StartTime < latestTime)
                 {
                     yield return i;

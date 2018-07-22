@@ -318,15 +318,14 @@ namespace RealTime.Events
             foreach (ushort eventId in eventManager.GetUpcomingEvents(timeInfo.Now, timeInfo.Now.AddDays(1)))
             {
                 eventManager.TryGetEventInfo(eventId, out ushort buildingId, out DateTime startTime, out float duration, out float ticketPrice);
-
                 if (upcomingEvents.Concat(new[] { activeEvent })
                     .OfType<VanillaEvent>()
-                    .Any(e => e.BuildingId == buildingId && e.StartTime == startTime))
+                    .Any(e => e.BuildingId == buildingId && e.StartTime.Date == startTime.Date))
                 {
                     continue;
                 }
 
-                var newEvent = new VanillaEvent(duration, ticketPrice);
+                var newEvent = new VanillaEvent(eventId, duration, ticketPrice);
                 newEvent.Configure(buildingId, buildingManager.GetBuildingName(buildingId), startTime);
                 eventsChanged = true;
                 Log.Debug(timeInfo.Now, $"Vanilla event registered for {newEvent.BuildingId}, start time {newEvent.StartTime}, end time {newEvent.EndTime}");
@@ -412,7 +411,19 @@ namespace RealTime.Events
             Building.Flags flags = Building.Flags.Abandoned | Building.Flags.BurnedDown | Building.Flags.Collapsed
                 | Building.Flags.Deleted | Building.Flags.Demolishing | Building.Flags.Evacuating | Building.Flags.Flooded;
 
-            return buildingManager.BuildingHasFlags(cityEvent.BuildingId, flags, true);
+            if (buildingManager.BuildingHasFlags(cityEvent.BuildingId, flags, true))
+            {
+                return true;
+            }
+
+            if (cityEvent is VanillaEvent vanillaEvent)
+            {
+                EventData.Flags eventFlags = eventManager.GetEventFlags(vanillaEvent.EventId);
+                return eventFlags == 0
+                    || (eventFlags & (EventData.Flags.Cancelled | EventData.Flags.Deleted | EventData.Flags.Expired)) != 0;
+            }
+
+            return false;
         }
 
         private void CreateRandomEvent(ushort buildingId)
