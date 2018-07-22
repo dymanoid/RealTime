@@ -41,7 +41,6 @@ namespace RealTime.CustomAI
         private void DoScheduledRelaxing(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
         {
             ushort buildingId = CitizenProxy.GetCurrentBuilding(ref citizen);
-
             switch (schedule.Hint)
             {
                 case ScheduleHint.RelaxAtLeisureBuilding:
@@ -60,16 +59,14 @@ namespace RealTime.CustomAI
                     return;
 
                 case ScheduleHint.AttendingEvent:
-                    DateTime returnTime;
+                    DateTime returnTime = default;
                     ICityEvent cityEvent = EventMgr.GetUpcomingCityEvent(schedule.EventBuilding);
                     if (cityEvent == null)
                     {
-                        returnTime = default;
                         Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted attend an event at '{schedule.EventBuilding}', but there was no event there");
                     }
-                    else
+                    else if (StartMovingToVisitBuilding(instance, citizenId, ref citizen, schedule.EventBuilding))
                     {
-                        StartMovingToVisitBuilding(instance, citizenId, ref citizen, schedule.EventBuilding);
                         returnTime = cityEvent.EndTime;
                         Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanna attend an event at '{schedule.EventBuilding}', will return at {returnTime}");
                     }
