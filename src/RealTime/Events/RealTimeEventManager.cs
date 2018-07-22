@@ -173,14 +173,24 @@ namespace RealTime.Events
         }
 
         /// <summary>
-        /// Gets the <see cref="ICityEvent"/> instance of an upcoming city event that takes place in a building
+        /// Gets the <see cref="ICityEvent"/> instance of an ongoing or upcoming city event that takes place in a building
         /// with specified ID.
         /// </summary>
         /// <param name="buildingId">The ID of a building to search events for.</param>
         /// <returns>An <see cref="ICityEvent"/> instance of the first matching city event, or null if none found.</returns>
-        public ICityEvent GetUpcomingCityEvent(ushort buildingId)
+        public ICityEvent GetCityEvent(ushort buildingId)
         {
-            if (buildingId == 0 || upcomingEvents.Count == 0)
+            if (buildingId == 0)
+            {
+                return null;
+            }
+
+            if (activeEvent != null && activeEvent.BuildingId == buildingId)
+            {
+                return activeEvent;
+            }
+
+            if (upcomingEvents.Count == 0)
             {
                 return null;
             }

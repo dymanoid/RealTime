@@ -60,7 +60,7 @@ namespace RealTime.CustomAI
 
                 case ScheduleHint.AttendingEvent:
                     DateTime returnTime = default;
-                    ICityEvent cityEvent = EventMgr.GetUpcomingCityEvent(schedule.EventBuilding);
+                    ICityEvent cityEvent = EventMgr.GetCityEvent(schedule.EventBuilding);
                     if (cityEvent == null)
                     {
                         Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted attend an event at '{schedule.EventBuilding}', but there was no event there");
