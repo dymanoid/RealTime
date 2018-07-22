@@ -100,7 +100,7 @@ namespace RealTime.Events
         /// <summary>Gets an unique ID of this storage data set.</summary>
         string IStorageData.StorageDataId => StorageDataId;
 
-        /// <summary>Gets the state of a city event in the provided building.</summary>
+        /// <summary>Gets the state of a city event in the specified building.</summary>
         /// <param name="buildingId">The building ID to check events in.</param>
         /// <param name="latestStart">The latest start time of events to consider.</param>
         /// <returns>
@@ -173,6 +173,43 @@ namespace RealTime.Events
         }
 
         /// <summary>
+        /// Gets the <see cref="ICityEvent"/> instance of an ongoing or upcoming city event that takes place in a building
+        /// with specified ID.
+        /// </summary>
+        /// <param name="buildingId">The ID of a building to search events for.</param>
+        /// <returns>An <see cref="ICityEvent"/> instance of the first matching city event, or null if none found.</returns>
+        public ICityEvent GetCityEvent(ushort buildingId)
+        {
+            if (buildingId == 0)
+            {
+                return null;
+            }
+
+            if (activeEvent != null && activeEvent.BuildingId == buildingId)
+            {
+                return activeEvent;
+            }
+
+            if (upcomingEvents.Count == 0)
+            {
+                return null;
+            }
+
+            LinkedListNode<ICityEvent> upcomingEvent = upcomingEvents.First;
+            while (upcomingEvent != null)
+            {
+                if (upcomingEvent.Value.BuildingId == buildingId)
+                {
+                    return upcomingEvent.Value;
+                }
+
+                upcomingEvent = upcomingEvent.Next;
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Processes the city events simulation step. The method can be called frequently, but the processing occurs periodically
         /// at an interval specified by <see cref="EventProcessInterval"/>.
         /// </summary>
@@ -205,7 +242,7 @@ namespace RealTime.Events
             CreateRandomEvent(building);
         }
 
-        /// <summary>Reads the data set from the provided <see cref="Stream"/>.</summary>
+        /// <summary>Reads the data set from the specified <see cref="Stream"/>.</summary>
         /// <param name="source">A <see cref="Stream"/> to read the data set from.</param>
         void IStorageData.ReadData(Stream source)
         {
@@ -240,14 +277,15 @@ namespace RealTime.Events
             OnEventsChanged();
         }
 
-        /// <summary>Reads the data set to the provided <see cref="Stream"/>.</summary>
+        /// <summary>Reads the data set to the specified <see cref="Stream"/>.</summary>
         /// <param name="target">A <see cref="Stream"/> to write the data set to.</param>
         void IStorageData.StoreData(Stream target)
         {
             var serializer = new XmlSerializer(typeof(RealTimeEventStorageContainer));
-            var data = new RealTimeEventStorageContainer();
-
-            data.EarliestEvent = earliestEvent.Ticks;
+            var data = new RealTimeEventStorageContainer
+            {
+                EarliestEvent = earliestEvent.Ticks
+            };
 
             AddEventToStorage(lastActiveEvent);
             AddEventToStorage(activeEvent);

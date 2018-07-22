@@ -80,7 +80,7 @@ namespace RealTime.UI
             UIComponent.selectedIndex = Value;
         }
 
-        /// <summary>Creates the view item using the provided <see cref="UIHelperBase"/>.</summary>
+        /// <summary>Creates the view item using the specified <see cref="UIHelperBase"/>.</summary>
         /// <param name="uiHelper">The UI helper to use for item creation.</param>
         /// <param name="defaultValue">The item's default value.</param>
         /// <returns>A newly created view item.</returns>

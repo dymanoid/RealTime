@@ -31,7 +31,7 @@ namespace RealTime.UI
         public DateTime CurrentValue => m_Value;
 
         /// <summary>
-        /// Checks the provided <see cref="DateTime"/> value whether it should be converted to a
+        /// Checks the specified <see cref="DateTime"/> value whether it should be converted to a
         /// string representation. Converts the value when necessary.
         /// </summary>
         /// ///

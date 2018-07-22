@@ -7,12 +7,12 @@ namespace RealTime.Events
     using RealTime.Events.Storage;
 
     /// <summary>
-    /// An interface for a type that can create city event instances for provided building classes.
+    /// An interface for a type that can create city event instances for specified building classes.
     /// </summary>
     internal interface ICityEventsProvider
     {
         /// <summary>
-        /// Gets a randomly created city event for a building of provided class. If no city event
+        /// Gets a randomly created city event for a building of specified class. If no city event
         /// could be created, returns <c>null</c>.
         /// </summary>
         /// <param name="buildingClass">The building class to create a city event for.</param>
@@ -23,7 +23,7 @@ namespace RealTime.Events
         ICityEvent GetRandomEvent(string buildingClass);
 
         /// <summary>
-        /// Gets the event template that has the provided name and is configured for the provided
+        /// Gets the event template that has the specified name and is configured for the specified
         /// building class.
         /// </summary>
         /// <param name="eventName">The unique name of the city event template.</param>

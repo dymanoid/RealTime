@@ -44,7 +44,7 @@ namespace RealTime.Events
             this.attendeesCount = attendeesCount;
         }
 
-        /// <summary>Accepts an event attendee with provided properties.</summary>
+        /// <summary>Accepts an event attendee with specified properties.</summary>
         /// <param name="age">The attendee age.</param>
         /// <param name="gender">The attendee gender.</param>
         /// <param name="education">The attendee education.</param>
@@ -53,7 +53,7 @@ namespace RealTime.Events
         /// <param name="happiness">The attendee happiness.</param>
         /// <param name="randomizer">A reference to the game's randomizer.</param>
         /// <returns>
-        /// <c>true</c> if the event attendee with provided properties is accepted and can attend this city event;
+        /// <c>true</c> if the event attendee with specified properties is accepted and can attend this city event;
         /// otherwise, <c>false</c>.
         /// </returns>
         public override bool TryAcceptAttendee(

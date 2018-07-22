@@ -4,7 +4,7 @@
 
 namespace RealTime.Config
 {
-    using System.Collections.Generic;
+    using RealTime.Tools;
     using RealTime.UI;
 
     /// <summary>
@@ -17,6 +17,9 @@ namespace RealTime.Config
         {
             ResetToDefaults();
         }
+
+        /// <summary>Gets or sets the version number of this configuration.</summary>
+        public int Version { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the city wakes up.
@@ -96,7 +99,7 @@ namespace RealTime.Config
         /// Valid values are 1..8.
         /// </summary>
         [ConfigItem("2Quotas", 0)]
-        [ConfigItemSlider(1, 8, DisplayMultiplier = 3.125f)]
+        [ConfigItemSlider(1, 25)]
         public uint SecondShiftQuota { get; set; }
 
         /// <summary>
@@ -104,15 +107,15 @@ namespace RealTime.Config
         /// Valid values are 1..8.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "NightShift", Justification = "Reviewed")]
-        [ConfigItem("2Quotas", 0)]
-        [ConfigItemSlider(1, 8, DisplayMultiplier = 3.125f)]
+        [ConfigItem("2Quotas", 1)]
+        [ConfigItemSlider(1, 25)]
         public uint NightShiftQuota { get; set; }
 
         /// <summary>
         /// Gets or sets the percentage of the Cims that will go out for lunch.
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 0)]
+        [ConfigItem("2Quotas", 2)]
         [ConfigItemSlider(0, 100)]
         public uint LunchQuota { get; set; }
 
@@ -120,7 +123,7 @@ namespace RealTime.Config
         /// Gets or sets the percentage of the population that will search locally for buildings.
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 1)]
+        [ConfigItem("2Quotas", 3)]
         [ConfigItemSlider(0, 100)]
         public uint LocalBuildingSearchQuota { get; set; }
 
@@ -129,7 +132,7 @@ namespace RealTime.Config
         /// on time (no overtime!).
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 2)]
+        [ConfigItem("2Quotas", 4)]
         [ConfigItemSlider(0, 100)]
         public uint OnTimeQuota { get; set; }
 
@@ -212,46 +215,60 @@ namespace RealTime.Config
         [ConfigItemSlider(11, 16, 0.25f, SliderValueType.Time)]
         public float SchoolEnd { get; set; }
 
+        /// <summary>Checks the version of the deserialized object and migrates it to the latest version when necessary.</summary>
+        /// <returns>This instance.</returns>
+        public RealTimeConfig MigrateWhenNecessary()
+        {
+            if (Version == 0)
+            {
+                SecondShiftQuota = (uint)(SecondShiftQuota * 3.125f);
+                NightShiftQuota = (uint)(NightShiftQuota * 3.125f);
+            }
+
+            Version = 1;
+            return this;
+        }
+
         /// <summary>Validates this instance and corrects possible invalid property values.</summary>
         /// <returns>This instance.</returns>
         public RealTimeConfig Validate()
         {
-            WakeupHour = Clamp(WakeupHour, 4f, 8f);
-            GoToSleepUpHour = Clamp(GoToSleepUpHour, 20f, 23.75f);
+            WakeupHour = RealTimeMath.Clamp(WakeupHour, 4f, 8f);
+            GoToSleepUpHour = RealTimeMath.Clamp(GoToSleepUpHour, 20f, 23.75f);
 
-            DayTimeSpeed = Clamp(DayTimeSpeed, 1u, 7u);
-            NightTimeSpeed = Clamp(NightTimeSpeed, 1u, 7u);
+            DayTimeSpeed = RealTimeMath.Clamp(DayTimeSpeed, 1u, 7u);
+            NightTimeSpeed = RealTimeMath.Clamp(NightTimeSpeed, 1u, 7u);
 
-            VirtualCitizens = (VirtualCitizensLevel)Clamp((int)VirtualCitizens, (int)VirtualCitizensLevel.None, (int)VirtualCitizensLevel.Many);
-            ConstructionSpeed = Clamp(ConstructionSpeed, 0u, 100u);
+            VirtualCitizens = (VirtualCitizensLevel)RealTimeMath.Clamp((int)VirtualCitizens, (int)VirtualCitizensLevel.None, (int)VirtualCitizensLevel.Many);
+            ConstructionSpeed = RealTimeMath.Clamp(ConstructionSpeed, 0u, 100u);
 
-            SecondShiftQuota = Clamp(SecondShiftQuota, 1u, 8u);
-            NightShiftQuota = Clamp(NightShiftQuota, 1u, 8u);
-            LunchQuota = Clamp(LunchQuota, 0u, 100u);
-            LocalBuildingSearchQuota = Clamp(LocalBuildingSearchQuota, 0u, 100u);
-            OnTimeQuota = Clamp(OnTimeQuota, 0u, 100u);
+            SecondShiftQuota = RealTimeMath.Clamp(SecondShiftQuota, 1u, 25u);
+            NightShiftQuota = RealTimeMath.Clamp(NightShiftQuota, 1u, 25u);
+            LunchQuota = RealTimeMath.Clamp(LunchQuota, 0u, 100u);
+            LocalBuildingSearchQuota = RealTimeMath.Clamp(LocalBuildingSearchQuota, 0u, 100u);
+            OnTimeQuota = RealTimeMath.Clamp(OnTimeQuota, 0u, 100u);
 
-            EarliestHourEventStartWeekday = Clamp(EarliestHourEventStartWeekday, 0f, 23.75f);
-            LatestHourEventStartWeekday = Clamp(LatestHourEventStartWeekday, 0f, 23.75f);
+            EarliestHourEventStartWeekday = RealTimeMath.Clamp(EarliestHourEventStartWeekday, 0f, 23.75f);
+            LatestHourEventStartWeekday = RealTimeMath.Clamp(LatestHourEventStartWeekday, 0f, 23.75f);
             if (LatestHourEventStartWeekday < EarliestHourEventStartWeekday)
             {
                 LatestHourEventStartWeekday = EarliestHourEventStartWeekday;
             }
 
-            EarliestHourEventStartWeekend = Clamp(EarliestHourEventStartWeekend, 0f, 23.75f);
-            LatestHourEventStartWeekend = Clamp(LatestHourEventStartWeekend, 0f, 23.75f);
+            EarliestHourEventStartWeekend = RealTimeMath.Clamp(EarliestHourEventStartWeekend, 0f, 23.75f);
+            LatestHourEventStartWeekend = RealTimeMath.Clamp(LatestHourEventStartWeekend, 0f, 23.75f);
             if (LatestHourEventStartWeekend < EarliestHourEventStartWeekend)
             {
                 LatestHourEventStartWeekend = EarliestHourEventStartWeekend;
             }
 
-            WorkBegin = Clamp(WorkBegin, 4f, 11f);
-            WorkEnd = Clamp(WorkEnd, 12f, 20f);
-            LunchBegin = Clamp(LunchBegin, 11f, 13f);
-            LunchEnd = Clamp(LunchEnd, 13f, 15f);
-            SchoolBegin = Clamp(SchoolBegin, 4f, 10f);
-            SchoolEnd = Clamp(SchoolEnd, 11f, 16f);
-            MaxOvertime = Clamp(MaxOvertime, 0f, 4f);
+            WorkBegin = RealTimeMath.Clamp(WorkBegin, 4f, 11f);
+            WorkEnd = RealTimeMath.Clamp(WorkEnd, 12f, 20f);
+            LunchBegin = RealTimeMath.Clamp(LunchBegin, 11f, 13f);
+            LunchEnd = RealTimeMath.Clamp(LunchEnd, 13f, 15f);
+            SchoolBegin = RealTimeMath.Clamp(SchoolBegin, 4f, 10f);
+            SchoolEnd = RealTimeMath.Clamp(SchoolEnd, 11f, 16f);
+            MaxOvertime = RealTimeMath.Clamp(MaxOvertime, 0f, 4f);
             return this;
         }
 
@@ -273,8 +290,8 @@ namespace RealTime.Config
             StopConstructionAtNight = true;
             ConstructionSpeed = 50;
 
-            SecondShiftQuota = 4;
-            NightShiftQuota = 2;
+            SecondShiftQuota = 13;
+            NightShiftQuota = 6;
 
             LunchQuota = 80;
             LocalBuildingSearchQuota = 60;
@@ -292,23 +309,6 @@ namespace RealTime.Config
             MaxOvertime = 2f;
             SchoolBegin = 8f;
             SchoolEnd = 14f;
-        }
-
-        private static T Clamp<T>(T value, T min, T max)
-            where T : struct
-        {
-            Comparer<T> comparer = Comparer<T>.Default;
-            if (comparer.Compare(value, min) < 0)
-            {
-                return min;
-            }
-
-            if (comparer.Compare(value, max) > 0)
-            {
-                return max;
-            }
-
-            return value;
         }
     }
 }
