@@ -11,7 +11,7 @@
   <translation id="0Time" value="Options de Time" />
   <translation id="1Other" value="Autres options" />
   <translation id="WakeupHour" value="La ville se lève à" />
-  <translation id="WakeupHourTooltip" value="Le moment où la plupart des citoyens commencent à se réveiller. Les budgets et la vitesse temporelle passent en mode "jour"!" />
+  <translation id="WakeupHourTooltip" value="Le moment où la plupart des citoyens commencent à se réveiller. Les budgets et la vitesse temporelle passent en mode 'jour'!" />
   <translation id="GoToSleepUpHour" value="La ville s'endort à" />
   <translation id="GoToSleepUpHourTooltip" value="Le moment où la plupart des citoyens commencent à aller dormir. Les budgets et la vitesse du temps passent en mode 'nuit'!" />
   <translation id="DayTimeSpeed" value="Vitesse du temps (en journée)" />
