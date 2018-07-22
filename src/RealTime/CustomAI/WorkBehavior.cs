@@ -67,6 +67,8 @@ namespace RealTime.CustomAI
             }
 
             ItemClass.Service buildingSevice = buildingManager.GetBuildingService(schedule.WorkBuilding);
+            ItemClass.SubService buildingSubService = buildingManager.GetBuildingSubService(schedule.WorkBuilding);
+
             float workBegin, workEnd;
             WorkShift workShift = schedule.WorkShift;
 
@@ -83,7 +85,7 @@ namespace RealTime.CustomAI
                 case Citizen.AgeGroup.Adult:
                     if (workShift == WorkShift.Unemployed)
                     {
-                        workShift = GetWorkShift(GetBuildingWorkShiftCount(buildingSevice));
+                        workShift = GetWorkShift(GetBuildingWorkShiftCount(buildingSevice, buildingSubService));
                     }
 
                     workBegin = config.WorkBegin;
@@ -94,7 +96,6 @@ namespace RealTime.CustomAI
                     return;
             }
 
-            ItemClass.SubService buildingSubService = buildingManager.GetBuildingSubService(schedule.WorkBuilding);
             switch (workShift)
             {
                 case WorkShift.First when HasExtendedFirstWorkShift(buildingSevice, buildingSubService):
@@ -194,6 +195,7 @@ namespace RealTime.CustomAI
             {
                 case ItemClass.Service.Commercial
                     when subService != ItemClass.SubService.CommercialHigh && subService != ItemClass.SubService.CommercialEco:
+                case ItemClass.Service.Industrial when subService != ItemClass.SubService.IndustrialGeneric:
                 case ItemClass.Service.Tourism:
                 case ItemClass.Service.Electricity:
                 case ItemClass.Service.Water:
@@ -211,13 +213,15 @@ namespace RealTime.CustomAI
             }
         }
 
-        private static int GetBuildingWorkShiftCount(ItemClass.Service service)
+        private static int GetBuildingWorkShiftCount(ItemClass.Service service, ItemClass.SubService subService)
         {
             switch (service)
             {
                 case ItemClass.Service.Office:
                 case ItemClass.Service.Garbage:
                 case ItemClass.Service.Education:
+                case ItemClass.Service.Industrial
+                    when subService == ItemClass.SubService.IndustrialForestry || subService == ItemClass.SubService.IndustrialFarming:
                     return 1;
 
                 case ItemClass.Service.Road:
@@ -252,6 +256,8 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.Beautification:
                 case ItemClass.Service.Garbage:
                 case ItemClass.Service.Road:
+                case ItemClass.Service.Industrial
+                    when subService == ItemClass.SubService.IndustrialFarming || subService == ItemClass.SubService.IndustrialForestry:
                     return true;
 
                 default:
