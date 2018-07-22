@@ -250,6 +250,11 @@ namespace RealTime.CustomAI
                     // When enabling for an existing game, the citizens that are working have no schedule yet
                     schedule.Schedule(ResidentState.Unknown, TimeInfo.Now.FutureHour(schedule.WorkShiftEndHour));
                 }
+                else if (schedule.WorkBuilding == 0 && schedule.WorkStatus == WorkStatus.Working)
+                {
+                    // This is for the case when the citizen becomes unemployed while at work
+                    schedule.Schedule(ResidentState.Unknown, default);
+                }
 
                 Log.Debug($"Updated work shifts for citizen {citizenId}: work shift {schedule.WorkShift}, {schedule.WorkShiftStartHour} - {schedule.WorkShiftEndHour}, weekends: {schedule.WorksOnWeekends}");
             }

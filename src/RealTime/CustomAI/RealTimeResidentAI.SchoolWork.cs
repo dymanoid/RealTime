@@ -56,6 +56,7 @@ namespace RealTime.CustomAI
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
             schedule.WorkStatus = WorkStatus.Working;
+            schedule.DepartureToWorkTime = default;
 
             if (currentBuilding == schedule.WorkBuilding && schedule.CurrentState != ResidentState.AtSchoolOrWork)
             {
