@@ -137,30 +137,37 @@ namespace RealTime.Config
         public uint OnTimeQuota { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the earliest event on a week day can start.
+        /// Gets or sets a value indicating whether the custom events are enabled.
         /// </summary>
         [ConfigItem("3Events", 0)]
+        [ConfigItemCheckBox]
+        public bool AreEventsEnabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the earliest event on a week day can start.
+        /// </summary>
+        [ConfigItem("3Events", 1)]
         [ConfigItemSlider(0, 23.75f, 0.25f, SliderValueType.Time)]
         public float EarliestHourEventStartWeekday { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the latest event on a week day can start.
         /// </summary>
-        [ConfigItem("3Events", 1)]
+        [ConfigItem("3Events", 2)]
         [ConfigItemSlider(0, 23.75f, 0.25f, SliderValueType.Time)]
         public float LatestHourEventStartWeekday { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the earliest event on a Weekend day can start.
         /// </summary>
-        [ConfigItem("3Events", 2)]
+        [ConfigItem("3Events", 3)]
         [ConfigItemSlider(0, 23.75f, 0.25f, SliderValueType.Time)]
         public float EarliestHourEventStartWeekend { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the latest event on a Weekend day can start.
         /// </summary>
-        [ConfigItem("3Events", 3)]
+        [ConfigItem("3Events", 4)]
         [ConfigItemSlider(0, 23.75f, 0.25f, SliderValueType.Time)]
         public float LatestHourEventStartWeekend { get; set; }
 
@@ -297,6 +304,7 @@ namespace RealTime.Config
             LocalBuildingSearchQuota = 60;
             OnTimeQuota = 80;
 
+            AreEventsEnabled = true;
             EarliestHourEventStartWeekday = 16f;
             LatestHourEventStartWeekday = 20f;
             EarliestHourEventStartWeekend = 8f;
