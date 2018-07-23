@@ -145,6 +145,7 @@ namespace RealTime.Core
             SimulationHandler.WeatherInfo = weatherInfo;
             SimulationHandler.Buildings = BuildingAIPatches.RealTimeAI;
             SimulationHandler.Buildings.UpdateFrameDuration();
+            SimulationHandler.Buildings.InitializeLightState();
 
             AwakeSleepSimulation.Install(config);
 

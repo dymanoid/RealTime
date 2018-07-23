@@ -291,7 +291,11 @@ namespace RealTime.GameConnection
         /// <param name="buildingId">The ID of the building to update.</param>
         public void UpdateBuildingColors(ushort buildingId)
         {
-            BuildingManager.instance.UpdateBuildingColors(buildingId);
+            if (buildingId > 0
+                && (BuildingManager.instance.m_buildings.m_buffer[buildingId].m_flags & Building.Flags.Created) != 0)
+            {
+                BuildingManager.instance.UpdateBuildingColors(buildingId);
+            }
         }
     }
 }

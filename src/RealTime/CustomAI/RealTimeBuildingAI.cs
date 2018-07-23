@@ -124,6 +124,15 @@ namespace RealTime.CustomAI
             }
         }
 
+        /// <summary>Initializes the state of the all building lights.</summary>
+        public void InitializeLightState()
+        {
+            for (ushort i = 0; i <= StepMask; i++)
+            {
+                UpdateLightState(i, false);
+            }
+        }
+
         /// <summary>Re-calculates the duration of a simulation frame.</summary>
         public void UpdateFrameDuration()
         {
@@ -167,7 +176,7 @@ namespace RealTime.CustomAI
         /// </returns>
         public bool ShouldSwitchBuildingLightsOff(ushort buildingId)
         {
-            return lightStates[buildingId];
+            return !lightStates[buildingId];
         }
 
         private void UpdateLightState(uint frameIndex)
@@ -182,16 +191,26 @@ namespace RealTime.CustomAI
             lightCheckStep = (ushort)((step + 1) & StepMask);
             lightStateCheckCounter = lightStateCheckFramesInterval;
 
+            UpdateLightState(step, true);
+        }
+
+        private void UpdateLightState(ushort step, bool updateBuilding)
+        {
             ushort first = (ushort)(step * BuildingStepSize);
             ushort last = (ushort)(((step + 1) * BuildingStepSize) - 1);
 
             for (ushort i = first; i <= last; ++i)
             {
                 buildingManager.GetBuildingService(i, out ItemClass.Service service, out ItemClass.SubService subService);
-                bool newState = ShouldSwitchBuildingLightsOff(service, subService);
-                if (newState != lightStates[i])
+                bool lightsOn = !ShouldSwitchBuildingLightsOff(service, subService);
+                if (lightsOn == lightStates[i])
                 {
-                    lightStates[i] = newState;
+                    continue;
+                }
+
+                lightStates[i] = lightsOn;
+                if (updateBuilding)
+                {
                     buildingManager.UpdateBuildingColors(i);
                 }
             }
@@ -199,6 +218,11 @@ namespace RealTime.CustomAI
 
         private bool ShouldSwitchBuildingLightsOff(ItemClass.Service service, ItemClass.SubService subService)
         {
+            if (service == ItemClass.Service.None && subService == ItemClass.SubService.None)
+            {
+                return false;
+            }
+
             float currentHour = timeInfo.CurrentHour;
             if (currentHour >= config.WakeupHour && currentHour < config.GoToSleepUpHour)
             {
