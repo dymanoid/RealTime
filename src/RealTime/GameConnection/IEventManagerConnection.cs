@@ -10,7 +10,7 @@ namespace RealTime.GameConnection
     /// <summary>An interface for the game specific logic related to the event management.</summary>
     internal interface IEventManagerConnection
     {
-        /// <summary>Gets the flags of an event with provided ID.</summary>
+        /// <summary>Gets the flags of an event with specified ID.</summary>
         /// <param name="eventId">The ID of the event to get flags of.</param>
         /// <returns>The event flags or <see cref="EventData.Flags.None"/> if none found.</returns>
         EventData.Flags GetEventFlags(ushort eventId);

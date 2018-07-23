@@ -13,7 +13,7 @@ namespace RealTime.GameConnection
     /// <seealso cref="IEventManagerConnection" />
     internal sealed class EventManagerConnection : IEventManagerConnection
     {
-        /// <summary>Gets the flags of an event with provided ID.</summary>
+        /// <summary>Gets the flags of an event with specified ID.</summary>
         /// <param name="eventId">The ID of the event to get flags of.</param>
         /// <returns>
         /// The event flags or <see cref="EventData.Flags.None" /> if none found.
@@ -38,6 +38,12 @@ namespace RealTime.GameConnection
             {
                 EventData eventData = events.m_buffer[i];
                 if ((eventData.m_flags & (EventData.Flags.Preparing | EventData.Flags.Ready | EventData.Flags.Active)) == 0)
+                {
+                    continue;
+                }
+
+                if ((eventData.m_flags
+                    & (EventData.Flags.Cancelled | EventData.Flags.Completed | EventData.Flags.Deleted | EventData.Flags.Expired)) != 0)
                 {
                     continue;
                 }

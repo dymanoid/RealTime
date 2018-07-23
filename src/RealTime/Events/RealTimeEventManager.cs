@@ -100,7 +100,7 @@ namespace RealTime.Events
         /// <summary>Gets an unique ID of this storage data set.</summary>
         string IStorageData.StorageDataId => StorageDataId;
 
-        /// <summary>Gets the state of a city event in the provided building.</summary>
+        /// <summary>Gets the state of a city event in the specified building.</summary>
         /// <param name="buildingId">The building ID to check events in.</param>
         /// <param name="latestStart">The latest start time of events to consider.</param>
         /// <returns>
@@ -173,6 +173,43 @@ namespace RealTime.Events
         }
 
         /// <summary>
+        /// Gets the <see cref="ICityEvent"/> instance of an ongoing or upcoming city event that takes place in a building
+        /// with specified ID.
+        /// </summary>
+        /// <param name="buildingId">The ID of a building to search events for.</param>
+        /// <returns>An <see cref="ICityEvent"/> instance of the first matching city event, or null if none found.</returns>
+        public ICityEvent GetCityEvent(ushort buildingId)
+        {
+            if (buildingId == 0)
+            {
+                return null;
+            }
+
+            if (activeEvent != null && activeEvent.BuildingId == buildingId)
+            {
+                return activeEvent;
+            }
+
+            if (upcomingEvents.Count == 0)
+            {
+                return null;
+            }
+
+            LinkedListNode<ICityEvent> upcomingEvent = upcomingEvents.First;
+            while (upcomingEvent != null)
+            {
+                if (upcomingEvent.Value.BuildingId == buildingId)
+                {
+                    return upcomingEvent.Value;
+                }
+
+                upcomingEvent = upcomingEvent.Next;
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Processes the city events simulation step. The method can be called frequently, but the processing occurs periodically
         /// at an interval specified by <see cref="EventProcessInterval"/>.
         /// </summary>
@@ -191,7 +228,7 @@ namespace RealTime.Events
             lastProcessed = timeInfo.Now;
 
             Update();
-            if (upcomingEvents.Count >= MaximumEventsCount)
+            if (upcomingEvents.Count >= MaximumEventsCount || !config.AreEventsEnabled)
             {
                 return;
             }
@@ -205,7 +242,7 @@ namespace RealTime.Events
             CreateRandomEvent(building);
         }
 
-        /// <summary>Reads the data set from the provided <see cref="Stream"/>.</summary>
+        /// <summary>Reads the data set from the specified <see cref="Stream"/>.</summary>
         /// <param name="source">A <see cref="Stream"/> to read the data set from.</param>
         void IStorageData.ReadData(Stream source)
         {
@@ -240,14 +277,15 @@ namespace RealTime.Events
             OnEventsChanged();
         }
 
-        /// <summary>Reads the data set to the provided <see cref="Stream"/>.</summary>
+        /// <summary>Reads the data set to the specified <see cref="Stream"/>.</summary>
         /// <param name="target">A <see cref="Stream"/> to write the data set to.</param>
         void IStorageData.StoreData(Stream target)
         {
             var serializer = new XmlSerializer(typeof(RealTimeEventStorageContainer));
-            var data = new RealTimeEventStorageContainer();
-
-            data.EarliestEvent = earliestEvent.Ticks;
+            var data = new RealTimeEventStorageContainer
+            {
+                EarliestEvent = earliestEvent.Ticks
+            };
 
             AddEventToStorage(lastActiveEvent);
             AddEventToStorage(activeEvent);
@@ -280,15 +318,14 @@ namespace RealTime.Events
             foreach (ushort eventId in eventManager.GetUpcomingEvents(timeInfo.Now, timeInfo.Now.AddDays(1)))
             {
                 eventManager.TryGetEventInfo(eventId, out ushort buildingId, out DateTime startTime, out float duration, out float ticketPrice);
-
                 if (upcomingEvents.Concat(new[] { activeEvent })
                     .OfType<VanillaEvent>()
-                    .Any(e => e.BuildingId == buildingId && e.StartTime == startTime))
+                    .Any(e => e.BuildingId == buildingId && e.StartTime.Date == startTime.Date))
                 {
                     continue;
                 }
 
-                var newEvent = new VanillaEvent(duration, ticketPrice);
+                var newEvent = new VanillaEvent(eventId, duration, ticketPrice);
                 newEvent.Configure(buildingId, buildingManager.GetBuildingName(buildingId), startTime);
                 eventsChanged = true;
                 Log.Debug(timeInfo.Now, $"Vanilla event registered for {newEvent.BuildingId}, start time {newEvent.StartTime}, end time {newEvent.EndTime}");
@@ -366,10 +403,27 @@ namespace RealTime.Events
 
         private bool MustCancelEvent(ICityEvent cityEvent)
         {
+            if (!config.AreEventsEnabled && cityEvent is RealTimeCityEvent)
+            {
+                return true;
+            }
+
             Building.Flags flags = Building.Flags.Abandoned | Building.Flags.BurnedDown | Building.Flags.Collapsed
                 | Building.Flags.Deleted | Building.Flags.Demolishing | Building.Flags.Evacuating | Building.Flags.Flooded;
 
-            return buildingManager.BuildingHasFlags(cityEvent.BuildingId, flags, true);
+            if (buildingManager.BuildingHasFlags(cityEvent.BuildingId, flags, true))
+            {
+                return true;
+            }
+
+            if (cityEvent is VanillaEvent vanillaEvent)
+            {
+                EventData.Flags eventFlags = eventManager.GetEventFlags(vanillaEvent.EventId);
+                return eventFlags == 0
+                    || (eventFlags & (EventData.Flags.Cancelled | EventData.Flags.Deleted | EventData.Flags.Expired)) != 0;
+            }
+
+            return false;
         }
 
         private void CreateRandomEvent(ushort buildingId)

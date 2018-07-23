@@ -50,7 +50,7 @@ namespace RealTime.Tools
         }
 
         /// <summary>
-        /// Rounds this <see cref="DateTime"/> to the provided <paramref name="interval"/> (ceiling).
+        /// Rounds this <see cref="DateTime"/> to the specified <paramref name="interval"/> (ceiling).
         /// </summary>
         ///
         /// <param name="dateTime">The <see cref="DateTime"/> to round.</param>
@@ -61,6 +61,26 @@ namespace RealTime.Tools
         {
             long overflow = dateTime.Ticks % interval.Ticks;
             return overflow == 0 ? dateTime : dateTime.AddTicks(interval.Ticks - overflow);
+        }
+
+        /// <summary>Gets a new <see cref="DateTime"/> value that is greater than this <see cref="DateTime"/>
+        /// and whose daytime hour equals to the specified one. If <paramref name="hour"/> is negative,
+        /// it will be shifted in the next day to become positive.</summary>
+        /// <param name="dateTime">The <see cref="DateTime"/> to get the future value for.</param>
+        /// <param name="hour">The daytime hour for the result value. Can be negative.</param>
+        /// <returns>A new <see cref="DateTime"/> value that is greater than this <see cref="DateTime"/>
+        /// and whose daytime hour is set to the specified <paramref name="hour"/>.</returns>
+        public static DateTime FutureHour(this DateTime dateTime, float hour)
+        {
+            if (hour < 0)
+            {
+                hour += 24f;
+            }
+
+            float delta = hour - (float)dateTime.TimeOfDay.TotalHours;
+            return delta > 0
+                ? dateTime.AddHours(delta)
+                : dateTime.AddHours(24f + delta);
         }
     }
 }

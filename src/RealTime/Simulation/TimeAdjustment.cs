@@ -28,6 +28,9 @@ namespace RealTime.Simulation
             vanillaFramesPerDay = SimulationManager.DAYTIME_FRAMES;
         }
 
+        /// <summary>Gets the number of hours that fit into one simulation frame.</summary>
+        public float HoursPerFrame => SimulationManager.DAYTIME_FRAME_TO_HOUR;
+
         /// <summary>Enables the customized time adjustment.</summary>
         /// <returns>The current game date and time.</returns>
         public DateTime Enable()
@@ -40,7 +43,8 @@ namespace RealTime.Simulation
         }
 
         /// <summary>Updates the time adjustment to be synchronized with the configuration and the daytime.</summary>
-        public void Update()
+        /// <returns><c>true</c> if the time adjustment was updated; otherwise, <c>false</c>.</returns>
+        public bool Update()
         {
             if (SimulationManager.instance.m_enableDayNight != isNightEnabled)
             {
@@ -51,7 +55,7 @@ namespace RealTime.Simulation
                 && dayTimeSpeed == config.DayTimeSpeed
                 && nightTimeSpeed == config.NightTimeSpeed))
             {
-                return;
+                return false;
             }
 
             isNightTime = SimulationManager.instance.m_isNightTime;
@@ -59,6 +63,7 @@ namespace RealTime.Simulation
             nightTimeSpeed = config.NightTimeSpeed;
 
             UpdateTimeSimulationValues(CalculateFramesPerDay());
+            return true;
         }
 
         /// <summary>Disables the customized time adjustment restoring the default vanilla values.</summary>
