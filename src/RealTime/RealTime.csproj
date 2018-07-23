@@ -68,6 +68,7 @@
     <Compile Include="CustomAI\CitizenSchedule.cs" />
     <Compile Include="CustomAI\ScheduleHint.cs" />
     <Compile Include="CustomAI\SpareTimeBehavior.cs" />
+    <Compile Include="CustomAI\TravelBehavior.cs" />
     <Compile Include="CustomAI\WeatherInfo.cs" />
     <Compile Include="CustomAI\WorkBehavior.cs" />
     <Compile Include="CustomAI\WorkShift.cs" />

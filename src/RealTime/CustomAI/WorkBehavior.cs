@@ -20,7 +20,7 @@ namespace RealTime.CustomAI
         private readonly IRandomizer randomizer;
         private readonly IBuildingManagerConnection buildingManager;
         private readonly ITimeInfo timeInfo;
-        private readonly Func<ushort, ushort, float> travelTimeCalculator;
+        private readonly TravelBehavior travelBehavior;
 
         private DateTime lunchBegin;
         private DateTime lunchEnd;
@@ -30,21 +30,20 @@ namespace RealTime.CustomAI
         /// <param name="randomizer">The randomizer implementation.</param>
         /// <param name="buildingManager">The building manager implementation.</param>
         /// <param name="timeInfo">The time information source.</param>
-        /// <param name="travelTimeCalculator">A method accepting two building IDs and returning the estimated travel time
-        /// between those buildings (in hours).</param>
+        /// <param name="travelBehavior">A behavior that provides simulation info for the citizens traveling.</param>
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
         public WorkBehavior(
             RealTimeConfig config,
             IRandomizer randomizer,
             IBuildingManagerConnection buildingManager,
             ITimeInfo timeInfo,
-            Func<ushort, ushort, float> travelTimeCalculator)
+            TravelBehavior travelBehavior)
         {
             this.config = config ?? throw new ArgumentNullException(nameof(config));
             this.randomizer = randomizer ?? throw new ArgumentNullException(nameof(randomizer));
             this.buildingManager = buildingManager ?? throw new ArgumentNullException(nameof(buildingManager));
             this.timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
-            this.travelTimeCalculator = travelTimeCalculator ?? throw new ArgumentNullException(nameof(travelTimeCalculator));
+            this.travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
         }
 
         /// <summary>Updates the lunch time according to current date and configuration.</summary>
@@ -303,7 +302,7 @@ namespace RealTime.CustomAI
 
             if (result <= 0)
             {
-                result = travelTimeCalculator(buildingId, schedule.WorkBuilding);
+                result = travelBehavior.GetEstimatedTravelTime(buildingId, schedule.WorkBuilding);
             }
 
             return result;
