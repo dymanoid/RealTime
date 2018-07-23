@@ -85,7 +85,6 @@ namespace RealTime.Core
             try
             {
                 patcher.Apply();
-                Log.Info("The 'Real Time' successfully performed the methods redirections");
             }
             catch (Exception ex)
             {
@@ -149,7 +148,7 @@ namespace RealTime.Core
             RealTimeStorage.CurrentLevelStorage.GameSaving += result.GameSaving;
             result.storageData.Add(eventManager);
             result.storageData.Add(ResidentAIPatch.RealTimeAI.GetStorageService());
-            result.LoadStorageData();
+            result.LoadStorageData(RealTimeStorage.CurrentLevelStorage);
 
             result.Translate(localizationProvider);
 
@@ -166,6 +165,7 @@ namespace RealTime.Core
                 return;
             }
 
+            Log.Info($"The 'Real Time' mod reverts method patches.");
             patcher.Revert();
 
             timeAdjustment.Disable();
@@ -271,12 +271,14 @@ namespace RealTime.Core
             timeBar.UpdateEventsDisplay(eventManager.CityEvents);
         }
 
-        private void LoadStorageData()
+        private void LoadStorageData(RealTimeStorage storage)
         {
             foreach (IStorageData item in storageData)
             {
-                RealTimeStorage.CurrentLevelStorage.Deserialize(item);
+                storage.Deserialize(item);
             }
+
+            Log.Info("The 'Real Time' mod successfully loaded its data for the current game.");
         }
 
         private void GameSaving(object sender, EventArgs e)
@@ -286,6 +288,8 @@ namespace RealTime.Core
             {
                 storage.Serialize(item);
             }
+
+            Log.Info("The 'Real Time' mod successfully stored its data in the current game.");
         }
     }
 }

@@ -246,6 +246,8 @@ namespace RealTime.Events
         /// <param name="source">A <see cref="Stream"/> to read the data set from.</param>
         void IStorageData.ReadData(Stream source)
         {
+            lastActiveEvent = null;
+            activeEvent = null;
             upcomingEvents.Clear();
 
             var serializer = new XmlSerializer(typeof(RealTimeEventStorageContainer));
