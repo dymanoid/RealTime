@@ -55,8 +55,8 @@ namespace RealTime.GameConnection
         {
             get
             {
-                float currentHour = CurrentHour;
-                return currentHour >= config.GoToSleepUpHour || currentHour < config.WakeupHour;
+                float current = CurrentHour;
+                return current >= config.GoToSleepUpHour || current < config.WakeupHour;
             }
         }
 
