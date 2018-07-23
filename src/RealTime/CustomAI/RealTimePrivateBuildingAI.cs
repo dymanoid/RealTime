@@ -16,6 +16,7 @@ namespace RealTime.CustomAI
     {
         private const int ConstructionSpeedPaused = 10880;
         private const int ConstructionSpeedMinimum = 1088;
+        private const int StartFrameMask = 0xFF;
 
         private readonly RealTimeConfig config;
         private readonly ITimeInfo timeInfo;
@@ -108,8 +109,14 @@ namespace RealTime.CustomAI
 
         /// <summary>Notifies this simulation object that a new simulation frame is started.
         /// The buildings will be processed again from the beginning of the list.</summary>
-        public void StartBuildingProcessingFrame()
+        /// <param name="frameIndex">The simulation frame index to process.</param>
+        public void ProcessFrame(uint frameIndex)
         {
+            if ((frameIndex & StartFrameMask) != 0)
+            {
+                return;
+            }
+
             int currentMinute = timeInfo.Now.Minute;
             if (lastProcessedMinute != currentMinute)
             {

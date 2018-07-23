@@ -48,6 +48,8 @@
   <translation id="OnTimeQuotaTooltip" value="Процент жителей, которые будут ходить на работу без сверхурочных" />
 
   <translation id="3Events" value="Мероприятия" />
+  <translation id="AreEventsEnabled" value="Активировать дополнительные события" />
+  <translation id="AreEventsEnabledTooltip" value="Если выключено, то только события из оригинальной игры могут проходить в городе" />
   <translation id="EarliestHourEventStartWeekday" value="Самое раннее по будням" />
   <translation id="EarliestHourEventStartWeekdayTooltip" value="Самое раннее время, когда мероприятие может начаться в будний день" />
   <translation id="LatestHourEventStartWeekday" value="Самое позднее по будням" />

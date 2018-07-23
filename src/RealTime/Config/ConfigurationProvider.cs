@@ -42,7 +42,7 @@ namespace RealTime.Config
         }
 
         /// <summary>
-        /// Stores the provided <paramref name="config"/> object to the storage.
+        /// Stores the specified <paramref name="config"/> object to the storage.
         /// </summary>
         ///
         /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
@@ -70,7 +70,7 @@ namespace RealTime.Config
             var serializer = new XmlSerializer(typeof(RealTimeConfig));
             using (var sr = new StreamReader(SettingsFileName))
             {
-                return ((RealTimeConfig)serializer.Deserialize(sr)).Validate();
+                return ((RealTimeConfig)serializer.Deserialize(sr)).MigrateWhenNecessary().Validate();
             }
         }
 

@@ -35,7 +35,7 @@ namespace RealTime.Simulation
         }
 
         /// <summary>
-        /// Calculates the sunrise and sunset hours for the provided <paramref name="date"/>.
+        /// Calculates the sunrise and sunset hours for the specified <paramref name="date"/>.
         /// </summary>
         ///
         /// <param name="date">The game date to calculate the sunrise and sunset times for.</param>

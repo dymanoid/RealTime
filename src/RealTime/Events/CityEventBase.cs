@@ -23,7 +23,7 @@ namespace RealTime.Events
         /// <summary>Gets the localized name of the building this city event takes place in.</summary>
         public string BuildingName { get; private set; }
 
-        /// <summary>Accepts an event attendee with provided properties.</summary>
+        /// <summary>Accepts an event attendee with specified properties.</summary>
         /// <param name="age">The attendee age.</param>
         /// <param name="gender">The attendee gender.</param>
         /// <param name="education">The attendee education.</param>
@@ -32,7 +32,7 @@ namespace RealTime.Events
         /// <param name="happiness">The attendee happiness.</param>
         /// <param name="randomizer">A reference to the game's randomizer.</param>
         /// <returns>
-        /// <c>true</c> if the event attendee with provided properties is accepted and can attend
+        /// <c>true</c> if the event attendee with specified properties is accepted and can attend
         /// this city event; otherwise, <c>false</c>.
         /// </returns>
         public virtual bool TryAcceptAttendee(
@@ -48,7 +48,7 @@ namespace RealTime.Events
         }
 
         /// <summary>
-        /// Configures this event to take place in the provided building and at the provided start time.
+        /// Configures this event to take place in the specified building and at the specified start time.
         /// </summary>
         /// <param name="buildingId">The building ID this city event should take place in.</param>
         /// <param name="buildingName">

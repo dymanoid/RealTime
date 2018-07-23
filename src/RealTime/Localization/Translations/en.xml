@@ -47,7 +47,9 @@
   <translation id="OnTimeQuota" value="On-time ratio" />
   <translation id="OnTimeQuotaTooltip" value="The percentage of the Cims that will go to and leave their work on time" />
 
-  <translation id="3Events" value="Events" />
+  <translation id="3Events" value="Events" />  
+  <translation id="AreEventsEnabled" value="Enable custom events" />
+  <translation id="AreEventsEnabledTooltip" value="If disabled, only vanilla game events can occur in the city" />
   <translation id="EarliestHourEventStartWeekday" value="Earliest weekday event" />
   <translation id="EarliestHourEventStartWeekdayTooltip" value="The earliest time when an event can start on a weekday" />
   <translation id="LatestHourEventStartWeekday" value="Latest weekday event" />
