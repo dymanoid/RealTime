@@ -80,8 +80,7 @@ namespace RealTime.Core
                 TouristAIPatch.Location,
                 UIGraphPatches.MinDataPoints,
                 UIGraphPatches.VisibleEndTime,
-                UIGraphPatches.BuildLabels,
-                WeatherManagerPatch.SimulationStepImpl);
+                UIGraphPatches.BuildLabels);
 
             try
             {
@@ -189,10 +188,7 @@ namespace RealTime.Core
             SimulationHandler.TimeAdjustment = null;
             SimulationHandler.WeatherInfo = null;
             SimulationHandler.Buildings = null;
-<<<<<<< refs/remotes/origin/master
             SimulationHandler.CitizenProcessor = null;
-=======
->>>>>>> Merge remote-tracking branch 'upstream/master'
 
             isEnabled = false;
         }
