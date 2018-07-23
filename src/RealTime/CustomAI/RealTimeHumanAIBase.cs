@@ -248,21 +248,6 @@ namespace RealTime.CustomAI
             return WeatherInfo.StayInsideChance != 0 && Random.ShouldOccur(WeatherInfo.StayInsideChance);
         }
 
-        /// <summary>Gets an estimated travel time (in hours) between two specified buildings.</summary>
-        /// <param name="building1">The ID of the first building.</param>
-        /// <param name="building2">The ID of the second building.</param>
-        /// <returns>An estimated travel time in hours.</returns>
-        protected float GetEstimatedTravelTime(ushort building1, ushort building2)
-        {
-            if (building1 == 0 || building2 == 0 || building1 == building2)
-            {
-                return 0;
-            }
-
-            float distance = BuildingMgr.GetDistanceBetweenBuildings(building1, building2);
-            return RealTimeMath.Clamp(distance / OnTheWayDistancePerHour, MinTravelTime, MaxTravelTime);
-        }
-
         private bool CanAttendEvent(uint citizenId, ref TCitizen citizen, ICityEvent cityEvent)
         {
             Citizen.AgeGroup age = CitizenProxy.GetAge(ref citizen);

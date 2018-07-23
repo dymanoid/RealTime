@@ -107,6 +107,12 @@ namespace RealTime.Core
                     return;
             }
 
+            Log.Info($"The 'Real Time' mod starts, game mode {mode}.");
+            if (core != null)
+            {
+                core.Stop();
+            }
+
             core = RealTimeCore.Run(config, modPath, localizationProvider);
             if (core == null)
             {
@@ -125,6 +131,7 @@ namespace RealTime.Core
         {
             if (core != null)
             {
+                Log.Info($"The 'Real Time' mod stops.");
                 core.Stop();
                 core = null;
             }

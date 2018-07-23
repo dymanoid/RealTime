@@ -20,7 +20,7 @@ namespace RealTime.CustomAI
         private readonly IRandomizer randomizer;
         private readonly IBuildingManagerConnection buildingManager;
         private readonly ITimeInfo timeInfo;
-        private readonly Func<ushort, ushort, float> travelTimeCalculator;
+        private readonly TravelBehavior travelBehavior;
 
         private DateTime lunchBegin;
         private DateTime lunchEnd;
@@ -30,21 +30,64 @@ namespace RealTime.CustomAI
         /// <param name="randomizer">The randomizer implementation.</param>
         /// <param name="buildingManager">The building manager implementation.</param>
         /// <param name="timeInfo">The time information source.</param>
-        /// <param name="travelTimeCalculator">A method accepting two building IDs and returning the estimated travel time
-        /// between those buildings (in hours).</param>
+        /// <param name="travelBehavior">A behavior that provides simulation info for the citizens traveling.</param>
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
         public WorkBehavior(
             RealTimeConfig config,
             IRandomizer randomizer,
             IBuildingManagerConnection buildingManager,
             ITimeInfo timeInfo,
-            Func<ushort, ushort, float> travelTimeCalculator)
+            TravelBehavior travelBehavior)
         {
             this.config = config ?? throw new ArgumentNullException(nameof(config));
             this.randomizer = randomizer ?? throw new ArgumentNullException(nameof(randomizer));
             this.buildingManager = buildingManager ?? throw new ArgumentNullException(nameof(buildingManager));
             this.timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
-            this.travelTimeCalculator = travelTimeCalculator ?? throw new ArgumentNullException(nameof(travelTimeCalculator));
+            this.travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
+        }
+
+        /// <summary>
+        /// Determines whether a building of specified <paramref name="service"/> and <paramref name="subService"/>
+        /// currently has working hours. Note that this method always returns <c>true</c> for residential buildings.
+        /// </summary>
+        /// <param name="service">The building service.</param>
+        /// <param name="subService">The building sub-service.</param>
+        /// <returns>
+        ///   <c>true</c> if a building of specified <paramref name="service"/> and <paramref name="subService"/>
+        /// currently has working hours; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsBuildingWorking(ItemClass.Service service, ItemClass.SubService subService)
+        {
+            switch (subService)
+            {
+                case ItemClass.SubService.CommercialLow:
+                case ItemClass.SubService.IndustrialOil:
+                case ItemClass.SubService.IndustrialOre:
+                    return true;
+            }
+
+            switch (service)
+            {
+                case ItemClass.Service.Residential:
+                case ItemClass.Service.Tourism:
+                case ItemClass.Service.PoliceDepartment:
+                case ItemClass.Service.FireDepartment:
+                case ItemClass.Service.PublicTransport:
+                case ItemClass.Service.Disaster:
+                case ItemClass.Service.Electricity:
+                case ItemClass.Service.Water:
+                case ItemClass.Service.HealthCare:
+                    return true;
+            }
+
+            if (config.IsWeekendEnabled && timeInfo.Now.IsWeekend() && !IsBuildingActiveOnWeekend(service, subService))
+            {
+                return false;
+            }
+
+            return IsBuildingWorking(
+                GetBuildingWorkShiftCount(service, subService),
+                HasExtendedFirstWorkShift(service, subService));
         }
 
         /// <summary>Updates the lunch time according to current date and configuration.</summary>
@@ -66,8 +109,8 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            ItemClass.Service buildingSevice = buildingManager.GetBuildingService(schedule.WorkBuilding);
-            ItemClass.SubService buildingSubService = buildingManager.GetBuildingSubService(schedule.WorkBuilding);
+            ItemClass.Service service = buildingManager.GetBuildingService(schedule.WorkBuilding);
+            ItemClass.SubService subService = buildingManager.GetBuildingSubService(schedule.WorkBuilding);
 
             float workBegin, workEnd;
             WorkShift workShift = schedule.WorkShift;
@@ -85,7 +128,7 @@ namespace RealTime.CustomAI
                 case Citizen.AgeGroup.Adult:
                     if (workShift == WorkShift.Unemployed)
                     {
-                        workShift = GetWorkShift(GetBuildingWorkShiftCount(buildingSevice, buildingSubService));
+                        workShift = GetWorkShift(GetBuildingWorkShiftCount(service, subService));
                     }
 
                     workBegin = config.WorkBegin;
@@ -98,7 +141,7 @@ namespace RealTime.CustomAI
 
             switch (workShift)
             {
-                case WorkShift.First when HasExtendedFirstWorkShift(buildingSevice, buildingSubService):
+                case WorkShift.First when HasExtendedFirstWorkShift(service, subService):
                     workBegin = Math.Min(config.WakeupHour, EarliestWakeUp);
                     break;
 
@@ -113,7 +156,7 @@ namespace RealTime.CustomAI
                     break;
             }
 
-            schedule.UpdateWorkShift(workShift, workBegin, workEnd, IsBuildingActiveOnWeekend(buildingSevice, buildingSubService));
+            schedule.UpdateWorkShift(workShift, workBegin, workEnd, IsBuildingActiveOnWeekend(service, subService));
         }
 
         /// <summary>Updates the citizen's work schedule by determining the time for going to work.</summary>
@@ -265,6 +308,29 @@ namespace RealTime.CustomAI
             }
         }
 
+        private bool IsBuildingWorking(int workShiftCount, bool extendedFirstShift)
+        {
+            float startHour, endHour;
+            switch (workShiftCount)
+            {
+                case 1:
+                    startHour = extendedFirstShift ? Math.Min(config.WakeupHour, EarliestWakeUp) : config.WorkBegin;
+                    endHour = config.WorkEnd;
+                    break;
+
+                case 2:
+                    startHour = config.WorkBegin;
+                    endHour = 24f;
+                    break;
+
+                default:
+                    return true;
+            }
+
+            float currentHour = timeInfo.CurrentHour;
+            return currentHour >= startHour && currentHour < endHour;
+        }
+
         private WorkShift GetWorkShift(int workShiftCount)
         {
             switch (workShiftCount)
@@ -303,7 +369,7 @@ namespace RealTime.CustomAI
 
             if (result <= 0)
             {
-                result = travelTimeCalculator(buildingId, schedule.WorkBuilding);
+                result = travelBehavior.GetEstimatedTravelTime(buildingId, schedule.WorkBuilding);
             }
 
             return result;

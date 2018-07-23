@@ -15,16 +15,22 @@ namespace RealTime.GameConnection.Patches
     internal static class BuildingAIPatches
     {
         /// <summary>Gets or sets the custom AI object for buildings.</summary>
-        public static RealTimePrivateBuildingAI RealTimeAI { get; set; }
+        public static RealTimeBuildingAI RealTimeAI { get; set; }
 
         /// <summary>Gets the patch for the commercial building AI class.</summary>
         public static IPatch CommercialSimulation { get; } = new CommercialBuildingA_SimulationStepActive();
 
-        /// <summary>Gets the first patch for the private building AI class.</summary>
-        public static IPatch PrivateHandleWorkers { get; } = new PrivateBuildingAI_HandleWorkers();
+        /// <summary>Gets the patch for the private building AI method 'HandleWorkers'.</summary>
+        public static IPatch HandleWorkers { get; } = new PrivateBuildingAI_HandleWorkers();
 
-        /// <summary>Gets the second patch for the private building AI class.</summary>
-        public static IPatch PrivateConstructionTime { get; } = new PrivateBuildingAI_GetConstructionTime();
+        /// <summary>Gets the patch for the private building AI method 'GetConstructionTime'.</summary>
+        public static IPatch GetConstructionTime { get; } = new PrivateBuildingAI_GetConstructionTime();
+
+        /// <summary>Gets the patch for the private building AI method 'ShowConsumption'.</summary>
+        public static IPatch PrivateShowConsumption { get; } = new PrivateBuildingAI_ShowConsumption();
+
+        /// <summary>Gets the patch for the player building AI method 'ShowConsumption'.</summary>
+        public static IPatch PlayerShowConsumption { get; } = new PlayerBuildingAI_ShowConsumption();
 
         private sealed class CommercialBuildingA_SimulationStepActive : PatchBase
         {
@@ -103,6 +109,58 @@ namespace RealTime.GameConnection.Patches
             {
                 __result = RealTimeAI?.GetConstructionTime() ?? 0;
                 return false;
+            }
+#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
+        }
+
+        private sealed class PrivateBuildingAI_ShowConsumption : PatchBase
+        {
+            protected override MethodInfo GetMethod()
+            {
+                return typeof(PrivateBuildingAI).GetMethod(
+                    "ShowConsumption",
+                    BindingFlags.Instance | BindingFlags.NonPublic,
+                    null,
+                    new[] { typeof(ushort), typeof(Building).MakeByRefType() },
+                    new ParameterModifier[0]);
+            }
+
+#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            private static bool Prefix(ushort buildingID, ref bool __result)
+            {
+                if (RealTimeAI != null && RealTimeAI.ShouldSwitchBuildingLightsOff(buildingID))
+                {
+                    __result = false;
+                    return false;
+                }
+
+                return true;
+            }
+#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
+        }
+
+        private sealed class PlayerBuildingAI_ShowConsumption : PatchBase
+        {
+            protected override MethodInfo GetMethod()
+            {
+                return typeof(PlayerBuildingAI).GetMethod(
+                    "ShowConsumption",
+                    BindingFlags.Instance | BindingFlags.NonPublic,
+                    null,
+                    new[] { typeof(ushort), typeof(Building).MakeByRefType() },
+                    new ParameterModifier[0]);
+            }
+
+#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            private static bool Prefix(ushort buildingID, ref bool __result)
+            {
+                if (RealTimeAI != null && RealTimeAI.ShouldSwitchBuildingLightsOff(buildingID))
+                {
+                    __result = false;
+                    return false;
+                }
+
+                return true;
             }
 #pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }

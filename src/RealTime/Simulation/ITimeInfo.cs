@@ -45,5 +45,8 @@ namespace RealTime.Simulation
         /// Gets the duration of the current or last night.
         /// </summary>
         float NightDuration { get; }
+
+        /// <summary>Gets the number of hours that fit into one simulation frame.</summary>
+        float HoursPerFrame { get; }
     }
 }

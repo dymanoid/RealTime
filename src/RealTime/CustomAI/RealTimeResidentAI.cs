@@ -21,6 +21,7 @@ namespace RealTime.CustomAI
         private readonly ResidentAIConnection<TAI, TCitizen> residentAI;
         private readonly WorkBehavior workBehavior;
         private readonly SpareTimeBehavior spareTimeBehavior;
+        private readonly TravelBehavior travelBehavior;
         private readonly CitizenSchedule[] residentSchedules;
         private float simulationCycle;
 
@@ -30,19 +31,25 @@ namespace RealTime.CustomAI
         /// <param name="connections">A <see cref="GameConnections{T}"/> instance that provides the game connection implementation.</param>
         /// <param name="residentAI">A connection to the game's resident AI.</param>
         /// <param name="eventManager">A <see cref="RealTimeEventManager"/> instance.</param>
+        /// <param name="workBehavior">A behavior that provides simulation info for the citizens work time.</param>
         /// <param name="spareTimeBehavior">A behavior that provides simulation info for the citizens spare time.</param>
+        /// <param name="travelBehavior">A behavior that provides simulation info for the citizens traveling.</param>
         public RealTimeResidentAI(
             RealTimeConfig config,
             GameConnections<TCitizen> connections,
             ResidentAIConnection<TAI, TCitizen> residentAI,
             RealTimeEventManager eventManager,
-            SpareTimeBehavior spareTimeBehavior)
+            WorkBehavior workBehavior,
+            SpareTimeBehavior spareTimeBehavior,
+            TravelBehavior travelBehavior)
             : base(config, connections, eventManager)
         {
             this.residentAI = residentAI ?? throw new ArgumentNullException(nameof(residentAI));
+            this.workBehavior = workBehavior ?? throw new ArgumentNullException(nameof(workBehavior));
             this.spareTimeBehavior = spareTimeBehavior ?? throw new ArgumentNullException(nameof(spareTimeBehavior));
+            this.travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
+
             residentSchedules = new CitizenSchedule[CitizenMgr.GetMaxCitizensCount()];
-            workBehavior = new WorkBehavior(config, connections.Random, connections.BuildingManager, connections.TimeInfo, GetEstimatedTravelTime);
         }
 
         /// <summary>The entry method of the custom AI.</summary>
