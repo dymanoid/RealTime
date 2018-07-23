@@ -15,6 +15,11 @@ namespace RealTime.GameConnection
     internal sealed class TimeInfo : ITimeInfo
     {
         private readonly RealTimeConfig config;
+<<<<<<< refs/remotes/origin/master
+        private DateTime currentTime;
+        private float currentHour;
+=======
+>>>>>>> Merge remote-tracking branch 'upstream/master'
 
         /// <summary>Initializes a new instance of the <see cref="TimeInfo" /> class.</summary>
         /// <param name="config">The configuration to run with.</param>
@@ -28,7 +33,23 @@ namespace RealTime.GameConnection
         public DateTime Now => SimulationManager.instance.m_currentGameTime;
 
         /// <summary>Gets the current daytime hour.</summary>
+<<<<<<< refs/remotes/origin/master
+        public float CurrentHour
+        {
+            get
+            {
+                if (SimulationManager.instance.m_currentGameTime != currentTime)
+                {
+                    currentTime = SimulationManager.instance.m_currentGameTime;
+                    currentHour = (float)Now.TimeOfDay.TotalHours;
+                }
+
+                return currentHour;
+            }
+        }
+=======
         public float CurrentHour => (float)Now.TimeOfDay.TotalHours;
+>>>>>>> Merge remote-tracking branch 'upstream/master'
 
         /// <summary>Gets the sunrise hour of the current day.</summary>
         public float SunriseHour => SimulationManager.SUNRISE_HOUR;

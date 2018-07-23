@@ -10,10 +10,23 @@
   <translation id="1General" value="일반" />
   <translation id="0Time" value="시간 옵션" />
   <translation id="1Other" value="기타 옵션" />
+<<<<<<< refs/remotes/origin/master
+<<<<<<< refs/remotes/origin/master
   <translation id="WakeupHour" value="도시가 잠애서 깰 시간" />
   <translation id="WakeupHourTooltip" value="대부분의 시민들이 잠에서 깰 시간을 설정합니다. 예산과 속도가 주간 모드로 설정됩니다!" />
   <translation id="GoToSleepUpHour" value="도시가 잠에 들 시간" />
   <translation id="GoToSleepUpHourTooltip" value="대부분의 시민들이 잠에 들 시간을 설정합니다. 예산과 속도가 야간 모드로 설정됩니다!" />
+=======
+=======
+>>>>>>> Merge remote-tracking branch 'upstream/master'
+  <translation id="WakeupHour" value="도시가 잠에서 깨는 시간" />
+  <translation id="WakeupHourTooltip" value="대다수 도시의 시민들이 잠에서 깨는 시간입니다. 예산과 시간 속도가 주간 속도로 맞춰집니다!" />
+  <translation id="GoToSleepUpHour" value="도시가 잠에 드는 시간" />
+  <translation id="GoToSleepUpHourTooltip" value="대다수 도시의 시민들이 잠에서 드는 시간입니다. 예산과 시간 속도가 야간 속도로 맞춰집니다!" />
+<<<<<<< refs/remotes/origin/master
+>>>>>>> City Wake/Night Translation
+=======
+>>>>>>> Merge remote-tracking branch 'upstream/master'
   <translation id="DayTimeSpeed" value="시간 속도 (주간)" />
   <translation id="DayTimeSpeedTooltip" value="낮 동안의 시간 속도를 정합니다. '1'은 매우 느리며, 거의 현실 시간과 같습니다!" />
   <translation id="NightTimeSpeed" value="시간 속도 (야간)" />
@@ -48,6 +61,8 @@
   <translation id="OnTimeQuotaTooltip" value="일반적인 근무시간에 일하는 시민들의 비율을 정합니다." />
 
   <translation id="3Events" value="이벤트" />
+  <translation id="AreEventsEnabled" value="사용자 정의 이벤트 활성화" />
+  <translation id="AreEventsEnabledTooltip" value="만약 비활성화되면, 도시에서 바닐라 게임의 이벤트만 벌어지게 됩니다." />
   <translation id="EarliestHourEventStartWeekday" value="주중 이벤트 빠른 시작 시간" />
   <translation id="EarliestHourEventStartWeekdayTooltip" value="이벤트가 주중에 최대한 일찍 시작할 시간을 설정합니다" />
   <translation id="LatestHourEventStartWeekday" value="주중 이벤트 늦은 시작 시간" />

@@ -57,6 +57,7 @@
     <Compile Include="Config\ConfigurationProvider.cs" />
     <Compile Include="Core\IStorageData.cs" />
     <Compile Include="Core\RealTimeStorage.cs" />
+    <Compile Include="CustomAI\CitizenScheduleStorage.cs" />
     <Compile Include="CustomAI\Constants.cs" />
     <Compile Include="CustomAI\RealTimeHumanAIBase.cs" />
     <Compile Include="CustomAI\ResidentState.cs" />
@@ -64,7 +65,13 @@
     <Compile Include="CustomAI\RealTimeResidentAI.Common.cs" />
     <Compile Include="CustomAI\RealTimeResidentAI.cs" />
     <Compile Include="CustomAI\RealTimeTouristAI.cs" />
+    <Compile Include="CustomAI\CitizenSchedule.cs" />
+    <Compile Include="CustomAI\ScheduleHint.cs" />
+    <Compile Include="CustomAI\SpareTimeBehavior.cs" />
     <Compile Include="CustomAI\WeatherInfo.cs" />
+    <Compile Include="CustomAI\WorkBehavior.cs" />
+    <Compile Include="CustomAI\WorkShift.cs" />
+    <Compile Include="CustomAI\WorkStatus.cs" />
     <Compile Include="Events\CityEventState.cs" />
     <Compile Include="Events\ICityEventsProvider.cs" />
     <Compile Include="Events\ICityEvent.cs" />
@@ -122,6 +129,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\RealTimeMod.cs" />
     <Compile Include="Simulation\AwakeSleepSimulation.cs" />
+<<<<<<< refs/remotes/origin/master
+    <Compile Include="Simulation\CitizenProcessor.cs" />
+=======
+>>>>>>> Merge remote-tracking branch 'upstream/master'
     <Compile Include="Simulation\DayTimeSimulation.cs" />
     <Compile Include="Simulation\IRandomizer.cs" />
     <Compile Include="Simulation\IWeatherInfo.cs" />
@@ -132,6 +143,7 @@
     <Compile Include="GameConnection\TimeInfo.cs" />
     <Compile Include="Tools\DateTimeExtensions.cs" />
     <Compile Include="Tools\LinkedListExtensions.cs" />
+    <Compile Include="Tools\RealTimeMath.cs" />
     <Compile Include="UI\CitiesButtonViewItem.cs" />
     <Compile Include="UI\CitiesContainerItemBase.cs" />
     <Compile Include="UI\CitiesTabItem.cs" />

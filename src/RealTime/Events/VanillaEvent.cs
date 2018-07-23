@@ -15,15 +15,20 @@ namespace RealTime.Events
         private readonly float ticketPrice;
 
         /// <summary>Initializes a new instance of the <see cref="VanillaEvent"/> class.</summary>
+        /// <param name="id">The event ID.</param>
         /// <param name="duration">The city event duration in hours.</param>
         /// <param name="ticketPrice">The event ticket price.</param>
-        public VanillaEvent(float duration, float ticketPrice)
+        public VanillaEvent(ushort id, float duration, float ticketPrice)
         {
             this.duration = duration;
             this.ticketPrice = ticketPrice;
+            EventId = id;
         }
 
-        /// <summary>Accepts an event attendee with provided properties.</summary>
+        /// <summary>Gets the vanilla event ID.</summary>
+        public ushort EventId { get; }
+
+        /// <summary>Accepts an event attendee with specified properties.</summary>
         /// <param name="age">The attendee age.</param>
         /// <param name="gender">The attendee gender.</param>
         /// <param name="education">The attendee education.</param>
@@ -32,7 +37,7 @@ namespace RealTime.Events
         /// <param name="happiness">The attendee happiness.</param>
         /// <param name="randomizer">A reference to the game's randomizer.</param>
         /// <returns>
-        /// <c>true</c> if the event attendee with provided properties is accepted and can attend
+        /// <c>true</c> if the event attendee with specified properties is accepted and can attend
         /// this city event; otherwise, <c>false</c>.
         /// </returns>
         public override bool TryAcceptAttendee(

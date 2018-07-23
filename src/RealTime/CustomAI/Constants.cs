@@ -17,17 +17,14 @@ namespace RealTime.CustomAI
         /// <summary>A distance in game units that corresponds to the complete map.</summary>
         public const float FullSearchDistance = BuildingManager.BUILDINGGRID_RESOLUTION * BuildingManager.BUILDINGGRID_CELL_SIZE / 2f;
 
-        /// <summary>A chance in percent for a citizen to abandon the transport waiting if it lasts too long.</summary>
-        public const uint AbandonTransportWaitChance = 80;
+        /// <summary>A chance in percent for an unemployed citizen to stay home until next morning.</summary>
+        public const uint StayHomeAllDayChance = 15;
 
         /// <summary>A chance in percent for a citizen to go shopping.</summary>
-        public const uint GoShoppingChance = 50;
+        public const uint GoShoppingChance = 80;
 
-        /// <summary>A chance in percent for a citizen to return shopping.</summary>
-        public const uint ReturnFromShoppingChance = 60;
-
-        /// <summary>A chance in percent for a citizen to return from a visited building.</summary>
-        public const uint ReturnFromVisitChance = 40;
+        /// <summary>A chance in percent for a citizen to go to sleep when he or she is at home and doesn't go out.</summary>
+        public const uint GoSleepingChance = 75;
 
         /// <summary>A chance in percent for a tourist to find a hotel for sleepover.</summary>
         public const uint FindHotelChance = 80;
@@ -41,14 +38,14 @@ namespace RealTime.CustomAI
         /// <summary>A hard coded game value describing a 'do nothing' probability for a tourist.</summary>
         public const int TouristDoNothingProbability = 5000;
 
-        /// <summary>An assumed maximum on-the-way time to a target building.</summary>
-        public const float MaxHoursOnTheWay = 2.5f;
+        /// <summary>The amount of hours the citizen will spend preparing to work and not going out.</summary>
+        public const float PrepareToWorkHours = 1f;
 
-        /// <summary>An assumed minimum on-the-way time to a target building.</summary>
-        public const float MinHoursOnTheWay = 0.5f;
+        /// <summary>An assumed maximum travel time to a target building.</summary>
+        public const float MaxTravelTime = 4f;
 
-        /// <summary>A minimum work shift duration in hours.</summary>
-        public const float MinimumWorkShiftDuration = 2f;
+        /// <summary>An assumed minimum travel to a target building.</summary>
+        public const float MinTravelTime = 0.25f;
 
         /// <summary>An earliest hour when citizens wake up at home.</summary>
         public const float EarliestWakeUp = 5.5f;

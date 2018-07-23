@@ -5,458 +5,101 @@
 namespace RealTime.CustomAI
 {
     using RealTime.Tools;
-    using UnityEngine;
     using static Constants;
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
-        private const int ShiftBitsCount = 5;
-        private const uint WorkShiftsMask = (1u << ShiftBitsCount) - 1;
-
-        private uint secondShiftQuota;
-        private uint nightShiftQuota;
-        private uint secondShiftValue;
-        private uint nightShiftValue;
-
-        private enum WorkerShift
+        private bool ScheduleWork(ref CitizenSchedule schedule, ref TCitizen citizen)
         {
-            None,
-            First,
-            Second,
-            Night,
-            Any
-        }
-
-        private bool IsLunchHour => IsWorkDayAndBetweenHours(Config.LunchBegin, Config.LunchEnd);
-
-        private static bool IsBuildingActiveOnWeekend(ItemClass.Service service, ItemClass.SubService subService)
-        {
-            switch (service)
-            {
-                case ItemClass.Service.Commercial
-                    when subService != ItemClass.SubService.CommercialHigh && subService != ItemClass.SubService.CommercialEco:
-                case ItemClass.Service.Tourism:
-                case ItemClass.Service.Electricity:
-                case ItemClass.Service.Water:
-                case ItemClass.Service.Beautification:
-                case ItemClass.Service.HealthCare:
-                case ItemClass.Service.PoliceDepartment:
-                case ItemClass.Service.FireDepartment:
-                case ItemClass.Service.PublicTransport:
-                case ItemClass.Service.Disaster:
-                case ItemClass.Service.Monument:
-                    return true;
-
-                default:
-                    return false;
-            }
-        }
-
-        private static int GetBuildingWorkShiftCount(ItemClass.Service service)
-        {
-            switch (service)
-            {
-                case ItemClass.Service.Office:
-                case ItemClass.Service.Garbage:
-                case ItemClass.Service.Education:
-                    return 1;
-
-                case ItemClass.Service.Road:
-                case ItemClass.Service.Beautification:
-                case ItemClass.Service.Monument:
-                case ItemClass.Service.Citizen:
-                    return 2;
-
-                case ItemClass.Service.Commercial:
-                case ItemClass.Service.Industrial:
-                case ItemClass.Service.Tourism:
-                case ItemClass.Service.Electricity:
-                case ItemClass.Service.Water:
-                case ItemClass.Service.HealthCare:
-                case ItemClass.Service.PoliceDepartment:
-                case ItemClass.Service.FireDepartment:
-                case ItemClass.Service.PublicTransport:
-                case ItemClass.Service.Disaster:
-                case ItemClass.Service.Natural:
-                    return 3;
-
-                default:
-                    return 1;
-            }
-        }
-
-        private static bool ShouldWorkAtDawn(ItemClass.Service service, ItemClass.SubService subService)
-        {
-            switch (service)
-            {
-                case ItemClass.Service.Commercial when subService == ItemClass.SubService.CommercialLow:
-                case ItemClass.Service.Beautification:
-                case ItemClass.Service.Garbage:
-                case ItemClass.Service.Road:
-                    return true;
-
-                default:
-                    return false;
-            }
-        }
-
-        private static bool CheckMinimumShiftDuration(float beginHour, float endHour)
-        {
-            if (beginHour < endHour)
-            {
-                return endHour - beginHour >= MinimumWorkShiftDuration;
-            }
-            else
-            {
-                return 24f - beginHour + endHour >= MinimumWorkShiftDuration;
-            }
-        }
-
-        private static bool IsWorkHour(float currentHour, float gotoWorkHour, float leaveWorkHour)
-        {
-            if (gotoWorkHour < leaveWorkHour)
-            {
-                if (currentHour >= leaveWorkHour || currentHour < gotoWorkHour)
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                if (currentHour >= leaveWorkHour && currentHour < gotoWorkHour)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private WorkerShift GetWorkerShift(uint citizenId)
-        {
-            if (secondShiftQuota != Config.SecondShiftQuota || nightShiftQuota != Config.NightShiftQuota)
-            {
-                secondShiftQuota = Config.SecondShiftQuota;
-                nightShiftQuota = Config.NightShiftQuota;
-                CalculateWorkShiftValues();
-            }
-
-            uint value = citizenId & WorkShiftsMask;
-            if (value <= secondShiftValue)
-            {
-                return WorkerShift.Second;
-            }
-
-            value = (citizenId >> ShiftBitsCount) & WorkShiftsMask;
-            if (value <= nightShiftValue)
-            {
-                return WorkerShift.Night;
-            }
-
-            return WorkerShift.First;
-        }
-
-        private void CalculateWorkShiftValues()
-        {
-            secondShiftValue = Config.SecondShiftQuota - 1;
-            nightShiftValue = Config.NightShiftQuota - 1;
-        }
-
-        private void ProcessCitizenAtSchoolOrWork(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
-        {
-            ushort workBuilding = CitizenProxy.GetWorkBuilding(ref citizen);
-            if (workBuilding == 0)
-            {
-                Log.Debug($"WARNING: {GetCitizenDesc(citizenId, ref citizen, isVirtual)} is in corrupt state: at school/work with no work building. Teleporting home.");
-                CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
-                return;
-            }
-
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
-            if (ShouldGoToLunch(CitizenProxy.GetAge(ref citizen), citizenId))
-            {
-                ushort lunchPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance, isVirtual);
-                if (lunchPlace != 0)
-                {
-                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} is going for lunch from {currentBuilding} to {lunchPlace}");
-                }
-                else
-                {
-                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} wanted to go for lunch from {currentBuilding}, but there were no buildings close enough");
-                }
-
-                return;
-            }
-
-            if (!ShouldReturnFromSchoolOrWork(citizenId, currentBuilding, CitizenProxy.GetAge(ref citizen)))
-            {
-                return;
-            }
-
-            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} leaves their workplace {workBuilding}");
-
-            if (CitizenGoesToEvent(instance, citizenId, ref citizen, isVirtual))
-            {
-                return;
-            }
-
-            if (!CitizenGoesShopping(instance, citizenId, ref citizen, isVirtual) && !CitizenGoesRelaxing(instance, citizenId, ref citizen, isVirtual))
-            {
-                if (isVirtual)
-                {
-                    CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
-                }
-                else
-                {
-                    residentAI.StartMoving(instance, citizenId, ref citizen, workBuilding, CitizenProxy.GetHomeBuilding(ref citizen));
-                }
-            }
-        }
-
-        private bool CitizenGoesWorking(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
-        {
-            ushort homeBuilding = CitizenProxy.GetHomeBuilding(ref citizen);
-            ushort workBuilding = CitizenProxy.GetWorkBuilding(ref citizen);
-            ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
-
-            if (!ShouldMoveToSchoolOrWork(citizenId, workBuilding, currentBuilding, CitizenProxy.GetAge(ref citizen)))
+            if (!workBehavior.ScheduleGoToWork(ref schedule, currentBuilding, simulationCycle))
             {
                 return false;
             }
 
-            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} is going from {currentBuilding} to school/work {workBuilding}");
+            Log.Debug($"  - Schedule work at {schedule.ScheduledStateTime}");
 
-            if (isVirtual)
+            float timeLeft = (float)(schedule.ScheduledStateTime - TimeInfo.Now).TotalHours;
+            if (timeLeft <= PrepareToWorkHours)
             {
+                // Just sit at home if the work time will come soon
+                Log.Debug($"  - Worktime in {timeLeft} hours, preparing for departure");
+                return true;
+            }
+
+            if (timeLeft <= MaxTravelTime)
+            {
+                if (schedule.CurrentState != ResidentState.AtHome)
+                {
+                    Log.Debug($"  - Worktime in {timeLeft} hours, returning home");
+                    schedule.Schedule(ResidentState.AtHome, default);
+                    return true;
+                }
+
+                // If we have some time, try to shop locally.
+                if (ScheduleShopping(ref schedule, ref citizen, true))
+                {
+                    Log.Debug($"  - Worktime in {timeLeft} hours, trying local shop");
+                }
+                else
+                {
+                    Log.Debug($"  - Worktime in {timeLeft} hours, doing nothing");
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private void DoScheduledWork(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
+        {
+            ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
+            schedule.WorkStatus = WorkStatus.Working;
+            schedule.DepartureToWorkTime = default;
+
+            if (currentBuilding == schedule.WorkBuilding && schedule.CurrentState != ResidentState.AtSchoolOrWork)
+            {
+                CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
                 CitizenProxy.SetLocation(ref citizen, Citizen.Location.Work);
             }
-            else
+            else if (residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, schedule.WorkBuilding)
+                && schedule.CurrentState == ResidentState.AtHome)
             {
-                residentAI.StartMoving(instance, citizenId, ref citizen, homeBuilding, workBuilding);
+                schedule.DepartureToWorkTime = TimeInfo.Now;
             }
 
-            return true;
-        }
-
-        private bool ShouldMoveToSchoolOrWork(uint citizenId, ushort workBuilding, ushort currentBuilding, Citizen.AgeGroup citizenAge)
-        {
-            if (workBuilding == 0 || citizenAge == Citizen.AgeGroup.Senior)
+            Citizen.AgeGroup citizenAge = CitizenProxy.GetAge(ref citizen);
+            if (workBehavior.ScheduleLunch(ref schedule, citizenAge))
             {
-                return false;
-            }
-
-            ItemClass.Service buildingSevice = BuildingMgr.GetBuildingService(workBuilding);
-            ItemClass.SubService buildingSubService = BuildingMgr.GetBuildingSubService(workBuilding);
-
-            if (IsWeekend && !IsBuildingActiveOnWeekend(buildingSevice, buildingSubService))
-            {
-                return false;
-            }
-
-            if ((citizenId & 0x7FF) == TimeInfo.Now.Day)
-            {
-                Log.Debug(TimeInfo.Now, $"Citizen {citizenId} has a day off work today");
-                return false;
-            }
-
-            if (citizenAge == Citizen.AgeGroup.Child || citizenAge == Citizen.AgeGroup.Teen)
-            {
-                return ShouldMoveToSchoolOrWork(currentBuilding, workBuilding, Config.SchoolBegin, Config.SchoolEnd, 0);
-            }
-
-            GetWorkShiftTimes(citizenId, buildingSevice, buildingSubService, out float workBeginHour, out float workEndHour);
-            if (!CheckMinimumShiftDuration(workBeginHour, workEndHour))
-            {
-                return false;
-            }
-
-            float overtime = Random.ShouldOccur(Config.OnTimeQuota) ? 0 : Config.MaxOvertime * Random.GetRandomValue(100u) / 200f;
-
-            return ShouldMoveToSchoolOrWork(currentBuilding, workBuilding, workBeginHour, workEndHour, overtime);
-        }
-
-        private bool ShouldMoveToSchoolOrWork(ushort currentBuilding, ushort workBuilding, float workBeginHour, float workEndHour, float overtime)
-        {
-            float gotoHour = workBeginHour - overtime - MaxHoursOnTheWay;
-            if (gotoHour < 0)
-            {
-                gotoHour += 24f;
-            }
-
-            float leaveHour = workEndHour + overtime;
-            if (leaveHour >= 24f)
-            {
-                leaveHour -= 24f;
-            }
-
-            float currentHour = TimeInfo.CurrentHour;
-            if (!IsWorkHour(currentHour, gotoHour, leaveHour))
-            {
-                return false;
-            }
-
-            float distance = BuildingMgr.GetDistanceBetweenBuildings(currentBuilding, workBuilding);
-            float onTheWay = Mathf.Clamp(distance / OnTheWayDistancePerHour, MinHoursOnTheWay, MaxHoursOnTheWay);
-
-            gotoHour = workBeginHour - overtime - onTheWay;
-            if (gotoHour < 0)
-            {
-                gotoHour += 24f;
-            }
-
-            return IsWorkHour(currentHour, gotoHour, leaveHour);
-        }
-
-        private bool ShouldReturnFromSchoolOrWork(uint citizenId, ushort buildingId, Citizen.AgeGroup citizenAge)
-        {
-            if (citizenAge == Citizen.AgeGroup.Senior)
-            {
-                return true;
-            }
-
-            ItemClass.Service buildingSevice = BuildingMgr.GetBuildingService(buildingId);
-            ItemClass.SubService buildingSubService = BuildingMgr.GetBuildingSubService(buildingId);
-
-            if (IsWeekend && !IsBuildingActiveOnWeekend(buildingSevice, buildingSubService))
-            {
-                return true;
-            }
-
-            float currentHour = TimeInfo.CurrentHour;
-
-            if (citizenAge == Citizen.AgeGroup.Child || citizenAge == Citizen.AgeGroup.Teen)
-            {
-                return currentHour >= Config.SchoolEnd || currentHour < Config.SchoolBegin - MaxHoursOnTheWay;
-            }
-
-            GetWorkShiftTimes(citizenId, buildingSevice, buildingSubService, out float workBeginHour, out float workEndHour);
-            if (!CheckMinimumShiftDuration(workBeginHour, workEndHour))
-            {
-                return true;
-            }
-
-            float earliestGotoHour = workBeginHour - MaxHoursOnTheWay - Config.MaxOvertime;
-            if (earliestGotoHour < 0)
-            {
-                earliestGotoHour += 24f;
-            }
-
-            float latestLeaveHour = workEndHour + Config.MaxOvertime;
-            if (latestLeaveHour >= 24f)
-            {
-                latestLeaveHour -= 24f;
-            }
-
-            if (earliestGotoHour < latestLeaveHour)
-            {
-                if (currentHour >= latestLeaveHour || currentHour < earliestGotoHour)
-                {
-                    return true;
-                }
-                else if (currentHour >= workEndHour)
-                {
-                    return Random.ShouldOccur(Config.OnTimeQuota);
-                }
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} to school/work {schedule.WorkBuilding} and will go to lunch at {schedule.ScheduledStateTime}");
             }
             else
             {
-                if (currentHour >= latestLeaveHour && currentHour < earliestGotoHour)
-                {
-                    return true;
-                }
-                else if (currentHour >= workEndHour && currentHour < earliestGotoHour)
-                {
-                    return Random.ShouldOccur(Config.OnTimeQuota);
-                }
+                workBehavior.ScheduleReturnFromWork(ref schedule, citizenAge);
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} to school/work {schedule.WorkBuilding} and will leave work at {schedule.ScheduledStateTime}");
             }
-
-            return false;
         }
 
-        private bool ShouldGoToLunch(Citizen.AgeGroup citizenAge, uint citizenId)
+        private void DoScheduledLunch(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            if (!Config.IsLunchtimeEnabled)
+            ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
+#if DEBUG
+            string citizenDesc = GetCitizenDesc(citizenId, ref citizen);
+#else
+            string citizenDesc = null;
+#endif
+            ushort lunchPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance);
+            if (lunchPlace != 0)
             {
-                return false;
-            }
-
-            switch (citizenAge)
-            {
-                case Citizen.AgeGroup.Child:
-                case Citizen.AgeGroup.Teen:
-                case Citizen.AgeGroup.Senior:
-                    return false;
-            }
-
-            float currentHour = TimeInfo.CurrentHour;
-            if (!IsBadWeather(citizenId) && currentHour >= Config.LunchBegin && currentHour <= Config.LunchEnd)
-            {
-                return Random.ShouldOccur(Config.LunchQuota);
-            }
-
-            return false;
-        }
-
-        private bool CitizenReturnsFromLunch(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
-        {
-            if (IsLunchHour)
-            {
-                return false;
-            }
-
-            ushort workBuilding = CitizenProxy.GetWorkBuilding(ref citizen);
-            if (workBuilding != 0)
-            {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen, isVirtual)} returning from lunch to {workBuilding}");
-                ReturnFromVisit(instance, citizenId, ref citizen, workBuilding, Citizen.Location.Work, isVirtual);
+                Log.Debug(TimeInfo.Now, $"{citizenDesc} is going for lunch from {currentBuilding} to {lunchPlace}");
+                workBehavior.ScheduleReturnFromLunch(ref schedule);
             }
             else
             {
-                Log.Debug($"WARNING: {GetCitizenDesc(citizenId, ref citizen, isVirtual)} is at lunch but no work building. Teleporting home.");
-                CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
+                Log.Debug(TimeInfo.Now, $"{citizenDesc} wanted to go for lunch from {currentBuilding}, but there were no buildings close enough");
+                workBehavior.ScheduleReturnFromWork(ref schedule, CitizenProxy.GetAge(ref citizen));
             }
-
-            return true;
-        }
-
-        private void GetWorkShiftTimes(uint citizenId, ItemClass.Service sevice, ItemClass.SubService subService, out float beginHour, out float endHour)
-        {
-            float begin = -1;
-            float end = -1;
-
-            int shiftCount = GetBuildingWorkShiftCount(sevice);
-            if (shiftCount > 1)
-            {
-                switch (GetWorkerShift(citizenId))
-                {
-                    case WorkerShift.Second:
-                        begin = Config.WorkEnd;
-                        end = 0;
-                        break;
-
-                    case WorkerShift.Night when shiftCount == 3:
-                        begin = 0;
-                        end = Config.WorkBegin;
-                        break;
-                }
-            }
-
-            if (begin < 0 || end < 0)
-            {
-                end = Config.WorkEnd;
-
-                if (ShouldWorkAtDawn(sevice, subService))
-                {
-                    begin = Mathf.Min(TimeInfo.SunriseHour, EarliestWakeUp);
-                }
-                else
-                {
-                    begin = Config.WorkBegin;
-                }
-            }
-
-            beginHour = begin;
-            endHour = end;
         }
     }
 }

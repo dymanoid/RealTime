@@ -31,4 +31,18 @@ _ReSharper*/
 
 #Nuget packages folder
 packages/
+
+<<<<<<< refs/remotes/origin/master
+<<<<<<< refs/remotes/origin/master
+#MacOS stuff
 .DS_Store
+=======
+src/RealTime/\.DS_Store
+
+src/RealTime/Localization/\.DS_Store
+>>>>>>> damm removed .ds_store
+=======
+src/RealTime/\.DS_Store
+
+src/RealTime/Localization/\.DS_Store
+>>>>>>> Merge remote-tracking branch 'upstream/master'

@@ -43,6 +43,9 @@ namespace RealTime.Simulation
         /// <summary>Gets or sets the weather information class instance.</summary>
         internal static WeatherInfo WeatherInfo { get; set; }
 
+        /// <summary>Gets or sets the citizen processing class instance.</summary>
+        internal static CitizenProcessor CitizenProcessor { get; set; }
+
         /// <summary>
         /// Called before each game simulation tick. A tick contains multiple frames.
         /// Performs the dispatching for this simulation phase.
@@ -50,22 +53,23 @@ namespace RealTime.Simulation
         public override void OnBeforeSimulationTick()
         {
             WeatherInfo?.Update();
-        }
-
-        /// <summary>
-        /// Called after each game simulation tick. A tick contains multiple frames.
-        /// Performs the dispatching for this simulation phase.
-        /// </summary>
-        public override void OnAfterSimulationTick()
-        {
             EventManager?.ProcessEvents();
-            TimeAdjustment?.Update();
+
+            if (CitizenProcessor != null)
+            {
+                CitizenProcessor.ProcessTick();
+                if (TimeAdjustment != null && TimeAdjustment.Update())
+                {
+                    CitizenProcessor.SetFrameDuration(TimeAdjustment.HoursPerFrame);
+                }
+            }
 
             DateTime currentDate = SimulationManager.instance.m_currentGameTime.Date;
             if (currentDate != lastHandledDate)
             {
                 lastHandledDate = currentDate;
                 DayTimeSimulation?.Process(currentDate);
+                CitizenProcessor?.StartNewDay();
                 OnNewDay(this);
             }
         }
@@ -75,10 +79,9 @@ namespace RealTime.Simulation
         /// </summary>
         public override void OnBeforeSimulationFrame()
         {
-            if ((SimulationManager.instance.m_currentFrameIndex & 0xFF) == 0)
-            {
-                Buildings?.StartBuildingProcessingFrame();
-            }
+            uint currentFrame = SimulationManager.instance.m_currentFrameIndex;
+            Buildings?.ProcessFrame(currentFrame);
+            CitizenProcessor?.ProcessFrame(currentFrame);
         }
 
         private static void OnNewDay(SimulationHandler sender)

@@ -48,6 +48,8 @@
   <translation id="OnTimeQuotaTooltip" value="Anteil der Cims, die keine Überstunden machen und pünktlich zur und von der Arbeit gehen" />
 
   <translation id="3Events" value="Ereignisse" />
+  <translation id="AreEventsEnabled" value="Zusätzliche Ereignisse" />
+  <translation id="AreEventsEnabledTooltip" value="Wenn deaktiviert, nur Ereignisse aus dem Originalspiel können stattfinden" />
   <translation id="EarliestHourEventStartWeekday" value="Frühester Beginn unter der Woche" />
   <translation id="EarliestHourEventStartWeekdayTooltip" value="Der früheste Zeitpunkt, wann ein Ereignis am Tag unter der Woche beginnen kann" />
   <translation id="LatestHourEventStartWeekday" value="Spätester Beginn unter der Woche" />
