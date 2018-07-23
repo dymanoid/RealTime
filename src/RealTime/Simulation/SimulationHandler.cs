@@ -72,12 +72,17 @@ namespace RealTime.Simulation
                 Buildings?.UpdateFrameDuration();
             }
 
+            if (DayTimeSimulation == null || CitizenProcessor == null)
+            {
+                return;
+            }
+
             DateTime currentDate = SimulationManager.instance.m_currentGameTime.Date;
             if (currentDate != lastHandledDate)
             {
                 lastHandledDate = currentDate;
-                DayTimeSimulation?.Process(currentDate);
-                CitizenProcessor?.StartNewDay();
+                DayTimeSimulation.Process(currentDate);
+                CitizenProcessor.StartNewDay();
                 OnNewDay(this);
             }
         }
