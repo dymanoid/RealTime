@@ -48,8 +48,8 @@
   <translation id="OnTimeQuotaTooltip" value="일반적인 근무시간에 일하는 시민들의 비율을 정합니다." />
 
   <translation id="3Events" value="이벤트" />
-  <translation id="AreEventsEnabled" value="Enable custom events" />
-  <translation id="AreEventsEnabledTooltip" value="If disabled, only vanilla game events can occur in the city" />
+  <translation id="AreEventsEnabled" value="사용자 정의 이벤트 활성화" />
+  <translation id="AreEventsEnabledTooltip" value="만약 비활성화되면, 도시에서 바닐라 게임의 이벤트만 벌어지게 됩니다." />
   <translation id="EarliestHourEventStartWeekday" value="주중 이벤트 빠른 시작 시간" />
   <translation id="EarliestHourEventStartWeekdayTooltip" value="이벤트가 주중에 최대한 일찍 시작할 시간을 설정합니다" />
   <translation id="LatestHourEventStartWeekday" value="주중 이벤트 늦은 시작 시간" />
