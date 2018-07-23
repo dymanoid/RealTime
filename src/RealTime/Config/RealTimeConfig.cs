@@ -95,6 +95,13 @@ namespace RealTime.Config
         public uint ConstructionSpeed { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the inactive buildings should switch off the lights at night time.
+        /// </summary>
+        [ConfigItem("1General", "1Other", 3)]
+        [ConfigItemCheckBox]
+        public bool SwitchOffLightsAtNight { get; set; }
+
+        /// <summary>
         /// Gets or sets a value that determines the percentage of the Cims that will work second shift.
         /// Valid values are 1..8.
         /// </summary>
@@ -296,6 +303,7 @@ namespace RealTime.Config
 
             StopConstructionAtNight = true;
             ConstructionSpeed = 50;
+            SwitchOffLightsAtNight = true;
 
             SecondShiftQuota = 13;
             NightShiftQuota = 6;

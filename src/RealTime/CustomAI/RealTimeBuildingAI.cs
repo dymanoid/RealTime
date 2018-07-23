@@ -176,7 +176,9 @@ namespace RealTime.CustomAI
         /// </returns>
         public bool ShouldSwitchBuildingLightsOff(ushort buildingId)
         {
-            return !lightStates[buildingId];
+            return config.SwitchOffLightsAtNight
+                ? !lightStates[buildingId]
+                : false;
         }
 
         private void UpdateLightState(uint frameIndex)
