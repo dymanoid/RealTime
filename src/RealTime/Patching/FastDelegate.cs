@@ -17,7 +17,7 @@ namespace RealTime.Patching
     internal static class FastDelegate
     {
         /// <summary>
-        /// Creates a delegate instance of the provided <typeparamref name="TDelegate"/> type that represents a method
+        /// Creates a delegate instance of the specified <typeparamref name="TDelegate"/> type that represents a method
         /// of the <typeparamref name="TType"/> class. If the target method is a <typeparamref name="TType"/>'s instance
         /// method, the first parameter of the <typeparamref name="TDelegate"/> signature must be a reference to a
         /// <typeparamref name="TType"/> instance.
@@ -67,7 +67,7 @@ namespace RealTime.Patching
 
             if (methodInfo == null)
             {
-                throw new MissingMethodException($"The method '{typeof(TType).Name}.{name}' matching the provided signature doesn't exist: {typeof(TDelegate)}");
+                throw new MissingMethodException($"The method '{typeof(TType).Name}.{name}' matching the specified signature doesn't exist: {typeof(TDelegate)}");
             }
 
             return methodInfo;

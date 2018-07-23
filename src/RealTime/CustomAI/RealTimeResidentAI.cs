@@ -3,7 +3,9 @@
 namespace RealTime.CustomAI
 {
     using System;
+    using System.IO;
     using RealTime.Config;
+    using RealTime.Core;
     using RealTime.Events;
     using RealTime.GameConnection;
     using RealTime.Tools;
@@ -17,6 +19,10 @@ namespace RealTime.CustomAI
         where TCitizen : struct
     {
         private readonly ResidentAIConnection<TAI, TCitizen> residentAI;
+        private readonly WorkBehavior workBehavior;
+        private readonly SpareTimeBehavior spareTimeBehavior;
+        private readonly CitizenSchedule[] residentSchedules;
+        private float simulationCycle;
 
         /// <summary>Initializes a new instance of the <see cref="RealTimeResidentAI{TAI, TCitizen}"/> class.</summary>
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
@@ -24,14 +30,19 @@ namespace RealTime.CustomAI
         /// <param name="connections">A <see cref="GameConnections{T}"/> instance that provides the game connection implementation.</param>
         /// <param name="residentAI">A connection to the game's resident AI.</param>
         /// <param name="eventManager">A <see cref="RealTimeEventManager"/> instance.</param>
+        /// <param name="spareTimeBehavior">A behavior that provides simulation info for the citizens spare time.</param>
         public RealTimeResidentAI(
             RealTimeConfig config,
             GameConnections<TCitizen> connections,
             ResidentAIConnection<TAI, TCitizen> residentAI,
-            RealTimeEventManager eventManager)
+            RealTimeEventManager eventManager,
+            SpareTimeBehavior spareTimeBehavior)
             : base(config, connections, eventManager)
         {
             this.residentAI = residentAI ?? throw new ArgumentNullException(nameof(residentAI));
+            this.spareTimeBehavior = spareTimeBehavior ?? throw new ArgumentNullException(nameof(spareTimeBehavior));
+            residentSchedules = new CitizenSchedule[CitizenMgr.GetMaxCitizensCount()];
+            workBehavior = new WorkBehavior(config, connections.Random, connections.BuildingManager, connections.TimeInfo, GetEstimatedTravelTime);
         }
 
         /// <summary>The entry method of the custom AI.</summary>
@@ -42,79 +53,107 @@ namespace RealTime.CustomAI
         {
             if (!EnsureCitizenCanBeProcessed(citizenId, ref citizen))
             {
+                residentSchedules[citizenId] = default;
                 return;
             }
 
+            ref CitizenSchedule schedule = ref residentSchedules[citizenId];
             if (CitizenProxy.IsDead(ref citizen))
             {
                 ProcessCitizenDead(instance, citizenId, ref citizen);
+                schedule.Schedule(ResidentState.Unknown, default);
                 return;
             }
 
             if ((CitizenProxy.IsSick(ref citizen) && ProcessCitizenSick(instance, citizenId, ref citizen))
                 || (CitizenProxy.IsArrested(ref citizen) && ProcessCitizenArrested(ref citizen)))
             {
+                schedule.Schedule(ResidentState.Unknown, default);
                 return;
             }
 
-            ResidentState residentState = GetResidentState(ref citizen);
-            bool isVirtual;
-
-            switch (residentState)
+            ScheduleAction actionType = UpdateCitizenState(citizenId, ref citizen, ref schedule);
+            switch (actionType)
             {
-                case ResidentState.MovingHome:
-                    ProcessCitizenMoving(instance, citizenId, ref citizen, false);
+                case ScheduleAction.Ignore:
+                    return;
+
+                case ScheduleAction.ProcessTransition when ProcessCitizenMoving(ref schedule, instance, citizenId, ref citizen):
+                    return;
+            }
+
+            if (schedule.CurrentState == ResidentState.Unknown)
+            {
+                Log.Debug(TimeInfo.Now, $"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is in an UNKNOWN state! Changing to 'moving'");
+                CitizenProxy.SetLocation(ref citizen, Citizen.Location.Moving);
+                return;
+            }
+
+            if (TimeInfo.Now < schedule.ScheduledStateTime)
+            {
+                return;
+            }
+
+            UpdateCitizenSchedule(ref schedule, citizenId, ref citizen);
+            ExecuteCitizenSchedule(ref schedule, instance, citizenId, ref citizen);
+        }
+
+        /// <summary>Notifies that a citizen has arrived their destination.</summary>
+        /// <param name="citizenId">The citizen ID to process.</param>
+        public void RegisterCitizenArrival(uint citizenId)
+        {
+            if (citizenId == 0 || citizenId >= residentSchedules.Length)
+            {
+                return;
+            }
+
+            ref CitizenSchedule schedule = ref residentSchedules[citizenId];
+            switch (CitizenMgr.GetCitizenLocation(citizenId))
+            {
+                case Citizen.Location.Work:
+                    schedule.UpdateTravelTimeToWork(TimeInfo.Now);
+                    Log.Debug($"The citizen {citizenId} arrived at work at {TimeInfo.Now} and needs {schedule.TravelTimeToWork} hours to get to work");
                     break;
 
-                case ResidentState.AtHome:
-                    isVirtual = IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen);
-                    ProcessCitizenAtHome(instance, citizenId, ref citizen, isVirtual);
-                    break;
+                case Citizen.Location.Moving:
+                    return;
+            }
 
-                case ResidentState.MovingToTarget:
-                    ProcessCitizenMoving(instance, citizenId, ref citizen, true);
-                    break;
+            schedule.DepartureToWorkTime = default;
+        }
 
-                case ResidentState.AtSchoolOrWork:
-                    isVirtual = IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen);
-                    ProcessCitizenAtSchoolOrWork(instance, citizenId, ref citizen, isVirtual);
-                    break;
+        /// <summary>Performs simulation for starting a new day for all citizens.</summary>
+        public void BeginNewDay()
+        {
+            workBehavior.UpdateLunchTime();
+            todayWakeup = TimeInfo.Now.Date.AddHours(Config.WakeupHour);
+        }
 
-                case ResidentState.AtLunch:
-                case ResidentState.Shopping:
-                case ResidentState.AtLeisureArea:
-                case ResidentState.Visiting:
-                    isVirtual = IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen);
-                    ProcessCitizenVisit(instance, residentState, citizenId, ref citizen, isVirtual);
-                    break;
-
-                case ResidentState.OnTour:
-                    ProcessCitizenOnTour(instance, citizenId, ref citizen);
-                    break;
-
-                case ResidentState.Evacuating:
-                    ProcessCitizenEvacuation(instance, citizenId, ref citizen);
-                    break;
-
-                case ResidentState.InShelter:
-                    isVirtual = IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen);
-                    CitizenReturnsFromShelter(instance, citizenId, ref citizen, isVirtual);
-                    break;
-
-                case ResidentState.Unknown:
-                    Log.Debug(TimeInfo.Now, $"WARNING: {GetCitizenDesc(citizenId, ref citizen, null)} is in an UNKNOWN state! Teleporting back home");
-                    if (CitizenProxy.GetHomeBuilding(ref citizen) != 0)
-                    {
-                        CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
-                    }
-
-                    break;
+        /// <summary>Performs simulation for starting a new day for a citizen with specified ID.</summary>
+        /// <param name="citizenId">The citizen ID to process.</param>
+        public void BeginNewDayForCitizen(uint citizenId)
+        {
+            // TODO: use this method
+            if (citizenId == 0)
+            {
+                return;
             }
         }
 
-        private bool ShouldRealizeCitizen(TAI ai)
+        /// <summary>Sets the duration (in hours) of a full simulation cycle for all citizens.
+        /// The game calls the simulation methods for a particular citizen with this period.</summary>
+        /// <param name="cyclePeriod">The citizens simulation cycle period, in game hours.</param>
+        public void SetSimulationCyclePeriod(float cyclePeriod)
         {
-            return residentAI.DoRandomMove(ai);
+            simulationCycle = cyclePeriod;
+            Log.Debug($"SIMULATION CYCLE PERIOD: {cyclePeriod} hours");
+        }
+
+        /// <summary>Gets an instance of the storage service that can read and write the custom schedule data.</summary>
+        /// <returns>An object that implements the <see cref="IStorageData"/> interface.</returns>
+        public IStorageData GetStorageService()
+        {
+            return new CitizenScheduleStorage(residentSchedules, CitizenMgr.GetCitizensArray(), TimeInfo);
         }
     }
 }

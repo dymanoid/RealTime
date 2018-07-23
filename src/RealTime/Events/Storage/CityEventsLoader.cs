@@ -33,7 +33,7 @@ namespace RealTime.Events.Storage
 
         /// <summary>
         /// Reloads the event templates from the storage file that is located in a subdirectory of
-        /// the provided path.
+        /// the specified path.
         /// </summary>
         /// <param name="dataPath">The path where the mod's custom data files are stored.</param>
         /// <exception cref="ArgumentException">
@@ -64,7 +64,7 @@ namespace RealTime.Events.Storage
         }
 
         /// <summary>
-        /// Gets a randomly created city event for a building of provided class. If no city event
+        /// Gets a randomly created city event for a building of specified class. If no city event
         /// could be created, returns <c>null</c>.
         /// </summary>
         /// <param name="buildingClass">The building class to create a city event for.</param>
@@ -90,7 +90,7 @@ namespace RealTime.Events.Storage
         }
 
         /// <summary>
-        /// Gets the event template that has the provided name and is configured for the provided
+        /// Gets the event template that has the specified name and is configured for the specified
         /// building class.
         /// </summary>
         /// <param name="eventName">The unique name of the city event template.</param>
