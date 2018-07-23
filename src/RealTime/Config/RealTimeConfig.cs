@@ -36,20 +36,6 @@ namespace RealTime.Config
         public float GoToSleepUpHour { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the city wakes up.
-        /// </summary>
-        [ConfigItem("1General", "0Time", 0)]
-        [ConfigItemSlider(4f, 8f, 0.25f, SliderValueType.Time)]
-        public float WakeupHour { get; set; }
-
-        /// <summary>
-        /// Gets or sets the daytime hour when the city goes to sleep.
-        /// </summary>
-        [ConfigItem("1General", "0Time", 1)]
-        [ConfigItemSlider(20f, 23.75f, 0.25f, SliderValueType.Time)]
-        public float GoToSleepUpHour { get; set; }
-
-        /// <summary>
         /// Gets or sets a value indicating whether the dynamic day length is enabled.
         /// The dynamic day length depends on map's location and day of the year.
         /// </summary>
@@ -254,16 +240,8 @@ namespace RealTime.Config
         /// <returns>This instance.</returns>
         public RealTimeConfig Validate()
         {
-<<<<<<< refs/remotes/origin/master
             WakeupHour = RealTimeMath.Clamp(WakeupHour, 4f, 8f);
             GoToSleepUpHour = RealTimeMath.Clamp(GoToSleepUpHour, 20f, 23.75f);
-=======
-            WakeupHour = Clamp(WakeupHour, 4f, 8f);
-            GoToSleepUpHour = Clamp(GoToSleepUpHour, 20f, 23.75f);
-
-            DayTimeSpeed = Clamp(DayTimeSpeed, 1u, 7u);
-            NightTimeSpeed = Clamp(NightTimeSpeed, 1u, 7u);
->>>>>>> Merge remote-tracking branch 'upstream/master'
 
             DayTimeSpeed = RealTimeMath.Clamp(DayTimeSpeed, 1u, 7u);
             NightTimeSpeed = RealTimeMath.Clamp(NightTimeSpeed, 1u, 7u);
