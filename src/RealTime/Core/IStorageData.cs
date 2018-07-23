@@ -17,7 +17,7 @@ namespace RealTime.Core
         string StorageDataId { get; }
 
         /// <summary>
-        /// Reads the data set from the provided <see cref="Stream"/>.
+        /// Reads the data set from the specified <see cref="Stream"/>.
         /// </summary>
         ///
         /// <exception cref="System.ArgumentNullException">Thrown when the argument is null.</exception>
@@ -26,7 +26,7 @@ namespace RealTime.Core
         void ReadData(Stream source);
 
         /// <summary>
-        /// Reads the data set to the provided <see cref="Stream"/>.
+        /// Stores the data set to the specified <see cref="Stream"/>.
         /// </summary>
         ///
         /// <exception cref="System.ArgumentNullException">Thrown when the argument is null.</exception>

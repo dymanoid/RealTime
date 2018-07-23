@@ -21,6 +21,9 @@ namespace RealTime.GameConnection.Patches
         /// <summary>Gets the patch object for the location method.</summary>
         public static IPatch Location { get; } = new ResidentAI_UpdateLocation();
 
+        /// <summary>Gets the patch object for the arrive at destination method.</summary>
+        public static IPatch ArriveAtDestination { get; } = new HumanAI_ArriveAtDestination();
+
         /// <summary>Creates a game connection object for the resident AI class.</summary>
         /// <returns>A new <see cref="ResidentAIConnection{ResidentAI, Citizen}"/> object.</returns>
         public static ResidentAIConnection<ResidentAI, Citizen> GetResidentAIConnection()
@@ -91,6 +94,27 @@ namespace RealTime.GameConnection.Patches
                 return false;
             }
 #pragma warning restore SA1313 // Parameter names must begin with lower-case letter
+        }
+
+        private sealed class HumanAI_ArriveAtDestination : PatchBase
+        {
+            protected override MethodInfo GetMethod()
+            {
+                return typeof(HumanAI).GetMethod(
+                    "ArriveAtDestination",
+                    BindingFlags.Instance | BindingFlags.NonPublic,
+                    null,
+                    new[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(bool) },
+                    new ParameterModifier[0]);
+            }
+
+            private static void Postfix(ref CitizenInstance citizenData, bool success)
+            {
+                if (success && citizenData.Info.m_citizenAI is ResidentAI)
+                {
+                    RealTimeAI?.RegisterCitizenArrival(citizenData.m_citizen);
+                }
+            }
         }
     }
 }

@@ -17,11 +17,13 @@ namespace RealTime.CustomAI
     /// <typeparam name="TAI">The type of the tourist AI.</typeparam>
     /// <typeparam name="TCitizen">The type of the citizen objects.</typeparam>
     /// <seealso cref="RealTimeHumanAIBase{TCitizen}" />
+    // TODO: tourist AI should be unified with resident AI where possible
     internal sealed class RealTimeTouristAI<TAI, TCitizen> : RealTimeHumanAIBase<TCitizen>
         where TAI : class
         where TCitizen : struct
     {
         private readonly TouristAIConnection<TAI, TCitizen> touristAI;
+        private readonly SpareTimeBehavior spareTimeBehavior;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RealTimeTouristAI{TAI, TCitizen}"/> class.
@@ -31,16 +33,19 @@ namespace RealTime.CustomAI
         /// <param name="connections">A <see cref="GameConnections{T}"/> instance that provides the game connection implementation.</param>
         /// <param name="touristAI">A connection to game's tourist AI.</param>
         /// <param name="eventManager">The custom event manager.</param>
+        /// <param name="spareTimeBehavior">A behavior that provides simulation info for the citizens spare time.</param>
         ///
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
         public RealTimeTouristAI(
             RealTimeConfig config,
             GameConnections<TCitizen> connections,
             TouristAIConnection<TAI, TCitizen> touristAI,
-            RealTimeEventManager eventManager)
+            RealTimeEventManager eventManager,
+            SpareTimeBehavior spareTimeBehavior)
             : base(config, connections, eventManager)
         {
             this.touristAI = touristAI ?? throw new ArgumentNullException(nameof(touristAI));
+            this.spareTimeBehavior = spareTimeBehavior ?? throw new ArgumentNullException(nameof(spareTimeBehavior));
         }
 
         /// <summary>
@@ -71,7 +76,7 @@ namespace RealTime.CustomAI
                     break;
 
                 case Citizen.Location.Visit:
-                    ProcessVisit(instance, citizenId, ref citizen, IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen));
+                    ProcessVisit(instance, citizenId, ref citizen);
                     break;
 
                 case Citizen.Location.Moving:
@@ -97,28 +102,28 @@ namespace RealTime.CustomAI
 
             if (vehicleId == 0 && CitizenMgr.IsAreaEvacuating(instanceId) && !CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating))
             {
-                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, false)} was on the way, but the area evacuates. Leaving the city.");
+                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} was on the way, but the area evacuates. Leaving the city.");
                 touristAI.FindVisitPlace(instance, citizenId, CitizenProxy.GetCurrentBuilding(ref citizen), touristAI.GetLeavingReason(instance, citizenId, ref citizen));
                 return;
             }
 
-            bool badWeather = IsBadWeather(citizenId);
+            bool badWeather = IsBadWeather();
             if (CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.TargetIsNode | CitizenInstance.Flags.OnTour, true))
             {
-                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, false)} exits the guided tour.");
+                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} exits the guided tour.");
                 if (!badWeather)
                 {
-                    FindRandomVisitPlace(instance, citizenId, ref citizen, TouristDoNothingProbability, 0, false);
+                    FindRandomVisitPlace(instance, citizenId, ref citizen, TouristDoNothingProbability, 0);
                 }
             }
 
             if (badWeather)
             {
-                FindHotel(instance, citizenId, ref citizen, false);
+                FindHotel(instance, citizenId, ref citizen);
             }
         }
 
-        private void ProcessVisit(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
+        private void ProcessVisit(TAI instance, uint citizenId, ref TCitizen citizen)
         {
             ushort visitBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
             if (visitBuilding == 0)
@@ -138,7 +143,7 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.Disaster:
                     if (BuildingMgr.BuildingHasFlags(visitBuilding, Building.Flags.Downgrading))
                     {
-                        FindRandomVisitPlace(instance, citizenId, ref citizen, 0, visitBuilding, false);
+                        FindRandomVisitPlace(instance, citizenId, ref citizen, 0, visitBuilding);
                     }
 
                     return;
@@ -149,13 +154,15 @@ namespace RealTime.CustomAI
                     return;
             }
 
-            if (Random.ShouldOccur(TouristEventChance)
-                && !IsBadWeather(citizenId)
-                && AttendUpcomingEvent(citizenId, ref citizen, out ushort eventBuilding))
+            if (Random.ShouldOccur(TouristEventChance) && !IsBadWeather())
             {
-                StartMovingToVisitBuilding(instance, citizenId, ref citizen, CitizenProxy.GetCurrentBuilding(ref citizen), eventBuilding, isVirtual);
-                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, isVirtual)} attending an event at {eventBuilding}");
-                return;
+                ICityEvent cityEvent = GetUpcomingEventToAttend(citizenId, ref citizen);
+                if (cityEvent != null)
+                {
+                    StartMovingToVisitBuilding(instance, citizenId, ref citizen, CitizenProxy.GetCurrentBuilding(ref citizen), cityEvent.BuildingId);
+                    Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} attending an event at {cityEvent.BuildingId}");
+                    return;
+                }
             }
 
             int doNothingChance;
@@ -178,34 +185,22 @@ namespace RealTime.CustomAI
                     break;
             }
 
-            FindRandomVisitPlace(instance, citizenId, ref citizen, doNothingChance, visitBuilding, isVirtual);
+            FindRandomVisitPlace(instance, citizenId, ref citizen, doNothingChance, visitBuilding);
         }
 
-        private void FindRandomVisitPlace(TAI instance, uint citizenId, ref TCitizen citizen, int doNothingProbability, ushort currentBuilding, bool isVirtual)
+        private void FindRandomVisitPlace(TAI instance, uint citizenId, ref TCitizen citizen, int doNothingProbability, ushort currentBuilding)
         {
             int targetType = touristAI.GetRandomTargetType(instance, doNothingProbability);
             if (targetType == 1)
             {
-                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, isVirtual)} decides to leave the city");
+                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} decides to leave the city");
                 touristAI.FindVisitPlace(instance, citizenId, currentBuilding, touristAI.GetLeavingReason(instance, citizenId, ref citizen));
                 return;
             }
 
-            if (!Random.ShouldOccur(GetGoOutChance(CitizenProxy.GetAge(ref citizen))) || IsBadWeather(citizenId))
+            if (!Random.ShouldOccur(spareTimeBehavior.GetGoOutChance(CitizenProxy.GetAge(ref citizen))) || IsBadWeather())
             {
-                FindHotel(instance, citizenId, ref citizen, isVirtual);
-                return;
-            }
-
-            if (isVirtual)
-            {
-                if (Random.ShouldOccur(TouristShoppingChance) && BuildingMgr.GetBuildingService(currentBuilding) == ItemClass.Service.Commercial)
-                {
-                    BuildingMgr.ModifyMaterialBuffer(currentBuilding, TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
-                }
-
-                touristAI.AddTouristVisit(instance, citizenId, currentBuilding);
-
+                FindHotel(instance, citizenId, ref citizen);
                 return;
             }
 
@@ -213,22 +208,22 @@ namespace RealTime.CustomAI
             {
                 case 2:
                     touristAI.FindVisitPlace(instance, citizenId, currentBuilding, touristAI.GetShoppingReason(instance));
-                    Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, isVirtual)} stays in the city, goes shopping");
+                    Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} stays in the city, goes shopping");
                     break;
 
                 case 3:
-                    Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, isVirtual)} stays in the city, goes relaxing");
+                    Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} stays in the city, goes relaxing");
                     touristAI.FindVisitPlace(instance, citizenId, currentBuilding, touristAI.GetEntertainmentReason(instance));
                     break;
             }
         }
 
-        private void FindHotel(TAI instance, uint citizenId, ref TCitizen citizen, bool isVirtual)
+        private void FindHotel(TAI instance, uint citizenId, ref TCitizen citizen)
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
             if (!Random.ShouldOccur(FindHotelChance))
             {
-                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, isVirtual)} didn't want to stay in a hotel, leaving the city");
+                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} didn't want to stay in a hotel, leaving the city");
                 touristAI.FindVisitPlace(instance, citizenId, currentBuilding, touristAI.GetLeavingReason(instance, citizenId, ref citizen));
                 return;
             }
@@ -241,34 +236,20 @@ namespace RealTime.CustomAI
 
             if (hotel == 0)
             {
-                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, isVirtual)} didn't find a hotel, leaving the city");
+                Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} didn't find a hotel, leaving the city");
                 touristAI.FindVisitPlace(instance, citizenId, currentBuilding, touristAI.GetLeavingReason(instance, citizenId, ref citizen));
                 return;
             }
 
-            StartMovingToVisitBuilding(instance, citizenId, ref citizen, currentBuilding, hotel, isVirtual);
-            Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen, isVirtual)} stays in a hotel {hotel}");
+            StartMovingToVisitBuilding(instance, citizenId, ref citizen, currentBuilding, hotel);
+            Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} stays in a hotel {hotel}");
         }
 
-        private void StartMovingToVisitBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort currentBuilding, ushort visitBuilding, bool isVirtual)
+        private void StartMovingToVisitBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort currentBuilding, ushort visitBuilding)
         {
             CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
             CitizenProxy.SetVisitBuilding(ref citizen, visitBuilding);
-
-            if (isVirtual)
-            {
-                CitizenProxy.SetLocation(ref citizen, Citizen.Location.Visit);
-                touristAI.AddTouristVisit(instance, citizenId, visitBuilding);
-            }
-            else
-            {
-                touristAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding);
-            }
-        }
-
-        private bool ShouldRealizeCitizen(TAI ai)
-        {
-            return touristAI.DoRandomMove(ai);
+            touristAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding);
         }
     }
 }

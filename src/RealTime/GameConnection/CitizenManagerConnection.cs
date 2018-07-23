@@ -2,6 +2,7 @@
 
 namespace RealTime.GameConnection
 {
+    using System;
     using UnityEngine;
 
     /// <summary>The default implementation of the <see cref="ICitizenManagerConnection"/> interface.</summary>
@@ -31,11 +32,11 @@ namespace RealTime.GameConnection
                 : (ushort)0;
         }
 
-        /// <summary>Determines whether the citizen's instance with provided ID has particular flags.</summary>
+        /// <summary>Determines whether the citizen's instance with specified ID has particular flags.</summary>
         /// <param name="instanceId">The instance ID to check.</param>
         /// <param name="flags">The flags to check.</param>
         /// <param name="all">
-        /// <c>true</c> to check all flags from the provided <paramref name="flags"/>, <c>false</c> to check any flags.
+        /// <c>true</c> to check all flags from the specified <paramref name="flags"/>, <c>false</c> to check any flags.
         /// </param>
         /// <returns><c>true</c> if the citizen instance has the specified flags; otherwise, <c>false</c>.</returns>
         public bool InstanceHasFlags(ushort instanceId, CitizenInstance.Flags flags, bool all = false)
@@ -104,6 +105,34 @@ namespace RealTime.GameConnection
         public uint GetMaxInstancesCount()
         {
             return CitizenManager.instance.m_instances.m_size;
+        }
+
+        /// <summary>Gets the maximum count of the citizens.</summary>
+        /// <returns>The maximum number of the citizens.</returns>
+        public uint GetMaxCitizensCount()
+        {
+            return CitizenManager.instance.m_citizens.m_size;
+        }
+
+        /// <summary>Gets the location of the citizen with specified ID.</summary>
+        /// <param name="citizenId">The ID of the citizen to query location of.</param>
+        /// <returns>A <see cref="Citizen.Location"/> value that describes the citizen's current location.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when the argument is 0.</exception>
+        public Citizen.Location GetCitizenLocation(uint citizenId)
+        {
+            if (citizenId == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(citizenId), "The citizen ID cannot be 0");
+            }
+
+            return CitizenManager.instance.m_citizens.m_buffer[citizenId].CurrentLocation;
+        }
+
+        /// <summary>Gets the game's citizens array (direct reference).</summary>
+        /// <returns>The reference to the game's array containing the <see cref="Citizen"/> items.</returns>
+        public Citizen[] GetCitizensArray()
+        {
+            return CitizenManager.instance.m_citizens.m_buffer;
         }
     }
 }
