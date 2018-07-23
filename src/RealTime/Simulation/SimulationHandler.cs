@@ -60,7 +60,7 @@ namespace RealTime.Simulation
                 CitizenProcessor.ProcessTick();
                 if (TimeAdjustment != null && TimeAdjustment.Update())
                 {
-                    CitizenProcessor.SetFrameDuration(TimeAdjustment.HoursPerFrame);
+                    CitizenProcessor.UpdateFrameDuration();
                 }
             }
 

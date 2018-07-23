@@ -28,10 +28,6 @@ namespace RealTime.Simulation
             vanillaFramesPerDay = SimulationManager.DAYTIME_FRAMES;
         }
 
-        /// <summary>Gets the number of hours that fit into one simulation frame.</summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Logically an instance property, no performance penalty")]
-        public float HoursPerFrame => SimulationManager.DAYTIME_FRAME_TO_HOUR;
-
         /// <summary>Enables the customized time adjustment.</summary>
         /// <returns>The current game date and time.</returns>
         public DateTime Enable()

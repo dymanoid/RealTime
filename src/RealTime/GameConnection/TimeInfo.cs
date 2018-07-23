@@ -65,5 +65,9 @@ namespace RealTime.GameConnection
 
         /// <summary>Gets the duration of the current or last night.</summary>
         public float NightDuration => 24f - DayDuration;
+
+        /// <summary>Gets the number of hours that fit into one simulation frame.</summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Logically an instance property, no performance penalty")]
+        public float HoursPerFrame => SimulationManager.DAYTIME_FRAME_TO_HOUR;
     }
 }

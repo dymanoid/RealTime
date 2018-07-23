@@ -125,7 +125,7 @@ namespace RealTime.Core
 
             var timeAdjustment = new TimeAdjustment(config);
             DateTime gameDate = timeAdjustment.Enable();
-            SimulationHandler.CitizenProcessor.SetFrameDuration(timeAdjustment.HoursPerFrame);
+            SimulationHandler.CitizenProcessor.UpdateFrameDuration();
 
             CityEventsLoader.Instance.ReloadEvents(rootPath);
 
@@ -234,7 +234,7 @@ namespace RealTime.Core
                 spareTimeBehavior);
 
             ResidentAIPatch.RealTimeAI = realTimeResidentAI;
-            SimulationHandler.CitizenProcessor = new CitizenProcessor(realTimeResidentAI, spareTimeBehavior);
+            SimulationHandler.CitizenProcessor = new CitizenProcessor(realTimeResidentAI, spareTimeBehavior, timeInfo);
 
             TouristAIConnection<TouristAI, Citizen> touristAIConnection = TouristAIPatch.GetTouristAIConnection();
             if (touristAIConnection == null)

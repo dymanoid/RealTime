@@ -17,16 +17,19 @@ namespace RealTime.Simulation
 
         private readonly RealTimeResidentAI<ResidentAI, Citizen> residentAI;
         private readonly SpareTimeBehavior spareTimeBehavior;
+        private readonly ITimeInfo timeInfo;
         private int dayStartFrame;
 
         /// <summary>Initializes a new instance of the <see cref="CitizenProcessor"/> class.</summary>
         /// <param name="residentAI">The custom resident AI implementation.</param>
         /// <param name="spareTimeBehavior">A behavior that provides simulation info for the citizens spare time.</param>
+        /// <param name="timeInfo">An object that provides the game time information.</param>
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
-        public CitizenProcessor(RealTimeResidentAI<ResidentAI, Citizen> residentAI, SpareTimeBehavior spareTimeBehavior)
+        public CitizenProcessor(RealTimeResidentAI<ResidentAI, Citizen> residentAI, SpareTimeBehavior spareTimeBehavior, ITimeInfo timeInfo)
         {
             this.residentAI = residentAI ?? throw new ArgumentNullException(nameof(residentAI));
             this.spareTimeBehavior = spareTimeBehavior ?? throw new ArgumentNullException(nameof(spareTimeBehavior));
+            this.timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
             dayStartFrame = int.MinValue;
         }
 
@@ -37,11 +40,10 @@ namespace RealTime.Simulation
             residentAI.BeginNewDay();
         }
 
-        /// <summary>Applies the duration of a simulation frame to this simulation object.</summary>
-        /// <param name="frameDuration">Duration of a simulation frame in hours.</param>
-        public void SetFrameDuration(float frameDuration)
+        /// <summary>Re-calculates the duration of a simulation frame.</summary>
+        public void UpdateFrameDuration()
         {
-            float cyclePeriod = frameDuration * (StepMask + 1);
+            float cyclePeriod = timeInfo.HoursPerFrame * (StepMask + 1);
             residentAI.SetSimulationCyclePeriod(cyclePeriod);
             spareTimeBehavior.SetSimulationCyclePeriod(cyclePeriod);
         }
