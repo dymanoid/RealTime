@@ -76,6 +76,7 @@ namespace RealTime.Core
                 BuildingAIPatches.PrivateHandleWorkers,
                 BuildingAIPatches.CommercialSimulation,
                 ResidentAIPatch.Location,
+                ResidentAIPatch.ArriveAtDestination,
                 TouristAIPatch.Location,
                 UIGraphPatches.MinDataPoints,
                 UIGraphPatches.VisibleEndTime,
@@ -125,6 +126,7 @@ namespace RealTime.Core
 
             var timeAdjustment = new TimeAdjustment(config);
             DateTime gameDate = timeAdjustment.Enable();
+            SimulationHandler.CitizenProcessor.SetFrameDuration(timeAdjustment.HoursPerFrame);
 
             CityEventsLoader.Instance.ReloadEvents(rootPath);
 
@@ -146,6 +148,7 @@ namespace RealTime.Core
 
             RealTimeStorage.CurrentLevelStorage.GameSaving += result.GameSaving;
             result.storageData.Add(eventManager);
+            result.storageData.Add(ResidentAIPatch.RealTimeAI.GetStorageService());
             result.LoadStorageData();
 
             result.Translate(localizationProvider);
@@ -185,13 +188,14 @@ namespace RealTime.Core
             SimulationHandler.TimeAdjustment = null;
             SimulationHandler.WeatherInfo = null;
             SimulationHandler.Buildings = null;
+            SimulationHandler.CitizenProcessor = null;
 
             isEnabled = false;
         }
 
         /// <summary>
         /// Translates all the mod's component to a different language obtained from
-        /// the provided <paramref name="localizationProvider"/>.
+        /// the specified <paramref name="localizationProvider"/>.
         /// </summary>
         ///
         /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
@@ -220,13 +224,17 @@ namespace RealTime.Core
                 return false;
             }
 
+            var spareTimeBehavior = new SpareTimeBehavior(config, timeInfo);
+
             var realTimeResidentAI = new RealTimeResidentAI<ResidentAI, Citizen>(
                 config,
                 gameConnections,
                 residentAIConnection,
-                eventManager);
+                eventManager,
+                spareTimeBehavior);
 
             ResidentAIPatch.RealTimeAI = realTimeResidentAI;
+            SimulationHandler.CitizenProcessor = new CitizenProcessor(realTimeResidentAI, spareTimeBehavior);
 
             TouristAIConnection<TouristAI, Citizen> touristAIConnection = TouristAIPatch.GetTouristAIConnection();
             if (touristAIConnection == null)
@@ -238,7 +246,8 @@ namespace RealTime.Core
                 config,
                 gameConnections,
                 touristAIConnection,
-                eventManager);
+                eventManager,
+                spareTimeBehavior);
 
             TouristAIPatch.RealTimeAI = realTimeTouristAI;
 

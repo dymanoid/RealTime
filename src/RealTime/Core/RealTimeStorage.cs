@@ -56,7 +56,7 @@ namespace RealTime.Core
         }
 
         /// <summary>
-        /// Serializes the data described by the provided <paramref name="data"/> to this level's storage.
+        /// Serializes the data described by the specified <paramref name="data"/> to this level's storage.
         /// </summary>
         ///
         /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
@@ -86,7 +86,7 @@ namespace RealTime.Core
         }
 
         /// <summary>
-        /// Deserializes the data described by the provided <paramref name="data"/> from this level's storage.
+        /// Deserializes the data described by the specified <paramref name="data"/> from this level's storage.
         /// </summary>
         ///
         /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>

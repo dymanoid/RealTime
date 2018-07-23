@@ -8,12 +8,12 @@
   <translation id="ResetToDefaults" value="Tout réinitialiser aux valeurs par défaut" />
 
   <translation id="1General" value="Général" />
-  <translation id="0Time" value="Time options" />
-  <translation id="1Other" value="Other options" />
-  <translation id="WakeupHour" value="City wakes up" />
-  <translation id="WakeupHourTooltip" value="The time when most citizens start waking up. The budgets and the time speed switch to the 'day' mode!" />
-  <translation id="GoToSleepUpHour" value="City goes to sleep" />
-  <translation id="GoToSleepUpHourTooltip" value="The time when most citizens start going to sleep. The budgets and the time speed switch to the 'night' mode!" />
+  <translation id="0Time" value="Options de Time" />
+  <translation id="1Other" value="Autres options" />
+  <translation id="WakeupHour" value="La ville se lève à" />
+  <translation id="WakeupHourTooltip" value="Le moment où la plupart des citoyens commencent à se réveiller. Les budgets et la vitesse temporelle passent en mode 'jour'!" />
+  <translation id="GoToSleepUpHour" value="La ville s'endort à" />
+  <translation id="GoToSleepUpHourTooltip" value="Le moment où la plupart des citoyens commencent à aller dormir. Les budgets et la vitesse du temps passent en mode 'nuit'!" />
   <translation id="DayTimeSpeed" value="Vitesse du temps (en journée)" />
   <translation id="DayTimeSpeedTooltip" value="La vitesse du flux de temps sur la journée. '1' est très lent - presque en temps réel !" />
   <translation id="NightTimeSpeed" value="Vitesse du temps (la nuit)" />
@@ -48,6 +48,8 @@
   <translation id="OnTimeQuotaTooltip" value="Le pourcentage de citoyens qui iront et quitteront leur travail à temps" />
 
   <translation id="3Events" value="Événements" />
+  <translation id="AreEventsEnabled" value="Activer les événements personnalisés" />
+  <translation id="AreEventsEnabledTooltip" value="Si désactivé, seuls les événements de jeu Vanilla peuvent se produire dans la ville" />
   <translation id="EarliestHourEventStartWeekday" value="Premier événement en semaine" />
   <translation id="EarliestHourEventStartWeekdayTooltip" value="La première fois qu'un événement peut commenccer un jour de semaine" />
   <translation id="LatestHourEventStartWeekday" value="Dernier événement de la semaine" />

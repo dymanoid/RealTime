@@ -16,7 +16,7 @@ namespace RealTime.Tools
         private const string VersionFieldName = "FullSemVer";
 
         /// <summary>
-        /// Gets a string representation of the full semantic assembly version of the provided <paramref name="assembly"/>.
+        /// Gets a string representation of the full semantic assembly version of the specified <paramref name="assembly"/>.
         /// This assembly should be built using the GitVersion toolset; otherwise, a "?" version string will
         /// be returned.
         /// </summary>
@@ -25,7 +25,7 @@ namespace RealTime.Tools
         ///
         /// <param name="assembly">An <see cref="Assembly"/> to get the version of. Should be built using the GitVersion toolset.</param>
         ///
-        /// <returns>A string representation of the full semantic version of the provided <paramref name="assembly"/>,
+        /// <returns>A string representation of the full semantic version of the specified <paramref name="assembly"/>,
         /// or "?" if the version could not be determined.</returns>
         public static string GetAssemblyVersion(Assembly assembly)
         {
