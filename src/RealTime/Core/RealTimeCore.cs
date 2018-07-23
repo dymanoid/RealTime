@@ -72,9 +72,11 @@ namespace RealTime.Core
             }
 
             var patcher = new MethodPatcher(
-                BuildingAIPatches.PrivateConstructionTime,
-                BuildingAIPatches.PrivateHandleWorkers,
+                BuildingAIPatches.GetConstructionTime,
+                BuildingAIPatches.HandleWorkers,
                 BuildingAIPatches.CommercialSimulation,
+                BuildingAIPatches.PrivateShowConsumption,
+                BuildingAIPatches.PlayerShowConsumption,
                 ResidentAIPatch.Location,
                 ResidentAIPatch.ArriveAtDestination,
                 TouristAIPatch.Location,
@@ -142,6 +144,7 @@ namespace RealTime.Core
             SimulationHandler.EventManager = eventManager;
             SimulationHandler.WeatherInfo = weatherInfo;
             SimulationHandler.Buildings = BuildingAIPatches.RealTimeAI;
+            SimulationHandler.Buildings.UpdateFrameDuration();
 
             AwakeSleepSimulation.Install(config);
 

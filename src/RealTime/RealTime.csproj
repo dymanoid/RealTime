@@ -61,7 +61,7 @@
     <Compile Include="CustomAI\Constants.cs" />
     <Compile Include="CustomAI\RealTimeHumanAIBase.cs" />
     <Compile Include="CustomAI\ResidentState.cs" />
-    <Compile Include="CustomAI\RealTimePrivateBuildingAI.cs" />
+    <Compile Include="CustomAI\RealTimeBuildingAI.cs" />
     <Compile Include="CustomAI\RealTimeResidentAI.Common.cs" />
     <Compile Include="CustomAI\RealTimeResidentAI.cs" />
     <Compile Include="CustomAI\RealTimeTouristAI.cs" />
