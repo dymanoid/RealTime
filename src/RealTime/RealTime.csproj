@@ -214,14 +214,14 @@
     <Content Include="Localization\Translations\zh.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="RealTimeEvents\Aquarium.xml" />
-    <Content Include="RealTimeEvents\ArtMuseum.xml" />
-    <Content Include="RealTimeEvents\ExpoCenter.xml" />
-    <Content Include="RealTimeEvents\Library.xml" />
-    <Content Include="RealTimeEvents\Opera.xml" />
-    <Content Include="RealTimeEvents\PoshMall.xml" />
-    <Content Include="RealTimeEvents\Stadium.xml" />
-    <Content Include="RealTimeEvents\Theater.xml" />
+    <Content Include="Events\Templates\Aquarium.xml" />
+    <Content Include="Events\Templates\ArtMuseum.xml" />
+    <Content Include="Events\Templates\ExpoCenter.xml" />
+    <Content Include="Events\Templates\Library.xml" />
+    <Content Include="Events\Templates\Opera.xml" />
+    <Content Include="Events\Templates\PoshMall.xml" />
+    <Content Include="Events\Templates\Stadium.xml" />
+    <Content Include="Events\Templates\Theater.xml" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -229,7 +229,7 @@
     <PostBuildEvent>xcopy /y /q /d "$(TargetPath)" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
 xcopy /y /q /d "$(SolutionDir)Harmony\Harmony\build\$(ConfigurationName)\net35\0Harmony.dll" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
 xcopy /y /q /i /d "$(TargetDir)Localization\Translations" "d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187\Localization"
-xcopy /y /q /i /d "$(ProjectDir)RealTimeEvents" "d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187\Events"</PostBuildEvent>
+xcopy /y /q /i /d "$(ProjectDir)Events\Templates" "d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187\Events"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets" Condition="Exists('..\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
