@@ -90,6 +90,7 @@ namespace RealTime.Simulation
             --managers.m_size;
         }
 
+#pragma warning disable SA1600 // Elements must be documented; the original interface is not documented
         void ISimulationManager.EarlyUpdateData()
         {
         }
@@ -126,6 +127,7 @@ namespace RealTime.Simulation
         void ISimulationManager.UpdateData(SimulationManager.UpdateMode mode)
         {
         }
+#pragma warning restore SA1600 // Elements must be documented
 
         private static FastList<ISimulationManager> GetSimulationManagers()
         {

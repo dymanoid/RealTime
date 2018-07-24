@@ -72,9 +72,11 @@ namespace RealTime.Core
             }
 
             var patcher = new MethodPatcher(
-                BuildingAIPatches.PrivateConstructionTime,
-                BuildingAIPatches.PrivateHandleWorkers,
+                BuildingAIPatches.GetConstructionTime,
+                BuildingAIPatches.HandleWorkers,
                 BuildingAIPatches.CommercialSimulation,
+                BuildingAIPatches.PrivateShowConsumption,
+                BuildingAIPatches.PlayerShowConsumption,
                 ResidentAIPatch.Location,
                 ResidentAIPatch.ArriveAtDestination,
                 TouristAIPatch.Location,
@@ -85,7 +87,6 @@ namespace RealTime.Core
             try
             {
                 patcher.Apply();
-                Log.Info("The 'Real Time' successfully performed the methods redirections");
             }
             catch (Exception ex)
             {
@@ -126,7 +127,7 @@ namespace RealTime.Core
 
             var timeAdjustment = new TimeAdjustment(config);
             DateTime gameDate = timeAdjustment.Enable();
-            SimulationHandler.CitizenProcessor.SetFrameDuration(timeAdjustment.HoursPerFrame);
+            SimulationHandler.CitizenProcessor.UpdateFrameDuration();
 
             CityEventsLoader.Instance.ReloadEvents(rootPath);
 
@@ -143,13 +144,15 @@ namespace RealTime.Core
             SimulationHandler.EventManager = eventManager;
             SimulationHandler.WeatherInfo = weatherInfo;
             SimulationHandler.Buildings = BuildingAIPatches.RealTimeAI;
+            SimulationHandler.Buildings.UpdateFrameDuration();
+            SimulationHandler.Buildings.InitializeLightState();
 
             AwakeSleepSimulation.Install(config);
 
             RealTimeStorage.CurrentLevelStorage.GameSaving += result.GameSaving;
             result.storageData.Add(eventManager);
             result.storageData.Add(ResidentAIPatch.RealTimeAI.GetStorageService());
-            result.LoadStorageData();
+            result.LoadStorageData(RealTimeStorage.CurrentLevelStorage);
 
             result.Translate(localizationProvider);
 
@@ -166,6 +169,7 @@ namespace RealTime.Core
                 return;
             }
 
+            Log.Info($"The 'Real Time' mod reverts method patches.");
             patcher.Revert();
 
             timeAdjustment.Disable();
@@ -225,16 +229,20 @@ namespace RealTime.Core
             }
 
             var spareTimeBehavior = new SpareTimeBehavior(config, timeInfo);
+            var travelBehavior = new TravelBehavior(gameConnections.BuildingManager);
+            var workBehavior = new WorkBehavior(config, gameConnections.Random, gameConnections.BuildingManager, timeInfo, travelBehavior);
 
             var realTimeResidentAI = new RealTimeResidentAI<ResidentAI, Citizen>(
                 config,
                 gameConnections,
                 residentAIConnection,
                 eventManager,
-                spareTimeBehavior);
+                workBehavior,
+                spareTimeBehavior,
+                travelBehavior);
 
             ResidentAIPatch.RealTimeAI = realTimeResidentAI;
-            SimulationHandler.CitizenProcessor = new CitizenProcessor(realTimeResidentAI, spareTimeBehavior);
+            SimulationHandler.CitizenProcessor = new CitizenProcessor(realTimeResidentAI, spareTimeBehavior, timeInfo);
 
             TouristAIConnection<TouristAI, Citizen> touristAIConnection = TouristAIPatch.GetTouristAIConnection();
             if (touristAIConnection == null)
@@ -251,11 +259,12 @@ namespace RealTime.Core
 
             TouristAIPatch.RealTimeAI = realTimeTouristAI;
 
-            var realTimePrivateBuildingAI = new RealTimePrivateBuildingAI(
+            var realTimePrivateBuildingAI = new RealTimeBuildingAI(
                 config,
                 timeInfo,
                 gameConnections.BuildingManager,
-                new ToolManagerConnection());
+                new ToolManagerConnection(),
+                workBehavior);
 
             BuildingAIPatches.RealTimeAI = realTimePrivateBuildingAI;
             return true;
@@ -271,12 +280,14 @@ namespace RealTime.Core
             timeBar.UpdateEventsDisplay(eventManager.CityEvents);
         }
 
-        private void LoadStorageData()
+        private void LoadStorageData(RealTimeStorage storage)
         {
             foreach (IStorageData item in storageData)
             {
-                RealTimeStorage.CurrentLevelStorage.Deserialize(item);
+                storage.Deserialize(item);
             }
+
+            Log.Info("The 'Real Time' mod successfully loaded its data for the current game.");
         }
 
         private void GameSaving(object sender, EventArgs e)
@@ -286,6 +297,8 @@ namespace RealTime.Core
             {
                 storage.Serialize(item);
             }
+
+            Log.Info("The 'Real Time' mod successfully stored its data in the current game.");
         }
     }
 }

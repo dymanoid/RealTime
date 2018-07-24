@@ -34,6 +34,8 @@
   <translation id="StopConstructionAtNightTooltip" value="Bauarbeiter wollen auch schlafen" />
   <translation id="ConstructionSpeed" value="Baugeschwindigkeit" />
   <translation id="ConstructionSpeedTooltip" value="Geschwindigkeit des Neubaus und des Gebäude-Upgrades" />
+  <translation id="SwitchOffLightsAtNight" value="Gebäude schalten nachts das Licht aus" />
+  <translation id="SwitchOffLightsAtNightTooltip" value="Wohngebäude schalten das Licht aus, wenn die meisten Einwohner schlafen, andere Gebäude und Parks - wenn dort keiner arbeitet" />
 
   <translation id="2Quotas" value="Wahrscheinlichkeit" />
   <translation id="SecondShiftQuota" value="Zweite Schicht" />
