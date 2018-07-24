@@ -225,18 +225,13 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            float currentHour = timeInfo.CurrentHour;
-            if (currentHour >= config.WakeupHour && currentHour < config.GoToSleepUpHour)
+            if (service == ItemClass.Service.Residential)
             {
-                return false;
+                float currentHour = timeInfo.CurrentHour;
+                return currentHour < Math.Min(config.WakeupHour, EarliestWakeUp) || currentHour >= config.GoToSleepUpHour;
             }
 
-            if (service != ItemClass.Service.Residential)
-            {
-                return !workBehavior.IsBuildingWorking(service, subService);
-            }
-
-            return true;
+            return !workBehavior.IsBuildingWorking(service, subService);
         }
     }
 }
