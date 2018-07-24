@@ -321,7 +321,7 @@ namespace RealTime.CustomAI
         {
             if (ProcessCurrentState(ref schedule, ref citizen) && schedule.ScheduledState == ResidentState.Unknown)
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} will be rescheduled now");
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} will be re-scheduled now");
 
                 // If the state processing changed the schedule, we need to update it
                 UpdateCitizenSchedule(ref schedule, citizenId, ref citizen);
@@ -371,6 +371,9 @@ namespace RealTime.CustomAI
         {
             switch (schedule.CurrentState)
             {
+                case ResidentState.AtHome:
+                    return RescheduleAtHome(ref schedule, ref citizen);
+
                 case ResidentState.Shopping:
                     return ProcessCitizenShopping(ref schedule, ref citizen);
 

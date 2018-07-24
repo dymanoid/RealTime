@@ -26,5 +26,35 @@ namespace RealTime.CustomAI
             schedule.Schedule(ResidentState.Unknown, default);
             Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} back home");
         }
+
+        private bool RescheduleAtHome(ref CitizenSchedule schedule, ref TCitizen citizen)
+        {
+            if (schedule.CurrentState != ResidentState.AtHome || TimeInfo.Now < schedule.ScheduledStateTime)
+            {
+                return false;
+            }
+
+            if (schedule.ScheduledState != ResidentState.Relaxing && schedule.ScheduledState != ResidentState.Shopping)
+            {
+                return false;
+            }
+
+            if (IsBadWeather())
+            {
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} re-schedules an activity because of bad weather (see next line for citizen ID)");
+                schedule.Schedule(ResidentState.Unknown, default);
+                return true;
+            }
+
+            uint goOutChance = spareTimeBehavior.GetGoOutChance(CitizenProxy.GetAge(ref citizen));
+            if (Random.ShouldOccur(goOutChance))
+            {
+                return false;
+            }
+
+            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} re-schedules an activity because of time (see next line for citizen ID)");
+            schedule.Schedule(ResidentState.Unknown, default);
+            return true;
+        }
     }
 }

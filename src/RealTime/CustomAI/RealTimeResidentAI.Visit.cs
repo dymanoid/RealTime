@@ -218,11 +218,15 @@ namespace RealTime.CustomAI
 
         private bool RescheduleVisit(ref CitizenSchedule schedule, ref TCitizen citizen, ushort currentBuilding)
         {
-            if (schedule.ScheduledState != ResidentState.Relaxing
-                && schedule.ScheduledState != ResidentState.Shopping
-                && schedule.ScheduledState != ResidentState.Visiting)
+            switch (schedule.ScheduledState)
             {
-                return false;
+                case ResidentState.Shopping:
+                case ResidentState.Relaxing:
+                case ResidentState.Visiting:
+                    break;
+
+                default:
+                    return false;
             }
 
             if (IsBadWeather())
