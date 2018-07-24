@@ -55,7 +55,14 @@ namespace RealTime.GameConnection
                 return;
             }
 
-            ref ItemClass itemClass = ref BuildingManager.instance.m_buildings.m_buffer[buildingId].Info.m_class;
+            ItemClass itemClass = BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.m_class;
+            if (itemClass == null)
+            {
+                service = ItemClass.Service.None;
+                subService = ItemClass.SubService.None;
+                return;
+            }
+
             service = itemClass.m_service;
             subService = itemClass.m_subService;
         }
