@@ -24,7 +24,7 @@ namespace RealTime.GameConnection
         {
             return buildingId == 0
                 ? ItemClass.Service.None
-                : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info.m_class.m_service;
+                : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.m_class?.m_service ?? ItemClass.Service.None;
         }
 
         /// <summary>Gets the sub-service type of the building with specified ID.</summary>
@@ -37,7 +37,7 @@ namespace RealTime.GameConnection
         {
             return buildingId == 0
                 ? ItemClass.SubService.None
-                : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info.m_class.m_subService;
+                : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.m_class?.m_subService ?? ItemClass.SubService.None;
         }
 
         /// <summary>Gets the service and sub-service types of the building with specified ID.</summary>
@@ -130,7 +130,7 @@ namespace RealTime.GameConnection
             }
 
             ref Building building = ref BuildingManager.instance.m_buildings.m_buffer[buildingId];
-            building.Info.m_buildingAI.ModifyMaterialBuffer(buildingId, ref building, reason, ref delta);
+            building.Info?.m_buildingAI.ModifyMaterialBuffer(buildingId, ref building, reason, ref delta);
         }
 
         /// <summary>Finds an active building that matches the specified criteria.</summary>
@@ -253,7 +253,7 @@ namespace RealTime.GameConnection
         {
             return buildingId == 0
                 ? string.Empty
-                : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info.name;
+                : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.name ?? string.Empty;
         }
 
         /// <summary>Gets the localized name of a building with specified ID.</summary>
