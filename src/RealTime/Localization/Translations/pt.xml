@@ -1,80 +1,80 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <language id="pt" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-  <translation id="Warning" value="Warning" />
-  <translation id="ModNotWorkingMessage" value="Oops! Something went wrong - the 'Real Time' mod could not be activated. Please share your game log file with the mod's developer." />
+  <translation id="Warning" value="Aviso" />
+  <translation id="ModNotWorkingMessage" value="Oops! Algo deu errado - o mod 'Real Time' não pode ser ativado. Por favor envie o log do seu jogo para o desenvolvedor do mod." />
 
-  <translation id="Tools" value="Tools" />
-  <translation id="ResetToDefaults" value="Reset all to defaults" />
+  <translation id="Tools" value="Ferramentas" />
+  <translation id="ResetToDefaults" value="Reiniciar para os padrões" />
 
-  <translation id="1General" value="General" />
-  <translation id="0Time" value="Time options" />
-  <translation id="1Other" value="Other options" />
-  <translation id="WakeupHour" value="City wakes up" />
-  <translation id="WakeupHourTooltip" value="The time when most citizens start waking up. The budgets and the time speed switch to the 'day' mode!" />
-  <translation id="GoToSleepUpHour" value="City goes to sleep" />
-  <translation id="GoToSleepUpHourTooltip" value="The time when most citizens start going to sleep. The budgets and the time speed switch to the 'night' mode!" />
-  <translation id="DayTimeSpeed" value="Time speed (day)" />
-  <translation id="DayTimeSpeedTooltip" value="The speed of the time flow on daytime. '1' is very slow - almost real time!" />
-  <translation id="NightTimeSpeed" value="Time speed (night)" />
-  <translation id="NightTimeSpeedTooltip" value="The speed of the time flow on night time. '1' is very slow - almost real time!" />
-  <translation id="IsDynamicDayLengthEnabled" value="Dynamic day length" />
-  <translation id="IsDynamicDayLengthEnabledTooltip" value="Day length depends on the map's theme and day of the year. In winter the days are shorter than in summer." />
-  <translation id="VirtualCitizens" value="Citizens simulation mode (real and virtual)" />
-  <translation id="VirtualCitizensTooltip" value="Select 'All' for a real city (but max 65.535 citizens), select 'Vanilla' or 'More' if your PC is weak" />
-  <translation id="VirtualCitizens.None" value="All citizens are real" />
-  <translation id="VirtualCitizens.Few" value="Almost all citizens are real" />
-  <translation id="VirtualCitizens.Vanilla" value="Like in the vanilla game" />
-  <translation id="VirtualCitizens.Many" value="More virtual citizens" />
-  <translation id="IsWeekendEnabled" value="Enable Weekends" />
-  <translation id="IsWeekendEnabledTooltip" value="Cims don't go to work or school on weekends" />
-  <translation id="IsLunchtimeEnabled" value="Enable Lunch time" />
-  <translation id="IsLunchtimeEnabledTooltip" value="Cims should go out at lunch for food" />
-  <translation id="StopConstructionAtNight" value="Pause the building construction and upgrade at night time" />
-  <translation id="StopConstructionAtNightTooltip" value="The construction site workers need to sleep too" />
-  <translation id="ConstructionSpeed" value="Construction speed" />
-  <translation id="ConstructionSpeedTooltip" value="Buildings construction and upgrading speed" />
-  <translation id="SwitchOffLightsAtNight" value="Switch off building lights at night" />
-  <translation id="SwitchOffLightsAtNightTooltip" value="Residential buildings switch off lights when citizens sleep, other buildings and parks - when no one is working there" />
+  <translation id="1General" value="Geral" />
+  <translation id="0Time" value="Opções de tempo" />
+  <translation id="1Other" value="Outras opções" />
+  <translation id="WakeupHour" value="A cidade acorda" />
+  <translation id="WakeupHourTooltip" value="O horário em que a maioria dos cidadãos começa a acordar. Os orçamentos e a passagem de tempo acionam o modo 'dia'!" />
+  <translation id="GoToSleepUpHour" value="A cidade vai dormir" />
+  <translation id="GoToSleepUpHourTooltip" value="O horário em que a maioria dos cidadãos se preparam para dormir. Os orçamentos e a passagem de tempo acionam o modo 'noite'!" />
+  <translation id="DayTimeSpeed" value="Velocidade do tempo (dia)" />
+  <translation id="DayTimeSpeedTooltip" value="A velocidade da passagem de tempo durante o dia. '1' é bem devagar - quase em tempo real!" />
+  <translation id="NightTimeSpeed" value="Velocidade do tempo (noite)" />
+  <translation id="NightTimeSpeedTooltip" value="A velocidade da passagem de tempo durante a noite. '1' é bem devagar - quase em tempo real!" />
+  <translation id="IsDynamicDayLengthEnabled" value="Duração dinâmica do dia" />
+  <translation id="IsDynamicDayLengthEnabledTooltip" value="A duração do dia depende do tema do mapa e dia do ano. No inverno os dias são mais curtos do que no verão." />
+  <translation id="VirtualCitizens" value="Modo de simulação de cidadãos (real e virtual)" />
+  <translation id="VirtualCitizensTooltip" value="Selecione 'Todos' para uma cidade real (porém no máximo 65.535 cidadãos), selecione 'Padrão' ou 'Mais' se seu PC for fraco." />
+  <translation id="VirtualCitizens.None" value="Todos os cidadãos são reais" />
+  <translation id="VirtualCitizens.Few" value="Quase todos os cidadãos são reais" />
+  <translation id="VirtualCitizens.Vanilla" value="Igual ao jogo padrão" />
+  <translation id="VirtualCitizens.Many" value="Mais cidadãos virtuais" />
+  <translation id="IsWeekendEnabled" value="Habilita Finais de semana" />
+  <translation id="IsWeekendEnabledTooltip" value="Cidadãos não vão para o trabalho ou escola nos finais de semana" />
+  <translation id="IsLunchtimeEnabled" value="Habilita horário de almoço" />
+  <translation id="IsLunchtimeEnabledTooltip" value="Cidadãos devem sair para buscar comida no horário de almoço" />
+  <translation id="StopConstructionAtNight" value="Pausa o aprimoramento e construção de prédios durante a noite" />
+  <translation id="StopConstructionAtNightTooltip" value="Os operários de obra também precisam dormir" />
+  <translation id="ConstructionSpeed" value="Velocidade de construção" />
+  <translation id="ConstructionSpeedTooltip" value="Velocidade do aprimoramento e construção de prédios" />
+  <translation id="SwitchOffLightsAtNight" value="Desligar as luzes de prédios durante a noite" />
+  <translation id="SwitchOffLightsAtNightTooltip" value="Prédios residenciais desligam as luzes quando os cidadãos dormem e outros prédios e parques quando ninguém estiver mais trabalhando lá" />
 
-  <translation id="2Quotas" value="Probabilities" />
-  <translation id="SecondShiftQuota" value="Second shift workers" />
-  <translation id="SecondShiftQuotaTooltip" value="The percentage of the citizens that work second shift" />
-  <translation id="NightShiftQuota" value="Night shift workers" />
-  <translation id="NightShiftQuotaTooltip" value="The percentage of the citizens that work night shift" />
-  <translation id="LunchQuota" value="Lunch probability" />
-  <translation id="LunchQuotaTooltip" value="The percentage of the Cims that will go out for lunch" />
-  <translation id="LocalBuildingSearchQuota" value="Local shopping ratio" />
-  <translation id="LocalBuildingSearchQuotaTooltip" value="The percentage of the population that will search for local shopping" />
-  <translation id="OnTimeQuota" value="On-time ratio" />
-  <translation id="OnTimeQuotaTooltip" value="The percentage of the Cims that will go to and leave their work on time" />
+  <translation id="2Quotas" value="Probabilidades" />
+  <translation id="SecondShiftQuota" value="Trabalhadores de segundo turno" />
+  <translation id="SecondShiftQuotaTooltip" value="Porcentagem de cidadãos que trabalham no segundo turno" />
+  <translation id="NightShiftQuota" value="Trabalhadores noturnos" />
+  <translation id="NightShiftQuotaTooltip" value="Porcentagem de cidadãos que trabalham à noite" />
+  <translation id="LunchQuota" value="Probabilidade de almoço" />
+  <translation id="LunchQuotaTooltip" value="Porcentagem de cidadãos que saem para o almoço" />
+  <translation id="LocalBuildingSearchQuota" value="Probabilidade de compras" />
+  <translation id="LocalBuildingSearchQuotaTooltip" value="Porcentagem de cidadãos que saem para fazer compras" />
+  <translation id="OnTimeQuota" value="Porcentagem sem atrasos" />
+  <translation id="OnTimeQuotaTooltip" value="Porcentagem de cidadãos que não se atrasam para ir ou voltar do trabalho" />
 
-  <translation id="3Events" value="Events" />
-  <translation id="AreEventsEnabled" value="Enable custom events" />
-  <translation id="AreEventsEnabledTooltip" value="If disabled, only vanilla game events can occur in the city" />
-  <translation id="EarliestHourEventStartWeekday" value="Earliest weekday event" />
-  <translation id="EarliestHourEventStartWeekdayTooltip" value="The earliest time when an event can start on a weekday" />
-  <translation id="LatestHourEventStartWeekday" value="Latest weekday event" />
-  <translation id="LatestHourEventStartWeekdayTooltip" value="The latest time when an event can start on a weekday" />
-  <translation id="EarliestHourEventStartWeekend" value="Earliest weekend event" />
-  <translation id="EarliestHourEventStartWeekendTooltip" value="The earliest time when an event can start on a weekend day" />
-  <translation id="LatestHourEventStartWeekend" value="Latest weekend event" />
-  <translation id="LatestHourEventStartWeekendTooltip" value="The latest time when an event can start on a weekend day" />
+  <translation id="3Events" value="Eventos" />
+  <translation id="AreEventsEnabled" value="Habilita eventos personalizados" />
+  <translation id="AreEventsEnabledTooltip" value="Se desligado, ocorrerão na cidade apenas eventos do jogo original" />
+  <translation id="EarliestHourEventStartWeekday" value="O mais cedo para um evento durante a semana" />
+  <translation id="EarliestHourEventStartWeekdayTooltip" value="O horário mais cedo em que um evento pode começar durante a semana" />
+  <translation id="LatestHourEventStartWeekday" value="O mais tarde para um evento durante a semana" />
+  <translation id="LatestHourEventStartWeekdayTooltip" value="O horário mais tarde em que um evento pode começar durante a semana" />
+  <translation id="EarliestHourEventStartWeekend" value="O mais cedo para um evento durante o final de semana" />
+  <translation id="EarliestHourEventStartWeekendTooltip" value="O horário mais cedo em que um evento pode começar durante o final de semana" />
+  <translation id="LatestHourEventStartWeekend" value="O mais tarde para um evento durante o final de semana" />
+  <translation id="LatestHourEventStartWeekendTooltip" value="O horário mais tarde em que um evento pode começar durante o final de semana" />
     
-  <translation id="4Time" value="Time" />
-  <translation id="MaxOvertime" value="Max. Overtime" />
-  <translation id="MaxOvertimeTooltip" value="The maximum overtime for the Cims - they come to work earlier or stay at work longer" />
-  <translation id="SchoolBegin" value="School start hour" />
-  <translation id="SchoolBeginTooltip" value="The school start daytime hour - the young Cims must be at school" />
-  <translation id="SchoolEnd" value="School end hour" />
-  <translation id="SchoolEndTooltip" value="The daytime hour when the young Cims return from school" />
-  <translation id="WorkBegin" value="Work start hour" />
-  <translation id="WorkBeginTooltip" value="The work start daytime hour - the adult Cims must be at work or university" />
-  <translation id="WorkEnd" value="Work end hour" />
-  <translation id="WorkEndTooltip" value="The daytime hour when the adult Cims return from work or university" />
-  <translation id="LunchBegin" value="Lunch begin hour" />
-  <translation id="LunchBeginTooltip" value="The daytime hour when the Cims go out for lunch" />
-  <translation id="LunchEnd" value="Lunch end hour" />
-  <translation id="LunchEndTooltip" value="The daytime hour when the Cims return from lunch back to work" />
+  <translation id="4Time" value="Tempo" />
+  <translation id="MaxOvertime" value="Máx. variação" />
+  <translation id="MaxOvertimeTooltip" value="O máximo de variação de tempo para os Cidadãos - eles podem ir mais cedo para o trabalho ou sairem mais tarde" />
+  <translation id="SchoolBegin" value="Horário da escola" />
+  <translation id="SchoolBeginTooltip" value="O horário para início das aulas - Cidadãos jovens precisam estar na escola" />
+  <translation id="SchoolEnd" value="Horário de encerramento da escola" />
+  <translation id="SchoolEndTooltip" value="O horário em que os Cidadãos voltam da escola" />
+  <translation id="WorkBegin" value="Horário de trabalho" />
+  <translation id="WorkBeginTooltip" value="O horário de entrada no trabalho - Cidadãos adultos precisam estar no trabalho ou universidade" />
+  <translation id="WorkEnd" value="Horário de encerramento do trabalho" />
+  <translation id="WorkEndTooltip" value="O horário em que os Cidadãos voltam do trabalho ou universidade" />
+  <translation id="LunchBegin" value="Horário de almoço" />
+  <translation id="LunchBeginTooltip" value="O horário em que os Cidadãos saem para almoçar" />
+  <translation id="LunchEnd" value="Horário de encerramento do almoço" />
+  <translation id="LunchEndTooltip" value="O horário em que os Cidadãos acabam o almoço e voltam para o trabalho" />
     
 </language>
