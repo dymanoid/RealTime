@@ -34,6 +34,8 @@
   <translation id="StopConstructionAtNightTooltip" value="Los trabajadores de la construcción también necesitan dormir" />
   <translation id="ConstructionSpeed" value="Velocidad de construcción" />
   <translation id="ConstructionSpeedTooltip" value="Velocidad de construcción y mejora de edificios" />
+  <translation id="SwitchOffLightsAtNight" value="Switch off building lights at night" />
+  <translation id="SwitchOffLightsAtNightTooltip" value="Residential buildings switch off lights when citizens sleep, other buildings and parks - when no one is working there" />
 
   <translation id="2Quotas" value="Probabilidades" />
   <translation id="SecondShiftQuota" value="Turno de Tarde" />

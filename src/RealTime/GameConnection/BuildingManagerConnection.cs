@@ -40,6 +40,33 @@ namespace RealTime.GameConnection
                 : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info.m_class.m_subService;
         }
 
+        /// <summary>Gets the service and sub-service types of the building with specified ID.</summary>
+        /// <param name="buildingId">The ID of the building to get the service and sub-service types of.</param>
+        /// <param name="service">The service type of the building with the specified ID, or
+        /// <see cref="ItemClass.Service.None"/> if <paramref name="buildingId"/> is 0.</param>
+        /// <param name="subService">The sub-service type of the building with the specified ID, or
+        /// <see cref="ItemClass.SubService.None"/> if <paramref name="buildingId"/> is 0.</param>
+        public void GetBuildingService(ushort buildingId, out ItemClass.Service service, out ItemClass.SubService subService)
+        {
+            if (buildingId == 0)
+            {
+                service = ItemClass.Service.None;
+                subService = ItemClass.SubService.None;
+                return;
+            }
+
+            ItemClass itemClass = BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.m_class;
+            if (itemClass == null)
+            {
+                service = ItemClass.Service.None;
+                subService = ItemClass.SubService.None;
+                return;
+            }
+
+            service = itemClass.m_service;
+            subService = itemClass.m_subService;
+        }
+
         /// <summary>Gets the citizen unit ID for the building with specified ID.</summary>
         /// <param name="buildingId">The building ID to search the citizen unit for.</param>
         /// <returns>The ID of the building's citizen unit, or 0 if none.</returns>
@@ -258,6 +285,24 @@ namespace RealTime.GameConnection
             byte district = DistrictManager.instance.GetDistrict(location);
             DistrictPolicies.CityPlanning policies = DistrictManager.instance.m_districts.m_buffer[district].m_cityPlanningPolicies;
             return (policies & DistrictPolicies.CityPlanning.NoLoudNoises) != 0;
+        }
+
+        /// <summary>Gets the maximum possible buildings count.</summary>
+        /// <returns>The maximum possible buildings count.</returns>
+        public int GetMaxBuildingsCount()
+        {
+            return BuildingManager.instance.m_buildings.m_buffer.Length;
+        }
+
+        /// <summary>Updates the building colors in the game by re-rendering the building.</summary>
+        /// <param name="buildingId">The ID of the building to update.</param>
+        public void UpdateBuildingColors(ushort buildingId)
+        {
+            if (buildingId > 0
+                && (BuildingManager.instance.m_buildings.m_buffer[buildingId].m_flags & Building.Flags.Created) != 0)
+            {
+                BuildingManager.instance.UpdateBuildingColors(buildingId);
+            }
         }
     }
 }

@@ -35,7 +35,7 @@ namespace RealTime.Simulation
         /// <summary>
         /// Gets or sets the custom building simulation class instance.
         /// </summary>
-        internal static RealTimePrivateBuildingAI Buildings { get; set; }
+        internal static RealTimeBuildingAI Buildings { get; set; }
 
         /// <summary>Gets or sets the time adjustment simulation class instance.</summary>
         internal static TimeAdjustment TimeAdjustment { get; set; }
@@ -55,21 +55,34 @@ namespace RealTime.Simulation
             WeatherInfo?.Update();
             EventManager?.ProcessEvents();
 
+            bool updateFrameLength = TimeAdjustment?.Update() ?? false;
+
             if (CitizenProcessor != null)
             {
-                CitizenProcessor.ProcessTick();
-                if (TimeAdjustment != null && TimeAdjustment.Update())
+                if (updateFrameLength)
                 {
-                    CitizenProcessor.SetFrameDuration(TimeAdjustment.HoursPerFrame);
+                    CitizenProcessor.UpdateFrameDuration();
                 }
+
+                CitizenProcessor.ProcessTick();
+            }
+
+            if (updateFrameLength)
+            {
+                Buildings?.UpdateFrameDuration();
+            }
+
+            if (DayTimeSimulation == null || CitizenProcessor == null)
+            {
+                return;
             }
 
             DateTime currentDate = SimulationManager.instance.m_currentGameTime.Date;
             if (currentDate != lastHandledDate)
             {
                 lastHandledDate = currentDate;
-                DayTimeSimulation?.Process(currentDate);
-                CitizenProcessor?.StartNewDay();
+                DayTimeSimulation.Process(currentDate);
+                CitizenProcessor.StartNewDay();
                 OnNewDay(this);
             }
         }

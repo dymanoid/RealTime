@@ -23,7 +23,7 @@ namespace RealTime.CustomAI
             if (cityEvent != null)
             {
                 ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
-                DateTime departureTime = cityEvent.StartTime.AddHours(-GetEstimatedTravelTime(currentBuilding, cityEvent.BuildingId));
+                DateTime departureTime = cityEvent.StartTime.AddHours(-travelBehavior.GetEstimatedTravelTime(currentBuilding, cityEvent.BuildingId));
                 schedule.Schedule(ResidentState.Relaxing, departureTime);
                 schedule.EventBuilding = cityEvent.BuildingId;
                 schedule.Hint = ScheduleHint.AttendingEvent;
@@ -201,7 +201,7 @@ namespace RealTime.CustomAI
                 return BuildingMgr.IsBuildingNoiseRestricted(targetBuilding);
             }
 
-            float travelTime = GetEstimatedTravelTime(currentBuilding, targetBuilding);
+            float travelTime = travelBehavior.GetEstimatedTravelTime(currentBuilding, targetBuilding);
             if (travelTime == 0)
             {
                 return false;
