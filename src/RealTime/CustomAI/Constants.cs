@@ -17,14 +17,11 @@ namespace RealTime.CustomAI
         /// <summary>A distance in game units that corresponds to the complete map.</summary>
         public const float FullSearchDistance = BuildingManager.BUILDINGGRID_RESOLUTION * BuildingManager.BUILDINGGRID_CELL_SIZE / 2f;
 
-        /// <summary>A chance in percent for an unemployed citizen to stay home until next morning.</summary>
+        /// <summary>A chance in percent for a citizen to stay home until next scheduled action.</summary>
         public const uint StayHomeAllDayChance = 15;
 
-        /// <summary>A chance in percent for a citizen to go shopping.</summary>
-        public const uint GoShoppingChance = 80;
-
-        /// <summary>A chance in percent for a citizen to go to sleep when he or she is at home and doesn't go out.</summary>
-        public const uint GoSleepingChance = 75;
+        /// <summary>A chance in percent for a citizen to go shopping in the night.</summary>
+        public const uint NightShoppingChance = 20u;
 
         /// <summary>A chance in percent for a tourist to find a hotel for sleepover.</summary>
         public const uint FindHotelChance = 80;

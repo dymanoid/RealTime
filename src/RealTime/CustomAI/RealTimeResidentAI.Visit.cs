@@ -110,8 +110,7 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            if (!Random.ShouldOccur(spareTimeBehavior.GetGoOutChance(CitizenProxy.GetAge(ref citizen), schedule.WorkShift, true))
-                || !Random.ShouldOccur(GoShoppingChance))
+            if (!Random.ShouldOccur(spareTimeBehavior.GetGoOutChance(CitizenProxy.GetAge(ref citizen), schedule.WorkShift, true)))
             {
                 return false;
             }
