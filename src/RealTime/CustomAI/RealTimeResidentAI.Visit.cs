@@ -14,7 +14,7 @@ namespace RealTime.CustomAI
         private bool ScheduleRelaxing(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
             Citizen.AgeGroup citizenAge = CitizenProxy.GetAge(ref citizen);
-            if (!Random.ShouldOccur(spareTimeBehavior.GetGoOutChance(citizenAge)) || IsBadWeather())
+            if (!Random.ShouldOccur(spareTimeBehavior.GetGoOutChance(citizenAge, schedule.WorkShift, false)) || IsBadWeather())
             {
                 return false;
             }
@@ -76,7 +76,7 @@ namespace RealTime.CustomAI
                     return;
             }
 
-            uint relaxChance = spareTimeBehavior.GetGoOutChance(CitizenProxy.GetAge(ref citizen));
+            uint relaxChance = spareTimeBehavior.GetGoOutChance(CitizenProxy.GetAge(ref citizen), schedule.WorkShift, false);
             ResidentState nextState = Random.ShouldOccur(relaxChance)
                     ? ResidentState.Unknown
                     : ResidentState.Relaxing;
@@ -110,7 +110,7 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            if (!Random.ShouldOccur(spareTimeBehavior.GetGoOutChance(CitizenProxy.GetAge(ref citizen)))
+            if (!Random.ShouldOccur(spareTimeBehavior.GetGoOutChance(CitizenProxy.GetAge(ref citizen), schedule.WorkShift, true))
                 || !Random.ShouldOccur(GoShoppingChance))
             {
                 return false;
@@ -149,7 +149,7 @@ namespace RealTime.CustomAI
             }
             else
             {
-                uint moreShoppingChance = spareTimeBehavior.GetGoOutChance(CitizenProxy.GetAge(ref citizen));
+                uint moreShoppingChance = spareTimeBehavior.GetGoOutChance(CitizenProxy.GetAge(ref citizen), schedule.WorkShift, true);
                 ResidentState nextState = Random.ShouldOccur(moreShoppingChance)
                     ? ResidentState.Unknown
                     : ResidentState.Shopping;
@@ -243,7 +243,11 @@ namespace RealTime.CustomAI
                 return true;
             }
 
-            uint stayChance = spareTimeBehavior.GetGoOutChance(CitizenProxy.GetAge(ref citizen));
+            uint stayChance = spareTimeBehavior.GetGoOutChance(
+                CitizenProxy.GetAge(ref citizen),
+                schedule.WorkShift,
+                schedule.CurrentState == ResidentState.Shopping);
+
             if (!Random.ShouldOccur(stayChance))
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} quits a visit because of time (see next line for citizen ID)");

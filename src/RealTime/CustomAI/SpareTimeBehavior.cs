@@ -94,11 +94,13 @@ namespace RealTime.CustomAI
         /// Gets the probability whether a citizen with specified age would go out on current time.
         /// </summary>
         ///
-        /// <param name="citizenAge">The citizen age to check.</param>
+        /// <param name="citizenAge">The age of the citizen to check.</param>
+        /// <param name="workShift">The citizen's assigned work shift (or <see cref="WorkShift.Unemployed"/>).</param>
+        /// <param name="needsShopping"><c>true</c> when the citizen needs to buy something; otherwise, <c>false</c>.</param>
         ///
         /// <returns>A percentage value in range of 0..100 that describes the probability whether
         /// a citizen with specified age would go out on current time.</returns>
-        public uint GetGoOutChance(Citizen.AgeGroup citizenAge)
+        public uint GetGoOutChance(Citizen.AgeGroup citizenAge, WorkShift workShift, bool needsShopping)
         {
             return chances[(int)citizenAge];
         }
