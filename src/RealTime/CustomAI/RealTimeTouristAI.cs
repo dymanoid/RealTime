@@ -198,7 +198,12 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            if (!Random.ShouldOccur(spareTimeBehavior.GetGoOutChance(CitizenProxy.GetAge(ref citizen))) || IsBadWeather())
+            uint goOutChance = spareTimeBehavior.GetGoOutChance(
+                CitizenProxy.GetAge(ref citizen),
+                WorkShift.Unemployed,
+                CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods));
+
+            if (!Random.ShouldOccur(goOutChance) || IsBadWeather())
             {
                 FindHotel(instance, citizenId, ref citizen);
                 return;

@@ -46,7 +46,11 @@ namespace RealTime.CustomAI
                 return true;
             }
 
-            uint goOutChance = spareTimeBehavior.GetGoOutChance(CitizenProxy.GetAge(ref citizen));
+            uint goOutChance = spareTimeBehavior.GetGoOutChance(
+                CitizenProxy.GetAge(ref citizen),
+                schedule.WorkShift,
+                schedule.ScheduledState == ResidentState.Shopping);
+
             if (Random.ShouldOccur(goOutChance))
             {
                 return false;
