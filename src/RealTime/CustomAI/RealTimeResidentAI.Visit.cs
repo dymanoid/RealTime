@@ -49,7 +49,7 @@ namespace RealTime.CustomAI
                     ushort leisure = MoveToLeisureBuilding(instance, citizenId, ref citizen, buildingId);
                     if (leisure == 0)
                     {
-                        Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted relax but didn't found a leisure building");
+                        Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted relax but didn't find a leisure building");
                     }
                     else
                     {

@@ -66,7 +66,7 @@ namespace RealTime.GameConnection
         /// <param name="delta">The amount to modify the buffer by.</param>
         void ModifyMaterialBuffer(ushort buildingId, TransferManager.TransferReason reason, int delta);
 
-        /// <summary>Finds an active building that matches the specified criteria.</summary>
+        /// <summary>Finds an active building that matches the specified criteria and can accept visitors.</summary>
         /// <param name="searchAreaCenterBuilding">
         /// The building ID that represents the search area center point.
         /// </param>

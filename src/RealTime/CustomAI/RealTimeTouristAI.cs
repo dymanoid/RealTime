@@ -252,9 +252,10 @@ namespace RealTime.CustomAI
 
         private void StartMovingToVisitBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort currentBuilding, ushort visitBuilding)
         {
-            CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
-            CitizenProxy.SetVisitBuilding(ref citizen, visitBuilding);
-            touristAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding);
+            if (touristAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding))
+            {
+                CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
+            }
         }
     }
 }

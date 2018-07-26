@@ -26,13 +26,6 @@ namespace RealTime.GameConnection
         /// <returns>The ID of the building currently visited by the citizen, or 0 if none found.</returns>
         ushort GetVisitBuilding(ref T citizen);
 
-        /// <summary>
-        /// Sets the ID of the building that is currently visited by the specified citizen.
-        /// </summary>
-        /// <param name="citizen">The citizen to set the visited building ID for.</param>
-        /// <param name="visitBuilding">The ID of the currently visited building.</param>
-        void SetVisitBuilding(ref T citizen, ushort visitBuilding);
-
         /// <summary>Gets the instance ID of the specified citizen.</summary>
         /// <param name="citizen">The citizen to get the instance ID of.</param>
         /// <returns>The ID of the citizen's instance, or 0 if none found.</returns>
