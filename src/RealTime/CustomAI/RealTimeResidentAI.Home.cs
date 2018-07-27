@@ -46,7 +46,7 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            if (IsBadWeather())
+            if (schedule.ScheduledState != ResidentState.Shopping && IsBadWeather())
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} re-schedules an activity because of bad weather (see next line for citizen ID)");
                 schedule.Schedule(ResidentState.Unknown, default);
