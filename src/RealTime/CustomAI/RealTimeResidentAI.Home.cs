@@ -21,10 +21,17 @@ namespace RealTime.CustomAI
 
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
             CitizenProxy.RemoveFlags(ref citizen, Citizen.Flags.Evacuating);
-            CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
-            residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, homeBuilding);
-            schedule.Schedule(ResidentState.Unknown, default);
-            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} back home");
+
+            if (residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, homeBuilding))
+            {
+                CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
+                schedule.Schedule(ResidentState.Unknown, default);
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} back home");
+            }
+            else
+            {
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted to go home from {currentBuilding} but can't, waiting for the next opportunity");
+            }
         }
 
         private bool RescheduleAtHome(ref CitizenSchedule schedule, ref TCitizen citizen)
