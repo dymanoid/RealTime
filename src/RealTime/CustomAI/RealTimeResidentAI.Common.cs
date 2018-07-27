@@ -304,10 +304,26 @@ namespace RealTime.CustomAI
             {
                 if (Random.ShouldOccur(StayHomeAllDayChance))
                 {
-                    nextActivityTime = todayWakeup.FutureHour(Config.WakeupHour);
+                    if (nextActivityTime < TimeInfo.Now)
+                    {
+                        nextActivityTime = todayWakeup.FutureHour(Config.WakeupHour);
+                    }
+                }
+                else
+                {
+                    nextActivityTime = default;
                 }
 
-                Log.Debug($"  - Schedule sleeping at home until {nextActivityTime}");
+#if DEBUG
+                if (nextActivityTime <= TimeInfo.Now)
+                {
+                    Log.Debug($"  - Schedule idle until next scheduling run");
+                }
+                else
+                {
+                    Log.Debug($"  - Schedule idle until {nextActivityTime}");
+                }
+#endif
                 schedule.Schedule(ResidentState.Unknown, nextActivityTime);
             }
             else
