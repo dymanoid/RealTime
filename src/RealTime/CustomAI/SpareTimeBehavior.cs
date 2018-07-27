@@ -73,22 +73,29 @@ namespace RealTime.CustomAI
         }
 
         /// <summary>
-        /// Gets the probability whether a citizen with specified age would go out on current time.
+        /// Gets the probability whether a citizen with specified age would go shopping on current time.
+        /// </summary>
+        ///
+        /// <param name="citizenAge">The age of the citizen to check.</param>
+        ///
+        /// <returns>A percentage value in range of 0..100 that describes the probability whether
+        /// a citizen with specified age would go shopping on current time.</returns>
+        public uint GetShoppingChance(Citizen.AgeGroup citizenAge)
+        {
+            return shoppingChances[(int)citizenAge];
+        }
+
+        /// <summary>
+        /// Gets the probability whether a citizen with specified age would go relaxing on current time.
         /// </summary>
         ///
         /// <param name="citizenAge">The age of the citizen to check.</param>
         /// <param name="workShift">The citizen's assigned work shift (or <see cref="WorkShift.Unemployed"/>).</param>
-        /// <param name="needsShopping"><c>true</c> when the citizen needs to buy something; otherwise, <c>false</c>.</param>
         ///
         /// <returns>A percentage value in range of 0..100 that describes the probability whether
-        /// a citizen with specified age would go out on current time.</returns>
-        public uint GetGoOutChance(Citizen.AgeGroup citizenAge, WorkShift workShift, bool needsShopping)
+        /// a citizen with specified age would go relaxing on current time.</returns>
+        public uint GetRelaxingChance(Citizen.AgeGroup citizenAge, WorkShift workShift)
         {
-            if (needsShopping)
-            {
-                return shoppingChances[(int)citizenAge];
-            }
-
             int age = (int)citizenAge;
             switch (citizenAge)
             {
