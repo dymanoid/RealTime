@@ -49,7 +49,7 @@ namespace RealTime.CustomAI
         }
 
         /// <summary>Calculates the chances for the citizens to go out based on the current game time.</summary>
-        public void RefreshGoOutChances()
+        public void RefreshChances()
         {
             uint weekdayModifier;
             if (config.IsWeekendEnabled)
@@ -253,11 +253,11 @@ namespace RealTime.CustomAI
 
             uint roundedChance = (uint)Math.Round(chance);
 
-            shoppingChances[(int)Citizen.AgeGroup.Child] = isNight ? 0u : (uint)Math.Round(chance * 0.6f);
+            shoppingChances[(int)Citizen.AgeGroup.Child] = isNight ? 0u : roundedChance;
             shoppingChances[(int)Citizen.AgeGroup.Teen] = isNight ? 0u : roundedChance;
             shoppingChances[(int)Citizen.AgeGroup.Young] = roundedChance;
             shoppingChances[(int)Citizen.AgeGroup.Adult] = roundedChance;
-            shoppingChances[(int)Citizen.AgeGroup.Senior] = isNight ? 0u : (uint)Math.Round(chance * 0.8f);
+            shoppingChances[(int)Citizen.AgeGroup.Senior] = isNight ? (uint)Math.Round(chance * 0.1f) : roundedChance;
 
 #if DEBUG
             if (oldChance != roundedChance)

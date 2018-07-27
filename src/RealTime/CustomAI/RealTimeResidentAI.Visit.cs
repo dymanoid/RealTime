@@ -78,8 +78,8 @@ namespace RealTime.CustomAI
 
             uint relaxChance = spareTimeBehavior.GetRelaxingChance(CitizenProxy.GetAge(ref citizen), schedule.WorkShift);
             ResidentState nextState = Random.ShouldOccur(relaxChance)
-                    ? ResidentState.Unknown
-                    : ResidentState.Relaxing;
+                    ? ResidentState.Relaxing
+                    : ResidentState.Unknown;
 
             schedule.Schedule(nextState, default);
 
@@ -105,9 +105,20 @@ namespace RealTime.CustomAI
 
         private bool ScheduleShopping(ref CitizenSchedule schedule, ref TCitizen citizen, bool localOnly)
         {
+            // If the citizen doesn't need any good, he/she still can go shopping just for fun
             if (!CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods))
             {
-                return false;
+                if (schedule.Hint == ScheduleHint.NoShoppingAnyMore || !Random.ShouldOccur(FunShoppingChance))
+                {
+                    schedule.Hint = ScheduleHint.None;
+                    return false;
+                }
+
+                schedule.Hint = ScheduleHint.NoShoppingAnyMore;
+            }
+            else
+            {
+                schedule.Hint = ScheduleHint.None;
             }
 
             if (!Random.ShouldOccur(spareTimeBehavior.GetShoppingChance(CitizenProxy.GetAge(ref citizen))))
@@ -118,10 +129,6 @@ namespace RealTime.CustomAI
             if (TimeInfo.IsNightTime || localOnly || Random.ShouldOccur(Config.LocalBuildingSearchQuota))
             {
                 schedule.Hint = ScheduleHint.LocalShoppingOnly;
-            }
-            else
-            {
-                schedule.Hint = ScheduleHint.None;
             }
 
             schedule.Schedule(ResidentState.Shopping, default);
@@ -143,21 +150,26 @@ namespace RealTime.CustomAI
                 }
                 else
                 {
+                    if (TimeInfo.IsNightTime)
+                    {
+                        schedule.Hint = ScheduleHint.NoShoppingAnyMore;
+                    }
+
                     Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} goes shopping at a local shop {shop}");
                 }
             }
             else
             {
                 uint moreShoppingChance = spareTimeBehavior.GetShoppingChance(CitizenProxy.GetAge(ref citizen));
-                ResidentState nextState = Random.ShouldOccur(moreShoppingChance)
-                    ? ResidentState.Unknown
-                    : ResidentState.Shopping;
+                ResidentState nextState = schedule.Hint != ScheduleHint.NoShoppingAnyMore && Random.ShouldOccur(moreShoppingChance)
+                    ? ResidentState.Shopping
+                    : ResidentState.Unknown;
 
                 schedule.Schedule(nextState, default);
 
                 if (schedule.CurrentState != ResidentState.Shopping)
                 {
-                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna go shopping and schedules {nextState}, heading to a random shop");
+                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna go shopping and schedules {nextState}, heading to a random shop, hint = {schedule.Hint}");
                     residentAI.FindVisitPlace(instance, citizenId, currentBuilding, residentAI.GetShoppingReason(instance));
                 }
             }
