@@ -50,8 +50,8 @@
   <translation id="OnTimeQuotaTooltip" value="Porcentaje de ciudadanos que irán a trabajar y saldrán del trabajo con puntualidad" />
 
   <translation id="3Events" value="Eventos" />
-  <translation id="AreEventsEnabled" value="Enable custom events" />
-  <translation id="AreEventsEnabledTooltip" value="If disabled, only vanilla game events can occur in the city" />
+  <translation id="AreEventsEnabled" value="Activar eventos personalizados" />
+  <translation id="AreEventsEnabledTooltip" value="Si esta desactivado, solo ocurriran los eventos del juego original en la ciudad" />
   <translation id="EarliestHourEventStartWeekday" value="Día laboral: Hora mínima de inicio" />
   <translation id="EarliestHourEventStartWeekdayTooltip" value="Hora más temprana en la cual pueden empezar los eventos entre semana" />
   <translation id="LatestHourEventStartWeekday" value="Día laboral: Hora máxima de inicio" />
