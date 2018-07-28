@@ -17,7 +17,6 @@ namespace RealTime.CustomAI
     /// <typeparam name="TAI">The type of the tourist AI.</typeparam>
     /// <typeparam name="TCitizen">The type of the citizen objects.</typeparam>
     /// <seealso cref="RealTimeHumanAIBase{TCitizen}" />
-    // TODO: tourist AI should be unified with resident AI where possible
     internal sealed class RealTimeTouristAI<TAI, TCitizen> : RealTimeHumanAIBase<TCitizen>
         where TAI : class
         where TCitizen : struct
@@ -211,9 +210,9 @@ namespace RealTime.CustomAI
                     return;
 
                 // Tourist is sleeping in a hotel
-                // TODO: tourist hotel leave time
                 case ItemClass.Service.Commercial
-                    when TimeInfo.IsNightTime && BuildingMgr.GetBuildingSubService(visitBuilding) == ItemClass.SubService.CommercialTourist:
+                    when BuildingMgr.GetBuildingSubService(visitBuilding) == ItemClass.SubService.CommercialTourist
+                        && !Random.ShouldOccur(GetHotelLeaveChance()):
                     return;
             }
 
@@ -366,6 +365,16 @@ namespace RealTime.CustomAI
             {
                 CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
             }
+        }
+
+        private uint GetHotelLeaveChance()
+        {
+            if (TimeInfo.IsNightTime)
+            {
+                return 0u;
+            }
+
+            return (uint)((TimeInfo.CurrentHour - Config.WakeUpHour) / 0.03f);
         }
     }
 }
