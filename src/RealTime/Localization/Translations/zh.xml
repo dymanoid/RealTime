@@ -46,6 +46,8 @@
   <translation id="LunchQuotaTooltip" value="调节外出吃午饭而不叫外卖的市民的百分比" />
   <translation id="LocalBuildingSearchQuota" value="就近购物几率" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="调节就近购物的市民百分比" />
+  <translation id="ShoppingForFunQuota" value="Shopping for fun" />
+  <translation id="ShoppingForFunQuotaTooltip" value="The percentage of the population that will go shopping just for fun even when they don't need any goods" />
   <translation id="OnTimeQuota" value="准点下班几率" />
   <translation id="OnTimeQuotaTooltip" value="调节摸完鱼准点下班的市民百分比" />
 

@@ -46,6 +46,8 @@
   <translation id="LunchQuotaTooltip" value="The percentage of the Cims that will go out for lunch" />
   <translation id="LocalBuildingSearchQuota" value="Local shopping ratio" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="The percentage of the population that will search for local shopping" />
+  <translation id="ShoppingForFunQuota" value="Shopping for fun" />
+  <translation id="ShoppingForFunQuotaTooltip" value="The percentage of the population that will go shopping just for fun even when they don't need any goods" />
   <translation id="OnTimeQuota" value="On-time ratio" />
   <translation id="OnTimeQuotaTooltip" value="The percentage of the Cims that will go to and leave their work on time" />
 

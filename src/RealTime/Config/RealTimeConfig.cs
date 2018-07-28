@@ -159,11 +159,19 @@ namespace RealTime.Config
         public uint LocalBuildingSearchQuota { get; set; }
 
         /// <summary>
+        /// Gets or sets the percentage of the Cims that will go shopping just for fun without needing to buy something.
+        /// Valid values are 0..100.
+        /// </summary>
+        [ConfigItem("2Quotas", 4)]
+        [ConfigItemSlider(0, 50)]
+        public uint ShoppingForFunQuota { get; set; }
+
+        /// <summary>
         /// Gets or sets the percentage of the Cims that will go to and leave their work or school
         /// on time (no overtime!).
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 4)]
+        [ConfigItem("2Quotas", 5)]
         [ConfigItemSlider(0, 100)]
         public uint OnTimeQuota { get; set; }
 
@@ -292,6 +300,7 @@ namespace RealTime.Config
             NightShiftQuota = RealTimeMath.Clamp(NightShiftQuota, 1u, 25u);
             LunchQuota = RealTimeMath.Clamp(LunchQuota, 0u, 100u);
             LocalBuildingSearchQuota = RealTimeMath.Clamp(LocalBuildingSearchQuota, 0u, 100u);
+            ShoppingForFunQuota = RealTimeMath.Clamp(ShoppingForFunQuota, 0u, 50u);
             OnTimeQuota = RealTimeMath.Clamp(OnTimeQuota, 0u, 100u);
 
             EarliestHourEventStartWeekday = RealTimeMath.Clamp(EarliestHourEventStartWeekday, 0f, 23.75f);
@@ -347,6 +356,7 @@ namespace RealTime.Config
 
             LunchQuota = 80;
             LocalBuildingSearchQuota = 60;
+            ShoppingForFunQuota = 30;
             OnTimeQuota = 80;
 
             AreEventsEnabled = true;

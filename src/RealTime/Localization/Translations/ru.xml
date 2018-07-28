@@ -46,6 +46,8 @@
   <translation id="LunchQuotaTooltip" value="Процент жителей, которые будут выходить на обед" />
   <translation id="LocalBuildingSearchQuota" value="Покупки поблизости" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="Процент жителей, которые будут искать магазины поблизости" />
+  <translation id="ShoppingForFunQuota" value="Покупки как развлечение" />
+  <translation id="ShoppingForFunQuotaTooltip" value="Процент жителей, которые будут ходить за покупками, даже если им не нужны никакие товары" />
   <translation id="OnTimeQuota" value="Без сверхурочных" />
   <translation id="OnTimeQuotaTooltip" value="Процент жителей, которые будут ходить на работу без сверхурочных" />
 

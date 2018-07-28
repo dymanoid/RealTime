@@ -46,6 +46,8 @@
   <translation id="LunchQuotaTooltip" value="Le pourcentage de citoyens qui sortira pour aller déjeûner" />
   <translation id="LocalBuildingSearchQuota" value="Taux d'achats local" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="Le pourcentage de la population qui va chercher des achats locaux" />
+  <translation id="ShoppingForFunQuota" value="Shopping for fun" />
+  <translation id="ShoppingForFunQuotaTooltip" value="The percentage of the population that will go shopping just for fun even when they don't need any goods" />
   <translation id="OnTimeQuota" value="Rapport sur le temps" />
   <translation id="OnTimeQuotaTooltip" value="Le pourcentage de citoyens qui iront et quitteront leur travail à temps" />
 

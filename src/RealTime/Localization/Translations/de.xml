@@ -46,6 +46,8 @@
   <translation id="LunchQuotaTooltip" value="Anteil der Cims, die eine Mittagspause machen" />
   <translation id="LocalBuildingSearchQuota" value="Lokale Einkäufe" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="Anteil der Cims, die fürs Einkaufen Geschäfte in der Nähe suchen" />
+  <translation id="ShoppingForFunQuota" value="Einkaufen zum Spaß" />
+  <translation id="ShoppingForFunQuotaTooltip" value="Anteil der Cims, die auch dann einkaufen gehen, wenn sie eigentlich nichts brauchen" />
   <translation id="OnTimeQuota" value="Keine Überstunden" />
   <translation id="OnTimeQuotaTooltip" value="Anteil der Cims, die keine Überstunden machen und pünktlich zur und von der Arbeit gehen" />
 
