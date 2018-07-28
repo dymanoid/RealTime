@@ -232,7 +232,7 @@ namespace RealTime.CustomAI
             for (ushort i = first; i <= last; ++i)
             {
                 buildingManager.GetBuildingService(i, out ItemClass.Service service, out ItemClass.SubService subService);
-                bool lightsOn = !ShouldSwitchBuildingLightsOff(service, subService);
+                bool lightsOn = !ShouldSwitchBuildingLightsOff(i, service, subService);
                 if (lightsOn == lightStates[i])
                 {
                     continue;
@@ -246,20 +246,30 @@ namespace RealTime.CustomAI
             }
         }
 
-        private bool ShouldSwitchBuildingLightsOff(ItemClass.Service service, ItemClass.SubService subService)
+        private bool ShouldSwitchBuildingLightsOff(ushort buildingId, ItemClass.Service service, ItemClass.SubService subService)
         {
-            if (service == ItemClass.Service.None && subService == ItemClass.SubService.None)
+            switch (service)
             {
-                return false;
-            }
+                case ItemClass.Service.None:
+                    return false;
 
-            if (service == ItemClass.Service.Residential)
-            {
-                float currentHour = timeInfo.CurrentHour;
-                return currentHour < Math.Min(config.WakeUpHour, EarliestWakeUp) || currentHour >= config.GoToSleepHour;
-            }
+                case ItemClass.Service.Residential:
+                    float currentHour = timeInfo.CurrentHour;
+                    return currentHour < Math.Min(config.WakeUpHour, EarliestWakeUp) || currentHour >= config.GoToSleepHour;
 
-            return !workBehavior.IsBuildingWorking(service, subService);
+                case ItemClass.Service.Office when buildingManager.GetBuildingLevel(buildingId) != ItemClass.Level.Level1:
+                    return false;
+
+                case ItemClass.Service.Commercial
+                    when subService == ItemClass.SubService.CommercialHigh && buildingManager.GetBuildingLevel(buildingId) != ItemClass.Level.Level1:
+                    return false;
+
+                case ItemClass.Service.Monument:
+                    return false;
+
+                default:
+                    return !workBehavior.IsBuildingWorking(service, subService);
+            }
         }
     }
 }
