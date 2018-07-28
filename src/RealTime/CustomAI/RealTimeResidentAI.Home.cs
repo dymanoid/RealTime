@@ -58,7 +58,7 @@ namespace RealTime.CustomAI
                 ? spareTimeBehavior.GetShoppingChance(age)
                 : spareTimeBehavior.GetRelaxingChance(age, schedule.WorkShift);
 
-            if (Random.ShouldOccur(goOutChance))
+            if (goOutChance > 0)
             {
                 return false;
             }

@@ -101,8 +101,8 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            UpdateCitizenSchedule(ref schedule, citizenId, ref citizen);
-            ExecuteCitizenSchedule(ref schedule, instance, citizenId, ref citizen);
+            bool updated = UpdateCitizenSchedule(ref schedule, citizenId, ref citizen);
+            ExecuteCitizenSchedule(ref schedule, instance, citizenId, ref citizen, updated);
         }
 
         /// <summary>Notifies that a citizen has arrived their destination.</summary>

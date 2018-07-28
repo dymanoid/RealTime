@@ -239,7 +239,7 @@ namespace RealTime.CustomAI
             return ScheduleAction.Ignore;
         }
 
-        private void UpdateCitizenSchedule(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
+        private bool UpdateCitizenSchedule(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
             // If the game changed the work building, we have to update the work shifts first
             ushort workBuilding = CitizenProxy.GetWorkBuilding(ref citizen);
@@ -264,7 +264,7 @@ namespace RealTime.CustomAI
 
             if (schedule.ScheduledState != ResidentState.Unknown)
             {
-                return;
+                return false;
             }
 
             Log.Debug(TimeInfo.Now, $"Scheduling for {GetCitizenDesc(citizenId, ref citizen)}...");
@@ -279,7 +279,7 @@ namespace RealTime.CustomAI
             {
                 if (ScheduleWork(ref schedule, ref citizen))
                 {
-                    return;
+                    return true;
                 }
 
                 if (schedule.ScheduledStateTime > nextActivityTime)
@@ -291,13 +291,13 @@ namespace RealTime.CustomAI
             if (ScheduleShopping(ref schedule, ref citizen, false))
             {
                 Log.Debug($"  - Schedule shopping");
-                return;
+                return true;
             }
 
             if (ScheduleRelaxing(ref schedule, citizenId, ref citizen))
             {
                 Log.Debug($"  - Schedule relaxing");
-                return;
+                return true;
             }
 
             if (schedule.CurrentState == ResidentState.AtHome)
@@ -331,11 +331,14 @@ namespace RealTime.CustomAI
                 Log.Debug($"  - Schedule moving home");
                 schedule.Schedule(ResidentState.AtHome, default);
             }
+
+            return true;
         }
 
-        private void ExecuteCitizenSchedule(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
+        private void ExecuteCitizenSchedule(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen, bool noReschedule)
         {
-            if (ProcessCurrentState(ref schedule, ref citizen) && schedule.ScheduledState == ResidentState.Unknown)
+            if (ProcessCurrentState(ref schedule, citizenId, ref citizen)
+                && schedule.ScheduledState == ResidentState.Unknown && !noReschedule)
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} will re-schedule now");
 
