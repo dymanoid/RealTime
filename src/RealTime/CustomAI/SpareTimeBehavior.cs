@@ -54,7 +54,7 @@ namespace RealTime.CustomAI
             uint weekdayModifier;
             if (config.IsWeekendEnabled)
             {
-                weekdayModifier = timeInfo.Now.IsWeekendTime(12f, config.GoToSleepUpHour)
+                weekdayModifier = timeInfo.Now.IsWeekendTime(12f, config.GoToSleepHour)
                     ? 11u
                     : 1u;
             }
@@ -120,16 +120,16 @@ namespace RealTime.CustomAI
 
         private void CalculateDefaultChances(float currentHour, uint weekdayModifier)
         {
-            float latestGoOutHour = config.GoToSleepUpHour - simulationCycle;
-            bool isDayTime = currentHour >= config.WakeupHour && currentHour < latestGoOutHour;
+            float latestGoOutHour = config.GoToSleepHour - simulationCycle;
+            bool isDayTime = currentHour >= config.WakeUpHour && currentHour < latestGoOutHour;
             float timeModifier;
             if (isDayTime)
             {
-                timeModifier = RealTimeMath.Clamp(currentHour - config.WakeupHour, 0, 4f);
+                timeModifier = RealTimeMath.Clamp(currentHour - config.WakeUpHour, 0, 4f);
             }
             else
             {
-                float nightDuration = 24f - (latestGoOutHour - config.WakeupHour);
+                float nightDuration = 24f - (latestGoOutHour - config.WakeUpHour);
                 float relativeHour = currentHour - latestGoOutHour;
                 if (relativeHour < 0)
                 {
@@ -166,8 +166,8 @@ namespace RealTime.CustomAI
             uint oldChance = secondShiftChances[(int)Citizen.AgeGroup.Adult];
 #endif
 
-            float wakeupHour = config.WakeupHour - config.GoToSleepUpHour + 24f;
-            if (isWeekend || currentHour < config.WakeupHour || currentHour >= wakeupHour)
+            float wakeupHour = config.WakeUpHour - config.GoToSleepHour + 24f;
+            if (isWeekend || currentHour < config.WakeUpHour || currentHour >= wakeupHour)
             {
                 secondShiftChances[(int)Citizen.AgeGroup.Young] = defaultChances[(int)Citizen.AgeGroup.Young];
                 secondShiftChances[(int)Citizen.AgeGroup.Adult] = defaultChances[(int)Citizen.AgeGroup.Adult];
@@ -192,8 +192,8 @@ namespace RealTime.CustomAI
             uint oldChance = nightShiftChances[(int)Citizen.AgeGroup.Adult];
 #endif
 
-            float wakeupHour = config.WorkBegin + (config.WakeupHour - config.GoToSleepUpHour + 24f);
-            if (isWeekend || currentHour < config.WakeupHour || currentHour >= wakeupHour)
+            float wakeupHour = config.WorkBegin + (config.WakeUpHour - config.GoToSleepHour + 24f);
+            if (isWeekend || currentHour < config.WakeUpHour || currentHour >= wakeupHour)
             {
                 nightShiftChances[(int)Citizen.AgeGroup.Young] = defaultChances[(int)Citizen.AgeGroup.Young];
                 nightShiftChances[(int)Citizen.AgeGroup.Adult] = defaultChances[(int)Citizen.AgeGroup.Adult];
@@ -214,8 +214,8 @@ namespace RealTime.CustomAI
 
         private void CalculateShoppingChance(float currentHour)
         {
-            float minShoppingChanceEndHour = Math.Min(config.WakeupHour, EarliestWakeUp);
-            float maxShoppingChanceStartHour = Math.Max(config.WorkBegin, config.WakeupHour);
+            float minShoppingChanceEndHour = Math.Min(config.WakeUpHour, EarliestWakeUp);
+            float maxShoppingChanceStartHour = Math.Max(config.WorkBegin, config.WakeUpHour);
             if (minShoppingChanceEndHour == maxShoppingChanceStartHour)
             {
                 minShoppingChanceEndHour = RealTimeMath.Clamp(maxShoppingChanceStartHour - 1f, 2f, maxShoppingChanceStartHour - 1f);
@@ -227,7 +227,7 @@ namespace RealTime.CustomAI
 
             float chance;
             bool isNight;
-            float maxShoppingChanceEndHour = Math.Max(config.GoToSleepUpHour, config.WorkEnd);
+            float maxShoppingChanceEndHour = Math.Max(config.GoToSleepHour, config.WorkEnd);
             if (currentHour < minShoppingChanceEndHour)
             {
                 isNight = true;

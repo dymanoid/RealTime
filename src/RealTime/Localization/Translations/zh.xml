@@ -10,10 +10,10 @@
   <translation id="1General" value="通用设置" />
   <translation id="0Time" value="时间选项" />
   <translation id="1Other" value="其它选项" />
-  <translation id="WakeupHour" value="城市苏醒的时间" />
-  <translation id="WakeupHourTooltip" value="设定市民开始起床的时间，城市预算和时间流逝速度会自动切换成“日间”模式！" />
-  <translation id="GoToSleepUpHour" value="城市入睡的时间" />
-  <translation id="GoToSleepUpHourTooltip" value="设定市民开始上床睡觉的时间，城市预算和时间流逝速度会自动切换成“夜间”模式！" />
+  <translation id="WakeUpHour" value="城市苏醒的时间" />
+  <translation id="WakeUpHourTooltip" value="设定市民开始起床的时间，城市预算和时间流逝速度会自动切换成“日间”模式！" />
+  <translation id="GoToSleepHour" value="城市入睡的时间" />
+  <translation id="GoToSleepHourTooltip" value="设定市民开始上床睡觉的时间，城市预算和时间流逝速度会自动切换成“夜间”模式！" />
   <translation id="DayTimeSpeed" value="日间时间流逝速度" />
   <translation id="DayTimeSpeedTooltip" value="调节日间时间快慢. '1'代表非常慢，几乎就是真实世界的时间速度！" />
   <translation id="NightTimeSpeed" value="夜间时间流逝速度" />

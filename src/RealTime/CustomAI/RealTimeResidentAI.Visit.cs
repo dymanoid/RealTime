@@ -207,7 +207,7 @@ namespace RealTime.CustomAI
             }
 
             float currentHour = TimeInfo.CurrentHour;
-            if (currentHour >= Config.GoToSleepUpHour || currentHour <= Config.WakeupHour)
+            if (currentHour >= Config.GoToSleepHour || currentHour <= Config.WakeUpHour)
             {
                 return BuildingMgr.IsBuildingNoiseRestricted(targetBuilding);
             }
@@ -219,7 +219,7 @@ namespace RealTime.CustomAI
             }
 
             float arriveHour = (float)TimeInfo.Now.AddHours(travelTime).TimeOfDay.TotalHours;
-            if (arriveHour >= Config.GoToSleepUpHour || arriveHour <= Config.WakeupHour)
+            if (arriveHour >= Config.GoToSleepHour || arriveHour <= Config.WakeUpHour)
             {
                 return BuildingMgr.IsBuildingNoiseRestricted(targetBuilding);
             }

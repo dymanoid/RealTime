@@ -10,10 +10,10 @@
   <translation id="1General" value="General" />
   <translation id="0Time" value="Opciones del Tiempo" />
   <translation id="1Other" value="Otras Opciones" />
-  <translation id="WakeupHour" value="La ciudad Despierta" />
-  <translation id="WakeupHourTooltip" value="La hora en que la mayoría de los ciudadanos comienzan a despertarse. ¡Los impuestos y la velocidad del tiempo cambian al modo 'día'!" />
-  <translation id="GoToSleepUpHour" value="La ciudad Duerme" />
-  <translation id="GoToSleepUpHourTooltip" value="La hora en que la mayoría de los ciudadanos comienzan a acostarse. ¡Los impuestos y la velocidad del tiempo cambian al modo 'noche'!" />
+  <translation id="WakeUpHour" value="La ciudad Despierta" />
+  <translation id="WakeUpHourTooltip" value="La hora en que la mayoría de los ciudadanos comienzan a despertarse. ¡Los impuestos y la velocidad del tiempo cambian al modo 'día'!" />
+  <translation id="GoToSleepHour" value="La ciudad Duerme" />
+  <translation id="GoToSleepHourTooltip" value="La hora en que la mayoría de los ciudadanos comienzan a acostarse. ¡Los impuestos y la velocidad del tiempo cambian al modo 'noche'!" />
   <translation id="DayTimeSpeed" value="Velocidad del tiempo (día)" />
   <translation id="DayTimeSpeedTooltip" value="La velocidad a la que fluye el tiempo diurno. '1' es muy lento, ¡casi en tiempo real!" />
   <translation id="NightTimeSpeed" value="Velocidad del tiempo (noche)" />

@@ -29,7 +29,7 @@ namespace RealTime.Config
             {
                 if (!File.Exists(SettingsFileName))
                 {
-                    return new RealTimeConfig();
+                    return new RealTimeConfig(true);
                 }
 
                 return Deserialize();
@@ -37,7 +37,7 @@ namespace RealTime.Config
             catch (Exception ex)
             {
                 Log.Warning($"The 'Real Time' mod has encountered an error while trying to load the configuration, error message: " + ex);
-                return new RealTimeConfig();
+                return new RealTimeConfig(true);
             }
         }
 

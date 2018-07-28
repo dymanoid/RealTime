@@ -306,7 +306,7 @@ namespace RealTime.CustomAI
                 {
                     if (nextActivityTime < TimeInfo.Now)
                     {
-                        nextActivityTime = todayWakeup.FutureHour(Config.WakeupHour);
+                        nextActivityTime = todayWakeup.FutureHour(Config.WakeUpHour);
                     }
                 }
                 else

@@ -224,7 +224,7 @@ namespace RealTime.CustomAI
             if (service == ItemClass.Service.Residential)
             {
                 float currentHour = timeInfo.CurrentHour;
-                return currentHour < Math.Min(config.WakeupHour, EarliestWakeUp) || currentHour >= config.GoToSleepUpHour;
+                return currentHour < Math.Min(config.WakeUpHour, EarliestWakeUp) || currentHour >= config.GoToSleepHour;
             }
 
             return !workBehavior.IsBuildingWorking(service, subService);
