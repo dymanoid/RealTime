@@ -21,13 +21,20 @@ namespace RealTime.CustomAI
 
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
             CitizenProxy.RemoveFlags(ref citizen, Citizen.Flags.Evacuating);
-            CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
-            residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, homeBuilding);
-            schedule.Schedule(ResidentState.Unknown, default);
-            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} back home");
+
+            if (residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, homeBuilding))
+            {
+                CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
+                schedule.Schedule(ResidentState.Unknown, default);
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} back home");
+            }
+            else
+            {
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted to go home from {currentBuilding} but can't, waiting for the next opportunity");
+            }
         }
 
-        private bool RescheduleAtHome(ref CitizenSchedule schedule, ref TCitizen citizen)
+        private bool RescheduleAtHome(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
             if (schedule.CurrentState != ResidentState.AtHome || TimeInfo.Now < schedule.ScheduledStateTime)
             {
@@ -39,24 +46,24 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            if (IsBadWeather())
+            if (schedule.ScheduledState != ResidentState.Shopping && IsBadWeather())
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} re-schedules an activity because of bad weather (see next line for citizen ID)");
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} re-schedules an activity because of bad weather");
                 schedule.Schedule(ResidentState.Unknown, default);
                 return true;
             }
 
-            uint goOutChance = spareTimeBehavior.GetGoOutChance(
-                CitizenProxy.GetAge(ref citizen),
-                schedule.WorkShift,
-                schedule.ScheduledState == ResidentState.Shopping);
+            var age = CitizenProxy.GetAge(ref citizen);
+            uint goOutChance = schedule.ScheduledState == ResidentState.Shopping
+                ? spareTimeBehavior.GetShoppingChance(age)
+                : spareTimeBehavior.GetRelaxingChance(age, schedule.WorkShift);
 
-            if (Random.ShouldOccur(goOutChance))
+            if (goOutChance > 0)
             {
                 return false;
             }
 
-            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} re-schedules an activity because of time (see next line for citizen ID)");
+            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} re-schedules an activity because of time");
             schedule.Schedule(ResidentState.Unknown, default);
             return true;
         }

@@ -51,7 +51,7 @@ namespace RealTime.Simulation
         /// <summary>Processes the simulation tick.</summary>
         public void ProcessTick()
         {
-            spareTimeBehavior.RefreshGoOutChances();
+            spareTimeBehavior.RefreshChances();
         }
 
         /// <summary>Processes the simulation frame.</summary>

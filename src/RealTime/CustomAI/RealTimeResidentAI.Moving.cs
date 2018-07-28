@@ -70,6 +70,12 @@ namespace RealTime.CustomAI
             }
 
             ushort foundBuilding = BuildingMgr.FindActiveBuilding(currentBuilding, distance, ItemClass.Service.Commercial);
+            if (foundBuilding == 0)
+            {
+                Log.Debug($"Citizen {citizenId} didn't find any visitable commercial buildings nearby");
+                return 0;
+            }
+
             if (IsBuildingNoiseRestricted(foundBuilding, currentBuilding))
             {
                 Log.Debug($"Citizen {citizenId} won't go to the commercial building {foundBuilding}, it has a NIMBY policy");
@@ -120,14 +126,12 @@ namespace RealTime.CustomAI
             if (currentBuilding == visitBuilding)
             {
                 CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
-                CitizenProxy.SetVisitBuilding(ref citizen, visitBuilding);
                 CitizenProxy.SetLocation(ref citizen, Citizen.Location.Visit);
                 return true;
             }
             else if (residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding))
             {
                 CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
-                CitizenProxy.SetVisitBuilding(ref citizen, visitBuilding);
                 return true;
             }
 

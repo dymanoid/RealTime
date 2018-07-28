@@ -49,7 +49,7 @@ namespace RealTime.CustomAI
         }
 
         /// <summary>Calculates the chances for the citizens to go out based on the current game time.</summary>
-        public void RefreshGoOutChances()
+        public void RefreshChances()
         {
             uint weekdayModifier;
             if (config.IsWeekendEnabled)
@@ -73,22 +73,29 @@ namespace RealTime.CustomAI
         }
 
         /// <summary>
-        /// Gets the probability whether a citizen with specified age would go out on current time.
+        /// Gets the probability whether a citizen with specified age would go shopping on current time.
+        /// </summary>
+        ///
+        /// <param name="citizenAge">The age of the citizen to check.</param>
+        ///
+        /// <returns>A percentage value in range of 0..100 that describes the probability whether
+        /// a citizen with specified age would go shopping on current time.</returns>
+        public uint GetShoppingChance(Citizen.AgeGroup citizenAge)
+        {
+            return shoppingChances[(int)citizenAge];
+        }
+
+        /// <summary>
+        /// Gets the probability whether a citizen with specified age would go relaxing on current time.
         /// </summary>
         ///
         /// <param name="citizenAge">The age of the citizen to check.</param>
         /// <param name="workShift">The citizen's assigned work shift (or <see cref="WorkShift.Unemployed"/>).</param>
-        /// <param name="needsShopping"><c>true</c> when the citizen needs to buy something; otherwise, <c>false</c>.</param>
         ///
         /// <returns>A percentage value in range of 0..100 that describes the probability whether
-        /// a citizen with specified age would go out on current time.</returns>
-        public uint GetGoOutChance(Citizen.AgeGroup citizenAge, WorkShift workShift, bool needsShopping)
+        /// a citizen with specified age would go relaxing on current time.</returns>
+        public uint GetRelaxingChance(Citizen.AgeGroup citizenAge, WorkShift workShift)
         {
-            if (needsShopping)
-            {
-                return shoppingChances[(int)citizenAge];
-            }
-
             int age = (int)citizenAge;
             switch (citizenAge)
             {
@@ -246,11 +253,11 @@ namespace RealTime.CustomAI
 
             uint roundedChance = (uint)Math.Round(chance);
 
-            shoppingChances[(int)Citizen.AgeGroup.Child] = isNight ? 0u : (uint)Math.Round(chance * 0.6f);
+            shoppingChances[(int)Citizen.AgeGroup.Child] = isNight ? 0u : roundedChance;
             shoppingChances[(int)Citizen.AgeGroup.Teen] = isNight ? 0u : roundedChance;
             shoppingChances[(int)Citizen.AgeGroup.Young] = roundedChance;
             shoppingChances[(int)Citizen.AgeGroup.Adult] = roundedChance;
-            shoppingChances[(int)Citizen.AgeGroup.Senior] = isNight ? 0u : (uint)Math.Round(chance * 0.8f);
+            shoppingChances[(int)Citizen.AgeGroup.Senior] = isNight ? (uint)Math.Round(chance * 0.1f) : roundedChance;
 
 #if DEBUG
             if (oldChance != roundedChance)

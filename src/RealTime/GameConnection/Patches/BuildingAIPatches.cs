@@ -48,6 +48,13 @@ namespace RealTime.GameConnection.Patches
             private static bool Prefix(ref Building buildingData, ref byte __state)
             {
                 __state = buildingData.m_outgoingProblemTimer;
+                if (buildingData.m_customBuffer2 > 0)
+                {
+                    // Simulate some goods become spoiled; additionally, this will cause the buildings to never reach the 'stock full' state.
+                    // In that state, no visits are possible anymore, so the building gets stuck
+                    --buildingData.m_customBuffer2;
+                }
+
                 return true;
             }
 
@@ -55,7 +62,7 @@ namespace RealTime.GameConnection.Patches
             {
                 if (__state != buildingData.m_outgoingProblemTimer)
                 {
-                    RealTimeAI?.ProcessOutgoingProblems(buildingID, __state, buildingData.m_outgoingProblemTimer);
+                    RealTimeAI?.ProcessBuildingProblems(buildingID, __state);
                 }
             }
 #pragma warning restore SA1313 // Parameter names must begin with lower-case letter
@@ -86,7 +93,7 @@ namespace RealTime.GameConnection.Patches
             {
                 if (__state != buildingData.m_workerProblemTimer)
                 {
-                    RealTimeAI?.ProcessWorkerProblems(buildingID, __state, buildingData.m_workerProblemTimer);
+                    RealTimeAI?.ProcessWorkerProblems(buildingID, __state);
                 }
             }
 #pragma warning restore SA1313 // Parameter names must begin with lower-case letter

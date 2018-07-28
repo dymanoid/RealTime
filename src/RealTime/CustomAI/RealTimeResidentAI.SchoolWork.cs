@@ -23,7 +23,7 @@ namespace RealTime.CustomAI
             if (timeLeft <= PrepareToWorkHours)
             {
                 // Just sit at home if the work time will come soon
-                Log.Debug($"  - Worktime in {timeLeft} hours, preparing for departure");
+                Log.Debug($"  - Work time in {timeLeft} hours, preparing for departure");
                 return true;
             }
 
@@ -31,7 +31,7 @@ namespace RealTime.CustomAI
             {
                 if (schedule.CurrentState != ResidentState.AtHome)
                 {
-                    Log.Debug($"  - Worktime in {timeLeft} hours, returning home");
+                    Log.Debug($"  - Work time in {timeLeft} hours, returning home");
                     schedule.Schedule(ResidentState.AtHome, default);
                     return true;
                 }
@@ -39,11 +39,11 @@ namespace RealTime.CustomAI
                 // If we have some time, try to shop locally.
                 if (ScheduleShopping(ref schedule, ref citizen, true))
                 {
-                    Log.Debug($"  - Worktime in {timeLeft} hours, trying local shop");
+                    Log.Debug($"  - Work time in {timeLeft} hours, trying local shop");
                 }
                 else
                 {
-                    Log.Debug($"  - Worktime in {timeLeft} hours, doing nothing");
+                    Log.Debug($"  - Work time in {timeLeft} hours, doing nothing");
                 }
 
                 return true;
@@ -62,22 +62,31 @@ namespace RealTime.CustomAI
             {
                 CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
                 CitizenProxy.SetLocation(ref citizen, Citizen.Location.Work);
-            }
-            else if (residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, schedule.WorkBuilding)
-                && schedule.CurrentState == ResidentState.AtHome)
-            {
-                schedule.DepartureToWorkTime = TimeInfo.Now;
+                return;
             }
 
-            Citizen.AgeGroup citizenAge = CitizenProxy.GetAge(ref citizen);
-            if (workBehavior.ScheduleLunch(ref schedule, citizenAge))
+            if (residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, schedule.WorkBuilding))
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} to school/work {schedule.WorkBuilding} and will go to lunch at {schedule.ScheduledStateTime}");
+                if (schedule.CurrentState == ResidentState.AtHome)
+                {
+                    schedule.DepartureToWorkTime = TimeInfo.Now;
+                }
+
+                Citizen.AgeGroup citizenAge = CitizenProxy.GetAge(ref citizen);
+                if (workBehavior.ScheduleLunch(ref schedule, citizenAge))
+                {
+                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} to school/work {schedule.WorkBuilding} and will go to lunch at {schedule.ScheduledStateTime}");
+                }
+                else
+                {
+                    workBehavior.ScheduleReturnFromWork(ref schedule, citizenAge);
+                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} to school/work {schedule.WorkBuilding} and will leave work at {schedule.ScheduledStateTime}");
+                }
             }
             else
             {
-                workBehavior.ScheduleReturnFromWork(ref schedule, citizenAge);
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} to school/work {schedule.WorkBuilding} and will leave work at {schedule.ScheduledStateTime}");
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted to go to work from {currentBuilding} but can't, will try once again next time");
+                schedule.Schedule(ResidentState.Unknown, default);
             }
         }
 

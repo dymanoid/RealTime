@@ -18,10 +18,13 @@ namespace RealTime.CustomAI
         public const float FullSearchDistance = BuildingManager.BUILDINGGRID_RESOLUTION * BuildingManager.BUILDINGGRID_CELL_SIZE / 2f;
 
         /// <summary>A chance in percent for a citizen to stay home until next scheduled action.</summary>
-        public const uint StayHomeAllDayChance = 15;
+        public const uint StayHomeAllDayChance = 2;
 
         /// <summary>A chance in percent for a citizen to go shopping in the night.</summary>
         public const uint NightShoppingChance = 20u;
+
+        /// <summary>A chance in percent for a citizen to go shopping just for fun.</summary>
+        public const uint FunShoppingChance = 35u;
 
         /// <summary>A chance in percent for a tourist to find a hotel for sleepover.</summary>
         public const uint FindHotelChance = 80;

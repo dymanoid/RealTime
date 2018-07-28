@@ -198,10 +198,10 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            uint goOutChance = spareTimeBehavior.GetGoOutChance(
-                CitizenProxy.GetAge(ref citizen),
-                WorkShift.Unemployed,
-                CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods));
+            Citizen.AgeGroup age = CitizenProxy.GetAge(ref citizen);
+            uint goOutChance = CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods)
+                ? spareTimeBehavior.GetShoppingChance(age)
+                : spareTimeBehavior.GetRelaxingChance(age, WorkShift.Unemployed);
 
             if (!Random.ShouldOccur(goOutChance) || IsBadWeather())
             {
@@ -252,9 +252,10 @@ namespace RealTime.CustomAI
 
         private void StartMovingToVisitBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort currentBuilding, ushort visitBuilding)
         {
-            CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
-            CitizenProxy.SetVisitBuilding(ref citizen, visitBuilding);
-            touristAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding);
+            if (touristAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding))
+            {
+                CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
+            }
         }
     }
 }
