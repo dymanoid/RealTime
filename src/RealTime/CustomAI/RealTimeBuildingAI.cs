@@ -94,9 +94,8 @@ namespace RealTime.CustomAI
         /// Performs the custom processing of the outgoing problem timer.
         /// </summary>
         /// <param name="buildingId">The ID of the building to process.</param>
-        /// <param name="oldValue">The old value of the outgoing problem timer.</param>
-        /// <param name="newValue">The new value of the outgoing problem timer.</param>
-        public void ProcessOutgoingProblems(ushort buildingId, byte oldValue, byte newValue)
+        /// <param name="outgoingProblemTimer">The previous value of the outgoing problem timer.</param>
+        public void ProcessBuildingProblems(ushort buildingId, byte outgoingProblemTimer)
         {
             // We have only few customers at night - that's an intended behavior.
             // To avoid commercial buildings from collapsing due to lack of customers,
@@ -104,7 +103,7 @@ namespace RealTime.CustomAI
             // In the daytime, the timer is running slower.
             if (timeInfo.IsNightTime || timeInfo.Now.Minute % ProblemTimersInterval != 0 || freezeProblemTimers)
             {
-                buildingManager.SetOutgoingProblemTimer(buildingId, oldValue);
+                buildingManager.SetOutgoingProblemTimer(buildingId, outgoingProblemTimer);
             }
         }
 
@@ -113,8 +112,7 @@ namespace RealTime.CustomAI
         /// </summary>
         /// <param name="buildingId">The ID of the building to process.</param>
         /// <param name="oldValue">The old value of the worker problem timer.</param>
-        /// <param name="newValue">The new value of the worker problem timer.</param>
-        public void ProcessWorkerProblems(ushort buildingId, byte oldValue, byte newValue)
+        public void ProcessWorkerProblems(ushort buildingId, byte oldValue)
         {
             // We force the problem timer to pause at night time.
             // In the daytime, the timer is running slower.
@@ -176,9 +174,7 @@ namespace RealTime.CustomAI
         /// </returns>
         public bool ShouldSwitchBuildingLightsOff(ushort buildingId)
         {
-            return config.SwitchOffLightsAtNight
-                ? !lightStates[buildingId]
-                : false;
+            return config.SwitchOffLightsAtNight && !lightStates[buildingId];
         }
 
         private void UpdateLightState(uint frameIndex)

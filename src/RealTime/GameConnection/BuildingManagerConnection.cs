@@ -14,6 +14,9 @@ namespace RealTime.GameConnection
     /// <seealso cref="IBuildingManagerConnection" />
     internal sealed class BuildingManagerConnection : IBuildingManagerConnection
     {
+        private const int MaxBuildingGridIndex = BuildingManager.BUILDINGGRID_RESOLUTION - 1;
+        private const int BuildingGridMiddle = BuildingManager.BUILDINGGRID_RESOLUTION / 2;
+
         /// <summary>Gets the service type of the building with specified ID.</summary>
         /// <param name="buildingId">The ID of the building to get the service type of.</param>
         /// <returns>
@@ -24,7 +27,7 @@ namespace RealTime.GameConnection
         {
             return buildingId == 0
                 ? ItemClass.Service.None
-                : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info.m_class.m_service;
+                : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.m_class?.m_service ?? ItemClass.Service.None;
         }
 
         /// <summary>Gets the sub-service type of the building with specified ID.</summary>
@@ -37,7 +40,7 @@ namespace RealTime.GameConnection
         {
             return buildingId == 0
                 ? ItemClass.SubService.None
-                : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info.m_class.m_subService;
+                : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.m_class?.m_subService ?? ItemClass.SubService.None;
         }
 
         /// <summary>Gets the service and sub-service types of the building with specified ID.</summary>
@@ -130,10 +133,10 @@ namespace RealTime.GameConnection
             }
 
             ref Building building = ref BuildingManager.instance.m_buildings.m_buffer[buildingId];
-            building.Info.m_buildingAI.ModifyMaterialBuffer(buildingId, ref building, reason, ref delta);
+            building.Info?.m_buildingAI.ModifyMaterialBuffer(buildingId, ref building, reason, ref delta);
         }
 
-        /// <summary>Finds an active building that matches the specified criteria.</summary>
+        /// <summary>Finds an active building that matches the specified criteria and can accept visitors.</summary>
         /// <param name="searchAreaCenterBuilding">The building ID that represents the search area center point.</param>
         /// <param name="maxDistance">The maximum distance for search, the search area radius.</param>
         /// <param name="service">The building service type to find.</param>
@@ -155,13 +158,47 @@ namespace RealTime.GameConnection
             Building.Flags restrictedFlags = Building.Flags.Deleted | Building.Flags.Evacuating | Building.Flags.Flooded | Building.Flags.Collapsed
                 | Building.Flags.BurnedDown | Building.Flags.RoadAccessFailed;
 
-            return BuildingManager.instance.FindBuilding(
-                currentPosition,
-                maxDistance,
-                service,
-                subService,
-                Building.Flags.Created | Building.Flags.Completed | Building.Flags.Active,
-                restrictedFlags);
+            Building.Flags requiredFlags = Building.Flags.Created | Building.Flags.Completed | Building.Flags.Active;
+            Building.Flags combinedFlags = requiredFlags | restrictedFlags;
+
+            int gridXFrom = Mathf.Max((int)(((currentPosition.x - maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE) + BuildingGridMiddle), 0);
+            int gridZFrom = Mathf.Max((int)(((currentPosition.z - maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE) + BuildingGridMiddle), 0);
+            int gridXTo = Mathf.Min((int)(((currentPosition.x + maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE) + BuildingGridMiddle), MaxBuildingGridIndex);
+            int gridZTo = Mathf.Min((int)(((currentPosition.z + maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE) + BuildingGridMiddle), MaxBuildingGridIndex);
+
+            float sqrMaxDistance = maxDistance * maxDistance;
+            for (int z = gridZFrom; z <= gridZTo; ++z)
+            {
+                for (int x = gridXFrom; x <= gridXTo; ++x)
+                {
+                    ushort buildingId = BuildingManager.instance.m_buildingGrid[(z * BuildingManager.BUILDINGGRID_RESOLUTION) + x];
+                    uint counter = 0;
+                    while (buildingId != 0)
+                    {
+                        ref Building building = ref BuildingManager.instance.m_buildings.m_buffer[buildingId];
+                        if (building.Info != null
+                            && building.Info.m_class != null
+                            && (building.Info.m_class.m_service == service)
+                            && (subService == ItemClass.SubService.None || building.Info.m_class.m_subService == subService)
+                            && (building.m_flags & combinedFlags) == requiredFlags)
+                        {
+                            float sqrDistance = Vector3.SqrMagnitude(currentPosition - building.m_position);
+                            if (sqrDistance < sqrMaxDistance && BuildingCanBeVisited(buildingId))
+                            {
+                                return buildingId;
+                            }
+                        }
+
+                        buildingId = building.m_nextGridBuilding;
+                        if (++counter >= BuildingManager.MAX_BUILDING_COUNT)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return 0;
         }
 
         /// <summary>Gets the ID of an event that takes place in the building with specified ID.</summary>
@@ -253,7 +290,7 @@ namespace RealTime.GameConnection
         {
             return buildingId == 0
                 ? string.Empty
-                : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info.name;
+                : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.name ?? string.Empty;
         }
 
         /// <summary>Gets the localized name of a building with specified ID.</summary>
@@ -303,6 +340,34 @@ namespace RealTime.GameConnection
             {
                 BuildingManager.instance.UpdateBuildingColors(buildingId);
             }
+        }
+
+        private static bool BuildingCanBeVisited(ushort buildingId)
+        {
+            uint currentUnitId = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_citizenUnits;
+
+            uint counter = 0;
+            while (currentUnitId != 0)
+            {
+                ref CitizenUnit currentUnit = ref CitizenManager.instance.m_units.m_buffer[currentUnitId];
+                if ((currentUnit.m_flags & CitizenUnit.Flags.Visit) != 0
+                    && (currentUnit.m_citizen0 == 0
+                        || currentUnit.m_citizen1 == 0
+                        || currentUnit.m_citizen2 == 0
+                        || currentUnit.m_citizen3 == 0
+                        || currentUnit.m_citizen4 == 0))
+                {
+                    return true;
+                }
+
+                currentUnitId = currentUnit.m_nextUnit;
+                if (++counter >= CitizenManager.MAX_UNIT_COUNT)
+                {
+                    break;
+                }
+            }
+
+            return false;
         }
     }
 }

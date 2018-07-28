@@ -231,11 +231,11 @@ namespace RealTime.UI
         private void DisplayCityEvent(ICityEvent cityEvent, DateTime todayStart, DateTime todayEnd)
         {
             float startPercent = cityEvent.StartTime <= todayStart
-                ? startPercent = 0
+                ? 0
                 : (float)cityEvent.StartTime.TimeOfDay.TotalHours / 24f;
 
             float endPercent = cityEvent.EndTime >= todayEnd
-                ? endPercent = 1f
+                ? 1f
                 : (float)cityEvent.EndTime.TimeOfDay.TotalHours / 24f;
 
             float startPosition = progressSprite.width * startPercent;

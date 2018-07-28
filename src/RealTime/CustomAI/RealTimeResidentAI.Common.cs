@@ -239,7 +239,7 @@ namespace RealTime.CustomAI
             return ScheduleAction.Ignore;
         }
 
-        private void UpdateCitizenSchedule(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
+        private bool UpdateCitizenSchedule(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
             // If the game changed the work building, we have to update the work shifts first
             ushort workBuilding = CitizenProxy.GetWorkBuilding(ref citizen);
@@ -264,7 +264,7 @@ namespace RealTime.CustomAI
 
             if (schedule.ScheduledState != ResidentState.Unknown)
             {
-                return;
+                return false;
             }
 
             Log.Debug(TimeInfo.Now, $"Scheduling for {GetCitizenDesc(citizenId, ref citizen)}...");
@@ -279,7 +279,7 @@ namespace RealTime.CustomAI
             {
                 if (ScheduleWork(ref schedule, ref citizen))
                 {
-                    return;
+                    return true;
                 }
 
                 if (schedule.ScheduledStateTime > nextActivityTime)
@@ -291,23 +291,39 @@ namespace RealTime.CustomAI
             if (ScheduleShopping(ref schedule, ref citizen, false))
             {
                 Log.Debug($"  - Schedule shopping");
-                return;
+                return true;
             }
 
             if (ScheduleRelaxing(ref schedule, citizenId, ref citizen))
             {
                 Log.Debug($"  - Schedule relaxing");
-                return;
+                return true;
             }
 
             if (schedule.CurrentState == ResidentState.AtHome)
             {
                 if (Random.ShouldOccur(StayHomeAllDayChance))
                 {
-                    nextActivityTime = todayWakeup.FutureHour(Config.WakeupHour);
+                    if (nextActivityTime < TimeInfo.Now)
+                    {
+                        nextActivityTime = todayWakeup.FutureHour(Config.WakeupHour);
+                    }
+                }
+                else
+                {
+                    nextActivityTime = default;
                 }
 
-                Log.Debug($"  - Schedule sleeping at home until {nextActivityTime}");
+#if DEBUG
+                if (nextActivityTime <= TimeInfo.Now)
+                {
+                    Log.Debug($"  - Schedule idle until next scheduling run");
+                }
+                else
+                {
+                    Log.Debug($"  - Schedule idle until {nextActivityTime}");
+                }
+#endif
                 schedule.Schedule(ResidentState.Unknown, nextActivityTime);
             }
             else
@@ -315,13 +331,16 @@ namespace RealTime.CustomAI
                 Log.Debug($"  - Schedule moving home");
                 schedule.Schedule(ResidentState.AtHome, default);
             }
+
+            return true;
         }
 
-        private void ExecuteCitizenSchedule(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
+        private void ExecuteCitizenSchedule(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen, bool noReschedule)
         {
-            if (ProcessCurrentState(ref schedule, ref citizen) && schedule.ScheduledState == ResidentState.Unknown)
+            if (ProcessCurrentState(ref schedule, citizenId, ref citizen)
+                && schedule.ScheduledState == ResidentState.Unknown && !noReschedule)
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} will be rescheduled now");
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} will re-schedule now");
 
                 // If the state processing changed the schedule, we need to update it
                 UpdateCitizenSchedule(ref schedule, citizenId, ref citizen);
@@ -367,18 +386,21 @@ namespace RealTime.CustomAI
             }
         }
 
-        private bool ProcessCurrentState(ref CitizenSchedule schedule, ref TCitizen citizen)
+        private bool ProcessCurrentState(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
             switch (schedule.CurrentState)
             {
+                case ResidentState.AtHome:
+                    return RescheduleAtHome(ref schedule, citizenId, ref citizen);
+
                 case ResidentState.Shopping:
-                    return ProcessCitizenShopping(ref schedule, ref citizen);
+                    return ProcessCitizenShopping(ref schedule, citizenId, ref citizen);
 
                 case ResidentState.Relaxing:
-                    return ProcessCitizenRelaxing(ref schedule, ref citizen);
+                    return ProcessCitizenRelaxing(ref schedule, citizenId, ref citizen);
 
                 case ResidentState.Visiting:
-                    return ProcessCitizenVisit(ref schedule, ref citizen);
+                    return ProcessCitizenVisit(ref schedule, citizenId, ref citizen);
 
                 case ResidentState.InShelter:
                     return ProcessCitizenInShelter(ref schedule, ref citizen);

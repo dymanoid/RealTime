@@ -225,16 +225,6 @@ namespace RealTime.GameConnection
         }
 
         /// <summary>
-        /// Sets the ID of the building that is currently visited by the specified citizen.
-        /// </summary>
-        /// <param name="citizen">The citizen to set the visited building ID for.</param>
-        /// <param name="visitBuilding">The ID of the currently visited building.</param>
-        public void SetVisitBuilding(ref Citizen citizen, ushort visitBuilding)
-        {
-            citizen.m_visitBuilding = visitBuilding;
-        }
-
-        /// <summary>
         /// Sets the ID of the building the specified citizen is currently visiting.
         /// </summary>
         /// <param name="citizen">The citizen to set the building for.</param>

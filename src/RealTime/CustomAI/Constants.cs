@@ -17,14 +17,14 @@ namespace RealTime.CustomAI
         /// <summary>A distance in game units that corresponds to the complete map.</summary>
         public const float FullSearchDistance = BuildingManager.BUILDINGGRID_RESOLUTION * BuildingManager.BUILDINGGRID_CELL_SIZE / 2f;
 
-        /// <summary>A chance in percent for an unemployed citizen to stay home until next morning.</summary>
-        public const uint StayHomeAllDayChance = 15;
+        /// <summary>A chance in percent for a citizen to stay home until next scheduled action.</summary>
+        public const uint StayHomeAllDayChance = 2;
 
-        /// <summary>A chance in percent for a citizen to go shopping.</summary>
-        public const uint GoShoppingChance = 80;
+        /// <summary>A chance in percent for a citizen to go shopping in the night.</summary>
+        public const uint NightShoppingChance = 20u;
 
-        /// <summary>A chance in percent for a citizen to go to sleep when he or she is at home and doesn't go out.</summary>
-        public const uint GoSleepingChance = 75;
+        /// <summary>A chance in percent for a citizen to go shopping just for fun.</summary>
+        public const uint FunShoppingChance = 35u;
 
         /// <summary>A chance in percent for a tourist to find a hotel for sleepover.</summary>
         public const uint FindHotelChance = 80;
@@ -42,7 +42,7 @@ namespace RealTime.CustomAI
         public const float PrepareToWorkHours = 1f;
 
         /// <summary>An assumed maximum travel time to a target building.</summary>
-        public const float MaxTravelTime = 4f;
+        public const float MaxTravelTime = 2.5f;
 
         /// <summary>An assumed minimum travel to a target building.</summary>
         public const float MinTravelTime = 0.25f;
@@ -54,6 +54,7 @@ namespace RealTime.CustomAI
         /// An assumed average speed of a citizen when moving to target (this is not just a walking speed, but also takes
         /// into account moving by car or public transport).
         /// </summary>
+        // TODO: calculate this dynamically depending on time speed
         public const float OnTheWayDistancePerHour = 500f;
 
         /// <summary>A chance in percent that a virtual citizen will not be realized in 'few virtual citizens' mode.</summary>

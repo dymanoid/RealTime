@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <language id="es" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="Warning" value="Atención" />
@@ -34,8 +34,8 @@
   <translation id="StopConstructionAtNightTooltip" value="Los trabajadores de la construcción también necesitan dormir" />
   <translation id="ConstructionSpeed" value="Velocidad de construcción" />
   <translation id="ConstructionSpeedTooltip" value="Velocidad de construcción y mejora de edificios" />
-  <translation id="SwitchOffLightsAtNight" value="Switch off building lights at night" />
-  <translation id="SwitchOffLightsAtNightTooltip" value="Residential buildings switch off lights when citizens sleep, other buildings and parks - when no one is working there" />
+  <translation id="SwitchOffLightsAtNight" value="Apagar las luces de los edificios por la noche" />
+  <translation id="SwitchOffLightsAtNightTooltip" value="Los edificios residenciales apagarán las luces cuando los ciudadanos se vallan a dormir, otros edificios y parques apagarán cuando nadie trabajé en ellos" />
 
   <translation id="2Quotas" value="Probabilidades" />
   <translation id="SecondShiftQuota" value="Turno de Tarde" />
@@ -50,8 +50,8 @@
   <translation id="OnTimeQuotaTooltip" value="Porcentaje de ciudadanos que irán a trabajar y saldrán del trabajo con puntualidad" />
 
   <translation id="3Events" value="Eventos" />
-  <translation id="AreEventsEnabled" value="Enable custom events" />
-  <translation id="AreEventsEnabledTooltip" value="If disabled, only vanilla game events can occur in the city" />
+  <translation id="AreEventsEnabled" value="Activar eventos personalizados" />
+  <translation id="AreEventsEnabledTooltip" value="Si esta desactivado, solo ocurriran los eventos del juego original en la ciudad" />
   <translation id="EarliestHourEventStartWeekday" value="Día laboral: Hora mínima de inicio" />
   <translation id="EarliestHourEventStartWeekdayTooltip" value="Hora más temprana en la cual pueden empezar los eventos entre semana" />
   <translation id="LatestHourEventStartWeekday" value="Día laboral: Hora máxima de inicio" />
