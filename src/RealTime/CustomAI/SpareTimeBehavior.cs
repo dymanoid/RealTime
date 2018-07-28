@@ -90,11 +90,11 @@ namespace RealTime.CustomAI
         /// </summary>
         ///
         /// <param name="citizenAge">The age of the citizen to check.</param>
-        /// <param name="workShift">The citizen's assigned work shift (or <see cref="WorkShift.Unemployed"/>).</param>
+        /// <param name="workShift">The citizen's assigned work shift (default is <see cref="WorkShift.Unemployed"/>).</param>
         ///
         /// <returns>A percentage value in range of 0..100 that describes the probability whether
         /// a citizen with specified age would go relaxing on current time.</returns>
-        public uint GetRelaxingChance(Citizen.AgeGroup citizenAge, WorkShift workShift)
+        public uint GetRelaxingChance(Citizen.AgeGroup citizenAge, WorkShift workShift = WorkShift.Unemployed)
         {
             int age = (int)citizenAge;
             switch (citizenAge)
