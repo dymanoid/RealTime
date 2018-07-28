@@ -6,6 +6,7 @@
 
   <translation id="Tools" value="Outils" />
   <translation id="ResetToDefaults" value="Tout réinitialiser aux valeurs par défaut" />
+  <translation id="UseForNewGames" value="Use current values for new games" />
 
   <translation id="1General" value="Général" />
   <translation id="0Time" value="Options de Time" />

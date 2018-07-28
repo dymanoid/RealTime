@@ -25,7 +25,7 @@ namespace RealTime.Core
         private readonly string modVersion = GitVersion.GetAssemblyVersion(typeof(RealTimeMod).Assembly);
         private readonly string modPath = GetModPath();
 
-        private RealTimeConfig config;
+        private ConfigurationProvider configProvider;
         private RealTimeCore core;
         private ConfigUI configUI;
         private LocalizationProvider localizationProvider;
@@ -46,7 +46,8 @@ namespace RealTime.Core
         public void OnEnabled()
         {
             Log.Info("The 'Real Time' mod has been enabled, version: " + modVersion);
-            config = ConfigurationProvider.LoadConfiguration();
+            configProvider = new ConfigurationProvider();
+            configProvider.LoadDefaultConfiguration();
             localizationProvider = new LocalizationProvider(modPath);
         }
 
@@ -57,9 +58,13 @@ namespace RealTime.Core
         public void OnDisabled()
         {
             Log.Info("The 'Real Time' mod has been disabled.");
-            ConfigurationProvider.SaveConfiguration(config);
-            config = null;
-            configUI = null;
+
+            CloseConfigUI();
+
+            if (configProvider != null && configProvider.IsDefault)
+            {
+                configProvider.SaveDefaultConfiguration();
+            }
         }
 
         /// <summary>
@@ -71,19 +76,20 @@ namespace RealTime.Core
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Must be instance method due to C:S API")]
         public void OnSettingsUI(UIHelperBase helper)
         {
-            if (helper == null)
+            if (helper == null || configProvider == null)
             {
                 return;
             }
 
-            if (config == null)
+            if (configProvider.Configuration == null)
             {
                 Log.Warning("The 'Real Time' mod wants to display the configuration page, but the configuration is unexpectedly missing.");
-                config = ConfigurationProvider.LoadConfiguration();
+                configProvider.LoadDefaultConfiguration();
             }
 
             IViewItemFactory itemFactory = new CitiesViewItemFactory(helper);
-            configUI = ConfigUI.Create(config, itemFactory);
+            CloseConfigUI();
+            configUI = ConfigUI.Create(configProvider, itemFactory);
             ApplyLanguage();
         }
 
@@ -113,7 +119,7 @@ namespace RealTime.Core
                 core.Stop();
             }
 
-            core = RealTimeCore.Run(config, modPath, localizationProvider);
+            core = RealTimeCore.Run(configProvider, modPath, localizationProvider);
             if (core == null)
             {
                 Log.Warning("Showing a warning message to user because the mod isn't working");
@@ -136,7 +142,8 @@ namespace RealTime.Core
                 core = null;
             }
 
-            ConfigurationProvider.SaveConfiguration(config);
+            configProvider.LoadDefaultConfiguration();
+            CloseConfigUI();
         }
 
         private static string GetModPath()
@@ -164,6 +171,15 @@ namespace RealTime.Core
             }
 
             configUI?.Translate(localizationProvider);
+        }
+
+        private void CloseConfigUI()
+        {
+            if (configUI != null)
+            {
+                configUI.Close();
+                configUI = null;
+            }
         }
     }
 }
