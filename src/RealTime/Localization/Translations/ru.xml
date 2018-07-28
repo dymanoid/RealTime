@@ -10,10 +10,10 @@
   <translation id="1General" value="Основные" />
   <translation id="0Time" value="Настройки времени" />
   <translation id="1Other" value="Другие настройки" />
-  <translation id="WakeupHour" value="Город просыпается" />
-  <translation id="WakeupHourTooltip" value="Время, когда большинство жителей начинают просыпаться. Бюджеты и скорость времени переходят в режим 'день'!" />
-  <translation id="GoToSleepUpHour" value="Город ложится спать" />
-  <translation id="GoToSleepUpHourTooltip" value="Время, когда большинство жителей ложатся спать. Бюджеты и скорость времени переходят в режим 'ночь'!" />
+  <translation id="WakeUpHour" value="Город просыпается" />
+  <translation id="WakeUpHourTooltip" value="Время, когда большинство жителей начинают просыпаться. Бюджеты и скорость времени переходят в режим 'день'!" />
+  <translation id="GoToSleepHour" value="Город ложится спать" />
+  <translation id="GoToSleepHourTooltip" value="Время, когда большинство жителей ложатся спать. Бюджеты и скорость времени переходят в режим 'ночь'!" />
   <translation id="DayTimeSpeed" value="Скорость времени (день)" />
   <translation id="DayTimeSpeedTooltip" value="Скорость течения времени днём. '1' очень медленно - почти реальное время!" />
   <translation id="NightTimeSpeed" value="Скорость времени (ночь)" />
@@ -46,6 +46,8 @@
   <translation id="LunchQuotaTooltip" value="Процент жителей, которые будут выходить на обед" />
   <translation id="LocalBuildingSearchQuota" value="Покупки поблизости" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="Процент жителей, которые будут искать магазины поблизости" />
+  <translation id="ShoppingForFunQuota" value="Покупки как развлечение" />
+  <translation id="ShoppingForFunQuotaTooltip" value="Процент жителей, которые будут ходить за покупками, даже если им не нужны никакие товары" />
   <translation id="OnTimeQuota" value="Без сверхурочных" />
   <translation id="OnTimeQuotaTooltip" value="Процент жителей, которые будут ходить на работу без сверхурочных" />
 

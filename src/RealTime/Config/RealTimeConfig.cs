@@ -4,18 +4,33 @@
 
 namespace RealTime.Config
 {
+    using System;
     using RealTime.Tools;
     using RealTime.UI;
 
     /// <summary>
     /// The mod's configuration.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1708:IdentifiersShouldDifferByMoreThanCase", Justification = "Property will be removed later")]
     public sealed class RealTimeConfig
     {
+        private const int LatestVersion = 2;
+
         /// <summary>Initializes a new instance of the <see cref="RealTimeConfig"/> class.</summary>
         public RealTimeConfig()
         {
             ResetToDefaults();
+        }
+
+        /// <summary>Initializes a new instance of the <see cref="RealTimeConfig"/> class.</summary>
+        /// <param name="latestVersion">if set to <c>true</c>, the latest version of the configuration will be created.</param>
+        public RealTimeConfig(bool latestVersion)
+            : this()
+        {
+            if (latestVersion)
+            {
+                Version = LatestVersion;
+            }
         }
 
         /// <summary>Gets or sets the version number of this configuration.</summary>
@@ -24,8 +39,13 @@ namespace RealTime.Config
         /// <summary>
         /// Gets or sets the daytime hour when the city wakes up.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "WakeUp", Justification = "Reviewed")]
         [ConfigItem("1General", "0Time", 0)]
         [ConfigItemSlider(4f, 8f, 0.25f, SliderValueType.Time)]
+        public float WakeUpHour { get; set; }
+
+        // TODO: delete this property after a few releases - it was misspelled
+        [Obsolete("Do not use this property, use 'WakeUpHour' instead")]
         public float WakeupHour { get; set; }
 
         /// <summary>
@@ -33,6 +53,10 @@ namespace RealTime.Config
         /// </summary>
         [ConfigItem("1General", "0Time", 1)]
         [ConfigItemSlider(20f, 23.75f, 0.25f, SliderValueType.Time)]
+        public float GoToSleepHour { get; set; }
+
+        // TODO: delete this property after a few releases - it was misspelled
+        [Obsolete("Do not use this property, use 'GoToSleepHour' instead")]
         public float GoToSleepUpHour { get; set; }
 
         /// <summary>
@@ -135,11 +159,19 @@ namespace RealTime.Config
         public uint LocalBuildingSearchQuota { get; set; }
 
         /// <summary>
+        /// Gets or sets the percentage of the Cims that will go shopping just for fun without needing to buy something.
+        /// Valid values are 0..100.
+        /// </summary>
+        [ConfigItem("2Quotas", 4)]
+        [ConfigItemSlider(0, 50)]
+        public uint ShoppingForFunQuota { get; set; }
+
+        /// <summary>
         /// Gets or sets the percentage of the Cims that will go to and leave their work or school
         /// on time (no overtime!).
         /// Valid values are 0..100.
         /// </summary>
-        [ConfigItem("2Quotas", 4)]
+        [ConfigItem("2Quotas", 5)]
         [ConfigItemSlider(0, 100)]
         public uint OnTimeQuota { get; set; }
 
@@ -239,7 +271,15 @@ namespace RealTime.Config
                 NightShiftQuota = (uint)(NightShiftQuota * 3.125f);
             }
 
-            Version = 1;
+            if (Version <= 1)
+            {
+#pragma warning disable CS0618 // Type or member is obsolete
+                WakeUpHour = WakeupHour;
+                GoToSleepHour = GoToSleepUpHour;
+#pragma warning restore CS0618 // Type or member is obsolete
+            }
+
+            Version = LatestVersion;
             return this;
         }
 
@@ -247,8 +287,8 @@ namespace RealTime.Config
         /// <returns>This instance.</returns>
         public RealTimeConfig Validate()
         {
-            WakeupHour = RealTimeMath.Clamp(WakeupHour, 4f, 8f);
-            GoToSleepUpHour = RealTimeMath.Clamp(GoToSleepUpHour, 20f, 23.75f);
+            WakeUpHour = RealTimeMath.Clamp(WakeUpHour, 4f, 8f);
+            GoToSleepHour = RealTimeMath.Clamp(GoToSleepHour, 20f, 23.75f);
 
             DayTimeSpeed = RealTimeMath.Clamp(DayTimeSpeed, 1u, 7u);
             NightTimeSpeed = RealTimeMath.Clamp(NightTimeSpeed, 1u, 7u);
@@ -260,6 +300,7 @@ namespace RealTime.Config
             NightShiftQuota = RealTimeMath.Clamp(NightShiftQuota, 1u, 25u);
             LunchQuota = RealTimeMath.Clamp(LunchQuota, 0u, 100u);
             LocalBuildingSearchQuota = RealTimeMath.Clamp(LocalBuildingSearchQuota, 0u, 100u);
+            ShoppingForFunQuota = RealTimeMath.Clamp(ShoppingForFunQuota, 0u, 50u);
             OnTimeQuota = RealTimeMath.Clamp(OnTimeQuota, 0u, 100u);
 
             EarliestHourEventStartWeekday = RealTimeMath.Clamp(EarliestHourEventStartWeekday, 0f, 23.75f);
@@ -289,8 +330,13 @@ namespace RealTime.Config
         /// <summary>Resets all values to their defaults.</summary>
         public void ResetToDefaults()
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             WakeupHour = 6f;
             GoToSleepUpHour = 22f;
+#pragma warning restore CS0618 // Type or member is obsolete
+
+            WakeUpHour = 6f;
+            GoToSleepHour = 22f;
 
             IsDynamicDayLengthEnabled = true;
             DayTimeSpeed = 5;
@@ -310,6 +356,7 @@ namespace RealTime.Config
 
             LunchQuota = 80;
             LocalBuildingSearchQuota = 60;
+            ShoppingForFunQuota = 30;
             OnTimeQuota = 80;
 
             AreEventsEnabled = true;

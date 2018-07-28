@@ -10,10 +10,10 @@
   <translation id="1General" value="일반" />
   <translation id="0Time" value="시간 옵션" />
   <translation id="1Other" value="기타 옵션" />
-  <translation id="WakeupHour" value="도시가 잠애서 깰 시간" />
-  <translation id="WakeupHourTooltip" value="대부분의 시민들이 잠에서 깰 시간을 설정합니다. 예산과 속도가 주간 모드로 설정됩니다!" />
-  <translation id="GoToSleepUpHour" value="도시가 잠에 들 시간" />
-  <translation id="GoToSleepUpHourTooltip" value="대부분의 시민들이 잠에 들 시간을 설정합니다. 예산과 속도가 야간 모드로 설정됩니다!" />
+  <translation id="WakeUpHour" value="도시가 잠애서 깰 시간" />
+  <translation id="WakeUpHourTooltip" value="대부분의 시민들이 잠에서 깰 시간을 설정합니다. 예산과 속도가 주간 모드로 설정됩니다!" />
+  <translation id="GoToSleepHour" value="도시가 잠에 들 시간" />
+  <translation id="GoToSleepHourTooltip" value="대부분의 시민들이 잠에 들 시간을 설정합니다. 예산과 속도가 야간 모드로 설정됩니다!" />
   <translation id="DayTimeSpeed" value="시간 속도 (주간)" />
   <translation id="DayTimeSpeedTooltip" value="낮 동안의 시간 속도를 정합니다. '1'은 매우 느리며, 거의 현실 시간과 같습니다!" />
   <translation id="NightTimeSpeed" value="시간 속도 (야간)" />
@@ -46,6 +46,8 @@
   <translation id="LunchQuotaTooltip" value="점심을 먹으러 갈 시민들의 비율을 정합니다" />
   <translation id="LocalBuildingSearchQuota" value="지역 쇼핑 비율" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="자기집 근처의 상점에 찾아갈 시민들의 비율을 정합니다" />
+  <translation id="ShoppingForFunQuota" value="Shopping for fun" />
+  <translation id="ShoppingForFunQuotaTooltip" value="The percentage of the population that will go shopping just for fun even when they don't need any goods" />
   <translation id="OnTimeQuota" value="정시 근무자 비율" />
   <translation id="OnTimeQuotaTooltip" value="일반적인 근무시간에 일하는 시민들의 비율을 정합니다." />
 

@@ -80,6 +80,7 @@ namespace RealTime.Core
                 ResidentAIPatch.Location,
                 ResidentAIPatch.ArriveAtDestination,
                 TouristAIPatch.Location,
+                TransferManagerPatch.AddOutgoingOffer,
                 UIGraphPatches.MinDataPoints,
                 UIGraphPatches.VisibleEndTime,
                 UIGraphPatches.BuildLabels);
@@ -187,6 +188,7 @@ namespace RealTime.Core
             ResidentAIPatch.RealTimeAI = null;
             TouristAIPatch.RealTimeAI = null;
             BuildingAIPatches.RealTimeAI = null;
+            TransferManagerPatch.RealTimeAI = null;
             SimulationHandler.EventManager = null;
             SimulationHandler.DayTimeSimulation = null;
             SimulationHandler.TimeAdjustment = null;
@@ -267,6 +269,7 @@ namespace RealTime.Core
                 workBehavior);
 
             BuildingAIPatches.RealTimeAI = realTimePrivateBuildingAI;
+            TransferManagerPatch.RealTimeAI = realTimePrivateBuildingAI;
             return true;
         }
 

@@ -10,10 +10,10 @@
   <translation id="1General" value="General" />
   <translation id="0Time" value="Time options" />
   <translation id="1Other" value="Other options" />
-  <translation id="WakeupHour" value="City wakes up" />
-  <translation id="WakeupHourTooltip" value="The time when most citizens start waking up. The budgets and the time speed switch to the 'day' mode!" />
-  <translation id="GoToSleepUpHour" value="City goes to sleep" />
-  <translation id="GoToSleepUpHourTooltip" value="The time when most citizens start going to sleep. The budgets and the time speed switch to the 'night' mode!" />
+  <translation id="WakeUpHour" value="City wakes up" />
+  <translation id="WakeUpHourTooltip" value="The time when most citizens start waking up. The budgets and the time speed switch to the 'day' mode!" />
+  <translation id="GoToSleepHour" value="City goes to sleep" />
+  <translation id="GoToSleepHourTooltip" value="The time when most citizens start going to sleep. The budgets and the time speed switch to the 'night' mode!" />
   <translation id="DayTimeSpeed" value="Time speed (day)" />
   <translation id="DayTimeSpeedTooltip" value="The speed of the time flow on daytime. '1' is very slow - almost real time!" />
   <translation id="NightTimeSpeed" value="Time speed (night)" />
@@ -46,6 +46,8 @@
   <translation id="LunchQuotaTooltip" value="The percentage of the Cims that will go out for lunch" />
   <translation id="LocalBuildingSearchQuota" value="Local shopping ratio" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="The percentage of the population that will search for local shopping" />
+  <translation id="ShoppingForFunQuota" value="Shopping for fun" />
+  <translation id="ShoppingForFunQuotaTooltip" value="The percentage of the population that will go shopping just for fun even when they don't need any goods" />
   <translation id="OnTimeQuota" value="On-time ratio" />
   <translation id="OnTimeQuotaTooltip" value="The percentage of the Cims that will go to and leave their work on time" />
 

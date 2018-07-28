@@ -20,6 +20,7 @@ namespace RealTime.CustomAI
         private const int StepMask = 0xFF;
         private const int BuildingStepSize = 192;
 
+        private static readonly string[] BannedEntertainmentBuildings = { "parking", "garage", "car park" };
         private readonly TimeSpan lightStateCheckInterval = TimeSpan.FromSeconds(15);
 
         private readonly RealTimeConfig config;
@@ -177,6 +178,37 @@ namespace RealTime.CustomAI
             return config.SwitchOffLightsAtNight && !lightStates[buildingId];
         }
 
+        /// <summary>
+        /// Determines whether the building with the specified ID is an entertainment target.
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the building is an entertainment target; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsEntertainmentTarget(ushort buildingId)
+        {
+            if (buildingId == 0)
+            {
+                return true;
+            }
+
+            string className = buildingManager.GetBuildingClassName(buildingId);
+            if (string.IsNullOrEmpty(className))
+            {
+                return true;
+            }
+
+            for (int i = 0; i < BannedEntertainmentBuildings.Length; ++i)
+            {
+                if (className.IndexOf(BannedEntertainmentBuildings[i], 0, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         private void UpdateLightState(uint frameIndex)
         {
             if (lightStateCheckCounter > 0)
@@ -224,7 +256,7 @@ namespace RealTime.CustomAI
             if (service == ItemClass.Service.Residential)
             {
                 float currentHour = timeInfo.CurrentHour;
-                return currentHour < Math.Min(config.WakeupHour, EarliestWakeUp) || currentHour >= config.GoToSleepUpHour;
+                return currentHour < Math.Min(config.WakeUpHour, EarliestWakeUp) || currentHour >= config.GoToSleepHour;
             }
 
             return !workBehavior.IsBuildingWorking(service, subService);

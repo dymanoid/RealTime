@@ -97,6 +97,7 @@
     <Compile Include="GameConnection\IToolManagerConnection.cs" />
     <Compile Include="GameConnection\ITransferManagerConnection.cs" />
     <Compile Include="GameConnection\IWeatherManagerConnection.cs" />
+    <Compile Include="GameConnection\Patches\TransferManagerPatch.cs" />
     <Compile Include="GameConnection\Patches\UIGraphPatches.cs" />
     <Compile Include="GameConnection\Patches\WeatherManagerPatch.cs" />
     <Compile Include="GameConnection\TouristAIConnection.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Tools\DateTimeExtensions.cs" />
     <Compile Include="Tools\LinkedListExtensions.cs" />
     <Compile Include="Tools\RealTimeMath.cs" />
+    <Compile Include="Tools\SerializationTools.cs" />
     <Compile Include="UI\CitiesButtonViewItem.cs" />
     <Compile Include="UI\CitiesContainerItemBase.cs" />
     <Compile Include="UI\CitiesTabItem.cs" />
