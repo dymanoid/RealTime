@@ -69,6 +69,8 @@ namespace RealTime.UI
                 valueLabel.name = id + LabelName;
                 UpdateValueLabel(Value);
             }
+
+            Refresh();
         }
 
         /// <summary>Translates this view item using the specified localization provider.</summary>
