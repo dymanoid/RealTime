@@ -34,7 +34,7 @@ namespace RealTime.CustomAI
             }
         }
 
-        private bool RescheduleAtHome(ref CitizenSchedule schedule, ref TCitizen citizen)
+        private bool RescheduleAtHome(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
             if (schedule.CurrentState != ResidentState.AtHome || TimeInfo.Now < schedule.ScheduledStateTime)
             {
@@ -48,7 +48,7 @@ namespace RealTime.CustomAI
 
             if (schedule.ScheduledState != ResidentState.Shopping && IsBadWeather())
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} re-schedules an activity because of bad weather (see next line for citizen ID)");
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} re-schedules an activity because of bad weather");
                 schedule.Schedule(ResidentState.Unknown, default);
                 return true;
             }
@@ -63,7 +63,7 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} re-schedules an activity because of time (see next line for citizen ID)");
+            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} re-schedules an activity because of time");
             schedule.Schedule(ResidentState.Unknown, default);
             return true;
         }

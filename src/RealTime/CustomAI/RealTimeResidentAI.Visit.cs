@@ -90,7 +90,7 @@ namespace RealTime.CustomAI
             }
         }
 
-        private bool ProcessCitizenRelaxing(ref CitizenSchedule schedule, ref TCitizen citizen)
+        private bool ProcessCitizenRelaxing(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
             ushort currentBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
             if (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods)
@@ -100,7 +100,7 @@ namespace RealTime.CustomAI
                 BuildingMgr.ModifyMaterialBuffer(currentBuilding, TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
             }
 
-            return RescheduleVisit(ref schedule, ref citizen, currentBuilding);
+            return RescheduleVisit(ref schedule, citizenId, ref citizen, currentBuilding);
         }
 
         private bool ScheduleShopping(ref CitizenSchedule schedule, ref TCitizen citizen, bool localOnly)
@@ -175,7 +175,7 @@ namespace RealTime.CustomAI
             }
         }
 
-        private bool ProcessCitizenShopping(ref CitizenSchedule schedule, ref TCitizen citizen)
+        private bool ProcessCitizenShopping(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
             ushort currentBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
             if (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods) && currentBuilding != 0)
@@ -184,19 +184,19 @@ namespace RealTime.CustomAI
                 CitizenProxy.RemoveFlags(ref citizen, Citizen.Flags.NeedGoods);
             }
 
-            return RescheduleVisit(ref schedule, ref citizen, currentBuilding);
+            return RescheduleVisit(ref schedule, citizenId, ref citizen, currentBuilding);
         }
 
-        private bool ProcessCitizenVisit(ref CitizenSchedule schedule, ref TCitizen citizen)
+        private bool ProcessCitizenVisit(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
             if (schedule.Hint == ScheduleHint.OnTour)
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} quits a tour (see next line for citizen ID)");
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a tour");
                 schedule.Schedule(ResidentState.Unknown, default);
                 return true;
             }
 
-            return RescheduleVisit(ref schedule, ref citizen, CitizenProxy.GetVisitBuilding(ref citizen));
+            return RescheduleVisit(ref schedule, citizenId, ref citizen, CitizenProxy.GetVisitBuilding(ref citizen));
         }
 
         private bool IsBuildingNoiseRestricted(ushort targetBuilding, ushort currentBuilding)
@@ -227,7 +227,7 @@ namespace RealTime.CustomAI
             return false;
         }
 
-        private bool RescheduleVisit(ref CitizenSchedule schedule, ref TCitizen citizen, ushort currentBuilding)
+        private bool RescheduleVisit(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen, ushort currentBuilding)
         {
             switch (schedule.ScheduledState)
             {
@@ -242,14 +242,14 @@ namespace RealTime.CustomAI
 
             if (schedule.CurrentState != ResidentState.Shopping && IsBadWeather())
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} quits a visit because of bad weather (see next line for citizen ID)");
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a visit because of bad weather");
                 schedule.Schedule(ResidentState.AtHome, default);
                 return true;
             }
 
             if (IsBuildingNoiseRestricted(currentBuilding, currentBuilding))
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} quits a visit because of NIMBY policy (see next line for citizen ID)");
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a visit because of NIMBY policy");
                 schedule.Schedule(ResidentState.Unknown, default);
                 return true;
             }
@@ -261,7 +261,7 @@ namespace RealTime.CustomAI
 
             if (!Random.ShouldOccur(stayChance))
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(0, ref citizen)} quits a visit because of time (see next line for citizen ID)");
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a visit because of time");
                 schedule.Schedule(ResidentState.AtHome, default);
                 return true;
             }
