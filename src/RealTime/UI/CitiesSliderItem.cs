@@ -28,7 +28,7 @@ namespace RealTime.UI
         /// <param name="property">
         /// The property description that specifies the target property where to store the value.
         /// </param>
-        /// <param name="config">The configuration storage object for the value.</param>
+        /// <param name="configProvider">A method that provides the configuration storage object for the value.</param>
         /// <param name="min">The minimum slider value.</param>
         /// <param name="max">The maximum slider value.</param>
         /// <param name="step">The slider step value. Default is 1.</param>
@@ -42,13 +42,13 @@ namespace RealTime.UI
             UIHelperBase uiHelper,
             string id,
             PropertyInfo property,
-            object config,
+            Func<object> configProvider,
             float min,
             float max,
             float step,
             SliderValueType valueType,
             float displayMultiplier)
-            : base(uiHelper, id, property, config)
+            : base(uiHelper, id, property, configProvider)
         {
             UIComponent.minValue = min;
             UIComponent.maxValue = max;
