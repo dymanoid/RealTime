@@ -14,8 +14,8 @@ namespace RealTime.CustomAI
         /// <summary>A distance in game units where to search a leisure building.</summary>
         public const float LeisureSearchDistance = BuildingManager.BUILDINGGRID_CELL_SIZE * 10;
 
-        /// <summary>A distance in game units that corresponds to the complete map.</summary>
-        public const float FullSearchDistance = BuildingManager.BUILDINGGRID_RESOLUTION * BuildingManager.BUILDINGGRID_CELL_SIZE / 2f;
+        /// <summary>A distance in game units where to search a hotel.</summary>
+        public const float HotelSearchDistance = BuildingManager.BUILDINGGRID_CELL_SIZE * 20;
 
         /// <summary>A chance in percent for a citizen to stay home until next scheduled action.</summary>
         public const uint StayHomeAllDayChance = 2;
@@ -24,7 +24,7 @@ namespace RealTime.CustomAI
         public const uint NightShoppingChance = 20u;
 
         /// <summary>A chance in percent for a tourist to find a hotel for sleepover.</summary>
-        public const uint FindHotelChance = 80;
+        public const uint FindHotelChance = 60;
 
         /// <summary>A chance in percent for a tourist to go shopping.</summary>
         public const uint TouristShoppingChance = 50;
