@@ -4,7 +4,6 @@
 
 namespace RealTime.GameConnection
 {
-    using System;
     using System.Collections.Generic;
 
     /// <summary>An interface for the game specific logic related to the building management.</summary>
@@ -141,5 +140,10 @@ namespace RealTime.GameConnection
         /// <summary>Updates the building colors in the game by re-rendering the building.</summary>
         /// <param name="buildingId">The ID of the building to update.</param>
         void UpdateBuildingColors(ushort buildingId);
+
+        /// <summary>Gets the building's level.</summary>
+        /// <param name="buildingId">The ID of the building.</param>
+        /// <returns>The level of the building with the specified ID.</returns>
+        ItemClass.Level GetBuildingLevel(ushort buildingId);
     }
 }
