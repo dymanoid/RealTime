@@ -76,7 +76,7 @@ namespace RealTime.Config
 
         private static void Serialize(RealTimeConfig config)
         {
-            var serializer = new XmlSerializer(typeof(RealTimeConfig));
+            var serializer = new XmlSerializer(typeof(RealTimeConfig), SerializationTools.IgnoreObsoleteProperties(config));
             using (var sw = new StreamWriter(SettingsFileName))
             {
                 serializer.Serialize(sw, config);
