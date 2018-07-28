@@ -25,14 +25,14 @@ namespace RealTime.UI
         /// <param name="property">
         /// The property description that specifies the target property where to store the value.
         /// </param>
-        /// <param name="config">The configuration storage object for the value.</param>
+        /// <param name="configProvider">A method that provides the configuration storage object for the value.</param>
         /// <param name="itemIds">An ordered collection of the combo box item IDs.</param>
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
         /// <exception cref="ArgumentException">
         /// thrown when the <paramref name="id"/> is an empty string.
         /// </exception>
-        public CitiesComboBoxItem(UIHelperBase uiHelper, string id, PropertyInfo property, object config, IEnumerable<string> itemIds)
-            : base(uiHelper, id, property, config)
+        public CitiesComboBoxItem(UIHelperBase uiHelper, string id, PropertyInfo property, Func<object> configProvider, IEnumerable<string> itemIds)
+            : base(uiHelper, id, property, configProvider)
         {
             this.itemIds = itemIds ?? throw new ArgumentNullException(nameof(itemIds));
 

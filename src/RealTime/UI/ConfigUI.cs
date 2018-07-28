@@ -15,29 +15,33 @@ namespace RealTime.UI
     internal sealed class ConfigUI
     {
         private const string ResetToDefaultsId = "ResetToDefaults";
+        private const string UseForNewGamesId = "UseForNewGames";
         private const string ToolsId = "Tools";
 
-        private readonly RealTimeConfig config;
+        private readonly ConfigurationProvider configProvider;
         private readonly IEnumerable<IViewItem> viewItems;
 
-        private ConfigUI(RealTimeConfig config, IEnumerable<IViewItem> viewItems)
+        private ConfigUI(ConfigurationProvider configProvider, IEnumerable<IViewItem> viewItems)
         {
-            this.config = config;
+            this.configProvider = configProvider;
             this.viewItems = viewItems;
+            this.configProvider.Changed += ConfigProviderChanged;
         }
 
         /// <summary>
         /// Creates the mod's configuration page using the specified object as data source.
         /// </summary>
-        /// <param name="config">The configuration object to use as data source.</param>
+        /// <param name="configProvider">The mod's configuration provider.</param>
         /// <param name="itemFactory">The view item factory to use for creating the UI elements.</param>
         /// <returns>A configured instance of the <see cref="ConfigUI"/> class.</returns>
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
-        public static ConfigUI Create(RealTimeConfig config, IViewItemFactory itemFactory)
+        /// <exception cref="InvalidOperationException">Thrown when the specified <see cref="ConfigurationProvider"/>
+        /// is not initialized yet.</exception>
+        public static ConfigUI Create(ConfigurationProvider configProvider, IViewItemFactory itemFactory)
         {
-            if (config == null)
+            if (configProvider == null)
             {
-                throw new ArgumentNullException(nameof(config));
+                throw new ArgumentNullException(nameof(configProvider));
             }
 
             if (itemFactory == null)
@@ -45,7 +49,12 @@ namespace RealTime.UI
                 throw new ArgumentNullException(nameof(itemFactory));
             }
 
-            var properties = config.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            if (configProvider.Configuration == null)
+            {
+                throw new InvalidOperationException("The configuration provider has no configuration yet");
+            }
+
+            var properties = configProvider.Configuration.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Select(p => new { Property = p, Attribute = GetCustomItemAttribute<ConfigItemAttribute>(p) })
                 .Where(v => v.Attribute != null);
 
@@ -71,7 +80,7 @@ namespace RealTime.UI
 
                     foreach (var item in group.OrderBy(i => i.Attribute.Order))
                     {
-                        IViewItem viewItem = CreateViewItem(containerItem, item.Property, config, itemFactory);
+                        IViewItem viewItem = CreateViewItem(containerItem, item.Property, configProvider, itemFactory);
                         if (viewItem != null)
                         {
                             viewItems.Add(viewItem);
@@ -80,14 +89,23 @@ namespace RealTime.UI
                 }
             }
 
-            var result = new ConfigUI(config, viewItems);
+            var result = new ConfigUI(configProvider, viewItems);
 
             IContainerViewItem toolsTab = itemFactory.CreateTabItem(ToolsId);
             viewItems.Add(toolsTab);
+
             IViewItem resetButton = itemFactory.CreateButton(toolsTab, ResetToDefaultsId, result.ResetToDefaults);
             viewItems.Add(resetButton);
+            IViewItem newGameConfigButton = itemFactory.CreateButton(toolsTab, UseForNewGamesId, result.UseForNewGames);
+            viewItems.Add(newGameConfigButton);
 
             return result;
+        }
+
+        /// <summary>Closes this instance.</summary>
+        public void Close()
+        {
+            configProvider.Changed -= ConfigProviderChanged;
         }
 
         /// <summary>Translates the UI using the specified localization provider.</summary>
@@ -100,8 +118,14 @@ namespace RealTime.UI
             }
         }
 
-        private static IViewItem CreateViewItem(IContainerViewItem container, PropertyInfo property, object config, IViewItemFactory itemFactory)
+        private static IViewItem CreateViewItem(
+            IContainerViewItem container,
+            PropertyInfo property,
+            ConfigurationProvider configProvider,
+            IViewItemFactory itemFactory)
         {
+            object config() => configProvider.Configuration;
+
             switch (GetCustomItemAttribute<ConfigItemUIBaseAttribute>(property))
             {
                 case ConfigItemSliderAttribute slider when property.PropertyType.IsPrimitive:
@@ -141,7 +165,22 @@ namespace RealTime.UI
 
         private void ResetToDefaults()
         {
-            config.ResetToDefaults();
+            configProvider.Configuration.ResetToDefaults();
+            RefreshAllItems();
+        }
+
+        private void UseForNewGames()
+        {
+            configProvider.SaveDefaultConfiguration();
+        }
+
+        private void ConfigProviderChanged(object sender, EventArgs e)
+        {
+            RefreshAllItems();
+        }
+
+        private void RefreshAllItems()
+        {
             foreach (IValueViewItem item in viewItems.OfType<IValueViewItem>())
             {
                 item.Refresh();

@@ -6,6 +6,7 @@
 
   <translation id="Tools" value="도구" />
   <translation id="ResetToDefaults" value="모두 초기값으로 되돌리기" />
+  <translation id="UseForNewGames" value="Use current values for new games" />
 
   <translation id="1General" value="일반" />
   <translation id="0Time" value="시간 옵션" />

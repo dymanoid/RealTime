@@ -6,6 +6,7 @@
 
   <translation id="Tools" value="Утилиты" />
   <translation id="ResetToDefaults" value="Вернуть опции по умолчанию" />
+  <translation id="UseForNewGames" value="Использовать текущие настройки для новых игр" />
 
   <translation id="1General" value="Основные" />
   <translation id="0Time" value="Настройки времени" />

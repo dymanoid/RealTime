@@ -4,6 +4,7 @@
 
 namespace RealTime.UI
 {
+    using System;
     using System.Reflection;
     using ColossalFramework.UI;
     using ICities;
@@ -18,13 +19,13 @@ namespace RealTime.UI
         /// <param name="property">
         /// The property description that specifies the target property where to store the value.
         /// </param>
-        /// <param name="config">The configuration storage object for the value.</param>
+        /// <param name="configProvider">A method that provides the configuration storage object for the value.</param>
         /// <exception cref="System.ArgumentNullException">Thrown when any argument is null.</exception>
         /// <exception cref="System.ArgumentException">
         /// thrown when the <paramref name="id"/> is an empty string.
         /// </exception>
-        public CitiesCheckBoxItem(UIHelperBase uiHelper, string id, PropertyInfo property, object config)
-            : base(uiHelper, id, property, config)
+        public CitiesCheckBoxItem(UIHelperBase uiHelper, string id, PropertyInfo property, Func<object> configProvider)
+            : base(uiHelper, id, property, configProvider)
         {
         }
 
