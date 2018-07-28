@@ -120,8 +120,8 @@ namespace RealTime.CustomAI
 
         private void CalculateDefaultChances(float currentHour, uint weekdayModifier)
         {
-            float latestGoOutHour = config.GoToSleepHour - simulationCycle;
-            bool isDayTime = currentHour >= config.WakeUpHour && currentHour < latestGoOutHour;
+            float latestGoingOutHour = config.GoToSleepHour - simulationCycle;
+            bool isDayTime = currentHour >= config.WakeUpHour && currentHour < latestGoingOutHour;
             float timeModifier;
             if (isDayTime)
             {
@@ -129,8 +129,8 @@ namespace RealTime.CustomAI
             }
             else
             {
-                float nightDuration = 24f - (latestGoOutHour - config.WakeUpHour);
-                float relativeHour = currentHour - latestGoOutHour;
+                float nightDuration = 24f - (latestGoingOutHour - config.WakeUpHour);
+                float relativeHour = currentHour - latestGoingOutHour;
                 if (relativeHour < 0)
                 {
                     relativeHour += 24f;
