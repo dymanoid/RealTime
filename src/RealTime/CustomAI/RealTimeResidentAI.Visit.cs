@@ -108,7 +108,7 @@ namespace RealTime.CustomAI
             // If the citizen doesn't need any good, he/she still can go shopping just for fun
             if (!CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods))
             {
-                if (schedule.Hint == ScheduleHint.NoShoppingAnyMore || !Random.ShouldOccur(FunShoppingChance))
+                if (schedule.Hint == ScheduleHint.NoShoppingAnyMore || IsBadWeather() || !Random.ShouldOccur(FunShoppingChance))
                 {
                     schedule.Hint = ScheduleHint.None;
                     return false;

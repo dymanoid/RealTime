@@ -338,7 +338,8 @@ namespace RealTime.CustomAI
         private void ExecuteCitizenSchedule(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen, bool noReschedule)
         {
             if (ProcessCurrentState(ref schedule, citizenId, ref citizen)
-                && schedule.ScheduledState == ResidentState.Unknown && !noReschedule)
+                && schedule.ScheduledState == ResidentState.Unknown
+                && !noReschedule)
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} will re-schedule now");
 
