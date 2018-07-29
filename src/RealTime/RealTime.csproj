@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Config\VirtualCitizensLevel.cs" />
     <Compile Include="Config\ConfigurationProvider.cs" />
+    <Compile Include="Core\Compatibility.cs" />
     <Compile Include="Core\IStorageData.cs" />
     <Compile Include="Core\RealTimeStorage.cs" />
     <Compile Include="CustomAI\CitizenScheduleStorage.cs" />
