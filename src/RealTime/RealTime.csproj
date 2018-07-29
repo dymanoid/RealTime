@@ -139,6 +139,7 @@
     <Compile Include="Simulation\SimulationHandler.cs" />
     <Compile Include="Simulation\DayTimeCalculator.cs" />
     <Compile Include="Simulation\ITimeInfo.cs" />
+    <Compile Include="Simulation\Statistics.cs" />
     <Compile Include="Simulation\TimeAdjustment.cs" />
     <Compile Include="GameConnection\TimeInfo.cs" />
     <Compile Include="Tools\DateTimeExtensions.cs" />
