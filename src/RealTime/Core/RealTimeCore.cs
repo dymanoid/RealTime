@@ -143,6 +143,17 @@ namespace RealTime.Core
 
             var result = new RealTimeCore(timeAdjustment, customTimeBar, eventManager, patcher);
             eventManager.EventsChanged += result.CityEventsChanged;
+
+            var statistics = new Statistics(timeInfo, localizationProvider);
+            if (statistics.Initialize())
+            {
+                statistics.RefreshUnits();
+            }
+            else
+            {
+                statistics = null;
+            }
+
             SimulationHandler.NewDay += result.CityEventsChanged;
 
             SimulationHandler.TimeAdjustment = timeAdjustment;
@@ -152,6 +163,7 @@ namespace RealTime.Core
             SimulationHandler.Buildings = BuildingAIPatches.RealTimeAI;
             SimulationHandler.Buildings.UpdateFrameDuration();
             SimulationHandler.Buildings.InitializeLightState();
+            SimulationHandler.Statistics = statistics;
 
             AwakeSleepSimulation.Install(configProvider.Configuration);
 
@@ -205,6 +217,8 @@ namespace RealTime.Core
             SimulationHandler.WeatherInfo = null;
             SimulationHandler.Buildings = null;
             SimulationHandler.CitizenProcessor = null;
+            SimulationHandler.Statistics?.Close();
+            SimulationHandler.Statistics = null;
 
             isEnabled = false;
         }
