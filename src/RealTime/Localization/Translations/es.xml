@@ -4,6 +4,7 @@
   <translation id="Warning" value="Atención" />
   <translation id="ModNotWorkingMessage" value="¡Oops! Algo ha ido mal - el mod 'Real Time' no se ha podido activar. Por favor, comparte el archivo log con el desarrollador del mod." />
   <translation id="IncompatibleModsFoundMessage" value="At least one incompatible mod has been detected. It is recommended to unsubscribe from them. You might continue on your own risk, but something might not work properly or even crash the game." />
+  <translation id="Minutes" value="min." />
 
   <translation id="Tools" value="Herramientas" />
   <translation id="ResetToDefaults" value="Restablecer todo por defecto" />
@@ -80,5 +81,94 @@
   <translation id="LunchBeginTooltip" value="Hora del día en que los ciudadanos pararán para almorzar" />
   <translation id="LunchEnd" value="Almuerzo: hora final" />
   <translation id="LunchEndTooltip" value="Hora del día en que los ciudadanos volverán al trabajo después de almorzar" />
-    
+
+  <overrides type="Units">
+    <translation id="AIINFO_COAL_STORED" value="Coal stored for {0} × {unit}"/>
+    <translation id="AIINFO_CUMULATIVEUPKEEP" value="Upkeep: {0} + {1} / {unit} / cell"/>
+    <translation id="AIINFO_DECEASED_PROCESSED" value="Deceased processed last {unit}: {0}"/>
+    <translation id="AIINFO_ELECTRICITY_PRODUCED" value="Electricity produced last {unit}: {0} MW"/>
+    <translation id="AIINFO_FIRES_EXTINGUISHED" value="Fires extinguished last {unit}: {0}"/>
+    <translation id="AIINFO_OIL_STORED" value="Oil stored for {0} × {unit}"/>
+    <translation id="AIINFO_PASSENGERS_SERVICED" value="Passengers serviced last {unit}: {0}"/>
+    <translation id="AIINFO_PATIENTS_TREATED" value="Patients treated last {unit}: {0}"/>
+    <translation id="AIINFO_POLE_UPKEEP" value="Upkeep: {0} / pole / {unit}"/>
+    <translation id="AIINFO_PROCESSING_RATE" value="Processing rate: {0} / {unit}"/>
+    <translation id="AIINFO_TOURISTS" value="Tourists last {unit}: {0}"/>
+    <translation id="AIINFO_UPKEEP" value="Upkeep: {0} / {unit}"/>
+    <translation id="AIINFO_UPKEEPPERCELL" value="Upkeep: {0} / {unit} / cell"/>
+    <translation id="AIINFO_VISITORS" value="Visitors last {unit}: {0} "/>
+    <translation id="AIINFO_WATER_CONSUMPTION" value="Water: {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_INTAKE" value="Pumping Capacity: {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_OUTLET" value="Drain Capacity: {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_STORED" value="Water stored for {0} × {unit}"/>
+    <translation id="AINFO_WATER_IO_CAPACITY" value="Operating rate: {0:N0} m³/{unit}"/>
+    <translation id="DATETIME_WEEK" value="{unit}"/>
+    <translation id="DATETIME_WEEKLOWERCASE" value="{unit}"/>
+    <translation id="DATETIME_WEEKS" value="× {unit}"/>
+    <translation id="DISTRICT_TOURISTS" value="Tourist visits&#10;last {unit}:"/>
+    <translation id="EXPENSES_TT_EDUCATION" value="Education Expenses last {unit}"/>
+    <translation id="EXPENSES_TT_ELECTRICITY" value="Electricity Service Expenses last {unit}"/>
+    <translation id="EXPENSES_TT_FIRE" value="Fire Department Expenses last {unit}"/>
+    <translation id="EXPENSES_TT_FIRE_ND" value="Emergency Service Expenses last {unit}"/>
+    <translation id="EXPENSES_TT_GARBAGE" value="Garbage Service Expenses last {unit}"/>
+    <translation id="EXPENSES_TT_HEALTHCARE" value="Healthcare Expenses last {unit}"/>
+    <translation id="EXPENSES_TT_LOANS" value="Loans Expenses last {unit}"/>
+    <translation id="EXPENSES_TT_MONUMENTS" value="Unique Buildings Expenses last {unit}"/>
+    <translation id="EXPENSES_TT_PARK" value="Parks, Plazas and Landscaping Expenses last {unit}"/>
+    <translation id="EXPENSES_TT_POLICE" value="Police Department Expenses last {unit}"/>
+    <translation id="EXPENSES_TT_POLICIES" value="Policies Expenses last {unit}"/>
+    <translation id="EXPENSES_TT_PUBLICTRANSPORT" value="Public Transport Expenses last {unit}"/>
+    <translation id="EXPENSES_TT_ROADS" value="Roads Service Expenses last {unit}"/>
+    <translation id="EXPENSES_TT_TOTAL" value="Total Expenses last {unit}"/>
+    <translation id="EXPENSES_TT_WATER" value="Water and Sewage Service Expenses last {unit}"/>
+    <translation id="EXPENSES_TT_WATER_WW" value="Water, Sewage and Heating Service Expenses last {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALCITIZEN" value="Commercial Income from citizens last {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALHIGH" value="Commercial High Income last {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALLOW" value="Commercial Low Income last {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALSPEC" value="Commercial Income from Specializations last {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALTOTAL" value="Commercial Income last {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALTOURIST" value="Commercial Income from tourists last {unit}"/>
+    <translation id="INCOME_TT_INDUSTRIAL" value="Industrial Income last {unit}"/>
+    <translation id="INCOME_TT_OFFICE" value="Office Income last {unit}"/>
+    <translation id="INCOME_TT_PARKAREAS" value="Park Area Income last {unit}"/>
+    <translation id="INCOME_TT_RESIDENTIALHIGH" value="Residential High Income last {unit}"/>
+    <translation id="INCOME_TT_RESIDENTIALLOW" value="Residential Low Income last {unit}"/>
+    <translation id="INCOME_TT_RESIDENTIALTOTAL" value="Residential Income last {unit}"/>
+    <translation id="INCOME_TT_TOTAL" value="Total Income last {unit}"/>
+    <translation id="INCOME_TT_TOTAL_COMMERCIAL" value="Total Income from Tourism last {unit}"/>
+    <translation id="INCOME_TT_TOTAL_RESIDENTIAL" value="Total Income from Residential Zones last {unit}"/>
+    <translation id="INCOME_TT_TOTAL_WORK" value="Total Income from Industrial and Office Zones last {unit}"/>
+    <translation id="INCOME_TT_PUBLICTRANSPORT" value="Public Transport Income last {unit}"/>
+    <translation id="INFO_CONNECTIONS_TOURISTSTOTAL" value="Tourist Visits last {unit}: {0:N0}"/>
+    <translation id="INFO_CRIMERATE_CRIMES" value="Criminals arrested last {unit}:"/>
+    <translation id="INFO_ENTERTAINMENT_PARKVISIT" value="Visitors in parks &amp; plazas per {unit}: {0:N0}"/>
+    <translation id="INFO_ENTERTAINMENT_UBVISIT" value="Visitors in Unique Buildings per {unit}: {0:N0}"/>
+    <translation id="INFO_GARBAGE_INCINERATORCAPACITY" value="Garbage processing capacity: {0:N0} units / {unit}"/>
+    <translation id="INFO_GARBAGE_GARBAGEPRODUCTION" value="Garbage production: {0:N0} units / {unit}"/>
+    <translation id="INFO_POPULATION_BIRTHS" value="{0:N0} births / {unit}"/>
+    <translation id="INFO_POPULATION_DEATHS" value="{0:N0} deaths / {unit}"/>
+    <translation id="INFO_PUBLICTRANSPORT_COUNT" value="{0:N0} per {unit}"/>
+    <translation id="INFO_RES_FORESTAMOUNT" value="{0} units/{unit}"/>
+    <translation id="INFO_RES_FORESTUSED" value="{0} units/{unit}"/>
+    <translation id="INFO_RES_OILUSED" value="{0} units/{unit}"/>
+    <translation id="INFO_RES_OREUSED" value="{0} units/{unit}"/>
+    <translation id="INFO_WATER_CONSUMPTION" value="Water consumption: {0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_PRODUCTION" value="Water pumping capacity: {0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_SEWAGEACCUMULATION" value="Sewage production: {0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_SEWAGECAPACITY" value="Sewage draining capacity: {0:N0} m³/{unit}"/>
+    <translation id="LOAN_WEEKLYCOST" value="Cost last {unit}"/>
+    <translation id="MAIN_MONEYDELTA" value="Income last {unit}"/>
+    <translation id="MAIN_POPULATIONDELTA" value="Change last {unit}"/>
+    <translation id="MILESTONE_COMBINED_PASSED_TIME_DESC" value="Pass {0} requirements for {1} × {unit}"/>
+    <translation id="MILESTONE_COMBINED_TIME_DESC" value="Maintain for {0} × {unit}"/>
+    <translation id="PARKINFOPANEL_CURRENTVISITORS" value="Visitors last {unit}: {0}"/>
+    <translation id="PARKINFOPANEL_INCOME" value="Income: {0} / {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_PUBTRANS" value="Total Public Transportation Profit last {unit}"/>
+    <translation id="STADIUMINFO7" value="Wins/matches last 12 × {unit}:"/>
+    <translation id="STADIUMINFO9" value="Income last {unit}:"/>
+    <translation id="TOOL_WATER_ESTIMATE" value="Estimated production: {0:N0} m³/{unit}"/>
+    <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="Visitors last {unit}: {0} residents, {1} tourists"/>
+    <translation id="TRANSPORT_LINE_PASSENGERS" value="Passengers last {unit}: {0} residents, {1} tourists"/>
+  </overrides>
+
 </language>

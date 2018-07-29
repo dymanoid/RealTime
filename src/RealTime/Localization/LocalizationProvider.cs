@@ -15,6 +15,7 @@ namespace RealTime.Localization
     {
         private readonly string localeStorage;
         private readonly Dictionary<string, string> translation = new Dictionary<string, string>();
+        private readonly Dictionary<string, Dictionary<string, string>> overrides = new Dictionary<string, Dictionary<string, string>>();
 
         /// <summary>Initializes a new instance of the <see cref="LocalizationProvider"/> class.</summary>
         /// <param name="dataPath">The root path.</param>
@@ -72,6 +73,22 @@ namespace RealTime.Localization
             return result == LoadingResult.Success;
         }
 
+        /// <summary>Gets a dictionary representing the game's translations that should be overridden
+        /// by this mod. Can return null.</summary>
+        /// <param name="type">The overridden translations type string.</param>
+        /// <returns>A map of key-value pairs for translations to override, or null.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
+        public IDictionary<string, string> GetOverriddenTranslations(string type)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
+            overrides.TryGetValue(type, out Dictionary<string, string> result);
+            return result;
+        }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "No security issues here")]
         private static string GetLocaleNameFromLanguage(string language)
         {
@@ -115,6 +132,7 @@ namespace RealTime.Localization
             }
 
             translation.Clear();
+            overrides.Clear();
 
             string path = Path.Combine(localeStorage, language + FileExtension);
             if (!File.Exists(path))
@@ -132,17 +150,50 @@ namespace RealTime.Localization
 
                 foreach (XmlNode node in doc.DocumentElement.ChildNodes)
                 {
-                    translation[node.Attributes[XmlKeyAttribute].Value] = node.Attributes[XmlValueAttribute].Value;
+                    switch (node.Name)
+                    {
+                        case XmlTranslationNodeName:
+                            translation[node.Attributes[XmlKeyAttribute].Value] = node.Attributes[XmlValueAttribute].Value;
+                            break;
+
+                        case XmlOverrideNodeName when node.HasChildNodes:
+                            ReadOverrides(node);
+                            break;
+                    }
                 }
             }
             catch (Exception ex)
             {
                 Log.Error($"The 'Real Time' cannot load data from localization file '{path}', error message: {ex}");
                 translation.Clear();
+                overrides.Clear();
                 return LoadingResult.Failure;
             }
 
             return LoadingResult.Success;
+        }
+
+        private void ReadOverrides(XmlNode overridesNode)
+        {
+            string type = overridesNode.Attributes[XmlOverrideTypeAttribute]?.Value;
+            if (type == null)
+            {
+                return;
+            }
+
+            if (!overrides.TryGetValue(type, out Dictionary<string, string> typeOverrides))
+            {
+                typeOverrides = new Dictionary<string, string>();
+                overrides[type] = typeOverrides;
+            }
+
+            foreach (XmlNode node in overridesNode.ChildNodes)
+            {
+                if (node.Name == XmlTranslationNodeName)
+                {
+                    typeOverrides[node.Attributes[XmlKeyAttribute].Value] = node.Attributes[XmlValueAttribute].Value;
+                }
+            }
         }
     }
 }

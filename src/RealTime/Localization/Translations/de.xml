@@ -4,6 +4,7 @@
   <translation id="Warning" value="Warnung" />
   <translation id="ModNotWorkingMessage" value="Oh je! Etwas ist schief gelaufen - die Mod 'Real Time' kann nicht aktiviert werden. Bitte zeigen Sie das Log-File von Cities:Skylines dem Entwickler." />
   <translation id="IncompatibleModsFoundMessage" value="Zumindest eine unkompatible Mod wurde entdeckt. Es wird empfohlen, sich von denen abzumelden. Weiterspielen ist auf eigenes Risiko möglich, dabei könnte aber etwas nicht funktionieren oder das Spiel könnte abstürzen." />
+  <translation id="Minutes" value="Min." />
 
   <translation id="Tools" value="Tools" />
   <translation id="ResetToDefaults" value="Alle Optionen zurücksetzen" />
@@ -80,5 +81,94 @@
   <translation id="LunchBeginTooltip" value="Beginn der Mittagszeit - Cims machen eine Pause und gehen essen" />
   <translation id="LunchEnd" value="Ende der Mittagspause" />
   <translation id="LunchEndTooltip" value="Ende der Mittagspause - Cims kehren zur Arbeit zurück" />
+
+  <overrides type="Units">
+    <translation id="AIINFO_COAL_STORED" value="Kohle gespeichert für {0} × {unit}"/>
+    <translation id="AIINFO_CUMULATIVEUPKEEP" value="Unterhalt: {0} + {1} / {unit} / Zelle"/>
+    <translation id="AIINFO_DECEASED_PROCESSED" value="Verarbeitete Verstorbene letzte {unit}: {0}"/>
+    <translation id="AIINFO_ELECTRICITY_PRODUCED" value="Letzte {unit} produzierter Strom: {0} MW"/>
+    <translation id="AIINFO_FIRES_EXTINGUISHED" value="Gelöschte Feuer letzte {unit}: {0}"/>
+    <translation id="AIINFO_OIL_STORED" value="Öl gespeichert für {0} × {unit}"/>
+    <translation id="AIINFO_PASSENGERS_SERVICED" value="Bediente Passagiere letzte {unit}: {0}"/>
+    <translation id="AIINFO_PATIENTS_TREATED" value="Behandelte Patienten letzte {unit}: {0}"/>
+    <translation id="AIINFO_POLE_UPKEEP" value="Unterhalt: {0} Strommast / {unit}"/>
+    <translation id="AIINFO_PROCESSING_RATE" value="Verarbeitungsleistung: {0} / {unit}"/>
+    <translation id="AIINFO_TOURISTS" value="Touristen letzte {unit}: {0}"/>
+    <translation id="AIINFO_UPKEEP" value="Unterhalt: {0} / {unit}"/>
+    <translation id="AIINFO_UPKEEPPERCELL" value="Unterhalt: {0} / {unit} / Zelle"/>
+    <translation id="AIINFO_VISITORS" value="Besucher letzte {unit}: {0}"/>
+    <translation id="AIINFO_WATER_CONSUMPTION" value="Wasser: {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_INTAKE" value="Durchflussrate: {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_OUTLET" value="Abflussrate: {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_STORED" value="Wasser gespeichert für {0} × {unit}"/>
+    <translation id="AINFO_WATER_IO_CAPACITY" value="Betriebsrate: {0:N0} m³/{unit}"/>
+    <translation id="DATETIME_WEEK" value="{unit}"/>
+    <translation id="DATETIME_WEEKLOWERCASE" value="{unit}"/>
+    <translation id="DATETIME_WEEKS" value="× {unit}"/>
+    <translation id="DISTRICT_TOURISTS" value="Touristenbesuche&#10;letzte {unit}:"/>
+    <translation id="EXPENSES_TT_EDUCATION" value="Ausgaben für Bildung letzte {unit}"/>
+    <translation id="EXPENSES_TT_ELECTRICITY" value="Ausgaben für Stromdienste letzte {unit}"/>
+    <translation id="EXPENSES_TT_FIRE" value="Ausgaben für Feuerwehr letzte {unit}"/>
+    <translation id="EXPENSES_TT_FIRE_ND" value="Notfalldienstausgaben letzte {unit}"/>
+    <translation id="EXPENSES_TT_GARBAGE" value="Ausgaben für Mülldienste letzte {unit}"/>
+    <translation id="EXPENSES_TT_HEALTHCARE" value="Ausgaben für Gesundheitswesen letzte {unit}"/>
+    <translation id="EXPENSES_TT_LOANS" value="Ausgaben für Darlehen letzte {unit}"/>
+    <translation id="EXPENSES_TT_MONUMENTS" value="Ausgaben für Einzigartige Gebäude letzte {unit}"/>
+    <translation id="EXPENSES_TT_PARK" value="Ausgaben für Parks, Plätze und Landschaftsbau letzte {unit}"/>
+    <translation id="EXPENSES_TT_POLICE" value="Ausgaben für Polizei letzte {unit}"/>
+    <translation id="EXPENSES_TT_POLICIES" value="Ausgaben für Richtlinien letzte {unit}"/>
+    <translation id="EXPENSES_TT_PUBLICTRANSPORT" value="Nahverkehrsausgaben letzte {unit}"/>
+    <translation id="EXPENSES_TT_ROADS" value="Ausgaben für Straßendienste letzte {unit}"/>
+    <translation id="EXPENSES_TT_TOTAL" value="Gesamtausgaben letzte {unit}"/>
+    <translation id="EXPENSES_TT_WATER" value="Ausgaben für Wasser- und Abwasserdienste letzte {unit}"/>
+    <translation id="EXPENSES_TT_WATER_WW" value="Ausgaben für Wasser-, Abwasser- und Heizungsdienste letzte {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALCITIZEN" value="Einnahmen von Bürgern letzte {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALHIGH" value="Einnahmen von dicht besiedelten Gewerbegebieten letzte {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALLOW" value="Einnahmen von gering besiedelten Gewerbegebieten letzte {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALSPEC" value="Einnahmen durch Spezialisierungen letzte {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALTOTAL" value="Einnahmen von Gewerbegebieten letzte {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALTOURIST" value="Einnahmen von Touristen letzte {unit}"/>
+    <translation id="INCOME_TT_INDUSTRIAL" value="Einnahmen von Industriegebieten letzte {unit}"/>
+    <translation id="INCOME_TT_OFFICE" value="Einnahmen von Bürogebieten letzte {unit}"/>
+    <translation id="INCOME_TT_PARKAREAS" value="Parkgebietseinnahmen letzte {unit}"/>
+    <translation id="INCOME_TT_RESIDENTIALHIGH" value="Einnahmen von dicht besiedelten Wohngebieten letzte {unit}"/>
+    <translation id="INCOME_TT_RESIDENTIALLOW" value="Einnahmen von gering besiedelten Wohngebieten letzte {unit}"/>
+    <translation id="INCOME_TT_RESIDENTIALTOTAL" value="Einnahmen von Wohngebieten letzte {unit}"/>
+    <translation id="INCOME_TT_TOTAL" value="Gesamteinnahmen letzte {unit}"/>
+    <translation id="INCOME_TT_TOTAL_COMMERCIAL" value="Gesamteinnahmen aus dem Tourismus letzte {unit}"/>
+    <translation id="INCOME_TT_TOTAL_RESIDENTIAL" value="Gesamteinnahmen aus Wohngebieten letzte {unit}"/>
+    <translation id="INCOME_TT_TOTAL_WORK" value="Gesamteinnahmen aus Industrie- und Bürogebieten letzte {unit}"/>
+    <translation id="INCOME_TT_PUBLICTRANSPORT" value="Nahverkehrseinnahmen letzte {unit}"/>
+    <translation id="INFO_CONNECTIONS_TOURISTSTOTAL" value="Touristenbesuche letzte {unit}: {0:N0}"/>
+    <translation id="INFO_CRIMERATE_CRIMES" value="In der letzten {unit} verhaftete Verbrecher:"/>
+    <translation id="INFO_ENTERTAINMENT_PARKVISIT" value="Besucher in Parks &amp; Plätzen pro {unit}: {0:N0}"/>
+    <translation id="INFO_ENTERTAINMENT_UBVISIT" value="Besucher in Einzigartigen Gebäuden pro {unit}: {0:N0}"/>
+    <translation id="INFO_GARBAGE_INCINERATORCAPACITY" value="Müllverbrennungsanlagen-Kapazität: {0} Einheiten/{unit}"/>
+    <translation id="INFO_GARBAGE_GARBAGEPRODUCTION" value="Müllproduktion: {0} Einheiten/{unit}"/>
+    <translation id="INFO_POPULATION_BIRTHS" value="{0:N0} Geburten / {unit}"/>
+    <translation id="INFO_POPULATION_DEATHS" value="{0:N0} Tode / {unit}"/>
+    <translation id="INFO_PUBLICTRANSPORT_COUNT" value="{0} pro {unit}"/>
+    <translation id="INFO_RES_FORESTAMOUNT" value="{0} Einheiten/{unit}"/>
+    <translation id="INFO_RES_FORESTUSED" value="{0} Einheiten/{unit}"/>
+    <translation id="INFO_RES_OILUSED" value="{0} Einheiten/{unit}"/>
+    <translation id="INFO_RES_OREUSED" value="{0} Einheiten/{unit}"/>
+    <translation id="INFO_WATER_CONSUMPTION" value="Wasserverbrauch: {0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_PRODUCTION" value="Wasser-Pumpkapazität: {0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_SEWAGEACCUMULATION" value="Abwasserproduktion: {0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_SEWAGECAPACITY" value="Abwasser-Entleerungskapazität: {0:N0} m³/{unit}"/>
+    <translation id="LOAN_WEEKLYCOST" value="Kosten letzte {unit}"/>
+    <translation id="MAIN_MONEYDELTA" value="Einnahmen letzte {unit}"/>
+    <translation id="MAIN_POPULATIONDELTA" value="Veränderung letzte {unit}"/>
+    <translation id="MILESTONE_COMBINED_PASSED_TIME_DESC" value="Erfüllen Sie {1} × {unit} lang {0} Anforderungen"/>
+    <translation id="MILESTONE_COMBINED_TIME_DESC" value="{0} × {unit} lang unterhalten"/>
+    <translation id="PARKINFOPANEL_CURRENTVISITORS" value="Besucher letze {unit}: {0}"/>
+    <translation id="PARKINFOPANEL_INCOME" value="Einnahmen: {0} / {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_PUBTRANS" value="Gesamteinnahmen aus dem Nahverkehr letzte {unit}"/>
+    <translation id="STADIUMINFO7" value="Siege/Spiele der letzten 12 × {unit}:"/>
+    <translation id="STADIUMINFO9" value="Einnahmen letzte {unit}:"/>
+    <translation id="TOOL_WATER_ESTIMATE" value="Geschätzte Produktion: {0:N0} m³/{unit}"/>
+    <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="Besucher letzte {unit}: {0} Einwohner, {1} Touristen"/>
+    <translation id="TRANSPORT_LINE_PASSENGERS" value="Passagiere letzte {unit}: {0} Einwohner, {1} Touristen"/>
+  </overrides>
     
 </language>
