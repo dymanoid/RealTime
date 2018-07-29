@@ -24,11 +24,7 @@ namespace RealTime.UI
         /// <summary>Gets or sets the title bar caption.</summary>
         public string Caption
         {
-            get
-            {
-                return captionLabel?.text ?? caption ?? string.Empty;
-            }
-
+            get => captionLabel?.text ?? caption ?? string.Empty;
             set
             {
                 caption = value;
