@@ -162,6 +162,7 @@
     <Compile Include="UI\IViewItem.cs" />
     <Compile Include="UI\IViewItemFactory.cs" />
     <Compile Include="UI\MessageBox.cs" />
+    <Compile Include="UI\Popup.cs" />
     <Compile Include="UI\RealTimeUIDateTimeWrapper.cs" />
     <Compile Include="UI\CustomTimeBar.cs" />
     <Compile Include="UI\SliderValueType.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="UI\CitiesSliderItem.cs" />
     <Compile Include="UI\CitiesViewItem.cs" />
     <Compile Include="UI\CitiesViewItemFactory.cs" />
+    <Compile Include="UI\TitleBar.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Harmony\Harmony\Harmony.csproj">
