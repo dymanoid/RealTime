@@ -143,7 +143,6 @@ namespace RealTime.Core
             }
 
             configProvider.LoadDefaultConfiguration();
-            CloseConfigUI();
         }
 
         private static string GetModPath()
