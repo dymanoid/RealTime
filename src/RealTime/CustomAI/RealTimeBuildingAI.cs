@@ -309,6 +309,9 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.Office when buildingManager.GetBuildingLevel(buildingId) != ItemClass.Level.Level1:
                     return false;
 
+                case ItemClass.Service.Commercial when subService == ItemClass.SubService.CommercialLeisure:
+                    return IsNoiseRestricted(buildingId);
+
                 case ItemClass.Service.Commercial
                     when subService == ItemClass.SubService.CommercialHigh && buildingManager.GetBuildingLevel(buildingId) != ItemClass.Level.Level1:
                     return false;
