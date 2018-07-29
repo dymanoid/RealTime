@@ -25,9 +25,11 @@ namespace RealTime.CustomAI
 
         private readonly RealTimeConfig config;
         private readonly ITimeInfo timeInfo;
+        private readonly IBuildingManagerConnection buildingManager;
         private readonly IToolManagerConnection toolManager;
         private readonly WorkBehavior workBehavior;
-        private readonly IBuildingManagerConnection buildingManager;
+        private readonly TravelBehavior travelBehavior;
+
         private readonly bool[] lightStates;
 
         private int lastProcessedMinute = -1;
@@ -48,20 +50,23 @@ namespace RealTime.CustomAI
         /// <param name="timeInfo">The time information source.</param>
         /// <param name="buildingManager">A proxy object that provides a way to call the game-specific methods of the <see cref="BuildingManager"/> class.</param>
         /// <param name="toolManager">A proxy object that provides a way to call the game-specific methods of the <see cref="ToolManager"/> class.</param>
-        /// <param name="workBehavior">A behavior that provides simulation info for the citizens work time.</param>
+        /// <param name="workBehavior">A behavior that provides simulation info for the citizens' work time.</param>
+        /// <param name="travelBehavior">A behavior that provides simulation info for the citizens' traveling.</param>
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
         public RealTimeBuildingAI(
             RealTimeConfig config,
             ITimeInfo timeInfo,
             IBuildingManagerConnection buildingManager,
             IToolManagerConnection toolManager,
-            WorkBehavior workBehavior)
+            WorkBehavior workBehavior,
+            TravelBehavior travelBehavior)
         {
             this.config = config ?? throw new ArgumentNullException(nameof(config));
             this.timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
             this.buildingManager = buildingManager ?? throw new ArgumentNullException(nameof(buildingManager));
             this.toolManager = toolManager ?? throw new ArgumentNullException(nameof(toolManager));
             this.workBehavior = workBehavior ?? throw new ArgumentNullException(nameof(workBehavior));
+            this.travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
 
             lightStates = new bool[buildingManager.GetMaxBuildingsCount()];
         }
@@ -209,6 +214,50 @@ namespace RealTime.CustomAI
             return true;
         }
 
+        /// <summary>
+        /// Determines whether the building with the specified <paramref name="buildingId"/> is noise restricted
+        /// (has NIMBY policy that is active on current time).
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <param name="currentBuildingId">The ID of a building where the citizen starts their journey.
+        /// Specify 0 if there is no journey in schedule.</param>
+        /// <returns>
+        ///   <c>true</c> if the building with the specified <paramref name="buildingId"/> has NIMBY policy
+        ///   that is active on current time; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsNoiseRestricted(ushort buildingId, ushort currentBuildingId = 0)
+        {
+            if (buildingManager.GetBuildingSubService(buildingId) != ItemClass.SubService.CommercialLeisure)
+            {
+                return false;
+            }
+
+            float currentHour = timeInfo.CurrentHour;
+            if (currentHour >= config.GoToSleepHour || currentHour <= config.WakeUpHour)
+            {
+                return buildingManager.IsBuildingNoiseRestricted(buildingId);
+            }
+
+            if (currentBuildingId == 0)
+            {
+                return false;
+            }
+
+            float travelTime = travelBehavior.GetEstimatedTravelTime(currentBuildingId, buildingId);
+            if (travelTime == 0)
+            {
+                return false;
+            }
+
+            float arriveHour = (float)timeInfo.Now.AddHours(travelTime).TimeOfDay.TotalHours;
+            if (arriveHour >= config.GoToSleepHour || arriveHour <= config.WakeUpHour)
+            {
+                return buildingManager.IsBuildingNoiseRestricted(buildingId);
+            }
+
+            return false;
+        }
+
         private void UpdateLightState(uint frameIndex)
         {
             if (lightStateCheckCounter > 0)
@@ -259,6 +308,9 @@ namespace RealTime.CustomAI
 
                 case ItemClass.Service.Office when buildingManager.GetBuildingLevel(buildingId) != ItemClass.Level.Level1:
                     return false;
+
+                case ItemClass.Service.Commercial when subService == ItemClass.SubService.CommercialLeisure:
+                    return IsNoiseRestricted(buildingId);
 
                 case ItemClass.Service.Commercial
                     when subService == ItemClass.SubService.CommercialHigh && buildingManager.GetBuildingLevel(buildingId) != ItemClass.Level.Level1:

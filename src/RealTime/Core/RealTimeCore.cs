@@ -244,11 +244,23 @@ namespace RealTime.Core
             var travelBehavior = new TravelBehavior(gameConnections.BuildingManager);
             var workBehavior = new WorkBehavior(config, gameConnections.Random, gameConnections.BuildingManager, timeInfo, travelBehavior);
 
+            var realTimePrivateBuildingAI = new RealTimeBuildingAI(
+                config,
+                timeInfo,
+                gameConnections.BuildingManager,
+                new ToolManagerConnection(),
+                workBehavior,
+                travelBehavior);
+
+            BuildingAIPatches.RealTimeAI = realTimePrivateBuildingAI;
+            TransferManagerPatch.RealTimeAI = realTimePrivateBuildingAI;
+
             var realTimeResidentAI = new RealTimeResidentAI<ResidentAI, Citizen>(
                 config,
                 gameConnections,
                 residentAIConnection,
                 eventManager,
+                realTimePrivateBuildingAI,
                 workBehavior,
                 spareTimeBehavior,
                 travelBehavior);
@@ -270,16 +282,6 @@ namespace RealTime.Core
                 spareTimeBehavior);
 
             TouristAIPatch.RealTimeAI = realTimeTouristAI;
-
-            var realTimePrivateBuildingAI = new RealTimeBuildingAI(
-                config,
-                timeInfo,
-                gameConnections.BuildingManager,
-                new ToolManagerConnection(),
-                workBehavior);
-
-            BuildingAIPatches.RealTimeAI = realTimePrivateBuildingAI;
-            TransferManagerPatch.RealTimeAI = realTimePrivateBuildingAI;
             return true;
         }
 
