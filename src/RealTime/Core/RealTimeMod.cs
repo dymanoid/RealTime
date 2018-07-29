@@ -127,6 +127,10 @@ namespace RealTime.Core
                     localizationProvider.Translate(TranslationKeys.Warning),
                     localizationProvider.Translate(TranslationKeys.ModNotWorkingMessage));
             }
+            else
+            {
+                Compatibility.CheckAndNotify(Name, localizationProvider);
+            }
         }
 
         /// <summary>
