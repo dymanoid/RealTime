@@ -171,7 +171,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            ushort hotel = FindHotel(ref citizen, targetBuildingId);
+            ushort hotel = FindHotel(targetBuildingId);
             if (hotel != 0)
             {
                 Log.Debug(TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} changes the target and moves to a hotel {hotel} because of time or weather");
@@ -288,7 +288,7 @@ namespace RealTime.CustomAI
                     break;
 
                 case TouristTarget.Hotel:
-                    ushort hotel = FindHotel(ref citizen, currentBuilding);
+                    ushort hotel = FindHotel(currentBuilding);
                     if (hotel == 0)
                     {
                         goto case TouristTarget.LeaveCity;
@@ -345,7 +345,7 @@ namespace RealTime.CustomAI
             }
         }
 
-        private ushort FindHotel(ref TCitizen citizen, ushort currentBuilding)
+        private ushort FindHotel(ushort currentBuilding)
         {
             if (!Random.ShouldOccur(FindHotelChance))
             {

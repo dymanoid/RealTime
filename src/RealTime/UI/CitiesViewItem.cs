@@ -9,6 +9,7 @@ namespace RealTime.UI
     using ColossalFramework.UI;
     using ICities;
     using RealTime.Localization;
+    using RealTime.Tools;
 
     /// <summary>A base class for the view items that can be displayed via the game's UI.</summary>
     /// <typeparam name="TItem">The type of the view item.</typeparam>
@@ -64,13 +65,33 @@ namespace RealTime.UI
         /// <summary>Gets current configuration item value.</summary>
         protected TValue Value
         {
-            get => (TValue)Convert.ChangeType(property.GetValue(configProvider(), null), typeof(TValue));
+            get
+            {
+                try
+                {
+                    object currentValue = property.GetValue(configProvider(), null);
+                    return (TValue)Convert.ChangeType(currentValue, typeof(TValue));
+                }
+                catch (Exception ex)
+                {
+                    Log.Error($"The 'Real Time' mod was unable to read a configuration value, error message: {ex}");
+                    return default;
+                }
+            }
+
             private set
             {
-                object newValue = property.PropertyType.IsEnum
-                    ? Enum.ToObject(property.PropertyType, value)
-                    : Convert.ChangeType(value, property.PropertyType);
-                property.SetValue(configProvider(), newValue, null);
+                try
+                {
+                    object newValue = property.PropertyType.IsEnum
+                        ? Enum.ToObject(property.PropertyType, value)
+                        : Convert.ChangeType(value, property.PropertyType);
+                    property.SetValue(configProvider(), newValue, null);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error($"The 'Real Time' mod was unable to update a configuration value, error message: {ex}");
+                }
             }
         }
 

@@ -24,7 +24,7 @@ namespace RealTime.Localization
         /// by this mod. Can return null.</summary>
         /// <param name="type">The overridden translations type string.</param>
         /// <returns>A map of key-value pairs for translations to override, or null.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
+        /// <exception cref="System.ArgumentNullException">Thrown when the argument is null.</exception>
         IDictionary<string, string> GetOverriddenTranslations(string type);
     }
 }

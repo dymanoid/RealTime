@@ -22,21 +22,18 @@ namespace RealTime.Patching
         /// method, the first parameter of the <typeparamref name="TDelegate"/> signature must be a reference to a
         /// <typeparamref name="TType"/> instance.
         /// </summary>
-        ///
         /// <exception cref="ArgumentException">Thrown when <paramref name="name"/> is null or an empty string.</exception>
         /// <exception cref="AmbiguousMatchException">Thrown when more than one method is found with the specified
+        /// <exception cref="MethodAccessException">Thrown when the caller does not have the permissions necessary to access the method. </exception>
         /// <paramref name="name"/> and matching the specified <typeparamref name="TDelegate"/> signature.</exception>
         /// <exception cref="MissingMethodException">Thrown when no method with the specified <paramref name="name"/> is found
         /// that matches the specified <typeparamref name="TDelegate"/> signature.</exception>
-        ///
         /// <typeparam name="TType">A class that holds the method to create a delegate for.</typeparam>
         /// <typeparam name="TDelegate">A delegate type representing the method signature.</typeparam>
-        ///
         /// <param name="name">The method name to create a delegate instance for.</param>
         /// <param name="instanceMethod">True if the <typeparamref name="TDelegate"/> type represents an instance method.
         /// That means, the first parameter of the <typeparamref name="TDelegate"/> signature will be processed
         /// as a reference to a <typeparamref name="TType"/> instance (<c>this</c> reference). Default is <c>true</c>.</param>
-        ///
         /// <returns>An instance of the <typeparamref name="TDelegate"/> delegate that can be called directly.</returns>
         public static TDelegate Create<TType, TDelegate>(string name, bool instanceMethod = true)
             where TDelegate : Delegate

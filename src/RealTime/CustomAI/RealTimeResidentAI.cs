@@ -3,7 +3,6 @@
 namespace RealTime.CustomAI
 {
     using System;
-    using System.IO;
     using RealTime.Config;
     using RealTime.Core;
     using RealTime.Events;
@@ -83,7 +82,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            ScheduleAction actionType = UpdateCitizenState(citizenId, ref citizen, ref schedule);
+            ScheduleAction actionType = UpdateCitizenState(ref citizen, ref schedule);
             switch (actionType)
             {
                 case ScheduleAction.Ignore:

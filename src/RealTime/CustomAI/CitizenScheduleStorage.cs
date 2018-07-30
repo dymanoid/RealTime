@@ -31,7 +31,7 @@ namespace RealTime.CustomAI
         /// have different length.</exception>
         public CitizenScheduleStorage(CitizenSchedule[] residentSchedules, Citizen[] citizens, ITimeInfo timeInfo)
         {
-            this.residentSchedules = residentSchedules ?? throw new System.ArgumentNullException(nameof(residentSchedules));
+            this.residentSchedules = residentSchedules ?? throw new ArgumentNullException(nameof(residentSchedules));
             this.citizens = citizens ?? throw new ArgumentNullException(nameof(citizens));
             this.timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
             if (residentSchedules.Length != citizens.Length)

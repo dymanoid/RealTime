@@ -54,40 +54,8 @@ namespace RealTime.UI
                 throw new InvalidOperationException("The configuration provider has no configuration yet");
             }
 
-            var properties = configProvider.Configuration.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Select(p => new { Property = p, Attribute = GetCustomItemAttribute<ConfigItemAttribute>(p) })
-                .Where(v => v.Attribute != null);
-
             var viewItems = new List<IViewItem>();
-
-            foreach (var tab in properties.GroupBy(p => p.Attribute.TabId).OrderBy(p => p.Key))
-            {
-                IContainerViewItem tabItem = itemFactory.CreateTabItem(tab.Key);
-                viewItems.Add(tabItem);
-
-                foreach (var group in tab.GroupBy(p => p.Attribute.GroupId).OrderBy(p => p.Key))
-                {
-                    IContainerViewItem containerItem;
-                    if (string.IsNullOrEmpty(group.Key))
-                    {
-                        containerItem = tabItem;
-                    }
-                    else
-                    {
-                        containerItem = itemFactory.CreateGroup(tabItem, group.Key);
-                        viewItems.Add(containerItem);
-                    }
-
-                    foreach (var item in group.OrderBy(i => i.Attribute.Order))
-                    {
-                        IViewItem viewItem = CreateViewItem(containerItem, item.Property, configProvider, itemFactory);
-                        if (viewItem != null)
-                        {
-                            viewItems.Add(viewItem);
-                        }
-                    }
-                }
-            }
+            CreateViewItems(configProvider, itemFactory, viewItems);
 
             var result = new ConfigUI(configProvider, viewItems);
 
@@ -118,13 +86,49 @@ namespace RealTime.UI
             }
         }
 
+        private static void CreateViewItems(ConfigurationProvider configProvider, IViewItemFactory itemFactory, ICollection<IViewItem> viewItems)
+        {
+            var properties = configProvider.Configuration.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Select(p => new { Property = p, Attribute = GetCustomItemAttribute<ConfigItemAttribute>(p) })
+                .Where(v => v.Attribute != null);
+
+            foreach (var tab in properties.GroupBy(p => p.Attribute.TabId).OrderBy(p => p.Key))
+            {
+                IContainerViewItem tabItem = itemFactory.CreateTabItem(tab.Key);
+                viewItems.Add(tabItem);
+
+                foreach (var group in tab.GroupBy(p => p.Attribute.GroupId).OrderBy(p => p.Key))
+                {
+                    IContainerViewItem containerItem;
+                    if (string.IsNullOrEmpty(group.Key))
+                    {
+                        containerItem = tabItem;
+                    }
+                    else
+                    {
+                        containerItem = itemFactory.CreateGroup(tabItem, group.Key);
+                        viewItems.Add(containerItem);
+                    }
+
+                    foreach (var item in group.OrderBy(i => i.Attribute.Order))
+                    {
+                        IViewItem viewItem = CreateViewItem(containerItem, item.Property, configProvider, itemFactory);
+                        if (viewItem != null)
+                        {
+                            viewItems.Add(viewItem);
+                        }
+                    }
+                }
+            }
+        }
+
         private static IViewItem CreateViewItem(
             IContainerViewItem container,
             PropertyInfo property,
             ConfigurationProvider configProvider,
             IViewItemFactory itemFactory)
         {
-            object config() => configProvider.Configuration;
+            object Config() => configProvider.Configuration;
 
             switch (GetCustomItemAttribute<ConfigItemUIBaseAttribute>(property))
             {
@@ -139,7 +143,7 @@ namespace RealTime.UI
                         container,
                         property.Name,
                         property,
-                        config,
+                        Config,
                         slider.Min,
                         slider.Max,
                         slider.Step,
@@ -147,10 +151,10 @@ namespace RealTime.UI
                         slider.DisplayMultiplier);
 
                 case ConfigItemCheckBoxAttribute _ when property.PropertyType == typeof(bool):
-                    return itemFactory.CreateCheckBox(container, property.Name, property, config);
+                    return itemFactory.CreateCheckBox(container, property.Name, property, Config);
 
                 case ConfigItemComboBoxAttribute _ when property.PropertyType.IsEnum:
-                    return itemFactory.CreateComboBox(container, property.Name, property, config, Enum.GetNames(property.PropertyType));
+                    return itemFactory.CreateComboBox(container, property.Name, property, Config, Enum.GetNames(property.PropertyType));
 
                 default:
                     return null;

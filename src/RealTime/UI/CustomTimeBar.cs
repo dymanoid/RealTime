@@ -84,7 +84,12 @@ namespace RealTime.UI
 
             DateTime todayStart = customDateTimeWrapper.CurrentValue.Date;
             DateTime todayEnd = todayStart.AddDays(1).AddMilliseconds(-1);
-            foreach (UISprite item in progressSprite.components.Where(c => c.name != null && c.name.StartsWith(UISpriteEvent, StringComparison.Ordinal)))
+
+            IEnumerable<UISprite> sprites = progressSprite.components
+                .OfType<UISprite>()
+                .Where(c => c.name != null && c.name.StartsWith(UISpriteEvent, StringComparison.Ordinal));
+
+            foreach (UISprite item in sprites)
             {
                 SetEventTooltip(item, todayStart, todayEnd);
             }

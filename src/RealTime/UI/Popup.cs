@@ -4,6 +4,7 @@
 
 namespace RealTime.UI
 {
+    using System;
     using ColossalFramework.UI;
     using UnityEngine;
 
@@ -22,11 +23,16 @@ namespace RealTime.UI
         private string text;
         private Vector2 popupPosition;
 
+        /// <summary>Shows a pop-up with the specified <paramref name="caption"/> and <paramref name="text"/>.</summary>
+        /// <param name="parent">The parent UI component of the pop-up.</param>
+        /// <param name="caption">The caption of the pop-up.</param>
+        /// <param name="text">The text to display.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="parent"/> is null.</exception>
         public static void Show(UIComponent parent, string caption, string text)
         {
             if (parent == null)
             {
-                throw new System.ArgumentNullException(nameof(parent));
+                throw new ArgumentNullException(nameof(parent));
             }
 
             Popup popup = parent.AddUIComponent<Popup>();
@@ -36,6 +42,7 @@ namespace RealTime.UI
             popup.eventVisibilityChanged += popup.PopupVisibilityChanged;
         }
 
+        /// <summary>Called by the Unity engine to start this instance.</summary>
         public override void Start()
         {
             base.Start();

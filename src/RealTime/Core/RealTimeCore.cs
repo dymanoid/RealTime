@@ -167,11 +167,11 @@ namespace RealTime.Core
 
             AwakeSleepSimulation.Install(configProvider.Configuration);
 
-            RealTimeStorage.CurrentLevelStorage.GameSaving += result.GameSaving;
             result.storageData.Add(eventManager);
             result.storageData.Add(ResidentAIPatch.RealTimeAI.GetStorageService());
             if (RealTimeStorage.CurrentLevelStorage != null)
             {
+                RealTimeStorage.CurrentLevelStorage.GameSaving += result.GameSaving;
                 LoadStorageData(result.storageData, RealTimeStorage.CurrentLevelStorage);
             }
 

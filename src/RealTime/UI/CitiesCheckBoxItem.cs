@@ -20,8 +20,8 @@ namespace RealTime.UI
         /// The property description that specifies the target property where to store the value.
         /// </param>
         /// <param name="configProvider">A method that provides the configuration storage object for the value.</param>
-        /// <exception cref="System.ArgumentNullException">Thrown when any argument is null.</exception>
-        /// <exception cref="System.ArgumentException">
+        /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
+        /// <exception cref="ArgumentException">
         /// thrown when the <paramref name="id"/> is an empty string.
         /// </exception>
         public CitiesCheckBoxItem(UIHelperBase uiHelper, string id, PropertyInfo property, Func<object> configProvider)
@@ -31,12 +31,12 @@ namespace RealTime.UI
 
         /// <summary>Translates this view item using the specified localization provider.</summary>
         /// <param name="localizationProvider">The localization provider to use for translation.</param>
-        /// <exception cref="System.ArgumentNullException">Thrown when the argument is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
         public override void Translate(ILocalizationProvider localizationProvider)
         {
             if (localizationProvider == null)
             {
-                throw new System.ArgumentNullException(nameof(localizationProvider));
+                throw new ArgumentNullException(nameof(localizationProvider));
             }
 
             UIComponent.text = localizationProvider.Translate(UIComponent.name);
@@ -55,12 +55,12 @@ namespace RealTime.UI
         /// <param name="uiHelper">The UI helper to use for item creation.</param>
         /// <param name="defaultValue">The item's default value.</param>
         /// <returns>A newly created view item.</returns>
-        /// <exception cref="System.ArgumentNullException">Thrown when the argument is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
         protected override UICheckBox CreateItem(UIHelperBase uiHelper, bool defaultValue)
         {
             if (uiHelper == null)
             {
-                throw new System.ArgumentNullException(nameof(uiHelper));
+                throw new ArgumentNullException(nameof(uiHelper));
             }
 
             return (UICheckBox)uiHelper.AddCheckbox(Constants.Placeholder, defaultValue, ValueChanged);

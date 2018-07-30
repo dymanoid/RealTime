@@ -142,7 +142,7 @@ namespace RealTime.CustomAI
             return false;
         }
 
-        private ScheduleAction UpdateCitizenState(uint citizenId, ref TCitizen citizen, ref CitizenSchedule schedule)
+        private ScheduleAction UpdateCitizenState(ref TCitizen citizen, ref CitizenSchedule schedule)
         {
             if (schedule.CurrentState == ResidentState.Ignored)
             {

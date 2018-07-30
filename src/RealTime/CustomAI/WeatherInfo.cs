@@ -44,9 +44,13 @@ namespace RealTime.CustomAI
         {
             float weatherFactor = weatherManager.GetRainIntensity() + (weatherManager.GetSnowIntensity() / 2f);
 
-            stayInsideChance = weatherFactor < BadWeatherPrecipitationThreshold
-                ? 0u
-                : MinimumStayInsideChanceOnPrecipitation +
+            if (weatherFactor < BadWeatherPrecipitationThreshold)
+            {
+                stayInsideChance = 0u;
+                return;
+            }
+
+            stayInsideChance = MinimumStayInsideChanceOnPrecipitation +
                     (uint)((weatherFactor - BadWeatherPrecipitationThreshold)
                     * ((100u - MinimumStayInsideChanceOnPrecipitation) / (1f - BadWeatherPrecipitationThreshold)));
 

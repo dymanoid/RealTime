@@ -11,7 +11,7 @@ namespace RealTime.CustomAI
     using static Constants;
 
     /// <summary>
-    /// A class that incorporated the custom logic for the private buildings.
+    /// A class that incorporates the custom logic for the private buildings.
     /// </summary>
     internal sealed class RealTimeBuildingAI
     {
@@ -152,7 +152,7 @@ namespace RealTime.CustomAI
         /// <param name="frameIndex">The simulation frame index to process.</param>
         public void ProcessFrame(uint frameIndex)
         {
-            UpdateLightState(frameIndex);
+            UpdateLightState();
 
             if ((frameIndex & StepMask) != 0)
             {
@@ -258,7 +258,7 @@ namespace RealTime.CustomAI
             return false;
         }
 
-        private void UpdateLightState(uint frameIndex)
+        private void UpdateLightState()
         {
             if (lightStateCheckCounter > 0)
             {

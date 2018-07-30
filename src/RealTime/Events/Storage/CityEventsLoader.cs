@@ -50,11 +50,19 @@ namespace RealTime.Events.Storage
             string searchPath = Path.Combine(dataPath, EventsFolder);
             if (!Directory.Exists(searchPath))
             {
-                Log.Warning($"The 'Real Time' mod did not found any event templates, the directory '{searchPath}' doesn't exist");
+                Log.Warning($"The 'Real Time' mod did not find any event templates, the directory '{searchPath}' doesn't exist");
                 return;
             }
 
-            LoadEvents(Directory.GetFiles(searchPath, EventFileSearchPattern));
+            try
+            {
+                string[] files = Directory.GetFiles(searchPath, EventFileSearchPattern);
+                LoadEvents(files);
+            }
+            catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
+            {
+                Log.Warning($"The 'Real Time' mod could not load event templates, error message: {ex}");
+            }
         }
 
         /// <summary>Clears the currently loaded city events templates collection.</summary>

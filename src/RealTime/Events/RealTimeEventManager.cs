@@ -26,7 +26,7 @@ namespace RealTime.Events
         private static readonly TimeSpan EventStartTimeGranularity = TimeSpan.FromMinutes(30);
         private static readonly TimeSpan EventProcessInterval = TimeSpan.FromMinutes(15);
 
-        private static readonly ItemClass.Service[] EventBuildingServices = new[] { ItemClass.Service.Monument, ItemClass.Service.Beautification };
+        private static readonly ItemClass.Service[] EventBuildingServices = { ItemClass.Service.Monument, ItemClass.Service.Beautification };
 
         private readonly LinkedList<ICityEvent> upcomingEvents;
         private readonly RealTimeConfig config;
@@ -126,11 +126,13 @@ namespace RealTime.Events
 
                     return CityEventState.None;
                 }
-                else if ((vanillaEventState & EventData.Flags.Active) != 0)
+
+                if ((vanillaEventState & EventData.Flags.Active) != 0)
                 {
                     return CityEventState.Ongoing;
                 }
-                else if (vanillaEventState != EventData.Flags.None)
+
+                if (vanillaEventState != EventData.Flags.None)
                 {
                     return CityEventState.Finished;
                 }
@@ -140,7 +142,8 @@ namespace RealTime.Events
             {
                 return CityEventState.Ongoing;
             }
-            else if (lastActiveEvent != null && lastActiveEvent.BuildingId == buildingId)
+
+            if (lastActiveEvent != null && lastActiveEvent.BuildingId == buildingId)
             {
                 return CityEventState.Finished;
             }
