@@ -44,7 +44,7 @@ namespace RealTime.Simulation
         internal static WeatherInfo WeatherInfo { get; set; }
 
         /// <summary>Gets or sets the citizen processing class instance.</summary>
-        internal static CitizenProcessor CitizenProcessor { get; set; }
+        internal static CitizenProcessor<ResidentAI, Citizen> CitizenProcessor { get; set; }
 
         /// <summary>Gets or sets the statistics processing class instance.</summary>
         internal static Statistics Statistics { get; set; }
