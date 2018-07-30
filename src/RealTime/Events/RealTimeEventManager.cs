@@ -16,7 +16,7 @@ namespace RealTime.Events
 
     /// <summary>The central class for the custom city events logic.</summary>
     /// <seealso cref="IStorageData"/>
-    internal sealed class RealTimeEventManager : IStorageData
+    internal sealed class RealTimeEventManager : IStorageData, IRealTimeEventManager
     {
         private const int MaximumEventsCount = 5;
         private const string StorageDataId = "RealTimeEvents";

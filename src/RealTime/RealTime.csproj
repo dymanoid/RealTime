@@ -60,6 +60,10 @@
     <Compile Include="Core\RealTimeStorage.cs" />
     <Compile Include="CustomAI\CitizenScheduleStorage.cs" />
     <Compile Include="CustomAI\Constants.cs" />
+    <Compile Include="CustomAI\IRealTimeBuildingAI.cs" />
+    <Compile Include="CustomAI\ISpareTimeBehavior.cs" />
+    <Compile Include="CustomAI\ITravelBehavior.cs" />
+    <Compile Include="CustomAI\IWorkBehavior.cs" />
     <Compile Include="CustomAI\RealTimeHumanAIBase.cs" />
     <Compile Include="CustomAI\ResidentState.cs" />
     <Compile Include="CustomAI\RealTimeBuildingAI.cs" />
@@ -77,6 +81,7 @@
     <Compile Include="Events\CityEventState.cs" />
     <Compile Include="Events\ICityEventsProvider.cs" />
     <Compile Include="Events\ICityEvent.cs" />
+    <Compile Include="Events\IRealTimeEventManager.cs" />
     <Compile Include="Events\RealTimeCityEvent.cs" />
     <Compile Include="Events\CityEventBase.cs" />
     <Compile Include="Events\RealTimeEventManager.cs" />

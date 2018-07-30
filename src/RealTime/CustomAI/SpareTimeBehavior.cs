@@ -13,7 +13,7 @@ namespace RealTime.CustomAI
     /// <summary>
     /// A class that provides custom logic for the spare time simulation.
     /// </summary>
-    internal sealed class SpareTimeBehavior
+    internal sealed class SpareTimeBehavior : ISpareTimeBehavior
     {
         private readonly RealTimeConfig config;
         private readonly ITimeInfo timeInfo;

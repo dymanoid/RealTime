@@ -22,7 +22,7 @@ namespace RealTime.CustomAI
         where TCitizen : struct
     {
         private readonly TouristAIConnection<TAI, TCitizen> touristAI;
-        private readonly SpareTimeBehavior spareTimeBehavior;
+        private readonly ISpareTimeBehavior spareTimeBehavior;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RealTimeTouristAI{TAI, TCitizen}"/> class.
@@ -39,8 +39,8 @@ namespace RealTime.CustomAI
             RealTimeConfig config,
             GameConnections<TCitizen> connections,
             TouristAIConnection<TAI, TCitizen> touristAI,
-            RealTimeEventManager eventManager,
-            SpareTimeBehavior spareTimeBehavior)
+            IRealTimeEventManager eventManager,
+            ISpareTimeBehavior spareTimeBehavior)
             : base(config, connections, eventManager)
         {
             this.touristAI = touristAI ?? throw new ArgumentNullException(nameof(touristAI));

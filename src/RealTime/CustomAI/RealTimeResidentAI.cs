@@ -18,11 +18,13 @@ namespace RealTime.CustomAI
         where TCitizen : struct
     {
         private readonly ResidentAIConnection<TAI, TCitizen> residentAI;
-        private readonly RealTimeBuildingAI buildingAI;
-        private readonly WorkBehavior workBehavior;
-        private readonly SpareTimeBehavior spareTimeBehavior;
-        private readonly TravelBehavior travelBehavior;
+        private readonly IRealTimeBuildingAI buildingAI;
+        private readonly IWorkBehavior workBehavior;
+        private readonly ISpareTimeBehavior spareTimeBehavior;
+        private readonly ITravelBehavior travelBehavior;
+
         private readonly CitizenSchedule[] residentSchedules;
+
         private float simulationCycle;
 
         /// <summary>Initializes a new instance of the <see cref="RealTimeResidentAI{TAI, TCitizen}"/> class.</summary>
@@ -30,7 +32,7 @@ namespace RealTime.CustomAI
         /// <param name="config">A <see cref="RealTimeConfig"/> instance containing the mod's configuration.</param>
         /// <param name="connections">A <see cref="GameConnections{T}"/> instance that provides the game connection implementation.</param>
         /// <param name="residentAI">A connection to the game's resident AI.</param>
-        /// <param name="eventManager">A <see cref="RealTimeEventManager"/> instance.</param>
+        /// <param name="eventManager">An <see cref="IRealTimeEventManager"/> instance.</param>
         /// <param name="buildingAI">The custom building AI.</param>
         /// <param name="workBehavior">A behavior that provides simulation info for the citizens work time.</param>
         /// <param name="spareTimeBehavior">A behavior that provides simulation info for the citizens spare time.</param>
@@ -39,11 +41,11 @@ namespace RealTime.CustomAI
             RealTimeConfig config,
             GameConnections<TCitizen> connections,
             ResidentAIConnection<TAI, TCitizen> residentAI,
-            RealTimeEventManager eventManager,
-            RealTimeBuildingAI buildingAI,
-            WorkBehavior workBehavior,
-            SpareTimeBehavior spareTimeBehavior,
-            TravelBehavior travelBehavior)
+            IRealTimeEventManager eventManager,
+            IRealTimeBuildingAI buildingAI,
+            IWorkBehavior workBehavior,
+            ISpareTimeBehavior spareTimeBehavior,
+            ITravelBehavior travelBehavior)
             : base(config, connections, eventManager)
         {
             this.residentAI = residentAI ?? throw new ArgumentNullException(nameof(residentAI));
@@ -135,7 +137,7 @@ namespace RealTime.CustomAI
         /// <summary>Performs simulation for starting a new day for all citizens.</summary>
         public void BeginNewDay()
         {
-            workBehavior.UpdateLunchTime();
+            workBehavior.BeginNewDay();
             todayWakeup = TimeInfo.Now.Date.AddHours(Config.WakeUpHour);
         }
 
