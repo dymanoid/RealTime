@@ -144,6 +144,74 @@ namespace RealTime.GameConnection
             return CitizenManager.instance.m_citizens.m_buffer[citizenId].CurrentLocation;
         }
 
+        /// <summary>Gets the wealth of the citizen with specified ID.</summary>
+        /// <param name="citizenId">The ID of the citizen to query wealth of.</param>
+        /// <returns>A <see cref="Citizen.Wealth"/> value that describes the citizen's current wealth.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the argument is 0.</exception>
+        public Citizen.Wealth GetCitizenWealth(uint citizenId)
+        {
+            if (citizenId == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(citizenId), "The citizen ID cannot be 0");
+            }
+
+            return CitizenManager.instance.m_citizens.m_buffer[citizenId].WealthLevel;
+        }
+
+        /// <summary>Attempts to get IDs of the citizen's family members IDs.</summary>
+        /// <param name="citizenId">The ID of the citizen to get family members for.</param>
+        /// <param name="member1Id">The ID of the 1st family member.</param>
+        /// <param name="member2Id">The ID of the 2nd family member.</param>
+        /// <param name="member3Id">The ID of the 3rd family member.</param>
+        /// <param name="member4Id">The ID of the 4th family member.</param>
+        /// <returns><c>true</c> if the specified citizen has at least one family member; otherwise, <c>false</c>.</returns>
+        public bool TryGetFamily(uint citizenId, out uint member1Id, out uint member2Id, out uint member3Id, out uint member4Id)
+        {
+            member1Id = 0;
+            member2Id = 0;
+            member3Id = 0;
+            member4Id = 0;
+
+            ref Citizen citizen = ref CitizenManager.instance.m_citizens.m_buffer[citizenId];
+            if (citizen.m_homeBuilding == 0)
+            {
+                return false;
+            }
+
+            uint unitId = BuildingManager.instance.m_buildings.m_buffer[citizen.m_homeBuilding].FindCitizenUnit(CitizenUnit.Flags.Home, citizenId);
+            if (unitId == 0)
+            {
+                return false;
+            }
+
+            ref CitizenUnit unit = ref CitizenManager.instance.m_units.m_buffer[unitId];
+            member1Id = unit.m_citizen0;
+            member2Id = unit.m_citizen1;
+            member3Id = unit.m_citizen2;
+            member4Id = unit.m_citizen3;
+            if (unit.m_citizen4 != citizenId)
+            {
+                if (member4Id == citizenId)
+                {
+                    unit.m_citizen3 = unit.m_citizen4;
+                }
+                else if (member3Id == citizenId)
+                {
+                    unit.m_citizen2 = unit.m_citizen4;
+                }
+                else if (member2Id == citizenId)
+                {
+                    unit.m_citizen1 = unit.m_citizen4;
+                }
+                else
+                {
+                    unit.m_citizen0 = unit.m_citizen4;
+                }
+            }
+
+            return member1Id + member2Id + member3Id + member4Id > 0;
+        }
+
         /// <summary>Gets the game's citizens array (direct reference).</summary>
         /// <returns>The reference to the game's array containing the <see cref="Citizen"/> items.</returns>
         public Citizen[] GetCitizensArray()
