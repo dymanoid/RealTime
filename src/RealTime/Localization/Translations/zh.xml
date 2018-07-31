@@ -3,7 +3,7 @@
 
   <translation id="Warning" value="警告" />
   <translation id="ModNotWorkingMessage" value="啊! 出问题了 - Real Time模组无法启用. 请把你的log记录文件分享给该模组的开发者." />
-  <translation id="IncompatibleModsFoundMessage" value="At least one incompatible mod has been detected. It is recommended to unsubscribe from them. You might continue on your own risk, but something might not work properly or even crash the game." />
+  <translation id="IncompatibleModsFoundMessage" value="Real Time detected at least one incompatible mod (or at least partly incompatible). It is recommended to unsubscribe from them. You might continue on your own risk if you know what you are doing, but in this case something might not work properly or even crash the game." />
   <translation id="Minutes" value="min." />
 
   <translation id="Tools" value="工具" />

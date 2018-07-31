@@ -3,7 +3,7 @@
 
   <translation id="Warning" value="Warning" />
   <translation id="ModNotWorkingMessage" value="Oops! Something went wrong - the 'Real Time' mod could not be activated. Please share your game log file with the mod's developer." />
-  <translation id="IncompatibleModsFoundMessage" value="At least one incompatible mod has been detected. It is recommended to unsubscribe from them. You might continue on your own risk, but something might not work properly or even crash the game." />
+  <translation id="IncompatibleModsFoundMessage" value="Real Time detected at least one incompatible mod (or at least partly incompatible). It is recommended to unsubscribe from them. You might continue on your own risk if you know what you are doing, but in this case something might not work properly or even crash the game." />
   <translation id="Minutes" value="min." />
 
   <translation id="Tools" value="Tools" />

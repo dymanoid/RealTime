@@ -3,7 +3,7 @@
 
   <translation id="Warning" value="경고" />
   <translation id="ModNotWorkingMessage" value="어이쿠! 무엇인가 잘못되었습니다 - 모드가 정상 동작하지 않습니다! 모드 제작자에게 로그 파일을 보내주세요." />
-  <translation id="IncompatibleModsFoundMessage" value="At least one incompatible mod has been detected. It is recommended to unsubscribe from them. You might continue on your own risk, but something might not work properly or even crash the game." />
+  <translation id="IncompatibleModsFoundMessage" value="Real Time detected at least one incompatible mod (or at least partly incompatible). It is recommended to unsubscribe from them. You might continue on your own risk if you know what you are doing, but in this case something might not work properly or even crash the game." />
   <translation id="Minutes" value="min." />
   
   <translation id="Tools" value="도구" />
