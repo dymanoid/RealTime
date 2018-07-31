@@ -41,7 +41,6 @@ namespace RealTime.Simulation
         public void StartNewDay()
         {
             dayStartFrame = int.MinValue;
-            residentAI.BeginNewDay();
         }
 
         /// <summary>Re-calculates the duration of a simulation frame.</summary>
@@ -70,10 +69,12 @@ namespace RealTime.Simulation
             uint step = frameIndex & StepMask;
             if (dayStartFrame == int.MinValue)
             {
+                residentAI.BeginNewDayProcessing();
                 dayStartFrame = (int)step;
             }
             else if (step == dayStartFrame)
             {
+                residentAI.EndNewDayProcessing();
                 dayStartFrame = -1;
                 return;
             }

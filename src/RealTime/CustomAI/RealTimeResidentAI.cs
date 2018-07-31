@@ -57,6 +57,9 @@ namespace RealTime.CustomAI
             residentSchedules = new CitizenSchedule[CitizenMgr.GetMaxCitizensCount()];
         }
 
+        /// <summary>Gets a value indicating whether the citizens can grow up in the current game time.</summary>
+        public bool CanCitizensGrowUp { get; private set; }
+
         /// <summary>The entry method of the custom AI.</summary>
         /// <param name="instance">A reference to an object instance of the original AI.</param>
         /// <param name="citizenId">The ID of the citizen to process.</param>
@@ -134,11 +137,20 @@ namespace RealTime.CustomAI
             schedule.DepartureToWorkTime = default;
         }
 
-        /// <summary>Performs simulation for starting a new day for all citizens.</summary>
-        public void BeginNewDay()
+        /// <summary>Performs simulation for starting a new day. Enables the logic to perform the 'new day processing' for the citizens.</summary>
+        public void BeginNewDayProcessing()
         {
+            Log.Debug(TimeInfo.Now, "Starting of the 'new day' processing for each citizen...");
             workBehavior.BeginNewDay();
             todayWakeUp = TimeInfo.Now.Date.AddHours(Config.WakeUpHour);
+            CanCitizensGrowUp = true;
+        }
+
+        /// <summary>Disables the 'new day processing' for the citizens.</summary>
+        public void EndNewDayProcessing()
+        {
+            CanCitizensGrowUp = false;
+            Log.Debug(TimeInfo.Now, "The 'new day' processing for the citizens is now completed.");
         }
 
         /// <summary>Performs simulation for starting a new day for a citizen with specified ID.</summary>

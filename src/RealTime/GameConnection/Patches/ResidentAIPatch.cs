@@ -24,6 +24,9 @@ namespace RealTime.GameConnection.Patches
         /// <summary>Gets the patch object for the arrive at target method.</summary>
         public static IPatch ArriveAtTarget { get; } = new HumanAI_ArriveAtTarget();
 
+        /// <summary>Gets the patch object for the update age method.</summary>
+        public static IPatch UpdateAge { get; } = new ResidentAI_UpdateAge();
+
         /// <summary>Creates a game connection object for the resident AI class.</summary>
         /// <returns>A new <see cref="ResidentAIConnection{ResidentAI, Citizen}"/> object.</returns>
         public static ResidentAIConnection<ResidentAI, Citizen> GetResidentAIConnection()
@@ -115,6 +118,32 @@ namespace RealTime.GameConnection.Patches
                 {
                     RealTimeAI?.RegisterCitizenArrival(citizenData.m_citizen);
                 }
+            }
+#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
+        }
+
+        private sealed class ResidentAI_UpdateAge : PatchBase
+        {
+            protected override MethodInfo GetMethod()
+            {
+                return typeof(ResidentAI).GetMethod(
+                    "UpdateAge",
+                    BindingFlags.Instance | BindingFlags.NonPublic,
+                    null,
+                    new[] { typeof(uint), typeof(Citizen).MakeByRefType() },
+                    new ParameterModifier[0]);
+            }
+
+#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            private static bool Prefix(uint citizenID, ref Citizen data, ref bool __result)
+            {
+                if (RealTimeAI != null && !RealTimeAI.CanCitizensGrowUp)
+                {
+                    __result = false;
+                    return false;
+                }
+
+                return true;
             }
 #pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
