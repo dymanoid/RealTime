@@ -43,7 +43,7 @@ namespace RealTime.Localization
 
         /// <summary>Translates a value that has the specified ID.</summary>
         /// <param name="id">The value ID.</param>
-        /// <returns>The translated string value or the <see cref="NoLocale"/> placeholder text on failure.</returns>
+        /// <returns>The translated string value or an empty string when no translation is found.</returns>
         public string Translate(string id)
         {
             return translation.TryGetValue(id, out string value)

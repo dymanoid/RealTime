@@ -17,7 +17,7 @@ namespace RealTime.Localization
 
         /// <summary>Translates a value that has the specified ID.</summary>
         /// <param name="id">The value ID.</param>
-        /// <returns>The translated string value or the <see cref="Constants.NoLocale"/> placeholder text on failure.</returns>
+        /// <returns>The translated string value or an empty string when no translation is found.</returns>
         string Translate(string id);
 
         /// <summary>Gets a dictionary representing the game's translations that should be overridden
