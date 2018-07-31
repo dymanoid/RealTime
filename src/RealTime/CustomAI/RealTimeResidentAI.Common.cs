@@ -23,39 +23,40 @@ namespace RealTime.CustomAI
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
             Citizen.Location currentLocation = CitizenProxy.GetLocation(ref citizen);
-
-            if (currentBuilding == 0 || (currentLocation == Citizen.Location.Moving && CitizenProxy.GetVehicle(ref citizen) == 0))
+            switch (currentLocation)
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is released");
-                residentSchedules[citizenId] = default;
-                CitizenMgr.ReleaseCitizen(citizenId);
-                return;
-            }
+                case Citizen.Location.Home when currentBuilding != 0:
+                    CitizenProxy.SetWorkplace(ref citizen, citizenId, 0);
+                    CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
+                    break;
 
-            if (currentLocation != Citizen.Location.Home && CitizenProxy.GetHomeBuilding(ref citizen) != 0)
-            {
-                CitizenProxy.SetHome(ref citizen, citizenId, 0);
-            }
+                case Citizen.Location.Work when currentBuilding != 0:
+                    CitizenProxy.SetHome(ref citizen, citizenId, 0);
+                    CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
+                    break;
 
-            if (currentLocation != Citizen.Location.Work && CitizenProxy.GetWorkBuilding(ref citizen) != 0)
-            {
-                CitizenProxy.SetWorkplace(ref citizen, citizenId, 0);
-            }
+                case Citizen.Location.Visit when currentBuilding != 0:
+                    CitizenProxy.SetHome(ref citizen, citizenId, 0);
+                    CitizenProxy.SetWorkplace(ref citizen, citizenId, 0);
 
-            if (currentLocation != Citizen.Location.Visit && CitizenProxy.GetVisitBuilding(ref citizen) != 0)
-            {
-                CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
-            }
+                    if (BuildingMgr.GetBuildingService(CitizenProxy.GetVisitBuilding(ref citizen)) == ItemClass.Service.HealthCare)
+                    {
+                        return;
+                    }
 
-            if (currentLocation == Citizen.Location.Moving || CitizenProxy.GetVehicle(ref citizen) != 0)
-            {
-                return;
-            }
+                    break;
 
-            if (currentLocation == Citizen.Location.Visit
-                && BuildingMgr.GetBuildingService(CitizenProxy.GetVisitBuilding(ref citizen)) == ItemClass.Service.HealthCare)
-            {
-                return;
+                case Citizen.Location.Moving when CitizenProxy.GetVehicle(ref citizen) != 0:
+                    CitizenProxy.SetHome(ref citizen, citizenId, 0);
+                    CitizenProxy.SetWorkplace(ref citizen, citizenId, 0);
+                    CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
+                    return;
+
+                default:
+                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is released because of death");
+                    residentSchedules[citizenId] = default;
+                    CitizenMgr.ReleaseCitizen(citizenId);
+                    return;
             }
 
             residentAI.FindHospital(instance, citizenId, currentBuilding, TransferManager.TransferReason.Dead);
