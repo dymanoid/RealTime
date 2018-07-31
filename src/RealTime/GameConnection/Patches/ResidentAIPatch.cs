@@ -21,8 +21,8 @@ namespace RealTime.GameConnection.Patches
         /// <summary>Gets the patch object for the location method.</summary>
         public static IPatch Location { get; } = new ResidentAI_UpdateLocation();
 
-        /// <summary>Gets the patch object for the arrive at destination method.</summary>
-        public static IPatch ArriveAtDestination { get; } = new HumanAI_ArriveAtDestination();
+        /// <summary>Gets the patch object for the arrive at target method.</summary>
+        public static IPatch ArriveAtTarget { get; } = new HumanAI_ArriveAtTarget();
 
         /// <summary>Creates a game connection object for the resident AI class.</summary>
         /// <returns>A new <see cref="ResidentAIConnection{ResidentAI, Citizen}"/> object.</returns>
@@ -96,7 +96,7 @@ namespace RealTime.GameConnection.Patches
 #pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
 
-        private sealed class HumanAI_ArriveAtDestination : PatchBase
+        private sealed class HumanAI_ArriveAtTarget : PatchBase
         {
             protected override MethodInfo GetMethod()
             {

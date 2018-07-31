@@ -78,7 +78,7 @@ namespace RealTime.Core
                 BuildingAIPatches.PrivateShowConsumption,
                 BuildingAIPatches.PlayerShowConsumption,
                 ResidentAIPatch.Location,
-                ResidentAIPatch.ArriveAtDestination,
+                ResidentAIPatch.ArriveAtTarget,
                 TouristAIPatch.Location,
                 TransferManagerPatch.AddOutgoingOffer,
                 UIGraphPatches.MinDataPoints,

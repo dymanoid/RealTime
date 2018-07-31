@@ -10,7 +10,7 @@ namespace RealTime.CustomAI
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
-        private DateTime todayWakeup;
+        private DateTime todayWakeUp;
 
         private enum ScheduleAction
         {
@@ -275,7 +275,7 @@ namespace RealTime.CustomAI
                 schedule.WorkStatus = WorkStatus.None;
             }
 
-            DateTime nextActivityTime = todayWakeup;
+            DateTime nextActivityTime = todayWakeUp;
             if (schedule.CurrentState != ResidentState.AtSchoolOrWork && workBuilding != 0)
             {
                 if (ScheduleWork(ref schedule, ref citizen))
@@ -307,7 +307,7 @@ namespace RealTime.CustomAI
                 {
                     if (nextActivityTime < TimeInfo.Now)
                     {
-                        nextActivityTime = todayWakeup.FutureHour(Config.WakeUpHour);
+                        nextActivityTime = todayWakeUp.FutureHour(Config.WakeUpHour);
                     }
                 }
                 else

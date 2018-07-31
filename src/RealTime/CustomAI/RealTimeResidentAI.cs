@@ -138,7 +138,7 @@ namespace RealTime.CustomAI
         public void BeginNewDay()
         {
             workBehavior.BeginNewDay();
-            todayWakeup = TimeInfo.Now.Date.AddHours(Config.WakeUpHour);
+            todayWakeUp = TimeInfo.Now.Date.AddHours(Config.WakeUpHour);
         }
 
         /// <summary>Performs simulation for starting a new day for a citizen with specified ID.</summary>

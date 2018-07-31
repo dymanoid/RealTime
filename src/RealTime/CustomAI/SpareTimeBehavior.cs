@@ -166,8 +166,8 @@ namespace RealTime.CustomAI
             uint oldChance = secondShiftChances[(int)Citizen.AgeGroup.Adult];
 #endif
 
-            float wakeupHour = config.WakeUpHour - config.GoToSleepHour + 24f;
-            if (isWeekend || currentHour < config.WakeUpHour || currentHour >= wakeupHour)
+            float wakeUpHour = config.WakeUpHour - config.GoToSleepHour + 24f;
+            if (isWeekend || currentHour < config.WakeUpHour || currentHour >= wakeUpHour)
             {
                 secondShiftChances[(int)Citizen.AgeGroup.Young] = defaultChances[(int)Citizen.AgeGroup.Young];
                 secondShiftChances[(int)Citizen.AgeGroup.Adult] = defaultChances[(int)Citizen.AgeGroup.Adult];
@@ -192,8 +192,8 @@ namespace RealTime.CustomAI
             uint oldChance = nightShiftChances[(int)Citizen.AgeGroup.Adult];
 #endif
 
-            float wakeupHour = config.WorkBegin + (config.WakeUpHour - config.GoToSleepHour + 24f);
-            if (isWeekend || currentHour < config.WakeUpHour || currentHour >= wakeupHour)
+            float wakeUpHour = config.WorkBegin + (config.WakeUpHour - config.GoToSleepHour + 24f);
+            if (isWeekend || currentHour < config.WakeUpHour || currentHour >= wakeUpHour)
             {
                 nightShiftChances[(int)Citizen.AgeGroup.Young] = defaultChances[(int)Citizen.AgeGroup.Young];
                 nightShiftChances[(int)Citizen.AgeGroup.Adult] = defaultChances[(int)Citizen.AgeGroup.Adult];
