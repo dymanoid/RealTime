@@ -7,6 +7,7 @@
   <translation id="Minutes" value="min." />
   
   <translation id="Tools" value="도구" />
+  <translation id="ShowIncompatibilityNotifications" value="Show mod incompatibility notifications" />
   <translation id="ResetToDefaults" value="모두 초기값으로 되돌리기" />
   <translation id="UseForNewGames" value="Use current values for new games" />
 

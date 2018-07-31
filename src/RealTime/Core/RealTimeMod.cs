@@ -149,7 +149,7 @@ namespace RealTime.Core
                     localizationProvider.Translate(TranslationKeys.Warning),
                     localizationProvider.Translate(TranslationKeys.ModNotWorkingMessage));
             }
-            else
+            else if (configProvider.Configuration.ShowIncompatibilityNotifications)
             {
                 Compatibility.CheckAndNotify(Name, localizationProvider);
             }

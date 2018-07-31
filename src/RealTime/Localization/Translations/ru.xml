@@ -7,6 +7,7 @@
   <translation id="Minutes" value="мин." />
 
   <translation id="Tools" value="Утилиты" />
+  <translation id="ShowIncompatibilityNotifications" value="Показывать сообщения о несовместимости с другими модами" />
   <translation id="ResetToDefaults" value="Вернуть опции по умолчанию" />
   <translation id="UseForNewGames" value="Использовать текущие настройки для новых игр" />
 

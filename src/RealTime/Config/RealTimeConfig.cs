@@ -261,6 +261,13 @@ namespace RealTime.Config
         [ConfigItemSlider(11, 16, 0.25f, SliderValueType.Time)]
         public float SchoolEnd { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the mod should show the incompatibility notifications.
+        /// </summary>
+        [ConfigItem("Tools", 0)]
+        [ConfigItemCheckBox]
+        public bool ShowIncompatibilityNotifications { get; set; }
+
         /// <summary>Checks the version of the deserialized object and migrates it to the latest version when necessary.</summary>
         /// <returns>This instance.</returns>
         public RealTimeConfig MigrateWhenNecessary()
@@ -372,6 +379,8 @@ namespace RealTime.Config
             MaxOvertime = 2f;
             SchoolBegin = 8f;
             SchoolEnd = 14f;
+
+            ShowIncompatibilityNotifications = true;
         }
     }
 }
