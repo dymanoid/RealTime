@@ -30,7 +30,7 @@ namespace RealTime.CustomAI
                 return true;
             }
 
-            schedule.Schedule(ResidentState.Relaxing, default);
+            schedule.Schedule(ResidentState.Relaxing);
             schedule.Hint = TimeInfo.IsNightTime
                 ? ScheduleHint.RelaxAtLeisureBuilding
                 : ScheduleHint.None;
@@ -44,7 +44,7 @@ namespace RealTime.CustomAI
             switch (schedule.Hint)
             {
                 case ScheduleHint.RelaxAtLeisureBuilding:
-                    schedule.Schedule(ResidentState.Unknown, default);
+                    schedule.Schedule(ResidentState.Unknown);
 
                     ushort leisure = MoveToLeisureBuilding(instance, citizenId, ref citizen, buildingId);
                     if (leisure == 0)
@@ -81,7 +81,7 @@ namespace RealTime.CustomAI
                     ? ResidentState.Relaxing
                     : ResidentState.Unknown;
 
-            schedule.Schedule(nextState, default);
+            schedule.Schedule(nextState);
 
             if (schedule.CurrentState != ResidentState.Relaxing)
             {
@@ -131,7 +131,7 @@ namespace RealTime.CustomAI
                 schedule.Hint = ScheduleHint.LocalShoppingOnly;
             }
 
-            schedule.Schedule(ResidentState.Shopping, default);
+            schedule.Schedule(ResidentState.Shopping);
             return true;
         }
 
@@ -141,7 +141,7 @@ namespace RealTime.CustomAI
 
             if (schedule.Hint == ScheduleHint.LocalShoppingOnly)
             {
-                schedule.Schedule(ResidentState.Unknown, default);
+                schedule.Schedule(ResidentState.Unknown);
 
                 ushort shop = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance);
                 if (shop == 0)
@@ -192,7 +192,7 @@ namespace RealTime.CustomAI
             if (schedule.Hint == ScheduleHint.OnTour)
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a tour");
-                schedule.Schedule(ResidentState.Unknown, default);
+                schedule.Schedule(ResidentState.Unknown);
                 return true;
             }
 
@@ -215,14 +215,14 @@ namespace RealTime.CustomAI
             if (schedule.CurrentState != ResidentState.Shopping && IsBadWeather())
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a visit because of bad weather");
-                schedule.Schedule(ResidentState.AtHome, default);
+                schedule.Schedule(ResidentState.AtHome);
                 return true;
             }
 
             if (buildingAI.IsNoiseRestricted(currentBuilding, currentBuilding))
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a visit because of NIMBY policy");
-                schedule.Schedule(ResidentState.Unknown, default);
+                schedule.Schedule(ResidentState.Unknown);
                 return true;
             }
 
@@ -234,7 +234,7 @@ namespace RealTime.CustomAI
             if (!Random.ShouldOccur(stayChance))
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a visit because of time");
-                schedule.Schedule(ResidentState.AtHome, default);
+                schedule.Schedule(ResidentState.AtHome);
                 return true;
             }
 

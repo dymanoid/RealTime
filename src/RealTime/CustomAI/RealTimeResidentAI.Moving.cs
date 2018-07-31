@@ -30,7 +30,7 @@ namespace RealTime.CustomAI
                 {
                     CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
                     CitizenProxy.SetArrested(ref citizen, false);
-                    schedule.Schedule(ResidentState.Unknown, default);
+                    schedule.Schedule(ResidentState.Unknown);
                 }
 
                 return true;
@@ -39,7 +39,7 @@ namespace RealTime.CustomAI
             if (vehicleId == 0 && CitizenMgr.IsAreaEvacuating(instanceId) && !CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating))
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} was on the way, but the area evacuates. Finding an evacuation place.");
-                schedule.Schedule(ResidentState.Unknown, default);
+                schedule.Schedule(ResidentState.Unknown);
                 TransferMgr.AddOutgoingOfferFromCurrentPosition(citizenId, residentAI.GetEvacuationReason(instance, 0));
                 return true;
             }
@@ -54,7 +54,7 @@ namespace RealTime.CustomAI
             if (targetService == ItemClass.Service.Beautification && IsBadWeather())
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} cancels the trip to a park due to bad weather");
-                schedule.Schedule(ResidentState.AtHome, default);
+                schedule.Schedule(ResidentState.AtHome);
                 return false;
             }
 

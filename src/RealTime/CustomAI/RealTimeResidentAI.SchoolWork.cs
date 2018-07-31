@@ -32,7 +32,7 @@ namespace RealTime.CustomAI
                 if (schedule.CurrentState != ResidentState.AtHome)
                 {
                     Log.Debug($"  - Work time in {timeLeft} hours, returning home");
-                    schedule.Schedule(ResidentState.AtHome, default);
+                    schedule.Schedule(ResidentState.AtHome);
                     return true;
                 }
 
@@ -86,7 +86,7 @@ namespace RealTime.CustomAI
             else
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted to go to work from {currentBuilding} but can't, will try once again next time");
-                schedule.Schedule(ResidentState.Unknown, default);
+                schedule.Schedule(ResidentState.Unknown);
             }
         }
 

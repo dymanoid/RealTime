@@ -25,7 +25,7 @@ namespace RealTime.CustomAI
             if (residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, homeBuilding))
             {
                 CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
-                schedule.Schedule(ResidentState.Unknown, default);
+                schedule.Schedule(ResidentState.Unknown);
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} back home");
             }
             else
@@ -49,7 +49,7 @@ namespace RealTime.CustomAI
             if (schedule.ScheduledState != ResidentState.Shopping && IsBadWeather())
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} re-schedules an activity because of bad weather");
-                schedule.Schedule(ResidentState.Unknown, default);
+                schedule.Schedule(ResidentState.Unknown);
                 return true;
             }
 
@@ -64,7 +64,7 @@ namespace RealTime.CustomAI
             }
 
             Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} re-schedules an activity because of time");
-            schedule.Schedule(ResidentState.Unknown, default);
+            schedule.Schedule(ResidentState.Unknown);
             return true;
         }
     }

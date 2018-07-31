@@ -93,13 +93,22 @@ namespace RealTime.CustomAI
             WorksOnWeekends = worksOnWeekends;
         }
 
-        /// <summary>Schedules next actions for the citizen.</summary>
+        /// <summary>Schedules next actions for the citizen with a specified action time.</summary>
         /// <param name="nextState">The next scheduled citizen's state.</param>
         /// <param name="nextStateTime">The time when the scheduled state must change.</param>
         public void Schedule(ResidentState nextState, DateTime nextStateTime)
         {
             ScheduledState = nextState;
             ScheduledStateTime = nextStateTime;
+        }
+
+        /// <summary>Schedules next actions for the citizen with no action time (ASAP).</summary>
+        /// <param name="nextState">The next scheduled citizen's state.</param>
+        public void Schedule(ResidentState nextState)
+        {
+            // Note: not calling the overload to avoid additional method call - this method will be called frequently
+            ScheduledState = nextState;
+            ScheduledStateTime = default;
         }
 
         /// <summary>Writes this instance to the specified target buffer.</summary>

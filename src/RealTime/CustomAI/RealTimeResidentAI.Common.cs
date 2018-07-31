@@ -119,11 +119,11 @@ namespace RealTime.CustomAI
             ushort building = CitizenProxy.GetCurrentBuilding(ref citizen);
             if (building == 0)
             {
-                schedule.Schedule(ResidentState.AtHome, default);
+                schedule.Schedule(ResidentState.AtHome);
                 return;
             }
 
-            schedule.Schedule(ResidentState.InShelter, default);
+            schedule.Schedule(ResidentState.InShelter);
             if (schedule.CurrentState != ResidentState.InShelter)
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is trying to find an evacuation place");
@@ -136,7 +136,7 @@ namespace RealTime.CustomAI
             ushort shelter = CitizenProxy.GetVisitBuilding(ref citizen);
             if (BuildingMgr.BuildingHasFlags(shelter, Building.Flags.Downgrading))
             {
-                schedule.Schedule(ResidentState.Unknown, default);
+                schedule.Schedule(ResidentState.Unknown);
                 return true;
             }
 
@@ -185,7 +185,7 @@ namespace RealTime.CustomAI
                 && buildingService != ItemClass.Service.Disaster)
             {
                 schedule.CurrentState = ResidentState.Evacuation;
-                schedule.Schedule(ResidentState.InShelter, default);
+                schedule.Schedule(ResidentState.InShelter);
                 return ScheduleAction.ProcessState;
             }
 
@@ -257,7 +257,7 @@ namespace RealTime.CustomAI
                     && (schedule.ScheduledState == ResidentState.AtSchoolOrWork || schedule.WorkStatus == WorkStatus.Working))
                 {
                     // This is for the case when the citizen becomes unemployed while at work
-                    schedule.Schedule(ResidentState.Unknown, default);
+                    schedule.Schedule(ResidentState.Unknown);
                 }
 
                 Log.Debug($"Updated work shifts for citizen {citizenId}: work shift {schedule.WorkShift}, {schedule.WorkShiftStartHour} - {schedule.WorkShiftEndHour}, weekends: {schedule.WorksOnWeekends}");
@@ -330,7 +330,7 @@ namespace RealTime.CustomAI
             else
             {
                 Log.Debug($"  - Schedule moving home");
-                schedule.Schedule(ResidentState.AtHome, default);
+                schedule.Schedule(ResidentState.AtHome);
             }
 
             return true;
@@ -356,7 +356,7 @@ namespace RealTime.CustomAI
             if (schedule.CurrentState == ResidentState.AtHome && IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen))
             {
                 Log.Debug($" *** Citizen {citizenId} is virtual this time");
-                schedule.Schedule(ResidentState.Unknown, default);
+                schedule.Schedule(ResidentState.Unknown);
                 return;
             }
 

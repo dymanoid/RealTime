@@ -76,14 +76,14 @@ namespace RealTime.CustomAI
             if (CitizenProxy.IsDead(ref citizen))
             {
                 ProcessCitizenDead(instance, citizenId, ref citizen);
-                schedule.Schedule(ResidentState.Unknown, default);
+                schedule.Schedule(ResidentState.Unknown);
                 return;
             }
 
             if ((CitizenProxy.IsSick(ref citizen) && ProcessCitizenSick(instance, citizenId, ref citizen))
                 || (CitizenProxy.IsArrested(ref citizen) && ProcessCitizenArrested(ref citizen)))
             {
-                schedule.Schedule(ResidentState.Unknown, default);
+                schedule.Schedule(ResidentState.Unknown);
                 return;
             }
 
