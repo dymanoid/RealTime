@@ -100,21 +100,23 @@ namespace RealTime.GameConnection.Patches
         {
             protected override MethodInfo GetMethod()
             {
-                return typeof(HumanAI).GetMethod(
-                    "ArriveAtDestination",
+                return typeof(ResidentAI).GetMethod(
+                    "ArriveAtTarget",
                     BindingFlags.Instance | BindingFlags.NonPublic,
                     null,
-                    new[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(bool) },
+                    new[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType() },
                     new ParameterModifier[0]);
             }
 
-            private static void Postfix(ref CitizenInstance citizenData, bool success)
+#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            private static void Postfix(ref CitizenInstance citizenData, bool __result)
             {
-                if (success && citizenData.Info.m_citizenAI is ResidentAI)
+                if (__result)
                 {
                     RealTimeAI?.RegisterCitizenArrival(citizenData.m_citizen);
                 }
             }
+#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
     }
 }
