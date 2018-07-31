@@ -276,7 +276,9 @@ namespace RealTime.CustomAI
             }
 
             DateTime nextActivityTime = todayWakeUp;
-            if (schedule.CurrentState != ResidentState.AtSchoolOrWork && workBuilding != 0)
+            if (schedule.CurrentState != ResidentState.AtSchoolOrWork
+                && workBuilding != 0
+                && schedule.WorkStatus != WorkStatus.OnVacation)
             {
                 if (ScheduleWork(ref schedule, ref citizen))
                 {

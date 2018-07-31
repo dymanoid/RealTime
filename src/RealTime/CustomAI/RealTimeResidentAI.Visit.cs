@@ -14,7 +14,9 @@ namespace RealTime.CustomAI
         private bool ScheduleRelaxing(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
             Citizen.AgeGroup citizenAge = CitizenProxy.GetAge(ref citizen);
-            if (!Random.ShouldOccur(spareTimeBehavior.GetRelaxingChance(citizenAge, schedule.WorkShift)) || IsBadWeather())
+
+            uint relaxChance = spareTimeBehavior.GetRelaxingChance(citizenAge, schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
+            if (!Random.ShouldOccur(relaxChance) || IsBadWeather())
             {
                 return false;
             }
@@ -83,7 +85,11 @@ namespace RealTime.CustomAI
                     return returnTime != default;
             }
 
-            uint relaxChance = spareTimeBehavior.GetRelaxingChance(CitizenProxy.GetAge(ref citizen), schedule.WorkShift);
+            uint relaxChance = spareTimeBehavior.GetRelaxingChance(
+                CitizenProxy.GetAge(ref citizen),
+                schedule.WorkShift,
+                schedule.WorkStatus == WorkStatus.OnVacation);
+
             ResidentState nextState = Random.ShouldOccur(relaxChance)
                     ? ResidentState.Relaxing
                     : ResidentState.Unknown;
@@ -257,7 +263,7 @@ namespace RealTime.CustomAI
             Citizen.AgeGroup age = CitizenProxy.GetAge(ref citizen);
             uint stayChance = schedule.CurrentState == ResidentState.Shopping
                 ? spareTimeBehavior.GetShoppingChance(age)
-                : spareTimeBehavior.GetRelaxingChance(age, schedule.WorkShift);
+                : spareTimeBehavior.GetRelaxingChance(age, schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
 
             if (!Random.ShouldOccur(stayChance))
             {

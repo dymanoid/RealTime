@@ -157,10 +157,9 @@ namespace RealTime.CustomAI
         /// <param name="citizenId">The citizen ID to process.</param>
         public void BeginNewDayForCitizen(uint citizenId)
         {
-            // TODO: use this method
-            if (citizenId == 0)
+            if (citizenId != 0)
             {
-                return;
+                ProcessVacation(citizenId);
             }
         }
 
