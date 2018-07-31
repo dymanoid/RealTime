@@ -19,6 +19,9 @@ namespace RealTime.Core
     /// </summary>
     internal static class Compatibility
     {
+        /// <summary>The Workshop ID of the 'CitizenLifecycleRebalance' mod.</summary>
+        public const ulong CitizenLifecycleRebalanceId = 654707599;
+
         private const string UIInfoPanel = "InfoPanel";
         private const string UIPanelTime = "PanelTime";
 
@@ -60,6 +63,16 @@ namespace RealTime.Core
             {
                 NotifyWithDialog(caption, text);
             }
+        }
+
+        /// <summary>
+        /// Determines whether a mod with specified Workshop ID is currently installed and enabled.
+        /// </summary>
+        /// <param name="modId">The mod ID to check.</param>
+        /// <returns><c>true</c> if a mod with specified Workshop ID is currently installed and enabled; otherwise, <c>false</c>.</returns>
+        public static bool IsModActive(ulong modId)
+        {
+            return PluginManager.instance.GetPluginsInfo().Any(m => m.isEnabled && m.publishedFileID.AsUInt64 == modId);
         }
 
         private static void NotifyWithDialog(string caption, string text)

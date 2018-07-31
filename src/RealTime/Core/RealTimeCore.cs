@@ -71,19 +71,8 @@ namespace RealTime.Core
                 throw new ArgumentNullException(nameof(localizationProvider));
             }
 
-            var patcher = new MethodPatcher(
-                BuildingAIPatches.GetConstructionTime,
-                BuildingAIPatches.HandleWorkers,
-                BuildingAIPatches.CommercialSimulation,
-                BuildingAIPatches.PrivateShowConsumption,
-                BuildingAIPatches.PlayerShowConsumption,
-                ResidentAIPatch.Location,
-                ResidentAIPatch.ArriveAtTarget,
-                TouristAIPatch.Location,
-                TransferManagerPatch.AddOutgoingOffer,
-                UIGraphPatches.MinDataPoints,
-                UIGraphPatches.VisibleEndTime,
-                UIGraphPatches.BuildLabels);
+            IEnumerable<IPatch> patches = GetMethodPatches();
+            var patcher = new MethodPatcher(patches);
 
             try
             {
@@ -240,6 +229,36 @@ namespace RealTime.Core
 
             timeBar.Translate(localizationProvider.CurrentCulture);
             UIGraphPatches.Translate(localizationProvider.CurrentCulture);
+        }
+
+        private static IEnumerable<IPatch> GetMethodPatches()
+        {
+            var patches = new List<IPatch>
+            {
+                BuildingAIPatches.GetConstructionTime,
+                BuildingAIPatches.HandleWorkers,
+                BuildingAIPatches.CommercialSimulation,
+                BuildingAIPatches.PrivateShowConsumption,
+                BuildingAIPatches.PlayerShowConsumption,
+                ResidentAIPatch.Location,
+                ResidentAIPatch.ArriveAtTarget,
+                TouristAIPatch.Location,
+                TransferManagerPatch.AddOutgoingOffer,
+                UIGraphPatches.MinDataPoints,
+                UIGraphPatches.VisibleEndTime,
+                UIGraphPatches.BuildLabels
+            };
+
+            if (Compatibility.IsModActive(Compatibility.CitizenLifecycleRebalanceId))
+            {
+                Log.Info("The 'Real Time' mod will not change the citizens aging because the 'Citizen Lifecycle Rebalance' mod is active.");
+            }
+            else
+            {
+                patches.Add(ResidentAIPatch.UpdateAge);
+            }
+
+            return patches;
         }
 
         private static bool SetupCustomAI(
