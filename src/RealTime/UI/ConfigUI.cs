@@ -59,8 +59,12 @@ namespace RealTime.UI
 
             var result = new ConfigUI(configProvider, viewItems);
 
-            IContainerViewItem toolsTab = itemFactory.CreateTabItem(ToolsId);
-            viewItems.Add(toolsTab);
+            IContainerViewItem toolsTab = viewItems.OfType<IContainerViewItem>().FirstOrDefault(i => i.Id == ToolsId);
+            if (toolsTab == null)
+            {
+                toolsTab = itemFactory.CreateTabItem(ToolsId);
+                viewItems.Add(toolsTab);
+            }
 
             IViewItem resetButton = itemFactory.CreateButton(toolsTab, ResetToDefaultsId, result.ResetToDefaults);
             viewItems.Add(resetButton);
