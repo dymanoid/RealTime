@@ -6,9 +6,14 @@ namespace RealTime.Simulation
     internal interface IRandomizer
     {
         /// <summary>Returns a value indicating whether an event with specified probability should now occur.</summary>
-        /// <param name="probability">The probability of the event in percent. Valid values are 0..100..</param>
+        /// <param name="probability">The probability of the event in percent. Valid values are 0..100.</param>
         /// <returns><c>true</c> if the event should occur; otherwise, <c>false</c>.</returns>
         bool ShouldOccur(uint probability);
+
+        /// <summary>Returns a value indicating whether an event with specified precise probability should now occur.</summary>
+        /// <param name="preciseProbability">The probability of the event in percent multiplied by 100. Valid values are 0..10.000.</param>
+        /// <returns><c>true</c> if the event should occur; otherwise, <c>false</c>.</returns>
+        bool ShouldOccurPrecise(uint preciseProbability);
 
         /// <summary>Gets a random value that fits in a range from 0 to <paramref name="max"/> (inclusive).</summary>
         /// <param name="max">A value that specifies the upper bound of the returned values.</param>
