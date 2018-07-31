@@ -26,6 +26,9 @@ namespace RealTime.CustomAI
         /// <summary>The citizen's work status.</summary>
         public WorkStatus WorkStatus;
 
+        /// <summary>The number of days the citizen will be on vacation (including the current day).</summary>
+        public byte VacationDaysLeft;
+
         /// <summary>The ID of the citizen's work building. If it doesn't equal the game's value, the work shift data needs to be updated.</summary>
         public ushort WorkBuilding;
 
@@ -122,7 +125,7 @@ namespace RealTime.CustomAI
         public void Write(byte[] target, long referenceTime)
         {
             target[0] = (byte)(((int)WorkShift & 0xF) + ((int)WorkStatus << 4));
-            target[1] = (byte)ScheduledState;
+            target[1] = (byte)(((int)ScheduledState & 0xF) + (VacationDaysLeft << 4));
 
             ushort minutes = ScheduledStateTime == default
                 ? (ushort)0
@@ -143,7 +146,8 @@ namespace RealTime.CustomAI
         {
             WorkShift = (WorkShift)(source[0] & 0xF);
             WorkStatus = (WorkStatus)(source[0] >> 4);
-            ScheduledState = (ResidentState)source[1];
+            ScheduledState = (ResidentState)(source[1] & 0xF);
+            VacationDaysLeft = (byte)(source[1] >> 4);
 
             int minutes = source[2] + (source[3] << 8);
             ScheduledStateTime = minutes == 0

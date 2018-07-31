@@ -13,7 +13,7 @@ namespace RealTime.CustomAI
     /// A helper class that enables loading and saving of the custom citizen schedules.
     /// This class accesses the <see cref="CitizenManager"/> directly for better performance.
     /// </summary>
-    /// <seealso cref="RealTime.Core.IStorageData" />
+    /// <seealso cref="IStorageData" />
     internal sealed class CitizenScheduleStorage : IStorageData
     {
         private const string StorageDataId = "RealTimeCitizenSchedule";
