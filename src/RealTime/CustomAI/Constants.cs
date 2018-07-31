@@ -20,6 +20,9 @@ namespace RealTime.CustomAI
         /// <summary>A chance in percent for a citizen to stay home until next scheduled action.</summary>
         public const uint StayHomeAllDayChance = 2;
 
+        /// <summary>A chance in percent for a citizen to fin dome other facility if they continue shopping/relaxing.</summary>
+        public const uint FindAnotherShopOrEntertainmentChance = 50u;
+
         /// <summary>A chance in percent for a citizen to go shopping in the night.</summary>
         public const uint NightShoppingChance = 20u;
 

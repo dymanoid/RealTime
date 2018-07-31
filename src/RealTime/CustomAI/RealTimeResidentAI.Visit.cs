@@ -89,12 +89,18 @@ namespace RealTime.CustomAI
                     : ResidentState.Unknown;
 
             schedule.Schedule(nextState);
-
-            if (schedule.CurrentState != ResidentState.Relaxing)
+            if (schedule.CurrentState != ResidentState.Relaxing || Random.ShouldOccur(FindAnotherShopOrEntertainmentChance))
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna relax and then schedules {nextState}, heading to an entertainment building.");
                 residentAI.FindVisitPlace(instance, citizenId, buildingId, residentAI.GetEntertainmentReason(instance));
             }
+#if DEBUG
+            else
+            {
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} continues relaxing in the same entertainment building.");
+            }
+#endif
+
             return true;
         }
 
@@ -174,21 +180,26 @@ namespace RealTime.CustomAI
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} goes shopping at a local shop {shop}");
                 return true;
             }
+
+            uint moreShoppingChance = spareTimeBehavior.GetShoppingChance(CitizenProxy.GetAge(ref citizen));
+            ResidentState nextState = schedule.Hint != ScheduleHint.NoShoppingAnyMore && Random.ShouldOccur(moreShoppingChance)
+                ? ResidentState.Shopping
+                : ResidentState.Unknown;
+
+            schedule.Schedule(nextState);
+
+            if (schedule.CurrentState != ResidentState.Shopping || Random.ShouldOccur(FindAnotherShopOrEntertainmentChance))
+            {
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna go shopping and schedules {nextState}, heading to a random shop, hint = {schedule.Hint}");
+                residentAI.FindVisitPlace(instance, citizenId, currentBuilding, residentAI.GetShoppingReason(instance));
+            }
+#if DEBUG
             else
             {
-                uint moreShoppingChance = spareTimeBehavior.GetShoppingChance(CitizenProxy.GetAge(ref citizen));
-                ResidentState nextState = schedule.Hint != ScheduleHint.NoShoppingAnyMore && Random.ShouldOccur(moreShoppingChance)
-                    ? ResidentState.Shopping
-                    : ResidentState.Unknown;
-
-                schedule.Schedule(nextState, default);
-
-                if (schedule.CurrentState != ResidentState.Shopping)
-                {
-                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna go shopping and schedules {nextState}, heading to a random shop, hint = {schedule.Hint}");
-                    residentAI.FindVisitPlace(instance, citizenId, currentBuilding, residentAI.GetShoppingReason(instance));
-                }
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} continues shopping in the same building.");
             }
+#endif
+
             return true;
         }
 
