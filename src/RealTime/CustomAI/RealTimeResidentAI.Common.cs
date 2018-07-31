@@ -360,31 +360,45 @@ namespace RealTime.CustomAI
                 return;
             }
 
+            bool executed;
             switch (schedule.ScheduledState)
             {
                 case ResidentState.AtHome:
                     DoScheduledHome(ref schedule, instance, citizenId, ref citizen);
+                    executed = true;
                     break;
 
                 case ResidentState.AtSchoolOrWork:
                     DoScheduledWork(ref schedule, instance, citizenId, ref citizen);
+                    executed = true;
                     break;
 
                 case ResidentState.Shopping when schedule.WorkStatus == WorkStatus.Working:
                     DoScheduledLunch(ref schedule, instance, citizenId, ref citizen);
+                    executed = true;
                     break;
 
                 case ResidentState.Shopping:
-                    DoScheduledShopping(ref schedule, instance, citizenId, ref citizen);
+                    executed = DoScheduledShopping(ref schedule, instance, citizenId, ref citizen);
                     break;
 
                 case ResidentState.Relaxing:
-                    DoScheduledRelaxing(ref schedule, instance, citizenId, ref citizen);
+                    executed = DoScheduledRelaxing(ref schedule, instance, citizenId, ref citizen);
                     break;
 
                 case ResidentState.InShelter:
                     DoScheduledEvacuation(ref schedule, instance, citizenId, ref citizen);
+                    executed = true;
                     break;
+
+                default:
+                    return;
+            }
+
+            if (!executed && schedule.CurrentState == ResidentState.AtSchoolOrWork)
+            {
+                schedule.Schedule(ResidentState.Unknown);
+                DoScheduledHome(ref schedule, instance, citizenId, ref citizen);
             }
         }
 

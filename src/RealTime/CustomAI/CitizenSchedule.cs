@@ -37,6 +37,9 @@ namespace RealTime.CustomAI
         /// <summary>Gets the citizen's next scheduled state.</summary>
         public ResidentState ScheduledState { get; private set; }
 
+        /// <summary>Gets the citizen's previous scheduled state.</summary>
+        public ResidentState LastScheduledState { get; private set; }
+
         /// <summary>Gets the time when the citizen will perform the next state change.</summary>
         public DateTime ScheduledStateTime { get; private set; }
 
@@ -98,6 +101,7 @@ namespace RealTime.CustomAI
         /// <param name="nextStateTime">The time when the scheduled state must change.</param>
         public void Schedule(ResidentState nextState, DateTime nextStateTime)
         {
+            LastScheduledState = ScheduledState;
             ScheduledState = nextState;
             ScheduledStateTime = nextStateTime;
         }
@@ -107,6 +111,7 @@ namespace RealTime.CustomAI
         public void Schedule(ResidentState nextState)
         {
             // Note: not calling the overload to avoid additional method call - this method will be called frequently
+            LastScheduledState = ScheduledState;
             ScheduledState = nextState;
             ScheduledStateTime = default;
         }

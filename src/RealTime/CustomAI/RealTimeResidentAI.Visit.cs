@@ -38,8 +38,17 @@ namespace RealTime.CustomAI
             return true;
         }
 
-        private void DoScheduledRelaxing(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
+        private bool DoScheduledRelaxing(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
         {
+            // Relaxing was already scheduled last time, but the citizen is still at school/work.
+            // This can occur when the game's transfer manager can't find any activity for the citizen.
+            // In that case, move back home.
+            if (schedule.CurrentState == ResidentState.AtSchoolOrWork && schedule.LastScheduledState == ResidentState.Relaxing)
+            {
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted relax but is still at work. No relaxing activity found. Now going home.");
+                return false;
+            }
+
             ushort buildingId = CitizenProxy.GetCurrentBuilding(ref citizen);
             switch (schedule.Hint)
             {
@@ -50,17 +59,17 @@ namespace RealTime.CustomAI
                     if (leisure == 0)
                     {
                         Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted relax but didn't find a leisure building");
-                    }
-                    else
-                    {
-                        Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} heading to a leisure building {leisure}");
+                        return false;
                     }
 
-                    return;
+                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} heading to a leisure building {leisure}");
+                    return true;
 
                 case ScheduleHint.AttendingEvent:
                     DateTime returnTime = default;
                     ICityEvent cityEvent = EventMgr.GetCityEvent(schedule.EventBuilding);
+                    schedule.EventBuilding = 0;
+
                     if (cityEvent == null)
                     {
                         Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted attend an event at '{schedule.EventBuilding}', but there was no event there");
@@ -71,9 +80,7 @@ namespace RealTime.CustomAI
                         Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanna attend an event at '{schedule.EventBuilding}', will return at {returnTime}");
                     }
 
-                    schedule.Schedule(ResidentState.Unknown, returnTime);
-                    schedule.EventBuilding = 0;
-                    return;
+                    return returnTime != default;
             }
 
             uint relaxChance = spareTimeBehavior.GetRelaxingChance(CitizenProxy.GetAge(ref citizen), schedule.WorkShift);
@@ -88,6 +95,7 @@ namespace RealTime.CustomAI
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna relax and then schedules {nextState}, heading to an entertainment building.");
                 residentAI.FindVisitPlace(instance, citizenId, buildingId, residentAI.GetEntertainmentReason(instance));
             }
+            return true;
         }
 
         private bool ProcessCitizenRelaxing(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
@@ -105,7 +113,7 @@ namespace RealTime.CustomAI
 
         private bool ScheduleShopping(ref CitizenSchedule schedule, ref TCitizen citizen, bool localOnly)
         {
-            // If the citizen doesn't need any good, he/she still can go shopping just for fun
+            // If the citizen doesn't need any goods, he/she still can go shopping just for fun
             if (!CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods))
             {
                 if (schedule.Hint == ScheduleHint.NoShoppingAnyMore || IsBadWeather() || !Random.ShouldOccur(Config.ShoppingForFunQuota))
@@ -135,10 +143,18 @@ namespace RealTime.CustomAI
             return true;
         }
 
-        private void DoScheduledShopping(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
+        private bool DoScheduledShopping(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
+            // Shopping was already scheduled last time, but the citizen is still at school/work.
+            // This can occur when the game's transfer manager can't find any activity for the citizen.
+            // In that case, move back home.
+            if (schedule.CurrentState == ResidentState.AtSchoolOrWork && schedule.LastScheduledState == ResidentState.Shopping)
+            {
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go shopping but is still at work. No shopping activity found. Now going home.");
+                return false;
+            }
 
+            ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
             if (schedule.Hint == ScheduleHint.LocalShoppingOnly)
             {
                 schedule.Schedule(ResidentState.Unknown);
@@ -147,16 +163,16 @@ namespace RealTime.CustomAI
                 if (shop == 0)
                 {
                     Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go shopping, but didn't find a local shop");
+                    return false;
                 }
-                else
-                {
-                    if (TimeInfo.IsNightTime)
-                    {
-                        schedule.Hint = ScheduleHint.NoShoppingAnyMore;
-                    }
 
-                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} goes shopping at a local shop {shop}");
+                if (TimeInfo.IsNightTime)
+                {
+                    schedule.Hint = ScheduleHint.NoShoppingAnyMore;
                 }
+
+                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} goes shopping at a local shop {shop}");
+                return true;
             }
             else
             {
@@ -173,6 +189,7 @@ namespace RealTime.CustomAI
                     residentAI.FindVisitPlace(instance, citizenId, currentBuilding, residentAI.GetShoppingReason(instance));
                 }
             }
+            return true;
         }
 
         private bool ProcessCitizenShopping(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
