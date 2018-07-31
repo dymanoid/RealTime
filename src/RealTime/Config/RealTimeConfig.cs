@@ -72,7 +72,7 @@ namespace RealTime.Config
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "DayTime", Justification = "Reviewed")]
         [ConfigItem("1General", "0Time", 2)]
-        [ConfigItemSlider(1, 7, ValueType = SliderValueType.Default)]
+        [ConfigItemSlider(1, 6, ValueType = SliderValueType.Default)]
         public uint DayTimeSpeed { get; set; }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace RealTime.Config
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "NightTime", Justification = "Reviewed")]
         [ConfigItem("1General", "0Time", 3)]
-        [ConfigItemSlider(1, 7, ValueType = SliderValueType.Default)]
+        [ConfigItemSlider(1, 6, ValueType = SliderValueType.Default)]
         public uint NightTimeSpeed { get; set; }
 
         /// <summary>
@@ -297,8 +297,8 @@ namespace RealTime.Config
             WakeUpHour = RealTimeMath.Clamp(WakeUpHour, 4f, 8f);
             GoToSleepHour = RealTimeMath.Clamp(GoToSleepHour, 20f, 23.75f);
 
-            DayTimeSpeed = RealTimeMath.Clamp(DayTimeSpeed, 1u, 7u);
-            NightTimeSpeed = RealTimeMath.Clamp(NightTimeSpeed, 1u, 7u);
+            DayTimeSpeed = RealTimeMath.Clamp(DayTimeSpeed, 1u, 6u);
+            NightTimeSpeed = RealTimeMath.Clamp(NightTimeSpeed, 1u, 6u);
 
             VirtualCitizens = (VirtualCitizensLevel)RealTimeMath.Clamp((int)VirtualCitizens, (int)VirtualCitizensLevel.None, (int)VirtualCitizensLevel.Many);
             ConstructionSpeed = RealTimeMath.Clamp(ConstructionSpeed, 0u, 100u);
@@ -346,7 +346,7 @@ namespace RealTime.Config
             GoToSleepHour = 22f;
 
             IsDynamicDayLengthEnabled = true;
-            DayTimeSpeed = 5;
+            DayTimeSpeed = 4;
             NightTimeSpeed = 5;
 
             VirtualCitizens = VirtualCitizensLevel.Few;
