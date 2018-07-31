@@ -46,12 +46,9 @@ namespace RealTime.Localization
         /// <returns>The translated string value or the <see cref="NoLocale"/> placeholder text on failure.</returns>
         public string Translate(string id)
         {
-            if (translation.TryGetValue(id, out string value))
-            {
-                return value;
-            }
-
-            return NoLocale;
+            return translation.TryGetValue(id, out string value)
+                ? value
+                : string.Empty;
         }
 
         /// <summary>Loads the translation data for the specified language.</summary>
