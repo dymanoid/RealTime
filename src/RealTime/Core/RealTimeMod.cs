@@ -88,7 +88,7 @@ namespace RealTime.Core
         {
             if (string.IsNullOrEmpty(modPath))
             {
-                UIHelperBase group = helper.AddGroup(NoWorkshopMessage);
+                helper?.AddGroup(NoWorkshopMessage);
                 return;
             }
 
