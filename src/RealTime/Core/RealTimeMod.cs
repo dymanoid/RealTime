@@ -20,7 +20,7 @@ namespace RealTime.Core
     public sealed class RealTimeMod : LoadingExtensionBase, IUserMod
     {
         private const long WorkshopId = 1420955187;
-        private const string NoWorkshopMessage = "Real Time can only run when downloaded from Steam Workshop";
+        private const string NoWorkshopMessage = "Real Time can only run when subscribed to in Steam Workshop";
 
         private readonly string modVersion = GitVersion.GetAssemblyVersion(typeof(RealTimeMod).Assembly);
         private readonly string modPath = GetModPath();
