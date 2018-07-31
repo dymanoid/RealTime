@@ -54,10 +54,15 @@ namespace RealTime.UI
                 throw new ArgumentException("The view item ID cannot be an empty string", nameof(id));
             }
 
+            Id = id;
+
             TItem component = CreateItem(uiHelper, Value);
             component.name = id;
             UIComponent = component;
         }
+
+        /// <summary>Gets this item's ID.</summary>
+        public string Id { get; }
 
         /// <summary>Gets the created UI component.</summary>
         protected TItem UIComponent { get; }
