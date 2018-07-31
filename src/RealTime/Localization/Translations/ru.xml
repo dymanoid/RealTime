@@ -82,6 +82,8 @@
   <translation id="LunchBeginTooltip" value="Начало обеденного времени - жители пойдут пообедать" />
   <translation id="LunchEnd" value="Конец обеда" />
   <translation id="LunchEndTooltip" value="Конец обеденного времени - жители вернутся с обеда на работу" />
+  <translation id="MaxVacationLength" value="Максимум дней отпуска" />
+  <translation id="MaxVacationLengthTooltip" value="Сколько дней отпуска горожане могут максимально взять. Установите 0, чтобы отключить отпуска." />
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="Запасов угля на {0} × {unit}"/>

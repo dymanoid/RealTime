@@ -82,6 +82,8 @@
   <translation id="LunchBeginTooltip" value="시민들의 점심시간 시작 시간을 설정합니다" />
   <translation id="LunchEnd" value="점심시간 종료" />
   <translation id="LunchEndTooltip" value="시민들의 점심시간 종료 시간을 설정합니다" />
+  <translation id="MaxVacationLength" value="Maximum vacation days" />
+  <translation id="MaxVacationLengthTooltip" value="For how long citizens can be on vacation. Set to 0 to disable vacations." />
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="Coal stored for {0} × {unit}"/>

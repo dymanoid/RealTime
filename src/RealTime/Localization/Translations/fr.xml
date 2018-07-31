@@ -82,6 +82,8 @@
   <translation id="LunchBeginTooltip" value="L'heure de la journée ou les citoyens sortent pour aller déjeûner" />
   <translation id="LunchEnd" value="L'heure de fin du déjeûner" />
   <translation id="LunchEndTooltip" value="L'heure de la journée ou les citoyens reviennent du déjeûner pour aller travailler" />
+  <translation id="MaxVacationLength" value="Maximum vacation days" />
+  <translation id="MaxVacationLengthTooltip" value="For how long citizens can be on vacation. Set to 0 to disable vacations." />
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="Coal stored for {0} × {unit}"/>

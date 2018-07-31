@@ -82,6 +82,8 @@
   <translation id="LunchBeginTooltip" value="午饭饭点开始市民就会上街找吃的" />
   <translation id="LunchEnd" value="午饭饭点结束时间" />
   <translation id="LunchEndTooltip" value="过了午饭饭点市民又回去工作了" />
+  <translation id="MaxVacationLength" value="Maximum vacation days" />
+  <translation id="MaxVacationLengthTooltip" value="For how long citizens can be on vacation. Set to 0 to disable vacations." />
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="Coal stored for {0} × {unit}"/>

@@ -82,6 +82,8 @@
   <translation id="LunchBeginTooltip" value="Beginn der Mittagszeit - Cims machen eine Pause und gehen essen" />
   <translation id="LunchEnd" value="Ende der Mittagspause" />
   <translation id="LunchEndTooltip" value="Ende der Mittagspause - Cims kehren zur Arbeit zurück" />
+  <translation id="MaxVacationLength" value="Max. Urlaubstage" />
+  <translation id="MaxVacationLengthTooltip" value="Wie viele Tage maximal können Cims im Urlaub sein. Setzen Sie den Wert auf 0, um Urlaub zu deaktivieren." />
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="Kohle gespeichert für {0} × {unit}"/>

@@ -82,6 +82,8 @@
   <translation id="LunchBeginTooltip" value="The daytime hour when the Cims go out for lunch" />
   <translation id="LunchEnd" value="Lunch end hour" />
   <translation id="LunchEndTooltip" value="The daytime hour when the Cims return from lunch back to work" />
+  <translation id="MaxVacationLength" value="Maximum vacation days" />
+  <translation id="MaxVacationLengthTooltip" value="For how long citizens can be on vacation. Set to 0 to disable vacations." />
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="Coal stored for {0} × {unit}"/>

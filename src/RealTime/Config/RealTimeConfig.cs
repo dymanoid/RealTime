@@ -262,6 +262,13 @@ namespace RealTime.Config
         public float SchoolEnd { get; set; }
 
         /// <summary>
+        /// Gets or sets the maximum vacation length in days.
+        /// </summary>
+        [ConfigItem("4Time", 7)]
+        [ConfigItemSlider(0, 7, ValueType = SliderValueType.Default)]
+        public uint MaxVacationLength { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the mod should show the incompatibility notifications.
         /// </summary>
         [ConfigItem("Tools", 0)]
@@ -331,6 +338,7 @@ namespace RealTime.Config
             SchoolBegin = RealTimeMath.Clamp(SchoolBegin, 4f, 10f);
             SchoolEnd = RealTimeMath.Clamp(SchoolEnd, 11f, 16f);
             MaxOvertime = RealTimeMath.Clamp(MaxOvertime, 0f, 4f);
+            MaxVacationLength = RealTimeMath.Clamp(MaxVacationLength, 0u, 7u);
             return this;
         }
 
@@ -379,6 +387,7 @@ namespace RealTime.Config
             MaxOvertime = 2f;
             SchoolBegin = 8f;
             SchoolEnd = 14f;
+            MaxVacationLength = 3u;
 
             ShowIncompatibilityNotifications = true;
         }
