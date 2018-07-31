@@ -21,6 +21,7 @@ namespace RealTime.CustomAI
         private readonly uint[] secondShiftChances;
         private readonly uint[] nightShiftChances;
         private readonly uint[] shoppingChances;
+        private readonly uint[] vacationChances;
 
         private float simulationCycle;
 
@@ -38,6 +39,8 @@ namespace RealTime.CustomAI
             secondShiftChances = new uint[agesCount];
             nightShiftChances = new uint[agesCount];
             shoppingChances = new uint[agesCount];
+
+            vacationChances = new uint[Enum.GetValues(typeof(Citizen.Wealth)).Length];
         }
 
         /// <summary>Sets the duration (in hours) of a full simulation cycle for all citizens.
@@ -70,6 +73,7 @@ namespace RealTime.CustomAI
             CalculateSecondShiftChances(currentHour, isWeekend);
             CalculateNightShiftChances(currentHour, isWeekend);
             CalculateShoppingChance(currentHour);
+            CalculateVacationChances();
         }
 
         /// <summary>
@@ -91,11 +95,17 @@ namespace RealTime.CustomAI
         ///
         /// <param name="citizenAge">The age of the citizen to check.</param>
         /// <param name="workShift">The citizen's assigned work shift (default is <see cref="WorkShift.Unemployed"/>).</param>
+        /// <param name="isOnVacation"><c>true</c> if the citizen is on vacation.</param>
         ///
         /// <returns>A percentage value in range of 0..100 that describes the probability whether
         /// a citizen with specified age would go relaxing on current time.</returns>
-        public uint GetRelaxingChance(Citizen.AgeGroup citizenAge, WorkShift workShift = WorkShift.Unemployed)
+        public uint GetRelaxingChance(Citizen.AgeGroup citizenAge, WorkShift workShift = WorkShift.Unemployed, bool isOnVacation = false)
         {
+            if (isOnVacation)
+            {
+                return defaultChances[(int)citizenAge] * 2u;
+            }
+
             int age = (int)citizenAge;
             switch (citizenAge)
             {
@@ -116,6 +126,16 @@ namespace RealTime.CustomAI
                 default:
                     return defaultChances[age];
             }
+        }
+
+        /// <summary>Gets a precise probability (in percent multiplied by 100) for a citizen with specified
+        /// wealth to go on vacation on current day.</summary>
+        /// <param name="wealth">The citizen's wealth.</param>
+        /// <returns>The precise probability (in percent multiplied by 100) for the citizen to go on vacation
+        /// on current day.</returns>
+        public uint GetPreciseVacationChance(Citizen.Wealth wealth)
+        {
+            return vacationChances[(int)wealth];
         }
 
         private void CalculateDefaultChances(float currentHour, uint weekdayModifier)
@@ -265,6 +285,36 @@ namespace RealTime.CustomAI
                 Log.Debug($"SHOPPING CHANCES for {timeInfo.Now}: child = {shoppingChances[0]}, teen = {shoppingChances[1]}, young = {shoppingChances[2]}, adult = {shoppingChances[3]}, senior = {shoppingChances[4]}");
             }
 #endif
+        }
+
+        private void CalculateVacationChances()
+        {
+            uint baseChance;
+            int dayOfYear = timeInfo.Now.DayOfYear;
+            if (dayOfYear < 7)
+            {
+                baseChance = 100u * 30u / 30u;
+            }
+            else if (dayOfYear < 30 * 5)
+            {
+                baseChance = 100u * 3u / 30u;
+            }
+            else if (dayOfYear < 30 * 9)
+            {
+                baseChance = 100u * 10u / 30u;
+            }
+            else if (dayOfYear < 352)
+            {
+                baseChance = 100u * 2u / 30u;
+            }
+            else
+            {
+                baseChance = 100u * 30u / 30u;
+            }
+
+            vacationChances[(int)Citizen.Wealth.Low] = baseChance / 2;
+            vacationChances[(int)Citizen.Wealth.Low] = baseChance;
+            vacationChances[(int)Citizen.Wealth.Low] = baseChance * 3 / 2;
         }
     }
 }
