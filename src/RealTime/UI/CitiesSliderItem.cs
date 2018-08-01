@@ -158,7 +158,7 @@ namespace RealTime.UI
                     break;
 
                 default:
-                    valueString = (value * displayMultiplier).ToString();
+                    valueString = (value * displayMultiplier).ToString(currentCulture ?? CultureInfo.CurrentCulture);
                     break;
             }
 

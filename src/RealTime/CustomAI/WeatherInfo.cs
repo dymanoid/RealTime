@@ -44,9 +44,13 @@ namespace RealTime.CustomAI
         {
             float weatherFactor = weatherManager.GetRainIntensity() + (weatherManager.GetSnowIntensity() / 2f);
 
-            stayInsideChance = weatherFactor < BadWeatherPrecipitationThreshold
-                ? 0u
-                : MinimumStayInsideChanceOnPrecipitation +
+            if (weatherFactor < BadWeatherPrecipitationThreshold)
+            {
+                stayInsideChance = 0u;
+                return;
+            }
+
+            stayInsideChance = MinimumStayInsideChanceOnPrecipitation +
                     (uint)((weatherFactor - BadWeatherPrecipitationThreshold)
                     * ((100u - MinimumStayInsideChanceOnPrecipitation) / (1f - BadWeatherPrecipitationThreshold)));
 
@@ -57,7 +61,7 @@ namespace RealTime.CustomAI
         {
             if (DisasterManager.instance.m_disasterCount == 0)
             {
-                Log.DebugIf(isDisasterHazardActive, "A disaster ended.");
+                Log.DebugIf(isDisasterHazardActive, LogCategories.Simulation, "A disaster ended.");
                 isDisasterHazardActive = false;
                 return;
             }
@@ -72,12 +76,12 @@ namespace RealTime.CustomAI
                     continue;
                 }
 
-                Log.DebugIf(!isDisasterHazardActive, "An active disaster has been detected!");
+                Log.DebugIf(!isDisasterHazardActive, LogCategories.Simulation, "An active disaster has been detected!");
                 isDisasterHazardActive = true;
                 return;
             }
 
-            Log.DebugIf(isDisasterHazardActive, "A disaster ended.");
+            Log.DebugIf(isDisasterHazardActive, LogCategories.Simulation, "A disaster ended.");
             isDisasterHazardActive = false;
         }
     }

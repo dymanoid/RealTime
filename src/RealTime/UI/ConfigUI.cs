@@ -54,11 +54,47 @@ namespace RealTime.UI
                 throw new InvalidOperationException("The configuration provider has no configuration yet");
             }
 
+            var viewItems = new List<IViewItem>();
+            CreateViewItems(configProvider, itemFactory, viewItems);
+
+            var result = new ConfigUI(configProvider, viewItems);
+
+            IContainerViewItem toolsTab = viewItems.OfType<IContainerViewItem>().FirstOrDefault(i => i.Id == ToolsId);
+            if (toolsTab == null)
+            {
+                toolsTab = itemFactory.CreateTabItem(ToolsId);
+                viewItems.Add(toolsTab);
+            }
+
+            IViewItem resetButton = itemFactory.CreateButton(toolsTab, ResetToDefaultsId, result.ResetToDefaults);
+            viewItems.Add(resetButton);
+            IViewItem newGameConfigButton = itemFactory.CreateButton(toolsTab, UseForNewGamesId, result.UseForNewGames);
+            viewItems.Add(newGameConfigButton);
+
+            return result;
+        }
+
+        /// <summary>Closes this instance.</summary>
+        public void Close()
+        {
+            configProvider.Changed -= ConfigProviderChanged;
+        }
+
+        /// <summary>Translates the UI using the specified localization provider.</summary>
+        /// <param name="localizationProvider">The localization provider to use for translation.</param>
+        public void Translate(ILocalizationProvider localizationProvider)
+        {
+            foreach (IViewItem item in viewItems)
+            {
+                item.Translate(localizationProvider);
+            }
+        }
+
+        private static void CreateViewItems(ConfigurationProvider configProvider, IViewItemFactory itemFactory, ICollection<IViewItem> viewItems)
+        {
             var properties = configProvider.Configuration.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Select(p => new { Property = p, Attribute = GetCustomItemAttribute<ConfigItemAttribute>(p) })
                 .Where(v => v.Attribute != null);
-
-            var viewItems = new List<IViewItem>();
 
             foreach (var tab in properties.GroupBy(p => p.Attribute.TabId).OrderBy(p => p.Key))
             {
@@ -88,34 +124,6 @@ namespace RealTime.UI
                     }
                 }
             }
-
-            var result = new ConfigUI(configProvider, viewItems);
-
-            IContainerViewItem toolsTab = itemFactory.CreateTabItem(ToolsId);
-            viewItems.Add(toolsTab);
-
-            IViewItem resetButton = itemFactory.CreateButton(toolsTab, ResetToDefaultsId, result.ResetToDefaults);
-            viewItems.Add(resetButton);
-            IViewItem newGameConfigButton = itemFactory.CreateButton(toolsTab, UseForNewGamesId, result.UseForNewGames);
-            viewItems.Add(newGameConfigButton);
-
-            return result;
-        }
-
-        /// <summary>Closes this instance.</summary>
-        public void Close()
-        {
-            configProvider.Changed -= ConfigProviderChanged;
-        }
-
-        /// <summary>Translates the UI using the specified localization provider.</summary>
-        /// <param name="localizationProvider">The localization provider to use for translation.</param>
-        public void Translate(ILocalizationProvider localizationProvider)
-        {
-            foreach (IViewItem item in viewItems)
-            {
-                item.Translate(localizationProvider);
-            }
         }
 
         private static IViewItem CreateViewItem(
@@ -124,7 +132,7 @@ namespace RealTime.UI
             ConfigurationProvider configProvider,
             IViewItemFactory itemFactory)
         {
-            object config() => configProvider.Configuration;
+            object Config() => configProvider.Configuration;
 
             switch (GetCustomItemAttribute<ConfigItemUIBaseAttribute>(property))
             {
@@ -139,7 +147,7 @@ namespace RealTime.UI
                         container,
                         property.Name,
                         property,
-                        config,
+                        Config,
                         slider.Min,
                         slider.Max,
                         slider.Step,
@@ -147,10 +155,10 @@ namespace RealTime.UI
                         slider.DisplayMultiplier);
 
                 case ConfigItemCheckBoxAttribute _ when property.PropertyType == typeof(bool):
-                    return itemFactory.CreateCheckBox(container, property.Name, property, config);
+                    return itemFactory.CreateCheckBox(container, property.Name, property, Config);
 
                 case ConfigItemComboBoxAttribute _ when property.PropertyType.IsEnum:
-                    return itemFactory.CreateComboBox(container, property.Name, property, config, Enum.GetNames(property.PropertyType));
+                    return itemFactory.CreateComboBox(container, property.Name, property, Config, Enum.GetNames(property.PropertyType));
 
                 default:
                     return null;

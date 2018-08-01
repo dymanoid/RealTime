@@ -3,10 +3,11 @@
 
   <translation id="Warning" value="Warning" />
   <translation id="ModNotWorkingMessage" value="Oops! Something went wrong - the 'Real Time' mod could not be activated. Please share your game log file with the mod's developer." />
-  <translation id="IncompatibleModsFoundMessage" value="At least one incompatible mod has been detected. It is recommended to unsubscribe from them. You might continue on your own risk, but something might not work properly or even crash the game." />
+  <translation id="IncompatibleModsFoundMessage" value="Real Time detected at least one incompatible mod (or at least partly incompatible). It is recommended to unsubscribe from them. You might continue on your own risk if you know what you are doing, but in this case something might not work properly or even crash the game." />
   <translation id="Minutes" value="min." />
 
   <translation id="Tools" value="Tools" />
+  <translation id="ShowIncompatibilityNotifications" value="Show mod incompatibility notifications" />
   <translation id="ResetToDefaults" value="Reset all to defaults" />
   <translation id="UseForNewGames" value="Use current values for new games" />
 
@@ -81,6 +82,8 @@
   <translation id="LunchBeginTooltip" value="The daytime hour when the Cims go out for lunch" />
   <translation id="LunchEnd" value="Lunch end hour" />
   <translation id="LunchEndTooltip" value="The daytime hour when the Cims return from lunch back to work" />
+  <translation id="MaxVacationLength" value="Maximum vacation days" />
+  <translation id="MaxVacationLengthTooltip" value="For how long citizens can be on vacation. Set to 0 to disable vacations." />
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="Coal stored for {0} × {unit}"/>

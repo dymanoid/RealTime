@@ -22,10 +22,8 @@ namespace RealTime.Tools
 #if DEBUG
         private const int FileWriteInterval = 1000; // ms
         private const string LogFileName = "RealTime.log";
-        private const string TypeDebug = "DBG";
-        private const string TypeInfo = "INF";
-        private const string TypeWarning = "WRN";
-        private const string TypeError = "ERR";
+
+        private static readonly LogCategories ActiveCategories = LogCategories.Generic | LogCategories.State | LogCategories.Simulation;
 
         private static readonly object SyncObject = new object();
         private static readonly Queue<string> Storage = new Queue<string>();
@@ -51,12 +49,16 @@ namespace RealTime.Tools
         /// Logs a debug information. This method won't be compiled in the 'Release' mode.
         /// </summary>
         ///
+        /// <param name="category">The log category of this log entry.</param>
         /// <param name="text">The text to log.</param>
         [Conditional("DEBUG")]
-        public static void Debug(string text)
+        public static void Debug(LogCategories category, string text)
         {
 #if DEBUG
-            DebugLog(text, TypeDebug);
+            if ((ActiveCategories & category) != 0)
+            {
+                DebugLog(text, category);
+            }
 #endif
         }
 
@@ -64,13 +66,17 @@ namespace RealTime.Tools
         /// Logs a debug information. This method won't be compiled in the 'Release' mode.
         /// </summary>
         ///
+        /// <param name="category">The log category of this log entry.</param>
         /// <param name="gameTime">The current date and time in the game.</param>
         /// <param name="text">The text to log.</param>
         [Conditional("DEBUG")]
-        public static void Debug(DateTime gameTime, string text)
+        public static void Debug(LogCategories category, DateTime gameTime, string text)
         {
 #if DEBUG
-            DebugLog(gameTime.ToString("dd.MM.yy HH:mm") + " --> " + text, TypeDebug);
+            if ((ActiveCategories & category) != 0)
+            {
+                DebugLog(gameTime.ToString("dd.MM.yy HH:mm") + " --> " + text, category);
+            }
 #endif
         }
 
@@ -79,14 +85,15 @@ namespace RealTime.Tools
         /// </summary>
         ///
         /// <param name="condition">A condition whether the debug logging should occur.</param>
+        /// <param name="category">The log category of this log entry.</param>
         /// <param name="text">The text to log.</param>
         [Conditional("DEBUG")]
-        public static void DebugIf(bool condition, string text)
+        public static void DebugIf(bool condition, LogCategories category, string text)
         {
 #if DEBUG
-            if (condition)
+            if (condition && (ActiveCategories & category) != 0)
             {
-                DebugLog(text, TypeDebug);
+                DebugLog(text, category);
             }
 #endif
         }
@@ -101,7 +108,7 @@ namespace RealTime.Tools
             UnityEngine.Debug.Log(text);
 
 #if DEBUG
-            DebugLog(text, TypeInfo);
+            DebugLog(text, LogCategories.Generic);
 #endif
         }
 
@@ -115,7 +122,7 @@ namespace RealTime.Tools
             UnityEngine.Debug.LogWarning(text);
 
 #if DEBUG
-            DebugLog(text, TypeWarning);
+            DebugLog(text, LogCategories.Generic);
 #endif
         }
 
@@ -129,12 +136,12 @@ namespace RealTime.Tools
             UnityEngine.Debug.LogError(text);
 
 #if DEBUG
-            DebugLog(text, TypeError);
+            DebugLog(text, LogCategories.Generic);
 #endif
         }
 
 #if DEBUG
-        private static void DebugLog(string text, string type)
+        private static void DebugLog(string text, LogCategories category)
         {
             if (messageBuilder == null)
             {
@@ -144,8 +151,8 @@ namespace RealTime.Tools
             messageBuilder.Length = 0;
             messageBuilder.Append(DateTime.Now.ToString("HH:mm:ss.ffff"));
             messageBuilder.Append('\t');
-            messageBuilder.Append(type);
-            messageBuilder.Append("\t\t");
+            messageBuilder.AppendFormat("{0,-10}", category);
+            messageBuilder.Append("\t");
             messageBuilder.Append(text);
             string message = messageBuilder.ToString();
             lock (SyncObject)

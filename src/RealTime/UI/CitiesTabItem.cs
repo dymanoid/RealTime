@@ -73,7 +73,7 @@ namespace RealTime.UI
         /// <param name="localizationProvider">The localization provider to use for translation. Guaranteed to be not null.</param>
         protected override void TranslateImpl(ILocalizationProvider localizationProvider)
         {
-            tabButton.text = localizationProvider.Translate(ItemId);
+            tabButton.text = localizationProvider.Translate(Id);
             tabButton.tooltip = tabButton.text;
         }
     }

@@ -8,7 +8,10 @@ namespace RealTime.CustomAI
     using RealTime.Tools;
     using static Constants;
 
-    internal sealed class TravelBehavior
+    /// <summary>
+    /// A behavior for citizens traveling.
+    /// </summary>
+    internal sealed class TravelBehavior : ITravelBehavior
     {
         private readonly IBuildingManagerConnection buildingManager;
 

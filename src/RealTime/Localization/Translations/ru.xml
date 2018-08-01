@@ -3,10 +3,11 @@
 
   <translation id="Warning" value="Предупреждение" />
   <translation id="ModNotWorkingMessage" value="Упс! Что-то пошло не так - мод 'Real Time' не может быть активирован. Пожалуйста, покажите лог-файл игры разработчику мода." />
-  <translation id="IncompatibleModsFoundMessage" value="Обнаружен как минимум один несовместимый мод. Рекомендуется отписаться от всех несовместимых модов. Можно продолжить играть на свой собственный риск, но что-то может не работать или игра может вылетать." />
+  <translation id="IncompatibleModsFoundMessage" value="Real Time обнаружил как минимум один несовместимый мод (или частично несовместимый). Рекомендуется отписаться от всех несовместимых модов. Можно продолжить играть на свой собственный риск, но что-то может не работать или игра может вылетать." />
   <translation id="Minutes" value="мин." />
 
   <translation id="Tools" value="Утилиты" />
+  <translation id="ShowIncompatibilityNotifications" value="Показывать сообщения о несовместимости с другими модами" />
   <translation id="ResetToDefaults" value="Вернуть опции по умолчанию" />
   <translation id="UseForNewGames" value="Использовать текущие настройки для новых игр" />
 
@@ -81,6 +82,8 @@
   <translation id="LunchBeginTooltip" value="Начало обеденного времени - жители пойдут пообедать" />
   <translation id="LunchEnd" value="Конец обеда" />
   <translation id="LunchEndTooltip" value="Конец обеденного времени - жители вернутся с обеда на работу" />
+  <translation id="MaxVacationLength" value="Максимум дней отпуска" />
+  <translation id="MaxVacationLengthTooltip" value="Сколько дней отпуска горожане могут максимально взять. Установите 0, чтобы отключить отпуска." />
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="Запасов угля на {0} × {unit}"/>

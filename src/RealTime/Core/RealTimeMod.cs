@@ -4,7 +4,6 @@
 
 namespace RealTime.Core
 {
-    using System;
     using System.Linq;
     using ColossalFramework;
     using ColossalFramework.Globalization;
@@ -21,6 +20,7 @@ namespace RealTime.Core
     public sealed class RealTimeMod : LoadingExtensionBase, IUserMod
     {
         private const long WorkshopId = 1420955187;
+        private const string NoWorkshopMessage = "Real Time can only run when subscribed to in Steam Workshop";
 
         private readonly string modVersion = GitVersion.GetAssemblyVersion(typeof(RealTimeMod).Assembly);
         private readonly string modPath = GetModPath();
@@ -45,6 +45,12 @@ namespace RealTime.Core
         /// </summary>
         public void OnEnabled()
         {
+            if (string.IsNullOrEmpty(modPath))
+            {
+                Log.Info($"The 'Real Time' mod version {modVersion} cannot be started because of no Steam Workshop");
+                return;
+            }
+
             Log.Info("The 'Real Time' mod has been enabled, version: " + modVersion);
             configProvider = new ConfigurationProvider();
             configProvider.LoadDefaultConfiguration();
@@ -57,14 +63,18 @@ namespace RealTime.Core
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Must be instance method due to C:S API")]
         public void OnDisabled()
         {
-            Log.Info("The 'Real Time' mod has been disabled.");
+            if (string.IsNullOrEmpty(modPath))
+            {
+                return;
+            }
 
             CloseConfigUI();
-
             if (configProvider != null && configProvider.IsDefault)
             {
                 configProvider.SaveDefaultConfiguration();
             }
+
+            Log.Info("The 'Real Time' mod has been disabled.");
         }
 
         /// <summary>
@@ -76,6 +86,12 @@ namespace RealTime.Core
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Must be instance method due to C:S API")]
         public void OnSettingsUI(UIHelperBase helper)
         {
+            if (string.IsNullOrEmpty(modPath))
+            {
+                helper?.AddGroup(NoWorkshopMessage);
+                return;
+            }
+
             if (helper == null || configProvider == null)
             {
                 return;
@@ -101,6 +117,12 @@ namespace RealTime.Core
         /// <param name="mode">The <see cref="LoadMode"/> a game level is loaded in.</param>
         public override void OnLevelLoaded(LoadMode mode)
         {
+            if (string.IsNullOrEmpty(modPath))
+            {
+                MessageBox.Show("Sorry", NoWorkshopMessage);
+                return;
+            }
+
             switch (mode)
             {
                 case LoadMode.LoadGame:
@@ -127,7 +149,7 @@ namespace RealTime.Core
                     localizationProvider.Translate(TranslationKeys.Warning),
                     localizationProvider.Translate(TranslationKeys.ModNotWorkingMessage));
             }
-            else
+            else if (configProvider.Configuration.ShowIncompatibilityNotifications)
             {
                 Compatibility.CheckAndNotify(Name, localizationProvider);
             }
@@ -139,6 +161,11 @@ namespace RealTime.Core
         /// </summary>
         public override void OnLevelUnloading()
         {
+            if (string.IsNullOrEmpty(modPath))
+            {
+                return;
+            }
+
             if (core != null)
             {
                 Log.Info($"The 'Real Time' mod stops.");
@@ -151,14 +178,10 @@ namespace RealTime.Core
 
         private static string GetModPath()
         {
-            string assemblyName = typeof(RealTimeMod).Assembly.GetName().Name;
-
             PluginManager.PluginInfo pluginInfo = PluginManager.instance.GetPluginsInfo()
-                .FirstOrDefault(pi => pi.name == assemblyName || pi.publishedFileID.AsUInt64 == WorkshopId);
+                .FirstOrDefault(pi => pi.publishedFileID.AsUInt64 == WorkshopId);
 
-            return pluginInfo == null
-                ? Environment.CurrentDirectory
-                : pluginInfo.modPath;
+            return pluginInfo?.modPath;
         }
 
         private void ApplyLanguage()

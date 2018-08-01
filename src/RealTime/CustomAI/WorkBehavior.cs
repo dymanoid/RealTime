@@ -14,13 +14,13 @@ namespace RealTime.CustomAI
     /// <summary>
     /// A class containing methods for managing the citizens' work behavior.
     /// </summary>
-    internal sealed class WorkBehavior
+    internal sealed class WorkBehavior : IWorkBehavior
     {
         private readonly RealTimeConfig config;
         private readonly IRandomizer randomizer;
         private readonly IBuildingManagerConnection buildingManager;
         private readonly ITimeInfo timeInfo;
-        private readonly TravelBehavior travelBehavior;
+        private readonly ITravelBehavior travelBehavior;
 
         private DateTime lunchBegin;
         private DateTime lunchEnd;
@@ -37,7 +37,7 @@ namespace RealTime.CustomAI
             IRandomizer randomizer,
             IBuildingManagerConnection buildingManager,
             ITimeInfo timeInfo,
-            TravelBehavior travelBehavior)
+            ITravelBehavior travelBehavior)
         {
             this.config = config ?? throw new ArgumentNullException(nameof(config));
             this.randomizer = randomizer ?? throw new ArgumentNullException(nameof(randomizer));
@@ -90,8 +90,8 @@ namespace RealTime.CustomAI
                 HasExtendedFirstWorkShift(service, subService));
         }
 
-        /// <summary>Updates the lunch time according to current date and configuration.</summary>
-        public void UpdateLunchTime()
+        /// <summary>Notifies this object that a new game day starts.</summary>
+        public void BeginNewDay()
         {
             DateTime today = timeInfo.Now.Date;
             lunchBegin = today.AddHours(config.LunchBegin);

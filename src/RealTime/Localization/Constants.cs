@@ -8,9 +8,6 @@ namespace RealTime.Localization
         /// <summary>The placeholder string.</summary>
         public const string Placeholder = "Placeholder";
 
-        /// <summary>The 'no locale' placeholder string.</summary>
-        public const string NoLocale = "No Locale found";
-
         /// <summary>The directory name containing the localization files.</summary>
         public const string LocaleFolder = "Localization";
 

@@ -24,7 +24,7 @@ namespace RealTime.UI
         protected CitiesContainerItemBase(UIHelperBase panel, string id)
         {
             Container = panel ?? throw new ArgumentNullException(nameof(panel));
-            ItemId = id ?? throw new ArgumentNullException(nameof(id));
+            Id = id ?? throw new ArgumentNullException(nameof(id));
             if (id.Length == 0)
             {
                 throw new ArgumentException("The container item ID cannot be an empty string", nameof(id));
@@ -35,7 +35,7 @@ namespace RealTime.UI
         public UIHelperBase Container { get; }
 
         /// <summary>Gets this item's ID.</summary>
-        protected string ItemId { get; }
+        public string Id { get; }
 
         /// <summary>Translates this view item using the specified localization provider.</summary>
         /// <param name="localizationProvider">The localization provider to use for translation.</param>

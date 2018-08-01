@@ -16,7 +16,6 @@ namespace RealTime.UI
     internal sealed class CitiesButtonViewItem : IViewItem
     {
         private readonly UIButton button;
-        private readonly string id;
 
         /// <summary>Initializes a new instance of the <see cref="CitiesButtonViewItem"/> class.</summary>
         /// <param name="uiHelper">The game's UI helper reference.</param>
@@ -44,8 +43,11 @@ namespace RealTime.UI
             }
 
             button = uiHelper.AddButton(Constants.Placeholder, new OnButtonClicked(clickHandler)) as UIButton;
-            this.id = id;
+            Id = id;
         }
+
+        /// <summary>Gets this item's ID.</summary>
+        public string Id { get; }
 
         /// <summary>Translates this view item using the specified localization provider.</summary>
         /// <param name="localizationProvider">The localization provider to use for translation.</param>
@@ -59,7 +61,7 @@ namespace RealTime.UI
 
             if (button != null)
             {
-                button.text = localizationProvider.Translate(id);
+                button.text = localizationProvider.Translate(Id);
             }
         }
     }

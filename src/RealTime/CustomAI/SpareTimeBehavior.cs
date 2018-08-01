@@ -13,7 +13,7 @@ namespace RealTime.CustomAI
     /// <summary>
     /// A class that provides custom logic for the spare time simulation.
     /// </summary>
-    internal sealed class SpareTimeBehavior
+    internal sealed class SpareTimeBehavior : ISpareTimeBehavior
     {
         private readonly RealTimeConfig config;
         private readonly ITimeInfo timeInfo;
@@ -21,8 +21,12 @@ namespace RealTime.CustomAI
         private readonly uint[] secondShiftChances;
         private readonly uint[] nightShiftChances;
         private readonly uint[] shoppingChances;
+        private readonly uint[] vacationChances;
 
         private float simulationCycle;
+
+        private int lastUpdatedMinute;
+        private int lastUpdatedDay;
 
         /// <summary>Initializes a new instance of the <see cref="SpareTimeBehavior"/> class.</summary>
         /// <param name="config">The configuration to run with.</param>
@@ -38,6 +42,8 @@ namespace RealTime.CustomAI
             secondShiftChances = new uint[agesCount];
             nightShiftChances = new uint[agesCount];
             shoppingChances = new uint[agesCount];
+
+            vacationChances = new uint[Enum.GetValues(typeof(Citizen.Wealth)).Length];
         }
 
         /// <summary>Sets the duration (in hours) of a full simulation cycle for all citizens.
@@ -51,25 +57,36 @@ namespace RealTime.CustomAI
         /// <summary>Calculates the chances for the citizens to go out based on the current game time.</summary>
         public void RefreshChances()
         {
-            uint weekdayModifier;
-            if (config.IsWeekendEnabled)
+            if (lastUpdatedMinute != timeInfo.Now.Minute)
             {
-                weekdayModifier = timeInfo.Now.IsWeekendTime(12f, config.GoToSleepHour)
-                    ? 11u
-                    : 1u;
-            }
-            else
-            {
-                weekdayModifier = 1u;
+                uint weekdayModifier;
+                if (config.IsWeekendEnabled)
+                {
+                    weekdayModifier = timeInfo.Now.IsWeekendTime(12f, config.GoToSleepHour)
+                        ? 11u
+                        : 1u;
+                }
+                else
+                {
+                    weekdayModifier = 1u;
+                }
+
+                bool isWeekend = weekdayModifier > 1u;
+                float currentHour = timeInfo.CurrentHour;
+
+                CalculateDefaultChances(currentHour, weekdayModifier);
+                CalculateSecondShiftChances(currentHour, isWeekend);
+                CalculateNightShiftChances(currentHour, isWeekend);
+                CalculateShoppingChance(currentHour);
+
+                lastUpdatedMinute = timeInfo.Now.Minute;
             }
 
-            bool isWeekend = weekdayModifier > 1u;
-            float currentHour = timeInfo.CurrentHour;
-
-            CalculateDefaultChances(currentHour, weekdayModifier);
-            CalculateSecondShiftChances(currentHour, isWeekend);
-            CalculateNightShiftChances(currentHour, isWeekend);
-            CalculateShoppingChance(currentHour);
+            if (lastUpdatedDay != timeInfo.Now.Day)
+            {
+                CalculateVacationChances();
+                lastUpdatedDay = timeInfo.Now.Day;
+            }
         }
 
         /// <summary>
@@ -91,11 +108,17 @@ namespace RealTime.CustomAI
         ///
         /// <param name="citizenAge">The age of the citizen to check.</param>
         /// <param name="workShift">The citizen's assigned work shift (default is <see cref="WorkShift.Unemployed"/>).</param>
+        /// <param name="isOnVacation"><c>true</c> if the citizen is on vacation.</param>
         ///
         /// <returns>A percentage value in range of 0..100 that describes the probability whether
         /// a citizen with specified age would go relaxing on current time.</returns>
-        public uint GetRelaxingChance(Citizen.AgeGroup citizenAge, WorkShift workShift = WorkShift.Unemployed)
+        public uint GetRelaxingChance(Citizen.AgeGroup citizenAge, WorkShift workShift = WorkShift.Unemployed, bool isOnVacation = false)
         {
+            if (isOnVacation)
+            {
+                return defaultChances[(int)citizenAge] * 2u;
+            }
+
             int age = (int)citizenAge;
             switch (citizenAge)
             {
@@ -116,6 +139,16 @@ namespace RealTime.CustomAI
                 default:
                     return defaultChances[age];
             }
+        }
+
+        /// <summary>Gets a precise probability (in percent multiplied by 100) for a citizen with specified
+        /// wealth to go on vacation on current day.</summary>
+        /// <param name="wealth">The citizen's wealth.</param>
+        /// <returns>The precise probability (in percent multiplied by 100) for the citizen to go on vacation
+        /// on current day.</returns>
+        public uint GetPreciseVacationChance(Citizen.Wealth wealth)
+        {
+            return vacationChances[(int)wealth];
         }
 
         private void CalculateDefaultChances(float currentHour, uint weekdayModifier)
@@ -155,7 +188,7 @@ namespace RealTime.CustomAI
 #if DEBUG
             if (dump)
             {
-                Log.Debug($"DEFAULT GOING OUT CHANCES for {timeInfo.Now}: child = {defaultChances[0]}, teen = {defaultChances[1]}, young = {defaultChances[2]}, adult = {defaultChances[3]}, senior = {defaultChances[4]}");
+                Log.Debug(LogCategories.Simulation, $"DEFAULT GOING OUT CHANCES for {timeInfo.Now}: child = {defaultChances[0]}, teen = {defaultChances[1]}, young = {defaultChances[2]}, adult = {defaultChances[3]}, senior = {defaultChances[4]}");
             }
 #endif
         }
@@ -166,8 +199,8 @@ namespace RealTime.CustomAI
             uint oldChance = secondShiftChances[(int)Citizen.AgeGroup.Adult];
 #endif
 
-            float wakeupHour = config.WakeUpHour - config.GoToSleepHour + 24f;
-            if (isWeekend || currentHour < config.WakeUpHour || currentHour >= wakeupHour)
+            float wakeUpHour = config.WakeUpHour - config.GoToSleepHour + 24f;
+            if (isWeekend || currentHour < config.WakeUpHour || currentHour >= wakeUpHour)
             {
                 secondShiftChances[(int)Citizen.AgeGroup.Young] = defaultChances[(int)Citizen.AgeGroup.Young];
                 secondShiftChances[(int)Citizen.AgeGroup.Adult] = defaultChances[(int)Citizen.AgeGroup.Adult];
@@ -181,7 +214,7 @@ namespace RealTime.CustomAI
 #if DEBUG
             if (oldChance != secondShiftChances[(int)Citizen.AgeGroup.Adult])
             {
-                Log.Debug($"SECOND SHIFT GOING OUT CHANCE for {timeInfo.Now}: young = {secondShiftChances[2]}, adult = {secondShiftChances[3]}");
+                Log.Debug(LogCategories.Simulation, $"SECOND SHIFT GOING OUT CHANCE for {timeInfo.Now}: young = {secondShiftChances[2]}, adult = {secondShiftChances[3]}");
             }
 #endif
         }
@@ -192,8 +225,8 @@ namespace RealTime.CustomAI
             uint oldChance = nightShiftChances[(int)Citizen.AgeGroup.Adult];
 #endif
 
-            float wakeupHour = config.WorkBegin + (config.WakeUpHour - config.GoToSleepHour + 24f);
-            if (isWeekend || currentHour < config.WakeUpHour || currentHour >= wakeupHour)
+            float wakeUpHour = config.WorkBegin + (config.WakeUpHour - config.GoToSleepHour + 24f);
+            if (isWeekend || currentHour < config.WakeUpHour || currentHour >= wakeUpHour)
             {
                 nightShiftChances[(int)Citizen.AgeGroup.Young] = defaultChances[(int)Citizen.AgeGroup.Young];
                 nightShiftChances[(int)Citizen.AgeGroup.Adult] = defaultChances[(int)Citizen.AgeGroup.Adult];
@@ -207,7 +240,7 @@ namespace RealTime.CustomAI
 #if DEBUG
             if (oldChance != nightShiftChances[(int)Citizen.AgeGroup.Adult])
             {
-                Log.Debug($"NIGHT SHIFT GOING OUT CHANCE for {timeInfo.Now}: young = {nightShiftChances[2]}, adult = {nightShiftChances[3]}");
+                Log.Debug(LogCategories.Simulation, $"NIGHT SHIFT GOING OUT CHANCE for {timeInfo.Now}: young = {nightShiftChances[2]}, adult = {nightShiftChances[3]}");
             }
 #endif
         }
@@ -262,7 +295,48 @@ namespace RealTime.CustomAI
 #if DEBUG
             if (oldChance != roundedChance)
             {
-                Log.Debug($"SHOPPING CHANCES for {timeInfo.Now}: child = {shoppingChances[0]}, teen = {shoppingChances[1]}, young = {shoppingChances[2]}, adult = {shoppingChances[3]}, senior = {shoppingChances[4]}");
+                Log.Debug(LogCategories.Simulation, $"SHOPPING CHANCES for {timeInfo.Now}: child = {shoppingChances[0]}, teen = {shoppingChances[1]}, young = {shoppingChances[2]}, adult = {shoppingChances[3]}, senior = {shoppingChances[4]}");
+            }
+#endif
+        }
+
+        private void CalculateVacationChances()
+        {
+            uint baseChance;
+            int dayOfYear = timeInfo.Now.DayOfYear;
+            if (dayOfYear < 7)
+            {
+                baseChance = 100u * 8u;
+            }
+            else if (dayOfYear < 30 * 5)
+            {
+                baseChance = 100u * 1u;
+            }
+            else if (dayOfYear < 30 * 9)
+            {
+                baseChance = 100u * 3u;
+            }
+            else if (dayOfYear < 352)
+            {
+                baseChance = 100u * 1u;
+            }
+            else
+            {
+                baseChance = 100u * 20u;
+            }
+
+#if DEBUG
+            bool dump = baseChance != vacationChances[(int)Citizen.Wealth.Medium];
+#endif
+
+            vacationChances[(int)Citizen.Wealth.Low] = baseChance / 2;
+            vacationChances[(int)Citizen.Wealth.Medium] = baseChance;
+            vacationChances[(int)Citizen.Wealth.High] = baseChance * 3 / 2;
+
+#if DEBUG
+            if (dump)
+            {
+                Log.Debug(LogCategories.Simulation, $"VACATION CHANCES for {timeInfo.Now}: low = {vacationChances[0]}, medium = {vacationChances[1]}, high = {vacationChances[2]}");
             }
 #endif
         }
