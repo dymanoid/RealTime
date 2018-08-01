@@ -293,23 +293,23 @@ namespace RealTime.CustomAI
             int dayOfYear = timeInfo.Now.DayOfYear;
             if (dayOfYear < 7)
             {
-                baseChance = 100u * 15u;
+                baseChance = 100u * 8u;
             }
             else if (dayOfYear < 30 * 5)
             {
-                baseChance = 100u * 3u;
+                baseChance = 100u * 1u;
             }
             else if (dayOfYear < 30 * 9)
             {
-                baseChance = 100u * 8u;
+                baseChance = 100u * 3u;
             }
             else if (dayOfYear < 352)
             {
-                baseChance = 100u * 3u;
+                baseChance = 100u * 1u;
             }
             else
             {
-                baseChance = 100u * 30u;
+                baseChance = 100u * 20u;
             }
 
 #if DEBUG
