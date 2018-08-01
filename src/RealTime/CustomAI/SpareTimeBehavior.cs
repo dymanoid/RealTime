@@ -25,6 +25,9 @@ namespace RealTime.CustomAI
 
         private float simulationCycle;
 
+        private int lastUpdatedMinute;
+        private int lastUpdatedDay;
+
         /// <summary>Initializes a new instance of the <see cref="SpareTimeBehavior"/> class.</summary>
         /// <param name="config">The configuration to run with.</param>
         /// <param name="timeInfo">The object providing the game time information.</param>
@@ -54,26 +57,36 @@ namespace RealTime.CustomAI
         /// <summary>Calculates the chances for the citizens to go out based on the current game time.</summary>
         public void RefreshChances()
         {
-            uint weekdayModifier;
-            if (config.IsWeekendEnabled)
+            if (lastUpdatedMinute != timeInfo.Now.Minute)
             {
-                weekdayModifier = timeInfo.Now.IsWeekendTime(12f, config.GoToSleepHour)
-                    ? 11u
-                    : 1u;
-            }
-            else
-            {
-                weekdayModifier = 1u;
+                uint weekdayModifier;
+                if (config.IsWeekendEnabled)
+                {
+                    weekdayModifier = timeInfo.Now.IsWeekendTime(12f, config.GoToSleepHour)
+                        ? 11u
+                        : 1u;
+                }
+                else
+                {
+                    weekdayModifier = 1u;
+                }
+
+                bool isWeekend = weekdayModifier > 1u;
+                float currentHour = timeInfo.CurrentHour;
+
+                CalculateDefaultChances(currentHour, weekdayModifier);
+                CalculateSecondShiftChances(currentHour, isWeekend);
+                CalculateNightShiftChances(currentHour, isWeekend);
+                CalculateShoppingChance(currentHour);
+
+                lastUpdatedMinute = timeInfo.Now.Minute;
             }
 
-            bool isWeekend = weekdayModifier > 1u;
-            float currentHour = timeInfo.CurrentHour;
-
-            CalculateDefaultChances(currentHour, weekdayModifier);
-            CalculateSecondShiftChances(currentHour, isWeekend);
-            CalculateNightShiftChances(currentHour, isWeekend);
-            CalculateShoppingChance(currentHour);
-            CalculateVacationChances();
+            if (lastUpdatedDay != timeInfo.Now.Day)
+            {
+                CalculateVacationChances();
+                lastUpdatedDay = timeInfo.Now.Day;
+            }
         }
 
         /// <summary>
