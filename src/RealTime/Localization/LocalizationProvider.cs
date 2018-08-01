@@ -124,7 +124,7 @@ namespace RealTime.Localization
         {
             if (CurrentCulture.TwoLetterISOLanguageName == language && translation.Count != 0)
             {
-                Log.Debug($"The localization data for '{language}' will not be loaded, because it was already loaded");
+                Log.Debug(LogCategories.Generic, $"The localization data for '{language}' will not be loaded, because it was already loaded");
                 return LoadingResult.AlreadyLoaded;
             }
 

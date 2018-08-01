@@ -314,7 +314,7 @@ namespace RealTime.Events
         {
             if (activeEvent != null && activeEvent.EndTime <= timeInfo.Now)
             {
-                Log.Debug(timeInfo.Now, $"Event finished in {activeEvent.BuildingId}, started at {activeEvent.StartTime}, end time {activeEvent.EndTime}");
+                Log.Debug(LogCategories.Events, timeInfo.Now, $"Event finished in {activeEvent.BuildingId}, started at {activeEvent.StartTime}, end time {activeEvent.EndTime}");
                 lastActiveEvent = activeEvent;
                 activeEvent = null;
             }
@@ -333,7 +333,7 @@ namespace RealTime.Events
                 var newEvent = new VanillaEvent(eventId, duration, ticketPrice);
                 newEvent.Configure(buildingId, buildingManager.GetBuildingName(buildingId), startTime);
                 eventsChanged = true;
-                Log.Debug(timeInfo.Now, $"Vanilla event registered for {newEvent.BuildingId}, start time {newEvent.StartTime}, end time {newEvent.EndTime}");
+                Log.Debug(LogCategories.Events, timeInfo.Now, $"Vanilla event registered for {newEvent.BuildingId}, start time {newEvent.StartTime}, end time {newEvent.EndTime}");
 
                 LinkedListNode<ICityEvent> existingEvent = upcomingEvents.FirstOrDefaultNode(e => e.StartTime > startTime);
                 if (existingEvent == null)
@@ -357,7 +357,7 @@ namespace RealTime.Events
                 activeEvent = upcomingEvent;
                 upcomingEvents.RemoveFirst();
                 eventsChanged = true;
-                Log.Debug(timeInfo.Now, $"Event started! Building {activeEvent.BuildingId}, ends on {activeEvent.EndTime}");
+                Log.Debug(LogCategories.Events, timeInfo.Now, $"Event started! Building {activeEvent.BuildingId}, ends on {activeEvent.EndTime}");
             }
 
             if (eventsChanged)
@@ -376,7 +376,7 @@ namespace RealTime.Events
             bool eventsChanged = false;
             if (activeEvent != null && MustCancelEvent(activeEvent))
             {
-                Log.Debug($"The active event in building {activeEvent.BuildingId} must be canceled");
+                Log.Debug(LogCategories.Events, $"The active event in building {activeEvent.BuildingId} must be canceled");
                 activeEvent = null;
                 eventsChanged = true;
             }
@@ -391,7 +391,7 @@ namespace RealTime.Events
             {
                 if (MustCancelEvent(cityEvent.Value))
                 {
-                    Log.Debug($"The upcoming event in building {cityEvent.Value.BuildingId} must be canceled");
+                    Log.Debug(LogCategories.Events, $"The upcoming event in building {cityEvent.Value.BuildingId} must be canceled");
                     eventsChanged = true;
                     LinkedListNode<ICityEvent> nextEvent = cityEvent.Next;
                     upcomingEvents.Remove(cityEvent);
@@ -456,7 +456,7 @@ namespace RealTime.Events
             newEvent.Configure(buildingId, buildingManager.GetBuildingName(buildingId), startTime);
             upcomingEvents.AddLast(newEvent);
             OnEventsChanged();
-            Log.Debug(timeInfo.Now, $"New event created for building {newEvent.BuildingId}, starts on {newEvent.StartTime}, ends on {newEvent.EndTime}");
+            Log.Debug(LogCategories.Events, timeInfo.Now, $"New event created for building {newEvent.BuildingId}, starts on {newEvent.StartTime}, ends on {newEvent.EndTime}");
         }
 
         private DateTime GetRandomEventStartTime()

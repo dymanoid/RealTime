@@ -130,7 +130,7 @@ namespace RealTime.CustomAI
 
             if (CitizenProxy.IsCollapsed(ref citizen))
             {
-                Log.Debug($"{GetCitizenDesc(citizenId, ref citizen)} is collapsed, doing nothing...");
+                Log.Debug(LogCategories.State, $"{GetCitizenDesc(citizenId, ref citizen)} is collapsed, doing nothing...");
                 return false;
             }
 

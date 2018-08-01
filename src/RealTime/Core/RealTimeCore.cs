@@ -328,7 +328,7 @@ namespace RealTime.Core
             foreach (IStorageData item in storageData)
             {
                 storage.Deserialize(item);
-                Log.Debug("The 'Real Time' mod loaded its data from container " + item.StorageDataId);
+                Log.Debug(LogCategories.Generic, "The 'Real Time' mod loaded its data from container " + item.StorageDataId);
             }
         }
 
@@ -343,7 +343,7 @@ namespace RealTime.Core
             foreach (IStorageData item in storageData)
             {
                 storage.Serialize(item);
-                Log.Debug("The 'Real Time' mod stored its data in the current game for container " + item.StorageDataId);
+                Log.Debug(LogCategories.Generic, "The 'Real Time' mod stored its data in the current game for container " + item.StorageDataId);
             }
         }
     }

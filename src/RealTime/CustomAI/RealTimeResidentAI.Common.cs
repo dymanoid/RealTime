@@ -53,14 +53,14 @@ namespace RealTime.CustomAI
                     return;
 
                 default:
-                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is released because of death");
+                    Log.Debug(LogCategories.State, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is released because of death");
                     residentSchedules[citizenId] = default;
                     CitizenMgr.ReleaseCitizen(citizenId);
                     return;
             }
 
             residentAI.FindHospital(instance, citizenId, currentBuilding, TransferManager.TransferReason.Dead);
-            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is dead, body should get serviced");
+            Log.Debug(LogCategories.State, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is dead, body should get serviced");
         }
 
         private bool ProcessCitizenArrested(ref TCitizen citizen)
@@ -90,7 +90,7 @@ namespace RealTime.CustomAI
 
             if (currentLocation != Citizen.Location.Home && currentBuilding == 0)
             {
-                Log.Debug($"Teleporting {GetCitizenDesc(citizenId, ref citizen)} back home because they are sick but no building is specified");
+                Log.Debug(LogCategories.State, $"Teleporting {GetCitizenDesc(citizenId, ref citizen)} back home because they are sick but no building is specified");
                 CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
                 return true;
             }
@@ -109,7 +109,7 @@ namespace RealTime.CustomAI
                 }
             }
 
-            Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is sick, trying to get to a hospital");
+            Log.Debug(LogCategories.State, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is sick, trying to get to a hospital");
             residentAI.FindHospital(instance, citizenId, currentBuilding, TransferManager.TransferReason.Sick);
             return true;
         }
@@ -126,7 +126,7 @@ namespace RealTime.CustomAI
             schedule.Schedule(ResidentState.InShelter);
             if (schedule.CurrentState != ResidentState.InShelter)
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is trying to find an evacuation place");
+                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is trying to find an evacuation place");
                 residentAI.FindEvacuationPlace(instance, citizenId, building, residentAI.GetEvacuationReason(instance, building));
             }
         }
@@ -260,7 +260,7 @@ namespace RealTime.CustomAI
                     schedule.Schedule(ResidentState.Unknown);
                 }
 
-                Log.Debug($"Updated work shifts for citizen {citizenId}: work shift {schedule.WorkShift}, {schedule.WorkShiftStartHour} - {schedule.WorkShiftEndHour}, weekends: {schedule.WorksOnWeekends}");
+                Log.Debug(LogCategories.Schedule, $"Updated work shifts for citizen {citizenId}: work shift {schedule.WorkShift}, {schedule.WorkShiftStartHour} - {schedule.WorkShiftEndHour}, weekends: {schedule.WorksOnWeekends}");
             }
 
             if (schedule.ScheduledState != ResidentState.Unknown)
@@ -268,7 +268,7 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            Log.Debug(TimeInfo.Now, $"Scheduling for {GetCitizenDesc(citizenId, ref citizen)}...");
+            Log.Debug(LogCategories.Schedule, TimeInfo.Now, $"Scheduling for {GetCitizenDesc(citizenId, ref citizen)}...");
 
             if (schedule.WorkStatus == WorkStatus.Working)
             {
@@ -293,13 +293,13 @@ namespace RealTime.CustomAI
 
             if (ScheduleShopping(ref schedule, ref citizen, false))
             {
-                Log.Debug($"  - Schedule shopping");
+                Log.Debug(LogCategories.Schedule, $"  - Schedule shopping");
                 return true;
             }
 
             if (ScheduleRelaxing(ref schedule, citizenId, ref citizen))
             {
-                Log.Debug($"  - Schedule relaxing");
+                Log.Debug(LogCategories.Schedule, $"  - Schedule relaxing");
                 return true;
             }
 
@@ -320,18 +320,18 @@ namespace RealTime.CustomAI
 #if DEBUG
                 if (nextActivityTime <= TimeInfo.Now)
                 {
-                    Log.Debug($"  - Schedule idle until next scheduling run");
+                    Log.Debug(LogCategories.Schedule, $"  - Schedule idle until next scheduling run");
                 }
                 else
                 {
-                    Log.Debug($"  - Schedule idle until {nextActivityTime}");
+                    Log.Debug(LogCategories.Schedule, $"  - Schedule idle until {nextActivityTime}");
                 }
 #endif
                 schedule.Schedule(ResidentState.Unknown, nextActivityTime);
             }
             else
             {
-                Log.Debug($"  - Schedule moving home");
+                Log.Debug(LogCategories.Schedule, $"  - Schedule moving home");
                 schedule.Schedule(ResidentState.AtHome);
             }
 
@@ -344,7 +344,7 @@ namespace RealTime.CustomAI
                 && schedule.ScheduledState == ResidentState.Unknown
                 && !noReschedule)
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} will re-schedule now");
+                Log.Debug(LogCategories.Schedule, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} will re-schedule now");
 
                 // If the state processing changed the schedule, we need to update it
                 UpdateCitizenSchedule(ref schedule, citizenId, ref citizen);
@@ -357,7 +357,7 @@ namespace RealTime.CustomAI
 
             if (schedule.CurrentState == ResidentState.AtHome && IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen))
             {
-                Log.Debug($" *** Citizen {citizenId} is virtual this time");
+                Log.Debug(LogCategories.Simulation, $" *** Citizen {citizenId} is virtual this time");
                 schedule.Schedule(ResidentState.Unknown);
                 return;
             }

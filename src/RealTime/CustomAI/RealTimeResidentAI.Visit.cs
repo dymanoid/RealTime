@@ -47,7 +47,7 @@ namespace RealTime.CustomAI
             // In that case, move back home.
             if (schedule.CurrentState == ResidentState.AtSchoolOrWork && schedule.LastScheduledState == ResidentState.Relaxing)
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted relax but is still at work. No relaxing activity found. Now going home.");
+                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted relax but is still at work. No relaxing activity found. Now going home.");
                 return false;
             }
 
@@ -60,11 +60,11 @@ namespace RealTime.CustomAI
                     ushort leisure = MoveToLeisureBuilding(instance, citizenId, ref citizen, buildingId);
                     if (leisure == 0)
                     {
-                        Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted relax but didn't find a leisure building");
+                        Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted relax but didn't find a leisure building");
                         return false;
                     }
 
-                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} heading to a leisure building {leisure}");
+                    Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} heading to a leisure building {leisure}");
                     return true;
 
                 case ScheduleHint.AttendingEvent:
@@ -74,12 +74,12 @@ namespace RealTime.CustomAI
 
                     if (cityEvent == null)
                     {
-                        Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted attend an event at '{schedule.EventBuilding}', but there was no event there");
+                        Log.Debug(LogCategories.Events, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted attend an event at '{schedule.EventBuilding}', but there was no event there");
                     }
                     else if (StartMovingToVisitBuilding(instance, citizenId, ref citizen, schedule.EventBuilding))
                     {
                         returnTime = cityEvent.EndTime;
-                        Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanna attend an event at '{schedule.EventBuilding}', will return at {returnTime}");
+                        Log.Debug(LogCategories.Events, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanna attend an event at '{schedule.EventBuilding}', will return at {returnTime}");
                     }
 
                     return returnTime != default;
@@ -97,13 +97,13 @@ namespace RealTime.CustomAI
             schedule.Schedule(nextState);
             if (schedule.CurrentState != ResidentState.Relaxing || Random.ShouldOccur(FindAnotherShopOrEntertainmentChance))
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna relax and then schedules {nextState}, heading to an entertainment building.");
+                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna relax and then schedules {nextState}, heading to an entertainment building.");
                 residentAI.FindVisitPlace(instance, citizenId, buildingId, residentAI.GetEntertainmentReason(instance));
             }
 #if DEBUG
             else
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} continues relaxing in the same entertainment building.");
+                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} continues relaxing in the same entertainment building.");
             }
 #endif
 
@@ -162,7 +162,7 @@ namespace RealTime.CustomAI
             // In that case, move back home.
             if (schedule.CurrentState == ResidentState.AtSchoolOrWork && schedule.LastScheduledState == ResidentState.Shopping)
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go shopping but is still at work. No shopping activity found. Now going home.");
+                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go shopping but is still at work. No shopping activity found. Now going home.");
                 return false;
             }
 
@@ -174,7 +174,7 @@ namespace RealTime.CustomAI
                 ushort shop = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance);
                 if (shop == 0)
                 {
-                    Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go shopping, but didn't find a local shop");
+                    Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go shopping, but didn't find a local shop");
                     return false;
                 }
 
@@ -183,7 +183,7 @@ namespace RealTime.CustomAI
                     schedule.Hint = ScheduleHint.NoShoppingAnyMore;
                 }
 
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} goes shopping at a local shop {shop}");
+                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} goes shopping at a local shop {shop}");
                 return true;
             }
 
@@ -196,13 +196,13 @@ namespace RealTime.CustomAI
 
             if (schedule.CurrentState != ResidentState.Shopping || Random.ShouldOccur(FindAnotherShopOrEntertainmentChance))
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna go shopping and schedules {nextState}, heading to a random shop, hint = {schedule.Hint}");
+                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna go shopping and schedules {nextState}, heading to a random shop, hint = {schedule.Hint}");
                 residentAI.FindVisitPlace(instance, citizenId, currentBuilding, residentAI.GetShoppingReason(instance));
             }
 #if DEBUG
             else
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} continues shopping in the same building.");
+                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} continues shopping in the same building.");
             }
 #endif
 
@@ -225,7 +225,7 @@ namespace RealTime.CustomAI
         {
             if (schedule.Hint == ScheduleHint.OnTour)
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a tour");
+                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a tour");
                 schedule.Schedule(ResidentState.Unknown);
                 return true;
             }
@@ -248,14 +248,14 @@ namespace RealTime.CustomAI
 
             if (schedule.CurrentState != ResidentState.Shopping && IsBadWeather())
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a visit because of bad weather");
+                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a visit because of bad weather");
                 schedule.Schedule(ResidentState.AtHome);
                 return true;
             }
 
             if (buildingAI.IsNoiseRestricted(currentBuilding, currentBuilding))
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a visit because of NIMBY policy");
+                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a visit because of NIMBY policy");
                 schedule.Schedule(ResidentState.Unknown);
                 return true;
             }
@@ -267,7 +267,7 @@ namespace RealTime.CustomAI
 
             if (!Random.ShouldOccur(stayChance))
             {
-                Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a visit because of time");
+                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a visit because of time");
                 schedule.Schedule(ResidentState.AtHome);
                 return true;
             }

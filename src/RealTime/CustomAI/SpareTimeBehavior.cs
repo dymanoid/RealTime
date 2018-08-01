@@ -175,7 +175,7 @@ namespace RealTime.CustomAI
 #if DEBUG
             if (dump)
             {
-                Log.Debug($"DEFAULT GOING OUT CHANCES for {timeInfo.Now}: child = {defaultChances[0]}, teen = {defaultChances[1]}, young = {defaultChances[2]}, adult = {defaultChances[3]}, senior = {defaultChances[4]}");
+                Log.Debug(LogCategories.Simulation, $"DEFAULT GOING OUT CHANCES for {timeInfo.Now}: child = {defaultChances[0]}, teen = {defaultChances[1]}, young = {defaultChances[2]}, adult = {defaultChances[3]}, senior = {defaultChances[4]}");
             }
 #endif
         }
@@ -201,7 +201,7 @@ namespace RealTime.CustomAI
 #if DEBUG
             if (oldChance != secondShiftChances[(int)Citizen.AgeGroup.Adult])
             {
-                Log.Debug($"SECOND SHIFT GOING OUT CHANCE for {timeInfo.Now}: young = {secondShiftChances[2]}, adult = {secondShiftChances[3]}");
+                Log.Debug(LogCategories.Simulation, $"SECOND SHIFT GOING OUT CHANCE for {timeInfo.Now}: young = {secondShiftChances[2]}, adult = {secondShiftChances[3]}");
             }
 #endif
         }
@@ -227,7 +227,7 @@ namespace RealTime.CustomAI
 #if DEBUG
             if (oldChance != nightShiftChances[(int)Citizen.AgeGroup.Adult])
             {
-                Log.Debug($"NIGHT SHIFT GOING OUT CHANCE for {timeInfo.Now}: young = {nightShiftChances[2]}, adult = {nightShiftChances[3]}");
+                Log.Debug(LogCategories.Simulation, $"NIGHT SHIFT GOING OUT CHANCE for {timeInfo.Now}: young = {nightShiftChances[2]}, adult = {nightShiftChances[3]}");
             }
 #endif
         }
@@ -282,7 +282,7 @@ namespace RealTime.CustomAI
 #if DEBUG
             if (oldChance != roundedChance)
             {
-                Log.Debug($"SHOPPING CHANCES for {timeInfo.Now}: child = {shoppingChances[0]}, teen = {shoppingChances[1]}, young = {shoppingChances[2]}, adult = {shoppingChances[3]}, senior = {shoppingChances[4]}");
+                Log.Debug(LogCategories.Simulation, $"SHOPPING CHANCES for {timeInfo.Now}: child = {shoppingChances[0]}, teen = {shoppingChances[1]}, young = {shoppingChances[2]}, adult = {shoppingChances[3]}, senior = {shoppingChances[4]}");
             }
 #endif
         }
@@ -312,9 +312,20 @@ namespace RealTime.CustomAI
                 baseChance = 100u * 30u;
             }
 
+#if DEBUG
+            bool dump = baseChance != vacationChances[(int)Citizen.Wealth.Medium];
+#endif
+
             vacationChances[(int)Citizen.Wealth.Low] = baseChance / 2;
             vacationChances[(int)Citizen.Wealth.Medium] = baseChance;
             vacationChances[(int)Citizen.Wealth.High] = baseChance * 3 / 2;
+
+#if DEBUG
+            if (dump)
+            {
+                Log.Debug(LogCategories.Simulation, $"VACATION CHANCES for {timeInfo.Now}: low = {vacationChances[0]}, medium = {vacationChances[1]}, high = {vacationChances[2]}");
+            }
+#endif
         }
     }
 }

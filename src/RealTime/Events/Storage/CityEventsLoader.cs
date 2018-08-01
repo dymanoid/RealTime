@@ -138,7 +138,7 @@ namespace RealTime.Events.Storage
                         foreach (CityEventTemplate @event in container.Templates.Where(e => !events.Any(ev => ev.EventName == e.EventName)))
                         {
                             events.Add(@event);
-                            Log.Debug($"Loaded event template '{@event.EventName}' for '{@event.BuildingClassName}'");
+                            Log.Debug(LogCategories.Generic, $"Loaded event template '{@event.EventName}' for '{@event.BuildingClassName}'");
                         }
                     }
                 }
@@ -148,7 +148,7 @@ namespace RealTime.Events.Storage
                 }
             }
 
-            Log.Debug($"Successfully loaded {events.Count} event templates");
+            Log.Debug(LogCategories.Generic, $"Successfully loaded {events.Count} event templates");
         }
     }
 }
