@@ -18,7 +18,7 @@ namespace RealTime.UI
         where TItem : UIComponent
     {
         private readonly PropertyInfo property;
-        private readonly object config;
+        private readonly Func<object> configProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CitiesViewItem{TItem, TValue}"/> class.
@@ -28,13 +28,13 @@ namespace RealTime.UI
         /// <param name="property">
         /// The property description that specifies the target property where to store the value.
         /// </param>
-        /// <param name="config">The configuration storage object for the value.</param>
+        /// <param name="configProvider">A method that provides the configuration storage object for the value.</param>
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
         /// <exception cref="ArgumentException">
         /// thrown when the <paramref name="id"/> is an empty string.
         /// </exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Justification = "Pure methods invoked")]
-        protected CitiesViewItem(UIHelperBase uiHelper, string id, PropertyInfo property, object config)
+        protected CitiesViewItem(UIHelperBase uiHelper, string id, PropertyInfo property, Func<object> configProvider)
         {
             if (uiHelper == null)
             {
@@ -42,7 +42,7 @@ namespace RealTime.UI
             }
 
             this.property = property ?? throw new ArgumentNullException(nameof(property));
-            this.config = config ?? throw new ArgumentNullException(nameof(config));
+            this.configProvider = configProvider ?? throw new ArgumentNullException(nameof(configProvider));
 
             if (id == null)
             {
@@ -64,13 +64,13 @@ namespace RealTime.UI
         /// <summary>Gets current configuration item value.</summary>
         protected TValue Value
         {
-            get => (TValue)Convert.ChangeType(property.GetValue(config, null), typeof(TValue));
+            get => (TValue)Convert.ChangeType(property.GetValue(configProvider(), null), typeof(TValue));
             private set
             {
                 object newValue = property.PropertyType.IsEnum
                     ? Enum.ToObject(property.PropertyType, value)
                     : Convert.ChangeType(value, property.PropertyType);
-                property.SetValue(config, newValue, null);
+                property.SetValue(configProvider(), newValue, null);
             }
         }
 

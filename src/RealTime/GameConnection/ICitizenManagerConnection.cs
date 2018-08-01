@@ -16,6 +16,11 @@ namespace RealTime.GameConnection
         /// <returns>The ID of the building the citizen is moving to, or 0 if none.</returns>
         ushort GetTargetBuilding(ushort instanceId);
 
+        /// <summary>Gets the ID of the game node this citizen is currently moving to.</summary>
+        /// <param name="instanceId">The citizen's instance ID.</param>
+        /// <returns>The ID of the game node the citizen is moving to, or 0 if none.</returns>
+        ushort GetTargetNode(ushort instanceId);
+
         /// <summary>Determines whether the citizen's instance with specified ID has particular flags.</summary>
         /// <param name="instanceId">The instance ID to check.</param>
         /// <param name="flags">The flags to check.</param>

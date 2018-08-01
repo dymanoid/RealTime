@@ -45,20 +45,20 @@ namespace RealTime.Core
         /// Runs the mod by activating its parts.
         /// </summary>
         ///
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="config"/> or <paramref name="localizationProvider"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="configProvider"/> or <paramref name="localizationProvider"/> is null.</exception>
         /// <exception cref="ArgumentException">Thrown when <paramref name="rootPath"/> is null or an empty string.</exception>
         ///
-        /// <param name="config">The configuration to run with.</param>
+        /// <param name="configProvider">The configuration provider that provides the mod's configuration.</param>
         /// <param name="rootPath">The path to the mod's assembly. Additional files are stored here too.</param>
         /// <param name="localizationProvider">The <see cref="ILocalizationProvider"/> to use for text translation.</param>
         ///
         /// <returns>A <see cref="RealTimeCore"/> instance that can be used to stop the mod.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "This is the entry point and needs to instantiate all parts")]
-        public static RealTimeCore Run(RealTimeConfig config, string rootPath, ILocalizationProvider localizationProvider)
+        public static RealTimeCore Run(ConfigurationProvider configProvider, string rootPath, ILocalizationProvider localizationProvider)
         {
-            if (config == null)
+            if (configProvider == null)
             {
-                throw new ArgumentNullException(nameof(config));
+                throw new ArgumentNullException(nameof(configProvider));
             }
 
             if (string.IsNullOrEmpty(rootPath))
@@ -80,6 +80,7 @@ namespace RealTime.Core
                 ResidentAIPatch.Location,
                 ResidentAIPatch.ArriveAtDestination,
                 TouristAIPatch.Location,
+                TransferManagerPatch.AddOutgoingOffer,
                 UIGraphPatches.MinDataPoints,
                 UIGraphPatches.VisibleEndTime,
                 UIGraphPatches.BuildLabels);
@@ -95,7 +96,12 @@ namespace RealTime.Core
                 return null;
             }
 
-            var timeInfo = new TimeInfo(config);
+            if (RealTimeStorage.CurrentLevelStorage != null)
+            {
+                LoadStorageData(new[] { configProvider }, RealTimeStorage.CurrentLevelStorage);
+            }
+
+            var timeInfo = new TimeInfo(configProvider.Configuration);
             var buildingManager = new BuildingManagerConnection();
             var randomizer = new GameRandomizer();
 
@@ -111,21 +117,21 @@ namespace RealTime.Core
                 weatherInfo);
 
             var eventManager = new RealTimeEventManager(
-                config,
+                configProvider.Configuration,
                 CityEventsLoader.Instance,
                 new EventManagerConnection(),
                 buildingManager,
                 randomizer,
                 timeInfo);
 
-            if (!SetupCustomAI(timeInfo, config, gameConnections, eventManager))
+            if (!SetupCustomAI(timeInfo, configProvider.Configuration, gameConnections, eventManager))
             {
                 Log.Error("The 'Real Time' mod failed to setup the customized AI and will now be deactivated.");
                 patcher.Revert();
                 return null;
             }
 
-            var timeAdjustment = new TimeAdjustment(config);
+            var timeAdjustment = new TimeAdjustment(configProvider.Configuration);
             DateTime gameDate = timeAdjustment.Enable();
             SimulationHandler.CitizenProcessor.UpdateFrameDuration();
 
@@ -137,22 +143,39 @@ namespace RealTime.Core
 
             var result = new RealTimeCore(timeAdjustment, customTimeBar, eventManager, patcher);
             eventManager.EventsChanged += result.CityEventsChanged;
+
+            var statistics = new Statistics(timeInfo, localizationProvider);
+            if (statistics.Initialize())
+            {
+                statistics.RefreshUnits();
+            }
+            else
+            {
+                statistics = null;
+            }
+
             SimulationHandler.NewDay += result.CityEventsChanged;
 
             SimulationHandler.TimeAdjustment = timeAdjustment;
-            SimulationHandler.DayTimeSimulation = new DayTimeSimulation(config);
+            SimulationHandler.DayTimeSimulation = new DayTimeSimulation(configProvider.Configuration);
             SimulationHandler.EventManager = eventManager;
             SimulationHandler.WeatherInfo = weatherInfo;
             SimulationHandler.Buildings = BuildingAIPatches.RealTimeAI;
             SimulationHandler.Buildings.UpdateFrameDuration();
             SimulationHandler.Buildings.InitializeLightState();
+            SimulationHandler.Statistics = statistics;
 
-            AwakeSleepSimulation.Install(config);
+            AwakeSleepSimulation.Install(configProvider.Configuration);
 
             RealTimeStorage.CurrentLevelStorage.GameSaving += result.GameSaving;
             result.storageData.Add(eventManager);
             result.storageData.Add(ResidentAIPatch.RealTimeAI.GetStorageService());
-            result.LoadStorageData(RealTimeStorage.CurrentLevelStorage);
+            if (RealTimeStorage.CurrentLevelStorage != null)
+            {
+                LoadStorageData(result.storageData, RealTimeStorage.CurrentLevelStorage);
+            }
+
+            result.storageData.Add(configProvider);
 
             result.Translate(localizationProvider);
 
@@ -187,12 +210,15 @@ namespace RealTime.Core
             ResidentAIPatch.RealTimeAI = null;
             TouristAIPatch.RealTimeAI = null;
             BuildingAIPatches.RealTimeAI = null;
+            TransferManagerPatch.RealTimeAI = null;
             SimulationHandler.EventManager = null;
             SimulationHandler.DayTimeSimulation = null;
             SimulationHandler.TimeAdjustment = null;
             SimulationHandler.WeatherInfo = null;
             SimulationHandler.Buildings = null;
             SimulationHandler.CitizenProcessor = null;
+            SimulationHandler.Statistics?.Close();
+            SimulationHandler.Statistics = null;
 
             isEnabled = false;
         }
@@ -232,11 +258,23 @@ namespace RealTime.Core
             var travelBehavior = new TravelBehavior(gameConnections.BuildingManager);
             var workBehavior = new WorkBehavior(config, gameConnections.Random, gameConnections.BuildingManager, timeInfo, travelBehavior);
 
+            var realTimePrivateBuildingAI = new RealTimeBuildingAI(
+                config,
+                timeInfo,
+                gameConnections.BuildingManager,
+                new ToolManagerConnection(),
+                workBehavior,
+                travelBehavior);
+
+            BuildingAIPatches.RealTimeAI = realTimePrivateBuildingAI;
+            TransferManagerPatch.RealTimeAI = realTimePrivateBuildingAI;
+
             var realTimeResidentAI = new RealTimeResidentAI<ResidentAI, Citizen>(
                 config,
                 gameConnections,
                 residentAIConnection,
                 eventManager,
+                realTimePrivateBuildingAI,
                 workBehavior,
                 spareTimeBehavior,
                 travelBehavior);
@@ -258,15 +296,6 @@ namespace RealTime.Core
                 spareTimeBehavior);
 
             TouristAIPatch.RealTimeAI = realTimeTouristAI;
-
-            var realTimePrivateBuildingAI = new RealTimeBuildingAI(
-                config,
-                timeInfo,
-                gameConnections.BuildingManager,
-                new ToolManagerConnection(),
-                workBehavior);
-
-            BuildingAIPatches.RealTimeAI = realTimePrivateBuildingAI;
             return true;
         }
 
@@ -275,19 +304,18 @@ namespace RealTime.Core
             CameraHelper.NavigateToBuilding(e.CityEventBuildingId);
         }
 
-        private void CityEventsChanged(object sender, EventArgs e)
-        {
-            timeBar.UpdateEventsDisplay(eventManager.CityEvents);
-        }
-
-        private void LoadStorageData(RealTimeStorage storage)
+        private static void LoadStorageData(IEnumerable<IStorageData> storageData, RealTimeStorage storage)
         {
             foreach (IStorageData item in storageData)
             {
                 storage.Deserialize(item);
+                Log.Debug("The 'Real Time' mod loaded its data from container " + item.StorageDataId);
             }
+        }
 
-            Log.Info("The 'Real Time' mod successfully loaded its data for the current game.");
+        private void CityEventsChanged(object sender, EventArgs e)
+        {
+            timeBar.UpdateEventsDisplay(eventManager.CityEvents);
         }
 
         private void GameSaving(object sender, EventArgs e)
@@ -296,9 +324,8 @@ namespace RealTime.Core
             foreach (IStorageData item in storageData)
             {
                 storage.Serialize(item);
+                Log.Debug("The 'Real Time' mod stored its data in the current game for container " + item.StorageDataId);
             }
-
-            Log.Info("The 'Real Time' mod successfully stored its data in the current game.");
         }
     }
 }

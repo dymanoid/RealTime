@@ -17,5 +17,11 @@ namespace RealTime.Localization
 
         /// <summary>The key for a 'mod not working' message.</summary>
         public const string ModNotWorkingMessage = "ModNotWorkingMessage";
+
+        /// <summary>The key for a 'incompatible mods found' message.</summary>
+        public const string IncompatibleModsFoundMessage = "IncompatibleModsFoundMessage";
+
+        /// <summary>The key for the abbreviated 'minutes' text.</summary>
+        public const string Minutes = "Minutes";
     }
 }

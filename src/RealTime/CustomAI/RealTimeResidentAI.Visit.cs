@@ -108,7 +108,7 @@ namespace RealTime.CustomAI
             // If the citizen doesn't need any good, he/she still can go shopping just for fun
             if (!CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods))
             {
-                if (schedule.Hint == ScheduleHint.NoShoppingAnyMore || !Random.ShouldOccur(FunShoppingChance))
+                if (schedule.Hint == ScheduleHint.NoShoppingAnyMore || IsBadWeather() || !Random.ShouldOccur(Config.ShoppingForFunQuota))
                 {
                     schedule.Hint = ScheduleHint.None;
                     return false;
@@ -199,34 +199,6 @@ namespace RealTime.CustomAI
             return RescheduleVisit(ref schedule, citizenId, ref citizen, CitizenProxy.GetVisitBuilding(ref citizen));
         }
 
-        private bool IsBuildingNoiseRestricted(ushort targetBuilding, ushort currentBuilding)
-        {
-            if (BuildingMgr.GetBuildingSubService(targetBuilding) != ItemClass.SubService.CommercialLeisure)
-            {
-                return false;
-            }
-
-            float currentHour = TimeInfo.CurrentHour;
-            if (currentHour >= Config.GoToSleepUpHour || currentHour <= Config.WakeupHour)
-            {
-                return BuildingMgr.IsBuildingNoiseRestricted(targetBuilding);
-            }
-
-            float travelTime = travelBehavior.GetEstimatedTravelTime(currentBuilding, targetBuilding);
-            if (travelTime == 0)
-            {
-                return false;
-            }
-
-            float arriveHour = (float)TimeInfo.Now.AddHours(travelTime).TimeOfDay.TotalHours;
-            if (arriveHour >= Config.GoToSleepUpHour || arriveHour <= Config.WakeupHour)
-            {
-                return BuildingMgr.IsBuildingNoiseRestricted(targetBuilding);
-            }
-
-            return false;
-        }
-
         private bool RescheduleVisit(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen, ushort currentBuilding)
         {
             switch (schedule.ScheduledState)
@@ -247,7 +219,7 @@ namespace RealTime.CustomAI
                 return true;
             }
 
-            if (IsBuildingNoiseRestricted(currentBuilding, currentBuilding))
+            if (buildingAI.IsNoiseRestricted(currentBuilding, currentBuilding))
             {
                 Log.Debug(TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a visit because of NIMBY policy");
                 schedule.Schedule(ResidentState.Unknown, default);

@@ -19,6 +19,7 @@ namespace RealTime.CustomAI
         where TCitizen : struct
     {
         private readonly ResidentAIConnection<TAI, TCitizen> residentAI;
+        private readonly RealTimeBuildingAI buildingAI;
         private readonly WorkBehavior workBehavior;
         private readonly SpareTimeBehavior spareTimeBehavior;
         private readonly TravelBehavior travelBehavior;
@@ -31,6 +32,7 @@ namespace RealTime.CustomAI
         /// <param name="connections">A <see cref="GameConnections{T}"/> instance that provides the game connection implementation.</param>
         /// <param name="residentAI">A connection to the game's resident AI.</param>
         /// <param name="eventManager">A <see cref="RealTimeEventManager"/> instance.</param>
+        /// <param name="buildingAI">The custom building AI.</param>
         /// <param name="workBehavior">A behavior that provides simulation info for the citizens work time.</param>
         /// <param name="spareTimeBehavior">A behavior that provides simulation info for the citizens spare time.</param>
         /// <param name="travelBehavior">A behavior that provides simulation info for the citizens traveling.</param>
@@ -39,12 +41,14 @@ namespace RealTime.CustomAI
             GameConnections<TCitizen> connections,
             ResidentAIConnection<TAI, TCitizen> residentAI,
             RealTimeEventManager eventManager,
+            RealTimeBuildingAI buildingAI,
             WorkBehavior workBehavior,
             SpareTimeBehavior spareTimeBehavior,
             TravelBehavior travelBehavior)
             : base(config, connections, eventManager)
         {
             this.residentAI = residentAI ?? throw new ArgumentNullException(nameof(residentAI));
+            this.buildingAI = buildingAI ?? throw new ArgumentNullException(nameof(buildingAI));
             this.workBehavior = workBehavior ?? throw new ArgumentNullException(nameof(workBehavior));
             this.spareTimeBehavior = spareTimeBehavior ?? throw new ArgumentNullException(nameof(spareTimeBehavior));
             this.travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
@@ -133,7 +137,7 @@ namespace RealTime.CustomAI
         public void BeginNewDay()
         {
             workBehavior.UpdateLunchTime();
-            todayWakeup = TimeInfo.Now.Date.AddHours(Config.WakeupHour);
+            todayWakeup = TimeInfo.Now.Date.AddHours(Config.WakeUpHour);
         }
 
         /// <summary>Performs simulation for starting a new day for a citizen with specified ID.</summary>

@@ -20,7 +20,16 @@ namespace RealTime.Localization
         /// <summary>The XML item key attribute name.</summary>
         public const string XmlKeyAttribute = "id";
 
+        /// <summary>The XML translation node name.</summary>
+        public const string XmlTranslationNodeName = "translation";
+
         /// <summary>The XML item value attribute name.</summary>
         public const string XmlValueAttribute = "value";
+
+        /// <summary>The XML override node name.</summary>
+        public const string XmlOverrideNodeName = "overrides";
+
+        /// <summary>The XML override node 'type' attribute name.</summary>
+        public const string XmlOverrideTypeAttribute = "type";
     }
 }

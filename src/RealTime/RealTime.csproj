@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Config\VirtualCitizensLevel.cs" />
     <Compile Include="Config\ConfigurationProvider.cs" />
+    <Compile Include="Core\Compatibility.cs" />
     <Compile Include="Core\IStorageData.cs" />
     <Compile Include="Core\RealTimeStorage.cs" />
     <Compile Include="CustomAI\CitizenScheduleStorage.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="GameConnection\IToolManagerConnection.cs" />
     <Compile Include="GameConnection\ITransferManagerConnection.cs" />
     <Compile Include="GameConnection\IWeatherManagerConnection.cs" />
+    <Compile Include="GameConnection\Patches\TransferManagerPatch.cs" />
     <Compile Include="GameConnection\Patches\UIGraphPatches.cs" />
     <Compile Include="GameConnection\Patches\WeatherManagerPatch.cs" />
     <Compile Include="GameConnection\TouristAIConnection.cs" />
@@ -137,11 +139,13 @@
     <Compile Include="Simulation\SimulationHandler.cs" />
     <Compile Include="Simulation\DayTimeCalculator.cs" />
     <Compile Include="Simulation\ITimeInfo.cs" />
+    <Compile Include="Simulation\Statistics.cs" />
     <Compile Include="Simulation\TimeAdjustment.cs" />
     <Compile Include="GameConnection\TimeInfo.cs" />
     <Compile Include="Tools\DateTimeExtensions.cs" />
     <Compile Include="Tools\LinkedListExtensions.cs" />
     <Compile Include="Tools\RealTimeMath.cs" />
+    <Compile Include="Tools\SerializationTools.cs" />
     <Compile Include="UI\CitiesButtonViewItem.cs" />
     <Compile Include="UI\CitiesContainerItemBase.cs" />
     <Compile Include="UI\CitiesTabItem.cs" />
@@ -160,6 +164,7 @@
     <Compile Include="UI\IViewItem.cs" />
     <Compile Include="UI\IViewItemFactory.cs" />
     <Compile Include="UI\MessageBox.cs" />
+    <Compile Include="UI\Popup.cs" />
     <Compile Include="UI\RealTimeUIDateTimeWrapper.cs" />
     <Compile Include="UI\CustomTimeBar.cs" />
     <Compile Include="UI\SliderValueType.cs" />
@@ -169,6 +174,7 @@
     <Compile Include="UI\CitiesSliderItem.cs" />
     <Compile Include="UI\CitiesViewItem.cs" />
     <Compile Include="UI\CitiesViewItemFactory.cs" />
+    <Compile Include="UI\TitleBar.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Harmony\Harmony\Harmony.csproj">
@@ -229,8 +235,8 @@
   <PropertyGroup>
     <PostBuildEvent>xcopy /y /q /d "$(TargetPath)" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
 xcopy /y /q /d "$(SolutionDir)Harmony\Harmony\build\$(ConfigurationName)\net35\0Harmony.dll" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
-xcopy /y /q /i /d "$(TargetDir)Localization\Translations" "d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187\Localization"
-xcopy /y /q /i /d "$(ProjectDir)Events\Templates" "d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187\Events"</PostBuildEvent>
+xcopy /y /q /i "$(TargetDir)Localization\Translations" "d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187\Localization"
+xcopy /y /q /i "$(ProjectDir)Events\Templates" "d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187\Events"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets" Condition="Exists('..\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

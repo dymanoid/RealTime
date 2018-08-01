@@ -142,7 +142,7 @@ namespace RealTime.CustomAI
             switch (workShift)
             {
                 case WorkShift.First when HasExtendedFirstWorkShift(service, subService):
-                    workBegin = Math.Min(config.WakeupHour, EarliestWakeUp);
+                    workBegin = Math.Min(config.WakeUpHour, EarliestWakeUp);
                     break;
 
                 case WorkShift.Second:
@@ -314,7 +314,7 @@ namespace RealTime.CustomAI
             switch (workShiftCount)
             {
                 case 1:
-                    startHour = extendedFirstShift ? Math.Min(config.WakeupHour, EarliestWakeUp) : config.WorkBegin;
+                    startHour = extendedFirstShift ? Math.Min(config.WakeUpHour, EarliestWakeUp) : config.WorkBegin;
                     endHour = config.WorkEnd;
                     break;
 

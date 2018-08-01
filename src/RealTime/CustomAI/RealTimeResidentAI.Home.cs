@@ -53,12 +53,12 @@ namespace RealTime.CustomAI
                 return true;
             }
 
-            var age = CitizenProxy.GetAge(ref citizen);
-            uint goOutChance = schedule.ScheduledState == ResidentState.Shopping
+            Citizen.AgeGroup age = CitizenProxy.GetAge(ref citizen);
+            uint goingOutChance = schedule.ScheduledState == ResidentState.Shopping
                 ? spareTimeBehavior.GetShoppingChance(age)
                 : spareTimeBehavior.GetRelaxingChance(age, schedule.WorkShift);
 
-            if (goOutChance > 0)
+            if (goingOutChance > 0)
             {
                 return false;
             }

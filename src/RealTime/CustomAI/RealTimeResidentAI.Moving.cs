@@ -76,7 +76,7 @@ namespace RealTime.CustomAI
                 return 0;
             }
 
-            if (IsBuildingNoiseRestricted(foundBuilding, currentBuilding))
+            if (buildingAI.IsNoiseRestricted(foundBuilding, currentBuilding))
             {
                 Log.Debug($"Citizen {citizenId} won't go to the commercial building {foundBuilding}, it has a NIMBY policy");
                 return 0;
@@ -104,7 +104,7 @@ namespace RealTime.CustomAI
                 ItemClass.Service.Commercial,
                 ItemClass.SubService.CommercialLeisure);
 
-            if (IsBuildingNoiseRestricted(leisureBuilding, currentBuilding))
+            if (buildingAI.IsNoiseRestricted(leisureBuilding, currentBuilding))
             {
                 Log.Debug($"Citizen {citizenId} won't go to the leisure building {leisureBuilding}, it has a NIMBY policy");
                 return 0;

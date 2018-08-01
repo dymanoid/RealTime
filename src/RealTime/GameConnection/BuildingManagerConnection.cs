@@ -342,6 +342,16 @@ namespace RealTime.GameConnection
             }
         }
 
+        /// <summary>Gets the building's level.</summary>
+        /// <param name="buildingId">The ID of the building.</param>
+        /// <returns>The level of the building with the specified ID.</returns>
+        public ItemClass.Level GetBuildingLevel(ushort buildingId)
+        {
+            return buildingId == 0
+                ? ItemClass.Level.None
+                : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.m_class?.m_level ?? ItemClass.Level.None;
+        }
+
         private static bool BuildingCanBeVisited(ushort buildingId)
         {
             uint currentUnitId = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_citizenUnits;
