@@ -132,6 +132,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
+            // We do allow processing on weekends, because some citizens work on weekends and might be on vacation too
             if (schedule.WorkBuilding == 0)
             {
                 return;
