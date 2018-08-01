@@ -293,28 +293,28 @@ namespace RealTime.CustomAI
             int dayOfYear = timeInfo.Now.DayOfYear;
             if (dayOfYear < 7)
             {
-                baseChance = 100u * 30u / 30u;
+                baseChance = 100u * 15u;
             }
             else if (dayOfYear < 30 * 5)
             {
-                baseChance = 100u * 3u / 30u;
+                baseChance = 100u * 3u;
             }
             else if (dayOfYear < 30 * 9)
             {
-                baseChance = 100u * 10u / 30u;
+                baseChance = 100u * 8u;
             }
             else if (dayOfYear < 352)
             {
-                baseChance = 100u * 2u / 30u;
+                baseChance = 100u * 3u;
             }
             else
             {
-                baseChance = 100u * 30u / 30u;
+                baseChance = 100u * 30u;
             }
 
             vacationChances[(int)Citizen.Wealth.Low] = baseChance / 2;
-            vacationChances[(int)Citizen.Wealth.Low] = baseChance;
-            vacationChances[(int)Citizen.Wealth.Low] = baseChance * 3 / 2;
+            vacationChances[(int)Citizen.Wealth.Medium] = baseChance;
+            vacationChances[(int)Citizen.Wealth.High] = baseChance * 3 / 2;
         }
     }
 }
