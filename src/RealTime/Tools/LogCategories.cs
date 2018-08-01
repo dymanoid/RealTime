@@ -31,6 +31,9 @@ namespace RealTime.Tools
         State = 16,
 
         /// <summary>Simulation related information</summary>
-        Simulation = 32
+        Simulation = 32,
+
+        /// <summary>All categories</summary>
+        All = Generic | Schedule | Movement | Events | State | Simulation
     }
 }
