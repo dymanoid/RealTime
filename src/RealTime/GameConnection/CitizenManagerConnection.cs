@@ -160,17 +160,14 @@ namespace RealTime.GameConnection
 
         /// <summary>Attempts to get IDs of the citizen's family members IDs.</summary>
         /// <param name="citizenId">The ID of the citizen to get family members for.</param>
-        /// <param name="member1Id">The ID of the 1st family member.</param>
-        /// <param name="member2Id">The ID of the 2nd family member.</param>
-        /// <param name="member3Id">The ID of the 3rd family member.</param>
-        /// <param name="member4Id">The ID of the 4th family member.</param>
+        /// <param name="targetBuffer">An array of 4 elements to store the results in.</param>
         /// <returns><c>true</c> if the specified citizen has at least one family member; otherwise, <c>false</c>.</returns>
-        public bool TryGetFamily(uint citizenId, out uint member1Id, out uint member2Id, out uint member3Id, out uint member4Id)
+        public bool TryGetFamily(uint citizenId, uint[] targetBuffer)
         {
-            member1Id = 0;
-            member2Id = 0;
-            member3Id = 0;
-            member4Id = 0;
+            for (int i = 0; i < targetBuffer.Length; ++i)
+            {
+                targetBuffer[i] = 0;
+            }
 
             ref Citizen citizen = ref CitizenManager.instance.m_citizens.m_buffer[citizenId];
             if (citizen.m_homeBuilding == 0)
@@ -185,31 +182,33 @@ namespace RealTime.GameConnection
             }
 
             ref CitizenUnit unit = ref CitizenManager.instance.m_units.m_buffer[unitId];
-            member1Id = unit.m_citizen0;
-            member2Id = unit.m_citizen1;
-            member3Id = unit.m_citizen2;
-            member4Id = unit.m_citizen3;
-            if (unit.m_citizen4 != citizenId)
+            int currentMember = -1;
+            if (unit.m_citizen0 != 0 && unit.m_citizen0 != citizenId)
             {
-                if (member4Id == citizenId)
-                {
-                    unit.m_citizen3 = unit.m_citizen4;
-                }
-                else if (member3Id == citizenId)
-                {
-                    unit.m_citizen2 = unit.m_citizen4;
-                }
-                else if (member2Id == citizenId)
-                {
-                    unit.m_citizen1 = unit.m_citizen4;
-                }
-                else
-                {
-                    unit.m_citizen0 = unit.m_citizen4;
-                }
+                targetBuffer[++currentMember] = unit.m_citizen0;
             }
 
-            return member1Id + member2Id + member3Id + member4Id > 0;
+            if (unit.m_citizen1 != 0 && unit.m_citizen1 != citizenId)
+            {
+                targetBuffer[++currentMember] = unit.m_citizen1;
+            }
+
+            if (unit.m_citizen2 != 0 && unit.m_citizen2 != citizenId)
+            {
+                targetBuffer[++currentMember] = unit.m_citizen2;
+            }
+
+            if (unit.m_citizen3 != 0 && unit.m_citizen3 != citizenId)
+            {
+                targetBuffer[++currentMember] = unit.m_citizen3;
+            }
+
+            if (currentMember < 3 && unit.m_citizen4 != 0 && unit.m_citizen4 != citizenId)
+            {
+                targetBuffer[++currentMember] = unit.m_citizen4;
+            }
+
+            return currentMember > 0;
         }
 
         /// <summary>Gets the game's citizens array (direct reference).</summary>

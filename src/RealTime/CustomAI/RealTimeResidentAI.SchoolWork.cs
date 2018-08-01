@@ -9,6 +9,8 @@ namespace RealTime.CustomAI
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
+        private readonly uint[] familyBuffer = new uint[4];
+
         private bool ScheduleWork(ref CitizenSchedule schedule, ref TCitizen citizen)
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
@@ -114,6 +116,10 @@ namespace RealTime.CustomAI
         private void ProcessVacation(uint citizenId)
         {
             ref CitizenSchedule schedule = ref residentSchedules[citizenId];
+
+            // Note: this might lead to different vacation durations for family members even if they all were initialized to same length.
+            // This is because the simulation loop for a family member could process this citizen right after their vacation has been set.
+            // But we intentionally don't avoid this - let's add some randomness.
             if (schedule.VacationDaysLeft > 0)
             {
                 --schedule.VacationDaysLeft;
@@ -143,37 +149,19 @@ namespace RealTime.CustomAI
 
             Log.Debug($"The citizen {citizenId} is now on vacation for {days} days");
             if (!Random.ShouldOccur(FamilyVacationChance)
-                || !CitizenMgr.TryGetFamily(citizenId, out uint m1, out uint m2, out uint m3, out uint m4))
+                || !CitizenMgr.TryGetFamily(citizenId, familyBuffer))
             {
                 return;
             }
 
-            if (m1 != 0)
+            for (int i = 0; i < familyBuffer.Length; ++i)
             {
-                Log.Debug($"The citizen {m1} goes on vacation with {citizenId} as a family member");
-                residentSchedules[m1].WorkStatus = WorkStatus.OnVacation;
-                residentSchedules[m1].VacationDaysLeft = (byte)days;
-            }
-
-            if (m2 != 0)
-            {
-                Log.Debug($"The citizen {m2} goes on vacation with {citizenId} as a family member");
-                residentSchedules[m2].WorkStatus = WorkStatus.OnVacation;
-                residentSchedules[m2].VacationDaysLeft = (byte)days;
-            }
-
-            if (m3 != 0)
-            {
-                Log.Debug($"The citizen {m3} goes on vacation with {citizenId} as a family member");
-                residentSchedules[m3].WorkStatus = WorkStatus.OnVacation;
-                residentSchedules[m3].VacationDaysLeft = (byte)days;
-            }
-
-            if (m4 != 0)
-            {
-                Log.Debug($"The citizen {m4} goes on vacation with {citizenId} as a family member");
-                residentSchedules[m4].WorkStatus = WorkStatus.OnVacation;
-                residentSchedules[m4].VacationDaysLeft = (byte)days;
+                uint familyMemberId = familyBuffer[i];
+                if (familyMemberId != 0)
+                {
+                    residentSchedules[familyMemberId].WorkStatus = WorkStatus.OnVacation;
+                    residentSchedules[familyMemberId].VacationDaysLeft = (byte)days;
+                }
             }
         }
     }

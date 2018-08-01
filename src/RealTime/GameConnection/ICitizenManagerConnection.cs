@@ -76,12 +76,9 @@ namespace RealTime.GameConnection
 
         /// <summary>Attempts to get IDs of the citizen's family members IDs.</summary>
         /// <param name="citizenId">The ID of the citizen to get family members for.</param>
-        /// <param name="member1Id">The ID of the 1st family member.</param>
-        /// <param name="member2Id">The ID of the 2nd family member.</param>
-        /// <param name="member3Id">The ID of the 3rd family member.</param>
-        /// <param name="member4Id">The ID of the 4th family member.</param>
+        /// <param name="targetBuffer">An array of 4 elements to store the results in.</param>
         /// <returns><c>true</c> if the specified citizen has at least one family member; otherwise, <c>false</c>.</returns>
-        bool TryGetFamily(uint citizenId, out uint member1Id, out uint member2Id, out uint member3Id, out uint member4Id);
+        bool TryGetFamily(uint citizenId, uint[] targetBuffer);
 
         /// <summary>Gets the game's citizens array (direct reference).</summary>
         /// <returns>The reference to the game's array containing the <see cref="Citizen"/> items.</returns>
