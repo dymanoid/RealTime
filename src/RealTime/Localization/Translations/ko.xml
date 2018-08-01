@@ -3,10 +3,16 @@
 
   <translation id="Warning" value="경고" />
   <translation id="ModNotWorkingMessage" value="어이쿠! 무엇인가 잘못되었습니다 - 모드가 정상 동작하지 않습니다! 모드 제작자에게 로그 파일을 보내주세요." />
+<<<<<<< HEAD
   <translation id="IncompatibleModsFoundMessage" value="최소 하나 이상의 호환되지 않는 모드가 발견되었습니다. 호환되지 않는 모드를 구독해재하는 것을 추천드립니다. 위험을 부담하면서 놔두셔도 상관없지만, 잘못 작동되거나 혹은 게임이 튕길수 있습니다." />
   <translation id="Minutes" value="분." />
+=======
+  <translation id="IncompatibleModsFoundMessage" value="Real Time detected at least one incompatible mod (or at least partly incompatible). It is recommended to unsubscribe from them. You might continue on your own risk if you know what you are doing, but in this case something might not work properly or even crash the game." />
+  <translation id="Minutes" value="min." />
+>>>>>>> master
   
   <translation id="Tools" value="도구" />
+  <translation id="ShowIncompatibilityNotifications" value="Show mod incompatibility notifications" />
   <translation id="ResetToDefaults" value="모두 초기값으로 되돌리기" />
   <translation id="UseForNewGames" value="새 게임에 현재 값을 사용" />
 
@@ -81,6 +87,8 @@
   <translation id="LunchBeginTooltip" value="시민들의 점심시간 시작 시간을 설정합니다" />
   <translation id="LunchEnd" value="점심시간 종료" />
   <translation id="LunchEndTooltip" value="시민들의 점심시간 종료 시간을 설정합니다" />
+  <translation id="MaxVacationLength" value="Maximum vacation days" />
+  <translation id="MaxVacationLengthTooltip" value="For how long citizens can be on vacation. Set to 0 to disable vacations." />
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="석탄이 {0} × {unit} 저장됨"/>

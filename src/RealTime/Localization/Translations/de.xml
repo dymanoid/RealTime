@@ -3,10 +3,11 @@
 
   <translation id="Warning" value="Warnung" />
   <translation id="ModNotWorkingMessage" value="Oh je! Etwas ist schief gelaufen - die Mod 'Real Time' kann nicht aktiviert werden. Bitte zeigen Sie das Log-File von Cities:Skylines dem Entwickler." />
-  <translation id="IncompatibleModsFoundMessage" value="Zumindest eine unkompatible Mod wurde entdeckt. Es wird empfohlen, sich von denen abzumelden. Weiterspielen ist auf eigenes Risiko möglich, dabei könnte aber etwas nicht funktionieren oder das Spiel könnte abstürzen." />
+  <translation id="IncompatibleModsFoundMessage" value="Real Time etdeckte zumindest eine inkompatible Mod (oder teilweise inkompatible). Es wird empfohlen, davon abzumelden. Weiterspielen ist auf eigenes Risiko möglich, etwas könnte dabei aber nicht funktionieren oder das Spiel könnte abstürzen." />
   <translation id="Minutes" value="Min." />
 
   <translation id="Tools" value="Tools" />
+  <translation id="ShowIncompatibilityNotifications" value="Zeige Inkompatibilitäts-Notifikationen mit anderen Mods" />
   <translation id="ResetToDefaults" value="Alle Optionen zurücksetzen" />
   <translation id="UseForNewGames" value="Aktuelle Einstellungen für neue Spiele verwenden" />
 
@@ -81,6 +82,8 @@
   <translation id="LunchBeginTooltip" value="Beginn der Mittagszeit - Cims machen eine Pause und gehen essen" />
   <translation id="LunchEnd" value="Ende der Mittagspause" />
   <translation id="LunchEndTooltip" value="Ende der Mittagspause - Cims kehren zur Arbeit zurück" />
+  <translation id="MaxVacationLength" value="Max. Urlaubstage" />
+  <translation id="MaxVacationLengthTooltip" value="Wie viele Tage maximal können Cims im Urlaub sein. Setzen Sie den Wert auf 0, um Urlaub zu deaktivieren." />
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="Kohle gespeichert für {0} × {unit}"/>

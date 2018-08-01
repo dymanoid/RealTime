@@ -48,14 +48,27 @@ namespace RealTime.Tools
                 return "?";
             }
 
-            string version = versionField.GetValue(null) as string;
-            if (string.IsNullOrEmpty(version))
+            try
             {
-                Log.Warning($"The '{GitVersionTypeName}.{VersionFieldName}' value is empty.");
+                string version = versionField.GetValue(null) as string;
+                if (string.IsNullOrEmpty(version))
+                {
+                    Log.Warning($"The '{GitVersionTypeName}.{VersionFieldName}' value is empty.");
+                    return "?";
+                }
+
+                return version;
+            }
+            catch (TargetException)
+            {
+                Log.Warning($"The API of GitVersion has changed: '{GitVersionTypeName}.{VersionFieldName}' is not static.");
                 return "?";
             }
-
-            return version;
+            catch (FieldAccessException)
+            {
+                Log.Warning($"We are in restricted security context, the field '{GitVersionTypeName}.{VersionFieldName}' cannot be accessed.");
+                return "?";
+            }
         }
     }
 }

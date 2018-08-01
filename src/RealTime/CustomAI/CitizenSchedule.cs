@@ -26,6 +26,9 @@ namespace RealTime.CustomAI
         /// <summary>The citizen's work status.</summary>
         public WorkStatus WorkStatus;
 
+        /// <summary>The number of days the citizen will be on vacation (including the current day).</summary>
+        public byte VacationDaysLeft;
+
         /// <summary>The ID of the citizen's work building. If it doesn't equal the game's value, the work shift data needs to be updated.</summary>
         public ushort WorkBuilding;
 
@@ -36,6 +39,9 @@ namespace RealTime.CustomAI
 
         /// <summary>Gets the citizen's next scheduled state.</summary>
         public ResidentState ScheduledState { get; private set; }
+
+        /// <summary>Gets the citizen's previous scheduled state.</summary>
+        public ResidentState LastScheduledState { get; private set; }
 
         /// <summary>Gets the time when the citizen will perform the next state change.</summary>
         public DateTime ScheduledStateTime { get; private set; }
@@ -93,13 +99,24 @@ namespace RealTime.CustomAI
             WorksOnWeekends = worksOnWeekends;
         }
 
-        /// <summary>Schedules next actions for the citizen.</summary>
+        /// <summary>Schedules next actions for the citizen with a specified action time.</summary>
         /// <param name="nextState">The next scheduled citizen's state.</param>
         /// <param name="nextStateTime">The time when the scheduled state must change.</param>
         public void Schedule(ResidentState nextState, DateTime nextStateTime)
         {
+            LastScheduledState = ScheduledState;
             ScheduledState = nextState;
             ScheduledStateTime = nextStateTime;
+        }
+
+        /// <summary>Schedules next actions for the citizen with no action time (ASAP).</summary>
+        /// <param name="nextState">The next scheduled citizen's state.</param>
+        public void Schedule(ResidentState nextState)
+        {
+            // Note: not calling the overload to avoid additional method call - this method will be called frequently
+            LastScheduledState = ScheduledState;
+            ScheduledState = nextState;
+            ScheduledStateTime = default;
         }
 
         /// <summary>Writes this instance to the specified target buffer.</summary>
@@ -108,7 +125,7 @@ namespace RealTime.CustomAI
         public void Write(byte[] target, long referenceTime)
         {
             target[0] = (byte)(((int)WorkShift & 0xF) + ((int)WorkStatus << 4));
-            target[1] = (byte)ScheduledState;
+            target[1] = (byte)(((int)ScheduledState & 0xF) + (VacationDaysLeft << 4));
 
             ushort minutes = ScheduledStateTime == default
                 ? (ushort)0
@@ -129,7 +146,8 @@ namespace RealTime.CustomAI
         {
             WorkShift = (WorkShift)(source[0] & 0xF);
             WorkStatus = (WorkStatus)(source[0] >> 4);
-            ScheduledState = (ResidentState)source[1];
+            ScheduledState = (ResidentState)(source[1] & 0xF);
+            VacationDaysLeft = (byte)(source[1] >> 4);
 
             int minutes = source[2] + (source[3] << 8);
             ScheduledStateTime = minutes == 0

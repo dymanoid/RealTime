@@ -68,6 +68,18 @@ namespace RealTime.GameConnection
         /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the argument is 0.</exception>
         Citizen.Location GetCitizenLocation(uint citizenId);
 
+        /// <summary>Gets the wealth of the citizen with specified ID.</summary>
+        /// <param name="citizenId">The ID of the citizen to query wealth of.</param>
+        /// <returns>A <see cref="Citizen.Wealth"/> value that describes the citizen's current wealth.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the argument is 0.</exception>
+        Citizen.Wealth GetCitizenWealth(uint citizenId);
+
+        /// <summary>Attempts to get IDs of the citizen's family members IDs.</summary>
+        /// <param name="citizenId">The ID of the citizen to get family members for.</param>
+        /// <param name="targetBuffer">An array of 4 elements to store the results in.</param>
+        /// <returns><c>true</c> if the specified citizen has at least one family member; otherwise, <c>false</c>.</returns>
+        bool TryGetFamily(uint citizenId, uint[] targetBuffer);
+
         /// <summary>Gets the game's citizens array (direct reference).</summary>
         /// <returns>The reference to the game's array containing the <see cref="Citizen"/> items.</returns>
         Citizen[] GetCitizensArray();

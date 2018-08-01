@@ -28,8 +28,8 @@ namespace RealTime.CustomAI
         ///
         /// <param name="config">A configuration to use with this custom logic.</param>
         /// <param name="connections">An object providing the proxies that connect the method calls to the game methods.</param>
-        /// <param name="eventManager">A reference an <see cref="RealTimeEventManager"/> instance.</param>
-        protected RealTimeHumanAIBase(RealTimeConfig config, GameConnections<TCitizen> connections, RealTimeEventManager eventManager)
+        /// <param name="eventManager">A reference to an <see cref="IRealTimeEventManager"/> instance.</param>
+        protected RealTimeHumanAIBase(RealTimeConfig config, GameConnections<TCitizen> connections, IRealTimeEventManager eventManager)
         {
             Config = config ?? throw new ArgumentNullException(nameof(config));
             EventMgr = eventManager ?? throw new ArgumentNullException(nameof(eventManager));
@@ -68,7 +68,7 @@ namespace RealTime.CustomAI
         /// <summary>
         /// Gets a reference to the event manager.
         /// </summary>
-        protected RealTimeEventManager EventMgr { get; }
+        protected IRealTimeEventManager EventMgr { get; }
 
         /// <summary>
         /// Gets a reference to the proxy class that provides access to citizen's methods and fields.
@@ -130,7 +130,7 @@ namespace RealTime.CustomAI
 
             if (CitizenProxy.IsCollapsed(ref citizen))
             {
-                Log.Debug($"{GetCitizenDesc(citizenId, ref citizen)} is collapsed, doing nothing...");
+                Log.Debug(LogCategories.State, $"{GetCitizenDesc(citizenId, ref citizen)} is collapsed, doing nothing...");
                 return false;
             }
 

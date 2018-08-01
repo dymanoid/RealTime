@@ -3,7 +3,6 @@
 namespace RealTime.CustomAI
 {
     using System;
-    using System.IO;
     using RealTime.Config;
     using RealTime.Core;
     using RealTime.Events;
@@ -19,11 +18,13 @@ namespace RealTime.CustomAI
         where TCitizen : struct
     {
         private readonly ResidentAIConnection<TAI, TCitizen> residentAI;
-        private readonly RealTimeBuildingAI buildingAI;
-        private readonly WorkBehavior workBehavior;
-        private readonly SpareTimeBehavior spareTimeBehavior;
-        private readonly TravelBehavior travelBehavior;
+        private readonly IRealTimeBuildingAI buildingAI;
+        private readonly IWorkBehavior workBehavior;
+        private readonly ISpareTimeBehavior spareTimeBehavior;
+        private readonly ITravelBehavior travelBehavior;
+
         private readonly CitizenSchedule[] residentSchedules;
+
         private float simulationCycle;
 
         /// <summary>Initializes a new instance of the <see cref="RealTimeResidentAI{TAI, TCitizen}"/> class.</summary>
@@ -31,7 +32,7 @@ namespace RealTime.CustomAI
         /// <param name="config">A <see cref="RealTimeConfig"/> instance containing the mod's configuration.</param>
         /// <param name="connections">A <see cref="GameConnections{T}"/> instance that provides the game connection implementation.</param>
         /// <param name="residentAI">A connection to the game's resident AI.</param>
-        /// <param name="eventManager">A <see cref="RealTimeEventManager"/> instance.</param>
+        /// <param name="eventManager">An <see cref="IRealTimeEventManager"/> instance.</param>
         /// <param name="buildingAI">The custom building AI.</param>
         /// <param name="workBehavior">A behavior that provides simulation info for the citizens work time.</param>
         /// <param name="spareTimeBehavior">A behavior that provides simulation info for the citizens spare time.</param>
@@ -40,11 +41,11 @@ namespace RealTime.CustomAI
             RealTimeConfig config,
             GameConnections<TCitizen> connections,
             ResidentAIConnection<TAI, TCitizen> residentAI,
-            RealTimeEventManager eventManager,
-            RealTimeBuildingAI buildingAI,
-            WorkBehavior workBehavior,
-            SpareTimeBehavior spareTimeBehavior,
-            TravelBehavior travelBehavior)
+            IRealTimeEventManager eventManager,
+            IRealTimeBuildingAI buildingAI,
+            IWorkBehavior workBehavior,
+            ISpareTimeBehavior spareTimeBehavior,
+            ITravelBehavior travelBehavior)
             : base(config, connections, eventManager)
         {
             this.residentAI = residentAI ?? throw new ArgumentNullException(nameof(residentAI));
@@ -55,6 +56,9 @@ namespace RealTime.CustomAI
 
             residentSchedules = new CitizenSchedule[CitizenMgr.GetMaxCitizensCount()];
         }
+
+        /// <summary>Gets a value indicating whether the citizens can grow up in the current game time.</summary>
+        public bool CanCitizensGrowUp { get; private set; }
 
         /// <summary>The entry method of the custom AI.</summary>
         /// <param name="instance">A reference to an object instance of the original AI.</param>
@@ -72,18 +76,18 @@ namespace RealTime.CustomAI
             if (CitizenProxy.IsDead(ref citizen))
             {
                 ProcessCitizenDead(instance, citizenId, ref citizen);
-                schedule.Schedule(ResidentState.Unknown, default);
+                schedule.Schedule(ResidentState.Unknown);
                 return;
             }
 
             if ((CitizenProxy.IsSick(ref citizen) && ProcessCitizenSick(instance, citizenId, ref citizen))
                 || (CitizenProxy.IsArrested(ref citizen) && ProcessCitizenArrested(ref citizen)))
             {
-                schedule.Schedule(ResidentState.Unknown, default);
+                schedule.Schedule(ResidentState.Unknown);
                 return;
             }
 
-            ScheduleAction actionType = UpdateCitizenState(citizenId, ref citizen, ref schedule);
+            ScheduleAction actionType = UpdateCitizenState(ref citizen, ref schedule);
             switch (actionType)
             {
                 case ScheduleAction.Ignore:
@@ -95,7 +99,7 @@ namespace RealTime.CustomAI
 
             if (schedule.CurrentState == ResidentState.Unknown)
             {
-                Log.Debug(TimeInfo.Now, $"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is in an UNKNOWN state! Changing to 'moving'");
+                Log.Debug(LogCategories.State, TimeInfo.Now, $"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is in an UNKNOWN state! Changing to 'moving'");
                 CitizenProxy.SetLocation(ref citizen, Citizen.Location.Moving);
                 return;
             }
@@ -123,7 +127,7 @@ namespace RealTime.CustomAI
             {
                 case Citizen.Location.Work:
                     schedule.UpdateTravelTimeToWork(TimeInfo.Now);
-                    Log.Debug($"The citizen {citizenId} arrived at work at {TimeInfo.Now} and needs {schedule.TravelTimeToWork} hours to get to work");
+                    Log.Debug(LogCategories.Movement, $"The citizen {citizenId} arrived at work at {TimeInfo.Now} and needs {schedule.TravelTimeToWork} hours to get to work");
                     break;
 
                 case Citizen.Location.Moving:
@@ -133,21 +137,29 @@ namespace RealTime.CustomAI
             schedule.DepartureToWorkTime = default;
         }
 
-        /// <summary>Performs simulation for starting a new day for all citizens.</summary>
-        public void BeginNewDay()
+        /// <summary>Performs simulation for starting a new day. Enables the logic to perform the 'new day processing' for the citizens.</summary>
+        public void BeginNewDayProcessing()
         {
-            workBehavior.UpdateLunchTime();
-            todayWakeup = TimeInfo.Now.Date.AddHours(Config.WakeUpHour);
+            Log.Debug(LogCategories.Generic, TimeInfo.Now, "Starting of the 'new day' processing for each citizen...");
+            workBehavior.BeginNewDay();
+            todayWakeUp = TimeInfo.Now.Date.AddHours(Config.WakeUpHour);
+            CanCitizensGrowUp = true;
+        }
+
+        /// <summary>Disables the 'new day processing' for the citizens.</summary>
+        public void EndNewDayProcessing()
+        {
+            CanCitizensGrowUp = false;
+            Log.Debug(LogCategories.Generic, TimeInfo.Now, "The 'new day' processing for the citizens is now completed.");
         }
 
         /// <summary>Performs simulation for starting a new day for a citizen with specified ID.</summary>
         /// <param name="citizenId">The citizen ID to process.</param>
         public void BeginNewDayForCitizen(uint citizenId)
         {
-            // TODO: use this method
-            if (citizenId == 0)
+            if (citizenId != 0)
             {
-                return;
+                ProcessVacation(citizenId);
             }
         }
 
@@ -157,7 +169,7 @@ namespace RealTime.CustomAI
         public void SetSimulationCyclePeriod(float cyclePeriod)
         {
             simulationCycle = cyclePeriod;
-            Log.Debug($"SIMULATION CYCLE PERIOD: {cyclePeriod} hours");
+            Log.Debug(LogCategories.Simulation, $"SIMULATION CYCLE PERIOD: {cyclePeriod} hours");
         }
 
         /// <summary>Gets an instance of the storage service that can read and write the custom schedule data.</summary>

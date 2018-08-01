@@ -3,10 +3,11 @@
 
   <translation id="Warning" value="警告" />
   <translation id="ModNotWorkingMessage" value="啊! 出问题了 - Real Time模组无法启用. 请把你的log记录文件分享给该模组的开发者." />
-  <translation id="IncompatibleModsFoundMessage" value="At least one incompatible mod has been detected. It is recommended to unsubscribe from them. You might continue on your own risk, but something might not work properly or even crash the game." />
+  <translation id="IncompatibleModsFoundMessage" value="Real Time detected at least one incompatible mod (or at least partly incompatible). It is recommended to unsubscribe from them. You might continue on your own risk if you know what you are doing, but in this case something might not work properly or even crash the game." />
   <translation id="Minutes" value="min." />
 
   <translation id="Tools" value="工具" />
+  <translation id="ShowIncompatibilityNotifications" value="Show mod incompatibility notifications" />
   <translation id="ResetToDefaults" value="重设至默认" />
   <translation id="UseForNewGames" value="Use current values for new games" />
 
@@ -81,6 +82,8 @@
   <translation id="LunchBeginTooltip" value="午饭饭点开始市民就会上街找吃的" />
   <translation id="LunchEnd" value="午饭饭点结束时间" />
   <translation id="LunchEndTooltip" value="过了午饭饭点市民又回去工作了" />
+  <translation id="MaxVacationLength" value="Maximum vacation days" />
+  <translation id="MaxVacationLengthTooltip" value="For how long citizens can be on vacation. Set to 0 to disable vacations." />
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="Coal stored for {0} × {unit}"/>

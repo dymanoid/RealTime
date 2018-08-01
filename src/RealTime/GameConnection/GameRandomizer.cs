@@ -27,5 +27,13 @@ namespace RealTime.GameConnection
         {
             return SimulationManager.instance.m_randomizer.Int32(100u) < probability;
         }
+
+        /// <summary>Returns a value indicating whether an event with specified precise probability should now occur.</summary>
+        /// <param name="preciseProbability">The probability of the event in percent multiplied by 100. Valid values are 0..10.000.</param>
+        /// <returns><c>true</c> if the event should occur; otherwise, <c>false</c>.</returns>
+        public bool ShouldOccurPrecise(uint preciseProbability)
+        {
+            return SimulationManager.instance.m_randomizer.Int32(10000u) < preciseProbability;
+        }
     }
 }

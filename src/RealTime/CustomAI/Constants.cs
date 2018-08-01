@@ -18,7 +18,13 @@ namespace RealTime.CustomAI
         public const float HotelSearchDistance = BuildingManager.BUILDINGGRID_CELL_SIZE * 20;
 
         /// <summary>A chance in percent for a citizen to stay home until next scheduled action.</summary>
-        public const uint StayHomeAllDayChance = 2;
+        public const uint StayHomeAllDayChance = 2u;
+
+        /// <summary>A chance in percent that a citizen going on vacation will cause his/her family members to go on vacation too.</summary>
+        public const uint FamilyVacationChance = 30u;
+
+        /// <summary>A chance in percent for a citizen to fin dome other facility if they continue shopping/relaxing.</summary>
+        public const uint FindAnotherShopOrEntertainmentChance = 50u;
 
         /// <summary>A chance in percent for a citizen to go shopping in the night.</summary>
         public const uint NightShoppingChance = 20u;
@@ -51,7 +57,6 @@ namespace RealTime.CustomAI
         /// An assumed average speed of a citizen when moving to target (this is not just a walking speed, but also takes
         /// into account moving by car or public transport).
         /// </summary>
-        // TODO: calculate this dynamically depending on time speed
         public const float OnTheWayDistancePerHour = 500f;
 
         /// <summary>A chance in percent that a virtual citizen will not be realized in 'few virtual citizens' mode.</summary>

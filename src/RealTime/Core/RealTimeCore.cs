@@ -71,19 +71,8 @@ namespace RealTime.Core
                 throw new ArgumentNullException(nameof(localizationProvider));
             }
 
-            var patcher = new MethodPatcher(
-                BuildingAIPatches.GetConstructionTime,
-                BuildingAIPatches.HandleWorkers,
-                BuildingAIPatches.CommercialSimulation,
-                BuildingAIPatches.PrivateShowConsumption,
-                BuildingAIPatches.PlayerShowConsumption,
-                ResidentAIPatch.Location,
-                ResidentAIPatch.ArriveAtDestination,
-                TouristAIPatch.Location,
-                TransferManagerPatch.AddOutgoingOffer,
-                UIGraphPatches.MinDataPoints,
-                UIGraphPatches.VisibleEndTime,
-                UIGraphPatches.BuildLabels);
+            IEnumerable<IPatch> patches = GetMethodPatches();
+            var patcher = new MethodPatcher(patches);
 
             try
             {
@@ -167,11 +156,11 @@ namespace RealTime.Core
 
             AwakeSleepSimulation.Install(configProvider.Configuration);
 
-            RealTimeStorage.CurrentLevelStorage.GameSaving += result.GameSaving;
             result.storageData.Add(eventManager);
             result.storageData.Add(ResidentAIPatch.RealTimeAI.GetStorageService());
             if (RealTimeStorage.CurrentLevelStorage != null)
             {
+                RealTimeStorage.CurrentLevelStorage.GameSaving += result.GameSaving;
                 LoadStorageData(result.storageData, RealTimeStorage.CurrentLevelStorage);
             }
 
@@ -242,6 +231,36 @@ namespace RealTime.Core
             UIGraphPatches.Translate(localizationProvider.CurrentCulture);
         }
 
+        private static IEnumerable<IPatch> GetMethodPatches()
+        {
+            var patches = new List<IPatch>
+            {
+                BuildingAIPatches.GetConstructionTime,
+                BuildingAIPatches.HandleWorkers,
+                BuildingAIPatches.CommercialSimulation,
+                BuildingAIPatches.PrivateShowConsumption,
+                BuildingAIPatches.PlayerShowConsumption,
+                ResidentAIPatch.Location,
+                ResidentAIPatch.ArriveAtTarget,
+                TouristAIPatch.Location,
+                TransferManagerPatch.AddOutgoingOffer,
+                UIGraphPatches.MinDataPoints,
+                UIGraphPatches.VisibleEndTime,
+                UIGraphPatches.BuildLabels
+            };
+
+            if (Compatibility.IsModActive(Compatibility.CitizenLifecycleRebalanceId))
+            {
+                Log.Info("The 'Real Time' mod will not change the citizens aging because the 'Citizen Lifecycle Rebalance' mod is active.");
+            }
+            else
+            {
+                patches.Add(ResidentAIPatch.UpdateAge);
+            }
+
+            return patches;
+        }
+
         private static bool SetupCustomAI(
             TimeInfo timeInfo,
             RealTimeConfig config,
@@ -280,7 +299,7 @@ namespace RealTime.Core
                 travelBehavior);
 
             ResidentAIPatch.RealTimeAI = realTimeResidentAI;
-            SimulationHandler.CitizenProcessor = new CitizenProcessor(realTimeResidentAI, spareTimeBehavior, timeInfo);
+            SimulationHandler.CitizenProcessor = new CitizenProcessor<ResidentAI, Citizen>(realTimeResidentAI, spareTimeBehavior, timeInfo);
 
             TouristAIConnection<TouristAI, Citizen> touristAIConnection = TouristAIPatch.GetTouristAIConnection();
             if (touristAIConnection == null)
@@ -309,7 +328,7 @@ namespace RealTime.Core
             foreach (IStorageData item in storageData)
             {
                 storage.Deserialize(item);
-                Log.Debug("The 'Real Time' mod loaded its data from container " + item.StorageDataId);
+                Log.Debug(LogCategories.Generic, "The 'Real Time' mod loaded its data from container " + item.StorageDataId);
             }
         }
 
@@ -324,7 +343,7 @@ namespace RealTime.Core
             foreach (IStorageData item in storageData)
             {
                 storage.Serialize(item);
-                Log.Debug("The 'Real Time' mod stored its data in the current game for container " + item.StorageDataId);
+                Log.Debug(LogCategories.Generic, "The 'Real Time' mod stored its data in the current game for container " + item.StorageDataId);
             }
         }
     }

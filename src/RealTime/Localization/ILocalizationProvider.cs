@@ -17,14 +17,14 @@ namespace RealTime.Localization
 
         /// <summary>Translates a value that has the specified ID.</summary>
         /// <param name="id">The value ID.</param>
-        /// <returns>The translated string value or the <see cref="Constants.NoLocale"/> placeholder text on failure.</returns>
+        /// <returns>The translated string value or an empty string when no translation is found.</returns>
         string Translate(string id);
 
         /// <summary>Gets a dictionary representing the game's translations that should be overridden
         /// by this mod. Can return null.</summary>
         /// <param name="type">The overridden translations type string.</param>
         /// <returns>A map of key-value pairs for translations to override, or null.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
+        /// <exception cref="System.ArgumentNullException">Thrown when the argument is null.</exception>
         IDictionary<string, string> GetOverriddenTranslations(string type);
     }
 }

@@ -43,15 +43,12 @@ namespace RealTime.Localization
 
         /// <summary>Translates a value that has the specified ID.</summary>
         /// <param name="id">The value ID.</param>
-        /// <returns>The translated string value or the <see cref="NoLocale"/> placeholder text on failure.</returns>
+        /// <returns>The translated string value or an empty string when no translation is found.</returns>
         public string Translate(string id)
         {
-            if (translation.TryGetValue(id, out string value))
-            {
-                return value;
-            }
-
-            return NoLocale;
+            return translation.TryGetValue(id, out string value)
+                ? value
+                : string.Empty;
         }
 
         /// <summary>Loads the translation data for the specified language.</summary>
@@ -127,7 +124,7 @@ namespace RealTime.Localization
         {
             if (CurrentCulture.TwoLetterISOLanguageName == language && translation.Count != 0)
             {
-                Log.Debug($"The localization data for '{language}' will not be loaded, because it was already loaded");
+                Log.Debug(LogCategories.Generic, $"The localization data for '{language}' will not be loaded, because it was already loaded");
                 return LoadingResult.AlreadyLoaded;
             }
 

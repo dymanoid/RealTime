@@ -21,8 +21,11 @@ namespace RealTime.GameConnection.Patches
         /// <summary>Gets the patch object for the location method.</summary>
         public static IPatch Location { get; } = new ResidentAI_UpdateLocation();
 
-        /// <summary>Gets the patch object for the arrive at destination method.</summary>
-        public static IPatch ArriveAtDestination { get; } = new HumanAI_ArriveAtDestination();
+        /// <summary>Gets the patch object for the arrive at target method.</summary>
+        public static IPatch ArriveAtTarget { get; } = new HumanAI_ArriveAtTarget();
+
+        /// <summary>Gets the patch object for the update age method.</summary>
+        public static IPatch UpdateAge { get; } = new ResidentAI_UpdateAge();
 
         /// <summary>Creates a game connection object for the resident AI class.</summary>
         /// <returns>A new <see cref="ResidentAIConnection{ResidentAI, Citizen}"/> object.</returns>
@@ -96,25 +99,53 @@ namespace RealTime.GameConnection.Patches
 #pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
 
-        private sealed class HumanAI_ArriveAtDestination : PatchBase
+        private sealed class HumanAI_ArriveAtTarget : PatchBase
         {
             protected override MethodInfo GetMethod()
             {
-                return typeof(HumanAI).GetMethod(
-                    "ArriveAtDestination",
+                return typeof(ResidentAI).GetMethod(
+                    "ArriveAtTarget",
                     BindingFlags.Instance | BindingFlags.NonPublic,
                     null,
-                    new[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(bool) },
+                    new[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType() },
                     new ParameterModifier[0]);
             }
 
-            private static void Postfix(ref CitizenInstance citizenData, bool success)
+#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            private static void Postfix(ref CitizenInstance citizenData, bool __result)
             {
-                if (success && citizenData.Info.m_citizenAI is ResidentAI)
+                if (__result)
                 {
                     RealTimeAI?.RegisterCitizenArrival(citizenData.m_citizen);
                 }
             }
+#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
+        }
+
+        private sealed class ResidentAI_UpdateAge : PatchBase
+        {
+            protected override MethodInfo GetMethod()
+            {
+                return typeof(ResidentAI).GetMethod(
+                    "UpdateAge",
+                    BindingFlags.Instance | BindingFlags.NonPublic,
+                    null,
+                    new[] { typeof(uint), typeof(Citizen).MakeByRefType() },
+                    new ParameterModifier[0]);
+            }
+
+#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            private static bool Prefix(uint citizenID, ref Citizen data, ref bool __result)
+            {
+                if (RealTimeAI != null && !RealTimeAI.CanCitizensGrowUp)
+                {
+                    __result = false;
+                    return false;
+                }
+
+                return true;
+            }
+#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
     }
 }

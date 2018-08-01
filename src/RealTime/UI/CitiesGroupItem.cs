@@ -45,7 +45,7 @@ namespace RealTime.UI
             UILabel label = panel.Find<UILabel>(LabelName);
             if (label != null)
             {
-                label.text = localizationProvider.Translate(ItemId);
+                label.text = localizationProvider.Translate(Id);
             }
         }
     }

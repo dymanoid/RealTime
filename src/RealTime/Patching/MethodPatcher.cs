@@ -5,6 +5,8 @@
 namespace RealTime.Patching
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using Harmony;
     using RealTime.Tools;
@@ -17,14 +19,14 @@ namespace RealTime.Patching
         private const string HarmonyId = "com.cities_skylines.dymanoid.realtime";
 
         private readonly Patcher patcher;
-        private readonly IPatch[] patches;
+        private readonly IEnumerable<IPatch> patches;
 
         /// <summary>Initializes a new instance of the <see cref="MethodPatcher"/> class.</summary>
         /// <param name="patches">The patches to process by this object.</param>
         /// <exception cref="ArgumentException">Thrown when no patches specified.</exception>
-        public MethodPatcher(params IPatch[] patches)
+        public MethodPatcher(IEnumerable<IPatch> patches)
         {
-            if (patches == null || patches.Length == 0)
+            if (patches == null || !patches.Any())
             {
                 throw new ArgumentException("At least one patch is required");
             }
@@ -38,12 +40,15 @@ namespace RealTime.Patching
         public void Apply()
         {
             Revert();
+
+            int applied = 0;
             foreach (IPatch patch in patches)
             {
                 patch.ApplyPatch(patcher);
+                ++applied;
             }
 
-            Log.Info($"The 'Real Time' mod successfully applied {patches.Length} method patches.");
+            Log.Info($"The 'Real Time' mod successfully applied {applied} method patches.");
         }
 
         /// <summary>Reverts all patches, if any applied.</summary>

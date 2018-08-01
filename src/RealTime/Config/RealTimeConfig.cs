@@ -72,7 +72,7 @@ namespace RealTime.Config
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "DayTime", Justification = "Reviewed")]
         [ConfigItem("1General", "0Time", 2)]
-        [ConfigItemSlider(1, 7, ValueType = SliderValueType.Default)]
+        [ConfigItemSlider(1, 6, ValueType = SliderValueType.Default)]
         public uint DayTimeSpeed { get; set; }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace RealTime.Config
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "NightTime", Justification = "Reviewed")]
         [ConfigItem("1General", "0Time", 3)]
-        [ConfigItemSlider(1, 7, ValueType = SliderValueType.Default)]
+        [ConfigItemSlider(1, 6, ValueType = SliderValueType.Default)]
         public uint NightTimeSpeed { get; set; }
 
         /// <summary>
@@ -261,6 +261,20 @@ namespace RealTime.Config
         [ConfigItemSlider(11, 16, 0.25f, SliderValueType.Time)]
         public float SchoolEnd { get; set; }
 
+        /// <summary>
+        /// Gets or sets the maximum vacation length in days.
+        /// </summary>
+        [ConfigItem("4Time", 7)]
+        [ConfigItemSlider(0, 7, ValueType = SliderValueType.Default)]
+        public uint MaxVacationLength { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the mod should show the incompatibility notifications.
+        /// </summary>
+        [ConfigItem("Tools", 0)]
+        [ConfigItemCheckBox]
+        public bool ShowIncompatibilityNotifications { get; set; }
+
         /// <summary>Checks the version of the deserialized object and migrates it to the latest version when necessary.</summary>
         /// <returns>This instance.</returns>
         public RealTimeConfig MigrateWhenNecessary()
@@ -290,8 +304,8 @@ namespace RealTime.Config
             WakeUpHour = RealTimeMath.Clamp(WakeUpHour, 4f, 8f);
             GoToSleepHour = RealTimeMath.Clamp(GoToSleepHour, 20f, 23.75f);
 
-            DayTimeSpeed = RealTimeMath.Clamp(DayTimeSpeed, 1u, 7u);
-            NightTimeSpeed = RealTimeMath.Clamp(NightTimeSpeed, 1u, 7u);
+            DayTimeSpeed = RealTimeMath.Clamp(DayTimeSpeed, 1u, 6u);
+            NightTimeSpeed = RealTimeMath.Clamp(NightTimeSpeed, 1u, 6u);
 
             VirtualCitizens = (VirtualCitizensLevel)RealTimeMath.Clamp((int)VirtualCitizens, (int)VirtualCitizensLevel.None, (int)VirtualCitizensLevel.Many);
             ConstructionSpeed = RealTimeMath.Clamp(ConstructionSpeed, 0u, 100u);
@@ -324,6 +338,7 @@ namespace RealTime.Config
             SchoolBegin = RealTimeMath.Clamp(SchoolBegin, 4f, 10f);
             SchoolEnd = RealTimeMath.Clamp(SchoolEnd, 11f, 16f);
             MaxOvertime = RealTimeMath.Clamp(MaxOvertime, 0f, 4f);
+            MaxVacationLength = RealTimeMath.Clamp(MaxVacationLength, 0u, 7u);
             return this;
         }
 
@@ -339,7 +354,7 @@ namespace RealTime.Config
             GoToSleepHour = 22f;
 
             IsDynamicDayLengthEnabled = true;
-            DayTimeSpeed = 5;
+            DayTimeSpeed = 4;
             NightTimeSpeed = 5;
 
             VirtualCitizens = VirtualCitizensLevel.Few;
@@ -372,6 +387,9 @@ namespace RealTime.Config
             MaxOvertime = 2f;
             SchoolBegin = 8f;
             SchoolEnd = 14f;
+            MaxVacationLength = 3u;
+
+            ShowIncompatibilityNotifications = true;
         }
     }
 }

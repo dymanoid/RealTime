@@ -12,7 +12,6 @@ namespace RealTime.Events
     internal sealed class RealTimeCityEvent : CityEventBase
     {
         private readonly CityEventTemplate eventTemplate;
-
         private readonly int attendChanceAdjustment;
 
         private int attendeesCount;
@@ -26,9 +25,18 @@ namespace RealTime.Events
         {
             this.eventTemplate = eventTemplate ?? throw new ArgumentNullException(nameof(eventTemplate));
             var incentives = eventTemplate.Incentives?.Where(i => i.ActiveWhenRandomEvent).ToList();
-            if (incentives != null)
+            if (incentives == null)
+            {
+                return;
+            }
+
+            try
             {
                 attendChanceAdjustment = incentives.Sum(i => i.PositiveEffect) - incentives.Sum(i => i.NegativeEffect);
+            }
+            catch (OverflowException)
+            {
+                attendChanceAdjustment = 0;
             }
         }
 

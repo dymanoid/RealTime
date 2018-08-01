@@ -87,7 +87,7 @@ namespace RealTime.GameConnection
         /// <summary>
         /// Gets an ID of a random building in the city that belongs to any of the specified <paramref name="services"/>.
         /// </summary>
-        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
+        /// <exception cref="System.ArgumentNullException">Thrown when the argument is null.</exception>
         /// <param name="services">
         /// A collection of <see cref="ItemClass.Service"/> that specifies in which services to
         /// search the random building in.

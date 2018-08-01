@@ -11,9 +11,9 @@ namespace RealTime.CustomAI
     using static Constants;
 
     /// <summary>
-    /// A class that incorporated the custom logic for the private buildings.
+    /// A class that incorporates the custom logic for the private buildings.
     /// </summary>
-    internal sealed class RealTimeBuildingAI
+    internal sealed class RealTimeBuildingAI : IRealTimeBuildingAI
     {
         private const int ConstructionSpeedPaused = 10880;
         private const int ConstructionSpeedMinimum = 1088;
@@ -27,8 +27,8 @@ namespace RealTime.CustomAI
         private readonly ITimeInfo timeInfo;
         private readonly IBuildingManagerConnection buildingManager;
         private readonly IToolManagerConnection toolManager;
-        private readonly WorkBehavior workBehavior;
-        private readonly TravelBehavior travelBehavior;
+        private readonly IWorkBehavior workBehavior;
+        private readonly ITravelBehavior travelBehavior;
 
         private readonly bool[] lightStates;
 
@@ -58,8 +58,8 @@ namespace RealTime.CustomAI
             ITimeInfo timeInfo,
             IBuildingManagerConnection buildingManager,
             IToolManagerConnection toolManager,
-            WorkBehavior workBehavior,
-            TravelBehavior travelBehavior)
+            IWorkBehavior workBehavior,
+            ITravelBehavior travelBehavior)
         {
             this.config = config ?? throw new ArgumentNullException(nameof(config));
             this.timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
@@ -152,7 +152,7 @@ namespace RealTime.CustomAI
         /// <param name="frameIndex">The simulation frame index to process.</param>
         public void ProcessFrame(uint frameIndex)
         {
-            UpdateLightState(frameIndex);
+            UpdateLightState();
 
             if ((frameIndex & StepMask) != 0)
             {
@@ -258,7 +258,7 @@ namespace RealTime.CustomAI
             return false;
         }
 
-        private void UpdateLightState(uint frameIndex)
+        private void UpdateLightState()
         {
             if (lightStateCheckCounter > 0)
             {
