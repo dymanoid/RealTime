@@ -3,16 +3,10 @@
 
   <translation id="Warning" value="경고" />
   <translation id="ModNotWorkingMessage" value="어이쿠! 무엇인가 잘못되었습니다 - 모드가 정상 동작하지 않습니다! 모드 제작자에게 로그 파일을 보내주세요." />
-<<<<<<< HEAD
-  <translation id="IncompatibleModsFoundMessage" value="최소 하나 이상의 호환되지 않는 모드가 발견되었습니다. 호환되지 않는 모드를 구독해재하는 것을 추천드립니다. 위험을 부담하면서 놔두셔도 상관없지만, 잘못 작동되거나 혹은 게임이 튕길수 있습니다." />
-  <translation id="Minutes" value="분." />
-=======
-  <translation id="IncompatibleModsFoundMessage" value="Real Time detected at least one incompatible mod (or at least partly incompatible). It is recommended to unsubscribe from them. You might continue on your own risk if you know what you are doing, but in this case something might not work properly or even crash the game." />
-  <translation id="Minutes" value="min." />
->>>>>>> master
-  
+  <translation id="IncompatibleModsFoundMessage" value="Real Time 모드가 최소 한개 이상의 호환되지 않는(혹은 부분적으로 호환되지 않는) 모드를 발견했습니다. 해당 모드를 구독해제 하시는 것을 추천드립니다. 여러분이 원하신다면 놔두셔도 상관없지만, 게임이 정상적으로 흐르지 않거나 튕길 가능성이 있습니다." />
+  <translation id="Minutes" value="분" />  
   <translation id="Tools" value="도구" />
-  <translation id="ShowIncompatibilityNotifications" value="Show mod incompatibility notifications" />
+  <translation id="ShowIncompatibilityNotifications" value="호환되지 않는 모드 알람 보이기" />
   <translation id="ResetToDefaults" value="모두 초기값으로 되돌리기" />
   <translation id="UseForNewGames" value="새 게임에 현재 값을 사용" />
 
@@ -87,12 +81,12 @@
   <translation id="LunchBeginTooltip" value="시민들의 점심시간 시작 시간을 설정합니다" />
   <translation id="LunchEnd" value="점심시간 종료" />
   <translation id="LunchEndTooltip" value="시민들의 점심시간 종료 시간을 설정합니다" />
-  <translation id="MaxVacationLength" value="Maximum vacation days" />
-  <translation id="MaxVacationLengthTooltip" value="For how long citizens can be on vacation. Set to 0 to disable vacations." />
+  <translation id="MaxVacationLength" value="최대 휴가 일시" />
+  <translation id="MaxVacationLengthTooltip" value="시민들이 얼마나 휴가를 떠나는지를 나타냅니다. 0으로 설정할시 휴가를 가지 않게 됩니다." />
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="석탄이 {0} × {unit} 저장됨"/>
-    <translation id="AIINFO_CUMULATIVEUPKEEP" value="유지비: {0} + {1} / {unit} / cell"/>
+    <translation id="AIINFO_CUMULATIVEUPKEEP" value="유지비: {0} + {1} / {unit} / 셀"/>
     <translation id="AIINFO_DECEASED_PROCESSED" value="저번 {unit} 보다 생산 감소: {0}"/>
     <translation id="AIINFO_ELECTRICITY_PRODUCED" value="저번 {unit} 전력 생산량: {0} MW"/>
     <translation id="AIINFO_FIRES_EXTINGUISHED" value="저번 {unit} 당 화재진화: {0}"/>
@@ -103,11 +97,11 @@
     <translation id="AIINFO_PROCESSING_RATE" value="생산 비율 : {0} / {unit}"/>
     <translation id="AIINFO_TOURISTS" value="저번 {unit}당 관광객: {0}"/>
     <translation id="AIINFO_UPKEEP" value="유지비: {0} / {unit}"/>
-    <translation id="AIINFO_UPKEEPPERCELL" value="유지비: {0} / {unit} / cell"/>
+    <translation id="AIINFO_UPKEEPPERCELL" value="유지비: {0} / {unit} / 셀"/>
     <translation id="AIINFO_VISITORS" value="저번 {unit} 당 방문객 : {0} "/>
     <translation id="AIINFO_WATER_CONSUMPTION" value="물 : {0} m³/{unit}"/>
-    <translation id="AIINFO_WATER_INTAKE" value="상수도 수용량 : {0} m³/{unit}"/>
-    <translation id="AIINFO_WATER_OUTLET" value="하수도 수용량 : {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_INTAKE" value="상수도 가용량 : {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_OUTLET" value="하수도 가용량 : {0} m³/{unit}"/>
     <translation id="AIINFO_WATER_STORED" value="수돗물이 {0} × {unit} 저장됨"/>
     <translation id="AINFO_WATER_IO_CAPACITY" value="운영비: {0:N0} m³/{unit}"/>
     <translation id="DATETIME_WEEK" value="{unit}"/>
@@ -163,7 +157,7 @@
     <translation id="INFO_WATER_CONSUMPTION" value="상수도 사용량 : {0:N0} m³/{unit}"/>
     <translation id="INFO_WATER_PRODUCTION" value="상수도 가용량 : {0:N0} m³/{unit}"/>
     <translation id="INFO_WATER_SEWAGEACCUMULATION" value="하수도 사용량 : {0:N0} m³/{unit}"/>
-    <translation id="INFO_WATER_SEWAGECAPACITY" value="하수도 처리 가능량 : {0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_SEWAGECAPACITY" value="하수도 가용량 : {0:N0} m³/{unit}"/>
     <translation id="LOAN_WEEKLYCOST" value="저번 {unit} 당 이자"/>
     <translation id="MAIN_MONEYDELTA" value="저번 {unit} 당 수익"/>
     <translation id="MAIN_POPULATIONDELTA" value="저번 {unit} 과 차이"/>
