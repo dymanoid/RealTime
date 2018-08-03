@@ -12,13 +12,7 @@ namespace RealTime.Config
         /// <summary>No virtual citizens.</summary>
         None,
 
-        /// <summary>Only few virtual citizens.</summary>
-        Few,
-
         /// <summary>The configuration uses the vanilla game setting.</summary>
-        Vanilla,
-
-        /// <summary>Many virtual citizens.</summary>
-        Many
+        Vanilla
     }
 }

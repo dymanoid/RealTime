@@ -25,11 +25,9 @@
   <translation id="IsDynamicDayLengthEnabled" value="Duración dinámica de las horas diurnas" />
   <translation id="IsDynamicDayLengthEnabledTooltip" value="La duración de las horas diurnas depende del tema del mapa y del día del año. En invierno los días serán más cortos que en verano" />
   <translation id="VirtualCitizens" value="Modo de simulacion de los ciudadanos (más real o más virtual)" />
-  <translation id="VirtualCitizensTooltip" value="Selecciona 'Todos' para una ciudad real (máximo 65.535 ciudadanos activos), seleccionar 'Original' o 'Más' si tu PC es lento" />
+  <translation id="VirtualCitizensTooltip" value="Selecciona 'Todos' para una ciudad real (máximo 65.535 ciudadanos activos), seleccionar 'Original' si tu PC es lento" />
   <translation id="VirtualCitizens.None" value="Todos los ciudadanos reales" />
-  <translation id="VirtualCitizens.Few" value="Casi todos los ciudadanos reales" />
   <translation id="VirtualCitizens.Vanilla" value="Como en juego Original" />
-  <translation id="VirtualCitizens.Many" value="Más ciudadanos virtuales" />
   <translation id="IsWeekendEnabled" value="Activar Fines de Semana" />
   <translation id="IsWeekendEnabledTooltip" value="Los ciudadanos no van al trabajo ni a la escuela los fines de semana" />
   <translation id="IsLunchtimeEnabled" value="Activar hora de Almorzar" />

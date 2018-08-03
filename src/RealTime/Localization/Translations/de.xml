@@ -25,11 +25,9 @@
   <translation id="IsDynamicDayLengthEnabled" value="Dynamische Tageslänge" />
   <translation id="IsDynamicDayLengthEnabledTooltip" value="Die Tageslänge hängt von der Lanschdschaft der Karte und von der Jahrezeit ab." />
   <translation id="VirtualCitizens" value="Simulation der Einwohner (real und virtuell)" />
-  <translation id="VirtualCitizensTooltip" value="Wählen sie 'Alle' aus für eine reale Stadt (aber max 65.535 Einw.) oder 'Original' / 'Mehr' bei schwachem PC" />
+  <translation id="VirtualCitizensTooltip" value="Wählen sie 'Alle' aus für eine reale Stadt (aber max 65.535 Einw.) oder 'Original' bei schwachem PC oder großer Stadt" />
   <translation id="VirtualCitizens.None" value="Alle Einwohner sind real" />
-  <translation id="VirtualCitizens.Few" value="Fast alle sind real" />
   <translation id="VirtualCitizens.Vanilla" value="Wie im Originalspiel" />
-  <translation id="VirtualCitizens.Many" value="Mehr virtuelle Einwohner" />
   <translation id="IsWeekendEnabled" value="Wochenende aktiv" />
   <translation id="IsWeekendEnabledTooltip" value="Cims gehen an den Wochenenden nicht in die Schule oder zur Arbeit" />
   <translation id="IsLunchtimeEnabled" value="Mittagspause aktiv" />

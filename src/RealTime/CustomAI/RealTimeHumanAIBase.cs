@@ -209,30 +209,14 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            uint virtualChance;
             switch (Config.VirtualCitizens)
             {
                 case VirtualCitizensLevel.None:
                     return false;
 
-                case VirtualCitizensLevel.Few:
-                    virtualChance = FewVirtualCitizensChance;
-                    break;
-
-                case VirtualCitizensLevel.Vanilla:
-                    return !realizeCitizen(humanAI);
-
-                case VirtualCitizensLevel.Many:
-                    virtualChance = ManyVirtualCitizensChance;
-                    break;
-
                 default:
-                    return false;
+                    return !realizeCitizen(humanAI);
             }
-
-            return CitizenMgr.GetInstancesCount() * 100 / CitizenInstancesMaxCount < virtualChance
-                ? !realizeCitizen(humanAI)
-                : Random.ShouldOccur(virtualChance);
         }
 
         /// <summary>Determines whether the weather is currently so bad that the citizen would like to stay inside a building.</summary>

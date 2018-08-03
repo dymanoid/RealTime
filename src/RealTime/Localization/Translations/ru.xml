@@ -25,11 +25,9 @@
   <translation id="IsDynamicDayLengthEnabled" value="Динамическая долгота дня" />
   <translation id="IsDynamicDayLengthEnabledTooltip" value="Долгота дня завист от темы карты и от времени года. Зимой дни короче, чем летом." />
   <translation id="VirtualCitizens" value="Метод симуляции жителей (реальных и виртуальных)" />
-  <translation id="VirtualCitizensTooltip" value="Выберите 'Все' для реального города (но макс. 65.535 жителей или 'Оригинально' / 'Больше', если компьютер слаб" />
+  <translation id="VirtualCitizensTooltip" value="Выберите 'Все' для реального города (но макс. 65.535 жителей) или 'Оригинально', если компьютер малопроизводительный" />
   <translation id="VirtualCitizens.None" value="Все жители города реальные" />
-  <translation id="VirtualCitizens.Few" value="Почти все жители реальные" />
   <translation id="VirtualCitizens.Vanilla" value="Как в оригинальной игре" />
-  <translation id="VirtualCitizens.Many" value="Больше виртуальных жителей" />
   <translation id="IsWeekendEnabled" value="Включить выходные" />
   <translation id="IsWeekendEnabledTooltip" value="Жители не ходят в школу и на работу по выходным" />
   <translation id="IsLunchtimeEnabled" value="Включить обед" />

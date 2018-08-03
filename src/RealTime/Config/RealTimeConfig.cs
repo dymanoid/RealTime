@@ -308,7 +308,7 @@ namespace RealTime.Config
             DayTimeSpeed = FastMath.Clamp(DayTimeSpeed, 1u, 6u);
             NightTimeSpeed = FastMath.Clamp(NightTimeSpeed, 1u, 6u);
 
-            VirtualCitizens = (VirtualCitizensLevel)FastMath.Clamp((int)VirtualCitizens, (int)VirtualCitizensLevel.None, (int)VirtualCitizensLevel.Many);
+            VirtualCitizens = (VirtualCitizensLevel)FastMath.Clamp((int)VirtualCitizens, (int)VirtualCitizensLevel.None, (int)VirtualCitizensLevel.Vanilla);
             ConstructionSpeed = FastMath.Clamp(ConstructionSpeed, 0u, 100u);
 
             SecondShiftQuota = FastMath.Clamp(SecondShiftQuota, 1u, 25u);
@@ -357,7 +357,7 @@ namespace RealTime.Config
             DayTimeSpeed = 4;
             NightTimeSpeed = 5;
 
-            VirtualCitizens = VirtualCitizensLevel.Few;
+            VirtualCitizens = VirtualCitizensLevel.Vanilla;
 
             IsWeekendEnabled = true;
             IsLunchtimeEnabled = true;
