@@ -135,6 +135,11 @@ namespace RealTime.GameConnection.Patches
 #pragma warning disable SA1313 // Parameter names must begin with lower-case letter
             private static bool Prefix(ushort buildingID, ref bool __result)
             {
+                if (InfoManager.instance.CurrentMode != InfoManager.InfoMode.None)
+                {
+                    return true;
+                }
+
                 if (RealTimeAI != null && RealTimeAI.ShouldSwitchBuildingLightsOff(buildingID))
                 {
                     __result = false;
@@ -161,6 +166,11 @@ namespace RealTime.GameConnection.Patches
 #pragma warning disable SA1313 // Parameter names must begin with lower-case letter
             private static bool Prefix(ushort buildingID, ref bool __result)
             {
+                if (InfoManager.instance.CurrentMode != InfoManager.InfoMode.None)
+                {
+                    return true;
+                }
+
                 if (RealTimeAI != null && RealTimeAI.ShouldSwitchBuildingLightsOff(buildingID))
                 {
                     __result = false;
