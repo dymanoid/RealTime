@@ -5,15 +5,19 @@
 namespace RealTime.Config
 {
     using System;
-    using RealTime.Tools;
-    using RealTime.UI;
+    using SkyTools.Configuration;
+    using SkyTools.Tools;
+    using SkyTools.UI;
 
     /// <summary>
     /// The mod's configuration.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1708:IdentifiersShouldDifferByMoreThanCase", Justification = "Property will be removed later")]
-    public sealed class RealTimeConfig
+    public sealed class RealTimeConfig : IConfiguration
     {
+        /// <summary>The storage ID for the configuration objects.</summary>
+        public const string StorageId = "RealTimeConfiguration";
+
         private const int LatestVersion = 2;
 
         /// <summary>Initializes a new instance of the <see cref="RealTimeConfig"/> class.</summary>
@@ -41,7 +45,7 @@ namespace RealTime.Config
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "WakeUp", Justification = "Reviewed")]
         [ConfigItem("1General", "0Time", 0)]
-        [ConfigItemSlider(4f, 8f, 0.25f, SliderValueType.Time)]
+        [ConfigItemSlider(4f, 8f, 0.25f, ValueType = SliderValueType.Time)]
         public float WakeUpHour { get; set; }
 
         // TODO: delete this property after a few releases - it was misspelled
@@ -52,7 +56,7 @@ namespace RealTime.Config
         /// Gets or sets the daytime hour when the city goes to sleep.
         /// </summary>
         [ConfigItem("1General", "0Time", 1)]
-        [ConfigItemSlider(20f, 23.75f, 0.25f, SliderValueType.Time)]
+        [ConfigItemSlider(20f, 23.75f, 0.25f, ValueType = SliderValueType.Time)]
         public float GoToSleepHour { get; set; }
 
         // TODO: delete this property after a few releases - it was misspelled
@@ -186,56 +190,56 @@ namespace RealTime.Config
         /// Gets or sets the daytime hour when the earliest event on a week day can start.
         /// </summary>
         [ConfigItem("3Events", 1)]
-        [ConfigItemSlider(0, 23.75f, 0.25f, SliderValueType.Time)]
+        [ConfigItemSlider(0, 23.75f, 0.25f, ValueType = SliderValueType.Time)]
         public float EarliestHourEventStartWeekday { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the latest event on a week day can start.
         /// </summary>
         [ConfigItem("3Events", 2)]
-        [ConfigItemSlider(0, 23.75f, 0.25f, SliderValueType.Time)]
+        [ConfigItemSlider(0, 23.75f, 0.25f, ValueType = SliderValueType.Time)]
         public float LatestHourEventStartWeekday { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the earliest event on a Weekend day can start.
         /// </summary>
         [ConfigItem("3Events", 3)]
-        [ConfigItemSlider(0, 23.75f, 0.25f, SliderValueType.Time)]
+        [ConfigItemSlider(0, 23.75f, 0.25f, ValueType = SliderValueType.Time)]
         public float EarliestHourEventStartWeekend { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the latest event on a Weekend day can start.
         /// </summary>
         [ConfigItem("3Events", 4)]
-        [ConfigItemSlider(0, 23.75f, 0.25f, SliderValueType.Time)]
+        [ConfigItemSlider(0, 23.75f, 0.25f, ValueType = SliderValueType.Time)]
         public float LatestHourEventStartWeekend { get; set; }
 
         /// <summary>
         /// Gets or sets the work start daytime hour. The adult Cims must be at work.
         /// </summary>
         [ConfigItem("4Time", 0)]
-        [ConfigItemSlider(4, 11, 0.25f, SliderValueType.Time)]
+        [ConfigItemSlider(4, 11, 0.25f, ValueType = SliderValueType.Time)]
         public float WorkBegin { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the adult Cims return from work.
         /// </summary>
         [ConfigItem("4Time", 1)]
-        [ConfigItemSlider(12, 20, 0.25f, SliderValueType.Time)]
+        [ConfigItemSlider(12, 20, 0.25f, ValueType = SliderValueType.Time)]
         public float WorkEnd { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the Cims go out for lunch.
         /// </summary>
         [ConfigItem("4Time", 2)]
-        [ConfigItemSlider(11, 13, 0.25f, SliderValueType.Time)]
+        [ConfigItemSlider(11, 13, 0.25f, ValueType = SliderValueType.Time)]
         public float LunchBegin { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the Cims return from lunch back to work.
         /// </summary>
         [ConfigItem("4Time", 3)]
-        [ConfigItemSlider(13, 15, 0.25f, SliderValueType.Time)]
+        [ConfigItemSlider(13, 15, 0.25f, ValueType = SliderValueType.Time)]
         public float LunchEnd { get; set; }
 
         /// <summary>
@@ -244,21 +248,21 @@ namespace RealTime.Config
         /// The young Cims (school and university) don't do overtime.
         /// </summary>
         [ConfigItem("4Time", 4)]
-        [ConfigItemSlider(0, 4, 0.25f, SliderValueType.Duration)]
+        [ConfigItemSlider(0, 4, 0.25f, ValueType = SliderValueType.Duration)]
         public float MaxOvertime { get; set; }
 
         /// <summary>
         /// Gets or sets the school start daytime hour. The young Cims must be at school or university.
         /// </summary>
         [ConfigItem("4Time", 5)]
-        [ConfigItemSlider(4, 10, 0.25f, SliderValueType.Time)]
+        [ConfigItemSlider(4, 10, 0.25f, ValueType = SliderValueType.Time)]
         public float SchoolBegin { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the young Cims return from school or university.
         /// </summary>
         [ConfigItem("4Time", 6)]
-        [ConfigItemSlider(11, 16, 0.25f, SliderValueType.Time)]
+        [ConfigItemSlider(11, 16, 0.25f, ValueType = SliderValueType.Time)]
         public float SchoolEnd { get; set; }
 
         /// <summary>
@@ -276,8 +280,7 @@ namespace RealTime.Config
         public bool ShowIncompatibilityNotifications { get; set; }
 
         /// <summary>Checks the version of the deserialized object and migrates it to the latest version when necessary.</summary>
-        /// <returns>This instance.</returns>
-        public RealTimeConfig MigrateWhenNecessary()
+        public void MigrateWhenNecessary()
         {
             if (Version == 0)
             {
@@ -294,52 +297,49 @@ namespace RealTime.Config
             }
 
             Version = LatestVersion;
-            return this;
         }
 
         /// <summary>Validates this instance and corrects possible invalid property values.</summary>
-        /// <returns>This instance.</returns>
-        public RealTimeConfig Validate()
+        public void Validate()
         {
-            WakeUpHour = RealTimeMath.Clamp(WakeUpHour, 4f, 8f);
-            GoToSleepHour = RealTimeMath.Clamp(GoToSleepHour, 20f, 23.75f);
+            WakeUpHour = FastMath.Clamp(WakeUpHour, 4f, 8f);
+            GoToSleepHour = FastMath.Clamp(GoToSleepHour, 20f, 23.75f);
 
-            DayTimeSpeed = RealTimeMath.Clamp(DayTimeSpeed, 1u, 6u);
-            NightTimeSpeed = RealTimeMath.Clamp(NightTimeSpeed, 1u, 6u);
+            DayTimeSpeed = FastMath.Clamp(DayTimeSpeed, 1u, 6u);
+            NightTimeSpeed = FastMath.Clamp(NightTimeSpeed, 1u, 6u);
 
-            VirtualCitizens = (VirtualCitizensLevel)RealTimeMath.Clamp((int)VirtualCitizens, (int)VirtualCitizensLevel.None, (int)VirtualCitizensLevel.Many);
-            ConstructionSpeed = RealTimeMath.Clamp(ConstructionSpeed, 0u, 100u);
+            VirtualCitizens = (VirtualCitizensLevel)FastMath.Clamp((int)VirtualCitizens, (int)VirtualCitizensLevel.None, (int)VirtualCitizensLevel.Many);
+            ConstructionSpeed = FastMath.Clamp(ConstructionSpeed, 0u, 100u);
 
-            SecondShiftQuota = RealTimeMath.Clamp(SecondShiftQuota, 1u, 25u);
-            NightShiftQuota = RealTimeMath.Clamp(NightShiftQuota, 1u, 25u);
-            LunchQuota = RealTimeMath.Clamp(LunchQuota, 0u, 100u);
-            LocalBuildingSearchQuota = RealTimeMath.Clamp(LocalBuildingSearchQuota, 0u, 100u);
-            ShoppingForFunQuota = RealTimeMath.Clamp(ShoppingForFunQuota, 0u, 50u);
-            OnTimeQuota = RealTimeMath.Clamp(OnTimeQuota, 0u, 100u);
+            SecondShiftQuota = FastMath.Clamp(SecondShiftQuota, 1u, 25u);
+            NightShiftQuota = FastMath.Clamp(NightShiftQuota, 1u, 25u);
+            LunchQuota = FastMath.Clamp(LunchQuota, 0u, 100u);
+            LocalBuildingSearchQuota = FastMath.Clamp(LocalBuildingSearchQuota, 0u, 100u);
+            ShoppingForFunQuota = FastMath.Clamp(ShoppingForFunQuota, 0u, 50u);
+            OnTimeQuota = FastMath.Clamp(OnTimeQuota, 0u, 100u);
 
-            EarliestHourEventStartWeekday = RealTimeMath.Clamp(EarliestHourEventStartWeekday, 0f, 23.75f);
-            LatestHourEventStartWeekday = RealTimeMath.Clamp(LatestHourEventStartWeekday, 0f, 23.75f);
+            EarliestHourEventStartWeekday = FastMath.Clamp(EarliestHourEventStartWeekday, 0f, 23.75f);
+            LatestHourEventStartWeekday = FastMath.Clamp(LatestHourEventStartWeekday, 0f, 23.75f);
             if (LatestHourEventStartWeekday < EarliestHourEventStartWeekday)
             {
                 LatestHourEventStartWeekday = EarliestHourEventStartWeekday;
             }
 
-            EarliestHourEventStartWeekend = RealTimeMath.Clamp(EarliestHourEventStartWeekend, 0f, 23.75f);
-            LatestHourEventStartWeekend = RealTimeMath.Clamp(LatestHourEventStartWeekend, 0f, 23.75f);
+            EarliestHourEventStartWeekend = FastMath.Clamp(EarliestHourEventStartWeekend, 0f, 23.75f);
+            LatestHourEventStartWeekend = FastMath.Clamp(LatestHourEventStartWeekend, 0f, 23.75f);
             if (LatestHourEventStartWeekend < EarliestHourEventStartWeekend)
             {
                 LatestHourEventStartWeekend = EarliestHourEventStartWeekend;
             }
 
-            WorkBegin = RealTimeMath.Clamp(WorkBegin, 4f, 11f);
-            WorkEnd = RealTimeMath.Clamp(WorkEnd, 12f, 20f);
-            LunchBegin = RealTimeMath.Clamp(LunchBegin, 11f, 13f);
-            LunchEnd = RealTimeMath.Clamp(LunchEnd, 13f, 15f);
-            SchoolBegin = RealTimeMath.Clamp(SchoolBegin, 4f, 10f);
-            SchoolEnd = RealTimeMath.Clamp(SchoolEnd, 11f, 16f);
-            MaxOvertime = RealTimeMath.Clamp(MaxOvertime, 0f, 4f);
-            MaxVacationLength = RealTimeMath.Clamp(MaxVacationLength, 0u, 7u);
-            return this;
+            WorkBegin = FastMath.Clamp(WorkBegin, 4f, 11f);
+            WorkEnd = FastMath.Clamp(WorkEnd, 12f, 20f);
+            LunchBegin = FastMath.Clamp(LunchBegin, 11f, 13f);
+            LunchEnd = FastMath.Clamp(LunchEnd, 13f, 15f);
+            SchoolBegin = FastMath.Clamp(SchoolBegin, 4f, 10f);
+            SchoolEnd = FastMath.Clamp(SchoolEnd, 11f, 16f);
+            MaxOvertime = FastMath.Clamp(MaxOvertime, 0f, 4f);
+            MaxVacationLength = FastMath.Clamp(MaxVacationLength, 0u, 7u);
         }
 
         /// <summary>Resets all values to their defaults.</summary>

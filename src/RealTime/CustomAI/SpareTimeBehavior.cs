@@ -7,7 +7,7 @@ namespace RealTime.CustomAI
     using System;
     using RealTime.Config;
     using RealTime.Simulation;
-    using RealTime.Tools;
+    using SkyTools.Tools;
     using static Constants;
 
     /// <summary>
@@ -158,7 +158,7 @@ namespace RealTime.CustomAI
             float timeModifier;
             if (isDayTime)
             {
-                timeModifier = RealTimeMath.Clamp(currentHour - config.WakeUpHour, 0, 4f);
+                timeModifier = FastMath.Clamp(currentHour - config.WakeUpHour, 0, 4f);
             }
             else
             {
@@ -188,7 +188,7 @@ namespace RealTime.CustomAI
 #if DEBUG
             if (dump)
             {
-                Log.Debug(LogCategories.Simulation, $"DEFAULT GOING OUT CHANCES for {timeInfo.Now}: child = {defaultChances[0]}, teen = {defaultChances[1]}, young = {defaultChances[2]}, adult = {defaultChances[3]}, senior = {defaultChances[4]}");
+                Log.Debug(LogCategory.Simulation, $"DEFAULT GOING OUT CHANCES for {timeInfo.Now}: child = {defaultChances[0]}, teen = {defaultChances[1]}, young = {defaultChances[2]}, adult = {defaultChances[3]}, senior = {defaultChances[4]}");
             }
 #endif
         }
@@ -214,7 +214,7 @@ namespace RealTime.CustomAI
 #if DEBUG
             if (oldChance != secondShiftChances[(int)Citizen.AgeGroup.Adult])
             {
-                Log.Debug(LogCategories.Simulation, $"SECOND SHIFT GOING OUT CHANCE for {timeInfo.Now}: young = {secondShiftChances[2]}, adult = {secondShiftChances[3]}");
+                Log.Debug(LogCategory.Simulation, $"SECOND SHIFT GOING OUT CHANCE for {timeInfo.Now}: young = {secondShiftChances[2]}, adult = {secondShiftChances[3]}");
             }
 #endif
         }
@@ -240,7 +240,7 @@ namespace RealTime.CustomAI
 #if DEBUG
             if (oldChance != nightShiftChances[(int)Citizen.AgeGroup.Adult])
             {
-                Log.Debug(LogCategories.Simulation, $"NIGHT SHIFT GOING OUT CHANCE for {timeInfo.Now}: young = {nightShiftChances[2]}, adult = {nightShiftChances[3]}");
+                Log.Debug(LogCategory.Simulation, $"NIGHT SHIFT GOING OUT CHANCE for {timeInfo.Now}: young = {nightShiftChances[2]}, adult = {nightShiftChances[3]}");
             }
 #endif
         }
@@ -251,7 +251,7 @@ namespace RealTime.CustomAI
             float maxShoppingChanceStartHour = Math.Max(config.WorkBegin, config.WakeUpHour);
             if (minShoppingChanceEndHour == maxShoppingChanceStartHour)
             {
-                minShoppingChanceEndHour = RealTimeMath.Clamp(maxShoppingChanceStartHour - 1f, 2f, maxShoppingChanceStartHour - 1f);
+                minShoppingChanceEndHour = FastMath.Clamp(maxShoppingChanceStartHour - 1f, 2f, maxShoppingChanceStartHour - 1f);
             }
 
 #if DEBUG
@@ -295,7 +295,7 @@ namespace RealTime.CustomAI
 #if DEBUG
             if (oldChance != roundedChance)
             {
-                Log.Debug(LogCategories.Simulation, $"SHOPPING CHANCES for {timeInfo.Now}: child = {shoppingChances[0]}, teen = {shoppingChances[1]}, young = {shoppingChances[2]}, adult = {shoppingChances[3]}, senior = {shoppingChances[4]}");
+                Log.Debug(LogCategory.Simulation, $"SHOPPING CHANCES for {timeInfo.Now}: child = {shoppingChances[0]}, teen = {shoppingChances[1]}, young = {shoppingChances[2]}, adult = {shoppingChances[3]}, senior = {shoppingChances[4]}");
             }
 #endif
         }
@@ -336,7 +336,7 @@ namespace RealTime.CustomAI
 #if DEBUG
             if (dump)
             {
-                Log.Debug(LogCategories.Simulation, $"VACATION CHANCES for {timeInfo.Now}: low = {vacationChances[0]}, medium = {vacationChances[1]}, high = {vacationChances[2]}");
+                Log.Debug(LogCategory.Simulation, $"VACATION CHANCES for {timeInfo.Now}: low = {vacationChances[0]}, medium = {vacationChances[1]}, high = {vacationChances[2]}");
             }
 #endif
         }

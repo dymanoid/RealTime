@@ -1,39 +1,33 @@
-﻿// <copyright file="LogCategories.cs" company="dymanoid">
+﻿// <copyright file="LogCategory.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
-namespace RealTime.Tools
+namespace RealTime
 {
-    using System;
-
     /// <summary>
     /// The categories for the debug logging.
     /// </summary>
-    [Flags]
-    internal enum LogCategories
+    internal enum LogCategory
     {
         /// <summary>The invalid category - no logging</summary>
-        Invalid = 0,
+        None,
 
         /// <summary>No specific category</summary>
-        Generic = 1,
+        Generic,
 
         /// <summary>Citizens scheduling</summary>
-        Schedule = 2,
+        Schedule,
 
         /// <summary>Citizens movement</summary>
-        Movement = 4,
+        Movement,
 
         /// <summary>Citizens movement</summary>
-        Events = 8,
+        Events,
 
         /// <summary>Citizens state</summary>
-        State = 16,
+        State,
 
         /// <summary>Simulation related information</summary>
-        Simulation = 32,
-
-        /// <summary>All categories</summary>
-        All = Generic | Schedule | Movement | Events | State | Simulation
+        Simulation
     }
 }

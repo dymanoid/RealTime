@@ -1,6 +1,4 @@
-﻿// <copyright file="RealTimeMod.cs" company="dymanoid">
-// Copyright (c) dymanoid. All rights reserved.
-// </copyright>
+﻿// <copyright file="RealTimeMod.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
 
 namespace RealTime.Core
 {
@@ -11,12 +9,13 @@ namespace RealTime.Core
     using ICities;
     using RealTime.Config;
     using RealTime.Localization;
-    using RealTime.Tools;
     using RealTime.UI;
+    using SkyTools.Configuration;
+    using SkyTools.Localization;
+    using SkyTools.Tools;
+    using SkyTools.UI;
 
-    /// <summary>
-    /// The main class of the Real Time mod.
-    /// </summary>
+    /// <summary>The main class of the Real Time mod.</summary>
     public sealed class RealTimeMod : LoadingExtensionBase, IUserMod
     {
         private const long WorkshopId = 1420955187;
@@ -25,26 +24,24 @@ namespace RealTime.Core
         private readonly string modVersion = GitVersion.GetAssemblyVersion(typeof(RealTimeMod).Assembly);
         private readonly string modPath = GetModPath();
 
-        private ConfigurationProvider configProvider;
+        private ConfigurationProvider<RealTimeConfig> configProvider;
         private RealTimeCore core;
         private ConfigUI configUI;
         private LocalizationProvider localizationProvider;
 
-        /// <summary>
-        /// Gets the name of this mod.
-        /// </summary>
+        /// <summary>Gets the name of this mod.</summary>
         public string Name => "Real Time";
 
-        /// <summary>
-        /// Gets the description string of this mod.
-        /// </summary>
+        /// <summary>Gets the description string of this mod.</summary>
         public string Description => "Adjusts the time flow and the Cims behavior to make them more real. Version: " + modVersion;
 
-        /// <summary>
-        /// Called when this mod is enabled.
-        /// </summary>
+        /// <summary>Called when this mod is enabled.</summary>
         public void OnEnabled()
         {
+#if DEBUG
+            Log.Setup(LogCategory.Generic, LogCategory.Simulation);
+#endif
+
             if (string.IsNullOrEmpty(modPath))
             {
                 Log.Info($"The 'Real Time' mod version {modVersion} cannot be started because of no Steam Workshop");
@@ -52,14 +49,12 @@ namespace RealTime.Core
             }
 
             Log.Info("The 'Real Time' mod has been enabled, version: " + modVersion);
-            configProvider = new ConfigurationProvider();
+            configProvider = new ConfigurationProvider<RealTimeConfig>(RealTimeConfig.StorageId, Name, () => new RealTimeConfig(true));
             configProvider.LoadDefaultConfiguration();
-            localizationProvider = new LocalizationProvider(modPath);
+            localizationProvider = new LocalizationProvider(Name, modPath);
         }
 
-        /// <summary>
-        /// Called when this mod is disabled.
-        /// </summary>
+        /// <summary>Called when this mod is disabled.</summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Must be instance method due to C:S API")]
         public void OnDisabled()
         {
@@ -77,12 +72,10 @@ namespace RealTime.Core
             Log.Info("The 'Real Time' mod has been disabled.");
         }
 
-        /// <summary>
-        /// Called when this mod's settings page needs to be created.
-        /// </summary>
-        ///
-        /// <param name="helper">An <see cref="UIHelperBase"/> reference that can be used
-        /// to construct the mod's settings page.</param>
+        /// <summary>Called when this mod's settings page needs to be created.</summary>
+        /// <param name="helper">
+        /// An <see cref="UIHelperBase"/> reference that can be used to construct the mod's settings page.
+        /// </param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Must be instance method due to C:S API")]
         public void OnSettingsUI(UIHelperBase helper)
         {
@@ -110,10 +103,8 @@ namespace RealTime.Core
         }
 
         /// <summary>
-        /// Called when a game level is loaded. If applicable, activates the Real Time mod
-        /// for the loaded level.
+        /// Called when a game level is loaded. If applicable, activates the Real Time mod for the loaded level.
         /// </summary>
-        ///
         /// <param name="mode">The <see cref="LoadMode"/> a game level is loaded in.</param>
         public override void OnLevelLoaded(LoadMode mode)
         {
@@ -156,8 +147,8 @@ namespace RealTime.Core
         }
 
         /// <summary>
-        /// Called when a game level is about to be unloaded. If the Real Time mod was activated
-        /// for this level, deactivates the mod for this level.
+        /// Called when a game level is about to be unloaded. If the Real Time mod was activated for this level,
+        /// deactivates the mod for this level.
         /// </summary>
         public override void OnLevelUnloading()
         {

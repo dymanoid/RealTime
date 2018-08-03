@@ -6,7 +6,7 @@ namespace RealTime.GameConnection.Patches
 {
     using System;
     using System.Reflection;
-    using RealTime.Patching;
+    using SkyTools.Patching;
 
     /// <summary>
     /// A static class that provides the patch objects for the weather AI .

@@ -5,7 +5,7 @@
 namespace RealTime.CustomAI
 {
     using RealTime.GameConnection;
-    using RealTime.Tools;
+    using SkyTools.Tools;
     using static Constants;
 
     /// <summary>
@@ -37,7 +37,7 @@ namespace RealTime.CustomAI
             }
 
             float distance = buildingManager.GetDistanceBetweenBuildings(building1, building2);
-            return RealTimeMath.Clamp(distance / OnTheWayDistancePerHour, MinTravelTime, MaxTravelTime);
+            return FastMath.Clamp(distance / OnTheWayDistancePerHour, MinTravelTime, MaxTravelTime);
         }
     }
 }

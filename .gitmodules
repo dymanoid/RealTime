@@ -1,3 +1,3 @@
-[submodule "src/Harmony"]
-	path = src/Harmony
-	url = https://github.com/pardeike/Harmony.git
+[submodule "src/SkyTools"]
+	path = src/SkyTools
+	url = https://github.com/dymanoid/SkyTools.git

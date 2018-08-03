@@ -4,7 +4,7 @@
 
 namespace RealTime.CustomAI
 {
-    using RealTime.Tools;
+    using SkyTools.Tools;
     using static Constants;
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
@@ -19,13 +19,13 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            Log.Debug(LogCategories.Schedule, $"  - Schedule work at {schedule.ScheduledStateTime}");
+            Log.Debug(LogCategory.Schedule, $"  - Schedule work at {schedule.ScheduledStateTime}");
 
             float timeLeft = (float)(schedule.ScheduledStateTime - TimeInfo.Now).TotalHours;
             if (timeLeft <= PrepareToWorkHours)
             {
                 // Just sit at home if the work time will come soon
-                Log.Debug(LogCategories.Schedule, $"  - Work time in {timeLeft} hours, preparing for departure");
+                Log.Debug(LogCategory.Schedule, $"  - Work time in {timeLeft} hours, preparing for departure");
                 return true;
             }
 
@@ -33,7 +33,7 @@ namespace RealTime.CustomAI
             {
                 if (schedule.CurrentState != ResidentState.AtHome)
                 {
-                    Log.Debug(LogCategories.Schedule, $"  - Work time in {timeLeft} hours, returning home");
+                    Log.Debug(LogCategory.Schedule, $"  - Work time in {timeLeft} hours, returning home");
                     schedule.Schedule(ResidentState.AtHome);
                     return true;
                 }
@@ -41,11 +41,11 @@ namespace RealTime.CustomAI
                 // If we have some time, try to shop locally.
                 if (ScheduleShopping(ref schedule, ref citizen, true))
                 {
-                    Log.Debug(LogCategories.Schedule, $"  - Work time in {timeLeft} hours, trying local shop");
+                    Log.Debug(LogCategory.Schedule, $"  - Work time in {timeLeft} hours, trying local shop");
                 }
                 else
                 {
-                    Log.Debug(LogCategories.Schedule, $"  - Work time in {timeLeft} hours, doing nothing");
+                    Log.Debug(LogCategory.Schedule, $"  - Work time in {timeLeft} hours, doing nothing");
                 }
 
                 return true;
@@ -77,17 +77,17 @@ namespace RealTime.CustomAI
                 Citizen.AgeGroup citizenAge = CitizenProxy.GetAge(ref citizen);
                 if (workBehavior.ScheduleLunch(ref schedule, citizenAge))
                 {
-                    Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} to school/work {schedule.WorkBuilding} and will go to lunch at {schedule.ScheduledStateTime}");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} to school/work {schedule.WorkBuilding} and will go to lunch at {schedule.ScheduledStateTime}");
                 }
                 else
                 {
                     workBehavior.ScheduleReturnFromWork(ref schedule, citizenAge);
-                    Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} to school/work {schedule.WorkBuilding} and will leave work at {schedule.ScheduledStateTime}");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} to school/work {schedule.WorkBuilding} and will leave work at {schedule.ScheduledStateTime}");
                 }
             }
             else
             {
-                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted to go to work from {currentBuilding} but can't, will try once again next time");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted to go to work from {currentBuilding} but can't, will try once again next time");
                 schedule.Schedule(ResidentState.Unknown);
             }
         }
@@ -103,12 +103,12 @@ namespace RealTime.CustomAI
             ushort lunchPlace = MoveToCommercialBuilding(instance, citizenId, ref citizen, LocalSearchDistance);
             if (lunchPlace != 0)
             {
-                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{citizenDesc} is going for lunch from {currentBuilding} to {lunchPlace}");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going for lunch from {currentBuilding} to {lunchPlace}");
                 workBehavior.ScheduleReturnFromLunch(ref schedule);
             }
             else
             {
-                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{citizenDesc} wanted to go for lunch from {currentBuilding}, but there were no buildings close enough");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} wanted to go for lunch from {currentBuilding}, but there were no buildings close enough");
                 workBehavior.ScheduleReturnFromWork(ref schedule, CitizenProxy.GetAge(ref citizen));
             }
         }
@@ -125,7 +125,7 @@ namespace RealTime.CustomAI
                 --schedule.VacationDaysLeft;
                 if (schedule.VacationDaysLeft == 0)
                 {
-                    Log.Debug(LogCategories.State, $"The citizen {citizenId} returns from vacation");
+                    Log.Debug(LogCategory.State, $"The citizen {citizenId} returns from vacation");
                     schedule.WorkStatus = WorkStatus.None;
                 }
 
@@ -148,7 +148,7 @@ namespace RealTime.CustomAI
             schedule.WorkStatus = WorkStatus.OnVacation;
             schedule.VacationDaysLeft = (byte)days;
 
-            Log.Debug(LogCategories.State, $"The citizen {citizenId} is now on vacation for {days} days");
+            Log.Debug(LogCategory.State, $"The citizen {citizenId} is now on vacation for {days} days");
             if (!Random.ShouldOccur(FamilyVacationChance)
                 || !CitizenMgr.TryGetFamily(citizenId, familyBuffer))
             {
@@ -160,7 +160,7 @@ namespace RealTime.CustomAI
                 uint familyMemberId = familyBuffer[i];
                 if (familyMemberId != 0)
                 {
-                    Log.Debug(LogCategories.State, $"The citizen {familyMemberId} goes on vacation with {citizenId} as a family member");
+                    Log.Debug(LogCategory.State, $"The citizen {familyMemberId} goes on vacation with {citizenId} as a family member");
                     residentSchedules[familyMemberId].WorkStatus = WorkStatus.OnVacation;
                     residentSchedules[familyMemberId].VacationDaysLeft = (byte)days;
                 }

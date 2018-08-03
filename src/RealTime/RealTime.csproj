@@ -54,9 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\VirtualCitizensLevel.cs" />
-    <Compile Include="Config\ConfigurationProvider.cs" />
     <Compile Include="Core\Compatibility.cs" />
-    <Compile Include="Core\IStorageData.cs" />
     <Compile Include="Core\RealTimeStorage.cs" />
     <Compile Include="CustomAI\CitizenScheduleStorage.cs" />
     <Compile Include="CustomAI\Constants.cs" />
@@ -125,15 +123,7 @@
     <Compile Include="GameConnection\ToolManagerConnection.cs" />
     <Compile Include="GameConnection\TransferManagerConnection.cs" />
     <Compile Include="GameConnection\WeatherManagerConnection.cs" />
-    <Compile Include="Localization\Constants.cs" />
-    <Compile Include="Localization\ILocalizationProvider.cs" />
-    <Compile Include="Localization\LocalizationProvider.cs" />
     <Compile Include="Localization\TranslationKeys.cs" />
-    <Compile Include="Patching\FastDelegate.cs" />
-    <Compile Include="Patching\IPatch.cs" />
-    <Compile Include="Patching\IPatcher.cs" />
-    <Compile Include="Patching\MethodPatcher.cs" />
-    <Compile Include="Patching\PatchBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\RealTimeMod.cs" />
     <Compile Include="Simulation\AwakeSleepSimulation.cs" />
@@ -147,46 +137,12 @@
     <Compile Include="Simulation\Statistics.cs" />
     <Compile Include="Simulation\TimeAdjustment.cs" />
     <Compile Include="GameConnection\TimeInfo.cs" />
-    <Compile Include="Tools\DateTimeExtensions.cs" />
-    <Compile Include="Tools\LinkedListExtensions.cs" />
-    <Compile Include="Tools\LogCategories.cs" />
-    <Compile Include="Tools\RealTimeMath.cs" />
-    <Compile Include="Tools\SerializationTools.cs" />
-    <Compile Include="UI\CitiesButtonViewItem.cs" />
-    <Compile Include="UI\CitiesContainerItemBase.cs" />
-    <Compile Include="UI\CitiesTabItem.cs" />
-    <Compile Include="UI\ConfigItemComboBoxAttribute.cs" />
+    <Compile Include="LogCategory.cs" />
     <Compile Include="UI\CustomTimeBarClickEventArgs.cs" />
-    <Compile Include="UI\ConfigItemAttribute.cs" />
-    <Compile Include="UI\ConfigItemCheckBoxAttribute.cs" />
-    <Compile Include="UI\ConfigItemSliderAttribute.cs" />
-    <Compile Include="UI\ConfigItemUIBaseAttribute.cs" />
     <Compile Include="UI\ConfigUI.cs" />
     <Compile Include="UI\DateTooltipBehavior.cs" />
-    <Compile Include="Tools\GitVersion.cs" />
-    <Compile Include="Tools\Log.cs" />
-    <Compile Include="UI\IContainerViewItem.cs" />
-    <Compile Include="UI\IValueViewItem.cs" />
-    <Compile Include="UI\IViewItem.cs" />
-    <Compile Include="UI\IViewItemFactory.cs" />
-    <Compile Include="UI\MessageBox.cs" />
-    <Compile Include="UI\Popup.cs" />
     <Compile Include="UI\RealTimeUIDateTimeWrapper.cs" />
     <Compile Include="UI\CustomTimeBar.cs" />
-    <Compile Include="UI\SliderValueType.cs" />
-    <Compile Include="UI\CitiesComboBoxItem.cs" />
-    <Compile Include="UI\CitiesCheckBoxItem.cs" />
-    <Compile Include="UI\CitiesGroupItem.cs" />
-    <Compile Include="UI\CitiesSliderItem.cs" />
-    <Compile Include="UI\CitiesViewItem.cs" />
-    <Compile Include="UI\CitiesViewItemFactory.cs" />
-    <Compile Include="UI\TitleBar.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Harmony\Harmony\Harmony.csproj">
-      <Project>{26596721-10eb-453e-aac4-f8c540ff55aa}</Project>
-      <Name>Harmony</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\BuildEnvironment\stylecop.json">
@@ -237,10 +193,17 @@
     <Content Include="Events\Templates\Theater.xml" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SkyTools\src\SkyTools\SkyTools.csproj">
+      <Project>{f83d96ef-857a-4aa4-8c23-7d258dad777d}</Project>
+      <Name>SkyTools</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /y /q /d "$(TargetPath)" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
-xcopy /y /q /d "$(SolutionDir)Harmony\Harmony\build\$(ConfigurationName)\net35\0Harmony.dll" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
+xcopy /y /q /d "$(SolutionDir)SkyTools\src\bin\$(ConfigurationName)\SkyTools.dll" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
+xcopy /y /q /d "$(SolutionDir)SkyTools\src\Harmony\Harmony\build\$(ConfigurationName)\net35\0Harmony.dll" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
 xcopy /y /q /i "$(TargetDir)Localization\Translations" "d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187\Localization"
 xcopy /y /q /i "$(ProjectDir)Events\Templates" "d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187\Events"</PostBuildEvent>
   </PropertyGroup>

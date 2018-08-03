@@ -8,7 +8,7 @@ namespace RealTime.CustomAI
     using RealTime.Config;
     using RealTime.Events;
     using RealTime.GameConnection;
-    using RealTime.Tools;
+    using SkyTools.Tools;
     using static Constants;
 
     /// <summary>
@@ -111,14 +111,14 @@ namespace RealTime.CustomAI
 
             if (vehicleId == 0 && CitizenMgr.IsAreaEvacuating(instanceId) && !CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating))
             {
-                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} was on the way, but the area evacuates. Leaving the city.");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} was on the way, but the area evacuates. Leaving the city.");
                 touristAI.FindVisitPlace(instance, citizenId, CitizenProxy.GetCurrentBuilding(ref citizen), touristAI.GetLeavingReason(instance, citizenId, ref citizen));
                 return;
             }
 
             if (CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.TargetIsNode | CitizenInstance.Flags.OnTour, true))
             {
-                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} exits the guided tour.");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} exits the guided tour.");
                 FindRandomVisitPlace(instance, citizenId, ref citizen, TouristDoNothingProbability, 0);
                 return;
             }
@@ -173,12 +173,12 @@ namespace RealTime.CustomAI
             ushort hotel = FindHotel(targetBuildingId);
             if (hotel != 0)
             {
-                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} changes the target and moves to a hotel {hotel} because of time or weather");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} changes the target and moves to a hotel {hotel} because of time or weather");
                 StartMovingToVisitBuilding(instance, citizenId, ref citizen, 0, hotel);
             }
             else
             {
-                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} leaves the city because of time or weather");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} leaves the city because of time or weather");
                 touristAI.FindVisitPlace(instance, citizenId, 0, touristAI.GetLeavingReason(instance, citizenId, ref citizen));
             }
         }
@@ -221,7 +221,7 @@ namespace RealTime.CustomAI
                 if (cityEvent != null)
                 {
                     StartMovingToVisitBuilding(instance, citizenId, ref citizen, CitizenProxy.GetCurrentBuilding(ref citizen), cityEvent.BuildingId);
-                    Log.Debug(LogCategories.Events, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} attending an event at {cityEvent.BuildingId}");
+                    Log.Debug(LogCategory.Events, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} attending an event at {cityEvent.BuildingId}");
                     return;
                 }
             }
@@ -257,17 +257,17 @@ namespace RealTime.CustomAI
             switch (target)
             {
                 case TouristTarget.LeaveCity:
-                    Log.Debug(LogCategories.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} decides to leave the city");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} decides to leave the city");
                     touristAI.FindVisitPlace(instance, citizenId, currentBuilding, touristAI.GetLeavingReason(instance, citizenId, ref citizen));
                     break;
 
                 case TouristTarget.Shopping:
                     touristAI.FindVisitPlace(instance, citizenId, currentBuilding, touristAI.GetShoppingReason(instance));
-                    Log.Debug(LogCategories.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} stays in the city, goes shopping");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} stays in the city, goes shopping");
                     break;
 
                 case TouristTarget.Relaxing:
-                    Log.Debug(LogCategories.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} stays in the city, goes relaxing");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} stays in the city, goes relaxing");
                     touristAI.FindVisitPlace(instance, citizenId, currentBuilding, touristAI.GetEntertainmentReason(instance));
                     break;
 
@@ -282,7 +282,7 @@ namespace RealTime.CustomAI
                         goto case TouristTarget.Hotel;
                     }
 
-                    Log.Debug(LogCategories.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} want to party in {leisureBuilding}");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} want to party in {leisureBuilding}");
                     StartMovingToVisitBuilding(instance, citizenId, ref citizen, currentBuilding, leisureBuilding);
                     break;
 
@@ -293,7 +293,7 @@ namespace RealTime.CustomAI
                         goto case TouristTarget.LeaveCity;
                     }
 
-                    Log.Debug(LogCategories.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} want to stay in a hotel {hotel}");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} want to stay in a hotel {hotel}");
                     StartMovingToVisitBuilding(instance, citizenId, ref citizen, currentBuilding, hotel);
                     break;
             }

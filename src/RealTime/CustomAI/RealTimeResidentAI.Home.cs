@@ -4,7 +4,7 @@
 
 namespace RealTime.CustomAI
 {
-    using RealTime.Tools;
+    using SkyTools.Tools;
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
@@ -13,7 +13,7 @@ namespace RealTime.CustomAI
             ushort homeBuilding = CitizenProxy.GetHomeBuilding(ref citizen);
             if (homeBuilding == 0)
             {
-                Log.Debug(LogCategories.State, $"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is in corrupt state: want to go home with no home building. Releasing the poor citizen.");
+                Log.Debug(LogCategory.State, $"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is in corrupt state: want to go home with no home building. Releasing the poor citizen.");
                 CitizenMgr.ReleaseCitizen(citizenId);
                 schedule = default;
                 return;
@@ -26,11 +26,11 @@ namespace RealTime.CustomAI
             {
                 CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
                 schedule.Schedule(ResidentState.Unknown);
-                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} back home");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} back home");
             }
             else
             {
-                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted to go home from {currentBuilding} but can't, waiting for the next opportunity");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted to go home from {currentBuilding} but can't, waiting for the next opportunity");
             }
         }
 
@@ -48,7 +48,7 @@ namespace RealTime.CustomAI
 
             if (schedule.ScheduledState != ResidentState.Shopping && IsBadWeather())
             {
-                Log.Debug(LogCategories.Schedule, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} re-schedules an activity because of bad weather");
+                Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} re-schedules an activity because of bad weather");
                 schedule.Schedule(ResidentState.Unknown);
                 return true;
             }
@@ -63,7 +63,7 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            Log.Debug(LogCategories.Schedule, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} re-schedules an activity because of time");
+            Log.Debug(LogCategory.Schedule, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} re-schedules an activity because of time");
             schedule.Schedule(ResidentState.Unknown);
             return true;
         }

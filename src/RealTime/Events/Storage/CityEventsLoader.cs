@@ -9,7 +9,7 @@ namespace RealTime.Events.Storage
     using System.IO;
     using System.Linq;
     using System.Xml.Serialization;
-    using RealTime.Tools;
+    using SkyTools.Tools;
 
     /// <summary>
     /// A city event template management class that can load the city events templates from a file
@@ -138,7 +138,7 @@ namespace RealTime.Events.Storage
                         foreach (CityEventTemplate @event in container.Templates.Where(e => !events.Any(ev => ev.EventName == e.EventName)))
                         {
                             events.Add(@event);
-                            Log.Debug(LogCategories.Generic, $"Loaded event template '{@event.EventName}' for '{@event.BuildingClassName}'");
+                            Log.Debug(LogCategory.Generic, $"Loaded event template '{@event.EventName}' for '{@event.BuildingClassName}'");
                         }
                     }
                 }
@@ -148,7 +148,7 @@ namespace RealTime.Events.Storage
                 }
             }
 
-            Log.Debug(LogCategories.Generic, $"Successfully loaded {events.Count} event templates");
+            Log.Debug(LogCategory.Generic, $"Successfully loaded {events.Count} event templates");
         }
     }
 }

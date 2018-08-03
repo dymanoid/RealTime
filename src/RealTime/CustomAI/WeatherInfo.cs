@@ -7,7 +7,7 @@ namespace RealTime.CustomAI
     using System;
     using RealTime.GameConnection;
     using RealTime.Simulation;
-    using RealTime.Tools;
+    using SkyTools.Tools;
     using static Constants;
 
     /// <summary>
@@ -61,7 +61,7 @@ namespace RealTime.CustomAI
         {
             if (DisasterManager.instance.m_disasterCount == 0)
             {
-                Log.DebugIf(isDisasterHazardActive, LogCategories.Simulation, "A disaster ended.");
+                Log.DebugIf(isDisasterHazardActive, LogCategory.Simulation, "A disaster ended.");
                 isDisasterHazardActive = false;
                 return;
             }
@@ -76,12 +76,12 @@ namespace RealTime.CustomAI
                     continue;
                 }
 
-                Log.DebugIf(!isDisasterHazardActive, LogCategories.Simulation, "An active disaster has been detected!");
+                Log.DebugIf(!isDisasterHazardActive, LogCategory.Simulation, "An active disaster has been detected!");
                 isDisasterHazardActive = true;
                 return;
             }
 
-            Log.DebugIf(isDisasterHazardActive, LogCategories.Simulation, "A disaster ended.");
+            Log.DebugIf(isDisasterHazardActive, LogCategory.Simulation, "A disaster ended.");
             isDisasterHazardActive = false;
         }
     }

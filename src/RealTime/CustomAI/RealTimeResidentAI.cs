@@ -4,10 +4,10 @@ namespace RealTime.CustomAI
 {
     using System;
     using RealTime.Config;
-    using RealTime.Core;
     using RealTime.Events;
     using RealTime.GameConnection;
-    using RealTime.Tools;
+    using SkyTools.Storage;
+    using SkyTools.Tools;
 
     /// <summary>A class incorporating the custom logic for a city resident.</summary>
     /// <typeparam name="TAI">The type of the citizen AI.</typeparam>
@@ -99,7 +99,7 @@ namespace RealTime.CustomAI
 
             if (schedule.CurrentState == ResidentState.Unknown)
             {
-                Log.Debug(LogCategories.State, TimeInfo.Now, $"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is in an UNKNOWN state! Changing to 'moving'");
+                Log.Debug(LogCategory.State, TimeInfo.Now, $"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is in an UNKNOWN state! Changing to 'moving'");
                 CitizenProxy.SetLocation(ref citizen, Citizen.Location.Moving);
                 return;
             }
@@ -127,7 +127,7 @@ namespace RealTime.CustomAI
             {
                 case Citizen.Location.Work:
                     schedule.UpdateTravelTimeToWork(TimeInfo.Now);
-                    Log.Debug(LogCategories.Movement, $"The citizen {citizenId} arrived at work at {TimeInfo.Now} and needs {schedule.TravelTimeToWork} hours to get to work");
+                    Log.Debug(LogCategory.Movement, $"The citizen {citizenId} arrived at work at {TimeInfo.Now} and needs {schedule.TravelTimeToWork} hours to get to work");
                     break;
 
                 case Citizen.Location.Moving:
@@ -140,7 +140,7 @@ namespace RealTime.CustomAI
         /// <summary>Performs simulation for starting a new day. Enables the logic to perform the 'new day processing' for the citizens.</summary>
         public void BeginNewDayProcessing()
         {
-            Log.Debug(LogCategories.Generic, TimeInfo.Now, "Starting of the 'new day' processing for each citizen...");
+            Log.Debug(LogCategory.Generic, TimeInfo.Now, "Starting of the 'new day' processing for each citizen...");
             workBehavior.BeginNewDay();
             todayWakeUp = TimeInfo.Now.Date.AddHours(Config.WakeUpHour);
             CanCitizensGrowUp = true;
@@ -150,7 +150,7 @@ namespace RealTime.CustomAI
         public void EndNewDayProcessing()
         {
             CanCitizensGrowUp = false;
-            Log.Debug(LogCategories.Generic, TimeInfo.Now, "The 'new day' processing for the citizens is now completed.");
+            Log.Debug(LogCategory.Generic, TimeInfo.Now, "The 'new day' processing for the citizens is now completed.");
         }
 
         /// <summary>Performs simulation for starting a new day for a citizen with specified ID.</summary>
@@ -169,7 +169,7 @@ namespace RealTime.CustomAI
         public void SetSimulationCyclePeriod(float cyclePeriod)
         {
             simulationCycle = cyclePeriod;
-            Log.Debug(LogCategories.Simulation, $"SIMULATION CYCLE PERIOD: {cyclePeriod} hours");
+            Log.Debug(LogCategory.Simulation, $"SIMULATION CYCLE PERIOD: {cyclePeriod} hours");
         }
 
         /// <summary>Gets an instance of the storage service that can read and write the custom schedule data.</summary>
