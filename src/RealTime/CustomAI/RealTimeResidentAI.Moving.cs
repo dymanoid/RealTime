@@ -4,7 +4,7 @@
 
 namespace RealTime.CustomAI
 {
-    using RealTime.Tools;
+    using SkyTools.Tools;
     using static Constants;
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
@@ -38,7 +38,7 @@ namespace RealTime.CustomAI
 
             if (vehicleId == 0 && CitizenMgr.IsAreaEvacuating(instanceId) && !CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating))
             {
-                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} was on the way, but the area evacuates. Finding an evacuation place.");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} was on the way, but the area evacuates. Finding an evacuation place.");
                 schedule.Schedule(ResidentState.Unknown);
                 TransferMgr.AddOutgoingOfferFromCurrentPosition(citizenId, residentAI.GetEvacuationReason(instance, 0));
                 return true;
@@ -53,7 +53,7 @@ namespace RealTime.CustomAI
             ItemClass.Service targetService = BuildingMgr.GetBuildingService(targetBuilding);
             if (targetService == ItemClass.Service.Beautification && IsBadWeather())
             {
-                Log.Debug(LogCategories.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} cancels the trip to a park due to bad weather");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} cancels the trip to a park due to bad weather");
                 schedule.Schedule(ResidentState.AtHome);
                 return false;
             }
@@ -72,13 +72,13 @@ namespace RealTime.CustomAI
             ushort foundBuilding = BuildingMgr.FindActiveBuilding(currentBuilding, distance, ItemClass.Service.Commercial);
             if (foundBuilding == 0)
             {
-                Log.Debug(LogCategories.Movement, $"Citizen {citizenId} didn't find any visitable commercial buildings nearby");
+                Log.Debug(LogCategory.Movement, $"Citizen {citizenId} didn't find any visitable commercial buildings nearby");
                 return 0;
             }
 
             if (buildingAI.IsNoiseRestricted(foundBuilding, currentBuilding))
             {
-                Log.Debug(LogCategories.Movement, $"Citizen {citizenId} won't go to the commercial building {foundBuilding}, it has a NIMBY policy");
+                Log.Debug(LogCategory.Movement, $"Citizen {citizenId} won't go to the commercial building {foundBuilding}, it has a NIMBY policy");
                 return 0;
             }
 
@@ -106,7 +106,7 @@ namespace RealTime.CustomAI
 
             if (buildingAI.IsNoiseRestricted(leisureBuilding, currentBuilding))
             {
-                Log.Debug(LogCategories.Movement, $"Citizen {citizenId} won't go to the leisure building {leisureBuilding}, it has a NIMBY policy");
+                Log.Debug(LogCategory.Movement, $"Citizen {citizenId} won't go to the leisure building {leisureBuilding}, it has a NIMBY policy");
                 return 0;
             }
 

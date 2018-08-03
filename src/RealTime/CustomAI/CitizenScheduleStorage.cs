@@ -6,8 +6,8 @@ namespace RealTime.CustomAI
 {
     using System;
     using System.IO;
-    using RealTime.Core;
     using RealTime.Simulation;
+    using SkyTools.Storage;
 
     /// <summary>
     /// A helper class that enables loading and saving of the custom citizen schedules.
@@ -47,6 +47,11 @@ namespace RealTime.CustomAI
         /// <param name="source">A <see cref="Stream" /> to read the data set from.</param>
         void IStorageData.ReadData(Stream source)
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
             byte[] buffer = new byte[CitizenSchedule.DataRecordSize];
             long referenceTime = timeInfo.Now.Date.Ticks;
 
@@ -68,6 +73,11 @@ namespace RealTime.CustomAI
         /// <param name="target">A <see cref="Stream" /> to write the data set to.</param>
         void IStorageData.StoreData(Stream target)
         {
+            if (target == null)
+            {
+                throw new ArgumentNullException(nameof(target));
+            }
+
             byte[] buffer = new byte[CitizenSchedule.DataRecordSize];
             long referenceTime = timeInfo.Now.Date.Ticks;
 

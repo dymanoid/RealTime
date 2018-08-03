@@ -10,8 +10,8 @@ namespace RealTime.GameConnection.Patches
     using System.Reflection;
     using ColossalFramework;
     using ColossalFramework.UI;
-    using RealTime.Patching;
-    using RealTime.Tools;
+    using SkyTools.Patching;
+    using SkyTools.Tools;
     using UnityEngine;
     using static ColossalFramework.UI.UIGraph;
 
@@ -120,8 +120,8 @@ namespace RealTime.GameConnection.Patches
             {
                 try
                 {
-                    pixelsToUnits = FastDelegate.Create<UIComponent, PixelsToUnitsDelegate>("PixelsToUnits");
-                    addSolidQuad = FastDelegate.Create<UIGraph, AddSolidQuadDelegate>("AddSolidQuad");
+                    pixelsToUnits = FastDelegateFactory.Create<PixelsToUnitsDelegate>(typeof(UIComponent), "PixelsToUnits", true);
+                    addSolidQuad = FastDelegateFactory.Create<AddSolidQuadDelegate>(typeof(UIGraph), "AddSolidQuad", true);
                 }
                 catch (Exception ex)
                 {
@@ -198,7 +198,7 @@ namespace RealTime.GameConnection.Patches
                     float scaledX = Mathf.Lerp(xmin, xmax, timeScale) - xmin;
                     TimeSpan step = scaledX <= 0.0001f ? TimeSpan.FromDays(10000) : TimeSpan.FromDays(minInterval / scaledX);
 
-                    var textRenderData = ___m_RenderData.Count > 1 ? ___m_RenderData[1] : null;
+                    UIRenderData textRenderData = ___m_RenderData.Count > 1 ? ___m_RenderData[1] : null;
 
                     for (DateTime current = __instance.StartTime.AddDays(1); current <= visibleEndTime; current += step)
                     {

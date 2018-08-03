@@ -5,8 +5,8 @@ namespace RealTime.GameConnection.Patches
     using System;
     using System.Reflection;
     using RealTime.CustomAI;
-    using RealTime.Patching;
-    using RealTime.Tools;
+    using SkyTools.Patching;
+    using SkyTools.Tools;
     using static HumanAIConnectionBase<ResidentAI, Citizen>;
     using static ResidentAIConnection<ResidentAI, Citizen>;
 
@@ -34,31 +34,31 @@ namespace RealTime.GameConnection.Patches
             try
             {
                 DoRandomMoveDelegate doRandomMove
-                    = FastDelegate.Create<ResidentAI, DoRandomMoveDelegate>("DoRandomMove");
+                    = FastDelegateFactory.Create<DoRandomMoveDelegate>(typeof(ResidentAI), "DoRandomMove", true);
 
                 FindEvacuationPlaceDelegate findEvacuationPlace
-                    = FastDelegate.Create<ResidentAI, FindEvacuationPlaceDelegate>("FindEvacuationPlace");
+                    = FastDelegateFactory.Create<FindEvacuationPlaceDelegate>(typeof(ResidentAI), "FindEvacuationPlace", true);
 
                 FindHospitalDelegate findHospital
-                    = FastDelegate.Create<ResidentAI, FindHospitalDelegate>("FindHospital");
+                    = FastDelegateFactory.Create<FindHospitalDelegate>(typeof(ResidentAI), "FindHospital", true);
 
                 FindVisitPlaceDelegate findVisitPlace
-                    = FastDelegate.Create<ResidentAI, FindVisitPlaceDelegate>("FindVisitPlace");
+                    = FastDelegateFactory.Create<FindVisitPlaceDelegate>(typeof(ResidentAI), "FindVisitPlace", true);
 
                 GetEntertainmentReasonDelegate getEntertainmentReason
-                    = FastDelegate.Create<ResidentAI, GetEntertainmentReasonDelegate>("GetEntertainmentReason");
+                    = FastDelegateFactory.Create<GetEntertainmentReasonDelegate>(typeof(ResidentAI), "GetEntertainmentReason", true);
 
                 GetEvacuationReasonDelegate getEvacuationReason
-                    = FastDelegate.Create<ResidentAI, GetEvacuationReasonDelegate>("GetEvacuationReason");
+                    = FastDelegateFactory.Create<GetEvacuationReasonDelegate>(typeof(ResidentAI), "GetEvacuationReason", true);
 
                 GetShoppingReasonDelegate getShoppingReason
-                    = FastDelegate.Create<ResidentAI, GetShoppingReasonDelegate>("GetShoppingReason");
+                    = FastDelegateFactory.Create<GetShoppingReasonDelegate>(typeof(ResidentAI), "GetShoppingReason", true);
 
                 StartMovingDelegate startMoving
-                    = FastDelegate.Create<ResidentAI, StartMovingDelegate>("StartMoving");
+                    = FastDelegateFactory.Create<StartMovingDelegate>(typeof(ResidentAI), "StartMoving", true);
 
                 StartMovingWithOfferDelegate startMovingWithOffer
-                    = FastDelegate.Create<ResidentAI, StartMovingWithOfferDelegate>("StartMoving");
+                    = FastDelegateFactory.Create<StartMovingWithOfferDelegate>(typeof(ResidentAI), "StartMoving", true);
 
                 return new ResidentAIConnection<ResidentAI, Citizen>(
                     doRandomMove,

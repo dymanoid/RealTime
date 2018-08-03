@@ -9,7 +9,9 @@ namespace RealTime.UI
     using System.Linq;
     using System.Reflection;
     using RealTime.Config;
-    using RealTime.Localization;
+    using SkyTools.Configuration;
+    using SkyTools.Localization;
+    using SkyTools.UI;
 
     /// <summary>Manages the mod's configuration page.</summary>
     internal sealed class ConfigUI
@@ -18,10 +20,10 @@ namespace RealTime.UI
         private const string UseForNewGamesId = "UseForNewGames";
         private const string ToolsId = "Tools";
 
-        private readonly ConfigurationProvider configProvider;
+        private readonly ConfigurationProvider<RealTimeConfig> configProvider;
         private readonly IEnumerable<IViewItem> viewItems;
 
-        private ConfigUI(ConfigurationProvider configProvider, IEnumerable<IViewItem> viewItems)
+        private ConfigUI(ConfigurationProvider<RealTimeConfig> configProvider, IEnumerable<IViewItem> viewItems)
         {
             this.configProvider = configProvider;
             this.viewItems = viewItems;
@@ -37,7 +39,7 @@ namespace RealTime.UI
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
         /// <exception cref="InvalidOperationException">Thrown when the specified <see cref="ConfigurationProvider"/>
         /// is not initialized yet.</exception>
-        public static ConfigUI Create(ConfigurationProvider configProvider, IViewItemFactory itemFactory)
+        public static ConfigUI Create(ConfigurationProvider<RealTimeConfig> configProvider, IViewItemFactory itemFactory)
         {
             if (configProvider == null)
             {
@@ -90,7 +92,7 @@ namespace RealTime.UI
             }
         }
 
-        private static void CreateViewItems(ConfigurationProvider configProvider, IViewItemFactory itemFactory, ICollection<IViewItem> viewItems)
+        private static void CreateViewItems(ConfigurationProvider<RealTimeConfig> configProvider, IViewItemFactory itemFactory, ICollection<IViewItem> viewItems)
         {
             var properties = configProvider.Configuration.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Select(p => new { Property = p, Attribute = GetCustomItemAttribute<ConfigItemAttribute>(p) })
@@ -129,7 +131,7 @@ namespace RealTime.UI
         private static IViewItem CreateViewItem(
             IContainerViewItem container,
             PropertyInfo property,
-            ConfigurationProvider configProvider,
+            ConfigurationProvider<RealTimeConfig> configProvider,
             IViewItemFactory itemFactory)
         {
             object Config() => configProvider.Configuration;

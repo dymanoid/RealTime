@@ -7,7 +7,7 @@ namespace RealTime.GameConnection.Patches
     using System;
     using System.Reflection;
     using RealTime.CustomAI;
-    using RealTime.Patching;
+    using SkyTools.Patching;
 
     /// <summary>
     /// A static class that provides the patch objects for the building AI game methods.

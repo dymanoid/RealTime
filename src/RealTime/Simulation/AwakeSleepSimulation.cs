@@ -8,7 +8,7 @@ namespace RealTime.Simulation
     using System.Reflection;
     using ColossalFramework.IO;
     using RealTime.Config;
-    using RealTime.Tools;
+    using SkyTools.Tools;
 
     /// <summary>
     /// A simulation class that decouples the cities' 'night time' from the sun position.

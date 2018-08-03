@@ -12,11 +12,13 @@ namespace RealTime.Core
     using RealTime.Events.Storage;
     using RealTime.GameConnection;
     using RealTime.GameConnection.Patches;
-    using RealTime.Localization;
-    using RealTime.Patching;
     using RealTime.Simulation;
-    using RealTime.Tools;
     using RealTime.UI;
+    using SkyTools.Configuration;
+    using SkyTools.Localization;
+    using SkyTools.Patching;
+    using SkyTools.Storage;
+    using SkyTools.Tools;
 
     /// <summary>
     /// The core component of the Real Time mod. Activates and deactivates
@@ -24,6 +26,8 @@ namespace RealTime.Core
     /// </summary>
     internal sealed class RealTimeCore
     {
+        private const string HarmonyId = "com.cities_skylines.dymanoid.realtime";
+
         private readonly List<IStorageData> storageData = new List<IStorageData>();
         private readonly TimeAdjustment timeAdjustment;
         private readonly CustomTimeBar timeBar;
@@ -54,7 +58,7 @@ namespace RealTime.Core
         ///
         /// <returns>A <see cref="RealTimeCore"/> instance that can be used to stop the mod.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "This is the entry point and needs to instantiate all parts")]
-        public static RealTimeCore Run(ConfigurationProvider configProvider, string rootPath, ILocalizationProvider localizationProvider)
+        public static RealTimeCore Run(ConfigurationProvider<RealTimeConfig> configProvider, string rootPath, ILocalizationProvider localizationProvider)
         {
             if (configProvider == null)
             {
@@ -72,7 +76,7 @@ namespace RealTime.Core
             }
 
             IEnumerable<IPatch> patches = GetMethodPatches();
-            var patcher = new MethodPatcher(patches);
+            var patcher = new MethodPatcher(HarmonyId, patches);
 
             try
             {
@@ -85,9 +89,9 @@ namespace RealTime.Core
                 return null;
             }
 
-            if (RealTimeStorage.CurrentLevelStorage != null)
+            if (StorageBase.CurrentLevelStorage != null)
             {
-                LoadStorageData(new[] { configProvider }, RealTimeStorage.CurrentLevelStorage);
+                LoadStorageData(new[] { configProvider }, StorageBase.CurrentLevelStorage);
             }
 
             var timeInfo = new TimeInfo(configProvider.Configuration);
@@ -158,10 +162,10 @@ namespace RealTime.Core
 
             result.storageData.Add(eventManager);
             result.storageData.Add(ResidentAIPatch.RealTimeAI.GetStorageService());
-            if (RealTimeStorage.CurrentLevelStorage != null)
+            if (StorageBase.CurrentLevelStorage != null)
             {
-                RealTimeStorage.CurrentLevelStorage.GameSaving += result.GameSaving;
-                LoadStorageData(result.storageData, RealTimeStorage.CurrentLevelStorage);
+                StorageBase.CurrentLevelStorage.GameSaving += result.GameSaving;
+                LoadStorageData(result.storageData, StorageBase.CurrentLevelStorage);
             }
 
             result.storageData.Add(configProvider);
@@ -194,7 +198,7 @@ namespace RealTime.Core
 
             AwakeSleepSimulation.Uninstall();
 
-            RealTimeStorage.CurrentLevelStorage.GameSaving -= GameSaving;
+            StorageBase.CurrentLevelStorage.GameSaving -= GameSaving;
 
             ResidentAIPatch.RealTimeAI = null;
             TouristAIPatch.RealTimeAI = null;
@@ -323,12 +327,12 @@ namespace RealTime.Core
             CameraHelper.NavigateToBuilding(e.CityEventBuildingId);
         }
 
-        private static void LoadStorageData(IEnumerable<IStorageData> storageData, RealTimeStorage storage)
+        private static void LoadStorageData(IEnumerable<IStorageData> storageData, StorageBase storage)
         {
             foreach (IStorageData item in storageData)
             {
                 storage.Deserialize(item);
-                Log.Debug(LogCategories.Generic, "The 'Real Time' mod loaded its data from container " + item.StorageDataId);
+                Log.Debug(LogCategory.Generic, "The 'Real Time' mod loaded its data from container " + item.StorageDataId);
             }
         }
 
@@ -339,11 +343,11 @@ namespace RealTime.Core
 
         private void GameSaving(object sender, EventArgs e)
         {
-            var storage = (RealTimeStorage)sender;
+            var storage = (StorageBase)sender;
             foreach (IStorageData item in storageData)
             {
                 storage.Serialize(item);
-                Log.Debug(LogCategories.Generic, "The 'Real Time' mod stored its data in the current game for container " + item.StorageDataId);
+                Log.Debug(LogCategory.Generic, "The 'Real Time' mod stored its data in the current game for container " + item.StorageDataId);
             }
         }
     }

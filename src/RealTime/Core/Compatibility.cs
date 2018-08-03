@@ -11,8 +11,9 @@ namespace RealTime.Core
     using ColossalFramework.UI;
     using ICities;
     using RealTime.Localization;
-    using RealTime.Tools;
-    using RealTime.UI;
+    using SkyTools.Localization;
+    using SkyTools.Tools;
+    using SkyTools.UI;
 
     /// <summary>
     /// An utility class for checking the compatibility with other installed mods.

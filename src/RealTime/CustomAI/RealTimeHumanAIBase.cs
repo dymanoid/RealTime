@@ -9,7 +9,7 @@ namespace RealTime.CustomAI
     using RealTime.Events;
     using RealTime.GameConnection;
     using RealTime.Simulation;
-    using RealTime.Tools;
+    using SkyTools.Tools;
     using static Constants;
 
     /// <summary>
@@ -130,7 +130,7 @@ namespace RealTime.CustomAI
 
             if (CitizenProxy.IsCollapsed(ref citizen))
             {
-                Log.Debug(LogCategories.State, $"{GetCitizenDesc(citizenId, ref citizen)} is collapsed, doing nothing...");
+                Log.Debug(LogCategory.State, $"{GetCitizenDesc(citizenId, ref citizen)} is collapsed, doing nothing...");
                 return false;
             }
 

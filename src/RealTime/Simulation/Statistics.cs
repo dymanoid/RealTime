@@ -11,7 +11,8 @@ namespace RealTime.Simulation
     using ColossalFramework.Globalization;
     using ColossalFramework.UI;
     using RealTime.Localization;
-    using RealTime.Tools;
+    using SkyTools.Localization;
+    using SkyTools.Tools;
     using UnityEngine;
 
     /// <summary>
