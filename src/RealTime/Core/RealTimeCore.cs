@@ -15,6 +15,7 @@ namespace RealTime.Core
     using RealTime.Simulation;
     using RealTime.UI;
     using SkyTools.Configuration;
+    using SkyTools.GameTools;
     using SkyTools.Localization;
     using SkyTools.Patching;
     using SkyTools.Storage;
