@@ -35,6 +35,16 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>..\BuildEnvironment\RealTime.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Benchmark|x64'">
+    <OutputPath>..\bin\Benchmark\</OutputPath>
+    <DefineConstants>TRACE;BENCHMARK</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>..\BuildEnvironment\RealTime.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <Private>True</Private>
@@ -202,8 +212,12 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /y /q /d "$(TargetPath)" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
-xcopy /y /q /d "$(SolutionDir)SkyTools\src\bin\$(ConfigurationName)\SkyTools.dll" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
-xcopy /y /q /d "$(SolutionDir)SkyTools\src\Harmony\Harmony\build\$(ConfigurationName)\net35\0Harmony.dll" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
+if exist "$(SolutionDir)SkyTools\src\bin\Release\SkyTools.dll" xcopy /y /q /d "$(SolutionDir)SkyTools\src\bin\Release\SkyTools.dll" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
+if exist "$(SolutionDir)SkyTools\src\bin\$(ConfigurationName)\SkyTools.dll" xcopy /y /q /d "$(SolutionDir)SkyTools\src\bin\$(ConfigurationName)\SkyTools.dll" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
+
+if exist "$(SolutionDir)SkyTools\src\Harmony\Harmony\build\Release\net35\0Harmony.dll" xcopy /y /q /d "$(SolutionDir)SkyTools\src\Harmony\Harmony\build\Release\net35\0Harmony.dll" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
+if exist "$(SolutionDir)SkyTools\src\Harmony\Harmony\build\$(ConfigurationName)\net35\0Harmony.dll" xcopy /y /q /d "$(SolutionDir)SkyTools\src\Harmony\Harmony\build\$(ConfigurationName)\net35\0Harmony.dll" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
+
 xcopy /y /q /i "$(TargetDir)Localization\Translations" "d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187\Localization"
 xcopy /y /q /i "$(ProjectDir)Events\Templates" "d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187\Events"</PostBuildEvent>
   </PropertyGroup>
