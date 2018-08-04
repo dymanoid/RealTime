@@ -29,6 +29,16 @@ namespace RealTime.Core
         private ConfigUI configUI;
         private LocalizationProvider localizationProvider;
 
+#if BENCHMARK
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RealTimeMod"/> class.
+        /// </summary>
+        public RealTimeMod()
+        {
+            RealTimeBenchmark.Setup();
+        }
+#endif
+
         /// <summary>Gets the name of this mod.</summary>
         public string Name => "Real Time";
 

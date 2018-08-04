@@ -13,22 +13,31 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Harmony", "SkyTools\src\Har
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Benchmark|x64 = Benchmark|x64
 		Debug|x64 = Debug|x64
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7CD7702C-E7D3-4E61-BF3A-B10F7950DE52}.Benchmark|x64.ActiveCfg = Benchmark|x64
+		{7CD7702C-E7D3-4E61-BF3A-B10F7950DE52}.Benchmark|x64.Build.0 = Benchmark|x64
 		{7CD7702C-E7D3-4E61-BF3A-B10F7950DE52}.Debug|x64.ActiveCfg = Debug|x64
 		{7CD7702C-E7D3-4E61-BF3A-B10F7950DE52}.Debug|x64.Build.0 = Debug|x64
 		{7CD7702C-E7D3-4E61-BF3A-B10F7950DE52}.Release|x64.ActiveCfg = Release|x64
 		{7CD7702C-E7D3-4E61-BF3A-B10F7950DE52}.Release|x64.Build.0 = Release|x64
+		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Benchmark|x64.ActiveCfg = Release|x64
+		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Benchmark|x64.Build.0 = Release|x64
 		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Debug|x64.ActiveCfg = Debug|x64
 		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Debug|x64.Build.0 = Debug|x64
 		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Release|x64.ActiveCfg = Release|x64
 		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Release|x64.Build.0 = Release|x64
+		{F83D96EF-857A-4AA4-8C23-7D258DAD777D}.Benchmark|x64.ActiveCfg = Release|x64
+		{F83D96EF-857A-4AA4-8C23-7D258DAD777D}.Benchmark|x64.Build.0 = Release|x64
 		{F83D96EF-857A-4AA4-8C23-7D258DAD777D}.Debug|x64.ActiveCfg = Debug|x64
 		{F83D96EF-857A-4AA4-8C23-7D258DAD777D}.Debug|x64.Build.0 = Debug|x64
 		{F83D96EF-857A-4AA4-8C23-7D258DAD777D}.Release|x64.ActiveCfg = Release|x64
 		{F83D96EF-857A-4AA4-8C23-7D258DAD777D}.Release|x64.Build.0 = Release|x64
+		{3557B7AF-B8D2-4A52-A853-8678E9F6892C}.Benchmark|x64.ActiveCfg = Release-3.5|Any CPU
+		{3557B7AF-B8D2-4A52-A853-8678E9F6892C}.Benchmark|x64.Build.0 = Release-3.5|Any CPU
 		{3557B7AF-B8D2-4A52-A853-8678E9F6892C}.Debug|x64.ActiveCfg = Debug-3.5|Any CPU
 		{3557B7AF-B8D2-4A52-A853-8678E9F6892C}.Debug|x64.Build.0 = Debug-3.5|Any CPU
 		{3557B7AF-B8D2-4A52-A853-8678E9F6892C}.Release|x64.ActiveCfg = Release-3.5|Any CPU
