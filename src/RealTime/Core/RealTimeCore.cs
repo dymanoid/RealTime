@@ -325,7 +325,7 @@ namespace RealTime.Core
 
         private static void CustomTimeBarCityEventClick(object sender, CustomTimeBarClickEventArgs e)
         {
-            CameraHelper.NavigateToBuilding(e.CityEventBuildingId);
+            CameraHelper.NavigateToBuilding(e.CityEventBuildingId, true);
         }
 
         private static void LoadStorageData(IEnumerable<IStorageData> storageData, StorageBase storage)
