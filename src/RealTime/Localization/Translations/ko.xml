@@ -82,6 +82,19 @@
   <translation id="MaxVacationLength" value="최대 휴가 일시" />
   <translation id="MaxVacationLengthTooltip" value="시민들이 얼마나 휴가를 떠나는지를 나타냅니다. 0으로 설정할시 휴가를 가지 않게 됩니다." />
 
+  <translation id="ScheduledAction" value="Scheduled" />
+  <translation id="NextScheduledAction" value="Next" />
+  <translation id="ScheduledAction.AtHome" value="Go home" />
+  <translation id="ScheduledAction.AtSchoolOrWork" value="Go to work/school" />
+  <translation id="ScheduledAction.Shopping" value="Go shopping" />
+  <translation id="ScheduledAction.Relaxing" value="Go relaxing" />
+  <translation id="ScheduledAction.Visiting" value="Go visit" />
+  <translation id="ScheduledAction.InShelter" value="Go to shelter" />
+  <translation id="WorkShift.First" value="1st work shift" />
+  <translation id="WorkShift.Second" value="2nd work shift" />
+  <translation id="WorkShift.Night" value="Night work shift" />
+  <translation id="WorkStatus.OnVacation" value="(vacation: {0} days)" />
+
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="석탄이 {0} × {unit} 저장됨"/>
     <translation id="AIINFO_CUMULATIVEUPKEEP" value="유지비: {0} + {1} / {unit} / 셀"/>

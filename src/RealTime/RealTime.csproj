@@ -114,6 +114,7 @@
     <Compile Include="GameConnection\Patches\TransferManagerPatch.cs" />
     <Compile Include="GameConnection\Patches\UIGraphPatches.cs" />
     <Compile Include="GameConnection\Patches\WeatherManagerPatch.cs" />
+    <Compile Include="GameConnection\Patches\WorldInfoPanelPatches.cs" />
     <Compile Include="GameConnection\TouristAIConnection.cs" />
     <Compile Include="GameConnection\Patches\TouristAIPatch.cs" />
     <Compile Include="GameConnection\Patches\ResidentAIPatch.cs" />
@@ -148,9 +149,12 @@
     <Compile Include="Simulation\TimeAdjustment.cs" />
     <Compile Include="GameConnection\TimeInfo.cs" />
     <Compile Include="LogCategory.cs" />
+    <Compile Include="UI\CustomCitizenInfoPanel.cs" />
     <Compile Include="UI\CustomTimeBarClickEventArgs.cs" />
     <Compile Include="UI\ConfigUI.cs" />
+    <Compile Include="UI\CustomVehicleInfoPanel.cs" />
     <Compile Include="UI\DateTooltipBehavior.cs" />
+    <Compile Include="UI\RealTimeInfoPanelBase.cs" />
     <Compile Include="UI\RealTimeUIDateTimeWrapper.cs" />
     <Compile Include="UI\CustomTimeBar.cs" />
   </ItemGroup>

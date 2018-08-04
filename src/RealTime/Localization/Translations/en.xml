@@ -83,6 +83,19 @@
   <translation id="MaxVacationLength" value="Maximum vacation days" />
   <translation id="MaxVacationLengthTooltip" value="For how long citizens can be on vacation. Set to 0 to disable vacations." />
 
+  <translation id="ScheduledAction" value="Scheduled" />
+  <translation id="NextScheduledAction" value="Next" />
+  <translation id="ScheduledAction.AtHome" value="Go home" />
+  <translation id="ScheduledAction.AtSchoolOrWork" value="Go to work/school" />
+  <translation id="ScheduledAction.Shopping" value="Go shopping" />
+  <translation id="ScheduledAction.Relaxing" value="Go relaxing" />
+  <translation id="ScheduledAction.Visiting" value="Go visit" />
+  <translation id="ScheduledAction.InShelter" value="Go to shelter" />
+  <translation id="WorkShift.First" value="1st work shift" />
+  <translation id="WorkShift.Second" value="2nd work shift" />
+  <translation id="WorkShift.Night" value="Night work shift" />
+  <translation id="WorkStatus.OnVacation" value="(vacation: {0} days)" />
+
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="Coal stored for {0} × {unit}"/>
     <translation id="AIINFO_CUMULATIVEUPKEEP" value="Upkeep: {0} + {1} / {unit} / cell"/>

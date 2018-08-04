@@ -83,6 +83,19 @@
   <translation id="MaxVacationLength" value="Максимум дней отпуска" />
   <translation id="MaxVacationLengthTooltip" value="Сколько дней отпуска горожане могут максимально взять. Установите 0, чтобы отключить отпуска." />
 
+  <translation id="ScheduledAction" value="Запланировано" />
+  <translation id="NextScheduledAction" value="След." />
+  <translation id="ScheduledAction.AtHome" value="Домой" />
+  <translation id="ScheduledAction.AtSchoolOrWork" value="На работу/в школу" />
+  <translation id="ScheduledAction.Shopping" value="Покупки" />
+  <translation id="ScheduledAction.Relaxing" value="Развлечения" />
+  <translation id="ScheduledAction.Visiting" value="В гости" />
+  <translation id="ScheduledAction.InShelter" value="В убежище" />
+  <translation id="WorkShift.First" value="Первая смена" />
+  <translation id="WorkShift.Second" value="Вторая смена" />
+  <translation id="WorkShift.Night" value="Ночная смена" />
+  <translation id="WorkStatus.OnVacation" value="(отпуск: {0} дн.)" />
+
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="Запасов угля на {0} × {unit}"/>
     <translation id="AIINFO_CUMULATIVEUPKEEP" value="Содержание: {0} + {1} / {unit} / клетка"/>

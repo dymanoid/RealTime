@@ -178,5 +178,20 @@ namespace RealTime.CustomAI
         {
             return new CitizenScheduleStorage(residentSchedules, CitizenMgr.GetCitizensArray(), TimeInfo);
         }
+
+        /// <summary>Gets the citizen schedule. Note that the method returns the reference
+        /// and thus doesn't prevent changing the schedule.</summary>
+        /// <param name="citizenId">The ID of the citizen to get the schedule for.</param>
+        /// <returns>The original schedule of the citizen.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="citizenId"/> is 0.</exception>
+        public ref CitizenSchedule GetCitizenSchedule(uint citizenId)
+        {
+            if (citizenId == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(citizenId), citizenId, "The citizen ID cannot be 0");
+            }
+
+            return ref residentSchedules[citizenId];
+        }
     }
 }
