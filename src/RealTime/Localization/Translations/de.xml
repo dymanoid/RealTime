@@ -83,6 +83,19 @@
   <translation id="MaxVacationLength" value="Max. Urlaubstage" />
   <translation id="MaxVacationLengthTooltip" value="Wie viele Tage maximal können Cims im Urlaub sein. Setzen Sie den Wert auf 0, um Urlaub zu deaktivieren." />
 
+  <translation id="ScheduledAction" value="Geplant" />
+  <translation id="NextScheduledAction" value="Zunächst" />
+  <translation id="ScheduledAction.AtHome" value="Nach hause" />
+  <translation id="ScheduledAction.AtSchoolOrWork" value="Arbeiten/studieren" />
+  <translation id="ScheduledAction.Shopping" value="Einkaufen" />
+  <translation id="ScheduledAction.Relaxing" value="Entspannen" />
+  <translation id="ScheduledAction.Visiting" value="Besuchen" />
+  <translation id="ScheduledAction.InShelter" value="Bunker" />
+  <translation id="WorkShift.First" value="1. Schicht" />
+  <translation id="WorkShift.Second" value="2. Schicht" />
+  <translation id="WorkShift.Night" value="Nachtschicht" />
+  <translation id="WorkStatus.OnVacation" value="(Urlaub: {0} Tage)" />
+
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="Kohle gespeichert für {0} × {unit}"/>
     <translation id="AIINFO_CUMULATIVEUPKEEP" value="Unterhalt: {0} + {1} / {unit} / Zelle"/>

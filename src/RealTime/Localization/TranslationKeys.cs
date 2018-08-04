@@ -23,5 +23,17 @@ namespace RealTime.Localization
 
         /// <summary>The key for the abbreviated 'minutes' text.</summary>
         public const string Minutes = "Minutes";
+
+        /// <summary>The key for the scheduled action text.</summary>
+        public const string ScheduledAction = "ScheduledAction";
+
+        /// <summary>The key for the next scheduled action text.</summary>
+        public const string NextScheduledAction = "NextScheduledAction";
+
+        /// <summary>The key for the work shift text.</summary>
+        public const string WorkShiftKey = "WorkShift";
+
+        /// <summary>The key for the vacation text.</summary>
+        public const string WorkStatusOnVacation = "WorkStatus.OnVacation";
     }
 }

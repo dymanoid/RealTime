@@ -159,6 +159,9 @@ namespace RealTime.Core
             SimulationHandler.Buildings.InitializeLightState();
             SimulationHandler.Statistics = statistics;
 
+            WorldInfoPanelPatches.CitizenInfoPanel = CustomCitizenInfoPanel.Enable(ResidentAIPatch.RealTimeAI, localizationProvider);
+            WorldInfoPanelPatches.VehicleInfoPanel = CustomVehicleInfoPanel.Enable(ResidentAIPatch.RealTimeAI, localizationProvider);
+
             AwakeSleepSimulation.Install(configProvider.Configuration);
 
             result.storageData.Add(eventManager);
@@ -214,6 +217,12 @@ namespace RealTime.Core
             SimulationHandler.Statistics?.Close();
             SimulationHandler.Statistics = null;
 
+            WorldInfoPanelPatches.CitizenInfoPanel?.Disable();
+            WorldInfoPanelPatches.CitizenInfoPanel = null;
+
+            WorldInfoPanelPatches.VehicleInfoPanel?.Disable();
+            WorldInfoPanelPatches.VehicleInfoPanel = null;
+
             isEnabled = false;
         }
 
@@ -249,6 +258,7 @@ namespace RealTime.Core
                 ResidentAIPatch.ArriveAtTarget,
                 TouristAIPatch.Location,
                 TransferManagerPatch.AddOutgoingOffer,
+                WorldInfoPanelPatches.UpdateBindings,
                 UIGraphPatches.MinDataPoints,
                 UIGraphPatches.VisibleEndTime,
                 UIGraphPatches.BuildLabels
