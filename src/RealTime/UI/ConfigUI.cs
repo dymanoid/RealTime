@@ -37,7 +37,7 @@ namespace RealTime.UI
         /// <param name="itemFactory">The view item factory to use for creating the UI elements.</param>
         /// <returns>A configured instance of the <see cref="ConfigUI"/> class.</returns>
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
-        /// <exception cref="InvalidOperationException">Thrown when the specified <see cref="ConfigurationProvider"/>
+        /// <exception cref="InvalidOperationException">Thrown when the specified <see cref="ConfigurationProvider{RealTimeConfig}"/>
         /// is not initialized yet.</exception>
         public static ConfigUI Create(ConfigurationProvider<RealTimeConfig> configProvider, IViewItemFactory itemFactory)
         {

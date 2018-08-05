@@ -31,5 +31,10 @@ namespace RealTime.GameConnection
         /// <param name="ticketPrice">The city event's ticket price.</param>
         /// <returns><c>true</c> if the information was retrieved; otherwise, <c>false</c>.</returns>
         bool TryGetEventInfo(ushort eventId, out ushort buildingId, out DateTime startTime, out float duration, out float ticketPrice);
+
+        /// <summary>Sets the start time of the event to the specified value.</summary>
+        /// <param name="eventId">The ID of the event to change.</param>
+        /// <param name="startTime">The new event start time.</param>
+        void SetStartTime(ushort eventId, DateTime startTime);
     }
 }

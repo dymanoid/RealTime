@@ -134,8 +134,9 @@ namespace RealTime.CustomAI
         private bool ProcessCitizenInShelter(ref CitizenSchedule schedule, ref TCitizen citizen)
         {
             ushort shelter = CitizenProxy.GetVisitBuilding(ref citizen);
-            if (BuildingMgr.BuildingHasFlags(shelter, Building.Flags.Downgrading))
+            if (BuildingMgr.BuildingHasFlags(shelter, Building.Flags.Downgrading) && schedule.ScheduledState == ResidentState.InShelter)
             {
+                CitizenProxy.RemoveFlags(ref citizen, Citizen.Flags.Evacuating);
                 schedule.Schedule(ResidentState.Unknown);
                 return true;
             }
@@ -202,7 +203,7 @@ namespace RealTime.CustomAI
                         return ScheduleAction.ProcessState;
                     }
 
-                    if (CitizenProxy.GetVisitBuilding(ref citizen) == currentBuilding)
+                    if (CitizenProxy.GetVisitBuilding(ref citizen) == currentBuilding && schedule.WorkStatus != WorkStatus.Working)
                     {
                         // A citizen may visit their own work building (e.g. shopping)
                         goto case Citizen.Location.Visit;
@@ -212,6 +213,11 @@ namespace RealTime.CustomAI
                     return ScheduleAction.ProcessState;
 
                 case Citizen.Location.Visit:
+                    if (CitizenProxy.GetWorkBuilding(ref citizen) == currentBuilding && schedule.WorkStatus == WorkStatus.Working)
+                    {
+                        goto case Citizen.Location.Work;
+                    }
+
                     switch (buildingService)
                     {
                         case ItemClass.Service.Beautification:
@@ -228,7 +234,7 @@ namespace RealTime.CustomAI
                             schedule.CurrentState = ResidentState.Shopping;
                             return ScheduleAction.ProcessState;
 
-                        case ItemClass.Service.Disaster:
+                        case ItemClass.Service.Disaster when CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating):
                             schedule.CurrentState = ResidentState.InShelter;
                             return ScheduleAction.ProcessState;
                     }
@@ -244,7 +250,7 @@ namespace RealTime.CustomAI
         {
             // If the game changed the work building, we have to update the work shifts first
             ushort workBuilding = CitizenProxy.GetWorkBuilding(ref citizen);
-            if (schedule.WorkBuilding != workBuilding)
+            if (schedule.WorkBuilding != workBuilding || (workBuilding == 0 && schedule.WorkShift != WorkShift.Unemployed))
             {
                 schedule.WorkBuilding = workBuilding;
                 workBehavior.UpdateWorkShift(ref schedule, CitizenProxy.GetAge(ref citizen));
@@ -397,7 +403,7 @@ namespace RealTime.CustomAI
                     return;
             }
 
-            if (!executed && schedule.CurrentState == ResidentState.AtSchoolOrWork)
+            if (!executed && (schedule.CurrentState == ResidentState.AtSchoolOrWork || schedule.CurrentState == ResidentState.InShelter))
             {
                 schedule.Schedule(ResidentState.Unknown);
                 DoScheduledHome(ref schedule, instance, citizenId, ref citizen);

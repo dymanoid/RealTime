@@ -164,6 +164,11 @@ namespace RealTime.Events
         /// <returns>An <see cref="ICityEvent"/> instance of the first matching city event, or null if none found.</returns>
         public ICityEvent GetUpcomingCityEvent(DateTime earliestStartTime, DateTime latestStartTime)
         {
+            if (activeEvent != null && activeEvent.EndTime > latestStartTime)
+            {
+                return activeEvent;
+            }
+
             if (upcomingEvents.Count == 0)
             {
                 return null;
@@ -319,20 +324,72 @@ namespace RealTime.Events
                 activeEvent = null;
             }
 
-            bool eventsChanged = false;
-            foreach (ushort eventId in eventManager.GetUpcomingEvents(timeInfo.Now, timeInfo.Now.AddDays(1)))
+            bool eventsChanged = SynchronizeWithVanillaEvents();
+
+            if (upcomingEvents.Count == 0)
             {
-                eventManager.TryGetEventInfo(eventId, out ushort buildingId, out DateTime startTime, out float duration, out float ticketPrice);
-                if (upcomingEvents.Concat(new[] { activeEvent })
-                    .OfType<VanillaEvent>()
-                    .Any(e => e.BuildingId == buildingId && e.StartTime.Date == startTime.Date))
+                return;
+            }
+
+            LinkedListNode<ICityEvent> upcomingEvent = upcomingEvents.First;
+            while (upcomingEvent != null && upcomingEvent.Value.StartTime <= timeInfo.Now)
+            {
+                if (activeEvent != null)
+                {
+                    lastActiveEvent = activeEvent;
+                }
+
+                activeEvent = upcomingEvent.Value;
+                upcomingEvents.RemoveFirst();
+                eventsChanged = true;
+                upcomingEvent = upcomingEvent.Next;
+                Log.Debug(LogCategory.Events, timeInfo.Now, $"Event started! Building {activeEvent.BuildingId}, ends on {activeEvent.EndTime}");
+            }
+
+            if (eventsChanged)
+            {
+                OnEventsChanged();
+            }
+        }
+
+        private bool SynchronizeWithVanillaEvents()
+        {
+            bool result = false;
+            var oneMinuteInterval = TimeSpan.FromMinutes(1);
+
+            foreach (ushort eventId in eventManager.GetUpcomingEvents(timeInfo.Now.Date, timeInfo.Now.AddDays(1)))
+            {
+                if (!eventManager.TryGetEventInfo(eventId, out ushort buildingId, out DateTime startTime, out float duration, out float ticketPrice))
                 {
                     continue;
                 }
 
+                VanillaEvent existingVanillaEvent = CityEvents
+                    .OfType<VanillaEvent>()
+                    .FirstOrDefault(e => e.BuildingId == buildingId && e.EventId == eventId);
+
+                if (existingVanillaEvent != null)
+                {
+                    if (existingVanillaEvent.StartTime.RoundCeil(oneMinuteInterval) == startTime.RoundCeil(oneMinuteInterval))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        upcomingEvents.Remove(existingVanillaEvent);
+                    }
+                }
+
+                DateTime adjustedStartTime = AdjustEventStartTime(startTime, false);
+                if (adjustedStartTime != startTime)
+                {
+                    startTime = adjustedStartTime;
+                    eventManager.SetStartTime(eventId, startTime);
+                }
+
                 var newEvent = new VanillaEvent(eventId, duration, ticketPrice);
                 newEvent.Configure(buildingId, buildingManager.GetBuildingName(buildingId), startTime);
-                eventsChanged = true;
+                result = true;
                 Log.Debug(LogCategory.Events, timeInfo.Now, $"Vanilla event registered for {newEvent.BuildingId}, start time {newEvent.StartTime}, end time {newEvent.EndTime}");
 
                 LinkedListNode<ICityEvent> existingEvent = upcomingEvents.FirstOrDefaultNode(e => e.StartTime > startTime);
@@ -343,27 +400,16 @@ namespace RealTime.Events
                 else
                 {
                     upcomingEvents.AddBefore(existingEvent, newEvent);
+                    if (existingEvent.Value.StartTime < newEvent.EndTime)
+                    {
+                        // Avoid multiple events at the same time - vanilla events have priority
+                        upcomingEvents.Remove(existingEvent);
+                        earliestEvent = newEvent.EndTime.AddHours(12f);
+                    }
                 }
             }
 
-            if (upcomingEvents.Count == 0)
-            {
-                return;
-            }
-
-            ICityEvent upcomingEvent = upcomingEvents.First.Value;
-            if (upcomingEvent.StartTime <= timeInfo.Now)
-            {
-                activeEvent = upcomingEvent;
-                upcomingEvents.RemoveFirst();
-                eventsChanged = true;
-                Log.Debug(LogCategory.Events, timeInfo.Now, $"Event started! Building {activeEvent.BuildingId}, ends on {activeEvent.EndTime}");
-            }
-
-            if (eventsChanged)
-            {
-                OnEventsChanged();
-            }
+            return result;
         }
 
         private bool RemoveCanceledEvents()
@@ -424,8 +470,7 @@ namespace RealTime.Events
             if (cityEvent is VanillaEvent vanillaEvent)
             {
                 EventData.Flags eventFlags = eventManager.GetEventFlags(vanillaEvent.EventId);
-                return eventFlags == 0
-                    || (eventFlags & (EventData.Flags.Cancelled | EventData.Flags.Deleted | EventData.Flags.Expired)) != 0;
+                return eventFlags == 0 || (eventFlags & (EventData.Flags.Cancelled | EventData.Flags.Deleted)) != 0;
             }
 
             return false;
@@ -445,7 +490,11 @@ namespace RealTime.Events
                 return;
             }
 
-            DateTime startTime = GetRandomEventStartTime();
+            DateTime startTime = upcomingEvents.Count == 0
+                ? timeInfo.Now
+                : upcomingEvents.Last.Value.EndTime.Add(MinimumIntervalBetweenEvents);
+
+            startTime = AdjustEventStartTime(startTime, true);
             if (startTime < earliestEvent)
             {
                 return;
@@ -459,11 +508,9 @@ namespace RealTime.Events
             Log.Debug(LogCategory.Events, timeInfo.Now, $"New event created for building {newEvent.BuildingId}, starts on {newEvent.StartTime}, ends on {newEvent.EndTime}");
         }
 
-        private DateTime GetRandomEventStartTime()
+        private DateTime AdjustEventStartTime(DateTime eventStartTime, bool randomize)
         {
-            DateTime result = upcomingEvents.Count == 0
-                ? timeInfo.Now
-                : upcomingEvents.Last.Value.EndTime.Add(MinimumIntervalBetweenEvents);
+            DateTime result = eventStartTime;
 
             float earliestHour;
             float latestHour;
@@ -478,7 +525,10 @@ namespace RealTime.Events
                 latestHour = config.LatestHourEventStartWeekday;
             }
 
-            float randomOffset = randomizer.GetRandomValue((uint)((latestHour - earliestHour) * 60f)) / 60f;
+            float randomOffset = randomize
+                ? randomizer.GetRandomValue((uint)((latestHour - earliestHour) * 60f)) / 60f
+                : 0;
+
             result = result.AddHours(randomOffset).RoundCeil(EventStartTimeGranularity);
 
             if (result.Hour >= latestHour)

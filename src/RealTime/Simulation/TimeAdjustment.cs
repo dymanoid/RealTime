@@ -18,6 +18,8 @@ namespace RealTime.Simulation
         private uint nightTimeSpeed;
         private bool isNightTime;
         private bool isNightEnabled;
+        private TimeSpan originalTimePerFrame;
+        private long originalTimeOffsetTicks;
 
         /// <summary>Initializes a new instance of the <see cref="TimeAdjustment"/> class.</summary>
         /// <param name="config">The configuration to run with.</param>
@@ -69,7 +71,16 @@ namespace RealTime.Simulation
             UpdateTimeSimulationValues(vanillaFramesPerDay);
         }
 
-        private static DateTime UpdateTimeSimulationValues(uint framesPerDay)
+        /// <summary>Gets the original time represented by the frame index.
+        /// This method can be used to convert frame-based times after time adjustments.</summary>
+        /// <param name="frameIndex">A frame index representing a time point.</param>
+        /// <returns>A <see cref="DateTime"/> object for the specified <paramref name="frameIndex"/>.</returns>
+        public DateTime GetOriginalTime(uint frameIndex)
+        {
+            return new DateTime((frameIndex * originalTimePerFrame.Ticks) + originalTimeOffsetTicks);
+        }
+
+        private DateTime UpdateTimeSimulationValues(uint framesPerDay)
         {
             SimulationManager sm = SimulationManager.instance;
             DateTime originalDate = sm.m_ThreadingWrapper.simulationTime;
@@ -78,6 +89,8 @@ namespace RealTime.Simulation
             SimulationManager.DAYTIME_FRAME_TO_HOUR = 24f / SimulationManager.DAYTIME_FRAMES;
             SimulationManager.DAYTIME_HOUR_TO_FRAME = SimulationManager.DAYTIME_FRAMES / 24f;
 
+            originalTimePerFrame = sm.m_timePerFrame;
+            originalTimeOffsetTicks = sm.m_timeOffsetTicks;
             sm.m_timePerFrame = new TimeSpan(24L * 3600L * 10_000_000L / framesPerDay);
             sm.m_timeOffsetTicks = originalDate.Ticks - (sm.m_currentFrameIndex * sm.m_timePerFrame.Ticks);
             sm.m_currentGameTime = originalDate;

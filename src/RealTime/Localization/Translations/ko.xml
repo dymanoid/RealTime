@@ -82,8 +82,8 @@
   <translation id="MaxVacationLength" value="최대 휴가 일시" />
   <translation id="MaxVacationLengthTooltip" value="시민들이 얼마나 휴가를 떠나는지를 나타냅니다. 0으로 설정할시 휴가를 가지 않게 됩니다." />
 
-  <translation id="ScheduledAction" value="Scheduled" />
-  <translation id="NextScheduledAction" value="Next" />
+  <translation id="ScheduledAction" value="Now" />
+  <translation id="NextScheduledAction" value="Until" />
   <translation id="ScheduledAction.AtHome" value="Go home" />
   <translation id="ScheduledAction.AtSchoolOrWork" value="Go to work/school" />
   <translation id="ScheduledAction.Shopping" value="Go shopping" />

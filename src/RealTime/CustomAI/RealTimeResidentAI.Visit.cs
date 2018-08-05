@@ -42,12 +42,13 @@ namespace RealTime.CustomAI
 
         private bool DoScheduledRelaxing(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            // Relaxing was already scheduled last time, but the citizen is still at school/work.
+            // Relaxing was already scheduled last time, but the citizen is still at school/work or in shelter.
             // This can occur when the game's transfer manager can't find any activity for the citizen.
             // In that case, move back home.
-            if (schedule.CurrentState == ResidentState.AtSchoolOrWork && schedule.LastScheduledState == ResidentState.Relaxing)
+            if ((schedule.CurrentState == ResidentState.AtSchoolOrWork || schedule.CurrentState == ResidentState.InShelter)
+                && schedule.LastScheduledState == ResidentState.Relaxing)
             {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted relax but is still at work. No relaxing activity found. Now going home.");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted relax but is still at work or in shelter. No relaxing activity found. Now going home.");
                 return false;
             }
 
@@ -68,21 +69,23 @@ namespace RealTime.CustomAI
                     return true;
 
                 case ScheduleHint.AttendingEvent:
-                    DateTime returnTime = default;
-                    ICityEvent cityEvent = EventMgr.GetCityEvent(schedule.EventBuilding);
+                    ushort eventBuilding = schedule.EventBuilding;
                     schedule.EventBuilding = 0;
 
+                    ICityEvent cityEvent = EventMgr.GetCityEvent(eventBuilding);
                     if (cityEvent == null)
                     {
-                        Log.Debug(LogCategory.Events, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted attend an event at '{schedule.EventBuilding}', but there was no event there");
+                        Log.Debug(LogCategory.Events, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted attend an event at '{eventBuilding}', but there was no event there");
                     }
-                    else if (StartMovingToVisitBuilding(instance, citizenId, ref citizen, schedule.EventBuilding))
+                    else if (StartMovingToVisitBuilding(instance, citizenId, ref citizen, eventBuilding))
                     {
-                        returnTime = cityEvent.EndTime;
-                        Log.Debug(LogCategory.Events, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanna attend an event at '{schedule.EventBuilding}', will return at {returnTime}");
+                        schedule.Schedule(ResidentState.Unknown, cityEvent.EndTime);
+                        Log.Debug(LogCategory.Events, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanna attend an event at '{eventBuilding}', will return at {cityEvent.EndTime}");
+                        return true;
                     }
 
-                    return returnTime != default;
+                    schedule.Schedule(ResidentState.Unknown);
+                    return false;
             }
 
             uint relaxChance = spareTimeBehavior.GetRelaxingChance(
@@ -157,12 +160,13 @@ namespace RealTime.CustomAI
 
         private bool DoScheduledShopping(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            // Shopping was already scheduled last time, but the citizen is still at school/work.
+            // Shopping was already scheduled last time, but the citizen is still at school/work or in shelter.
             // This can occur when the game's transfer manager can't find any activity for the citizen.
             // In that case, move back home.
-            if (schedule.CurrentState == ResidentState.AtSchoolOrWork && schedule.LastScheduledState == ResidentState.Shopping)
+            if ((schedule.CurrentState == ResidentState.AtSchoolOrWork || schedule.CurrentState == ResidentState.InShelter)
+                && schedule.LastScheduledState == ResidentState.Shopping)
             {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go shopping but is still at work. No shopping activity found. Now going home.");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go shopping but is still at work or in shelter. No shopping activity found. Now going home.");
                 return false;
             }
 
