@@ -202,7 +202,7 @@ namespace RealTime.CustomAI
                         return ScheduleAction.ProcessState;
                     }
 
-                    if (CitizenProxy.GetVisitBuilding(ref citizen) == currentBuilding)
+                    if (CitizenProxy.GetVisitBuilding(ref citizen) == currentBuilding && schedule.WorkStatus != WorkStatus.Working)
                     {
                         // A citizen may visit their own work building (e.g. shopping)
                         goto case Citizen.Location.Visit;
@@ -212,6 +212,11 @@ namespace RealTime.CustomAI
                     return ScheduleAction.ProcessState;
 
                 case Citizen.Location.Visit:
+                    if (CitizenProxy.GetWorkBuilding(ref citizen) == currentBuilding && schedule.WorkStatus == WorkStatus.Working)
+                    {
+                        goto case Citizen.Location.Work;
+                    }
+
                     switch (buildingService)
                     {
                         case ItemClass.Service.Beautification:
