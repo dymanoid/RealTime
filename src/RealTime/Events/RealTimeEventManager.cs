@@ -331,12 +331,18 @@ namespace RealTime.Events
                 return;
             }
 
-            ICityEvent upcomingEvent = upcomingEvents.First.Value;
-            if (upcomingEvent.StartTime <= timeInfo.Now)
+            LinkedListNode<ICityEvent> upcomingEvent = upcomingEvents.First;
+            while (upcomingEvent != null && upcomingEvent.Value.StartTime <= timeInfo.Now)
             {
-                activeEvent = upcomingEvent;
+                if (activeEvent != null)
+                {
+                    lastActiveEvent = activeEvent;
+                }
+
+                activeEvent = upcomingEvent.Value;
                 upcomingEvents.RemoveFirst();
                 eventsChanged = true;
+                upcomingEvent = upcomingEvent.Next;
                 Log.Debug(LogCategory.Events, timeInfo.Now, $"Event started! Building {activeEvent.BuildingId}, ends on {activeEvent.EndTime}");
             }
 
@@ -349,21 +355,22 @@ namespace RealTime.Events
         private bool SynchronizeWithVanillaEvents()
         {
             bool result = false;
+            var oneMinuteInterval = TimeSpan.FromMinutes(1);
 
-            foreach (ushort eventId in eventManager.GetUpcomingEvents(timeInfo.Now, timeInfo.Now.AddDays(1)))
+            foreach (ushort eventId in eventManager.GetUpcomingEvents(timeInfo.Now.Date, timeInfo.Now.AddDays(1)))
             {
                 if (!eventManager.TryGetEventInfo(eventId, out ushort buildingId, out DateTime startTime, out float duration, out float ticketPrice))
                 {
                     continue;
                 }
 
-                VanillaEvent existingVanillaEvent = upcomingEvents
+                VanillaEvent existingVanillaEvent = CityEvents
                     .OfType<VanillaEvent>()
                     .FirstOrDefault(e => e.BuildingId == buildingId && e.EventId == eventId);
 
                 if (existingVanillaEvent != null)
                 {
-                    if (existingVanillaEvent.StartTime == startTime)
+                    if (existingVanillaEvent.StartTime.RoundCeil(oneMinuteInterval) == startTime.RoundCeil(oneMinuteInterval))
                     {
                         continue;
                     }
@@ -463,8 +470,7 @@ namespace RealTime.Events
             if (cityEvent is VanillaEvent vanillaEvent)
             {
                 EventData.Flags eventFlags = eventManager.GetEventFlags(vanillaEvent.EventId);
-                return eventFlags == 0
-                    || (eventFlags & (EventData.Flags.Cancelled | EventData.Flags.Deleted | EventData.Flags.Expired)) != 0;
+                return eventFlags == 0 || (eventFlags & (EventData.Flags.Cancelled | EventData.Flags.Deleted)) != 0;
             }
 
             return false;
