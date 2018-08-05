@@ -61,7 +61,8 @@ namespace RealTime.Core
             string text = localizationProvider.Translate(TranslationKeys.IncompatibleModsFoundMessage)
                 + Environment.NewLine + separator
                 + string.Join(separator, incompatibleMods.ToArray())
-                + Environment.NewLine + additionalInfo;
+                + Environment.NewLine + Environment.NewLine
+                + additionalInfo;
 
             Notify(caption, text);
             return false;

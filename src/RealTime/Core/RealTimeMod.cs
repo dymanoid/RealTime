@@ -164,7 +164,7 @@ namespace RealTime.Core
 
                 if (showMessage)
                 {
-                    Compatibility.Notify(localizationProvider.Translate(TranslationKeys.Warning), restricted);
+                    Compatibility.Notify(Name + " - " + localizationProvider.Translate(TranslationKeys.Warning), restricted);
                 }
             }
         }
