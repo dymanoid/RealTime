@@ -34,15 +34,22 @@ namespace RealTime.Core
         private readonly CustomTimeBar timeBar;
         private readonly RealTimeEventManager eventManager;
         private readonly MethodPatcher patcher;
+        private readonly VanillaEvents vanillaEvents;
 
         private bool isEnabled;
 
-        private RealTimeCore(TimeAdjustment timeAdjustment, CustomTimeBar timeBar, RealTimeEventManager eventManager, MethodPatcher patcher)
+        private RealTimeCore(
+            TimeAdjustment timeAdjustment,
+            CustomTimeBar timeBar,
+            RealTimeEventManager eventManager,
+            MethodPatcher patcher,
+            VanillaEvents vanillaEvents)
         {
             this.timeAdjustment = timeAdjustment;
             this.timeBar = timeBar;
             this.eventManager = eventManager;
             this.patcher = patcher;
+            this.vanillaEvents = vanillaEvents;
             isEnabled = true;
         }
 
@@ -135,7 +142,9 @@ namespace RealTime.Core
             customTimeBar.Enable(gameDate);
             customTimeBar.CityEventClick += CustomTimeBarCityEventClick;
 
-            var result = new RealTimeCore(timeAdjustment, customTimeBar, eventManager, patcher);
+            var vanillaEvents = VanillaEvents.Customize();
+
+            var result = new RealTimeCore(timeAdjustment, customTimeBar, eventManager, patcher, vanillaEvents);
             eventManager.EventsChanged += result.CityEventsChanged;
 
             var statistics = new Statistics(timeInfo, localizationProvider);
@@ -191,6 +200,8 @@ namespace RealTime.Core
 
             Log.Info($"The 'Real Time' mod reverts method patches.");
             patcher.Revert();
+
+            vanillaEvents.Revert();
 
             timeAdjustment.Disable();
             timeBar.CityEventClick -= CustomTimeBarCityEventClick;
