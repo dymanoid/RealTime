@@ -83,8 +83,8 @@
   <translation id="MaxVacationLength" value="Maximum vacation days" />
   <translation id="MaxVacationLengthTooltip" value="For how long citizens can be on vacation. Set to 0 to disable vacations." />
 
-  <translation id="ScheduledAction" value="Scheduled" />
-  <translation id="NextScheduledAction" value="Next" />
+  <translation id="ScheduledAction" value="Now" />
+  <translation id="NextScheduledAction" value="Until" />
   <translation id="ScheduledAction.AtHome" value="Go home" />
   <translation id="ScheduledAction.AtSchoolOrWork" value="Go to work/school" />
   <translation id="ScheduledAction.Shopping" value="Go shopping" />

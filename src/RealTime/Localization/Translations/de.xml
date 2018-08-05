@@ -83,8 +83,8 @@
   <translation id="MaxVacationLength" value="Max. Urlaubstage" />
   <translation id="MaxVacationLengthTooltip" value="Wie viele Tage maximal können Cims im Urlaub sein. Setzen Sie den Wert auf 0, um Urlaub zu deaktivieren." />
 
-  <translation id="ScheduledAction" value="Geplant" />
-  <translation id="NextScheduledAction" value="Zunächst" />
+  <translation id="ScheduledAction" value="Jetzt" />
+  <translation id="NextScheduledAction" value="Bis zu" />
   <translation id="ScheduledAction.AtHome" value="Nach hause" />
   <translation id="ScheduledAction.AtSchoolOrWork" value="Arbeiten/studieren" />
   <translation id="ScheduledAction.Shopping" value="Einkaufen" />
