@@ -2,6 +2,7 @@
 <language id="ko" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="Warning" value="경고" />
+  <translation id="RestrictedModeMessage" value="Real Time works in restricted mode. Some functionality is disabled. This is because of a technical issue with a third-party library or a mod incompatibility. If you want assistance, please share your game log file with the mod's developer." />
   <translation id="ModNotWorkingMessage" value="어이쿠! 무엇인가 잘못되었습니다 - 모드가 정상 동작하지 않습니다! 모드 제작자에게 로그 파일을 보내주세요." />
   <translation id="IncompatibleModsFoundMessage" value="Real Time 모드가 최소 한개 이상의 호환되지 않는(혹은 부분적으로 호환되지 않는) 모드를 발견했습니다. 해당 모드를 구독해제 하시는 것을 추천드립니다. 여러분이 원하신다면 놔두셔도 상관없지만, 게임이 정상적으로 흐르지 않거나 튕길 가능성이 있습니다." />
   <translation id="Minutes" value="분" />  

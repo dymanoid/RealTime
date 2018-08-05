@@ -2,6 +2,7 @@
 <language id="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="Warning" value="Предупреждение" />
+  <translation id="RestrictedModeMessage" value="Real Time работает в ограниченном режиме. Некоторые функции недоступны. Причина этого может быть в технических проблемах сторонней библиотеки или несовместимости с другими модами. Если требуется помощь, покажите лог-файл игры разработчику мода." />
   <translation id="ModNotWorkingMessage" value="Упс! Что-то пошло не так - мод 'Real Time' не может быть активирован. Пожалуйста, покажите лог-файл игры разработчику мода." />
   <translation id="IncompatibleModsFoundMessage" value="Real Time обнаружил как минимум один несовместимый мод (или частично несовместимый). Рекомендуется отписаться от всех несовместимых модов. Можно продолжить играть на свой собственный риск, но что-то может не работать или игра может вылетать." />
   <translation id="Minutes" value="мин." />

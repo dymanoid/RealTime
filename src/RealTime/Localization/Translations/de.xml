@@ -2,6 +2,7 @@
 <language id="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="Warning" value="Warnung" />
+  <translation id="RestrictedModeMessage" value="Real Time funktioniert im eingeschränkten Modus. Einige Funktionen sind nicht verfügbar. Die Ursache liegt entweder an einem technischen Problem einer third-party Bibliothek oder an einer Mod-Inkompatibilität. Für Unterstützung zeigen Sie dem Entwickler das Log-File von Cities:Skylines." />
   <translation id="ModNotWorkingMessage" value="Oh je! Etwas ist schief gelaufen - die Mod 'Real Time' kann nicht aktiviert werden. Bitte zeigen Sie das Log-File von Cities:Skylines dem Entwickler." />
   <translation id="IncompatibleModsFoundMessage" value="Real Time etdeckte zumindest eine inkompatible Mod (oder teilweise inkompatible). Es wird empfohlen, davon abzumelden. Weiterspielen ist auf eigenes Risiko möglich, etwas könnte dabei aber nicht funktionieren oder das Spiel könnte abstürzen." />
   <translation id="Minutes" value="Min." />
