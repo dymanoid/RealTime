@@ -136,6 +136,7 @@ namespace RealTime.CustomAI
             ushort shelter = CitizenProxy.GetVisitBuilding(ref citizen);
             if (BuildingMgr.BuildingHasFlags(shelter, Building.Flags.Downgrading) && schedule.ScheduledState == ResidentState.InShelter)
             {
+                CitizenProxy.RemoveFlags(ref citizen, Citizen.Flags.Evacuating);
                 schedule.Schedule(ResidentState.Unknown);
                 return true;
             }
@@ -233,7 +234,7 @@ namespace RealTime.CustomAI
                             schedule.CurrentState = ResidentState.Shopping;
                             return ScheduleAction.ProcessState;
 
-                        case ItemClass.Service.Disaster:
+                        case ItemClass.Service.Disaster when CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating):
                             schedule.CurrentState = ResidentState.InShelter;
                             return ScheduleAction.ProcessState;
                     }
