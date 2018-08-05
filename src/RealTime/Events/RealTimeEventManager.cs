@@ -322,12 +322,25 @@ namespace RealTime.Events
             bool eventsChanged = false;
             foreach (ushort eventId in eventManager.GetUpcomingEvents(timeInfo.Now, timeInfo.Now.AddDays(1)))
             {
-                eventManager.TryGetEventInfo(eventId, out ushort buildingId, out DateTime startTime, out float duration, out float ticketPrice);
-                if (upcomingEvents.Concat(new[] { activeEvent })
-                    .OfType<VanillaEvent>()
-                    .Any(e => e.BuildingId == buildingId && e.StartTime.Date == startTime.Date))
+                if (!eventManager.TryGetEventInfo(eventId, out ushort buildingId, out DateTime startTime, out float duration, out float ticketPrice))
                 {
                     continue;
+                }
+
+                VanillaEvent existingVanillaEvent = upcomingEvents
+                    .OfType<VanillaEvent>()
+                    .FirstOrDefault(e => e.BuildingId == buildingId && e.EventId == eventId);
+
+                if (existingVanillaEvent != null)
+                {
+                    if (existingVanillaEvent.StartTime == startTime)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        upcomingEvents.Remove(existingVanillaEvent);
+                    }
                 }
 
                 var newEvent = new VanillaEvent(eventId, duration, ticketPrice);
