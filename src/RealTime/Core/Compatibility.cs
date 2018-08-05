@@ -34,9 +34,11 @@ namespace RealTime.Core
         /// <summary>Checks for any enabled incompatible mods and notifies the player when any found.</summary>
         /// <param name="modName">The name of the current mod.</param>
         /// <param name="localizationProvider">The localization provider to use for translation.</param>
+        /// <param name="additionalInfo">Additional information to be added to the pop up or message box.</param>
+        /// <returns><c>true</c> if the check was successful and no messages were shown; otherwise, <c>false</c>.</returns>
         /// <exception cref="ArgumentException">Thrown when <paramref name="modName"/> is null or an empty string.</exception>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="localizationProvider"/> is null.</exception>
-        public static void CheckAndNotify(string modName, ILocalizationProvider localizationProvider)
+        public static bool CheckAndNotify(string modName, ILocalizationProvider localizationProvider, string additionalInfo = null)
         {
             if (string.IsNullOrEmpty(modName))
             {
@@ -51,14 +53,35 @@ namespace RealTime.Core
             List<string> incompatibleMods = GetIncompatibleModNames();
             if (incompatibleMods.Count == 0)
             {
-                return;
+                return true;
             }
 
             string separator = Environment.NewLine + " - ";
             string caption = modName + " - " + localizationProvider.Translate(TranslationKeys.Warning);
             string text = localizationProvider.Translate(TranslationKeys.IncompatibleModsFoundMessage)
                 + Environment.NewLine + separator
-                + string.Join(separator, incompatibleMods.ToArray());
+                + string.Join(separator, incompatibleMods.ToArray())
+                + Environment.NewLine + additionalInfo;
+
+            Notify(caption, text);
+            return false;
+        }
+
+        /// <summary>Notifies the user either with a pop up or with a message box.</summary>
+        /// <param name="caption">The caption of the pop up or message box.</param>
+        /// <param name="text">The notification text.</param>
+        /// <exception cref="ArgumentException">Thrown when any argument is null or an empty string.</exception>
+        public static void Notify(string caption, string text)
+        {
+            if (string.IsNullOrEmpty(caption))
+            {
+                throw new ArgumentException("The caption cannot be null or an empty string", nameof(caption));
+            }
+
+            if (string.IsNullOrEmpty(text))
+            {
+                throw new ArgumentException("The text cannot be null or an empty string.", nameof(text));
+            }
 
             if (!NotifyWithPopup(caption, text))
             {
