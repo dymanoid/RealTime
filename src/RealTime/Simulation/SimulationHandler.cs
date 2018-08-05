@@ -56,10 +56,8 @@ namespace RealTime.Simulation
         public override void OnBeforeSimulationTick()
         {
             WeatherInfo?.Update();
-            EventManager?.ProcessEvents();
 
             bool updateFrameLength = TimeAdjustment?.Update() ?? false;
-
             if (CitizenProcessor != null)
             {
                 if (updateFrameLength)
@@ -74,7 +72,10 @@ namespace RealTime.Simulation
             {
                 Buildings?.UpdateFrameDuration();
                 Statistics?.RefreshUnits();
+                VanillaEvents.ProcessUpdatedTimeSpeed(TimeAdjustment.GetOriginalTime);
             }
+
+            EventManager?.ProcessEvents();
 
             if (DayTimeSimulation == null || CitizenProcessor == null)
             {
