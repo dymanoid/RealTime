@@ -20,7 +20,7 @@ namespace RealTime.GameConnection
         /// </returns>
         public EventData.Flags GetEventFlags(ushort eventId)
         {
-            return eventId == 0
+            return eventId == 0 || eventId >= EventManager.instance.m_events.m_size
                 ? EventData.Flags.None
                 : EventManager.instance.m_events.m_buffer[eventId].m_flags;
         }
@@ -34,21 +34,20 @@ namespace RealTime.GameConnection
         public IEnumerable<ushort> GetUpcomingEvents(DateTime earliestTime, DateTime latestTime)
         {
             FastList<EventData> events = EventManager.instance.m_events;
-            for (ushort i = 0; i < events.m_size && i < EventManager.MAX_EVENT_COUNT; ++i)
+            for (ushort i = 1; i < events.m_size; ++i)
             {
-                EventData eventData = events.m_buffer[i];
-                if ((eventData.m_flags & (EventData.Flags.Preparing | EventData.Flags.Ready | EventData.Flags.Active)) == 0)
+                if ((events.m_buffer[i].m_flags & (EventData.Flags.Preparing | EventData.Flags.Ready | EventData.Flags.Active)) == 0)
                 {
                     continue;
                 }
 
-                if ((eventData.m_flags
+                if ((events.m_buffer[i].m_flags
                     & (EventData.Flags.Cancelled | EventData.Flags.Completed | EventData.Flags.Deleted | EventData.Flags.Expired)) != 0)
                 {
                     continue;
                 }
 
-                if (eventData.StartTime >= earliestTime && eventData.StartTime < latestTime)
+                if (events.m_buffer[i].StartTime >= earliestTime && events.m_buffer[i].StartTime < latestTime)
                 {
                     yield return i;
                 }
@@ -77,12 +76,28 @@ namespace RealTime.GameConnection
                 return false;
             }
 
-            EventData eventData = EventManager.instance.m_events.m_buffer[eventId];
+            ref EventData eventData = ref EventManager.instance.m_events.m_buffer[eventId];
             buildingId = eventData.m_building;
             startTime = eventData.StartTime;
             duration = eventData.Info.m_eventAI.m_eventDuration;
             ticketPrice = eventData.m_ticketPrice / 100f;
             return true;
+        }
+
+        /// <summary>Sets the start time of the event to the specified value.</summary>
+        /// <param name="eventId">The ID of the event to change.</param>
+        /// <param name="startTime">The new event start time.</param>
+        public void SetStartTime(ushort eventId, DateTime startTime)
+        {
+            if (eventId == 0 || eventId >= EventManager.instance.m_events.m_size)
+            {
+                return;
+            }
+
+            ref EventData eventData = ref EventManager.instance.m_events.m_buffer[eventId];
+            uint oldStartTime = eventData.m_startFrame;
+            eventData.m_startFrame = SimulationManager.instance.TimeToFrame(startTime);
+            eventData.m_expireFrame = eventData.m_expireFrame + (eventData.m_startFrame - oldStartTime);
         }
     }
 }
