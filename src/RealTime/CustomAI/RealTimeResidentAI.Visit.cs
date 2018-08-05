@@ -42,12 +42,13 @@ namespace RealTime.CustomAI
 
         private bool DoScheduledRelaxing(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            // Relaxing was already scheduled last time, but the citizen is still at school/work.
+            // Relaxing was already scheduled last time, but the citizen is still at school/work or in shelter.
             // This can occur when the game's transfer manager can't find any activity for the citizen.
             // In that case, move back home.
-            if (schedule.CurrentState == ResidentState.AtSchoolOrWork && schedule.LastScheduledState == ResidentState.Relaxing)
+            if ((schedule.CurrentState == ResidentState.AtSchoolOrWork || schedule.CurrentState == ResidentState.InShelter)
+                && schedule.LastScheduledState == ResidentState.Relaxing)
             {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted relax but is still at work. No relaxing activity found. Now going home.");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted relax but is still at work or in shelter. No relaxing activity found. Now going home.");
                 return false;
             }
 
@@ -159,12 +160,13 @@ namespace RealTime.CustomAI
 
         private bool DoScheduledShopping(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            // Shopping was already scheduled last time, but the citizen is still at school/work.
+            // Shopping was already scheduled last time, but the citizen is still at school/work or in shelter.
             // This can occur when the game's transfer manager can't find any activity for the citizen.
             // In that case, move back home.
-            if (schedule.CurrentState == ResidentState.AtSchoolOrWork && schedule.LastScheduledState == ResidentState.Shopping)
+            if ((schedule.CurrentState == ResidentState.AtSchoolOrWork || schedule.CurrentState == ResidentState.InShelter)
+                && schedule.LastScheduledState == ResidentState.Shopping)
             {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go shopping but is still at work. No shopping activity found. Now going home.");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted go shopping but is still at work or in shelter. No shopping activity found. Now going home.");
                 return false;
             }
 

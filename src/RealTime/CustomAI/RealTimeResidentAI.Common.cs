@@ -134,7 +134,7 @@ namespace RealTime.CustomAI
         private bool ProcessCitizenInShelter(ref CitizenSchedule schedule, ref TCitizen citizen)
         {
             ushort shelter = CitizenProxy.GetVisitBuilding(ref citizen);
-            if (BuildingMgr.BuildingHasFlags(shelter, Building.Flags.Downgrading))
+            if (BuildingMgr.BuildingHasFlags(shelter, Building.Flags.Downgrading) && schedule.ScheduledState == ResidentState.InShelter)
             {
                 schedule.Schedule(ResidentState.Unknown);
                 return true;
@@ -397,7 +397,7 @@ namespace RealTime.CustomAI
                     return;
             }
 
-            if (!executed && schedule.CurrentState == ResidentState.AtSchoolOrWork)
+            if (!executed && (schedule.CurrentState == ResidentState.AtSchoolOrWork || schedule.CurrentState == ResidentState.InShelter))
             {
                 schedule.Schedule(ResidentState.Unknown);
                 DoScheduledHome(ref schedule, instance, citizenId, ref citizen);
