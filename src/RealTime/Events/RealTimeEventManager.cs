@@ -343,6 +343,11 @@ namespace RealTime.Events
                 else
                 {
                     upcomingEvents.AddBefore(existingEvent, newEvent);
+                    if (existingEvent.Value.EndTime < newEvent.EndTime)
+                    {
+                        // Avoid multiple events at the same time - vanilla events have priority
+                        upcomingEvents.Remove(existingEvent);
+                    }
                 }
             }
 
