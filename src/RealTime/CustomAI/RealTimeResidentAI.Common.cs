@@ -244,7 +244,7 @@ namespace RealTime.CustomAI
         {
             // If the game changed the work building, we have to update the work shifts first
             ushort workBuilding = CitizenProxy.GetWorkBuilding(ref citizen);
-            if (schedule.WorkBuilding != workBuilding)
+            if (schedule.WorkBuilding != workBuilding || (workBuilding == 0 && schedule.WorkShift != WorkShift.Unemployed))
             {
                 schedule.WorkBuilding = workBuilding;
                 workBehavior.UpdateWorkShift(ref schedule, CitizenProxy.GetAge(ref citizen));
