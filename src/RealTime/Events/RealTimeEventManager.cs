@@ -164,6 +164,11 @@ namespace RealTime.Events
         /// <returns>An <see cref="ICityEvent"/> instance of the first matching city event, or null if none found.</returns>
         public ICityEvent GetUpcomingCityEvent(DateTime earliestStartTime, DateTime latestStartTime)
         {
+            if (activeEvent != null && activeEvent.EndTime > latestStartTime)
+            {
+                return activeEvent;
+            }
+
             if (upcomingEvents.Count == 0)
             {
                 return null;

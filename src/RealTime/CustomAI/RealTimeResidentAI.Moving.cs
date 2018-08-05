@@ -91,9 +91,11 @@ namespace RealTime.CustomAI
                 {
                     CitizenMgr.ModifyUnitGoods(citizenUnit, ShoppingGoodsAmount);
                 }
+
+                return foundBuilding;
             }
 
-            return foundBuilding;
+            return 0;
         }
 
         private ushort MoveToLeisureBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort currentBuilding)
@@ -110,8 +112,9 @@ namespace RealTime.CustomAI
                 return 0;
             }
 
-            StartMovingToVisitBuilding(instance, citizenId, ref citizen, leisureBuilding);
-            return leisureBuilding;
+            return StartMovingToVisitBuilding(instance, citizenId, ref citizen, leisureBuilding)
+                ? leisureBuilding
+                : (ushort)0;
         }
 
         private bool StartMovingToVisitBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort visitBuilding)
@@ -129,13 +132,21 @@ namespace RealTime.CustomAI
                 CitizenProxy.SetLocation(ref citizen, Citizen.Location.Visit);
                 return true;
             }
-            else if (residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding))
+
+            CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
+            if (CitizenProxy.GetVisitBuilding(ref citizen) == 0)
             {
-                CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
-                return true;
+                // Building is full and doesn't accept visitors anymore
+                return false;
             }
 
-            return false;
+            if (!residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding))
+            {
+                CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
+                return false;
+            }
+
+            return true;
         }
     }
 }

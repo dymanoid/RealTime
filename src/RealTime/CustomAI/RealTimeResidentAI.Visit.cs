@@ -68,21 +68,23 @@ namespace RealTime.CustomAI
                     return true;
 
                 case ScheduleHint.AttendingEvent:
-                    DateTime returnTime = default;
-                    ICityEvent cityEvent = EventMgr.GetCityEvent(schedule.EventBuilding);
+                    ushort eventBuilding = schedule.EventBuilding;
                     schedule.EventBuilding = 0;
 
+                    ICityEvent cityEvent = EventMgr.GetCityEvent(eventBuilding);
                     if (cityEvent == null)
                     {
-                        Log.Debug(LogCategory.Events, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted attend an event at '{schedule.EventBuilding}', but there was no event there");
+                        Log.Debug(LogCategory.Events, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted attend an event at '{eventBuilding}', but there was no event there");
                     }
-                    else if (StartMovingToVisitBuilding(instance, citizenId, ref citizen, schedule.EventBuilding))
+                    else if (StartMovingToVisitBuilding(instance, citizenId, ref citizen, eventBuilding))
                     {
-                        returnTime = cityEvent.EndTime;
-                        Log.Debug(LogCategory.Events, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanna attend an event at '{schedule.EventBuilding}', will return at {returnTime}");
+                        schedule.Schedule(ResidentState.Unknown, cityEvent.EndTime);
+                        Log.Debug(LogCategory.Events, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanna attend an event at '{eventBuilding}', will return at {cityEvent.EndTime}");
+                        return true;
                     }
 
-                    return returnTime != default;
+                    schedule.Schedule(ResidentState.Unknown);
+                    return false;
             }
 
             uint relaxChance = spareTimeBehavior.GetRelaxingChance(

@@ -215,38 +215,29 @@ namespace RealTime.CustomAI
                     return;
             }
 
+            ICityEvent currentEvent = EventMgr.GetCityEvent(visitBuilding);
+            if (currentEvent != null && currentEvent.StartTime < TimeInfo.Now)
+            {
+                if (Random.ShouldOccur(TouristShoppingChance))
+                {
+                    BuildingMgr.ModifyMaterialBuffer(visitBuilding, TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
+                }
+
+                return;
+            }
+
             if (Random.ShouldOccur(TouristEventChance) && !IsBadWeather())
             {
                 ICityEvent cityEvent = GetUpcomingEventToAttend(citizenId, ref citizen);
-                if (cityEvent != null)
+                if (cityEvent != null
+                    && StartMovingToVisitBuilding(instance, citizenId, ref citizen, CitizenProxy.GetCurrentBuilding(ref citizen), cityEvent.BuildingId))
                 {
-                    StartMovingToVisitBuilding(instance, citizenId, ref citizen, CitizenProxy.GetCurrentBuilding(ref citizen), cityEvent.BuildingId);
                     Log.Debug(LogCategory.Events, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} attending an event at {cityEvent.BuildingId}");
                     return;
                 }
             }
 
-            int doNothingChance;
-            switch (EventMgr.GetEventState(visitBuilding, DateTime.MaxValue))
-            {
-                case CityEventState.Ongoing:
-                    if (Random.ShouldOccur(TouristShoppingChance))
-                    {
-                        BuildingMgr.ModifyMaterialBuffer(visitBuilding, TransferManager.TransferReason.Shopping, -ShoppingGoodsAmount);
-                    }
-
-                    return;
-
-                case CityEventState.Finished:
-                    doNothingChance = 0;
-                    break;
-
-                default:
-                    doNothingChance = TouristDoNothingProbability;
-                    break;
-            }
-
-            FindRandomVisitPlace(instance, citizenId, ref citizen, doNothingChance, visitBuilding);
+            FindRandomVisitPlace(instance, citizenId, ref citizen, 0, visitBuilding);
         }
 
         private void FindRandomVisitPlace(TAI instance, uint citizenId, ref TCitizen citizen, int doNothingProbability, ushort currentBuilding)
@@ -358,12 +349,22 @@ namespace RealTime.CustomAI
                 ItemClass.SubService.CommercialTourist);
         }
 
-        private void StartMovingToVisitBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort currentBuilding, ushort visitBuilding)
+        private bool StartMovingToVisitBuilding(TAI instance, uint citizenId, ref TCitizen citizen, ushort currentBuilding, ushort visitBuilding)
         {
-            if (touristAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding))
+            CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
+            if (CitizenProxy.GetVisitBuilding(ref citizen) == 0)
             {
-                CitizenProxy.SetVisitPlace(ref citizen, citizenId, visitBuilding);
+                // Building is full and doesn't accept visitors anymore
+                return false;
             }
+
+            if (!touristAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, visitBuilding))
+            {
+                CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
+                return false;
+            }
+
+            return true;
         }
 
         private uint GetHotelLeaveChance()
