@@ -150,9 +150,22 @@ namespace RealTime.Core
                     localizationProvider.Translate(TranslationKeys.Warning),
                     localizationProvider.Translate(TranslationKeys.ModNotWorkingMessage));
             }
-            else if (configProvider.Configuration.ShowIncompatibilityNotifications)
+            else
             {
-                Compatibility.CheckAndNotify(Name, localizationProvider);
+                string restricted = core.IsRestrictedMode
+                    ? localizationProvider.Translate(TranslationKeys.RestrictedMode)
+                    : null;
+
+                bool showMessage = core.IsRestrictedMode;
+                if (configProvider.Configuration.ShowIncompatibilityNotifications)
+                {
+                    showMessage = Compatibility.CheckAndNotify(Name, localizationProvider, restricted);
+                }
+
+                if (showMessage)
+                {
+                    Compatibility.Notify(localizationProvider.Translate(TranslationKeys.Warning), restricted);
+                }
             }
         }
 

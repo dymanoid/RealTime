@@ -15,6 +15,9 @@ namespace RealTime.Localization
         /// <summary>The warning key.</summary>
         public const string Warning = "Warning";
 
+        /// <summary>The key for the 'restricted mode' notification.</summary>
+        public const string RestrictedMode = "RestrictedModeMessage";
+
         /// <summary>The key for a 'mod not working' message.</summary>
         public const string ModNotWorkingMessage = "ModNotWorkingMessage";
 

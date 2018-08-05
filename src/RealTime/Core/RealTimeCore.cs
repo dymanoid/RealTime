@@ -6,6 +6,7 @@ namespace RealTime.Core
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using RealTime.Config;
     using RealTime.CustomAI;
     using RealTime.Events;
@@ -53,6 +54,9 @@ namespace RealTime.Core
             isEnabled = true;
         }
 
+        /// <summary>Gets a value indicating whether the mod is running in a restricted mode due to method patch failures.</summary>
+        public bool IsRestrictedMode { get; private set; }
+
         /// <summary>
         /// Runs the mod by activating its parts.
         /// </summary>
@@ -83,16 +87,13 @@ namespace RealTime.Core
                 throw new ArgumentNullException(nameof(localizationProvider));
             }
 
-            IEnumerable<IPatch> patches = GetMethodPatches();
+            List<IPatch> patches = GetMethodPatches();
             var patcher = new MethodPatcher(HarmonyId, patches);
 
-            try
+            HashSet<IPatch> appliedPatches = patcher.Apply();
+            if (!CheckRequiredMethodPatches(appliedPatches))
             {
-                patcher.Apply();
-            }
-            catch (Exception ex)
-            {
-                Log.Error("The 'Real Time' mod failed to perform method redirections: " + ex);
+                Log.Error("The 'Real Time' mod failed to perform method redirections for required methods");
                 patcher.Revert();
                 return null;
             }
@@ -165,11 +166,19 @@ namespace RealTime.Core
             SimulationHandler.WeatherInfo = weatherInfo;
             SimulationHandler.Buildings = BuildingAIPatches.RealTimeAI;
             SimulationHandler.Buildings.UpdateFrameDuration();
-            SimulationHandler.Buildings.InitializeLightState();
+
+            if (appliedPatches.Contains(BuildingAIPatches.PrivateShowConsumption))
+            {
+                SimulationHandler.Buildings.InitializeLightState();
+            }
+
             SimulationHandler.Statistics = statistics;
 
-            WorldInfoPanelPatches.CitizenInfoPanel = CustomCitizenInfoPanel.Enable(ResidentAIPatch.RealTimeAI, localizationProvider);
-            WorldInfoPanelPatches.VehicleInfoPanel = CustomVehicleInfoPanel.Enable(ResidentAIPatch.RealTimeAI, localizationProvider);
+            if (appliedPatches.Contains(WorldInfoPanelPatches.UpdateBindings))
+            {
+                WorldInfoPanelPatches.CitizenInfoPanel = CustomCitizenInfoPanel.Enable(ResidentAIPatch.RealTimeAI, localizationProvider);
+                WorldInfoPanelPatches.VehicleInfoPanel = CustomVehicleInfoPanel.Enable(ResidentAIPatch.RealTimeAI, localizationProvider);
+            }
 
             AwakeSleepSimulation.Install(configProvider.Configuration);
 
@@ -182,8 +191,8 @@ namespace RealTime.Core
             }
 
             result.storageData.Add(configProvider);
-
             result.Translate(localizationProvider);
+            result.IsRestrictedMode = appliedPatches.Count != patches.Count;
 
             return result;
         }
@@ -256,7 +265,7 @@ namespace RealTime.Core
             UIGraphPatches.Translate(localizationProvider.CurrentCulture);
         }
 
-        private static IEnumerable<IPatch> GetMethodPatches()
+        private static List<IPatch> GetMethodPatches()
         {
             var patches = new List<IPatch>
             {
@@ -272,7 +281,8 @@ namespace RealTime.Core
                 WorldInfoPanelPatches.UpdateBindings,
                 UIGraphPatches.MinDataPoints,
                 UIGraphPatches.VisibleEndTime,
-                UIGraphPatches.BuildLabels
+                UIGraphPatches.BuildLabels,
+                WeatherManagerPatch.SimulationStepImpl
             };
 
             if (Compatibility.IsModActive(Compatibility.CitizenLifecycleRebalanceId))
@@ -285,6 +295,21 @@ namespace RealTime.Core
             }
 
             return patches;
+        }
+
+        private static bool CheckRequiredMethodPatches(HashSet<IPatch> appliedPatches)
+        {
+            IPatch[] requiredPatches =
+            {
+                BuildingAIPatches.HandleWorkers,
+                BuildingAIPatches.CommercialSimulation,
+                ResidentAIPatch.Location,
+                ResidentAIPatch.ArriveAtTarget,
+                TouristAIPatch.Location,
+                TransferManagerPatch.AddOutgoingOffer
+            };
+
+            return requiredPatches.All(appliedPatches.Contains);
         }
 
         private static bool SetupCustomAI(
