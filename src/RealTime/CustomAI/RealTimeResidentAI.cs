@@ -137,20 +137,26 @@ namespace RealTime.CustomAI
             schedule.DepartureToWorkTime = default;
         }
 
-        /// <summary>Performs simulation for starting a new day. Enables the logic to perform the 'new day processing' for the citizens.</summary>
-        public void BeginNewDayProcessing()
+        /// <summary>Performs simulation for starting a day cycle beginning with specified hour.
+        /// Enables the logic to perform the 'new cycle processing' for the citizens.</summary>
+        /// <param name="hour">The hour of the cycle.</param>
+        public void BeginNewHourCycleProcessing(int hour)
         {
-            Log.Debug(LogCategory.Generic, TimeInfo.Now, "Starting of the 'new day' processing for each citizen...");
-            workBehavior.BeginNewDay();
-            todayWakeUp = TimeInfo.Now.Date.AddHours(Config.WakeUpHour);
+            Log.Debug(LogCategory.Generic, TimeInfo.Now, "Starting of the 'new cycle' processing for each citizen...");
+            if (hour == 0)
+            {
+                workBehavior.BeginNewDay();
+                todayWakeUp = TimeInfo.Now.Date.AddHours(Config.WakeUpHour);
+            }
+
             CanCitizensGrowUp = true;
         }
 
-        /// <summary>Disables the 'new day processing' for the citizens.</summary>
-        public void EndNewDayProcessing()
+        /// <summary>Disables the 'new cycle processing' for the citizens.</summary>
+        public void EndHourCycleProcessing()
         {
             CanCitizensGrowUp = false;
-            Log.Debug(LogCategory.Generic, TimeInfo.Now, "The 'new day' processing for the citizens is now completed.");
+            Log.Debug(LogCategory.Generic, TimeInfo.Now, "The 'new cycle' processing for the citizens is now completed.");
         }
 
         /// <summary>Performs simulation for starting a new day for a citizen with specified ID.</summary>
