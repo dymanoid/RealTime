@@ -298,6 +298,7 @@ namespace RealTime.Core
             else
             {
                 patches.Add(ResidentAIPatch.UpdateAge);
+                patches.Add(ResidentAIPatch.CanMakeBabies);
             }
 
             return patches;

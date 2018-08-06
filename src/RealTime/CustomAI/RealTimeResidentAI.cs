@@ -169,6 +169,38 @@ namespace RealTime.CustomAI
             }
         }
 
+        /// <summary>
+        /// Determines whether the specified <paramref name="citizen"/> can give life to a new citizen.
+        /// </summary>
+        /// <param name="citizenId">The ID of the citizen to check.</param>
+        /// <param name="citizen">The citizen to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <paramref name="citizen"/> can make babies; otherwise, <c>false</c>.
+        /// </returns>
+        public bool CanMakeBabies(uint citizenId, ref TCitizen citizen)
+        {
+            uint idFlag = citizenId % 2;
+            uint timeFlag = (uint)TimeInfo.CurrentHour % 2;
+            if (timeFlag != idFlag || CitizenProxy.IsDead(ref citizen) || CitizenProxy.HasFlags(ref citizen, Citizen.Flags.MovingIn))
+            {
+                return false;
+            }
+
+            switch (CitizenProxy.GetAge(ref citizen))
+            {
+                case Citizen.AgeGroup.Young:
+                    return CitizenProxy.GetGender(citizenId) == Citizen.Gender.Male
+                        ? true
+                        : Random.ShouldOccur(Constants.YoungFemalePregnancyChance);
+
+                case Citizen.AgeGroup.Adult:
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
         /// <summary>Sets the duration (in hours) of a full simulation cycle for all citizens.
         /// The game calls the simulation methods for a particular citizen with this period.</summary>
         /// <param name="cyclePeriod">The citizens simulation cycle period, in game hours.</param>
