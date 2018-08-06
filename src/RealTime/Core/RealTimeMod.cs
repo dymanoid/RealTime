@@ -159,7 +159,7 @@ namespace RealTime.Core
                 bool showMessage = core.IsRestrictedMode;
                 if (configProvider.Configuration.ShowIncompatibilityNotifications)
                 {
-                    showMessage = Compatibility.CheckAndNotify(Name, localizationProvider, restricted);
+                    showMessage = Compatibility.CheckAndNotify(Name, localizationProvider, restricted) && core.IsRestrictedMode;
                 }
 
                 if (showMessage)
