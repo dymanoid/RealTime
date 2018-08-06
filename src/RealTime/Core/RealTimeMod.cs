@@ -152,20 +152,7 @@ namespace RealTime.Core
             }
             else
             {
-                string restricted = core.IsRestrictedMode
-                    ? localizationProvider.Translate(TranslationKeys.RestrictedMode)
-                    : null;
-
-                bool showMessage = core.IsRestrictedMode;
-                if (configProvider.Configuration.ShowIncompatibilityNotifications)
-                {
-                    showMessage = Compatibility.CheckAndNotify(Name, localizationProvider, restricted) && core.IsRestrictedMode;
-                }
-
-                if (showMessage)
-                {
-                    Compatibility.Notify(Name + " - " + localizationProvider.Translate(TranslationKeys.Warning), restricted);
-                }
+                CheckCompatibility();
             }
         }
 
@@ -196,6 +183,29 @@ namespace RealTime.Core
                 .FirstOrDefault(pi => pi.publishedFileID.AsUInt64 == WorkshopId);
 
             return pluginInfo?.modPath;
+        }
+
+        private void CheckCompatibility()
+        {
+            if (core == null)
+            {
+                return;
+            }
+
+            string restrictedText = core.IsRestrictedMode
+                ? localizationProvider.Translate(TranslationKeys.RestrictedMode)
+                : null;
+
+            if (configProvider.Configuration.ShowIncompatibilityNotifications
+                && !Compatibility.Check(Name, localizationProvider, restrictedText))
+            {
+                return;
+            }
+
+            if (core.IsRestrictedMode)
+            {
+                Compatibility.Notify(Name + " - " + localizationProvider.Translate(TranslationKeys.Warning), restrictedText);
+            }
         }
 
         private void ApplyLanguage()

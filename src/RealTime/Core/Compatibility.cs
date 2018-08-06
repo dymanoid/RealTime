@@ -38,7 +38,7 @@ namespace RealTime.Core
         /// <returns><c>true</c> if the check was successful and no messages were shown; otherwise, <c>false</c>.</returns>
         /// <exception cref="ArgumentException">Thrown when <paramref name="modName"/> is null or an empty string.</exception>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="localizationProvider"/> is null.</exception>
-        public static bool CheckAndNotify(string modName, ILocalizationProvider localizationProvider, string additionalInfo = null)
+        public static bool Check(string modName, ILocalizationProvider localizationProvider, string additionalInfo = null)
         {
             if (string.IsNullOrEmpty(modName))
             {
