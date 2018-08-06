@@ -22,7 +22,8 @@ namespace RealTime.Simulation
         private readonly RealTimeResidentAI<TAI, TCitizen> residentAI;
         private readonly SpareTimeBehavior spareTimeBehavior;
         private readonly ITimeInfo timeInfo;
-        private int dayStartFrame;
+        private int cycleStartFrame;
+        private int cycleHour;
 
         /// <summary>Initializes a new instance of the <see cref="CitizenProcessor{TAI, TCitizen}"/> class.</summary>
         /// <param name="residentAI">The custom resident AI implementation.</param>
@@ -34,13 +35,18 @@ namespace RealTime.Simulation
             this.residentAI = residentAI ?? throw new ArgumentNullException(nameof(residentAI));
             this.spareTimeBehavior = spareTimeBehavior ?? throw new ArgumentNullException(nameof(spareTimeBehavior));
             this.timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
-            dayStartFrame = int.MinValue;
+            cycleStartFrame = int.MinValue;
         }
 
-        /// <summary>Notifies this simulation object that a new game day begins.</summary>
-        public void StartNewDay()
+        /// <summary>Notifies this simulation object that a particular day hour begins.</summary>
+        /// <param name="hour">The day time hour.</param>
+        public void TriggerHour(int hour)
         {
-            dayStartFrame = int.MinValue;
+            if (hour % 8 == 0)
+            {
+                cycleHour = hour;
+                cycleStartFrame = int.MinValue;
+            }
         }
 
         /// <summary>Re-calculates the duration of a simulation frame.</summary>
@@ -61,21 +67,21 @@ namespace RealTime.Simulation
         /// <param name="frameIndex">The index of the simulation frame to process.</param>
         public void ProcessFrame(uint frameIndex)
         {
-            if (dayStartFrame == -1)
+            if (cycleStartFrame == -1)
             {
                 return;
             }
 
             uint step = frameIndex & StepMask;
-            if (dayStartFrame == int.MinValue)
+            if (cycleStartFrame == int.MinValue)
             {
-                residentAI.BeginNewDayProcessing();
-                dayStartFrame = (int)step;
+                residentAI.BeginNewHourCycleProcessing(cycleHour);
+                cycleStartFrame = (int)step;
             }
-            else if (step == dayStartFrame)
+            else if (step == cycleStartFrame)
             {
-                residentAI.EndNewDayProcessing();
-                dayStartFrame = -1;
+                residentAI.EndHourCycleProcessing();
+                cycleStartFrame = -1;
                 return;
             }
 

@@ -82,13 +82,20 @@ namespace RealTime.Simulation
                 return;
             }
 
-            DateTime currentDate = SimulationManager.instance.m_currentGameTime.Date;
-            if (currentDate != lastHandledDate)
+            DateTime currentDateTime = SimulationManager.instance.m_currentGameTime;
+            if (currentDateTime.Hour != lastHandledDate.Hour || lastHandledDate == default)
             {
-                lastHandledDate = currentDate;
-                DayTimeSimulation.Process(currentDate);
-                CitizenProcessor.StartNewDay();
-                OnNewDay(this);
+                int triggerHour = lastHandledDate == default
+                    ? 0
+                    : currentDateTime.Hour;
+
+                lastHandledDate = currentDateTime;
+                CitizenProcessor.TriggerHour(triggerHour);
+                if (triggerHour == 0)
+                {
+                    DayTimeSimulation.Process(currentDateTime);
+                    OnNewDay(this);
+                }
             }
         }
 
