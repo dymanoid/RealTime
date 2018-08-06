@@ -67,10 +67,16 @@ namespace RealTime.Core
         /// <param name="configProvider">The configuration provider that provides the mod's configuration.</param>
         /// <param name="rootPath">The path to the mod's assembly. Additional files are stored here too.</param>
         /// <param name="localizationProvider">The <see cref="ILocalizationProvider"/> to use for text translation.</param>
+        /// <param name="setDefaultTime"><c>true</c> to initialize the game time to a default value (real world date and city wake up hour);
+        /// <c>false</c> to leave the game time unchanged.</param>
         ///
         /// <returns>A <see cref="RealTimeCore"/> instance that can be used to stop the mod.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "This is the entry point and needs to instantiate all parts")]
-        public static RealTimeCore Run(ConfigurationProvider<RealTimeConfig> configProvider, string rootPath, ILocalizationProvider localizationProvider)
+        public static RealTimeCore Run(
+            ConfigurationProvider<RealTimeConfig> configProvider,
+            string rootPath,
+            ILocalizationProvider localizationProvider,
+            bool setDefaultTime)
         {
             if (configProvider == null)
             {
@@ -134,7 +140,7 @@ namespace RealTime.Core
             }
 
             var timeAdjustment = new TimeAdjustment(configProvider.Configuration);
-            DateTime gameDate = timeAdjustment.Enable();
+            DateTime gameDate = timeAdjustment.Enable(setDefaultTime);
             SimulationHandler.CitizenProcessor.UpdateFrameDuration();
 
             CityEventsLoader.Instance.ReloadEvents(rootPath);

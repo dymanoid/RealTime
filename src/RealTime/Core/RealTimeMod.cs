@@ -142,7 +142,8 @@ namespace RealTime.Core
                 core.Stop();
             }
 
-            core = RealTimeCore.Run(configProvider, modPath, localizationProvider);
+            bool isNewGame = mode == LoadMode.NewGame || mode == LoadMode.NewGameFromScenario;
+            core = RealTimeCore.Run(configProvider, modPath, localizationProvider, isNewGame);
             if (core == null)
             {
                 Log.Warning("Showing a warning message to user because the mod isn't working");
