@@ -95,6 +95,13 @@ namespace RealTime.Config
         public VirtualCitizensLevel VirtualCitizens { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the citizens aging and birth rates must be slowed down.
+        /// </summary>
+        [ConfigItem("1General", "1Other", 1)]
+        [ConfigItemCheckBox]
+        public bool UseSlowAging { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the weekends are enabled. Cims don't go to work on weekends.
         /// </summary>
         [ConfigItem("1General", "0Time", 5)]
@@ -111,21 +118,21 @@ namespace RealTime.Config
         /// <summary>
         /// Gets or sets a value indicating whether the construction sites should pause at night time.
         /// </summary>
-        [ConfigItem("1General", "1Other", 1)]
+        [ConfigItem("1General", "1Other", 2)]
         [ConfigItemCheckBox]
         public bool StopConstructionAtNight { get; set; }
 
         /// <summary>
         /// Gets or sets the percentage value of the building construction speed. Valid values are 1..100.
         /// </summary>
-        [ConfigItem("1General", "1Other", 2)]
+        [ConfigItem("1General", "1Other", 3)]
         [ConfigItemSlider(1, 100)]
         public uint ConstructionSpeed { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the inactive buildings should switch off the lights at night time.
         /// </summary>
-        [ConfigItem("1General", "1Other", 3)]
+        [ConfigItem("1General", "1Other", 4)]
         [ConfigItemCheckBox]
         public bool SwitchOffLightsAtNight { get; set; }
 
@@ -358,7 +365,7 @@ namespace RealTime.Config
             NightTimeSpeed = 5;
 
             VirtualCitizens = VirtualCitizensLevel.Vanilla;
-
+            UseSlowAging = true;
             IsWeekendEnabled = true;
             IsLunchtimeEnabled = true;
 
