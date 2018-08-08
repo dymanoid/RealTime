@@ -29,6 +29,8 @@
   <translation id="VirtualCitizensTooltip" value="Select 'All' for a real city (but max 65.535 citizens), select 'Vanilla' if your PC is weak or the city is large" />
   <translation id="VirtualCitizens.None" value="All citizens are real" />
   <translation id="VirtualCitizens.Vanilla" value="Like in the vanilla game" />
+  <translation id="UseSlowAging" value="Better aging and birth rate" />
+  <translation id="UseSlowAgingTooltip" value="If enabled, 1 game day means 1 citizen's life year. If disabled, 1 game day means 10 (at time speed 6) to 340 (at time speed 1) life years." />
   <translation id="IsWeekendEnabled" value="Enable Weekends" />
   <translation id="IsWeekendEnabledTooltip" value="Cims don't go to work or school on weekends" />
   <translation id="IsLunchtimeEnabled" value="Enable Lunch time" />

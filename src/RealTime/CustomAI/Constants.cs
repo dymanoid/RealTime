@@ -73,5 +73,8 @@ namespace RealTime.CustomAI
 
         /// <summary>The interval in minutes for the buildings problem timers.</summary>
         public const int ProblemTimersInterval = 10;
+
+        /// <summary>The chance of a young female to get pregnant.</summary>
+        public const uint YoungFemalePregnancyChance = 50u;
     }
 }

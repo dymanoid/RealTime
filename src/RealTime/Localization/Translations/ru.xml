@@ -29,6 +29,8 @@
   <translation id="VirtualCitizensTooltip" value="Выберите 'Все' для реального города (но макс. 65.535 жителей) или 'Оригинально', если компьютер малопроизводительный" />
   <translation id="VirtualCitizens.None" value="Все жители города реальные" />
   <translation id="VirtualCitizens.Vanilla" value="Как в оригинальной игре" />
+  <translation id="UseSlowAging" value="Улучшенные взросление и рождаемость" />
+  <translation id="UseSlowAgingTooltip" value="Если активировано, 1 день в игре означает 1 год в жизни жителей. Если выключено, 1 день в игре означает от 10 (при скорости времени 6) до 340 (при скорости 1) лет жизни." />
   <translation id="IsWeekendEnabled" value="Включить выходные" />
   <translation id="IsWeekendEnabledTooltip" value="Жители не ходят в школу и на работу по выходным" />
   <translation id="IsLunchtimeEnabled" value="Включить обед" />

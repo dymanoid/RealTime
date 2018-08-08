@@ -29,6 +29,8 @@
   <translation id="VirtualCitizensTooltip" value="Wählen sie 'Alle' aus für eine reale Stadt (aber max 65.535 Einw.) oder 'Original' bei schwachem PC oder großer Stadt" />
   <translation id="VirtualCitizens.None" value="Alle Einwohner sind real" />
   <translation id="VirtualCitizens.Vanilla" value="Wie im Originalspiel" />
+  <translation id="UseSlowAging" value="Bessere Altern und Geburtenrate" />
+  <translation id="UseSlowAgingTooltip" value="Wenn aktiviert, 1 Tag im Spiel bedeutet 1 Jahr für Cims. Wenn deaktiviert, 1 Tag im Spiel bedeutet 10 (bei Zeitgeschw. 6) bis 340 (bei Zeitgeschw. 1) Jahre für Cims." />
   <translation id="IsWeekendEnabled" value="Wochenende aktiv" />
   <translation id="IsWeekendEnabledTooltip" value="Cims gehen an den Wochenenden nicht in die Schule oder zur Arbeit" />
   <translation id="IsLunchtimeEnabled" value="Mittagspause aktiv" />

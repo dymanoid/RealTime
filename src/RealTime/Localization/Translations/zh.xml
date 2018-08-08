@@ -29,6 +29,8 @@
   <translation id="VirtualCitizensTooltip" value="选择'None'来打造100%真实的城市，如果电脑带不动请选择'Vanilla'或者'More'" />
   <translation id="VirtualCitizens.None" value="完全真实市民行为" />
   <translation id="VirtualCitizens.Vanilla" value="原版游戏的市民行为" />
+  <translation id="UseSlowAging" value="Better aging and birth rate" />
+  <translation id="UseSlowAgingTooltip" value="If enabled, 1 game day means 1 citizen's life year. If disabled, 1 game day means 10 (at time speed 6) to 340 (at time speed 1) life years." />
   <translation id="IsWeekendEnabled" value="城市有周六日" />
   <translation id="IsWeekendEnabledTooltip" value="市民们周六日都不会上班上学" />
   <translation id="IsLunchtimeEnabled" value="城市有午饭时间" />

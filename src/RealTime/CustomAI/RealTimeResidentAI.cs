@@ -155,7 +155,11 @@ namespace RealTime.CustomAI
         /// <summary>Disables the 'new cycle processing' for the citizens.</summary>
         public void EndHourCycleProcessing()
         {
-            CanCitizensGrowUp = false;
+            if (Config.UseSlowAging)
+            {
+                CanCitizensGrowUp = false;
+            }
+
             Log.Debug(LogCategory.Generic, TimeInfo.Now, "The 'new cycle' processing for the citizens is now completed.");
         }
 
@@ -166,6 +170,44 @@ namespace RealTime.CustomAI
             if (citizenId != 0)
             {
                 ProcessVacation(citizenId);
+            }
+        }
+
+        /// <summary>
+        /// Determines whether the specified <paramref name="citizen"/> can give life to a new citizen.
+        /// </summary>
+        /// <param name="citizenId">The ID of the citizen to check.</param>
+        /// <param name="citizen">The citizen to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <paramref name="citizen"/> can make babies; otherwise, <c>false</c>.
+        /// </returns>
+        public bool CanMakeBabies(uint citizenId, ref TCitizen citizen)
+        {
+            uint idFlag = citizenId % 3;
+            uint timeFlag = (uint)TimeInfo.CurrentHour % 3;
+            if (!Config.UseSlowAging)
+            {
+                idFlag = 0;
+                timeFlag = 0;
+            }
+
+            if (timeFlag != idFlag || CitizenProxy.IsDead(ref citizen) || CitizenProxy.HasFlags(ref citizen, Citizen.Flags.MovingIn))
+            {
+                return false;
+            }
+
+            switch (CitizenProxy.GetAge(ref citizen))
+            {
+                case Citizen.AgeGroup.Young:
+                    return CitizenProxy.GetGender(citizenId) == Citizen.Gender.Male
+                        ? true
+                        : Random.ShouldOccur(Constants.YoungFemalePregnancyChance);
+
+                case Citizen.AgeGroup.Adult:
+                    return true;
+
+                default:
+                    return false;
             }
         }
 
