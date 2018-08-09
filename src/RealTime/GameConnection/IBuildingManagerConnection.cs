@@ -55,7 +55,7 @@ namespace RealTime.GameConnection
         /// <param name="building1">The ID of the first building.</param>
         /// <param name="building2">The ID of the second building.</param>
         /// <returns>
-        /// A distance between the buildings with specified IDs, 0 when any of the IDs is 0.
+        /// The distance between the buildings with specified IDs, 0 when any of the IDs is 0.
         /// </returns>
         float GetDistanceBetweenBuildings(ushort building1, ushort building2);
 

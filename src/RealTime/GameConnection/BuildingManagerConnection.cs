@@ -114,7 +114,7 @@ namespace RealTime.GameConnection
         {
             if (building1 == 0 || building2 == 0)
             {
-                return float.MaxValue;
+                return 0;
             }
 
             Building[] buildings = BuildingManager.instance.m_buildings.m_buffer;

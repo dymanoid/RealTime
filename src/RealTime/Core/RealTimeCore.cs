@@ -357,7 +357,8 @@ namespace RealTime.Core
                 travelBehavior);
 
             ResidentAIPatch.RealTimeAI = realTimeResidentAI;
-            SimulationHandler.CitizenProcessor = new CitizenProcessor<ResidentAI, Citizen>(realTimeResidentAI, spareTimeBehavior, timeInfo);
+            SimulationHandler.CitizenProcessor = new CitizenProcessor<ResidentAI, Citizen>(
+                realTimeResidentAI, timeInfo, spareTimeBehavior, travelBehavior);
 
             TouristAIConnection<TouristAI, Citizen> touristAIConnection = TouristAIPatch.GetTouristAIConnection();
             if (touristAIConnection == null)
