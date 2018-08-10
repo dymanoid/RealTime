@@ -16,6 +16,7 @@ namespace RealTime.Simulation
     public sealed class SimulationHandler : ThreadingExtensionBase
     {
         private DateTime lastHandledDate;
+        private bool wasPaused;
 
         /// <summary>
         /// Occurs when a new day in the game begins.
@@ -55,9 +56,17 @@ namespace RealTime.Simulation
         /// </summary>
         public override void OnBeforeSimulationTick()
         {
+            if (SimulationManager.instance.SimulationPaused || SimulationManager.instance.ForcedSimulationPaused)
+            {
+                wasPaused = true;
+                return;
+            }
+
             WeatherInfo?.Update();
 
-            bool updateFrameLength = TimeAdjustment?.Update() ?? false;
+            bool updateFrameLength = TimeAdjustment?.Update(wasPaused) ?? false;
+            wasPaused = false;
+
             if (CitizenProcessor != null)
             {
                 if (updateFrameLength)

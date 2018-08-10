@@ -51,27 +51,30 @@ namespace RealTime.Simulation
         }
 
         /// <summary>Updates the time adjustment to be synchronized with the configuration and the daytime.</summary>
+        /// <param name="force"><c>true</c> to force the update.</param>
         /// <returns><c>true</c> if the time adjustment was updated; otherwise, <c>false</c>.</returns>
-        public bool Update()
+        public bool Update(bool force)
         {
-            if (SimulationManager.instance.m_enableDayNight != isNightEnabled)
+            SimulationManager sm = SimulationManager.instance;
+            if (sm.m_enableDayNight != isNightEnabled || force)
             {
                 isNightEnabled = SimulationManager.instance.m_enableDayNight;
             }
-            else if (!SimulationManager.instance.m_enableDayNight ||
-                (SimulationManager.instance.m_isNightTime == isNightTime
-                && dayTimeSpeed == config.DayTimeSpeed
-                && nightTimeSpeed == config.NightTimeSpeed))
+            else if (!sm.m_enableDayNight
+                || (sm.m_isNightTime == isNightTime && dayTimeSpeed == config.DayTimeSpeed && nightTimeSpeed == config.NightTimeSpeed))
             {
                 return false;
             }
 
-            isNightTime = SimulationManager.instance.m_isNightTime;
+            float currentHour = SimulationManager.instance.m_currentGameTime.TimeOfDay.Hours;
+            isNightTime = currentHour < config.WakeUpHour || currentHour >= config.GoToSleepHour;
             dayTimeSpeed = config.DayTimeSpeed;
             nightTimeSpeed = config.NightTimeSpeed;
 
-            UpdateTimeSimulationValues(CalculateFramesPerDay());
-            return true;
+            uint currentFramesPerDay = SimulationManager.DAYTIME_FRAMES;
+            uint newFramesPerDay = CalculateFramesPerDay();
+            UpdateTimeSimulationValues(newFramesPerDay);
+            return currentFramesPerDay != newFramesPerDay;
         }
 
         /// <summary>Disables the customized time adjustment restoring the default vanilla values.</summary>

@@ -301,6 +301,8 @@ namespace RealTime.Core
                 patches.Add(ResidentAIPatch.CanMakeBabies);
             }
 
+            patches.AddRange(TimeControlCompatibility.GetCompatibilityPatches());
+
             return patches;
         }
 

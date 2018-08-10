@@ -28,7 +28,7 @@ namespace RealTime.Core
 
         private static readonly HashSet<ulong> IncompatibleModIds = new HashSet<ulong>
         {
-            605590542, 672248733, 814698320, 629713122, 702070768, 649522495, 1181352643
+            605590542, 629713122, 702070768, 649522495, 1181352643
         };
 
         /// <summary>Checks for any enabled incompatible mods and notifies the player when any found.</summary>
