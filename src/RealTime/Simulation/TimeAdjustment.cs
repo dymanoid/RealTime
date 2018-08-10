@@ -4,6 +4,7 @@ namespace RealTime.Simulation
 {
     using System;
     using RealTime.Config;
+    using UnityEngine;
 
     /// <summary>
     /// Manages the customized time adjustment. This class depends on the <see cref="SimulationManager"/> class.
@@ -90,6 +91,35 @@ namespace RealTime.Simulation
         public DateTime GetOriginalTime(uint frameIndex)
         {
             return new DateTime((frameIndex * originalTimePerFrame.Ticks) + originalTimeOffsetTicks);
+        }
+
+        /// <summary>Updates the sun position by recalculating the relative day time.</summary>
+        public void UpdateSunPosition()
+        {
+            float time = Mathf.Clamp(SimulationManager.instance.m_currentDayTimeHour, 0f, 24f);
+            float sunrise = SimulationManager.SUNRISE_HOUR;
+            float sunset = SimulationManager.SUNSET_HOUR;
+
+            float interpolated;
+            if (time >= sunrise && time <= sunset)
+            {
+                 interpolated = Mathf.Lerp(6f, 18f, (time - sunrise) / (sunset - sunrise));
+            }
+            else
+            {
+                if (time < sunset)
+                {
+                    time += 24f;
+                }
+
+                interpolated = Mathf.Lerp(18f, 30f, (time - sunset) / (24f - sunset + sunrise));
+                if (interpolated >= 24f)
+                {
+                    interpolated -= 24f;
+                }
+            }
+
+            DayNightProperties.instance.m_TimeOfDay = interpolated;
         }
 
         private static void SetGameDateTime(DateTime dateTime)
