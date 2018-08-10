@@ -144,6 +144,7 @@ namespace RealTime.CustomAI
             return false;
         }
 
+        // TODO: refactor to decrease cyclomatic complexity
         private ScheduleAction UpdateCitizenState(ref TCitizen citizen, ref CitizenSchedule schedule)
         {
             if (schedule.CurrentState == ResidentState.Ignored)
