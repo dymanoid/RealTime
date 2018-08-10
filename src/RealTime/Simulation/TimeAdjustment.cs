@@ -4,6 +4,7 @@ namespace RealTime.Simulation
 {
     using System;
     using RealTime.Config;
+    using UnityEngine;
 
     /// <summary>
     /// Manages the customized time adjustment. This class depends on the <see cref="SimulationManager"/> class.
@@ -31,38 +32,50 @@ namespace RealTime.Simulation
         }
 
         /// <summary>Enables the customized time adjustment.</summary>
+        /// <param name="setDefaultTime"><c>true</c> to initialize the game time to a default value (real world date and city wake up hour);
+        /// <c>false</c> to leave the game time unchanged.</param>
         /// <returns>The current game date and time.</returns>
-        public DateTime Enable()
+        public DateTime Enable(bool setDefaultTime)
         {
             dayTimeSpeed = config.DayTimeSpeed;
             nightTimeSpeed = config.NightTimeSpeed;
             isNightTime = SimulationManager.instance.m_isNightTime;
             isNightEnabled = SimulationManager.instance.m_enableDayNight;
+
+            if (setDefaultTime)
+            {
+                DateTime currentDate = SimulationManager.instance.m_ThreadingWrapper.simulationTime.Date;
+                SetGameDateTime(currentDate.AddHours(config.WakeUpHour));
+            }
+
             return UpdateTimeSimulationValues(CalculateFramesPerDay());
         }
 
         /// <summary>Updates the time adjustment to be synchronized with the configuration and the daytime.</summary>
+        /// <param name="force"><c>true</c> to force the update.</param>
         /// <returns><c>true</c> if the time adjustment was updated; otherwise, <c>false</c>.</returns>
-        public bool Update()
+        public bool Update(bool force)
         {
-            if (SimulationManager.instance.m_enableDayNight != isNightEnabled)
+            SimulationManager sm = SimulationManager.instance;
+            if (sm.m_enableDayNight != isNightEnabled || force)
             {
                 isNightEnabled = SimulationManager.instance.m_enableDayNight;
             }
-            else if (!SimulationManager.instance.m_enableDayNight ||
-                (SimulationManager.instance.m_isNightTime == isNightTime
-                && dayTimeSpeed == config.DayTimeSpeed
-                && nightTimeSpeed == config.NightTimeSpeed))
+            else if (!sm.m_enableDayNight
+                || (sm.m_isNightTime == isNightTime && dayTimeSpeed == config.DayTimeSpeed && nightTimeSpeed == config.NightTimeSpeed))
             {
                 return false;
             }
 
-            isNightTime = SimulationManager.instance.m_isNightTime;
+            float currentHour = SimulationManager.instance.m_currentGameTime.TimeOfDay.Hours;
+            isNightTime = currentHour < config.WakeUpHour || currentHour >= config.GoToSleepHour;
             dayTimeSpeed = config.DayTimeSpeed;
             nightTimeSpeed = config.NightTimeSpeed;
 
-            UpdateTimeSimulationValues(CalculateFramesPerDay());
-            return true;
+            uint currentFramesPerDay = SimulationManager.DAYTIME_FRAMES;
+            uint newFramesPerDay = CalculateFramesPerDay();
+            UpdateTimeSimulationValues(newFramesPerDay);
+            return currentFramesPerDay != newFramesPerDay;
         }
 
         /// <summary>Disables the customized time adjustment restoring the default vanilla values.</summary>
@@ -80,24 +93,60 @@ namespace RealTime.Simulation
             return new DateTime((frameIndex * originalTimePerFrame.Ticks) + originalTimeOffsetTicks);
         }
 
-        private DateTime UpdateTimeSimulationValues(uint framesPerDay)
+        /// <summary>Updates the sun position by recalculating the relative day time.</summary>
+        public void UpdateSunPosition()
+        {
+            float time = Mathf.Clamp(SimulationManager.instance.m_currentDayTimeHour, 0f, 24f);
+            float sunrise = SimulationManager.SUNRISE_HOUR;
+            float sunset = SimulationManager.SUNSET_HOUR;
+
+            float interpolated;
+            if (time >= sunrise && time <= sunset)
+            {
+                 interpolated = Mathf.Lerp(6f, 18f, (time - sunrise) / (sunset - sunrise));
+            }
+            else
+            {
+                if (time < sunset)
+                {
+                    time += 24f;
+                }
+
+                interpolated = Mathf.Lerp(18f, 30f, (time - sunset) / (24f - sunset + sunrise));
+                if (interpolated >= 24f)
+                {
+                    interpolated -= 24f;
+                }
+            }
+
+            DayNightProperties.instance.m_TimeOfDay = interpolated;
+        }
+
+        private static void SetGameDateTime(DateTime dateTime)
         {
             SimulationManager sm = SimulationManager.instance;
-            DateTime originalDate = sm.m_ThreadingWrapper.simulationTime;
-
-            SimulationManager.DAYTIME_FRAMES = framesPerDay;
-            SimulationManager.DAYTIME_FRAME_TO_HOUR = 24f / SimulationManager.DAYTIME_FRAMES;
-            SimulationManager.DAYTIME_HOUR_TO_FRAME = SimulationManager.DAYTIME_FRAMES / 24f;
-
-            originalTimePerFrame = sm.m_timePerFrame;
-            originalTimeOffsetTicks = sm.m_timeOffsetTicks;
-            sm.m_timePerFrame = new TimeSpan(24L * 3600L * 10_000_000L / framesPerDay);
-            sm.m_timeOffsetTicks = originalDate.Ticks - (sm.m_currentFrameIndex * sm.m_timePerFrame.Ticks);
-            sm.m_currentGameTime = originalDate;
+            sm.m_timeOffsetTicks = dateTime.Ticks - (sm.m_currentFrameIndex * sm.m_timePerFrame.Ticks);
+            sm.m_currentGameTime = dateTime;
 
             sm.m_currentDayTimeHour = (float)sm.m_currentGameTime.TimeOfDay.TotalHours;
             sm.m_dayTimeFrame = (uint)(SimulationManager.DAYTIME_FRAMES * sm.m_currentDayTimeHour / 24f);
             sm.m_dayTimeOffsetFrames = sm.m_dayTimeFrame - sm.m_currentFrameIndex & SimulationManager.DAYTIME_FRAMES - 1;
+        }
+
+        private DateTime UpdateTimeSimulationValues(uint framesPerDay)
+        {
+            SimulationManager.DAYTIME_FRAMES = framesPerDay;
+            SimulationManager.DAYTIME_FRAME_TO_HOUR = 24f / SimulationManager.DAYTIME_FRAMES;
+            SimulationManager.DAYTIME_HOUR_TO_FRAME = SimulationManager.DAYTIME_FRAMES / 24f;
+
+            SimulationManager sm = SimulationManager.instance;
+
+            originalTimePerFrame = sm.m_timePerFrame;
+            originalTimeOffsetTicks = sm.m_timeOffsetTicks;
+
+            DateTime originalDate = sm.m_ThreadingWrapper.simulationTime;
+            sm.m_timePerFrame = new TimeSpan(24L * 3600L * 10_000_000L / framesPerDay);
+            SetGameDateTime(originalDate);
 
             return sm.m_currentGameTime;
         }

@@ -21,19 +21,26 @@ namespace RealTime.Simulation
 
         private readonly RealTimeResidentAI<TAI, TCitizen> residentAI;
         private readonly SpareTimeBehavior spareTimeBehavior;
+        private readonly TravelBehavior travelBehavior;
         private readonly ITimeInfo timeInfo;
         private int cycleStartFrame;
         private int cycleHour;
 
         /// <summary>Initializes a new instance of the <see cref="CitizenProcessor{TAI, TCitizen}"/> class.</summary>
         /// <param name="residentAI">The custom resident AI implementation.</param>
-        /// <param name="spareTimeBehavior">A behavior that provides simulation info for the citizens spare time.</param>
         /// <param name="timeInfo">An object that provides the game time information.</param>
+        /// <param name="spareTimeBehavior">A behavior that provides simulation info for the citizens spare time.</param>
+        /// <param name="travelBehavior">A behavior that provides simulation info for citizens travelling.</param>
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
-        public CitizenProcessor(RealTimeResidentAI<TAI, TCitizen> residentAI, SpareTimeBehavior spareTimeBehavior, ITimeInfo timeInfo)
+        public CitizenProcessor(
+            RealTimeResidentAI<TAI, TCitizen> residentAI,
+            ITimeInfo timeInfo,
+            SpareTimeBehavior spareTimeBehavior,
+            TravelBehavior travelBehavior)
         {
             this.residentAI = residentAI ?? throw new ArgumentNullException(nameof(residentAI));
             this.spareTimeBehavior = spareTimeBehavior ?? throw new ArgumentNullException(nameof(spareTimeBehavior));
+            this.travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
             this.timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
             cycleStartFrame = int.MinValue;
         }
@@ -55,6 +62,7 @@ namespace RealTime.Simulation
             float cyclePeriod = timeInfo.HoursPerFrame * (StepMask + 1);
             residentAI.SetSimulationCyclePeriod(cyclePeriod);
             spareTimeBehavior.SetSimulationCyclePeriod(cyclePeriod);
+            travelBehavior.SetSimulationCyclePeriod(cyclePeriod);
         }
 
         /// <summary>Processes the simulation tick.</summary>

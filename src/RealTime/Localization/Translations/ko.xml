@@ -28,6 +28,8 @@
   <translation id="VirtualCitizensTooltip" value="'전체' 도시의(그러나 게임내 제한인 63,535 명을 넘을수 없습니다) 시민 시뮬레이션 정도를 정합니다. 사양이 낮으시다면 '바닐라' 혹은 '더 가상적인 시민들' 같은 설정으로 맞춰주세요" />
   <translation id="VirtualCitizens.None" value="전부 사실같은 시뮬레이션" />
   <translation id="VirtualCitizens.Vanilla" value="바닐라" />
+  <translation id="UseSlowAging" value="Better aging and birth rate" />
+  <translation id="UseSlowAgingTooltip" value="If enabled, 1 game day means 1 citizen's life year. If disabled, 1 game day means 10 (at time speed 6) to 340 (at time speed 1) life years." />
   <translation id="IsWeekendEnabled" value="주말 허용" />
   <translation id="IsWeekendEnabledTooltip" value="시민들은 주말에 회사나 학교에 가지 않을겁니다." />
   <translation id="IsLunchtimeEnabled" value="점심 시간 허용" />

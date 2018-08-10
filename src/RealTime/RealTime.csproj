@@ -150,6 +150,7 @@
     <Compile Include="Simulation\TimeAdjustment.cs" />
     <Compile Include="GameConnection\TimeInfo.cs" />
     <Compile Include="LogCategory.cs" />
+    <Compile Include="Simulation\TimeControlCompatibility.cs" />
     <Compile Include="UI\CustomCitizenInfoPanel.cs" />
     <Compile Include="UI\CustomTimeBarClickEventArgs.cs" />
     <Compile Include="UI\ConfigUI.cs" />
