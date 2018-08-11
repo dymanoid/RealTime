@@ -9,6 +9,7 @@ namespace RealTime.Events.Storage
     using System.IO;
     using System.Linq;
     using System.Xml.Serialization;
+    using ColossalFramework.Packaging;
     using SkyTools.Tools;
 
     /// <summary>
@@ -19,7 +20,8 @@ namespace RealTime.Events.Storage
     /// <seealso cref="ICityEventsProvider"/>
     internal sealed class CityEventsLoader : ICityEventsProvider
     {
-        private const string EventsFolder = "Events";
+        private const string RealTimeEventsDirectoryName = "Events";
+        private const string RushHourEventsDirectoryName = "RushHour Events";
         private const string EventFileSearchPattern = "*.xml";
 
         private readonly List<CityEventTemplate> events = new List<CityEventTemplate>();
@@ -35,34 +37,32 @@ namespace RealTime.Events.Storage
         /// Reloads the event templates from the storage file that is located in a subdirectory of
         /// the specified path.
         /// </summary>
-        /// <param name="dataPath">The path where the mod's custom data files are stored.</param>
+        /// <param name="modPath">The path where the mod's custom data files are stored.</param>
         /// <exception cref="ArgumentException">
-        /// Thrown when the <paramref name="dataPath"/> is null or an empty string.
+        /// Thrown when the <paramref name="modPath"/> is null or an empty string.
         /// </exception>
-        public void ReloadEvents(string dataPath)
+        public void ReloadEvents(string modPath)
         {
-            if (string.IsNullOrEmpty(dataPath))
+            if (string.IsNullOrEmpty(modPath))
             {
-                throw new ArgumentException("The data path cannot be null or empty string", nameof(dataPath));
+                throw new ArgumentException("The data path cannot be null or empty string", nameof(modPath));
             }
 
             events.Clear();
-            string searchPath = Path.Combine(dataPath, EventsFolder);
-            if (!Directory.Exists(searchPath))
+
+            var loadedEvents = new HashSet<string>();
+            string eventsPath = Path.Combine(modPath, RealTimeEventsDirectoryName);
+            if (Directory.Exists(eventsPath))
             {
-                Log.Warning($"The 'Real Time' mod did not find any event templates, the directory '{searchPath}' doesn't exist");
-                return;
+                LoadEventsFromDirectory(eventsPath, loadedEvents);
+            }
+            else
+            {
+                Log.Warning($"The 'Real Time' mod did not find any event templates, the directory '{eventsPath}' doesn't exist");
             }
 
-            try
-            {
-                string[] files = Directory.GetFiles(searchPath, EventFileSearchPattern);
-                LoadEvents(files);
-            }
-            catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
-            {
-                Log.Warning($"The 'Real Time' mod could not load event templates, error message: {ex}");
-            }
+            LoadRushHourEvents(loadedEvents);
+            Log.Debug(LogCategory.Generic, $"Loaded {events.Count} event templates");
         }
 
         /// <summary>Clears the currently loaded city events templates collection.</summary>
@@ -124,7 +124,47 @@ namespace RealTime.Events.Storage
             return events.FirstOrDefault(e => e.EventName == eventName && e.BuildingClassName == buildingClassName);
         }
 
-        private void LoadEvents(IEnumerable<string> files)
+        private void LoadRushHourEvents(HashSet<string> loadedEvents)
+        {
+            IEnumerable<string> buildingPaths = PackageManager.FilterAssets(UserAssetType.CustomAssetMetaData)
+                .Where(a => a.isEnabled)
+                .Select(a => a.Instantiate<CustomAssetMetaData>())
+                .Where(m => m != null && m.service == ItemClass.Service.Monument && !string.IsNullOrEmpty(m.assetRef.package?.packagePath))
+                .Select(m => Path.GetDirectoryName(m.assetRef.package.packagePath))
+                .Distinct();
+
+            try
+            {
+                foreach (string path in buildingPaths)
+                {
+                    string eventsPath = Path.Combine(path, RushHourEventsDirectoryName);
+                    Log.Debug(LogCategory.Generic, $"Checking directory '{eventsPath}' for Rush Hour events...");
+                    if (Directory.Exists(eventsPath))
+                    {
+                        LoadEventsFromDirectory(eventsPath, loadedEvents);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Warning($"The 'Real Time' mod could not load Rush Hour events, error message: {ex}");
+            }
+        }
+
+        private void LoadEventsFromDirectory(string eventsPath, HashSet<string> loadedEvents)
+        {
+            try
+            {
+                string[] files = Directory.GetFiles(eventsPath, EventFileSearchPattern);
+                LoadEvents(files, loadedEvents);
+            }
+            catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
+            {
+                Log.Warning($"The 'Real Time' mod could not load event templates from {eventsPath}, error message: {ex}");
+            }
+        }
+
+        private void LoadEvents(IEnumerable<string> files, HashSet<string> loadedEvents)
         {
             var serializer = new XmlSerializer(typeof(CityEventContainer));
 
@@ -135,10 +175,10 @@ namespace RealTime.Events.Storage
                     using (var sr = new StreamReader(file))
                     {
                         var container = (CityEventContainer)serializer.Deserialize(sr);
-                        foreach (CityEventTemplate @event in container.Templates.Where(e => !events.Any(ev => ev.EventName == e.EventName)))
+                        foreach (CityEventTemplate cityEvent in container.Templates.Where(e => loadedEvents.Add(e.EventName)))
                         {
-                            events.Add(@event);
-                            Log.Debug(LogCategory.Generic, $"Loaded event template '{@event.EventName}' for '{@event.BuildingClassName}'");
+                            events.Add(cityEvent);
+                            Log.Debug(LogCategory.Generic, $"Loaded event template '{cityEvent.EventName}' for '{cityEvent.BuildingClassName}'");
                         }
                     }
                 }
@@ -147,8 +187,6 @@ namespace RealTime.Events.Storage
                     Log.Error($"The 'Real Time' mod was unable to load an event template from file '{file}', error message: {ex}");
                 }
             }
-
-            Log.Debug(LogCategory.Generic, $"Successfully loaded {events.Count} event templates");
         }
     }
 }
