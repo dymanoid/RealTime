@@ -113,7 +113,7 @@ namespace RealTime.Core
             var buildingManager = new BuildingManagerConnection();
             var randomizer = new GameRandomizer();
 
-            var weatherInfo = new WeatherInfo(new WeatherManagerConnection());
+            var weatherInfo = new WeatherInfo(new WeatherManagerConnection(), randomizer);
 
             var gameConnections = new GameConnections<Citizen>(
                 timeInfo,

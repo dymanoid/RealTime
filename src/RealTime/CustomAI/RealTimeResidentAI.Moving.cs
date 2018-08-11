@@ -51,7 +51,7 @@ namespace RealTime.CustomAI
             }
 
             ItemClass.Service targetService = BuildingMgr.GetBuildingService(targetBuilding);
-            if (targetService == ItemClass.Service.Beautification && IsBadWeather())
+            if (targetService == ItemClass.Service.Beautification && WeatherInfo.IsBadWeather)
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} cancels the trip to a park due to bad weather");
                 schedule.Schedule(ResidentState.AtHome);

@@ -16,7 +16,7 @@ namespace RealTime.CustomAI
             Citizen.AgeGroup citizenAge = CitizenProxy.GetAge(ref citizen);
 
             uint relaxChance = spareTimeBehavior.GetRelaxingChance(citizenAge, schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
-            if (!Random.ShouldOccur(relaxChance) || IsBadWeather())
+            if (!Random.ShouldOccur(relaxChance) || WeatherInfo.IsBadWeather)
             {
                 return false;
             }
@@ -131,7 +131,7 @@ namespace RealTime.CustomAI
             // If the citizen doesn't need any goods, he/she still can go shopping just for fun
             if (!CitizenProxy.HasFlags(ref citizen, Citizen.Flags.NeedGoods))
             {
-                if (schedule.Hint == ScheduleHint.NoShoppingAnyMore || IsBadWeather() || !Random.ShouldOccur(Config.ShoppingForFunQuota))
+                if (schedule.Hint == ScheduleHint.NoShoppingAnyMore || WeatherInfo.IsBadWeather || !Random.ShouldOccur(Config.ShoppingForFunQuota))
                 {
                     schedule.Hint = ScheduleHint.None;
                     return false;
@@ -250,7 +250,7 @@ namespace RealTime.CustomAI
                     return false;
             }
 
-            if (schedule.CurrentState != ResidentState.Shopping && IsBadWeather())
+            if (schedule.CurrentState != ResidentState.Shopping && WeatherInfo.IsBadWeather)
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a visit because of bad weather");
                 schedule.Schedule(ResidentState.AtHome);
