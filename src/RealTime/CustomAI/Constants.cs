@@ -53,12 +53,6 @@ namespace RealTime.CustomAI
         /// <summary>An earliest hour when citizens wake up at home.</summary>
         public const float EarliestWakeUp = 5.5f;
 
-        /// <summary>
-        /// An assumed average speed of a citizen when moving to target (this is not just a walking speed, but also takes
-        /// into account moving by car or public transport).
-        /// </summary>
-        public const float OnTheWayDistancePerHour = 500f;
-
         /// <summary>A chance in percent that a virtual citizen will not be realized in 'few virtual citizens' mode.</summary>
         public const uint FewVirtualCitizensChance = 20;
 
@@ -73,5 +67,13 @@ namespace RealTime.CustomAI
 
         /// <summary>The interval in minutes for the buildings problem timers.</summary>
         public const int ProblemTimersInterval = 10;
+
+        /// <summary>The chance of a young female to get pregnant.</summary>
+        public const uint YoungFemalePregnancyChance = 50u;
+
+        /// <summary>The average distance a citizen can move for (walking, by car, by public transport) during a full simulation
+        /// cycle at maximum time speed (6).
+        /// This value was determined empirically.</summary>
+        public const float AverageDistancePerSimulationCycle = 750f;
     }
 }

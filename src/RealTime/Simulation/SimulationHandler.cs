@@ -16,6 +16,7 @@ namespace RealTime.Simulation
     public sealed class SimulationHandler : ThreadingExtensionBase
     {
         private DateTime lastHandledDate;
+        private bool wasPaused;
 
         /// <summary>
         /// Occurs when a new day in the game begins.
@@ -55,9 +56,17 @@ namespace RealTime.Simulation
         /// </summary>
         public override void OnBeforeSimulationTick()
         {
+            if (SimulationManager.instance.SimulationPaused || SimulationManager.instance.ForcedSimulationPaused)
+            {
+                wasPaused = true;
+                return;
+            }
+
             WeatherInfo?.Update();
 
-            bool updateFrameLength = TimeAdjustment?.Update() ?? false;
+            bool updateFrameLength = TimeAdjustment?.Update(wasPaused) ?? false;
+            wasPaused = false;
+
             if (CitizenProcessor != null)
             {
                 if (updateFrameLength)
@@ -107,6 +116,14 @@ namespace RealTime.Simulation
             uint currentFrame = SimulationManager.instance.m_currentFrameIndex;
             Buildings?.ProcessFrame(currentFrame);
             CitizenProcessor?.ProcessFrame(currentFrame);
+        }
+
+        /// <summary>Called by the simulation manager when an update is required.</summary>
+        /// <param name="realTimeDelta">The real time delta time.</param>
+        /// <param name="simulationTimeDelta">The simulation delta time.</param>
+        public override void OnUpdate(float realTimeDelta, float simulationTimeDelta)
+        {
+            TimeAdjustment?.UpdateSunPosition();
         }
 
         private static void OnNewDay(SimulationHandler sender)

@@ -203,6 +203,7 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.Disaster:
                     if (BuildingMgr.BuildingHasFlags(visitBuilding, Building.Flags.Downgrading))
                     {
+                        CitizenProxy.RemoveFlags(ref citizen, Citizen.Flags.Evacuating);
                         FindRandomVisitPlace(instance, citizenId, ref citizen, 0, visitBuilding);
                     }
 

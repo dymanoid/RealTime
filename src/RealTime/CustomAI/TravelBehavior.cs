@@ -14,6 +14,7 @@ namespace RealTime.CustomAI
     internal sealed class TravelBehavior : ITravelBehavior
     {
         private readonly IBuildingManagerConnection buildingManager;
+        private float averageCitizenSpeed;
 
         /// <summary>Initializes a new instance of the <see cref="TravelBehavior"/> class.</summary>
         /// <param name="buildingManager">
@@ -23,6 +24,20 @@ namespace RealTime.CustomAI
         public TravelBehavior(IBuildingManagerConnection buildingManager)
         {
             this.buildingManager = buildingManager ?? throw new System.ArgumentNullException(nameof(buildingManager));
+            averageCitizenSpeed = AverageDistancePerSimulationCycle;
+        }
+
+        /// <summary>Sets the duration (in hours) of a full simulation cycle for all citizens.
+        /// The game calls the simulation methods for a particular citizen with this period.</summary>
+        /// <param name="cyclePeriod">The citizens simulation cycle period, in game hours.</param>
+        public void SetSimulationCyclePeriod(float cyclePeriod)
+        {
+            if (cyclePeriod == 0)
+            {
+                cyclePeriod = 1f;
+            }
+
+            averageCitizenSpeed = AverageDistancePerSimulationCycle / cyclePeriod;
         }
 
         /// <summary>Gets an estimated travel time (in hours) between two specified buildings.</summary>
@@ -37,7 +52,12 @@ namespace RealTime.CustomAI
             }
 
             float distance = buildingManager.GetDistanceBetweenBuildings(building1, building2);
-            return FastMath.Clamp(distance / OnTheWayDistancePerHour, MinTravelTime, MaxTravelTime);
+            if (distance == 0)
+            {
+                return MinTravelTime;
+            }
+
+            return FastMath.Clamp(distance / averageCitizenSpeed, MinTravelTime, MaxTravelTime);
         }
     }
 }

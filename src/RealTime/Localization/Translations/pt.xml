@@ -29,6 +29,8 @@
   <translation id="VirtualCitizensTooltip" value="Selecione 'Todos' para uma cidade real (porém no máximo 65.535 cidadãos), selecione 'Padrão' se seu PC for fraco." />
   <translation id="VirtualCitizens.None" value="Todos os cidadãos são reais" />
   <translation id="VirtualCitizens.Vanilla" value="Igual ao jogo padrão" />
+  <translation id="UseSlowAging" value="Better aging and birth rate" />
+  <translation id="UseSlowAgingTooltip" value="If enabled, 1 game day means 1 citizen's life year. If disabled, 1 game day means 10 (at time speed 6) to 340 (at time speed 1) life years." />
   <translation id="IsWeekendEnabled" value="Habilita Finais de semana" />
   <translation id="IsWeekendEnabledTooltip" value="Cidadãos não vão para o trabalho ou escola nos finais de semana" />
   <translation id="IsLunchtimeEnabled" value="Habilita horário de almoço" />
