@@ -63,7 +63,7 @@ namespace RealTime.CustomAI
         public const float BadWeatherPrecipitationThreshold = 0.05f;
 
         /// <summary>The minimum probability that a citizen will stay inside a building on any precipitation.</summary>
-        public const uint MinimumStayInsideChanceOnPrecipitation = 75u;
+        public const uint MinimumStayInsideChanceOnPrecipitation = 85u;
 
         /// <summary>The interval in minutes for the buildings problem timers.</summary>
         public const int ProblemTimersInterval = 10;

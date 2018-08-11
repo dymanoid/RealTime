@@ -6,8 +6,11 @@ namespace RealTime.GameConnection.Patches
 {
     using System;
     using System.Reflection;
+    using ColossalFramework.Math;
     using RealTime.CustomAI;
+    using RealTime.Simulation;
     using SkyTools.Patching;
+    using UnityEngine;
 
     /// <summary>
     /// A static class that provides the patch objects for the building AI game methods.
@@ -16,6 +19,9 @@ namespace RealTime.GameConnection.Patches
     {
         /// <summary>Gets or sets the custom AI object for buildings.</summary>
         public static RealTimeBuildingAI RealTimeAI { get; set; }
+
+        /// <summary>Gets or sets the weather information service.</summary>
+        public static IWeatherInfo WeatherInfo { get; set; }
 
         /// <summary>Gets the patch for the commercial building AI class.</summary>
         public static IPatch CommercialSimulation { get; } = new CommercialBuildingA_SimulationStepActive();
@@ -31,6 +37,9 @@ namespace RealTime.GameConnection.Patches
 
         /// <summary>Gets the patch for the player building AI method 'ShowConsumption'.</summary>
         public static IPatch PlayerShowConsumption { get; } = new PlayerBuildingAI_ShowConsumption();
+
+        /// <summary>Gets the patch for the building AI method 'CalculateUnspawnPosition'.</summary>
+        public static IPatch CalculateUnspawnPosition { get; } = new BuildingAI_CalculateUnspawnPosition();
 
         private sealed class CommercialBuildingA_SimulationStepActive : PatchBase
         {
@@ -178,6 +187,57 @@ namespace RealTime.GameConnection.Patches
                 }
 
                 return true;
+            }
+#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
+        }
+
+        private sealed class BuildingAI_CalculateUnspawnPosition : PatchBase
+        {
+            protected override MethodInfo GetMethod()
+            {
+                return typeof(BuildingAI).GetMethod(
+                    "CalculateUnspawnPosition",
+                    BindingFlags.Instance | BindingFlags.Public,
+                    null,
+                    new[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Randomizer).MakeByRefType(), typeof(CitizenInfo), typeof(ushort), typeof(Vector3).MakeByRefType(), typeof(Vector3).MakeByRefType(), typeof(Vector2).MakeByRefType(), typeof(CitizenInstance.Flags).MakeByRefType() },
+                    new ParameterModifier[0]);
+            }
+
+#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            private static void Postfix(BuildingAI __instance, ushort buildingID, ref Building data, ref Randomizer randomizer, CitizenInfo info, ref Vector3 position, ref Vector3 target, ref CitizenInstance.Flags specialFlags)
+            {
+                if (WeatherInfo == null || !WeatherInfo.IsBadWeather || data.Info == null || data.Info.m_enterDoors == null)
+                {
+                    return;
+                }
+
+                BuildingInfo.Prop[] enterDoors = data.Info.m_enterDoors;
+                bool doorFound = false;
+                for (int i = 0; i < enterDoors.Length; ++i)
+                {
+                    PropInfo prop = enterDoors[i].m_finalProp;
+                    if (prop == null)
+                    {
+                        continue;
+                    }
+
+                    if (prop.m_doorType == PropInfo.DoorType.Enter || prop.m_doorType == PropInfo.DoorType.Both)
+                    {
+                        doorFound = true;
+                        break;
+                    }
+                }
+
+                if (!doorFound)
+                {
+                    return;
+                }
+
+                __instance.CalculateSpawnPosition(buildingID, ref data, ref randomizer, info, out Vector3 spawnPosition, out Vector3 spawnTarget);
+
+                position = spawnPosition;
+                target = spawnTarget;
+                specialFlags &= ~(CitizenInstance.Flags.HangAround | CitizenInstance.Flags.SittingDown);
             }
 #pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
