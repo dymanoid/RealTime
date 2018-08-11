@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <language id="fr" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
- 
+
   <translation id="Warning" value="Attention" />
   <translation id="RestrictedModeMessage" value="'Real Time' fonctionne en mode restreint. Certaines fonctionnalités peuvent avoir été désactivée. Ceci est dû à un problème technique avec un autre mod ou fichier. Si vous voulez de l'aide, merci de partager le journal du fichier du jeu avec le développeur du mod." />
   <translation id="ModNotWorkingMessage" value="Oops! Quelque chose s'est mal passé (le mod 'Real Time' n'a pas pu être activé). Veuillez partager le journal du fichier du jeu avec le développeur du mod." />
   <translation id="IncompatibleModsFoundMessage" value="'Real Time' a détécté au moins un mod incompatible (ou au moins partiellement incompatible). Il est recommandé de ce désabonner de ceux-ci. Vous pouvez continuer à vos risques et périls si vous savez ce que vous faites, mais le jeux pourrai mal fonctionner et/ou planter." />
-  <translation id="Minutes" value="Minutes" />
- 
+  <translation id="Minutes" value="Min." />
+
   <translation id="Tools" value="Outils" />
   <translation id="ShowIncompatibilityNotifications" value="Montrer les notifications de mods incompatibles." />
   <translation id="ResetToDefaults" value="Tout réinitialiser aux valeurs par défaut" />
   <translation id="UseForNewGames" value="Utiliser les valeurs actuelles pour les prochaines parties" />
- 
+
   <translation id="1General" value="Général" />
   <translation id="0Time" value="Options de temps" />
   <translation id="1Other" value="Autres options" />
@@ -29,6 +29,8 @@
   <translation id="VirtualCitizensTooltip" value="Sélectionnez 'Tous' pour une vraie ville (mais maximum 65 530 citoyens), sélectionnez 'Vanilla' si votre configuration est peu puissante" />
   <translation id="VirtualCitizens.None" value="Tous les citoyens sont réels" />
   <translation id="VirtualCitizens.Vanilla" value="Comme dans le jeu Vanilla" />
+  <translation id="UseSlowAging" value="Meilleur vieillissement et taux de naissance" />
+  <translation id="UseSlowAgingTooltip" value="Si activer, 1 jour du jeu vaut 1 année pour un habitant. Si désactivé, 1 jour du jeu vaut 10 (à la vitesse 6) à 340 (à la vitesse 1) années." />
   <translation id="IsWeekendEnabled" value="Activer les Week-ends" />
   <translation id="IsWeekendEnabledTooltip" value="Les citoyens ne vont pas au travail ou en cours le week-end" />
   <translation id="IsLunchtimeEnabled" value="Activer l'heure du déjeuner" />
@@ -65,7 +67,7 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="La première fois qu'un événementt peut commencer un jour de week-end" />
   <translation id="LatestHourEventStartWeekend" value="Dernier événement du weekend" />
   <translation id="LatestHourEventStartWeekendTooltip" value="La dernière fois qu'un événement peut commencer un jour de week-end" />
-   
+ 
   <translation id="4Time" value="Temps" />
   <translation id="MaxOvertime" value="Heures supplémentaires maximum" />
   <translation id="MaxOvertimeTooltip" value="Les heures supplémentaires maximum pour les citoyens (ils viennent travailler plus tôt ou restent au travail plus longtemps)" />
@@ -90,8 +92,8 @@
   <translation id="ScheduledAction.AtSchoolOrWork" value="Aller au travail/a l'école" />
   <translation id="ScheduledAction.Shopping" value="Aller faire du shopping" />
   <translation id="ScheduledAction.Relaxing" value="Se relaxer" />
-  <translation id="ScheduledAction.Visiting" value="Aller visiter" />
-  <translation id="ScheduledAction.InShelter" value="Aller se protéger ? (Go to shelter)" />
+  <translation id="ScheduledAction.Visiting" value="Aller visiter/tourisme" />
+  <translation id="ScheduledAction.InShelter" value="Aller se réfugier dans les abris" />
   <translation id="WorkShift.First" value="1ère équipe de travail" />
   <translation id="WorkShift.Second" value="2ème équipe de travail" />
   <translation id="WorkShift.Night" value="Equipe de travail de nuit" />
@@ -185,5 +187,5 @@
     <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="Visiteurs ces derniers/ères {unit}: {0} residents, {1} touristes"/>
     <translation id="TRANSPORT_LINE_PASSENGERS" value="Passagers ces derniers/ères {unit}: {0} residents, {1} touristes"/>
   </overrides>
- 
+
 </language>
