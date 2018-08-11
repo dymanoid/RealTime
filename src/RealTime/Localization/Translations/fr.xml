@@ -1,61 +1,59 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <language id="fr" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-
+ 
   <translation id="Warning" value="Attention" />
-  <translation id="RestrictedModeMessage" value="Real Time works in restricted mode. Some functionality is disabled. This is because of a technical issue with a third-party library or a mod incompatibility. If you want assistance, please share your game log file with the mod's developer." />
-  <translation id="ModNotWorkingMessage" value="Oops! Quelque chose s'est mal passé - le mod 'Temps réel' n'a pas pu être activé. Veuillez partager le journal du fichier du jeu avec le développeur du mod." />
-  <translation id="IncompatibleModsFoundMessage" value="Real Time detected at least one incompatible mod (or at least partly incompatible). It is recommended to unsubscribe from them. You might continue on your own risk if you know what you are doing, but in this case something might not work properly or even crash the game." />
-  <translation id="Minutes" value="min." />
-
+  <translation id="RestrictedModeMessage" value="'Real Time' fonctionne en mode restreint. Certaines fonctionnalités peuvent avoir été désactivée. Ceci est dû à un problème technique avec un autre mod ou fichier. Si vous voulez de l'aide, merci de partager le journal du fichier du jeu avec le développeur du mod." />
+  <translation id="ModNotWorkingMessage" value="Oops! Quelque chose s'est mal passé (le mod 'Real Time' n'a pas pu être activé). Veuillez partager le journal du fichier du jeu avec le développeur du mod." />
+  <translation id="IncompatibleModsFoundMessage" value="'Real Time' a détécté au moins un mod incompatible (ou au moins partiellement incompatible). Il est recommandé de ce désabonner de ceux-ci. Vous pouvez continuer à vos risques et périls si vous savez ce que vous faites, mais le jeux pourrai mal fonctionner et/ou planter." />
+  <translation id="Minutes" value="Minutes" />
+ 
   <translation id="Tools" value="Outils" />
-  <translation id="ShowIncompatibilityNotifications" value="Show mod incompatibility notifications" />
+  <translation id="ShowIncompatibilityNotifications" value="Montrer les notifications de mods incompatibles." />
   <translation id="ResetToDefaults" value="Tout réinitialiser aux valeurs par défaut" />
-  <translation id="UseForNewGames" value="Use current values for new games" />
-
+  <translation id="UseForNewGames" value="Utiliser les valeurs actuelles pour les prochaines parties" />
+ 
   <translation id="1General" value="Général" />
-  <translation id="0Time" value="Options de Time" />
+  <translation id="0Time" value="Options de temps" />
   <translation id="1Other" value="Autres options" />
   <translation id="WakeUpHour" value="La ville se lève à" />
   <translation id="WakeUpHourTooltip" value="Le moment où la plupart des citoyens commencent à se réveiller. Les budgets et la vitesse temporelle passent en mode 'jour'!" />
   <translation id="GoToSleepHour" value="La ville s'endort à" />
   <translation id="GoToSleepHourTooltip" value="Le moment où la plupart des citoyens commencent à aller dormir. Les budgets et la vitesse du temps passent en mode 'nuit'!" />
   <translation id="DayTimeSpeed" value="Vitesse du temps (en journée)" />
-  <translation id="DayTimeSpeedTooltip" value="La vitesse du flux de temps sur la journée. '1' est très lent - presque en temps réel !" />
+  <translation id="DayTimeSpeedTooltip" value="La vitesse du temps sur la journée. '1' est très lent - presque en temps réel !" />
   <translation id="NightTimeSpeed" value="Vitesse du temps (la nuit)" />
-  <translation id="NightTimeSpeedTooltip" value="La vitesse du flux du temps la nuit. '1' est très lent - presque en temps réel !" />
+  <translation id="NightTimeSpeedTooltip" value="La vitesse du temps la nuit. '1' est très lent - presque en temps réel !" />
   <translation id="IsDynamicDayLengthEnabled" value="Longueur de jour dynamique" />
   <translation id="IsDynamicDayLengthEnabledTooltip" value="La durée du jour dépend du thème de la carte et du jour de l'année. En hiver, les jours sont plus courts qu'en été." />
-  <translation id="VirtualCitizens" value="Mode de similation des Citoyens (réel et virtuel)" />
-  <translation id="VirtualCitizensTooltip" value="Sélectionnez 'Tous' pour une vraie ville (mais maximum 65,53k citoyens), sélectionnez 'Vanilla' si votre configuration est faible" />
+  <translation id="VirtualCitizens" value="Mode de simulation des Citoyens (réel et virtuel)" />
+  <translation id="VirtualCitizensTooltip" value="Sélectionnez 'Tous' pour une vraie ville (mais maximum 65 530 citoyens), sélectionnez 'Vanilla' si votre configuration est peu puissante" />
   <translation id="VirtualCitizens.None" value="Tous les citoyens sont réels" />
   <translation id="VirtualCitizens.Vanilla" value="Comme dans le jeu Vanilla" />
-  <translation id="UseSlowAging" value="Better aging and birth rate" />
-  <translation id="UseSlowAgingTooltip" value="If enabled, 1 game day means 1 citizen's life year. If disabled, 1 game day means 10 (at time speed 6) to 340 (at time speed 1) life years." />
   <translation id="IsWeekendEnabled" value="Activer les Week-ends" />
   <translation id="IsWeekendEnabledTooltip" value="Les citoyens ne vont pas au travail ou en cours le week-end" />
-  <translation id="IsLunchtimeEnabled" value="Activer l'heure du déjeûner" />
-  <translation id="IsLunchtimeEnabledTooltip" value="Les citoyens devraient sortir au déjeûner pour s'alimenter" />
+  <translation id="IsLunchtimeEnabled" value="Activer l'heure du déjeuner" />
+  <translation id="IsLunchtimeEnabledTooltip" value="Les citoyens devraient sortir au déjeuner pour s'alimenter" />
   <translation id="StopConstructionAtNight" value="Mettre en pause la construction du bâtiment et l'améliorer pendant la nuit" />
-  <translation id="StopConstructionAtNightTooltip" value="Les ouvriers du chantier ont besoin aussi de dormir !" />
+  <translation id="StopConstructionAtNightTooltip" value="Les ouvriers du chantier ont aussi besoin de dormir !" />
   <translation id="ConstructionSpeed" value="Vitesse de construction" />
   <translation id="ConstructionSpeedTooltip" value="Mise à niveau de la vitesse et de la construction de bâtiments" />
-  <translation id="SwitchOffLightsAtNight" value="Switch off building lights at night" />
-  <translation id="SwitchOffLightsAtNightTooltip" value="Residential buildings switch off lights when citizens sleep, other buildings and parks - when no one is working there" />
-
+  <translation id="SwitchOffLightsAtNight" value="Désactiver la lumière des batiments la nuit" />
+  <translation id="SwitchOffLightsAtNightTooltip" value="Les batiments résidentiel éteignent leurs lampes quand les citoyens dorment, autres batiments et parcs : quand personne n'y travail." />
+ 
   <translation id="2Quotas" value="Probabilités" />
   <translation id="SecondShiftQuota" value="Travailleurs en 2/8" />
   <translation id="SecondShiftQuotaTooltip" value="Le pourcentage des citoyens qui travaillent en 2/8" />
   <translation id="NightShiftQuota" value="Travailleurs de nuit" />
   <translation id="NightShiftQuotaTooltip" value="Le pourcentage de citoyens qui travaillent la nuit" />
-  <translation id="LunchQuota" value="Probabilité de déjeûner" />
+  <translation id="LunchQuota" value="Probabilité de déjeuner" />
   <translation id="LunchQuotaTooltip" value="Le pourcentage de citoyens qui sortira pour aller déjeûner" />
   <translation id="LocalBuildingSearchQuota" value="Taux d'achats local" />
-  <translation id="LocalBuildingSearchQuotaTooltip" value="Le pourcentage de la population qui va chercher des achats locaux" />
-  <translation id="ShoppingForFunQuota" value="Shopping for fun" />
-  <translation id="ShoppingForFunQuotaTooltip" value="The percentage of the population that will go shopping just for fun even when they don't need any goods" />
+  <translation id="LocalBuildingSearchQuotaTooltip" value="Le pourcentage de la population qui va faire des achats locaux" />
+  <translation id="ShoppingForFunQuota" value="Shopping pour le plaisir" />
+  <translation id="ShoppingForFunQuotaTooltip" value="Le pourcentage de la population qui va aller faire du shopping juste pour le fun quand ils n'ont besoin de rien" />
   <translation id="OnTimeQuota" value="Rapport sur le temps" />
   <translation id="OnTimeQuotaTooltip" value="Le pourcentage de citoyens qui iront et quitteront leur travail à temps" />
-
+ 
   <translation id="3Events" value="Événements" />
   <translation id="AreEventsEnabled" value="Activer les événements personnalisés" />
   <translation id="AreEventsEnabledTooltip" value="Si désactivé, seuls les événements de jeu Vanilla peuvent se produire dans la ville" />
@@ -67,125 +65,125 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="La première fois qu'un événementt peut commencer un jour de week-end" />
   <translation id="LatestHourEventStartWeekend" value="Dernier événement du weekend" />
   <translation id="LatestHourEventStartWeekendTooltip" value="La dernière fois qu'un événement peut commencer un jour de week-end" />
-    
+   
   <translation id="4Time" value="Temps" />
   <translation id="MaxOvertime" value="Heures supplémentaires maximum" />
-  <translation id="MaxOvertimeTooltip" value="Les heures supplémentaires maximum pour les citoyens - ils viennent travailler plus tôt ou restent au travail plus longtemps" />
+  <translation id="MaxOvertimeTooltip" value="Les heures supplémentaires maximum pour les citoyens (ils viennent travailler plus tôt ou restent au travail plus longtemps)" />
   <translation id="SchoolBegin" value="Heure de début des cours scolaire ou universitaire" />
-  <translation id="SchoolBeginTooltip" value="L'éducation se déroule en journée - les jeunes doivent être en cours en journée" />
+  <translation id="SchoolBeginTooltip" value="L'éducation se déroule en journée (les jeunes doivent être en cours en journée)" />
   <translation id="SchoolEnd" value="Heure de fin des cours scolaire ou universitaire" />
   <translation id="SchoolEndTooltip" value="L'heure de la journée à laquelle les jeunes reviennent des cours" />
   <translation id="WorkBegin" value="L'heure de début du travail" />
-  <translation id="WorkBeginTooltip" value="Le travail commence en journée - les adultes doivent être au travail ou à l'université" />
+  <translation id="WorkBeginTooltip" value="Le travail commence en journée (les adultes doivent être au travail ou à l'université)" />
   <translation id="WorkEnd" value="L'heure de fin du travail" />
   <translation id="WorkEndTooltip" value="L'heure de la journée où les adultes reviennent du travail ou de l'université" />
   <translation id="LunchBegin" value="L'heure de début du déjeûner" />
   <translation id="LunchBeginTooltip" value="L'heure de la journée ou les citoyens sortent pour aller déjeûner" />
   <translation id="LunchEnd" value="L'heure de fin du déjeûner" />
   <translation id="LunchEndTooltip" value="L'heure de la journée ou les citoyens reviennent du déjeûner pour aller travailler" />
-  <translation id="MaxVacationLength" value="Maximum vacation days" />
-  <translation id="MaxVacationLengthTooltip" value="For how long citizens can be on vacation. Set to 0 to disable vacations." />
-
-  <translation id="ScheduledAction" value="Now" />
-  <translation id="NextScheduledAction" value="Until" />
-  <translation id="ScheduledAction.AtHome" value="Go home" />
-  <translation id="ScheduledAction.AtSchoolOrWork" value="Go to work/school" />
-  <translation id="ScheduledAction.Shopping" value="Go shopping" />
-  <translation id="ScheduledAction.Relaxing" value="Go relaxing" />
-  <translation id="ScheduledAction.Visiting" value="Go visit" />
-  <translation id="ScheduledAction.InShelter" value="Go to shelter" />
-  <translation id="WorkShift.First" value="1st work shift" />
-  <translation id="WorkShift.Second" value="2nd work shift" />
-  <translation id="WorkShift.Night" value="Night work shift" />
-  <translation id="WorkStatus.OnVacation" value="(vacation: {0} days)" />
-
+  <translation id="MaxVacationLength" value="Nombre maximum de jours de vacances" />
+  <translation id="MaxVacationLengthTooltip" value="Pour combien de temps peuvent être en vacances, 0 désactive les vacances." />
+ 
+  <translation id="ScheduledAction" value="Maintenant" />
+  <translation id="NextScheduledAction" value="Jusqu'à" />
+  <translation id="ScheduledAction.AtHome" value="Aller à la maison" />
+  <translation id="ScheduledAction.AtSchoolOrWork" value="Aller au travail/a l'école" />
+  <translation id="ScheduledAction.Shopping" value="Aller faire du shopping" />
+  <translation id="ScheduledAction.Relaxing" value="Se relaxer" />
+  <translation id="ScheduledAction.Visiting" value="Aller visiter" />
+  <translation id="ScheduledAction.InShelter" value="Aller se protéger ? (Go to shelter)" />
+  <translation id="WorkShift.First" value="1ère équipe de travail" />
+  <translation id="WorkShift.Second" value="2ème équipe de travail" />
+  <translation id="WorkShift.Night" value="Equipe de travail de nuit" />
+  <translation id="WorkStatus.OnVacation" value="(vacances: {0} jours)" />
+ 
   <overrides type="Units">
-    <translation id="AIINFO_COAL_STORED" value="Coal stored for {0} × {unit}"/>
-    <translation id="AIINFO_CUMULATIVEUPKEEP" value="Upkeep: {0} + {1} / {unit} / cell"/>
-    <translation id="AIINFO_DECEASED_PROCESSED" value="Deceased processed last {unit}: {0}"/>
-    <translation id="AIINFO_ELECTRICITY_PRODUCED" value="Electricity produced last {unit}: {0} MW"/>
-    <translation id="AIINFO_FIRES_EXTINGUISHED" value="Fires extinguished last {unit}: {0}"/>
-    <translation id="AIINFO_OIL_STORED" value="Oil stored for {0} × {unit}"/>
-    <translation id="AIINFO_PASSENGERS_SERVICED" value="Passengers serviced last {unit}: {0}"/>
-    <translation id="AIINFO_PATIENTS_TREATED" value="Patients treated last {unit}: {0}"/>
-    <translation id="AIINFO_POLE_UPKEEP" value="Upkeep: {0} / pole / {unit}"/>
-    <translation id="AIINFO_PROCESSING_RATE" value="Processing rate: {0} / {unit}"/>
-    <translation id="AIINFO_TOURISTS" value="Tourists last {unit}: {0}"/>
-    <translation id="AIINFO_UPKEEP" value="Upkeep: {0} / {unit}"/>
-    <translation id="AIINFO_UPKEEPPERCELL" value="Upkeep: {0} / {unit} / cell"/>
-    <translation id="AIINFO_VISITORS" value="Visitors last {unit}: {0} "/>
-    <translation id="AIINFO_WATER_CONSUMPTION" value="Water: {0} m³/{unit}"/>
-    <translation id="AIINFO_WATER_INTAKE" value="Pumping Capacity: {0} m³/{unit}"/>
-    <translation id="AIINFO_WATER_OUTLET" value="Drain Capacity: {0} m³/{unit}"/>
-    <translation id="AIINFO_WATER_STORED" value="Water stored for {0} × {unit}"/>
-    <translation id="AINFO_WATER_IO_CAPACITY" value="Operating rate: {0:N0} m³/{unit}"/>
+    <translation id="AIINFO_COAL_STORED" value="Charbon stocké pour {0} × {unit}"/>
+    <translation id="AIINFO_CUMULATIVEUPKEEP" value="Entretient: {0} + {1} / {unit} / unité(s)"/>
+    <translation id="AIINFO_DECEASED_PROCESSED" value="Morts traité ces derniers/ères {unit}: {0}"/>
+    <translation id="AIINFO_ELECTRICITY_PRODUCED" value="Production d'électricité ces derniers/ères {unit}: {0} MW"/>
+    <translation id="AIINFO_FIRES_EXTINGUISHED" value="Feux éteints ces derniers/ères {unit}: {0}"/>
+    <translation id="AIINFO_OIL_STORED" value="Pétrole stocké pour {0} × {unit}"/>
+    <translation id="AIINFO_PASSENGERS_SERVICED" value="Passagers transporter ces derniers/ères {unit}: {0}"/>
+    <translation id="AIINFO_PATIENTS_TREATED" value="Patients traités ces derniers/ères {unit}: {0}"/>
+    <translation id="AIINFO_POLE_UPKEEP" value="Entretient: {0} / par / {unit}"/>
+    <translation id="AIINFO_PROCESSING_RATE" value="Rythme de fabrication: {0} / {unit}"/>
+    <translation id="AIINFO_TOURISTS" value="Touristes ces derniers/ères {unit}: {0}"/>
+    <translation id="AIINFO_UPKEEP" value="Entretient: {0} / {unit}"/>
+    <translation id="AIINFO_UPKEEPPERCELL" value="Entretient: {0} / {unit} / unité(s)"/>
+    <translation id="AIINFO_VISITORS" value="Visiteurs ces derniers/ères {unit}: {0} "/>
+    <translation id="AIINFO_WATER_CONSUMPTION" value="Eau: {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_INTAKE" value="Capacité de pompage: {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_OUTLET" value="Capacité de traitement des eaux usées: {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_STORED" value="Eau stockée pour {0} × {unit}"/>
+    <translation id="AINFO_WATER_IO_CAPACITY" value="Vitesse de traitement: {0:N0} m³/{unit}"/>
     <translation id="DATETIME_WEEK" value="{unit}"/>
     <translation id="DATETIME_WEEKLOWERCASE" value="{unit}"/>
     <translation id="DATETIME_WEEKS" value="× {unit}"/>
-    <translation id="DISTRICT_TOURISTS" value="Tourist visits&#10;last {unit}:"/>
-    <translation id="EXPENSES_TT_EDUCATION" value="Education Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_ELECTRICITY" value="Electricity Service Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_FIRE" value="Fire Department Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_FIRE_ND" value="Emergency Service Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_GARBAGE" value="Garbage Service Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_HEALTHCARE" value="Healthcare Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_LOANS" value="Loans Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_MONUMENTS" value="Unique Buildings Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_PARK" value="Parks, Plazas and Landscaping Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_POLICE" value="Police Department Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_POLICIES" value="Policies Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_PUBLICTRANSPORT" value="Public Transport Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_ROADS" value="Roads Service Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_TOTAL" value="Total Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_WATER" value="Water and Sewage Service Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_WATER_WW" value="Water, Sewage and Heating Service Expenses last {unit}"/>
-    <translation id="INCOME_TT_COMMERCIALCITIZEN" value="Commercial Income from citizens last {unit}"/>
-    <translation id="INCOME_TT_COMMERCIALHIGH" value="Commercial High Income last {unit}"/>
-    <translation id="INCOME_TT_COMMERCIALLOW" value="Commercial Low Income last {unit}"/>
-    <translation id="INCOME_TT_COMMERCIALSPEC" value="Commercial Income from Specializations last {unit}"/>
-    <translation id="INCOME_TT_COMMERCIALTOTAL" value="Commercial Income last {unit}"/>
-    <translation id="INCOME_TT_COMMERCIALTOURIST" value="Commercial Income from tourists last {unit}"/>
-    <translation id="INCOME_TT_INDUSTRIAL" value="Industrial Income last {unit}"/>
-    <translation id="INCOME_TT_OFFICE" value="Office Income last {unit}"/>
-    <translation id="INCOME_TT_PARKAREAS" value="Park Area Income last {unit}"/>
-    <translation id="INCOME_TT_RESIDENTIALHIGH" value="Residential High Income last {unit}"/>
-    <translation id="INCOME_TT_RESIDENTIALLOW" value="Residential Low Income last {unit}"/>
-    <translation id="INCOME_TT_RESIDENTIALTOTAL" value="Residential Income last {unit}"/>
-    <translation id="INCOME_TT_TOTAL" value="Total Income last {unit}"/>
-    <translation id="INCOME_TT_TOTAL_COMMERCIAL" value="Total Income from Tourism last {unit}"/>
-    <translation id="INCOME_TT_TOTAL_RESIDENTIAL" value="Total Income from Residential Zones last {unit}"/>
-    <translation id="INCOME_TT_TOTAL_WORK" value="Total Income from Industrial and Office Zones last {unit}"/>
-    <translation id="INCOME_TT_PUBLICTRANSPORT" value="Public Transport Income last {unit}"/>
-    <translation id="INFO_CONNECTIONS_TOURISTSTOTAL" value="Tourist Visits last {unit}: {0:N0}"/>
-    <translation id="INFO_CRIMERATE_CRIMES" value="Criminals arrested last {unit}:"/>
-    <translation id="INFO_ENTERTAINMENT_PARKVISIT" value="Visitors in parks &amp; plazas per {unit}: {0:N0}"/>
-    <translation id="INFO_ENTERTAINMENT_UBVISIT" value="Visitors in Unique Buildings per {unit}: {0:N0}"/>
-    <translation id="INFO_GARBAGE_INCINERATORCAPACITY" value="Garbage processing capacity: {0:N0} units / {unit}"/>
-    <translation id="INFO_GARBAGE_GARBAGEPRODUCTION" value="Garbage production: {0:N0} units / {unit}"/>
-    <translation id="INFO_POPULATION_BIRTHS" value="{0:N0} births / {unit}"/>
-    <translation id="INFO_POPULATION_DEATHS" value="{0:N0} deaths / {unit}"/>
-    <translation id="INFO_PUBLICTRANSPORT_COUNT" value="{0:N0} per {unit}"/>
-    <translation id="INFO_RES_FORESTAMOUNT" value="{0} units/{unit}"/>
-    <translation id="INFO_RES_FORESTUSED" value="{0} units/{unit}"/>
-    <translation id="INFO_RES_OILUSED" value="{0} units/{unit}"/>
-    <translation id="INFO_RES_OREUSED" value="{0} units/{unit}"/>
-    <translation id="INFO_WATER_CONSUMPTION" value="Water consumption: {0:N0} m³/{unit}"/>
-    <translation id="INFO_WATER_PRODUCTION" value="Water pumping capacity: {0:N0} m³/{unit}"/>
-    <translation id="INFO_WATER_SEWAGEACCUMULATION" value="Sewage production: {0:N0} m³/{unit}"/>
-    <translation id="INFO_WATER_SEWAGECAPACITY" value="Sewage draining capacity: {0:N0} m³/{unit}"/>
-    <translation id="LOAN_WEEKLYCOST" value="Cost last {unit}"/>
-    <translation id="MAIN_MONEYDELTA" value="Income last {unit}"/>
-    <translation id="MAIN_POPULATIONDELTA" value="Change last {unit}"/>
-    <translation id="MILESTONE_COMBINED_PASSED_TIME_DESC" value="Pass {0} requirements for {1} × {unit}"/>
-    <translation id="MILESTONE_COMBINED_TIME_DESC" value="Maintain for {0} × {unit}"/>
-    <translation id="PARKINFOPANEL_CURRENTVISITORS" value="Visitors last {unit}: {0}"/>
-    <translation id="PARKINFOPANEL_INCOME" value="Income: {0} / {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_PUBTRANS" value="Total Public Transportation Profit last {unit}"/>
-    <translation id="STADIUMINFO7" value="Wins/matches last 12 × {unit}:"/>
-    <translation id="STADIUMINFO9" value="Income last {unit}:"/>
-    <translation id="TOOL_WATER_ESTIMATE" value="Estimated production: {0:N0} m³/{unit}"/>
-    <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="Visitors last {unit}: {0} residents, {1} tourists"/>
-    <translation id="TRANSPORT_LINE_PASSENGERS" value="Passengers last {unit}: {0} residents, {1} tourists"/>
+    <translation id="DISTRICT_TOURISTS" value="Visites de touristes&#10; ces derniers/ères {unit}:"/>
+    <translation id="EXPENSES_TT_EDUCATION" value="Dépenses de l'éducation ces derniers/ères {unit}"/>
+    <translation id="EXPENSES_TT_ELECTRICITY" value="Dépenses pour la production d'électricité ces derniers/ères {unit}"/>
+    <translation id="EXPENSES_TT_FIRE" value="Dépenses des pompiers ces derniers/ères {unit}"/>
+    <translation id="EXPENSES_TT_FIRE_ND" value="Dépenses des services d'urgence ces derniers/ères {unit}"/>
+    <translation id="EXPENSES_TT_GARBAGE" value="Dépenses du services des ordures ces derniers/ères {unit}"/>
+    <translation id="EXPENSES_TT_HEALTHCARE" value="Dépenses dépenses de santée ces derniers/ères {unit}"/>
+    <translation id="EXPENSES_TT_LOANS" value="Dépenses pour le remboursement de/des prêt(s) ces derniers/ères {unit}"/>
+    <translation id="EXPENSES_TT_MONUMENTS" value="Dépenses des batiments uniques ces derniers/ères {unit}"/>
+    <translation id="EXPENSES_TT_PARK" value="Dépenses des parcs, places et en aménagement de paysage ces derniers/ères {unit}"/>
+    <translation id="EXPENSES_TT_POLICE" value="Dépenses de la police ces derniers/ères {unit}"/>
+    <translation id="EXPENSES_TT_POLICIES" value="Dépenses des politiques ces derniers/ères {unit}"/>
+    <translation id="EXPENSES_TT_PUBLICTRANSPORT" value="Dépenses des transports publics ces derniers/ères {unit}"/>
+    <translation id="EXPENSES_TT_ROADS" value="Dépenses des services de voieries ces derniers/ères {unit}"/>
+    <translation id="EXPENSES_TT_TOTAL" value="Dépenses total ces derniers/ères {unit}"/>
+    <translation id="EXPENSES_TT_WATER" value="Dépenses des services de l'eau et du traitement des eaux usées ces derniers/ères {unit}"/>
+    <translation id="EXPENSES_TT_WATER_WW" value="Dépenses des services de l'eau, du traitement des eaux usées et du chauffage ces derniers/ères {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALCITIZEN" value="Revenus commercial des citoyens ces derniers/ères {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALHIGH" value="Revenus des zones commerciales denses ces derniers/ères {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALLOW" value="Revenus des zones commerciales basse ces derniers/ères {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALSPEC" value="Revenus des zones commerciales spécialisées ces derniers/ères {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALTOTAL" value="Revenus des zones commerciales ces derniers/ères {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALTOURIST" value="Revenus des zones commerciales des touristes ces derniers/ères {unit}"/>
+    <translation id="INCOME_TT_INDUSTRIAL" value="Revenus des zones industrielles ces derniers/ères {unit}"/>
+    <translation id="INCOME_TT_OFFICE" value="Revenus des zones de bureaux ces derniers/ères {unit}"/>
+    <translation id="INCOME_TT_PARKAREAS" value="Revenus de la zone du parc ces derniers/ères {unit}"/>
+    <translation id="INCOME_TT_RESIDENTIALHIGH" value="Revenu des zones résidentielles denses ces derniers/ères {unit}"/>
+    <translation id="INCOME_TT_RESIDENTIALLOW" value="Revenu des zones résidentielles basses ces derniers/ères {unit}"/>
+    <translation id="INCOME_TT_RESIDENTIALTOTAL" value="Revenu des zones résidentielles ces derniers/ères {unit}"/>
+    <translation id="INCOME_TT_TOTAL" value="Total des revenus ces derniers/ères {unit}"/>
+    <translation id="INCOME_TT_TOTAL_COMMERCIAL" value="Total des revenus du tourisme ces derniers/ères {unit}"/>
+    <translation id="INCOME_TT_TOTAL_RESIDENTIAL" value="Total des revenus des zones residentielles ces derniers/ères {unit}"/>
+    <translation id="INCOME_TT_TOTAL_WORK" value="Total des revenus des zones industrielles et de bureaux ces derniers/ères {unit}"/>
+    <translation id="INCOME_TT_PUBLICTRANSPORT" value="Revenus des transports publics ces derniers/ères {unit}"/>
+    <translation id="INFO_CONNECTIONS_TOURISTSTOTAL" value="Visites de touristes ces derniers/ères {unit}: {0:N0}"/>
+    <translation id="INFO_CRIMERATE_CRIMES" value="Criminels arrêtés ces derniers/ères {unit}:"/>
+    <translation id="INFO_ENTERTAINMENT_PARKVISIT" value="Visiteurs des parcs &amp; places par {unit}: {0:N0}"/>
+    <translation id="INFO_ENTERTAINMENT_UBVISIT" value="Visiteurs des batiments uniques par {unit}: {0:N0}"/>
+    <translation id="INFO_GARBAGE_INCINERATORCAPACITY" value="Capacité de traitement des dechets: {0:N0} unités / {unit}"/>
+    <translation id="INFO_GARBAGE_GARBAGEPRODUCTION" value="Production de déchets: {0:N0} unités / {unit}"/>
+    <translation id="INFO_POPULATION_BIRTHS" value="{0:N0} naissances / {unit}"/>
+    <translation id="INFO_POPULATION_DEATHS" value="{0:N0} morts / {unit}"/>
+    <translation id="INFO_PUBLICTRANSPORT_COUNT" value="{0:N0} par {unit}"/>
+    <translation id="INFO_RES_FORESTAMOUNT" value="{0} unités/{unit}"/>
+    <translation id="INFO_RES_FORESTUSED" value="{0} unités/{unit}"/>
+    <translation id="INFO_RES_OILUSED" value="{0} unités/{unit}"/>
+    <translation id="INFO_RES_OREUSED" value="{0} unités/{unit}"/>
+    <translation id="INFO_WATER_CONSUMPTION" value="Consommation d'eau: {0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_PRODUCTION" value="Capacité de pompage: {0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_SEWAGEACCUMULATION" value="Production d'eau usées: {0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_SEWAGECAPACITY" value="Capacité de traitement des eaux usées: {0:N0} m³/{unit}"/>
+    <translation id="LOAN_WEEKLYCOST" value="Coût ces derniers/ères {unit}"/>
+    <translation id="MAIN_MONEYDELTA" value="Revenus ces derniers/ères {unit}"/>
+    <translation id="MAIN_POPULATIONDELTA" value="Evolution de la population ces derniers/ères {unit}"/>
+    <translation id="MILESTONE_COMBINED_PASSED_TIME_DESC" value="Encore {0} requis pour {1} × {unit}"/>
+    <translation id="MILESTONE_COMBINED_TIME_DESC" value="Maintenir pendant {0} × {unit}"/>
+    <translation id="PARKINFOPANEL_CURRENTVISITORS" value="Visiteurs ces derniers/ères {unit}: {0}"/>
+    <translation id="PARKINFOPANEL_INCOME" value="Revenus : {0} / {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_PUBTRANS" value="Total des profits des transports publics ces derniers/ères {unit}"/>
+    <translation id="STADIUMINFO7" value="Gagnés/matches ces derniers/ères 12 × {unit}:"/>
+    <translation id="STADIUMINFO9" value="Revenus ces derniers/ères {unit}:"/>
+    <translation id="TOOL_WATER_ESTIMATE" value="Production estimée : {0:N0} m³/{unit}"/>
+    <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="Visiteurs ces derniers/ères {unit}: {0} residents, {1} touristes"/>
+    <translation id="TRANSPORT_LINE_PASSENGERS" value="Passagers ces derniers/ères {unit}: {0} residents, {1} touristes"/>
   </overrides>
-
+ 
 </language>
