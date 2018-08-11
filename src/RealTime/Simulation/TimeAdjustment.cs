@@ -96,6 +96,11 @@ namespace RealTime.Simulation
         /// <summary>Updates the sun position by recalculating the relative day time.</summary>
         public void UpdateSunPosition()
         {
+            if (!config.IsDynamicDayLengthEnabled)
+            {
+                return;
+            }
+
             float time = Mathf.Clamp(SimulationManager.instance.m_currentDayTimeHour, 0f, 24f);
             float sunrise = SimulationManager.SUNRISE_HOUR;
             float sunset = SimulationManager.SUNSET_HOUR;
