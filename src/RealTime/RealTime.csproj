@@ -99,7 +99,6 @@
     <Compile Include="Events\Storage\CityEventTemplate.cs" />
     <Compile Include="Events\Storage\CityEventContainer.cs" />
     <Compile Include="Events\Storage\CityEventsLoader.cs" />
-    <Compile Include="Events\Storage\CityEventIncentive.cs" />
     <Compile Include="Events\Storage\RealTimeEventStorage.cs" />
     <Compile Include="Events\Storage\RealTimeEventStorageContainer.cs" />
     <Compile Include="Events\VanillaEvent.cs" />
@@ -205,7 +204,6 @@
     <Content Include="Events\Templates\Library.xml" />
     <Content Include="Events\Templates\Opera.xml" />
     <Content Include="Events\Templates\PoshMall.xml" />
-    <Content Include="Events\Templates\Stadium.xml" />
     <Content Include="Events\Templates\Theater.xml" />
   </ItemGroup>
   <ItemGroup />

@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <EventContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<Events>
-		<Event EventName="OperaEvent" BuildingName="Opera House" Capacity="1500" LengthInHours="2">
-			<InitialisedMessages>
-				<Message>Got my tickets to the #Opera in {0}. #event</Message>
-			</InitialisedMessages>
-			
-			<BeginMessages>
-				<Message>Phone's off, so I won't be replying any time soon. #opera #event</Message>
-			</BeginMessages>
-			
-			<EndMessages>
-				<Message>That Opera was fantastic. I'd watch that again! #event</Message>
-			</EndMessages>
-			
+		<Event EventName="OperaEvent" BuildingName="Opera House" Capacity="250" LengthInHours="2">
 			<ChanceOfAttendingPercentage>
 				<Males>100</Males>
 				<Females>100</Females>
