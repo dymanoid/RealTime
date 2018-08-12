@@ -31,6 +31,7 @@ namespace RealTime.GameConnection.Patches
                     new ParameterModifier[0]);
             }
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             private static bool Prefix(TransferManager.TransferReason material, ref TransferManager.TransferOffer offer)
             {
                 switch (material)

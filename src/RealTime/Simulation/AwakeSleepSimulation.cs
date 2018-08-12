@@ -90,29 +90,34 @@ namespace RealTime.Simulation
             --managers.m_size;
         }
 
-#pragma warning disable SA1600 // Elements must be documented; the original interface is not documented
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Documentation Rules", "SA1600", Justification = "Game interface is not documented")]
         void ISimulationManager.EarlyUpdateData()
         {
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Documentation Rules", "SA1600", Justification = "Game interface is not documented")]
         void ISimulationManager.GetData(FastList<IDataContainer> data)
         {
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Documentation Rules", "SA1600", Justification = "Game interface is not documented")]
         string ISimulationManager.GetName()
         {
             return "RealTimeAwakeSleepSimulation";
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Documentation Rules", "SA1600", Justification = "Game interface is not documented")]
         ThreadProfiler ISimulationManager.GetSimulationProfiler()
         {
             return threadProfiler;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Documentation Rules", "SA1600", Justification = "Game interface is not documented")]
         void ISimulationManager.LateUpdateData(SimulationManager.UpdateMode mode)
         {
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Documentation Rules", "SA1600", Justification = "Game interface is not documented")]
         void ISimulationManager.SimulationStep(int subStep)
         {
             if (subStep == 0 || !SimulationManager.instance.m_enableDayNight)
@@ -124,10 +129,10 @@ namespace RealTime.Simulation
             SimulationManager.instance.m_isNightTime = currentHour < config.WakeUpHour || currentHour >= config.GoToSleepHour;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Documentation Rules", "SA1600", Justification = "Game interface is not documented")]
         void ISimulationManager.UpdateData(SimulationManager.UpdateMode mode)
         {
         }
-#pragma warning restore SA1600 // Elements must be documented
 
         private static FastList<ISimulationManager> GetSimulationManagers()
         {

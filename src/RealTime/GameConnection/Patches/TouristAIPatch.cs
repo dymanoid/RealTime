@@ -90,13 +90,13 @@ namespace RealTime.GameConnection.Patches
                     new ParameterModifier[0]);
             }
 
-#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static bool Prefix(TouristAI __instance, uint citizenID, ref Citizen data)
             {
                 RealTimeAI?.UpdateLocation(__instance, citizenID, ref data);
                 return false;
             }
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
     }
 }

@@ -81,13 +81,13 @@ namespace RealTime.GameConnection.Patches
                     new ParameterModifier[0]);
             }
 
-#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static bool Prefix(List<CurveSettings> ___m_Curves, DateTime ___m_StartTime, DateTime ___m_EndTime, ref int __result)
             {
                 __result = GetMinDataPoints(___m_Curves, ___m_StartTime, ___m_EndTime);
                 return false;
             }
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
 
         private sealed class UIGraph_GetVisibleEndTime : PatchBase
@@ -102,13 +102,13 @@ namespace RealTime.GameConnection.Patches
                     new ParameterModifier[0]);
             }
 
-#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static bool Prefix(List<CurveSettings> ___m_Curves, DateTime ___m_StartTime, DateTime ___m_EndTime, ref DateTime __result)
             {
                 __result = GetVisibleEndTime(___m_Curves, ___m_StartTime, ___m_EndTime);
                 return false;
             }
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
 
         private sealed class UIGraph_BuildLabels : PatchBase
@@ -158,7 +158,8 @@ namespace RealTime.GameConnection.Patches
                 }
             }
 
-#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static void Postfix(
                 UIGraph __instance,
                 List<CurveSettings> ___m_Curves,
@@ -227,7 +228,6 @@ namespace RealTime.GameConnection.Patches
                     }
                 }
             }
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
     }
 }

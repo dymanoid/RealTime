@@ -29,7 +29,8 @@ namespace RealTime.GameConnection.Patches
                     new ParameterModifier[0]);
             }
 
-#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static void Prefix(ref float ___m_temperatureSpeed, float ___m_targetTemperature, float ___m_currentTemperature)
             {
                 // The maximum temperature change speed is now 1/20 of the original
@@ -37,7 +38,6 @@ namespace RealTime.GameConnection.Patches
                 delta = Math.Min(Math.Abs(___m_temperatureSpeed) + 0.000_01f, delta);
                 ___m_temperatureSpeed = delta - 0.000_099f;
             }
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
     }
 }

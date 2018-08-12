@@ -59,7 +59,8 @@ namespace RealTime.GameConnection.Patches
                     new ParameterModifier[0]);
             }
 
-#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static bool Prefix(ref Building buildingData, ref byte __state)
             {
                 __state = buildingData.m_outgoingProblemTimer;
@@ -73,6 +74,8 @@ namespace RealTime.GameConnection.Patches
                 return true;
             }
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static void Postfix(ushort buildingID, ref Building buildingData, byte __state)
             {
                 if (__state != buildingData.m_outgoingProblemTimer)
@@ -80,7 +83,6 @@ namespace RealTime.GameConnection.Patches
                     RealTimeAI?.ProcessBuildingProblems(buildingID, __state);
                 }
             }
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
 
         private sealed class PrivateBuildingAI_HandleWorkers : PatchBase
@@ -97,13 +99,16 @@ namespace RealTime.GameConnection.Patches
                     new ParameterModifier[0]);
             }
 
-#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static bool Prefix(ref Building buildingData, ref byte __state)
             {
                 __state = buildingData.m_workerProblemTimer;
                 return true;
             }
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static void Postfix(ushort buildingID, ref Building buildingData, byte __state)
             {
                 if (__state != buildingData.m_workerProblemTimer)
@@ -111,7 +116,6 @@ namespace RealTime.GameConnection.Patches
                     RealTimeAI?.ProcessWorkerProblems(buildingID, __state);
                 }
             }
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
 
         private sealed class PrivateBuildingAI_GetConstructionTime : PatchBase
@@ -126,13 +130,13 @@ namespace RealTime.GameConnection.Patches
                     new ParameterModifier[0]);
             }
 
-#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static bool Prefix(ref int __result)
             {
                 __result = RealTimeAI?.GetConstructionTime() ?? 0;
                 return false;
             }
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
 
         private sealed class PrivateBuildingAI_ShowConsumption : PatchBase
@@ -147,7 +151,8 @@ namespace RealTime.GameConnection.Patches
                     new ParameterModifier[0]);
             }
 
-#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static bool Prefix(ushort buildingID, ref bool __result)
             {
                 if (InfoManager.instance.CurrentMode != InfoManager.InfoMode.None)
@@ -163,7 +168,6 @@ namespace RealTime.GameConnection.Patches
 
                 return true;
             }
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
 
         private sealed class PlayerBuildingAI_ShowConsumption : PatchBase
@@ -178,7 +182,8 @@ namespace RealTime.GameConnection.Patches
                     new ParameterModifier[0]);
             }
 
-#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static bool Prefix(ushort buildingID, ref bool __result)
             {
                 if (InfoManager.instance.CurrentMode != InfoManager.InfoMode.None)
@@ -194,7 +199,6 @@ namespace RealTime.GameConnection.Patches
 
                 return true;
             }
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
 
         private sealed class BuildingAI_CalculateUnspawnPosition : PatchBase
@@ -209,7 +213,8 @@ namespace RealTime.GameConnection.Patches
                     new ParameterModifier[0]);
             }
 
-#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static void Postfix(BuildingAI __instance, ushort buildingID, ref Building data, ref Randomizer randomizer, CitizenInfo info, ref Vector3 position, ref Vector3 target, ref CitizenInstance.Flags specialFlags)
             {
                 if (WeatherInfo?.IsBadWeather != true || data.Info == null || data.Info.m_enterDoors == null)
@@ -245,7 +250,6 @@ namespace RealTime.GameConnection.Patches
                 target = spawnTarget;
                 specialFlags &= ~(CitizenInstance.Flags.HangAround | CitizenInstance.Flags.SittingDown);
             }
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
 
         private sealed class PrivateBuildingAI_GetUpgradeInfo : PatchBase
@@ -260,7 +264,8 @@ namespace RealTime.GameConnection.Patches
                     new ParameterModifier[0]);
             }
 
-#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static bool Prefix(ref BuildingInfo __result, ushort buildingID, ref Building data)
             {
                 if (RealTimeAI == null || (data.m_flags & Building.Flags.Upgrading) != 0)
@@ -276,7 +281,6 @@ namespace RealTime.GameConnection.Patches
 
                 return true;
             }
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
 
         private sealed class BuildingManager_CreateBuilding : PatchBase
@@ -291,7 +295,8 @@ namespace RealTime.GameConnection.Patches
                     new ParameterModifier[0]);
             }
 
-#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static bool Prefix(BuildingInfo info, ref bool __result)
             {
                 if (RealTimeAI == null)
@@ -308,6 +313,8 @@ namespace RealTime.GameConnection.Patches
                 return true;
             }
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static void Postfix(bool __result, ref ushort building, BuildingInfo info)
             {
                 if (__result && RealTimeAI != null)
@@ -315,7 +322,6 @@ namespace RealTime.GameConnection.Patches
                     RealTimeAI.RegisterConstructingBuilding(building, info.GetService());
                 }
             }
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
     }
 }

@@ -121,8 +121,7 @@ namespace RealTime.CustomAI
                 && CitizenProxy.GetVisitBuilding(ref citizen) == 0
                 && CitizenProxy.GetInstance(ref citizen) == 0
                 && CitizenProxy.GetVehicle(ref citizen) == 0)
-                ||
-                (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.MovingIn) && CitizenProxy.GetLocation(ref citizen) == Citizen.Location.Home))
+                || (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.MovingIn) && CitizenProxy.GetLocation(ref citizen) == Citizen.Location.Home))
             {
                 CitizenMgr.ReleaseCitizen(citizenId);
                 return false;
