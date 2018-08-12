@@ -2,7 +2,7 @@
 <language id="ko" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="Warning" value="경고" />
-  <translation id="RestrictedModeMessage" value="Real Time works in restricted mode. Some functionality is disabled. This is because of a technical issue with a third-party library or a mod incompatibility. If you want assistance, please share your game log file with the mod's developer." />
+  <translation id="RestrictedModeMessage" value="Real Time이 제한된 모드로 실행중에 있습니다. 몇몇 기능들이 꺼집니다. 서드 파티 라이브러리의 문제 이거나 혹은 모드가 호환되지 않아서 일수 있습니다. 도움이 필요하시다면 게임 로그파일을 모드 개발자에게 보내주세요." />
   <translation id="ModNotWorkingMessage" value="어이쿠! 무엇인가 잘못되었습니다 - 모드가 정상 동작하지 않습니다! 모드 제작자에게 로그 파일을 보내주세요." />
   <translation id="IncompatibleModsFoundMessage" value="Real Time 모드가 최소 한개 이상의 호환되지 않는(혹은 부분적으로 호환되지 않는) 모드를 발견했습니다. 해당 모드를 구독해제 하시는 것을 추천드립니다. 여러분이 원하신다면 놔두셔도 상관없지만, 게임이 정상적으로 흐르지 않거나 튕길 가능성이 있습니다." />
   <translation id="Minutes" value="분" />  
@@ -28,8 +28,8 @@
   <translation id="VirtualCitizensTooltip" value="'전체' 도시의(그러나 게임내 제한인 63,535 명을 넘을수 없습니다) 시민 시뮬레이션 정도를 정합니다. 사양이 낮으시다면 '바닐라' 혹은 '더 가상적인 시민들' 같은 설정으로 맞춰주세요" />
   <translation id="VirtualCitizens.None" value="전부 사실같은 시뮬레이션" />
   <translation id="VirtualCitizens.Vanilla" value="바닐라" />
-  <translation id="UseSlowAging" value="Better aging and birth rate" />
-  <translation id="UseSlowAgingTooltip" value="If enabled, 1 game day means 1 citizen's life year. If disabled, 1 game day means 10 (at time speed 6) to 340 (at time speed 1) life years." />
+  <translation id="UseSlowAging" value="나이와 출생률 수정" />
+  <translation id="UseSlowAgingTooltip" value="이 옵션이 켜지게 되면, 게임의 하루는 1년으로 돌아갑니다. 이 옵션이 꺼지게 된다면, 게임의 하루는 10(게임 속도 6)에서 340(게임속도 1)년이 됩니다." />
   <translation id="IsWeekendEnabled" value="주말 허용" />
   <translation id="IsWeekendEnabledTooltip" value="시민들은 주말에 회사나 학교에 가지 않을겁니다." />
   <translation id="IsLunchtimeEnabled" value="점심 시간 허용" />
@@ -44,8 +44,8 @@
   <translation id="2Quotas" value="시민 비율 설정" />
   <translation id="SecondShiftQuota" value="2교대 근무자들" />
   <translation id="SecondShiftQuotaTooltip" value="도시내 2교대 근무자들의 비율을 정합니다" />
-  <translation id="NightShiftQuota" value="밤 교대 근무자들" />
-  <translation id="NightShiftQuotaTooltip" value="도시내 밤 교대 근무자들의 비율을 정합니다" />
+  <translation id="NightShiftQuota" value="야간 교대 근무자들" />
+  <translation id="NightShiftQuotaTooltip" value="도시내 야간 교대 근무자들의 비율을 정합니다" />
   <translation id="LunchQuota" value="점심 먹으러 갈 비율" />
   <translation id="LunchQuotaTooltip" value="점심을 먹으러 갈 시민들의 비율을 정합니다" />
   <translation id="LocalBuildingSearchQuota" value="지역 쇼핑 비율" />
@@ -85,18 +85,18 @@
   <translation id="MaxVacationLength" value="최대 휴가 일시" />
   <translation id="MaxVacationLengthTooltip" value="시민들이 얼마나 휴가를 떠나는지를 나타냅니다. 0으로 설정할시 휴가를 가지 않게 됩니다." />
 
-  <translation id="ScheduledAction" value="Now" />
-  <translation id="NextScheduledAction" value="Until" />
-  <translation id="ScheduledAction.AtHome" value="Go home" />
-  <translation id="ScheduledAction.AtSchoolOrWork" value="Go to work/school" />
-  <translation id="ScheduledAction.Shopping" value="Go shopping" />
-  <translation id="ScheduledAction.Relaxing" value="Go relaxing" />
-  <translation id="ScheduledAction.Visiting" value="Go visit" />
-  <translation id="ScheduledAction.InShelter" value="Go to shelter" />
-  <translation id="WorkShift.First" value="1st work shift" />
-  <translation id="WorkShift.Second" value="2nd work shift" />
-  <translation id="WorkShift.Night" value="Night work shift" />
-  <translation id="WorkStatus.OnVacation" value="(vacation: {0} days)" />
+  <translation id="ScheduledAction" value="현재 위치:" />
+  <translation id="NextScheduledAction" value="가는 중:" />
+  <translation id="ScheduledAction.AtHome" value="집으로 돌아감" />
+  <translation id="ScheduledAction.AtSchoolOrWork" value="직장 혹은 학교로 가는 중" />
+  <translation id="ScheduledAction.Shopping" value="쇼핑하러 가는 중" />
+  <translation id="ScheduledAction.Relaxing" value="쉬러 가는 중" />
+  <translation id="ScheduledAction.Visiting" value="방문하러 가는 중" />
+  <translation id="ScheduledAction.InShelter" value="대피소로 가는 중" />
+  <translation id="WorkShift.First" value="1교대 근무 교대" />
+  <translation id="WorkShift.Second" value="2교대 근무 교대" />
+  <translation id="WorkShift.Night" value="야간 근무 교대" />
+  <translation id="WorkStatus.OnVacation" value="(휴가: {0} 일)" />
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="석탄이 {0} × {unit} 저장됨"/>
