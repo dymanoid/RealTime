@@ -227,7 +227,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            if (Random.ShouldOccur(TouristEventChance) && !IsBadWeather())
+            if (Random.ShouldOccur(TouristEventChance) && !WeatherInfo.IsBadWeather)
             {
                 ICityEvent cityEvent = GetUpcomingEventToAttend(citizenId, ref citizen);
                 if (cityEvent != null
@@ -324,7 +324,7 @@ namespace RealTime.CustomAI
                 case TouristTarget.Shopping:
                     return spareTimeBehavior.GetShoppingChance(age);
 
-                case TouristTarget.Relaxing when TimeInfo.IsNightTime || IsBadWeather():
+                case TouristTarget.Relaxing when TimeInfo.IsNightTime || WeatherInfo.IsBadWeather:
                     return 0u;
 
                 case TouristTarget.Party:

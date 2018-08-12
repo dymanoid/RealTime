@@ -331,6 +331,13 @@ namespace RealTime.GameConnection
             return BuildingManager.instance.m_buildings.m_buffer.Length;
         }
 
+        /// <summary>Gets the current buildings count in the city.</summary>
+        /// <returns>The current buildings count.</returns>
+        public int GeBuildingsCount()
+        {
+            return (int)BuildingManager.instance.m_buildings.ItemCount();
+        }
+
         /// <summary>Updates the building colors in the game by re-rendering the building.</summary>
         /// <param name="buildingId">The ID of the building to update.</param>
         public void UpdateBuildingColors(ushort buildingId)

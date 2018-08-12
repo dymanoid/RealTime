@@ -1,24 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <EventContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<Events>
-		<Event EventName="PoshMallShopOpening" BuildingName="Posh Mall" Capacity="1000" LengthInHours="0.8">
-			<InitialisedMessages>
-				<Message>Yet another shop opening in {0}? How many more can they fit in there? #event</Message>
-                <Message>Finally! They're opening another shop! #event</Message>
-			</InitialisedMessages>
-			
-			<BeginMessages>
-				<Message>This #shop's pretty huge! It's going to take years to get around here. #event</Message>
-				<Message>Wow, and I thought I'd seen everything. #event</Message>
-				<Message>So... Expensive... #event</Message>
-			</BeginMessages>
-			
-			<EndMessages>
-				<Message>Got sooo much stuff... #event</Message>
-                <Message>Ok... How am I going to get all this stuff home? Could someone pick me up? #shops #event</Message>
-                <Message>Well, that was #underwhelming... #event</Message>
-			</EndMessages>
-			
+		<Event EventName="PoshMallShopOpening" BuildingName="Posh Mall" Capacity="250" LengthInHours="1">
 			<ChanceOfAttendingPercentage>
 				<Males>60</Males>
 				<Females>100</Females>

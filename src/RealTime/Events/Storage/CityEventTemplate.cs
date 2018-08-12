@@ -28,31 +28,11 @@ namespace RealTime.Events.Storage
         /// Gets or sets the maximum event capacity. This is the maximum number of the event attendees.
         /// </summary>
         [XmlAttribute("Capacity")]
-        public int Capacity { get; set; } = 1000;
+        public int Capacity { get; set; } = 300;
 
         /// <summary>Gets or sets the duration of the event in hours.</summary>
         [XmlAttribute("LengthInHours")]
         public double Duration { get; set; } = 1.5;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this event template can be used for
-        /// auto-generated city events.
-        /// </summary>
-        [XmlAttribute("SupportsRandomEvents")]
-        public bool SupportsRandomEvents { get; set; } = true;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this event template can be used for user-created
-        /// custom city events.
-        /// </summary>
-        [XmlAttribute("SupportsUserEvents")]
-        public bool SupportsUserEvents { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this city event can be watched on TV.
-        /// </summary>
-        [XmlAttribute("CanBeWatchedOnTV")]
-        public bool CanBeWatchedOnTV { get; set; }
 
         /// <summary>Gets or sets the city event attendees configuration.</summary>
         [XmlElement("ChanceOfAttendingPercentage", IsNullable = false)]
@@ -61,12 +41,5 @@ namespace RealTime.Events.Storage
         /// <summary>Gets or sets the city event costs configuration.</summary>
         [XmlElement("Costs", IsNullable = false)]
         public CityEventCosts Costs { get; set; }
-
-        /// <summary>Gets or sets the city event incentives configuration.</summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "XML serialization")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "XML serialization")]
-        [XmlArray("Incentives", IsNullable = false)]
-        [XmlArrayItem("Incentive")]
-        public List<CityEventIncentive> Incentives { get; set; } = new List<CityEventIncentive>();
     }
 }

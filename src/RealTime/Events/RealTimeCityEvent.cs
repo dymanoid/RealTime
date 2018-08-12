@@ -12,7 +12,6 @@ namespace RealTime.Events
     internal sealed class RealTimeCityEvent : CityEventBase
     {
         private readonly CityEventTemplate eventTemplate;
-        private readonly int attendChanceAdjustment;
 
         private int attendeesCount;
 
@@ -24,20 +23,6 @@ namespace RealTime.Events
         public RealTimeCityEvent(CityEventTemplate eventTemplate)
         {
             this.eventTemplate = eventTemplate ?? throw new ArgumentNullException(nameof(eventTemplate));
-            var incentives = eventTemplate.Incentives?.Where(i => i.ActiveWhenRandomEvent).ToList();
-            if (incentives == null)
-            {
-                return;
-            }
-
-            try
-            {
-                attendChanceAdjustment = incentives.Sum(i => i.PositiveEffect) - incentives.Sum(i => i.NegativeEffect);
-            }
-            catch (OverflowException)
-            {
-                attendChanceAdjustment = 0;
-            }
         }
 
         /// <summary>
@@ -84,40 +69,38 @@ namespace RealTime.Events
             }
 
             CityEventAttendees attendees = eventTemplate.Attendees;
-            float chanceAdjustment = 1f + (attendChanceAdjustment / 100f);
-
-            float randomPercentage = randomizer.GetRandomValue(100u) / chanceAdjustment;
+            float randomPercentage = randomizer.GetRandomValue(100u);
 
             if (!CheckAge(age, attendees, randomPercentage))
             {
                 return false;
             }
 
-            randomPercentage = randomizer.GetRandomValue(100u) / chanceAdjustment;
+            randomPercentage = randomizer.GetRandomValue(100u);
             if (!CheckGender(gender, attendees, randomPercentage))
             {
                 return false;
             }
 
-            randomPercentage = randomizer.GetRandomValue(100u) / chanceAdjustment;
+            randomPercentage = randomizer.GetRandomValue(100u);
             if (!CheckEducation(education, attendees, randomPercentage))
             {
                 return false;
             }
 
-            randomPercentage = randomizer.GetRandomValue(100u) / chanceAdjustment;
+            randomPercentage = randomizer.GetRandomValue(100u);
             if (!CheckWealth(wealth, attendees, randomPercentage))
             {
                 return false;
             }
 
-            randomPercentage = randomizer.GetRandomValue(100u) / chanceAdjustment;
+            randomPercentage = randomizer.GetRandomValue(100u);
             if (!CheckWellbeing(wellbeing, attendees, randomPercentage))
             {
                 return false;
             }
 
-            randomPercentage = randomizer.GetRandomValue(100u) / chanceAdjustment;
+            randomPercentage = randomizer.GetRandomValue(100u);
             if (!CheckHappiness(happiness, attendees, randomPercentage))
             {
                 return false;

@@ -219,19 +219,6 @@ namespace RealTime.CustomAI
             }
         }
 
-        /// <summary>Determines whether the weather is currently so bad that the citizen would like to stay inside a building.</summary>
-        /// <returns>
-        ///   <c>true</c> if the weather is bad; otherwise, <c>false</c>.</returns>
-        protected bool IsBadWeather()
-        {
-            if (WeatherInfo.IsDisasterHazardActive)
-            {
-                return true;
-            }
-
-            return WeatherInfo.StayInsideChance != 0 && Random.ShouldOccur(WeatherInfo.StayInsideChance);
-        }
-
         private bool CanAttendEvent(uint citizenId, ref TCitizen citizen, ICityEvent cityEvent)
         {
             Citizen.AgeGroup age = CitizenProxy.GetAge(ref citizen);

@@ -17,27 +17,35 @@ namespace RealTime.CustomAI
     internal sealed class WeatherInfo : IWeatherInfo
     {
         private readonly IWeatherManagerConnection weatherManager;
-
+        private readonly IRandomizer randomizer;
         private uint stayInsideChance;
         private bool isDisasterHazardActive;
 
         /// <summary>Initializes a new instance of the <see cref="WeatherInfo"/> class.</summary>
         /// <param name="weatherManager">The game's weather manager.</param>
-        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
-        public WeatherInfo(IWeatherManagerConnection weatherManager)
+        /// <param name="randomizer">The randomizer implementation</param>
+        /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
+        public WeatherInfo(IWeatherManagerConnection weatherManager, IRandomizer randomizer)
         {
             this.weatherManager = weatherManager ?? throw new ArgumentNullException(nameof(weatherManager));
+            this.randomizer = randomizer ?? throw new ArgumentNullException(nameof(randomizer));
         }
 
         /// <summary>
-        /// Gets a probability (0-100) that the citizens will stay inside buildings due to weather conditions.
+        /// Gets a value indicating whether current weather conditions cause citizens not to stay outside.
         /// </summary>
-        uint IWeatherInfo.StayInsideChance => stayInsideChance;
+        bool IWeatherInfo.IsBadWeather
+        {
+            get
+            {
+                if (isDisasterHazardActive)
+                {
+                    return true;
+                }
 
-        /// <summary>
-        /// Gets a value indicating whether a disaster hazard is currently active in the city.
-        /// </summary>
-        bool IWeatherInfo.IsDisasterHazardActive => isDisasterHazardActive;
+                return stayInsideChance != 0 && randomizer.ShouldOccur(stayInsideChance);
+            }
+        }
 
         /// <summary>Updates this object's state using the current game state.</summary>
         public void Update()

@@ -137,6 +137,10 @@ namespace RealTime.GameConnection
         /// <returns>The maximum possible buildings count.</returns>
         int GetMaxBuildingsCount();
 
+        /// <summary>Gets the current buildings count in the city.</summary>
+        /// <returns>The current buildings count.</returns>
+        int GeBuildingsCount();
+
         /// <summary>Updates the building colors in the game by re-rendering the building.</summary>
         /// <param name="buildingId">The ID of the building to update.</param>
         void UpdateBuildingColors(ushort buildingId);

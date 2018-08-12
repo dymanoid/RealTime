@@ -9,10 +9,7 @@ namespace RealTime.Simulation
     /// </summary>
     internal interface IWeatherInfo
     {
-        /// <summary>Gets a probability (0-100) that the citizens will stay inside buildings due to weather conditions.</summary>
-        uint StayInsideChance { get; }
-
-        /// <summary>Gets a value indicating whether a disaster hazard is currently active in the city.</summary>
-        bool IsDisasterHazardActive { get; }
+        /// <summary>Gets a value indicating whether current weather conditions cause citizens not to stay outside.</summary>
+        bool IsBadWeather { get; }
     }
 }

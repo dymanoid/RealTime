@@ -63,7 +63,7 @@ namespace RealTime.CustomAI
         public const float BadWeatherPrecipitationThreshold = 0.05f;
 
         /// <summary>The minimum probability that a citizen will stay inside a building on any precipitation.</summary>
-        public const uint MinimumStayInsideChanceOnPrecipitation = 75u;
+        public const uint MinimumStayInsideChanceOnPrecipitation = 85u;
 
         /// <summary>The interval in minutes for the buildings problem timers.</summary>
         public const int ProblemTimersInterval = 10;
@@ -75,5 +75,8 @@ namespace RealTime.CustomAI
         /// cycle at maximum time speed (6).
         /// This value was determined empirically.</summary>
         public const float AverageDistancePerSimulationCycle = 750f;
+
+        /// <summary>The maximum number of buildings (of one zone type) that are in construction or upgrading process.</summary>
+        public const int MaximumBuildingsInConstruction = 50;
     }
 }

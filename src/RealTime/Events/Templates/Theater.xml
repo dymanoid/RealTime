@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <EventContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<Events>
-		<Event EventName="TheaterEvent" BuildingName="Theater of Wonders" Capacity="700" LengthInHours="2.3">
-			<InitialisedMessages>
-				<Message>Anyone want to go to the #theater with me in {0}? I've got some free time. #event</Message>
-			</InitialisedMessages>
-			
-			<BeginMessages>
-				<Message>Wow, this really is a theater of wonders! #event</Message>
-			</BeginMessages>
-			
-			<EndMessages>
-				<Message>That was awesome! #event</Message>
-			</EndMessages>
-			
+		<Event EventName="TheaterEvent" BuildingName="Theater of Wonders" Capacity="250" LengthInHours="2">
 			<ChanceOfAttendingPercentage>
 				<Males>100</Males>
 				<Females>100</Females>
