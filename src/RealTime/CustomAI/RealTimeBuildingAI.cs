@@ -312,6 +312,16 @@ namespace RealTime.CustomAI
             return true;
         }
 
+        /// <summary>Determines whether a building with specified ID is currently active.</summary>
+        /// <param name="buildingId">The ID of the building to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the building with specified ID is currently active; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsBuildingActive(ushort buildingId)
+        {
+            return buildingManager.BuildingHasFlags(buildingId, Building.Flags.Active);
+        }
+
         /// <summary>
         /// Determines whether the building with the specified <paramref name="buildingId"/> is noise restricted
         /// (has NIMBY policy that is active on current time).
