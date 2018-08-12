@@ -259,5 +259,14 @@ namespace RealTime.GameConnection
 
             return citizen.GetContainingUnit(citizenId, unitId, flag);
         }
+
+        /// <summary>Determines whether the specified citizen object is empty, that means the citizen has no home, no work,
+        /// no visit buildings, no vehicle, and is not instantiated.</summary>
+        /// <param name="citizen">The citizen to check.</param>
+        /// <returns><c>true</c> if the specified citizen is empty; otherwise, <c>false</c>.</returns>
+        public bool IsEmpty(ref Citizen citizen)
+        {
+            return citizen.m_homeBuilding + citizen.m_visitBuilding + citizen.m_workBuilding + citizen.m_instance + citizen.m_vehicle == 0;
+        }
     }
 }
