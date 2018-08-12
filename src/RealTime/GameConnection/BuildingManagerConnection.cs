@@ -155,11 +155,11 @@ namespace RealTime.GameConnection
 
             Vector3 currentPosition = BuildingManager.instance.m_buildings.m_buffer[searchAreaCenterBuilding].m_position;
 
-            Building.Flags restrictedFlags = Building.Flags.Deleted | Building.Flags.Evacuating | Building.Flags.Flooded | Building.Flags.Collapsed
+            const Building.Flags restrictedFlags = Building.Flags.Deleted | Building.Flags.Evacuating | Building.Flags.Flooded | Building.Flags.Collapsed
                 | Building.Flags.BurnedDown | Building.Flags.RoadAccessFailed;
 
-            Building.Flags requiredFlags = Building.Flags.Created | Building.Flags.Completed | Building.Flags.Active;
-            Building.Flags combinedFlags = requiredFlags | restrictedFlags;
+            const Building.Flags requiredFlags = Building.Flags.Created | Building.Flags.Completed | Building.Flags.Active;
+            const Building.Flags combinedFlags = requiredFlags | restrictedFlags;
 
             int gridXFrom = Mathf.Max((int)(((currentPosition.x - maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE) + BuildingGridMiddle), 0);
             int gridZFrom = Mathf.Max((int)(((currentPosition.z - maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE) + BuildingGridMiddle), 0);

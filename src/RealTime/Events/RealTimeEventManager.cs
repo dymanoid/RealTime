@@ -459,7 +459,7 @@ namespace RealTime.Events
                 return true;
             }
 
-            Building.Flags flags = Building.Flags.Abandoned | Building.Flags.BurnedDown | Building.Flags.Collapsed
+            const Building.Flags flags = Building.Flags.Abandoned | Building.Flags.BurnedDown | Building.Flags.Collapsed
                 | Building.Flags.Deleted | Building.Flags.Demolishing | Building.Flags.Evacuating | Building.Flags.Flooded;
 
             if (buildingManager.BuildingHasFlags(cityEvent.BuildingId, flags, true))

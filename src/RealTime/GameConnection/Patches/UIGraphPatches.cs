@@ -58,7 +58,7 @@ namespace RealTime.GameConnection.Patches
 
         private static DateTime GetVisibleEndTime(List<CurveSettings> curves, DateTime startTime, DateTime endTime)
         {
-            if (curves.Count >= 1 && !(startTime == endTime) && curves[curves.Count - 1].data.Length >= 2)
+            if (curves.Count >= 1 && startTime != endTime && curves[curves.Count - 1].data.Length >= 2)
             {
                 int minPointsCount = GetMinDataPoints(curves, startTime, endTime);
                 int pointsCount = Math.Max(minPointsCount, curves[curves.Count - 1].data.Length);

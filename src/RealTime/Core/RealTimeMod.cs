@@ -137,10 +137,7 @@ namespace RealTime.Core
             }
 
             Log.Info($"The 'Real Time' mod starts, game mode {mode}.");
-            if (core != null)
-            {
-                core.Stop();
-            }
+            core?.Stop();
 
             bool isNewGame = mode == LoadMode.NewGame || mode == LoadMode.NewGameFromScenario;
             core = RealTimeCore.Run(configProvider, modPath, localizationProvider, isNewGame);

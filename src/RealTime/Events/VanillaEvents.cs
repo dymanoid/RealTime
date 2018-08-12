@@ -13,7 +13,7 @@ namespace RealTime.Events
     /// </summary>
     internal sealed class VanillaEvents
     {
-        private Dictionary<EventAI, EventAIData> eventData = new Dictionary<EventAI, EventAIData>();
+        private readonly Dictionary<EventAI, EventAIData> eventData = new Dictionary<EventAI, EventAIData>();
 
         private VanillaEvents()
         {

@@ -138,7 +138,7 @@ namespace RealTime.GameConnection.Patches
             }
 
 #pragma warning disable SA1313 // Parameter names must begin with lower-case letter
-            private static bool Prefix(uint citizenID, ref Citizen data, ref bool __result)
+            private static bool Prefix(ref bool __result)
             {
                 if (RealTimeAI != null && !RealTimeAI.CanCitizensGrowUp)
                 {

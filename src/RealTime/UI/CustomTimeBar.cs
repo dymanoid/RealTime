@@ -204,10 +204,7 @@ namespace RealTime.UI
         private static void TranslateTooltip(UIComponent tooltipParent, CultureInfo cultureInfo)
         {
             DateTooltipBehavior tooltipBehavior = tooltipParent.gameObject.GetComponent<DateTooltipBehavior>();
-            if (tooltipBehavior != null)
-            {
-                tooltipBehavior.Translate(cultureInfo);
-            }
+            tooltipBehavior?.Translate(cultureInfo);
         }
 
         private UIDateTimeWrapper SetUIDateTimeWrapper(UIDateTimeWrapper wrapper, bool customize)

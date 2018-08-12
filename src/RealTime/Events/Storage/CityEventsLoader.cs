@@ -121,7 +121,7 @@ namespace RealTime.Events.Storage
                 throw new ArgumentException("The building class name cannot be null or empty string", nameof(buildingClassName));
             }
 
-            return events.FirstOrDefault(e => e.EventName == eventName && e.BuildingClassName == buildingClassName);
+            return events.Find(e => e.EventName == eventName && e.BuildingClassName == buildingClassName);
         }
 
         private void LoadRushHourEvents(HashSet<string> loadedEvents)
@@ -129,7 +129,7 @@ namespace RealTime.Events.Storage
             IEnumerable<string> buildingPaths = PackageManager.FilterAssets(UserAssetType.CustomAssetMetaData)
                 .Where(a => a.isEnabled)
                 .Select(a => a.Instantiate<CustomAssetMetaData>())
-                .Where(m => m != null && m.service == ItemClass.Service.Monument && !string.IsNullOrEmpty(m.assetRef.package?.packagePath))
+                .Where(m => m?.service == ItemClass.Service.Monument && !string.IsNullOrEmpty(m.assetRef.package?.packagePath))
                 .Select(m => Path.GetDirectoryName(m.assetRef.package.packagePath))
                 .Distinct();
 

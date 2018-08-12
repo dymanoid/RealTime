@@ -58,8 +58,8 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            stayInsideChance = MinimumStayInsideChanceOnPrecipitation +
-                    (uint)((weatherFactor - BadWeatherPrecipitationThreshold)
+            stayInsideChance = MinimumStayInsideChanceOnPrecipitation
+                    + (uint)((weatherFactor - BadWeatherPrecipitationThreshold)
                     * ((100u - MinimumStayInsideChanceOnPrecipitation) / (1f - BadWeatherPrecipitationThreshold)));
 
             UpdateDisasterHazard();
