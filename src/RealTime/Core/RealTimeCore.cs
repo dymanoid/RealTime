@@ -282,6 +282,8 @@ namespace RealTime.Core
                 BuildingAIPatches.PrivateShowConsumption,
                 BuildingAIPatches.PlayerShowConsumption,
                 BuildingAIPatches.CalculateUnspawnPosition,
+                BuildingAIPatches.GetUpgradeInfo,
+                BuildingAIPatches.CreateBuilding,
                 ResidentAIPatch.Location,
                 ResidentAIPatch.ArriveAtTarget,
                 TouristAIPatch.Location,

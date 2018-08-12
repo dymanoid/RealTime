@@ -41,6 +41,12 @@ namespace RealTime.GameConnection.Patches
         /// <summary>Gets the patch for the building AI method 'CalculateUnspawnPosition'.</summary>
         public static IPatch CalculateUnspawnPosition { get; } = new BuildingAI_CalculateUnspawnPosition();
 
+        /// <summary>Gets the patch for the building AI method 'GetUpgradeInfo'.</summary>
+        public static IPatch GetUpgradeInfo { get; } = new PrivateBuildingAI_GetUpgradeInfo();
+
+        /// <summary>Gets the patch for the building manager method 'CreateBuilding'.</summary>
+        public static IPatch CreateBuilding { get; } = new BuildingManager_CreateBuilding();
+
         private sealed class CommercialBuildingA_SimulationStepActive : PatchBase
         {
             protected override MethodInfo GetMethod()
@@ -238,6 +244,76 @@ namespace RealTime.GameConnection.Patches
                 position = spawnPosition;
                 target = spawnTarget;
                 specialFlags &= ~(CitizenInstance.Flags.HangAround | CitizenInstance.Flags.SittingDown);
+            }
+#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
+        }
+
+        private sealed class PrivateBuildingAI_GetUpgradeInfo : PatchBase
+        {
+            protected override MethodInfo GetMethod()
+            {
+                return typeof(PrivateBuildingAI).GetMethod(
+                    "GetUpgradeInfo",
+                    BindingFlags.Instance | BindingFlags.Public,
+                    null,
+                    new[] { typeof(ushort), typeof(Building).MakeByRefType() },
+                    new ParameterModifier[0]);
+            }
+
+#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            private static bool Prefix(ref BuildingInfo __result, ushort buildingID, ref Building data)
+            {
+                if (RealTimeAI == null || (data.m_flags & Building.Flags.Upgrading) != 0)
+                {
+                    return true;
+                }
+
+                if (!RealTimeAI.CanBuildOrUpgrade(data.Info.GetService(), buildingID))
+                {
+                    __result = null;
+                    return false;
+                }
+
+                return true;
+            }
+#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
+        }
+
+        private sealed class BuildingManager_CreateBuilding : PatchBase
+        {
+            protected override MethodInfo GetMethod()
+            {
+                return typeof(BuildingManager).GetMethod(
+                    "CreateBuilding",
+                    BindingFlags.Instance | BindingFlags.Public,
+                    null,
+                    new[] { typeof(ushort).MakeByRefType(), typeof(Randomizer).MakeByRefType(), typeof(BuildingInfo), typeof(Vector3), typeof(float), typeof(int), typeof(uint) },
+                    new ParameterModifier[0]);
+            }
+
+#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            private static bool Prefix(BuildingInfo info, ref bool __result)
+            {
+                if (RealTimeAI == null)
+                {
+                    return true;
+                }
+
+                if (!RealTimeAI.CanBuildOrUpgrade(info.GetService()))
+                {
+                    __result = false;
+                    return false;
+                }
+
+                return true;
+            }
+
+            private static void Postfix(bool __result, ref ushort building, BuildingInfo info)
+            {
+                if (__result && RealTimeAI != null)
+                {
+                    RealTimeAI.RegisterConstructingBuilding(building, info.GetService());
+                }
             }
 #pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }

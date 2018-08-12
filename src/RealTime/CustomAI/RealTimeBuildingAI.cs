@@ -5,6 +5,8 @@
 namespace RealTime.CustomAI
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using RealTime.Config;
     using RealTime.GameConnection;
     using RealTime.Simulation;
@@ -19,6 +21,13 @@ namespace RealTime.CustomAI
         private const int ConstructionSpeedMinimum = 1088;
         private const int StepMask = 0xFF;
         private const int BuildingStepSize = 192;
+        private const int ConstructionRestrictionThreshold1 = 100;
+        private const int ConstructionRestrictionThreshold2 = 1_000;
+        private const int ConstructionRestrictionThreshold3 = 10_000;
+        private const int ConstructionRestrictionStep1 = MaximumBuildingsInConstruction / 10;
+        private const int ConstructionRestrictionStep2 = MaximumBuildingsInConstruction / 5;
+        private const int ConstructionRestrictionScale2 = ConstructionRestrictionThreshold2 / (ConstructionRestrictionStep2 - ConstructionRestrictionStep1);
+        private const int ConstructionRestrictionScale3 = ConstructionRestrictionThreshold3 / (MaximumBuildingsInConstruction - ConstructionRestrictionStep2);
 
         private static readonly string[] BannedEntertainmentBuildings = { "parking", "garage", "car park" };
         private readonly TimeSpan lightStateCheckInterval = TimeSpan.FromSeconds(15);
@@ -31,6 +40,7 @@ namespace RealTime.CustomAI
         private readonly ITravelBehavior travelBehavior;
 
         private readonly bool[] lightStates;
+        private readonly HashSet<ushort>[] buildingsInConstruction;
 
         private int lastProcessedMinute = -1;
         private bool freezeProblemTimers;
@@ -69,6 +79,22 @@ namespace RealTime.CustomAI
             this.travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
 
             lightStates = new bool[buildingManager.GetMaxBuildingsCount()];
+
+            // This is to preallocate the hash sets to a large capacity, .NET 3.5 doesn't provide a proper way.
+            var preallocated = Enumerable.Range(0, MaximumBuildingsInConstruction * 2).Select(v => (ushort)v).ToList();
+            buildingsInConstruction = new[]
+            {
+                new HashSet<ushort>(preallocated),
+                new HashSet<ushort>(preallocated),
+                new HashSet<ushort>(preallocated),
+                new HashSet<ushort>(preallocated)
+            };
+
+            for (int i = 0; i < buildingsInConstruction.Length; ++i)
+            {
+                // Calling Clear() doesn't trim the capacity, we're using this trick for preallocating the hash sets
+                buildingsInConstruction[i].Clear();
+            }
         }
 
         /// <summary>
@@ -94,6 +120,78 @@ namespace RealTime.CustomAI
             return timeInfo.IsNightTime && config.StopConstructionAtNight
                 ? ConstructionSpeedPaused
                 : (int)(ConstructionSpeedMinimum * constructionSpeedValue);
+        }
+
+        /// <summary>
+        /// Determines whether a building can be constructed or upgraded in the specified building zone.
+        /// </summary>
+        /// <param name="buildingZone">The building zone to check.</param>
+        /// <param name="buildingId">The building ID. Can be 0 if we're about to construct a new building.</param>
+        /// <returns>
+        ///   <c>true</c> if a building can be constructed or upgraded; otherwise, <c>false</c>.
+        /// </returns>
+        public bool CanBuildOrUpgrade(ItemClass.Service buildingZone, ushort buildingId = 0)
+        {
+            int index;
+            switch (buildingZone)
+            {
+                case ItemClass.Service.Residential:
+                    index = 0;
+                    break;
+
+                case ItemClass.Service.Commercial:
+                    index = 1;
+                    break;
+
+                case ItemClass.Service.Industrial:
+                    index = 2;
+                    break;
+
+                case ItemClass.Service.Office:
+                    index = 3;
+                    break;
+
+                default:
+                    return true;
+            }
+
+            HashSet<ushort> buildings = buildingsInConstruction[index];
+            buildings.RemoveWhere(IsBuildingCompleted);
+
+            int allowedCount = GetAllowedConstructingUpradingCount(buildingManager.GeBuildingsCount());
+            bool result = buildings.Count < allowedCount;
+            if (result && buildingId != 0)
+            {
+                buildings.Add(buildingId);
+            }
+
+            return result;
+        }
+
+        /// <summary>Registers the building with specified <paramref name="buildingId"/> as being constructed or
+        /// upgraded.</summary>
+        /// <param name="buildingId">The building ID to register.</param>
+        /// <param name="buildingZone">The building zone.</param>
+        public void RegisterConstructingBuilding(ushort buildingId, ItemClass.Service buildingZone)
+        {
+            switch (buildingZone)
+            {
+                case ItemClass.Service.Residential:
+                    buildingsInConstruction[0].Add(buildingId);
+                    return;
+
+                case ItemClass.Service.Commercial:
+                    buildingsInConstruction[1].Add(buildingId);
+                    return;
+
+                case ItemClass.Service.Industrial:
+                    buildingsInConstruction[2].Add(buildingId);
+                    return;
+
+                case ItemClass.Service.Office:
+                    buildingsInConstruction[3].Add(buildingId);
+                    return;
+            }
         }
 
         /// <summary>
@@ -256,6 +354,31 @@ namespace RealTime.CustomAI
             }
 
             return false;
+        }
+
+        private static int GetAllowedConstructingUpradingCount(int currentBuildingCount)
+        {
+            if (currentBuildingCount < ConstructionRestrictionThreshold1)
+            {
+                return ConstructionRestrictionStep1;
+            }
+
+            if (currentBuildingCount < ConstructionRestrictionThreshold2)
+            {
+                return ConstructionRestrictionStep1 + (currentBuildingCount / ConstructionRestrictionScale2);
+            }
+
+            if (currentBuildingCount < ConstructionRestrictionThreshold3)
+            {
+                return ConstructionRestrictionStep2 + (currentBuildingCount / ConstructionRestrictionScale3);
+            }
+
+            return MaximumBuildingsInConstruction;
+        }
+
+        private bool IsBuildingCompleted(ushort buildingId)
+        {
+            return buildingManager.BuildingHasFlags(buildingId, Building.Flags.Completed);
         }
 
         private void UpdateLightState()
