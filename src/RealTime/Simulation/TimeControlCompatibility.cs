@@ -40,7 +40,7 @@ namespace RealTime.Simulation
             PluginManager.PluginInfo mod = PluginManager.instance.GetPluginsInfo()
                 .FirstOrDefault(pi => pi.publishedFileID.AsUInt64 == modId);
 
-            if (mod == null || !mod.isEnabled)
+            if (mod?.isEnabled != true)
             {
                 return null;
             }

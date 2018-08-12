@@ -13,6 +13,6 @@ namespace RealTime.Config
         None,
 
         /// <summary>The configuration uses the vanilla game setting.</summary>
-        Vanilla
+        Vanilla,
     }
 }

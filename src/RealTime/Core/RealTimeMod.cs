@@ -74,7 +74,7 @@ namespace RealTime.Core
             }
 
             CloseConfigUI();
-            if (configProvider != null && configProvider.IsDefault)
+            if (configProvider?.IsDefault == true)
             {
                 configProvider.SaveDefaultConfiguration();
             }

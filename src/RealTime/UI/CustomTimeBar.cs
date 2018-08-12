@@ -87,7 +87,7 @@ namespace RealTime.UI
 
             IEnumerable<UISprite> sprites = progressSprite.components
                 .OfType<UISprite>()
-                .Where(c => c.name != null && c.name.StartsWith(UISpriteEvent, StringComparison.Ordinal));
+                .Where(c => c.name?.StartsWith(UISpriteEvent, StringComparison.Ordinal) == true);
 
             foreach (UISprite item in sprites)
             {
@@ -141,8 +141,7 @@ namespace RealTime.UI
                 return null;
             }
 
-            var originalWrapper = field.GetValue(bindings) as UIDateTimeWrapper;
-            if (originalWrapper == null)
+            if (!(field.GetValue(bindings) is UIDateTimeWrapper originalWrapper))
             {
                 Log.Warning($"The '{nameof(Bindings)}' component has no '{nameof(UIDateTimeWrapper)}'");
                 return null;

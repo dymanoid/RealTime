@@ -19,6 +19,6 @@ namespace RealTime.CustomAI
         Second,
 
         /// <summary>The citizen will not work night shift.</summary>
-        Night
+        Night,
     }
 }

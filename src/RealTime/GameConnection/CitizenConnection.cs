@@ -249,7 +249,7 @@ namespace RealTime.GameConnection
         /// <param name="citizenId">The ID of the citizen to get the unit ID for.</param>
         /// <param name="unitId">The unit ID of the citizen's building specified by the <paramref name="flag"/>.</param>
         /// <param name="flag">The citizen unit mode.</param>
-        /// <returns>An ID of the citizen unit that contains the specified citizen</returns>
+        /// <returns>An ID of the citizen unit that contains the specified citizen.</returns>
         public uint GetContainingUnit(ref Citizen citizen, uint citizenId, uint unitId, CitizenUnit.Flags flag)
         {
             if (citizenId == 0 || unitId == 0 || flag == CitizenUnit.Flags.None)

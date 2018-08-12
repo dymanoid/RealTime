@@ -292,7 +292,7 @@ namespace RealTime.Core
                 UIGraphPatches.MinDataPoints,
                 UIGraphPatches.VisibleEndTime,
                 UIGraphPatches.BuildLabels,
-                WeatherManagerPatch.SimulationStepImpl
+                WeatherManagerPatch.SimulationStepImpl,
             };
 
             if (Compatibility.IsModActive(Compatibility.CitizenLifecycleRebalanceId))
@@ -319,7 +319,7 @@ namespace RealTime.Core
                 ResidentAIPatch.Location,
                 ResidentAIPatch.ArriveAtTarget,
                 TouristAIPatch.Location,
-                TransferManagerPatch.AddOutgoingOffer
+                TransferManagerPatch.AddOutgoingOffer,
             };
 
             return requiredPatches.All(appliedPatches.Contains);

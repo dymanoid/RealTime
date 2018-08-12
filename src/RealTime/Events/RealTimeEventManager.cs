@@ -294,7 +294,7 @@ namespace RealTime.Events
             var serializer = new XmlSerializer(typeof(RealTimeEventStorageContainer));
             var data = new RealTimeEventStorageContainer
             {
-                EarliestEvent = earliestEvent.Ticks
+                EarliestEvent = earliestEvent.Ticks,
             };
 
             AddEventToStorage(lastActiveEvent);
@@ -533,11 +533,12 @@ namespace RealTime.Events
 
             if (result.Hour >= latestHour)
             {
-                result = result.Date.AddHours(24 + earliestHour + randomOffset).RoundCeil(EventStartTimeGranularity);
+                return result.Date.AddHours(24 + earliestHour + randomOffset).RoundCeil(EventStartTimeGranularity);
             }
-            else if (result.Hour < earliestHour)
+
+            if (result.Hour < earliestHour)
             {
-                result = result.AddHours(earliestHour - result.Hour + randomOffset).RoundCeil(EventStartTimeGranularity);
+                return result.AddHours(earliestHour - result.Hour + randomOffset).RoundCeil(EventStartTimeGranularity);
             }
 
             return result;

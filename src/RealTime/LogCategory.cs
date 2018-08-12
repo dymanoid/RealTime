@@ -28,6 +28,6 @@ namespace RealTime
         State,
 
         /// <summary>Simulation related information</summary>
-        Simulation
+        Simulation,
     }
 }

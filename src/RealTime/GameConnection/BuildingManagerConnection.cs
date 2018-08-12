@@ -176,8 +176,7 @@ namespace RealTime.GameConnection
                     while (buildingId != 0)
                     {
                         ref Building building = ref BuildingManager.instance.m_buildings.m_buffer[buildingId];
-                        if (building.Info != null
-                            && building.Info.m_class != null
+                        if (building.Info?.m_class != null
                             && (building.Info.m_class.m_service == service)
                             && (subService == ItemClass.SubService.None || building.Info.m_class.m_subService == subService)
                             && (building.m_flags & combinedFlags) == requiredFlags)

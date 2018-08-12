@@ -87,7 +87,7 @@ namespace RealTime.CustomAI
                 new HashSet<ushort>(preallocated),
                 new HashSet<ushort>(preallocated),
                 new HashSet<ushort>(preallocated),
-                new HashSet<ushort>(preallocated)
+                new HashSet<ushort>(preallocated),
             };
 
             for (int i = 0; i < buildingsInConstruction.Length; ++i)
@@ -101,7 +101,7 @@ namespace RealTime.CustomAI
         /// Gets the building construction time taking into account the current day time.
         /// </summary>
         ///
-        /// <returns>The building construction time in game-specific units (0..10880)</returns>
+        /// <returns>The building construction time in game-specific units (0..10880).</returns>
         public int GetConstructionTime()
         {
             if ((toolManager.GetCurrentMode() & ItemClass.Availability.AssetEditor) != 0)

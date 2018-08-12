@@ -155,7 +155,7 @@ namespace RealTime.GameConnection.Patches
                     return true;
                 }
 
-                if (RealTimeAI != null && RealTimeAI.ShouldSwitchBuildingLightsOff(buildingID))
+                if (RealTimeAI?.ShouldSwitchBuildingLightsOff(buildingID) == true)
                 {
                     __result = false;
                     return false;
@@ -186,7 +186,7 @@ namespace RealTime.GameConnection.Patches
                     return true;
                 }
 
-                if (RealTimeAI != null && RealTimeAI.ShouldSwitchBuildingLightsOff(buildingID))
+                if (RealTimeAI?.ShouldSwitchBuildingLightsOff(buildingID) == true)
                 {
                     __result = false;
                     return false;
@@ -212,7 +212,7 @@ namespace RealTime.GameConnection.Patches
 #pragma warning disable SA1313 // Parameter names must begin with lower-case letter
             private static void Postfix(BuildingAI __instance, ushort buildingID, ref Building data, ref Randomizer randomizer, CitizenInfo info, ref Vector3 position, ref Vector3 target, ref CitizenInstance.Flags specialFlags)
             {
-                if (WeatherInfo == null || !WeatherInfo.IsBadWeather || data.Info == null || data.Info.m_enterDoors == null)
+                if (WeatherInfo?.IsBadWeather != true || data.Info == null || data.Info.m_enterDoors == null)
                 {
                     return;
                 }

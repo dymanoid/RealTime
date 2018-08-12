@@ -17,6 +17,6 @@ namespace RealTime.Events
         Ongoing,
 
         /// <summary>The city event has finished.</summary>
-        Finished
+        Finished,
     }
 }
