@@ -266,7 +266,11 @@ namespace RealTime.GameConnection
         /// <returns><c>true</c> if the specified citizen is empty; otherwise, <c>false</c>.</returns>
         public bool IsEmpty(ref Citizen citizen)
         {
-            return citizen.m_homeBuilding + citizen.m_visitBuilding + citizen.m_workBuilding + citizen.m_instance + citizen.m_vehicle == 0;
+            return citizen.m_homeBuilding == 0
+                && citizen.m_workBuilding == 0
+                && citizen.m_visitBuilding == 0
+                && citizen.m_instance == 0
+                && citizen.m_vehicle == 0;
         }
     }
 }
