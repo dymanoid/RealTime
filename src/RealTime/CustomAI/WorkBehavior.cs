@@ -310,16 +310,14 @@ namespace RealTime.CustomAI
 
         private bool IsBuildingWorking(int workShiftCount, bool extendedFirstShift)
         {
-            float startHour, endHour;
+            float endHour;
             switch (workShiftCount)
             {
                 case 1:
-                    startHour = extendedFirstShift ? Math.Min(config.WakeUpHour, EarliestWakeUp) : config.WorkBegin;
                     endHour = config.WorkEnd;
                     break;
 
                 case 2:
-                    startHour = config.WorkBegin;
                     endHour = 24f;
                     break;
 
@@ -327,6 +325,7 @@ namespace RealTime.CustomAI
                     return true;
             }
 
+            float startHour = extendedFirstShift ? Math.Min(config.WakeUpHour, EarliestWakeUp) : config.WorkBegin;
             float currentHour = timeInfo.CurrentHour;
             return currentHour >= startHour && currentHour < endHour;
         }
