@@ -284,6 +284,7 @@ namespace RealTime.Core
                 BuildingAIPatches.CalculateUnspawnPosition,
                 BuildingAIPatches.GetUpgradeInfo,
                 BuildingAIPatches.CreateBuilding,
+                BuildingAIPatches.ProduceGoods,
                 ResidentAIPatch.Location,
                 ResidentAIPatch.ArriveAtTarget,
                 TouristAIPatch.Location,

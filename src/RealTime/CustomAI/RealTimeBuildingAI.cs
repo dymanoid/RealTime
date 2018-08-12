@@ -414,6 +414,10 @@ namespace RealTime.CustomAI
                 if (updateBuilding)
                 {
                     buildingManager.UpdateBuildingColors(i);
+                    if (!lightsOn)
+                    {
+                        buildingManager.DeactivateVisually(i);
+                    }
                 }
             }
         }
