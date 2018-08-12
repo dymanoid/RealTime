@@ -116,13 +116,8 @@ namespace RealTime.CustomAI
         /// <returns><c>true</c> if the specified citizen is in a valid state; otherwise, <c>false</c>.</returns>
         protected bool EnsureCitizenCanBeProcessed(uint citizenId, ref TCitizen citizen)
         {
-            if ((CitizenProxy.GetHomeBuilding(ref citizen) == 0
-                && CitizenProxy.GetWorkBuilding(ref citizen) == 0
-                && CitizenProxy.GetVisitBuilding(ref citizen) == 0
-                && CitizenProxy.GetInstance(ref citizen) == 0
-                && CitizenProxy.GetVehicle(ref citizen) == 0)
-                ||
-                (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.MovingIn) && CitizenProxy.GetLocation(ref citizen) == Citizen.Location.Home))
+            if (CitizenProxy.IsEmpty(ref citizen)
+                || (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.MovingIn) && CitizenProxy.GetLocation(ref citizen) == Citizen.Location.Home))
             {
                 CitizenMgr.ReleaseCitizen(citizenId);
                 return false;

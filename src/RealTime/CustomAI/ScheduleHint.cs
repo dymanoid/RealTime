@@ -23,6 +23,6 @@ namespace RealTime.CustomAI
         OnTour,
 
         /// <summary>The citizen is attending an event.</summary>
-        AttendingEvent
+        AttendingEvent,
     }
 }

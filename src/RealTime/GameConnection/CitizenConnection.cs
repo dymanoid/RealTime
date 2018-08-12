@@ -249,7 +249,7 @@ namespace RealTime.GameConnection
         /// <param name="citizenId">The ID of the citizen to get the unit ID for.</param>
         /// <param name="unitId">The unit ID of the citizen's building specified by the <paramref name="flag"/>.</param>
         /// <param name="flag">The citizen unit mode.</param>
-        /// <returns>An ID of the citizen unit that contains the specified citizen</returns>
+        /// <returns>An ID of the citizen unit that contains the specified citizen.</returns>
         public uint GetContainingUnit(ref Citizen citizen, uint citizenId, uint unitId, CitizenUnit.Flags flag)
         {
             if (citizenId == 0 || unitId == 0 || flag == CitizenUnit.Flags.None)
@@ -258,6 +258,15 @@ namespace RealTime.GameConnection
             }
 
             return citizen.GetContainingUnit(citizenId, unitId, flag);
+        }
+
+        /// <summary>Determines whether the specified citizen object is empty, that means the citizen has no home, no work,
+        /// no visit buildings, no vehicle, and is not instantiated.</summary>
+        /// <param name="citizen">The citizen to check.</param>
+        /// <returns><c>true</c> if the specified citizen is empty; otherwise, <c>false</c>.</returns>
+        public bool IsEmpty(ref Citizen citizen)
+        {
+            return citizen.m_homeBuilding + citizen.m_visitBuilding + citizen.m_workBuilding + citizen.m_instance + citizen.m_vehicle == 0;
         }
     }
 }

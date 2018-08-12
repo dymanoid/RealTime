@@ -123,7 +123,7 @@ namespace RealTime.Events
                 StartTime = StartTime.Ticks,
                 BuildingId = BuildingId,
                 BuildingName = BuildingName,
-                AttendeesCount = attendeesCount
+                AttendeesCount = attendeesCount,
             };
         }
 

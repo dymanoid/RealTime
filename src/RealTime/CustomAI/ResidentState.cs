@@ -32,6 +32,6 @@ namespace RealTime.CustomAI
         Evacuation,
 
         /// <summary>The citizen is in a shelter building.</summary>
-        InShelter
+        InShelter,
     }
 }

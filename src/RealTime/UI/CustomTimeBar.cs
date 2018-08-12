@@ -87,7 +87,7 @@ namespace RealTime.UI
 
             IEnumerable<UISprite> sprites = progressSprite.components
                 .OfType<UISprite>()
-                .Where(c => c.name != null && c.name.StartsWith(UISpriteEvent, StringComparison.Ordinal));
+                .Where(c => c.name?.StartsWith(UISpriteEvent, StringComparison.Ordinal) == true);
 
             foreach (UISprite item in sprites)
             {
@@ -141,8 +141,7 @@ namespace RealTime.UI
                 return null;
             }
 
-            var originalWrapper = field.GetValue(bindings) as UIDateTimeWrapper;
-            if (originalWrapper == null)
+            if (!(field.GetValue(bindings) is UIDateTimeWrapper originalWrapper))
             {
                 Log.Warning($"The '{nameof(Bindings)}' component has no '{nameof(UIDateTimeWrapper)}'");
                 return null;
@@ -204,10 +203,7 @@ namespace RealTime.UI
         private static void TranslateTooltip(UIComponent tooltipParent, CultureInfo cultureInfo)
         {
             DateTooltipBehavior tooltipBehavior = tooltipParent.gameObject.GetComponent<DateTooltipBehavior>();
-            if (tooltipBehavior != null)
-            {
-                tooltipBehavior.Translate(cultureInfo);
-            }
+            tooltipBehavior?.Translate(cultureInfo);
         }
 
         private UIDateTimeWrapper SetUIDateTimeWrapper(UIDateTimeWrapper wrapper, bool customize)

@@ -269,8 +269,8 @@ namespace RealTime.CustomAI
             else if (currentHour < maxShoppingChanceStartHour)
             {
                 isNight = true;
-                chance = NightShoppingChance +
-                    ((100u - NightShoppingChance) * (currentHour - minShoppingChanceEndHour) / (maxShoppingChanceStartHour - minShoppingChanceEndHour));
+                chance = NightShoppingChance
+                    + ((100u - NightShoppingChance) * (currentHour - minShoppingChanceEndHour) / (maxShoppingChanceStartHour - minShoppingChanceEndHour));
             }
             else if (currentHour < maxShoppingChanceEndHour)
             {
@@ -280,8 +280,8 @@ namespace RealTime.CustomAI
             else
             {
                 isNight = true;
-                chance = NightShoppingChance +
-                    ((100u - NightShoppingChance) * (24f - currentHour) / (24f - maxShoppingChanceEndHour));
+                chance = NightShoppingChance
+                    + ((100u - NightShoppingChance) * (24f - currentHour) / (24f - maxShoppingChanceEndHour));
             }
 
             uint roundedChance = (uint)Math.Round(chance);

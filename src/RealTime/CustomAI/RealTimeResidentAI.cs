@@ -200,8 +200,7 @@ namespace RealTime.CustomAI
             {
                 case Citizen.AgeGroup.Young:
                     return CitizenProxy.GetGender(citizenId) == Citizen.Gender.Male
-                        ? true
-                        : Random.ShouldOccur(Constants.YoungFemalePregnancyChance);
+                        || Random.ShouldOccur(Constants.YoungFemalePregnancyChance);
 
                 case Citizen.AgeGroup.Adult:
                     return true;

@@ -48,20 +48,12 @@ namespace RealTime.Config
         [ConfigItemSlider(4f, 8f, 0.25f, ValueType = SliderValueType.Time)]
         public float WakeUpHour { get; set; }
 
-        // TODO: delete this property after a few releases - it was misspelled
-        [Obsolete("Do not use this property, use 'WakeUpHour' instead")]
-        public float WakeupHour { get; set; }
-
         /// <summary>
         /// Gets or sets the daytime hour when the city goes to sleep.
         /// </summary>
         [ConfigItem("1General", "0Time", 1)]
         [ConfigItemSlider(20f, 23.75f, 0.25f, ValueType = SliderValueType.Time)]
         public float GoToSleepHour { get; set; }
-
-        // TODO: delete this property after a few releases - it was misspelled
-        [Obsolete("Do not use this property, use 'GoToSleepHour' instead")]
-        public float GoToSleepUpHour { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the dynamic day length is enabled.
@@ -295,14 +287,6 @@ namespace RealTime.Config
                 NightShiftQuota = (uint)(NightShiftQuota * 3.125f);
             }
 
-            if (Version <= 1)
-            {
-#pragma warning disable CS0618 // Type or member is obsolete
-                WakeUpHour = WakeupHour;
-                GoToSleepHour = GoToSleepUpHour;
-#pragma warning restore CS0618 // Type or member is obsolete
-            }
-
             Version = LatestVersion;
         }
 
@@ -352,11 +336,6 @@ namespace RealTime.Config
         /// <summary>Resets all values to their defaults.</summary>
         public void ResetToDefaults()
         {
-#pragma warning disable CS0618 // Type or member is obsolete
-            WakeupHour = 6f;
-            GoToSleepUpHour = 22f;
-#pragma warning restore CS0618 // Type or member is obsolete
-
             WakeUpHour = 6f;
             GoToSleepHour = 22f;
 

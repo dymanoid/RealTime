@@ -54,7 +54,7 @@ namespace RealTime.CustomAI
             Shopping = 2,
             Relaxing = 3,
             Party,
-            Hotel
+            Hotel,
         }
 
         /// <summary>

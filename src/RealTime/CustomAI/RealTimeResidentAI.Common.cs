@@ -16,7 +16,7 @@ namespace RealTime.CustomAI
         {
             Ignore,
             ProcessTransition,
-            ProcessState
+            ProcessState,
         }
 
         private void ProcessCitizenDead(TAI instance, uint citizenId, ref TCitizen citizen)

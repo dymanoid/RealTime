@@ -77,7 +77,7 @@ namespace RealTime.UI
             if (!string.IsNullOrEmpty(IgnoredComponentNamePrefix))
             {
                 UIComponent hovered = UIInput.hoveredComponent;
-                if (hovered != null && hovered.name != null && hovered.name.StartsWith(IgnoredComponentNamePrefix, StringComparison.Ordinal))
+                if (hovered?.name != null && hovered.name.StartsWith(IgnoredComponentNamePrefix, StringComparison.Ordinal))
                 {
                     return;
                 }

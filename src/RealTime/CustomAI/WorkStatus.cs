@@ -16,6 +16,6 @@ namespace RealTime.CustomAI
         Working,
 
         /// <summary>The citizen is on vacation.</summary>
-        OnVacation
+        OnVacation,
     }
 }

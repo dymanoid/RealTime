@@ -24,6 +24,7 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>..\BuildEnvironment\RealTime.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>..\bin\Debug\RealTime.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>..\bin\Release\</OutputPath>
@@ -34,6 +35,7 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>..\BuildEnvironment\RealTime.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>..\bin\Release\RealTime.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Benchmark|x64'">
     <OutputPath>..\bin\Benchmark\</OutputPath>
@@ -167,10 +169,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
-    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Localization\Translations\de.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -206,7 +204,10 @@
     <Content Include="Events\Templates\PoshMall.xml" />
     <Content Include="Events\Templates\Theater.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.0-beta008\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.0-beta008\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SkyTools\src\SkyTools\SkyTools.csproj">
       <Project>{f83d96ef-857a-4aa4-8c23-7d258dad777d}</Project>
@@ -216,11 +217,8 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /y /q /d "$(TargetPath)" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
-if exist "$(SolutionDir)SkyTools\src\bin\Release\SkyTools.dll" xcopy /y /q /d "$(SolutionDir)SkyTools\src\bin\Release\SkyTools.dll" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
-if exist "$(SolutionDir)SkyTools\src\bin\$(ConfigurationName)\SkyTools.dll" xcopy /y /q /d "$(SolutionDir)SkyTools\src\bin\$(ConfigurationName)\SkyTools.dll" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
-
-if exist "$(SolutionDir)SkyTools\src\Harmony\Harmony\build\Release\net35\0Harmony.dll" xcopy /y /q /d "$(SolutionDir)SkyTools\src\Harmony\Harmony\build\Release\net35\0Harmony.dll" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
-if exist "$(SolutionDir)SkyTools\src\Harmony\Harmony\build\$(ConfigurationName)\net35\0Harmony.dll" xcopy /y /q /d "$(SolutionDir)SkyTools\src\Harmony\Harmony\build\$(ConfigurationName)\net35\0Harmony.dll" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
+xcopy /y /q /d "$(TargetDir)SkyTools.dll" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
+xcopy /y /q /d "$(TargetDir)0Harmony.dll" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
 
 xcopy /y /q /i "$(TargetDir)Localization\Translations" "d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187\Localization"
 xcopy /y /q /i "$(ProjectDir)Events\Templates" "d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187\Events"</PostBuildEvent>

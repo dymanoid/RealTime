@@ -93,13 +93,13 @@ namespace RealTime.GameConnection.Patches
                     new ParameterModifier[0]);
             }
 
-#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static bool Prefix(ResidentAI __instance, uint citizenID, ref Citizen data)
             {
                 RealTimeAI?.UpdateLocation(__instance, citizenID, ref data);
                 return false;
             }
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
 
         private sealed class HumanAI_ArriveAtTarget : PatchBase
@@ -114,7 +114,8 @@ namespace RealTime.GameConnection.Patches
                     new ParameterModifier[0]);
             }
 
-#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static void Postfix(ref CitizenInstance citizenData, bool __result)
             {
                 if (__result)
@@ -122,7 +123,6 @@ namespace RealTime.GameConnection.Patches
                     RealTimeAI?.RegisterCitizenArrival(citizenData.m_citizen);
                 }
             }
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
 
         private sealed class ResidentAI_UpdateAge : PatchBase
@@ -137,10 +137,11 @@ namespace RealTime.GameConnection.Patches
                     new ParameterModifier[0]);
             }
 
-#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
-            private static bool Prefix(uint citizenID, ref Citizen data, ref bool __result)
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
+            private static bool Prefix(ref bool __result)
             {
-                if (RealTimeAI != null && !RealTimeAI.CanCitizensGrowUp)
+                if (RealTimeAI?.CanCitizensGrowUp == false)
                 {
                     __result = false;
                     return false;
@@ -148,7 +149,6 @@ namespace RealTime.GameConnection.Patches
 
                 return true;
             }
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
 
         private sealed class ResidentAI_CanMakeBabies : PatchBase
@@ -163,7 +163,8 @@ namespace RealTime.GameConnection.Patches
                     new ParameterModifier[0]);
             }
 
-#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static bool Prefix(uint citizenID, ref Citizen data, ref bool __result)
             {
                 if (RealTimeAI != null)
@@ -174,7 +175,6 @@ namespace RealTime.GameConnection.Patches
 
                 return true;
             }
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
     }
 }

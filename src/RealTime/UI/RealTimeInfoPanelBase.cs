@@ -110,7 +110,7 @@ namespace RealTime.UI
                 string action = localizationProvider.Translate(ScheduledAction + "." + schedule.LastScheduledState.ToString());
                 if (!string.IsNullOrEmpty(action))
                 {
-                    info.Append($"{localizationProvider.Translate(ScheduledAction)}: {action}");
+                    info.Append(localizationProvider.Translate(ScheduledAction)).Append(": ").Append(action);
                     labelHeight += LineHeight;
                 }
             }
@@ -125,7 +125,7 @@ namespace RealTime.UI
                         info.AppendLine();
                     }
 
-                    info.Append($"{action}: {schedule.ScheduledStateTime.ToString(localizationProvider.CurrentCulture)}");
+                    info.Append(action).Append(": ").Append(schedule.ScheduledStateTime.ToString(localizationProvider.CurrentCulture));
                     labelHeight += LineHeight;
                 }
             }

@@ -97,7 +97,7 @@ namespace RealTime.GameConnection
             ref EventData eventData = ref EventManager.instance.m_events.m_buffer[eventId];
             uint oldStartTime = eventData.m_startFrame;
             eventData.m_startFrame = SimulationManager.instance.TimeToFrame(startTime);
-            eventData.m_expireFrame = eventData.m_expireFrame + (eventData.m_startFrame - oldStartTime);
+            eventData.m_expireFrame += eventData.m_startFrame - oldStartTime;
         }
     }
 }

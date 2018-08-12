@@ -23,7 +23,7 @@ namespace RealTime.CustomAI
 
         /// <summary>Initializes a new instance of the <see cref="WeatherInfo"/> class.</summary>
         /// <param name="weatherManager">The game's weather manager.</param>
-        /// <param name="randomizer">The randomizer implementation</param>
+        /// <param name="randomizer">The randomizer implementation.</param>
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
         public WeatherInfo(IWeatherManagerConnection weatherManager, IRandomizer randomizer)
         {
@@ -58,8 +58,8 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            stayInsideChance = MinimumStayInsideChanceOnPrecipitation +
-                    (uint)((weatherFactor - BadWeatherPrecipitationThreshold)
+            stayInsideChance = MinimumStayInsideChanceOnPrecipitation
+                    + (uint)((weatherFactor - BadWeatherPrecipitationThreshold)
                     * ((100u - MinimumStayInsideChanceOnPrecipitation) / (1f - BadWeatherPrecipitationThreshold)));
 
             UpdateDisasterHazard();

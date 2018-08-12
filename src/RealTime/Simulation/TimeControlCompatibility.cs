@@ -40,7 +40,7 @@ namespace RealTime.Simulation
             PluginManager.PluginInfo mod = PluginManager.instance.GetPluginsInfo()
                 .FirstOrDefault(pi => pi.publishedFileID.AsUInt64 == modId);
 
-            if (mod == null || !mod.isEnabled)
+            if (mod?.isEnabled != true)
             {
                 return null;
             }
@@ -94,7 +94,8 @@ namespace RealTime.Simulation
                 }
             }
 
-#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static bool Prefix(ref uint ___dayOffsetFrames)
             {
                 bool result = SimulationManager.instance.SimulationPaused;
@@ -105,7 +106,6 @@ namespace RealTime.Simulation
 
                 return result;
             }
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         }
 
         private sealed class SetTimeOfDayPatch : PatchBase
@@ -130,6 +130,7 @@ namespace RealTime.Simulation
                 }
             }
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             private static void Prefix(float value)
             {
                 if (Math.Abs(value - SimulationManager.instance.m_currentDayTimeHour) >= 0.03f)
