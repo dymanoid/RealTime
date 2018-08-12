@@ -2,13 +2,13 @@
 <language id="es" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="Warning" value="Atención" />
-  <translation id="RestrictedModeMessage" value="Real Time works in restricted mode. Some functionality is disabled. This is because of a technical issue with a third-party library or a mod incompatibility. If you want assistance, please share your game log file with the mod's developer." />
+  <translation id="RestrictedModeMessage" value="Real Time funciona en modo restringido. Algunas funciones estan desactivadas. Esto es por un problema tecnico con alguna librería de terceros o alguna incompatibilidad con otro mod. Si quieres ayuda, por favor comparte tu archivo "log" con el desarrollador del mod." />
   <translation id="ModNotWorkingMessage" value="¡Oops! Algo ha ido mal - el mod 'Real Time' no se ha podido activar. Por favor, comparte el archivo log con el desarrollador del mod." />
-  <translation id="IncompatibleModsFoundMessage" value="Real Time detected at least one incompatible mod (or at least partly incompatible). It is recommended to unsubscribe from them. You might continue on your own risk if you know what you are doing, but in this case something might not work properly or even crash the game." />
+  <translation id="IncompatibleModsFoundMessage" value="Real Time ha detectado al menos un mod incompatible(o al menos parcialmente incompatible). Se recomiendo desuscribirse de él. Puedes continuar bajo tu propia responsabilidad si sabes que estas haciendo, pero en ese caso algunas cosas pueden no funcionar como deberían o incluso bloquear el juego." />
   <translation id="Minutes" value="min." />
 
   <translation id="Tools" value="Herramientas" />
-  <translation id="ShowIncompatibilityNotifications" value="Show mod incompatibility notifications" />
+  <translation id="ShowIncompatibilityNotifications" value="Mostrar notificaciones de mods incompatibles" />
   <translation id="ResetToDefaults" value="Restablecer todo por defecto" />
   <translation id="UseForNewGames" value="Usar los valores actuales para nuevas partidas" />
 
@@ -29,8 +29,8 @@
   <translation id="VirtualCitizensTooltip" value="Selecciona 'Todos' para una ciudad real (máximo 65.535 ciudadanos activos), seleccionar 'Original' si tu PC es lento" />
   <translation id="VirtualCitizens.None" value="Todos los ciudadanos reales" />
   <translation id="VirtualCitizens.Vanilla" value="Como en juego Original" />
-  <translation id="UseSlowAging" value="Better aging and birth rate" />
-  <translation id="UseSlowAgingTooltip" value="If enabled, 1 game day means 1 citizen's life year. If disabled, 1 game day means 10 (at time speed 6) to 340 (at time speed 1) life years." />
+  <translation id="UseSlowAging" value="Mejorar envejecimiento y porcentaje de nacimientos" />
+  <translation id="UseSlowAgingTooltip" value="Si se activa, 1 día del juego significa 1 año en la vida de los ciudadanos. Si se desactiva, 1 dia del juego significa de 10(a velocidad del tiempo 6) hasta 340(a velocidad del tiempo 1) años de vida." />
   <translation id="IsWeekendEnabled" value="Activar Fines de Semana" />
   <translation id="IsWeekendEnabledTooltip" value="Los ciudadanos no van al trabajo ni a la escuela los fines de semana" />
   <translation id="IsLunchtimeEnabled" value="Activar hora de Almorzar" />
@@ -51,8 +51,8 @@
   <translation id="LunchQuotaTooltip" value="Porcentaje de ciudadanos que salen a almorzar" />
   <translation id="LocalBuildingSearchQuota" value="Compras locales" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="Porcentaje de ciudadanos que harán compras locales" />
-  <translation id="ShoppingForFunQuota" value="Shopping for fun" />
-  <translation id="ShoppingForFunQuotaTooltip" value="The percentage of the population that will go shopping just for fun even when they don't need any goods" />
+  <translation id="ShoppingForFunQuota" value="Compras por diversión" />
+  <translation id="ShoppingForFunQuotaTooltip" value="Porcentaje de la poblacion que irá de compras solo por diversion incluso cuando no necesiten nada" />
   <translation id="OnTimeQuota" value="Puntualidad" />
   <translation id="OnTimeQuotaTooltip" value="Porcentaje de ciudadanos que irán a trabajar y saldrán del trabajo con puntualidad" />
 
@@ -69,8 +69,8 @@
   <translation id="LatestHourEventStartWeekendTooltip" value="Hora más tardía en la cual pueden empezar los eventos en fin de semana" />
 
   <translation id="4Time" value="Horarios" />
-  <translation id="MaxOvertime" value="Máximas Horas Extras" />
-  <translation id="MaxOvertimeTooltip" value="Máximas horas extras que los ciudadanos podrán realizar - Irán antes al trabajo o saldrán más tarde de trabajar" />
+  <translation id="MaxOvertime" value="Horas Extras: Límite" />
+  <translation id="MaxOvertimeTooltip" value="Horas extras que los ciudadanos podrán realizar como Máximo- Irán antes al trabajo o saldrán más tarde de trabajar" />
   <translation id="SchoolBegin" value="Colegio e Instituto: hora de entrada" />
   <translation id="SchoolBeginTooltip" value="Hora a la que empiezan los colegios e institutos - los jóvenes deberan estar en las escuelas" />
   <translation id="SchoolEnd" value="Colegio e Instituto: hora de salida" />
@@ -83,21 +83,21 @@
   <translation id="LunchBeginTooltip" value="Hora del día en que los ciudadanos pararán para almorzar" />
   <translation id="LunchEnd" value="Almuerzo: hora final" />
   <translation id="LunchEndTooltip" value="Hora del día en que los ciudadanos volverán al trabajo después de almorzar" />
-  <translation id="MaxVacationLength" value="Maximum vacation days" />
-  <translation id="MaxVacationLengthTooltip" value="For how long citizens can be on vacation. Set to 0 to disable vacations." />
+  <translation id="MaxVacationLength" value="Vacaciones: Límite" />
+  <translation id="MaxVacationLengthTooltip" value="Cuanto tiempo como maximo pueden irse los ciudadanos de vacaciones. Ponlo a 0 para desactivar las vacaciones." />
 
-  <translation id="ScheduledAction" value="Now" />
-  <translation id="NextScheduledAction" value="Until" />
-  <translation id="ScheduledAction.AtHome" value="Go home" />
-  <translation id="ScheduledAction.AtSchoolOrWork" value="Go to work/school" />
-  <translation id="ScheduledAction.Shopping" value="Go shopping" />
-  <translation id="ScheduledAction.Relaxing" value="Go relaxing" />
-  <translation id="ScheduledAction.Visiting" value="Go visit" />
-  <translation id="ScheduledAction.InShelter" value="Go to shelter" />
-  <translation id="WorkShift.First" value="1st work shift" />
-  <translation id="WorkShift.Second" value="2nd work shift" />
-  <translation id="WorkShift.Night" value="Night work shift" />
-  <translation id="WorkStatus.OnVacation" value="(vacation: {0} days)" />
+  <translation id="ScheduledAction" value="Ahora" />
+  <translation id="NextScheduledAction" value="Hasta" />
+  <translation id="ScheduledAction.AtHome" value="Va a casa" />
+  <translation id="ScheduledAction.AtSchoolOrWork" value="Va al trabajo/escuela" />
+  <translation id="ScheduledAction.Shopping" value="Va de compras" />
+  <translation id="ScheduledAction.Relaxing" value="Va a relajarse" />
+  <translation id="ScheduledAction.Visiting" value="Va de visita" />
+  <translation id="ScheduledAction.InShelter" value="Va al refugio" />
+  <translation id="WorkShift.First" value="1º turno de trabajo" />
+  <translation id="WorkShift.Second" value="2º turno de trabajo" />
+  <translation id="WorkShift.Night" value="Turno de trabajo Nocturno" />
+  <translation id="WorkStatus.OnVacation" value="(Vacaciones: {0} días)" />
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="Coal stored for {0} × {unit}"/>
