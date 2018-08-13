@@ -113,6 +113,7 @@
     <Compile Include="GameConnection\IToolManagerConnection.cs" />
     <Compile Include="GameConnection\ITransferManagerConnection.cs" />
     <Compile Include="GameConnection\IWeatherManagerConnection.cs" />
+    <Compile Include="GameConnection\Patches\OutsideConnectionAIPatch.cs" />
     <Compile Include="GameConnection\Patches\ParkPatches.cs" />
     <Compile Include="GameConnection\Patches\TransferManagerPatch.cs" />
     <Compile Include="GameConnection\Patches\UIGraphPatches.cs" />
