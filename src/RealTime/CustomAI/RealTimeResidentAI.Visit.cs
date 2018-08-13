@@ -16,6 +16,8 @@ namespace RealTime.CustomAI
             Citizen.AgeGroup citizenAge = CitizenProxy.GetAge(ref citizen);
 
             uint relaxChance = spareTimeBehavior.GetRelaxingChance(citizenAge, schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
+            relaxChance = AdjustRelaxChance(relaxChance, ref citizen);
+
             if (!Random.ShouldOccur(relaxChance) || WeatherInfo.IsBadWeather)
             {
                 return false;
@@ -92,6 +94,8 @@ namespace RealTime.CustomAI
                 CitizenProxy.GetAge(ref citizen),
                 schedule.WorkShift,
                 schedule.WorkStatus == WorkStatus.OnVacation);
+
+            relaxChance = AdjustRelaxChance(relaxChance, ref citizen);
 
             ResidentState nextState = Random.ShouldOccur(relaxChance)
                     ? ResidentState.Relaxing
@@ -277,6 +281,15 @@ namespace RealTime.CustomAI
             }
 
             return false;
+        }
+
+        private uint AdjustRelaxChance(uint relaxChance, ref TCitizen citizen)
+        {
+            ushort visitBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
+
+            return (BuildingMgr.GetBuildingSubService(visitBuilding) == ItemClass.SubService.BeautificationParks)
+                ? relaxChance * 2
+                : relaxChance;
         }
     }
 }
