@@ -373,6 +373,32 @@ namespace RealTime.GameConnection
             building.Info?.m_buildingAI.BuildingDeactivated(buildingId, ref building);
         }
 
+        /// <summary>Gets the ID of the park area where the building with specified ID is located. Returns 0 if the building
+        /// is not in a park.</summary>
+        /// <param name="buildingId">The ID of the building to get the park ID of.</param>
+        /// <returns>An ID of the park where the building is located, or 0.</returns>
+        public byte GetParkId(ushort buildingId)
+        {
+            if (buildingId == 0)
+            {
+                return 0;
+            }
+
+            Vector3 position = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_position;
+            return DistrictManager.instance.GetPark(position);
+        }
+
+        /// <summary>Gets the policies for a park with specified ID. Returns <see cref="DistrictPolicies.Park.None"/>
+        /// if the specified park ID is 0 or invalid.</summary>
+        /// <param name="parkId">The ID of the park to get policies of.</param>
+        /// <returns>The policies of the park.</returns>
+        public DistrictPolicies.Park GetParkPolicies(byte parkId)
+        {
+            return parkId == 0
+                ? DistrictPolicies.Park.None
+                : DistrictManager.instance.m_parks.m_buffer[parkId].m_parkPolicies;
+        }
+
         private static bool BuildingCanBeVisited(ushort buildingId)
         {
             uint currentUnitId = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_citizenUnits;
