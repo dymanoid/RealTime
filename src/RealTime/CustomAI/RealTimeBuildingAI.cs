@@ -295,6 +295,13 @@ namespace RealTime.CustomAI
                 return true;
             }
 
+            // We override the building's active flag (e.g. at night), so a building still can post outgoing offers while inactive.
+            // This is to prevent those offers from being dispatched.
+            if (!buildingManager.BuildingHasFlags(buildingId, Building.Flags.Active))
+            {
+                return false;
+            }
+
             string className = buildingManager.GetBuildingClassName(buildingId);
             if (string.IsNullOrEmpty(className))
             {
@@ -310,6 +317,16 @@ namespace RealTime.CustomAI
             }
 
             return true;
+        }
+
+        /// <summary>Determines whether a building with specified ID is currently active.</summary>
+        /// <param name="buildingId">The ID of the building to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the building with specified ID is currently active; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsBuildingActive(ushort buildingId)
+        {
+            return buildingManager.BuildingHasFlags(buildingId, Building.Flags.Active);
         }
 
         /// <summary>
@@ -414,6 +431,10 @@ namespace RealTime.CustomAI
                 if (updateBuilding)
                 {
                     buildingManager.UpdateBuildingColors(i);
+                    if (!lightsOn)
+                    {
+                        buildingManager.DeactivateVisually(i);
+                    }
                 }
             }
         }

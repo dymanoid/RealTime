@@ -77,6 +77,8 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.Electricity:
                 case ItemClass.Service.Water:
                 case ItemClass.Service.HealthCare:
+                case ItemClass.Service.Garbage:
+                case ItemClass.Service.Road:
                     return true;
             }
 
@@ -249,6 +251,8 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.PublicTransport:
                 case ItemClass.Service.Disaster:
                 case ItemClass.Service.Monument:
+                case ItemClass.Service.Garbage:
+                case ItemClass.Service.Road:
                     return true;
 
                 default:
@@ -261,13 +265,11 @@ namespace RealTime.CustomAI
             switch (service)
             {
                 case ItemClass.Service.Office:
-                case ItemClass.Service.Garbage:
                 case ItemClass.Service.Education:
                 case ItemClass.Service.Industrial
                     when subService == ItemClass.SubService.IndustrialForestry || subService == ItemClass.SubService.IndustrialFarming:
                     return 1;
 
-                case ItemClass.Service.Road:
                 case ItemClass.Service.Beautification:
                 case ItemClass.Service.Monument:
                 case ItemClass.Service.Citizen:
@@ -284,6 +286,8 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.PublicTransport:
                 case ItemClass.Service.Disaster:
                 case ItemClass.Service.Natural:
+                case ItemClass.Service.Garbage:
+                case ItemClass.Service.Road:
                     return 3;
 
                 default:
@@ -297,8 +301,6 @@ namespace RealTime.CustomAI
             {
                 case ItemClass.Service.Commercial when subService == ItemClass.SubService.CommercialLow:
                 case ItemClass.Service.Beautification:
-                case ItemClass.Service.Garbage:
-                case ItemClass.Service.Road:
                 case ItemClass.Service.Industrial
                     when subService == ItemClass.SubService.IndustrialFarming || subService == ItemClass.SubService.IndustrialForestry:
                     return true;
@@ -310,16 +312,14 @@ namespace RealTime.CustomAI
 
         private bool IsBuildingWorking(int workShiftCount, bool extendedFirstShift)
         {
-            float startHour, endHour;
+            float endHour;
             switch (workShiftCount)
             {
                 case 1:
-                    startHour = extendedFirstShift ? Math.Min(config.WakeUpHour, EarliestWakeUp) : config.WorkBegin;
                     endHour = config.WorkEnd;
                     break;
 
                 case 2:
-                    startHour = config.WorkBegin;
                     endHour = 24f;
                     break;
 
@@ -327,6 +327,7 @@ namespace RealTime.CustomAI
                     return true;
             }
 
+            float startHour = extendedFirstShift ? Math.Min(config.WakeUpHour, EarliestWakeUp) : config.WorkBegin;
             float currentHour = timeInfo.CurrentHour;
             return currentHour >= startHour && currentHour < endHour;
         }

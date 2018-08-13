@@ -149,5 +149,9 @@ namespace RealTime.GameConnection
         /// <param name="buildingId">The ID of the building.</param>
         /// <returns>The level of the building with the specified ID.</returns>
         ItemClass.Level GetBuildingLevel(ushort buildingId);
+
+        /// <summary>Visually deactivates the building with specified ID without affecting its production or coverage.</summary>
+        /// <param name="buildingId">The building ID.</param>
+        void DeactivateVisually(ushort buildingId);
     }
 }

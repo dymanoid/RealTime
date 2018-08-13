@@ -326,24 +326,22 @@ namespace RealTime.Events
 
             bool eventsChanged = SynchronizeWithVanillaEvents();
 
-            if (upcomingEvents.Count == 0)
+            if (upcomingEvents.Count != 0)
             {
-                return;
-            }
-
-            LinkedListNode<ICityEvent> upcomingEvent = upcomingEvents.First;
-            while (upcomingEvent != null && upcomingEvent.Value.StartTime <= timeInfo.Now)
-            {
-                if (activeEvent != null)
+                LinkedListNode<ICityEvent> upcomingEvent = upcomingEvents.First;
+                while (upcomingEvent != null && upcomingEvent.Value.StartTime <= timeInfo.Now)
                 {
-                    lastActiveEvent = activeEvent;
-                }
+                    if (activeEvent != null)
+                    {
+                        lastActiveEvent = activeEvent;
+                    }
 
-                activeEvent = upcomingEvent.Value;
-                upcomingEvents.RemoveFirst();
-                eventsChanged = true;
-                upcomingEvent = upcomingEvent.Next;
-                Log.Debug(LogCategory.Events, timeInfo.Now, $"Event started! Building {activeEvent.BuildingId}, ends on {activeEvent.EndTime}");
+                    activeEvent = upcomingEvent.Value;
+                    upcomingEvents.RemoveFirst();
+                    eventsChanged = true;
+                    upcomingEvent = upcomingEvent.Next;
+                    Log.Debug(LogCategory.Events, timeInfo.Now, $"Event started! Building {activeEvent.BuildingId}, ends on {activeEvent.EndTime}");
+                }
             }
 
             if (eventsChanged)
@@ -355,11 +353,16 @@ namespace RealTime.Events
         private bool SynchronizeWithVanillaEvents()
         {
             bool result = false;
-            var oneMinuteInterval = TimeSpan.FromMinutes(1);
 
-            foreach (ushort eventId in eventManager.GetUpcomingEvents(timeInfo.Now.Date, timeInfo.Now.AddDays(1)))
+            DateTime today = timeInfo.Now.Date;
+            foreach (ushort eventId in eventManager.GetUpcomingEvents(today, today.AddDays(1)))
             {
                 if (!eventManager.TryGetEventInfo(eventId, out ushort buildingId, out DateTime startTime, out float duration, out float ticketPrice))
+                {
+                    continue;
+                }
+
+                if (startTime.AddHours(duration) < timeInfo.Now)
                 {
                     continue;
                 }
@@ -370,9 +373,13 @@ namespace RealTime.Events
 
                 if (existingVanillaEvent != null)
                 {
-                    if (existingVanillaEvent.StartTime.RoundCeil(oneMinuteInterval) == startTime.RoundCeil(oneMinuteInterval))
+                    if (Math.Abs((startTime - existingVanillaEvent.StartTime).TotalMinutes) <= 5d)
                     {
                         continue;
+                    }
+                    else if (existingVanillaEvent == activeEvent)
+                    {
+                        activeEvent = null;
                     }
                     else
                     {
@@ -392,7 +399,7 @@ namespace RealTime.Events
                 result = true;
                 Log.Debug(LogCategory.Events, timeInfo.Now, $"Vanilla event registered for {newEvent.BuildingId}, start time {newEvent.StartTime}, end time {newEvent.EndTime}");
 
-                LinkedListNode<ICityEvent> existingEvent = upcomingEvents.FirstOrDefaultNode(e => e.StartTime > startTime);
+                LinkedListNode<ICityEvent> existingEvent = upcomingEvents.FirstOrDefaultNode(e => e.StartTime >= startTime);
                 if (existingEvent == null)
                 {
                     upcomingEvents.AddLast(newEvent);
@@ -400,7 +407,7 @@ namespace RealTime.Events
                 else
                 {
                     upcomingEvents.AddBefore(existingEvent, newEvent);
-                    if (existingEvent.Value.StartTime < newEvent.EndTime)
+                    if (existingEvent.Value.StartTime < newEvent.EndTime && existingEvent.Value is RealTimeCityEvent)
                     {
                         // Avoid multiple events at the same time - vanilla events have priority
                         upcomingEvents.Remove(existingEvent);

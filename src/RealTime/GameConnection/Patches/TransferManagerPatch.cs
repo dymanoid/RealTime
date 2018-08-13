@@ -46,6 +46,9 @@ namespace RealTime.GameConnection.Patches
                     case TransferManager.TransferReason.TouristD:
                         return RealTimeAI?.IsEntertainmentTarget(offer.Building) ?? true;
 
+                    case TransferManager.TransferReason.ParkMaintenance:
+                        return RealTimeAI?.IsBuildingActive(offer.Building) ?? true;
+
                     default:
                         return true;
                 }

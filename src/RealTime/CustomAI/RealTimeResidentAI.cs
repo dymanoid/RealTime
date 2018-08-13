@@ -87,8 +87,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            ScheduleAction actionType = UpdateCitizenState(ref citizen, ref schedule);
-            switch (actionType)
+            switch (UpdateCitizenState(ref citizen, ref schedule))
             {
                 case ScheduleAction.Ignore:
                     return;

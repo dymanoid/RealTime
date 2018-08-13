@@ -358,6 +358,21 @@ namespace RealTime.GameConnection
                 : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.m_class?.m_level ?? ItemClass.Level.None;
         }
 
+        /// <summary>
+        /// Visually deactivates the building with specified ID without affecting its production or coverage.
+        /// </summary>
+        /// <param name="buildingId">The building ID.</param>
+        public void DeactivateVisually(ushort buildingId)
+        {
+            if (buildingId == 0)
+            {
+                return;
+            }
+
+            ref Building building = ref BuildingManager.instance.m_buildings.m_buffer[buildingId];
+            building.Info?.m_buildingAI.BuildingDeactivated(buildingId, ref building);
+        }
+
         private static bool BuildingCanBeVisited(ushort buildingId)
         {
             uint currentUnitId = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_citizenUnits;

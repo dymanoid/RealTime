@@ -139,6 +139,11 @@ namespace RealTime.CustomAI
             }
             else
             {
+                if (targetBuildingId == 0)
+                {
+                    targetBuildingId = CitizenMgr.GetTargetBuilding(instanceId);
+                }
+
                 BuildingMgr.GetBuildingService(targetBuildingId, out ItemClass.Service targetService, out ItemClass.SubService targetSubService);
                 switch (targetService)
                 {

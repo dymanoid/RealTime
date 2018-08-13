@@ -47,6 +47,9 @@ namespace RealTime.GameConnection.Patches
         /// <summary>Gets the patch for the building manager method 'CreateBuilding'.</summary>
         public static IPatch CreateBuilding { get; } = new BuildingManager_CreateBuilding();
 
+        /// <summary>Gets the patch for the building AI method 'ProduceGoods'.</summary>
+        public static IPatch ProduceGoods { get; } = new PlayerBuildingAI_ProduceGoods();
+
         private sealed class CommercialBuildingA_SimulationStepActive : PatchBase
         {
             protected override MethodInfo GetMethod()
@@ -320,6 +323,29 @@ namespace RealTime.GameConnection.Patches
                 if (__result && RealTimeAI != null)
                 {
                     RealTimeAI.RegisterConstructingBuilding(building, info.GetService());
+                }
+            }
+        }
+
+        private sealed class PlayerBuildingAI_ProduceGoods : PatchBase
+        {
+            protected override MethodInfo GetMethod()
+            {
+                return typeof(PlayerBuildingAI).GetMethod(
+                    "ProduceGoods",
+                    BindingFlags.Instance | BindingFlags.NonPublic,
+                    null,
+                    new[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Building.Frame).MakeByRefType(), typeof(int), typeof(int), typeof(Citizen.BehaviourData).MakeByRefType(), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int) },
+                    new ParameterModifier[0]);
+            }
+
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            private static void Postfix(ushort buildingID, ref Building buildingData)
+            {
+                if ((buildingData.m_flags & Building.Flags.Active) != 0
+                    && RealTimeAI?.ShouldSwitchBuildingLightsOff(buildingID) == true)
+                {
+                    buildingData.m_flags &= ~Building.Flags.Active;
                 }
             }
         }
