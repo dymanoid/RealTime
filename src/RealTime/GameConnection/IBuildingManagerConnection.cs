@@ -153,5 +153,17 @@ namespace RealTime.GameConnection
         /// <summary>Visually deactivates the building with specified ID without affecting its production or coverage.</summary>
         /// <param name="buildingId">The building ID.</param>
         void DeactivateVisually(ushort buildingId);
+
+        /// <summary>Gets the ID of the park area where the building with specified ID is located. Returns 0 if the building
+        /// is not in a park.</summary>
+        /// <param name="buildingId">The ID of the building to get the park ID of.</param>
+        /// <returns>An ID of the park where the building is located, or 0.</returns>
+        byte GetParkId(ushort buildingId);
+
+        /// <summary>Gets the policies for a park with specified ID. Returns <see cref="DistrictPolicies.Park.None"/>
+        /// if the specified park ID is 0 or invalid.</summary>
+        /// <param name="parkId">The ID of the park to get policies of.</param>
+        /// <returns>The policies of the park.</returns>
+        DistrictPolicies.Park GetParkPolicies(byte parkId);
     }
 }

@@ -10,6 +10,11 @@ namespace RealTime.CustomAI
     internal interface ISpareTimeBehavior
     {
         /// <summary>
+        /// Gets a value indicating whether the fireworks in the parks are allowed at current time.
+        /// </summary>
+        bool AreFireworksAllowed { get; }
+
+        /// <summary>
         /// Gets the probability whether a citizen with specified age would go relaxing on current time.
         /// </summary>
         ///

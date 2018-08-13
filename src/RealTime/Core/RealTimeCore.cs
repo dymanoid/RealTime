@@ -243,6 +243,7 @@ namespace RealTime.Core
             SimulationHandler.CitizenProcessor = null;
             SimulationHandler.Statistics?.Close();
             SimulationHandler.Statistics = null;
+            ParkPatches.SpareTimeBehavior = null;
 
             WorldInfoPanelPatches.CitizenInfoPanel?.Disable();
             WorldInfoPanelPatches.CitizenInfoPanel = null;
@@ -294,6 +295,7 @@ namespace RealTime.Core
                 UIGraphPatches.VisibleEndTime,
                 UIGraphPatches.BuildLabels,
                 WeatherManagerPatch.SimulationStepImpl,
+                ParkPatches.DistrictParkSimulation,
             };
 
             if (Compatibility.IsModActive(Compatibility.CitizenLifecycleRebalanceId))
@@ -341,6 +343,8 @@ namespace RealTime.Core
             var spareTimeBehavior = new SpareTimeBehavior(config, timeInfo);
             var travelBehavior = new TravelBehavior(gameConnections.BuildingManager);
             var workBehavior = new WorkBehavior(config, gameConnections.Random, gameConnections.BuildingManager, timeInfo, travelBehavior);
+
+            ParkPatches.SpareTimeBehavior = spareTimeBehavior;
 
             var realTimePrivateBuildingAI = new RealTimeBuildingAI(
                 config,
