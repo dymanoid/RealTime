@@ -46,6 +46,11 @@ namespace RealTime.CustomAI
             vacationChances = new uint[Enum.GetValues(typeof(Citizen.Wealth)).Length];
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the fireworks in the parks are allowed at current time.
+        /// </summary>
+        public bool AreFireworksAllowed => timeInfo.CurrentHour >= timeInfo.SunsetHour && timeInfo.CurrentHour < config.GoToSleepHour;
+
         /// <summary>Sets the duration (in hours) of a full simulation cycle for all citizens.
         /// The game calls the simulation methods for a particular citizen with this period.</summary>
         /// <param name="cyclePeriod">The citizens simulation cycle period, in game hours.</param>
