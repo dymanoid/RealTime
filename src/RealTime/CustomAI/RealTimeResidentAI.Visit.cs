@@ -35,7 +35,7 @@ namespace RealTime.CustomAI
             }
 
             schedule.Schedule(ResidentState.Relaxing);
-            schedule.Hint = TimeInfo.IsNightTime
+            schedule.Hint = TimeInfo.IsNightTime && Random.ShouldOccur(NightLeisureChance)
                 ? ScheduleHint.RelaxAtLeisureBuilding
                 : ScheduleHint.None;
 

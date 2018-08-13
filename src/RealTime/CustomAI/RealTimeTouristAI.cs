@@ -329,7 +329,7 @@ namespace RealTime.CustomAI
                 case TouristTarget.Shopping:
                     return spareTimeBehavior.GetShoppingChance(age);
 
-                case TouristTarget.Relaxing when TimeInfo.IsNightTime || WeatherInfo.IsBadWeather:
+                case TouristTarget.Relaxing when WeatherInfo.IsBadWeather:
                     return 0u;
 
                 case TouristTarget.Party:

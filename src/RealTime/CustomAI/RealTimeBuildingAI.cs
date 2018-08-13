@@ -463,6 +463,15 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.Monument:
                     return false;
 
+                case ItemClass.Service.Beautification when subService == ItemClass.SubService.BeautificationParks:
+                    byte parkId = buildingManager.GetParkId(buildingId);
+                    if (parkId == 0 || (buildingManager.GetParkPolicies(parkId) & DistrictPolicies.Park.NightTours) == 0)
+                    {
+                        goto default;
+                    }
+
+                    return false;
+
                 default:
                     return !workBehavior.IsBuildingWorking(service, subService);
             }
