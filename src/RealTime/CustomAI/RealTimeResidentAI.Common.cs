@@ -144,7 +144,6 @@ namespace RealTime.CustomAI
             return false;
         }
 
-        // TODO: refactor to decrease cyclomatic complexity
         private ScheduleAction UpdateCitizenState(ref TCitizen citizen, ref CitizenSchedule schedule)
         {
             if (schedule.CurrentState == ResidentState.Ignored)
@@ -206,7 +205,8 @@ namespace RealTime.CustomAI
 
                     if (CitizenProxy.GetVisitBuilding(ref citizen) == currentBuilding && schedule.WorkStatus != WorkStatus.Working)
                     {
-                        // A citizen may visit their own work building (e.g. shopping)
+                        // A citizen may visit their own work building (e.g. shopping),
+                        // but the game sets the location to 'work' even if the citizen visits the building.
                         goto case Citizen.Location.Visit;
                     }
 
@@ -214,11 +214,6 @@ namespace RealTime.CustomAI
                     return ScheduleAction.ProcessState;
 
                 case Citizen.Location.Visit:
-                    if (CitizenProxy.GetWorkBuilding(ref citizen) == currentBuilding && schedule.WorkStatus == WorkStatus.Working)
-                    {
-                        goto case Citizen.Location.Work;
-                    }
-
                     switch (buildingService)
                     {
                         case ItemClass.Service.Beautification:

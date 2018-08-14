@@ -301,6 +301,7 @@ namespace RealTime.CustomAI
             {
                 case ItemClass.Service.Commercial when subService == ItemClass.SubService.CommercialLow:
                 case ItemClass.Service.Beautification:
+                case ItemClass.Service.Education:
                 case ItemClass.Service.Industrial
                     when subService == ItemClass.SubService.IndustrialFarming || subService == ItemClass.SubService.IndustrialForestry:
                     return true;
