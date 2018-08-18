@@ -166,28 +166,28 @@ namespace RealTime.Config
         /// Gets or sets the daytime hour when the earliest event on a week day can start.
         /// </summary>
         [ConfigItem("3Events", 1)]
-        [ConfigItemSlider(0, 23.75f, 0.25f, ValueType = SliderValueType.Time)]
+        [ConfigItemSlider(0, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float EarliestHourEventStartWeekday { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the latest event on a week day can start.
         /// </summary>
         [ConfigItem("3Events", 2)]
-        [ConfigItemSlider(0, 23.75f, 0.25f, ValueType = SliderValueType.Time)]
+        [ConfigItemSlider(0, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float LatestHourEventStartWeekday { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the earliest event on a Weekend day can start.
         /// </summary>
         [ConfigItem("3Events", 3)]
-        [ConfigItemSlider(0, 23.75f, 0.25f, ValueType = SliderValueType.Time)]
+        [ConfigItemSlider(0, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float EarliestHourEventStartWeekend { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the latest event on a Weekend day can start.
         /// </summary>
         [ConfigItem("3Events", 4)]
-        [ConfigItemSlider(0, 23.75f, 0.25f, ValueType = SliderValueType.Time)]
+        [ConfigItemSlider(0, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float LatestHourEventStartWeekend { get; set; }
 
         /// <summary>
@@ -308,15 +308,15 @@ namespace RealTime.Config
             ShoppingForFunQuota = FastMath.Clamp(ShoppingForFunQuota, 0u, 50u);
             OnTimeQuota = FastMath.Clamp(OnTimeQuota, 0u, 100u);
 
-            EarliestHourEventStartWeekday = FastMath.Clamp(EarliestHourEventStartWeekday, 0f, 23.75f);
-            LatestHourEventStartWeekday = FastMath.Clamp(LatestHourEventStartWeekday, 0f, 23.75f);
+            EarliestHourEventStartWeekday = FastMath.Clamp(EarliestHourEventStartWeekday, 0f, 23.5f);
+            LatestHourEventStartWeekday = FastMath.Clamp(LatestHourEventStartWeekday, 0f, 23.5f);
             if (LatestHourEventStartWeekday < EarliestHourEventStartWeekday)
             {
                 LatestHourEventStartWeekday = EarliestHourEventStartWeekday;
             }
 
-            EarliestHourEventStartWeekend = FastMath.Clamp(EarliestHourEventStartWeekend, 0f, 23.75f);
-            LatestHourEventStartWeekend = FastMath.Clamp(LatestHourEventStartWeekend, 0f, 23.75f);
+            EarliestHourEventStartWeekend = FastMath.Clamp(EarliestHourEventStartWeekend, 0f, 23.5f);
+            LatestHourEventStartWeekend = FastMath.Clamp(LatestHourEventStartWeekend, 0f, 23.5f);
             if (LatestHourEventStartWeekend < EarliestHourEventStartWeekend)
             {
                 LatestHourEventStartWeekend = EarliestHourEventStartWeekend;
