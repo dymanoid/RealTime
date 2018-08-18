@@ -105,6 +105,12 @@ namespace RealTime.Config
         [ConfigItemCheckBox]
         public bool SwitchOffLightsAtNight { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether a citizen can abandon a journey when being too long in
+        /// a traffic congestion or waiting too long for public transport.</summary>
+        [ConfigItem("1General", "1Other", 5)]
+        [ConfigItemCheckBox]
+        public bool CanAbandonJourney { get; set; }
+
         /// <summary>
         /// Gets or sets a value that determines the percentage of the Cims that will work second shift.
         /// Valid values are 1..8.
@@ -350,6 +356,7 @@ namespace RealTime.Config
             StopConstructionAtNight = true;
             ConstructionSpeed = 50;
             SwitchOffLightsAtNight = true;
+            CanAbandonJourney = true;
 
             SecondShiftQuota = 13;
             NightShiftQuota = 6;
