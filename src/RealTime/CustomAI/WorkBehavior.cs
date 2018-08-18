@@ -144,7 +144,11 @@ namespace RealTime.CustomAI
             switch (workShift)
             {
                 case WorkShift.First when HasExtendedFirstWorkShift(service, subService):
-                    workBegin = Math.Min(config.WakeUpHour, EarliestWakeUp);
+                    float extendedShiftBegin = service == ItemClass.Service.Education
+                        ? Math.Min(config.SchoolBegin, config.WakeUpHour)
+                        : config.WakeUpHour;
+
+                    workBegin = Math.Min(EarliestWakeUp, extendedShiftBegin);
                     break;
 
                 case WorkShift.Second:
