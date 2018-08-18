@@ -31,7 +31,7 @@ namespace RealTime.Core
 
             public BenchmarkSimulationManager()
             {
-                benchmark = Benchmark.Create(0x1000);
+                benchmark = Benchmark.Create(0x1000 * 0x100);
                 SetupMethods();
             }
 
@@ -67,9 +67,9 @@ namespace RealTime.Core
 
             public void SimulationStep(int subStep)
             {
-                if (subStep == 1000)
+                if (subStep == 1000 || subStep == 0)
                 {
-                    // This is the 'late update data' phase
+                    // This is the 'late update data' phase or the simulation is paused
                     return;
                 }
                 else if (!isRunning)
