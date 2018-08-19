@@ -154,6 +154,25 @@ namespace RealTime.GameConnection
             }
 
             Vector3 currentPosition = BuildingManager.instance.m_buildings.m_buffer[searchAreaCenterBuilding].m_position;
+            return FindActiveBuilding(currentPosition, maxDistance, service, subService);
+        }
+
+        /// <summary>Finds an active building that matches the specified criteria and can accept visitors.</summary>
+        /// <param name="position">The search area center point.</param>
+        /// <param name="maxDistance">The maximum distance for search, the search area radius.</param>
+        /// <param name="service">The building service type to find.</param>
+        /// <param name="subService">The building sub-service type to find.</param>
+        /// <returns>An ID of the first found building, or 0 if none found.</returns>
+        public ushort FindActiveBuilding(
+            Vector3 position,
+            float maxDistance,
+            ItemClass.Service service,
+            ItemClass.SubService subService = ItemClass.SubService.None)
+        {
+            if (position == Vector3.zero)
+            {
+                return 0;
+            }
 
             const Building.Flags restrictedFlags = Building.Flags.Deleted | Building.Flags.Evacuating | Building.Flags.Flooded | Building.Flags.Collapsed
                 | Building.Flags.BurnedDown | Building.Flags.RoadAccessFailed;
@@ -161,10 +180,10 @@ namespace RealTime.GameConnection
             const Building.Flags requiredFlags = Building.Flags.Created | Building.Flags.Completed | Building.Flags.Active;
             const Building.Flags combinedFlags = requiredFlags | restrictedFlags;
 
-            int gridXFrom = Mathf.Max((int)(((currentPosition.x - maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE) + BuildingGridMiddle), 0);
-            int gridZFrom = Mathf.Max((int)(((currentPosition.z - maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE) + BuildingGridMiddle), 0);
-            int gridXTo = Mathf.Min((int)(((currentPosition.x + maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE) + BuildingGridMiddle), MaxBuildingGridIndex);
-            int gridZTo = Mathf.Min((int)(((currentPosition.z + maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE) + BuildingGridMiddle), MaxBuildingGridIndex);
+            int gridXFrom = Mathf.Max((int)(((position.x - maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE) + BuildingGridMiddle), 0);
+            int gridZFrom = Mathf.Max((int)(((position.z - maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE) + BuildingGridMiddle), 0);
+            int gridXTo = Mathf.Min((int)(((position.x + maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE) + BuildingGridMiddle), MaxBuildingGridIndex);
+            int gridZTo = Mathf.Min((int)(((position.z + maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE) + BuildingGridMiddle), MaxBuildingGridIndex);
 
             float sqrMaxDistance = maxDistance * maxDistance;
             for (int z = gridZFrom; z <= gridZTo; ++z)
@@ -181,7 +200,7 @@ namespace RealTime.GameConnection
                             && (subService == ItemClass.SubService.None || building.Info.m_class.m_subService == subService)
                             && (building.m_flags & combinedFlags) == requiredFlags)
                         {
-                            float sqrDistance = Vector3.SqrMagnitude(currentPosition - building.m_position);
+                            float sqrDistance = Vector3.SqrMagnitude(position - building.m_position);
                             if (sqrDistance < sqrMaxDistance && BuildingCanBeVisited(buildingId))
                             {
                                 return buildingId;

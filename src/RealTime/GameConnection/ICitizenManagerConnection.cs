@@ -4,6 +4,8 @@
 
 namespace RealTime.GameConnection
 {
+    using UnityEngine;
+
     /// <summary>An interface for the game specific logic related to the citizen management.</summary>
     /// <typeparam name="TCitizen">The type of the citizen data structure.</typeparam>
     internal interface ICitizenManagerConnection<TCitizen>
@@ -101,5 +103,10 @@ namespace RealTime.GameConnection
         /// <param name="instanceId">The citizen instance ID to get the citizen ID of.</param>
         /// <returns>The ID of the citizen or 0, if <paramref name="instanceId"/> is 0.</returns>
         uint GetCitizenId(ushort instanceId);
+        /// <summary>Gets the citizen instance's current position.</summary>
+        /// <param name="instanceId">The ID of the citizen's instance to get the position of.</param>
+        /// <returns>A <see cref="Vector3"/> that specifies the instance position.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when <paramref name="instanceId"/> is 0.</exception>
+        Vector3 GetCitizenPosition(ushort instanceId);
     }
 }

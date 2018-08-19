@@ -94,6 +94,20 @@ namespace RealTime.GameConnection
             return DisasterManager.instance.IsEvacuating(position);
         }
 
+        /// <summary>Gets the citizen instance's current position.</summary>
+        /// <param name="instanceId">The ID of the citizen's instance to get the position of.</param>
+        /// <returns>A <see cref="Vector3"/> that specifies the instance position.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="instanceId"/> is 0.</exception>
+        public Vector3 GetCitizenPosition(ushort instanceId)
+        {
+            if (instanceId == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(instanceId), "The citizen instance ID cannot be 0");
+            }
+
+            return CitizenManager.instance.m_instances.m_buffer[instanceId].GetLastFramePosition();
+        }
+
         /// <summary>Modifies the goods storage in the specified unit.</summary>
         /// <param name="unitId">The unit ID to process.</param>
         /// <param name="amount">The amount to modify the storage by.</param>
