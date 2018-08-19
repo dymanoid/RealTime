@@ -31,7 +31,7 @@ namespace RealTime.GameConnection
         public GameConnections(
             ITimeInfo timeInfo,
             ICitizenConnection<TCitizen> citizenConnection,
-            ICitizenManagerConnection citizenManager,
+            ICitizenManagerConnection<TCitizen> citizenManager,
             IBuildingManagerConnection buildingManager,
             IRandomizer randomizer,
             ITransferManagerConnection transferManager,
@@ -52,8 +52,8 @@ namespace RealTime.GameConnection
         /// <summary>Gets the <see cref="ICitizenConnection{TCitizen}"/> implementation.</summary>
         public ICitizenConnection<TCitizen> CitizenConnection { get; }
 
-        /// <summary>Gets the <see cref="ICitizenManagerConnection"/> implementation.</summary>
-        public ICitizenManagerConnection CitizenManager { get; }
+        /// <summary>Gets the <see cref="ICitizenManagerConnection{TCitizen}"/> implementation.</summary>
+        public ICitizenManagerConnection<TCitizen> CitizenManager { get; }
 
         /// <summary>Gets the <see cref="IBuildingManagerConnection"/> implementation.</summary>
         public IBuildingManagerConnection BuildingManager { get; }

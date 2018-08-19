@@ -219,10 +219,18 @@ namespace RealTime.CustomAI
         }
 
         /// <summary>Gets an instance of the storage service that can read and write the custom schedule data.</summary>
+        /// <param name="serviceFactory">A method accepting an array of citizen schedules and returning an instance
+        /// of the <see cref="IStorageData"/> service.</param>
         /// <returns>An object that implements the <see cref="IStorageData"/> interface.</returns>
-        public IStorageData GetStorageService()
+        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
+        public IStorageData GetStorageService(Func<CitizenSchedule[], IStorageData> serviceFactory)
         {
-            return new CitizenScheduleStorage(residentSchedules, CitizenMgr.GetCitizensArray(), TimeInfo);
+            if (serviceFactory == null)
+            {
+                throw new ArgumentNullException(nameof(serviceFactory));
+            }
+
+            return serviceFactory(residentSchedules);
         }
 
         /// <summary>Gets the citizen schedule. Note that the method returns the reference

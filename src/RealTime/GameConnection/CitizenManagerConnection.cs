@@ -5,9 +5,9 @@ namespace RealTime.GameConnection
     using System;
     using UnityEngine;
 
-    /// <summary>The default implementation of the <see cref="ICitizenManagerConnection"/> interface.</summary>
-    /// <seealso cref="ICitizenManagerConnection"/>
-    internal sealed class CitizenManagerConnection : ICitizenManagerConnection
+    /// <summary>The default implementation of the <see cref="ICitizenManagerConnection{TCitizen}"/> interface.</summary>
+    /// <seealso cref="ICitizenManagerConnection{TCitizen}"/>
+    internal sealed class CitizenManagerConnection : ICitizenManagerConnection<Citizen>
     {
         /// <summary>Releases the specified citizen.</summary>
         /// <param name="citizenId">The ID of the citizen to release.</param>

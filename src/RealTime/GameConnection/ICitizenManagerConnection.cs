@@ -5,7 +5,9 @@
 namespace RealTime.GameConnection
 {
     /// <summary>An interface for the game specific logic related to the citizen management.</summary>
-    internal interface ICitizenManagerConnection
+    /// <typeparam name="TCitizen">The type of the citizen data structure.</typeparam>
+    internal interface ICitizenManagerConnection<TCitizen>
+        where TCitizen : struct
     {
         /// <summary>Releases the specified citizen.</summary>
         /// <param name="citizenId">The ID of the citizen to release.</param>
@@ -81,7 +83,7 @@ namespace RealTime.GameConnection
         bool TryGetFamily(uint citizenId, uint[] targetBuffer);
 
         /// <summary>Gets the game's citizens array (direct reference).</summary>
-        /// <returns>The reference to the game's array containing the <see cref="Citizen"/> items.</returns>
-        Citizen[] GetCitizensArray();
+        /// <returns>The reference to the game's array containing the <typeparamref name="TCitizen"/> items.</returns>
+        TCitizen[] GetCitizensArray();
     }
 }

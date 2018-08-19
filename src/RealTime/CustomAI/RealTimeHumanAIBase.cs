@@ -78,7 +78,7 @@ namespace RealTime.CustomAI
         /// <summary>
         /// Gets a reference to the citizen manager proxy object.
         /// </summary>
-        protected ICitizenManagerConnection CitizenMgr { get; }
+        protected ICitizenManagerConnection<TCitizen> CitizenMgr { get; }
 
         /// <summary>
         /// Gets a reference to the building manager proxy object.

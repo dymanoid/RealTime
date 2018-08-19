@@ -188,8 +188,11 @@ namespace RealTime.Core
 
             AwakeSleepSimulation.Install(configProvider.Configuration);
 
+            IStorageData schedulesStorage = ResidentAIPatch.RealTimeAI.GetStorageService(
+                schedules => new CitizenScheduleStorage(schedules, gameConnections.CitizenManager.GetCitizensArray, timeInfo));
+
+            result.storageData.Add(schedulesStorage);
             result.storageData.Add(eventManager);
-            result.storageData.Add(ResidentAIPatch.RealTimeAI.GetStorageService());
             if (StorageBase.CurrentLevelStorage != null)
             {
                 StorageBase.CurrentLevelStorage.GameSaving += result.GameSaving;
