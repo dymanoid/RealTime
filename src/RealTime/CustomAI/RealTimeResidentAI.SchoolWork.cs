@@ -58,7 +58,6 @@ namespace RealTime.CustomAI
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
             schedule.WorkStatus = WorkStatus.Working;
-            schedule.DepartureToWorkTime = default;
 
             if (currentBuilding == schedule.WorkBuilding && schedule.CurrentState != ResidentState.AtSchoolOrWork)
             {
@@ -69,9 +68,11 @@ namespace RealTime.CustomAI
 
             if (residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, schedule.WorkBuilding))
             {
-                if (schedule.CurrentState == ResidentState.AtHome)
+                if (schedule.CurrentState != ResidentState.AtHome)
                 {
-                    schedule.DepartureToWorkTime = TimeInfo.Now;
+                    // The start moving method will register a departure from any building to work,
+                    // but we are only interested in the 'home->work' route.
+                    schedule.DepartureTime = default;
                 }
 
                 Citizen.AgeGroup citizenAge = CitizenProxy.GetAge(ref citizen);

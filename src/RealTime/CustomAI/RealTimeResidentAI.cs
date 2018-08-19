@@ -112,15 +112,10 @@ namespace RealTime.CustomAI
             ExecuteCitizenSchedule(ref schedule, instance, citizenId, ref citizen, updated);
         }
 
-        /// <summary>Notifies that a citizen has arrived their destination.</summary>
+        /// <summary>Notifies that a citizen has arrived at their destination.</summary>
         /// <param name="citizenId">The citizen ID to process.</param>
         public void RegisterCitizenArrival(uint citizenId)
         {
-            if (citizenId == 0 || citizenId >= residentSchedules.Length)
-            {
-                return;
-            }
-
             ref CitizenSchedule schedule = ref residentSchedules[citizenId];
             switch (CitizenMgr.GetCitizenLocation(citizenId))
             {
@@ -133,7 +128,18 @@ namespace RealTime.CustomAI
                     return;
             }
 
-            schedule.DepartureToWorkTime = default;
+            schedule.DepartureTime = default;
+        }
+
+        /// <summary>Notifies that a citizen has started a journey somewhere.</summary>
+        /// <param name="citizenId">The citizen ID to process.</param>
+        public void RegisterCitizenDeparture(uint citizenId)
+        {
+            if (CitizenMgr.GetCitizenLocation(citizenId) == Citizen.Location.Moving)
+            {
+                ref CitizenSchedule schedule = ref residentSchedules[citizenId];
+                schedule.DepartureTime = TimeInfo.Now;
+            }
         }
 
         /// <summary>Performs simulation for starting a day cycle beginning with specified hour.

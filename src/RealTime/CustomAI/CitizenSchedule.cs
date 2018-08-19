@@ -32,8 +32,8 @@ namespace RealTime.CustomAI
         /// <summary>The ID of the citizen's work building. If it doesn't equal the game's value, the work shift data needs to be updated.</summary>
         public ushort WorkBuilding;
 
-        /// <summary>The time when citizen started their last ride to the work building.</summary>
-        public DateTime DepartureToWorkTime;
+        /// <summary>The time when citizen started their last journey.</summary>
+        public DateTime DepartureTime;
 
         private const float TravelTimeMultiplier = ushort.MaxValue / MaxTravelTime;
 
@@ -66,16 +66,16 @@ namespace RealTime.CustomAI
 
         /// <summary>Updates the travel time that the citizen needs to read the work building or school/university.</summary>
         /// <param name="arrivalTime">
-        /// The arrival time at the work building or school/university. Must be great than <see cref="DepartureToWorkTime"/>.
+        /// The arrival time at the work building or school/university. Must be great than <see cref="DepartureTime"/>.
         /// </param>
         public void UpdateTravelTimeToWork(DateTime arrivalTime)
         {
-            if (arrivalTime < DepartureToWorkTime || DepartureToWorkTime == default)
+            if (arrivalTime < DepartureTime || DepartureTime == default)
             {
                 return;
             }
 
-            float onTheWayHours = (float)(arrivalTime - DepartureToWorkTime).TotalHours;
+            float onTheWayHours = (float)(arrivalTime - DepartureTime).TotalHours;
             if (onTheWayHours > MaxTravelTime)
             {
                 onTheWayHours = MaxTravelTime;

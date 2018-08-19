@@ -292,6 +292,7 @@ namespace RealTime.Core
                 BuildingAIPatches.ProduceGoods,
                 ResidentAIPatch.Location,
                 ResidentAIPatch.ArriveAtTarget,
+                ResidentAIPatch.StartMoving,
                 TouristAIPatch.Location,
                 TransferManagerPatch.AddOutgoingOffer,
                 WorldInfoPanelPatches.UpdateBindings,
