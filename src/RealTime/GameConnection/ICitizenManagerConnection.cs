@@ -4,8 +4,12 @@
 
 namespace RealTime.GameConnection
 {
+    using UnityEngine;
+
     /// <summary>An interface for the game specific logic related to the citizen management.</summary>
-    internal interface ICitizenManagerConnection
+    /// <typeparam name="TCitizen">The type of the citizen data structure.</typeparam>
+    internal interface ICitizenManagerConnection<TCitizen>
+        where TCitizen : struct
     {
         /// <summary>Releases the specified citizen.</summary>
         /// <param name="citizenId">The ID of the citizen to release.</param>
@@ -78,10 +82,28 @@ namespace RealTime.GameConnection
         /// <param name="citizenId">The ID of the citizen to get family members for.</param>
         /// <param name="targetBuffer">An array of 4 elements to store the results in.</param>
         /// <returns><c>true</c> if the specified citizen has at least one family member; otherwise, <c>false</c>.</returns>
+        /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="targetBuffer"/> is null.</exception>
         bool TryGetFamily(uint citizenId, uint[] targetBuffer);
 
         /// <summary>Gets the game's citizens array (direct reference).</summary>
-        /// <returns>The reference to the game's array containing the <see cref="Citizen"/> items.</returns>
-        Citizen[] GetCitizensArray();
+        /// <returns>The reference to the game's array containing the <typeparamref name="TCitizen"/> items.</returns>
+        TCitizen[] GetCitizensArray();
+
+        /// <summary>Releases the citizen instance's path and cancels any ongoing movement.</summary>
+        /// <param name="instanceId">The citizen's instance ID.</param>
+        /// <param name="resetTarget"><c>true</c> to reset the current citizen's target.</param>
+        void StopMoving(ushort instanceId, bool resetTarget);
+
+        /// <summary>Provides a direct reference to the citizen data structure located in the game's buffer.</summary>
+        /// <param name="instanceId">The ID of the citizen instance to get the citizen data structure for.</param>
+        /// <returns>A direct reference to the <typeparamref name="TCitizen"/> data structure.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when <paramref name="instanceId"/> is 0.</exception>
+        ref TCitizen GetCitizen(ushort instanceId);
+
+        /// <summary>Gets the citizen instance's current position.</summary>
+        /// <param name="instanceId">The ID of the citizen's instance to get the position of.</param>
+        /// <returns>A <see cref="Vector3"/> that specifies the instance position.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when <paramref name="instanceId"/> is 0.</exception>
+        Vector3 GetCitizenPosition(ushort instanceId);
     }
 }

@@ -107,7 +107,7 @@ namespace RealTime.CustomAI
         {
             if (schedule.WorkBuilding == 0 || citizenAge == Citizen.AgeGroup.Senior)
             {
-                schedule.UpdateWorkShift(WorkShift.Unemployed, 0, 0, false);
+                schedule.UpdateWorkShift(WorkShift.Unemployed, 0, 0, worksOnWeekends: false);
                 return;
             }
 

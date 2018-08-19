@@ -173,7 +173,7 @@ namespace RealTime.Core
             SimulationHandler.Buildings = BuildingAIPatches.RealTimeAI;
             SimulationHandler.Buildings.UpdateFrameDuration();
 
-            if (appliedPatches.Contains(BuildingAIPatches.PrivateShowConsumption))
+            if (appliedPatches.Contains(BuildingAIPatches.GetColor))
             {
                 SimulationHandler.Buildings.InitializeLightState();
             }
@@ -188,8 +188,11 @@ namespace RealTime.Core
 
             AwakeSleepSimulation.Install(configProvider.Configuration);
 
+            IStorageData schedulesStorage = ResidentAIPatch.RealTimeAI.GetStorageService(
+                schedules => new CitizenScheduleStorage(schedules, gameConnections.CitizenManager.GetCitizensArray, timeInfo));
+
+            result.storageData.Add(schedulesStorage);
             result.storageData.Add(eventManager);
-            result.storageData.Add(ResidentAIPatch.RealTimeAI.GetStorageService());
             if (StorageBase.CurrentLevelStorage != null)
             {
                 StorageBase.CurrentLevelStorage.GameSaving += result.GameSaving;
@@ -281,14 +284,15 @@ namespace RealTime.Core
                 BuildingAIPatches.GetConstructionTime,
                 BuildingAIPatches.HandleWorkers,
                 BuildingAIPatches.CommercialSimulation,
-                BuildingAIPatches.PrivateShowConsumption,
-                BuildingAIPatches.PlayerShowConsumption,
+                BuildingAIPatches.GetColor,
                 BuildingAIPatches.CalculateUnspawnPosition,
                 BuildingAIPatches.GetUpgradeInfo,
                 BuildingAIPatches.CreateBuilding,
                 BuildingAIPatches.ProduceGoods,
                 ResidentAIPatch.Location,
                 ResidentAIPatch.ArriveAtTarget,
+                ResidentAIPatch.StartMoving,
+                ResidentAIPatch.InstanceSimulationStep,
                 TouristAIPatch.Location,
                 TransferManagerPatch.AddOutgoingOffer,
                 WorldInfoPanelPatches.UpdateBindings,

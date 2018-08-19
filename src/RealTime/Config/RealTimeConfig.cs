@@ -4,7 +4,6 @@
 
 namespace RealTime.Config
 {
-    using System;
     using SkyTools.Configuration;
     using SkyTools.Tools;
     using SkyTools.UI;
@@ -41,29 +40,6 @@ namespace RealTime.Config
         public int Version { get; set; }
 
         /// <summary>
-        /// Gets or sets the daytime hour when the city wakes up.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "WakeUp", Justification = "Reviewed")]
-        [ConfigItem("1General", "0Time", 0)]
-        [ConfigItemSlider(4f, 8f, 0.25f, ValueType = SliderValueType.Time)]
-        public float WakeUpHour { get; set; }
-
-        /// <summary>
-        /// Gets or sets the daytime hour when the city goes to sleep.
-        /// </summary>
-        [ConfigItem("1General", "0Time", 1)]
-        [ConfigItemSlider(20f, 23.75f, 0.25f, ValueType = SliderValueType.Time)]
-        public float GoToSleepHour { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the dynamic day length is enabled.
-        /// The dynamic day length depends on map's location and day of the year.
-        /// </summary>
-        [ConfigItem("1General", "0Time", 4)]
-        [ConfigItemCheckBox]
-        public bool IsDynamicDayLengthEnabled { get; set; }
-
-        /// <summary>
         /// Gets or sets the speed of the time flow on daytime. Valid values are 1..7.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "DayTime", Justification = "Reviewed")]
@@ -80,6 +56,21 @@ namespace RealTime.Config
         public uint NightTimeSpeed { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the dynamic day length is enabled.
+        /// The dynamic day length depends on map's location and day of the year.
+        /// </summary>
+        [ConfigItem("1General", "0Time", 4)]
+        [ConfigItemCheckBox]
+        public bool IsDynamicDayLengthEnabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the weekends are enabled. Cims don't go to work on weekends.
+        /// </summary>
+        [ConfigItem("1General", "0Time", 5)]
+        [ConfigItemCheckBox]
+        public bool IsWeekendEnabled { get; set; }
+
+        /// <summary>
         /// Gets or sets the virtual citizens mode.
         /// </summary>
         [ConfigItem("1General", "1Other", 0)]
@@ -92,20 +83,6 @@ namespace RealTime.Config
         [ConfigItem("1General", "1Other", 1)]
         [ConfigItemCheckBox]
         public bool UseSlowAging { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the weekends are enabled. Cims don't go to work on weekends.
-        /// </summary>
-        [ConfigItem("1General", "0Time", 5)]
-        [ConfigItemCheckBox]
-        public bool IsWeekendEnabled { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether Cims should go out at lunch for food.
-        /// </summary>
-        [ConfigItem("1General", "0Time", 6)]
-        [ConfigItemCheckBox]
-        public bool IsLunchtimeEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the construction sites should pause at night time.
@@ -127,6 +104,12 @@ namespace RealTime.Config
         [ConfigItem("1General", "1Other", 4)]
         [ConfigItemCheckBox]
         public bool SwitchOffLightsAtNight { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether a citizen can abandon a journey when being too long in
+        /// a traffic congestion or waiting too long for public transport.</summary>
+        [ConfigItem("1General", "1Other", 5)]
+        [ConfigItemCheckBox]
+        public bool CanAbandonJourney { get; set; }
 
         /// <summary>
         /// Gets or sets a value that determines the percentage of the Cims that will work second shift.
@@ -189,55 +172,77 @@ namespace RealTime.Config
         /// Gets or sets the daytime hour when the earliest event on a week day can start.
         /// </summary>
         [ConfigItem("3Events", 1)]
-        [ConfigItemSlider(0, 23.75f, 0.25f, ValueType = SliderValueType.Time)]
+        [ConfigItemSlider(0, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float EarliestHourEventStartWeekday { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the latest event on a week day can start.
         /// </summary>
         [ConfigItem("3Events", 2)]
-        [ConfigItemSlider(0, 23.75f, 0.25f, ValueType = SliderValueType.Time)]
+        [ConfigItemSlider(0, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float LatestHourEventStartWeekday { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the earliest event on a Weekend day can start.
         /// </summary>
         [ConfigItem("3Events", 3)]
-        [ConfigItemSlider(0, 23.75f, 0.25f, ValueType = SliderValueType.Time)]
+        [ConfigItemSlider(0, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float EarliestHourEventStartWeekend { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the latest event on a Weekend day can start.
         /// </summary>
         [ConfigItem("3Events", 4)]
-        [ConfigItemSlider(0, 23.75f, 0.25f, ValueType = SliderValueType.Time)]
+        [ConfigItemSlider(0, 23.5f, 0.5f, ValueType = SliderValueType.Time)]
         public float LatestHourEventStartWeekend { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the city wakes up.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "WakeUp", Justification = "Reviewed")]
+        [ConfigItem("4Time", 0)]
+        [ConfigItemSlider(4f, 8f, 0.25f, ValueType = SliderValueType.Time)]
+        public float WakeUpHour { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime hour when the city goes to sleep.
+        /// </summary>
+        [ConfigItem("4Time", 1)]
+        [ConfigItemSlider(20f, 23.75f, 0.25f, ValueType = SliderValueType.Time)]
+        public float GoToSleepHour { get; set; }
 
         /// <summary>
         /// Gets or sets the work start daytime hour. The adult Cims must be at work.
         /// </summary>
-        [ConfigItem("4Time", 0)]
+        [ConfigItem("4Time", 2)]
         [ConfigItemSlider(4, 11, 0.25f, ValueType = SliderValueType.Time)]
         public float WorkBegin { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the adult Cims return from work.
         /// </summary>
-        [ConfigItem("4Time", 1)]
+        [ConfigItem("4Time", 3)]
         [ConfigItemSlider(12, 20, 0.25f, ValueType = SliderValueType.Time)]
         public float WorkEnd { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether Cims should go out at lunch for food.
+        /// </summary>
+        [ConfigItem("4Time", 4)]
+        [ConfigItemCheckBox]
+        public bool IsLunchtimeEnabled { get; set; }
+
+        /// <summary>
         /// Gets or sets the daytime hour when the Cims go out for lunch.
         /// </summary>
-        [ConfigItem("4Time", 2)]
+        [ConfigItem("4Time", 5)]
         [ConfigItemSlider(11, 13, 0.25f, ValueType = SliderValueType.Time)]
         public float LunchBegin { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the Cims return from lunch back to work.
         /// </summary>
-        [ConfigItem("4Time", 3)]
+        [ConfigItem("4Time", 6)]
         [ConfigItemSlider(13, 15, 0.25f, ValueType = SliderValueType.Time)]
         public float LunchEnd { get; set; }
 
@@ -246,28 +251,28 @@ namespace RealTime.Config
         /// amount of hours. This applies only for those Cims that are not on time, see <see cref="OnTimeQuota"/>.
         /// The young Cims (school and university) don't do overtime.
         /// </summary>
-        [ConfigItem("4Time", 4)]
+        [ConfigItem("4Time", 7)]
         [ConfigItemSlider(0, 4, 0.25f, ValueType = SliderValueType.Duration)]
         public float MaxOvertime { get; set; }
 
         /// <summary>
         /// Gets or sets the school start daytime hour. The young Cims must be at school or university.
         /// </summary>
-        [ConfigItem("4Time", 5)]
+        [ConfigItem("4Time", 8)]
         [ConfigItemSlider(4, 10, 0.25f, ValueType = SliderValueType.Time)]
         public float SchoolBegin { get; set; }
 
         /// <summary>
         /// Gets or sets the daytime hour when the young Cims return from school or university.
         /// </summary>
-        [ConfigItem("4Time", 6)]
+        [ConfigItem("4Time", 9)]
         [ConfigItemSlider(11, 16, 0.25f, ValueType = SliderValueType.Time)]
         public float SchoolEnd { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum vacation length in days.
         /// </summary>
-        [ConfigItem("4Time", 7)]
+        [ConfigItem("4Time", 10)]
         [ConfigItemSlider(0, 7, ValueType = SliderValueType.Default)]
         public uint MaxVacationLength { get; set; }
 
@@ -309,15 +314,15 @@ namespace RealTime.Config
             ShoppingForFunQuota = FastMath.Clamp(ShoppingForFunQuota, 0u, 50u);
             OnTimeQuota = FastMath.Clamp(OnTimeQuota, 0u, 100u);
 
-            EarliestHourEventStartWeekday = FastMath.Clamp(EarliestHourEventStartWeekday, 0f, 23.75f);
-            LatestHourEventStartWeekday = FastMath.Clamp(LatestHourEventStartWeekday, 0f, 23.75f);
+            EarliestHourEventStartWeekday = FastMath.Clamp(EarliestHourEventStartWeekday, 0f, 23.5f);
+            LatestHourEventStartWeekday = FastMath.Clamp(LatestHourEventStartWeekday, 0f, 23.5f);
             if (LatestHourEventStartWeekday < EarliestHourEventStartWeekday)
             {
                 LatestHourEventStartWeekday = EarliestHourEventStartWeekday;
             }
 
-            EarliestHourEventStartWeekend = FastMath.Clamp(EarliestHourEventStartWeekend, 0f, 23.75f);
-            LatestHourEventStartWeekend = FastMath.Clamp(LatestHourEventStartWeekend, 0f, 23.75f);
+            EarliestHourEventStartWeekend = FastMath.Clamp(EarliestHourEventStartWeekend, 0f, 23.5f);
+            LatestHourEventStartWeekend = FastMath.Clamp(LatestHourEventStartWeekend, 0f, 23.5f);
             if (LatestHourEventStartWeekend < EarliestHourEventStartWeekend)
             {
                 LatestHourEventStartWeekend = EarliestHourEventStartWeekend;
@@ -351,6 +356,7 @@ namespace RealTime.Config
             StopConstructionAtNight = true;
             ConstructionSpeed = 50;
             SwitchOffLightsAtNight = true;
+            CanAbandonJourney = true;
 
             SecondShiftQuota = 13;
             NightShiftQuota = 6;

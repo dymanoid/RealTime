@@ -52,7 +52,7 @@ namespace RealTime.UI
             }
 
             customDateTimeWrapper = new RealTimeUIDateTimeWrapper(currentDate);
-            originalWrapper = SetUIDateTimeWrapper(customDateTimeWrapper, true);
+            originalWrapper = SetUIDateTimeWrapper(customDateTimeWrapper, customize: true);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace RealTime.UI
             }
 
             RemoveAllCityEvents();
-            SetUIDateTimeWrapper(originalWrapper, false);
+            SetUIDateTimeWrapper(originalWrapper, customize: false);
             originalWrapper = null;
             progressSprite = null;
             customDateTimeWrapper = null;

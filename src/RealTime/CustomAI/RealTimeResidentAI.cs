@@ -25,6 +25,9 @@ namespace RealTime.CustomAI
 
         private readonly CitizenSchedule[] residentSchedules;
 
+        private readonly float abandonCarRideToWorkDurationThreshold;
+        private readonly float abandonCarRideDurationThreshold;
+
         private float simulationCycle;
 
         /// <summary>Initializes a new instance of the <see cref="RealTimeResidentAI{TAI, TCitizen}"/> class.</summary>
@@ -55,6 +58,8 @@ namespace RealTime.CustomAI
             this.travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
 
             residentSchedules = new CitizenSchedule[CitizenMgr.GetMaxCitizensCount()];
+            abandonCarRideDurationThreshold = Constants.MaxTravelTime * 0.8f;
+            abandonCarRideToWorkDurationThreshold = Constants.MaxTravelTime;
         }
 
         /// <summary>Gets a value indicating whether the citizens can grow up in the current game time.</summary>
@@ -112,15 +117,10 @@ namespace RealTime.CustomAI
             ExecuteCitizenSchedule(ref schedule, instance, citizenId, ref citizen, updated);
         }
 
-        /// <summary>Notifies that a citizen has arrived their destination.</summary>
+        /// <summary>Notifies that a citizen has arrived at their destination.</summary>
         /// <param name="citizenId">The citizen ID to process.</param>
         public void RegisterCitizenArrival(uint citizenId)
         {
-            if (citizenId == 0 || citizenId >= residentSchedules.Length)
-            {
-                return;
-            }
-
             ref CitizenSchedule schedule = ref residentSchedules[citizenId];
             switch (CitizenMgr.GetCitizenLocation(citizenId))
             {
@@ -133,7 +133,45 @@ namespace RealTime.CustomAI
                     return;
             }
 
-            schedule.DepartureToWorkTime = default;
+            schedule.DepartureTime = default;
+        }
+
+        /// <summary>Processes the citizen behavior while waiting for public transport.</summary>
+        /// <param name="instance">The game's resident AI class instance.</param>
+        /// <param name="citizenId">The citizen ID.</param>
+        /// <param name="instanceId">The citizen's instance ID.</param>
+        public void ProcessWaitingForTransport(TAI instance, uint citizenId, ushort instanceId)
+        {
+            if (!Config.CanAbandonJourney
+                || !CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.BoredOfWaiting)
+                || (CitizenMgr.GetInstanceWaitCounter(instanceId) & 0x3F) != 1)
+            {
+                return;
+            }
+
+            ref TCitizen citizen = ref CitizenMgr.GetCitizen(instanceId);
+            ushort targetBuilding = CitizenMgr.GetTargetBuilding(instanceId);
+
+            buildingAI.RegisterReachingTrouble(targetBuilding);
+            if (targetBuilding == CitizenProxy.GetHomeBuilding(ref citizen))
+            {
+                return;
+            }
+
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} abandons the public transport journey because of waiting for too long");
+            CitizenMgr.StopMoving(instanceId, resetTarget: false);
+            DoScheduledHome(ref residentSchedules[citizenId], instance, citizenId, ref citizen);
+        }
+
+        /// <summary>Notifies that a citizen has started a journey somewhere.</summary>
+        /// <param name="citizenId">The citizen ID to process.</param>
+        public void RegisterCitizenDeparture(uint citizenId)
+        {
+            if (CitizenMgr.GetCitizenLocation(citizenId) == Citizen.Location.Moving)
+            {
+                ref CitizenSchedule schedule = ref residentSchedules[citizenId];
+                schedule.DepartureTime = TimeInfo.Now;
+            }
         }
 
         /// <summary>Performs simulation for starting a day cycle beginning with specified hour.
@@ -215,14 +253,22 @@ namespace RealTime.CustomAI
         public void SetSimulationCyclePeriod(float cyclePeriod)
         {
             simulationCycle = cyclePeriod;
-            Log.Debug(LogCategory.Simulation, $"SIMULATION CYCLE PERIOD: {cyclePeriod} hours");
+            Log.Debug(LogCategory.Simulation, $"SIMULATION CYCLE PERIOD: {cyclePeriod} hours, abandon car ride thresholds: {abandonCarRideDurationThreshold} / {abandonCarRideToWorkDurationThreshold}");
         }
 
         /// <summary>Gets an instance of the storage service that can read and write the custom schedule data.</summary>
+        /// <param name="serviceFactory">A method accepting an array of citizen schedules and returning an instance
+        /// of the <see cref="IStorageData"/> service.</param>
         /// <returns>An object that implements the <see cref="IStorageData"/> interface.</returns>
-        public IStorageData GetStorageService()
+        /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
+        public IStorageData GetStorageService(Func<CitizenSchedule[], IStorageData> serviceFactory)
         {
-            return new CitizenScheduleStorage(residentSchedules, CitizenMgr.GetCitizensArray(), TimeInfo);
+            if (serviceFactory == null)
+            {
+                throw new ArgumentNullException(nameof(serviceFactory));
+            }
+
+            return serviceFactory(residentSchedules);
         }
 
         /// <summary>Gets the citizen schedule. Note that the method returns the reference

@@ -24,19 +24,25 @@ namespace RealTime.CustomAI
 
         /// <summary>Initializes a new instance of the <see cref="CitizenScheduleStorage"/> class.</summary>
         /// <param name="residentSchedules">The resident schedules to store or load.</param>
-        /// <param name="citizens">The game's citizens array.</param>
+        /// <param name="citizensProvider">A method that returns the game's citizens array.</param>
         /// <param name="timeInfo">An object that provides the game time information.</param>
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="residentSchedules"/> and <paramref name="citizens"/>
-        /// have different length.</exception>
-        public CitizenScheduleStorage(CitizenSchedule[] residentSchedules, Citizen[] citizens, ITimeInfo timeInfo)
+        /// <exception cref="ArgumentException">Thrown when <paramref name="residentSchedules"/> and the array returned by
+        /// <paramref name="citizensProvider"/> have different lengths.</exception>
+        public CitizenScheduleStorage(CitizenSchedule[] residentSchedules, Func<Citizen[]> citizensProvider, ITimeInfo timeInfo)
         {
             this.residentSchedules = residentSchedules ?? throw new ArgumentNullException(nameof(residentSchedules));
-            this.citizens = citizens ?? throw new ArgumentNullException(nameof(citizens));
-            this.timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
-            if (residentSchedules.Length != citizens.Length)
+            if (citizensProvider == null)
             {
-                throw new ArgumentException($"{nameof(residentSchedules)} and {nameof(citizens)} arrays must have equal length");
+                throw new ArgumentNullException(nameof(citizensProvider));
+            }
+
+            this.timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
+
+            citizens = citizensProvider();
+            if (citizens == null || residentSchedules.Length != citizens.Length)
+            {
+                throw new ArgumentException($"{nameof(residentSchedules)} and citizens arrays must have equal length");
             }
         }
 

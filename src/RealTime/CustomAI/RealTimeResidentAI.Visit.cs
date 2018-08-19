@@ -7,6 +7,7 @@ namespace RealTime.CustomAI
     using System;
     using RealTime.Events;
     using SkyTools.Tools;
+    using UnityEngine;
     using static Constants;
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
@@ -88,6 +89,20 @@ namespace RealTime.CustomAI
 
                     schedule.Schedule(ResidentState.Unknown);
                     return false;
+
+                case ScheduleHint.RelaxNearbyOnly:
+                    Vector3 currentPosition = CitizenMgr.GetCitizenPosition(CitizenProxy.GetInstance(ref citizen));
+                    ushort parkBuildingId = BuildingMgr.FindActiveBuilding(currentPosition, LocalSearchDistance, ItemClass.Service.Beautification);
+                    if (StartMovingToVisitBuilding(instance, citizenId, ref citizen, parkBuildingId))
+                    {
+                        Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} heading to a nearby entertainment building {parkBuildingId}");
+                        schedule.Schedule(ResidentState.Unknown);
+                        return true;
+                    }
+
+                    schedule.Schedule(ResidentState.Unknown);
+                    DoScheduledHome(ref schedule, instance, citizenId, ref citizen);
+                    return true;
             }
 
             uint relaxChance = spareTimeBehavior.GetRelaxingChance(

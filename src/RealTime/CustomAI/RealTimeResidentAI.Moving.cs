@@ -14,38 +14,65 @@ namespace RealTime.CustomAI
             ushort instanceId = CitizenProxy.GetInstance(ref citizen);
             ushort vehicleId = CitizenProxy.GetVehicle(ref citizen);
 
-            if (vehicleId == 0 && instanceId == 0)
+            if (instanceId == 0)
             {
-                if (CitizenProxy.GetVisitBuilding(ref citizen) != 0)
+                if (vehicleId == 0)
                 {
-                    CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
-                }
+                    if (CitizenProxy.GetVisitBuilding(ref citizen) != 0)
+                    {
+                        CitizenProxy.SetVisitPlace(ref citizen, citizenId, 0);
+                    }
 
-                if (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.MovingIn))
-                {
-                    CitizenMgr.ReleaseCitizen(citizenId);
-                    schedule = default;
-                }
-                else
-                {
-                    CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
-                    CitizenProxy.SetArrested(ref citizen, false);
-                    schedule.Schedule(ResidentState.Unknown);
+                    if (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.MovingIn))
+                    {
+                        CitizenMgr.ReleaseCitizen(citizenId);
+                        schedule = default;
+                    }
+                    else
+                    {
+                        CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
+                        CitizenProxy.SetArrested(ref citizen, false);
+                        schedule.Schedule(ResidentState.Unknown);
+                    }
                 }
 
                 return true;
             }
 
-            if (vehicleId == 0 && CitizenMgr.IsAreaEvacuating(instanceId) && !CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating))
+            if (vehicleId == 0 && !CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating) && CitizenMgr.IsAreaEvacuating(instanceId))
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} was on the way, but the area evacuates. Finding an evacuation place.");
                 schedule.Schedule(ResidentState.Unknown);
+                schedule.DepartureTime = default;
                 TransferMgr.AddOutgoingOfferFromCurrentPosition(citizenId, residentAI.GetEvacuationReason(instance, 0));
                 return true;
             }
 
             ushort targetBuilding = CitizenMgr.GetTargetBuilding(instanceId);
-            if (targetBuilding == CitizenProxy.GetWorkBuilding(ref citizen))
+            bool headingToWork = targetBuilding == CitizenProxy.GetWorkBuilding(ref citizen);
+            if (vehicleId != 0 && schedule.DepartureTime != default)
+            {
+                float maxTravelTime = headingToWork
+                    ? abandonCarRideToWorkDurationThreshold
+                    : abandonCarRideDurationThreshold;
+
+                if ((TimeInfo.Now - schedule.DepartureTime).TotalHours > maxTravelTime)
+                {
+                    buildingAI.RegisterReachingTrouble(targetBuilding);
+                    if (targetBuilding == CitizenProxy.GetHomeBuilding(ref citizen))
+                    {
+                        return true;
+                    }
+
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} cancels the trip because of traffic jam");
+                    schedule.Schedule(ResidentState.Relaxing);
+                    schedule.Hint = ScheduleHint.RelaxNearbyOnly;
+                    schedule.CurrentState = ResidentState.InTransition;
+                    return false;
+                }
+            }
+
+            if (headingToWork)
             {
                 return true;
             }
@@ -55,6 +82,7 @@ namespace RealTime.CustomAI
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} cancels the trip to a park due to bad weather");
                 schedule.Schedule(ResidentState.AtHome);
+                schedule.CurrentState = ResidentState.InTransition;
                 return false;
             }
 

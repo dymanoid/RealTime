@@ -5,9 +5,9 @@ namespace RealTime.GameConnection
     using System;
     using UnityEngine;
 
-    /// <summary>The default implementation of the <see cref="ICitizenManagerConnection"/> interface.</summary>
-    /// <seealso cref="ICitizenManagerConnection"/>
-    internal sealed class CitizenManagerConnection : ICitizenManagerConnection
+    /// <summary>The default implementation of the <see cref="ICitizenManagerConnection{TCitizen}"/> interface.</summary>
+    /// <seealso cref="ICitizenManagerConnection{TCitizen}"/>
+    internal sealed class CitizenManagerConnection : ICitizenManagerConnection<Citizen>
     {
         /// <summary>Releases the specified citizen.</summary>
         /// <param name="citizenId">The ID of the citizen to release.</param>
@@ -94,6 +94,20 @@ namespace RealTime.GameConnection
             return DisasterManager.instance.IsEvacuating(position);
         }
 
+        /// <summary>Gets the citizen instance's current position.</summary>
+        /// <param name="instanceId">The ID of the citizen's instance to get the position of.</param>
+        /// <returns>A <see cref="Vector3"/> that specifies the instance position.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="instanceId"/> is 0.</exception>
+        public Vector3 GetCitizenPosition(ushort instanceId)
+        {
+            if (instanceId == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(instanceId), "The citizen instance ID cannot be 0");
+            }
+
+            return CitizenManager.instance.m_instances.m_buffer[instanceId].GetLastFramePosition();
+        }
+
         /// <summary>Modifies the goods storage in the specified unit.</summary>
         /// <param name="unitId">The unit ID to process.</param>
         /// <param name="amount">The amount to modify the storage by.</param>
@@ -162,8 +176,14 @@ namespace RealTime.GameConnection
         /// <param name="citizenId">The ID of the citizen to get family members for.</param>
         /// <param name="targetBuffer">An array of 4 elements to store the results in.</param>
         /// <returns><c>true</c> if the specified citizen has at least one family member; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="targetBuffer"/> is null.</exception>
         public bool TryGetFamily(uint citizenId, uint[] targetBuffer)
         {
+            if (targetBuffer == null)
+            {
+                throw new ArgumentNullException(nameof(targetBuffer));
+            }
+
             for (int i = 0; i < targetBuffer.Length; ++i)
             {
                 targetBuffer[i] = 0;
@@ -216,6 +236,46 @@ namespace RealTime.GameConnection
         public Citizen[] GetCitizensArray()
         {
             return CitizenManager.instance.m_citizens.m_buffer;
+        }
+
+        /// <summary>Releases the citizen instance's path and cancels any ongoing movement.</summary>
+        /// <param name="instanceId">The citizen's instance ID.</param>
+        /// <param name="resetTarget"><c>true</c> to reset the current citizen's target.</param>
+        public void StopMoving(ushort instanceId, bool resetTarget)
+        {
+            if (instanceId == 0)
+            {
+                return;
+            }
+
+            ref CitizenInstance instance = ref CitizenManager.instance.m_instances.m_buffer[instanceId];
+            if (instance.m_path != 0)
+            {
+                PathManager.instance.ReleasePath(instance.m_path);
+                instance.m_path = 0u;
+            }
+
+            instance.m_flags &= ~(CitizenInstance.Flags.WaitingTransport | CitizenInstance.Flags.EnteringVehicle | CitizenInstance.Flags.BoredOfWaiting | CitizenInstance.Flags.WaitingTaxi);
+            if (resetTarget)
+            {
+                instance.Info.m_citizenAI.SetTarget(instanceId, ref instance, 0);
+            }
+        }
+
+        /// <summary>Provides a direct reference to the citizen data structure located in the game's buffer.</summary>
+        /// <param name="instanceId">The ID of the citizen instance to get the citizen data structure for.</param>
+        /// <returns>A direct reference to the <see name="Citizen"/> data structure.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="instanceId"/> is 0.</exception>
+        public ref Citizen GetCitizen(ushort instanceId)
+        {
+            if (instanceId == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(instanceId), "The instance ID cannot be 0");
+            }
+
+            CitizenManager citizenMgr = CitizenManager.instance;
+            uint citizenId = citizenMgr.m_instances.m_buffer[instanceId].m_citizen;
+            return ref citizenMgr.m_citizens.m_buffer[citizenId];
         }
     }
 }

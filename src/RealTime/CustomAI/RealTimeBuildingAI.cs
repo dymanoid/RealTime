@@ -40,6 +40,7 @@ namespace RealTime.CustomAI
         private readonly ITravelBehavior travelBehavior;
 
         private readonly bool[] lightStates;
+        private readonly byte[] reachingTroubles;
         private readonly HashSet<ushort>[] buildingsInConstruction;
 
         private int lastProcessedMinute = -1;
@@ -79,6 +80,7 @@ namespace RealTime.CustomAI
             this.travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
 
             lightStates = new bool[buildingManager.GetMaxBuildingsCount()];
+            reachingTroubles = new byte[lightStates.Length];
 
             // This is to preallocate the hash sets to a large capacity, .NET 3.5 doesn't provide a proper way.
             var preallocated = Enumerable.Range(0, MaximumBuildingsInConstruction * 2).Select(v => (ushort)v).ToList();
@@ -231,7 +233,7 @@ namespace RealTime.CustomAI
         {
             for (ushort i = 0; i <= StepMask; i++)
             {
-                UpdateLightState(i, false);
+                UpdateLightState(i, updateBuilding: false);
             }
         }
 
@@ -250,6 +252,7 @@ namespace RealTime.CustomAI
         /// <param name="frameIndex">The simulation frame index to process.</param>
         public void ProcessFrame(uint frameIndex)
         {
+            UpdateReachingTroubles(frameIndex & StepMask);
             UpdateLightState();
 
             if ((frameIndex & StepMask) != 0)
@@ -373,6 +376,27 @@ namespace RealTime.CustomAI
             return false;
         }
 
+        /// <summary>Registers a trouble reaching the building with the specified ID.</summary>
+        /// <param name="buildingId">The ID of the building where the citizen will not arrive as planned.</param>
+        public void RegisterReachingTrouble(ushort buildingId)
+        {
+            ref byte trouble = ref reachingTroubles[buildingId];
+            if (trouble < 255)
+            {
+                trouble = (byte)Math.Min(255, trouble + 10);
+                buildingManager.UpdateBuildingColors(buildingId);
+            }
+        }
+
+        /// <summary>Gets the reaching trouble factor for a building with specified ID.</summary>
+        /// <param name="buildingId">The ID of the building to get the reaching trouble factor of.</param>
+        /// <returns>A value in range 0 to 1 that describes how many troubles have citizens while trying to reach
+        /// the building.</returns>
+        public float GetBuildingReachingTroubleFactor(ushort buildingId)
+        {
+            return reachingTroubles[buildingId] / 255f;
+        }
+
         private static int GetAllowedConstructingUpradingCount(int currentBuildingCount)
         {
             if (currentBuildingCount < ConstructionRestrictionThreshold1)
@@ -410,7 +434,23 @@ namespace RealTime.CustomAI
             lightCheckStep = (ushort)((step + 1) & StepMask);
             lightStateCheckCounter = lightStateCheckFramesInterval;
 
-            UpdateLightState(step, true);
+            UpdateLightState(step, updateBuilding: true);
+        }
+
+        private void UpdateReachingTroubles(uint step)
+        {
+            ushort first = (ushort)(step * BuildingStepSize);
+            ushort last = (ushort)(((step + 1) * BuildingStepSize) - 1);
+
+            for (ushort i = first; i <= last; ++i)
+            {
+                ref byte trouble = ref reachingTroubles[i];
+                if (trouble > 0)
+                {
+                    --trouble;
+                    buildingManager.UpdateBuildingColors(i);
+                }
+            }
         }
 
         private void UpdateLightState(ushort step, bool updateBuilding)

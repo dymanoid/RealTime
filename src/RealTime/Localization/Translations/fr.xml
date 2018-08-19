@@ -41,6 +41,8 @@
   <translation id="ConstructionSpeedTooltip" value="Mise à niveau de la vitesse et de la construction de bâtiments" />
   <translation id="SwitchOffLightsAtNight" value="Désactiver la lumière des batiments la nuit" />
   <translation id="SwitchOffLightsAtNightTooltip" value="Les batiments résidentiel éteignent leurs lampes quand les citoyens dorment, autres batiments et parcs : quand personne n'y travail." />
+  <translation id="CanAbandonJourney" value="Better traffic jam and public transport waiting behavior" />
+  <translation id="CanAbandonJourneyTooltip" value="If enabled, citizens can abandon their journeys when stuck in a traffic jam or waiting for public transport for too long" />
  
   <translation id="2Quotas" value="Probabilités" />
   <translation id="SecondShiftQuota" value="Travailleurs en 2/8" />

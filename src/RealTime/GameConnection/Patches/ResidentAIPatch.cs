@@ -7,6 +7,7 @@ namespace RealTime.GameConnection.Patches
     using RealTime.CustomAI;
     using SkyTools.Patching;
     using SkyTools.Tools;
+    using UnityEngine;
     using static HumanAIConnectionBase<ResidentAI, Citizen>;
     using static ResidentAIConnection<ResidentAI, Citizen>;
 
@@ -23,6 +24,12 @@ namespace RealTime.GameConnection.Patches
 
         /// <summary>Gets the patch object for the arrive at target method.</summary>
         public static IPatch ArriveAtTarget { get; } = new HumanAI_ArriveAtTarget();
+
+        /// <summary>Gets the patch object for the start moving method.</summary>
+        public static IPatch StartMoving { get; } = new ResidentAI_StartMoving();
+
+        /// <summary>Gets the patch object for the simulation step method (for citizens instances).</summary>
+        public static IPatch InstanceSimulationStep { get; } = new HumanAI_SimulationStep();
 
         /// <summary>Gets the patch object for the update age method.</summary>
         public static IPatch UpdateAge { get; } = new ResidentAI_UpdateAge();
@@ -118,7 +125,7 @@ namespace RealTime.GameConnection.Patches
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static void Postfix(ref CitizenInstance citizenData, bool __result)
             {
-                if (__result)
+                if (__result && citizenData.m_citizen != 0)
                 {
                     RealTimeAI?.RegisterCitizenArrival(citizenData.m_citizen);
                 }
@@ -174,6 +181,58 @@ namespace RealTime.GameConnection.Patches
                 }
 
                 return true;
+            }
+        }
+
+        private sealed class ResidentAI_StartMoving : PatchBase
+        {
+            protected override MethodInfo GetMethod()
+            {
+                return typeof(ResidentAI).GetMethod(
+                    "StartMoving",
+                    BindingFlags.Instance | BindingFlags.Public,
+                    null,
+                    new[] { typeof(uint), typeof(Citizen).MakeByRefType(), typeof(ushort), typeof(ushort) },
+                    new ParameterModifier[0]);
+            }
+
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
+            private static void Postfix(uint citizenID, bool __result)
+            {
+                if (__result && citizenID != 0)
+                {
+                    RealTimeAI?.RegisterCitizenDeparture(citizenID);
+                }
+            }
+        }
+
+        private sealed class HumanAI_SimulationStep : PatchBase
+        {
+            protected override MethodInfo GetMethod()
+            {
+                return typeof(HumanAI).GetMethod(
+                    "SimulationStep",
+                    BindingFlags.Instance | BindingFlags.Public,
+                    null,
+                    new[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(Vector3) },
+                    new ParameterModifier[0]);
+            }
+
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
+            private static void Postfix(ushort instanceID, ref CitizenInstance data)
+            {
+                if (RealTimeAI == null || instanceID == 0)
+                {
+                    return;
+                }
+
+                if ((data.m_flags & (CitizenInstance.Flags.WaitingTaxi | CitizenInstance.Flags.WaitingTransport)) != 0
+                    && data.Info.m_citizenAI is ResidentAI residentAI)
+                {
+                    RealTimeAI.ProcessWaitingForTransport(residentAI, data.m_citizen, instanceID);
+                }
             }
         }
     }
