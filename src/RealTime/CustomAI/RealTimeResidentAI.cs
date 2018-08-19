@@ -131,6 +131,33 @@ namespace RealTime.CustomAI
             schedule.DepartureTime = default;
         }
 
+        /// <summary>Processes the citizen behavior while waiting for public transport.</summary>
+        /// <param name="instance">The game's resident AI class instance.</param>
+        /// <param name="citizenId">The citizen ID.</param>
+        /// <param name="instanceId">The citizen's instance ID.</param>
+        public void ProcessWaitingForTransport(TAI instance, uint citizenId, ushort instanceId)
+        {
+            if (!Config.CanAbandonJourney
+                || !CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.BoredOfWaiting)
+                || (CitizenMgr.GetInstanceWaitCounter(instanceId) & 0x3F) != 1)
+            {
+                return;
+            }
+
+            ref TCitizen citizen = ref CitizenMgr.GetCitizen(instanceId);
+            ushort targetBuilding = CitizenMgr.GetTargetBuilding(instanceId);
+
+            buildingAI.RegisterReachingTrouble(targetBuilding);
+            if (targetBuilding == CitizenProxy.GetHomeBuilding(ref citizen))
+            {
+                return;
+            }
+
+            Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} abandons the public transport journey because of waiting for too long");
+            CitizenMgr.StopMoving(instanceId, resetTarget: false);
+            DoScheduledHome(ref residentSchedules[citizenId], instance, citizenId, ref citizen);
+        }
+
         /// <summary>Notifies that a citizen has started a journey somewhere.</summary>
         /// <param name="citizenId">The citizen ID to process.</param>
         public void RegisterCitizenDeparture(uint citizenId)

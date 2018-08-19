@@ -40,6 +40,7 @@ namespace RealTime.CustomAI
         private readonly ITravelBehavior travelBehavior;
 
         private readonly bool[] lightStates;
+        private readonly byte[] reachingTroubles;
         private readonly HashSet<ushort>[] buildingsInConstruction;
 
         private int lastProcessedMinute = -1;
@@ -79,6 +80,7 @@ namespace RealTime.CustomAI
             this.travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
 
             lightStates = new bool[buildingManager.GetMaxBuildingsCount()];
+            reachingTroubles = new byte[lightStates.Length];
 
             // This is to preallocate the hash sets to a large capacity, .NET 3.5 doesn't provide a proper way.
             var preallocated = Enumerable.Range(0, MaximumBuildingsInConstruction * 2).Select(v => (ushort)v).ToList();
@@ -371,6 +373,18 @@ namespace RealTime.CustomAI
             }
 
             return false;
+        }
+
+        /// <summary>Registers a trouble reaching the building with the specified ID.</summary>
+        /// <param name="buildingId">The ID of the building where the citizen will not arrive as planned.</param>
+        public void RegisterReachingTrouble(ushort buildingId)
+        {
+            ref byte trouble = ref reachingTroubles[buildingId];
+            if (trouble < 255)
+            {
+                trouble = (byte)Math.Min(255, trouble + 10);
+                buildingManager.UpdateBuildingColors(buildingId);
+            }
         }
 
         private static int GetAllowedConstructingUpradingCount(int currentBuildingCount)
