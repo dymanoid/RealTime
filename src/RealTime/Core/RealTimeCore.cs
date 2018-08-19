@@ -173,7 +173,7 @@ namespace RealTime.Core
             SimulationHandler.Buildings = BuildingAIPatches.RealTimeAI;
             SimulationHandler.Buildings.UpdateFrameDuration();
 
-            if (appliedPatches.Contains(BuildingAIPatches.PrivateShowConsumption))
+            if (appliedPatches.Contains(BuildingAIPatches.GetColor))
             {
                 SimulationHandler.Buildings.InitializeLightState();
             }
@@ -284,8 +284,7 @@ namespace RealTime.Core
                 BuildingAIPatches.GetConstructionTime,
                 BuildingAIPatches.HandleWorkers,
                 BuildingAIPatches.CommercialSimulation,
-                BuildingAIPatches.PrivateShowConsumption,
-                BuildingAIPatches.PlayerShowConsumption,
+                BuildingAIPatches.GetColor,
                 BuildingAIPatches.CalculateUnspawnPosition,
                 BuildingAIPatches.GetUpgradeInfo,
                 BuildingAIPatches.CreateBuilding,

@@ -252,6 +252,7 @@ namespace RealTime.CustomAI
         /// <param name="frameIndex">The simulation frame index to process.</param>
         public void ProcessFrame(uint frameIndex)
         {
+            UpdateReachingTroubles(frameIndex & StepMask);
             UpdateLightState();
 
             if ((frameIndex & StepMask) != 0)
@@ -387,6 +388,15 @@ namespace RealTime.CustomAI
             }
         }
 
+        /// <summary>Gets the reaching trouble factor for a building with specified ID.</summary>
+        /// <param name="buildingId">The ID of the building to get the reaching trouble factor of.</param>
+        /// <returns>A value in range 0 to 1 that describes how many troubles have citizens while trying to reach
+        /// the building.</returns>
+        public float GetBuildingReachingTroubleFactor(ushort buildingId)
+        {
+            return reachingTroubles[buildingId] / 255f;
+        }
+
         private static int GetAllowedConstructingUpradingCount(int currentBuildingCount)
         {
             if (currentBuildingCount < ConstructionRestrictionThreshold1)
@@ -425,6 +435,22 @@ namespace RealTime.CustomAI
             lightStateCheckCounter = lightStateCheckFramesInterval;
 
             UpdateLightState(step, updateBuilding: true);
+        }
+
+        private void UpdateReachingTroubles(uint step)
+        {
+            ushort first = (ushort)(step * BuildingStepSize);
+            ushort last = (ushort)(((step + 1) * BuildingStepSize) - 1);
+
+            for (ushort i = first; i <= last; ++i)
+            {
+                ref byte trouble = ref reachingTroubles[i];
+                if (trouble > 0)
+                {
+                    --trouble;
+                    buildingManager.UpdateBuildingColors(i);
+                }
+            }
         }
 
         private void UpdateLightState(ushort step, bool updateBuilding)

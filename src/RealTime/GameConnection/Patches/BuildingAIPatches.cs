@@ -32,11 +32,8 @@ namespace RealTime.GameConnection.Patches
         /// <summary>Gets the patch for the private building AI method 'GetConstructionTime'.</summary>
         public static IPatch GetConstructionTime { get; } = new PrivateBuildingAI_GetConstructionTime();
 
-        /// <summary>Gets the patch for the private building AI method 'ShowConsumption'.</summary>
-        public static IPatch PrivateShowConsumption { get; } = new PrivateBuildingAI_ShowConsumption();
-
-        /// <summary>Gets the patch for the player building AI method 'ShowConsumption'.</summary>
-        public static IPatch PlayerShowConsumption { get; } = new PlayerBuildingAI_ShowConsumption();
+        /// <summary>Gets the patch for the common building AI method 'GetColor'.</summary>
+        public static IPatch GetColor { get; } = new CommonBuildingAI_GetColor();
 
         /// <summary>Gets the patch for the building AI method 'CalculateUnspawnPosition'.</summary>
         public static IPatch CalculateUnspawnPosition { get; } = new BuildingAI_CalculateUnspawnPosition();
@@ -139,68 +136,6 @@ namespace RealTime.GameConnection.Patches
             {
                 __result = RealTimeAI?.GetConstructionTime() ?? 0;
                 return false;
-            }
-        }
-
-        private sealed class PrivateBuildingAI_ShowConsumption : PatchBase
-        {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(PrivateBuildingAI).GetMethod(
-                    "ShowConsumption",
-                    BindingFlags.Instance | BindingFlags.NonPublic,
-                    null,
-                    new[] { typeof(ushort), typeof(Building).MakeByRefType() },
-                    new ParameterModifier[0]);
-            }
-
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
-            private static bool Prefix(ushort buildingID, ref bool __result)
-            {
-                if (InfoManager.instance.CurrentMode != InfoManager.InfoMode.None)
-                {
-                    return true;
-                }
-
-                if (RealTimeAI?.ShouldSwitchBuildingLightsOff(buildingID) == true)
-                {
-                    __result = false;
-                    return false;
-                }
-
-                return true;
-            }
-        }
-
-        private sealed class PlayerBuildingAI_ShowConsumption : PatchBase
-        {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(PlayerBuildingAI).GetMethod(
-                    "ShowConsumption",
-                    BindingFlags.Instance | BindingFlags.NonPublic,
-                    null,
-                    new[] { typeof(ushort), typeof(Building).MakeByRefType() },
-                    new ParameterModifier[0]);
-            }
-
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
-            private static bool Prefix(ushort buildingID, ref bool __result)
-            {
-                if (InfoManager.instance.CurrentMode != InfoManager.InfoMode.None)
-                {
-                    return true;
-                }
-
-                if (RealTimeAI?.ShouldSwitchBuildingLightsOff(buildingID) == true)
-                {
-                    __result = false;
-                    return false;
-                }
-
-                return true;
             }
         }
 
@@ -346,6 +281,50 @@ namespace RealTime.GameConnection.Patches
                     && RealTimeAI?.ShouldSwitchBuildingLightsOff(buildingID) == true)
                 {
                     buildingData.m_flags &= ~Building.Flags.Active;
+                }
+            }
+        }
+
+        private sealed class CommonBuildingAI_GetColor : PatchBase
+        {
+            private static Color negativeColor;
+            private static Color targetColor;
+
+            protected override MethodInfo GetMethod()
+            {
+                negativeColor = InfoManager.instance.m_properties.m_modeProperties[(int)InfoManager.InfoMode.TrafficRoutes].m_negativeColor;
+                targetColor = InfoManager.instance.m_properties.m_modeProperties[(int)InfoManager.InfoMode.TrafficRoutes].m_targetColor;
+
+                return typeof(CommonBuildingAI).GetMethod(
+                    "GetColor",
+                    BindingFlags.Instance | BindingFlags.Public,
+                    null,
+                    new[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(InfoManager.InfoMode) },
+                    new ParameterModifier[0]);
+            }
+
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
+            private static void Postfix(ushort buildingID, InfoManager.InfoMode infoMode, ref Color __result)
+            {
+                if (RealTimeAI == null)
+                {
+                    return;
+                }
+
+                switch (infoMode)
+                {
+                    case InfoManager.InfoMode.TrafficRoutes:
+                        __result = Color.Lerp(negativeColor, targetColor, RealTimeAI.GetBuildingReachingTroubleFactor(buildingID));
+                        return;
+
+                    case InfoManager.InfoMode.None:
+                        if (RealTimeAI.ShouldSwitchBuildingLightsOff(buildingID))
+                        {
+                            __result.a = 0f;
+                        }
+
+                        return;
                 }
             }
         }
