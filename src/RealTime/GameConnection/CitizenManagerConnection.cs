@@ -217,5 +217,55 @@ namespace RealTime.GameConnection
         {
             return CitizenManager.instance.m_citizens.m_buffer;
         }
+
+        /// <summary>Releases the citizen instance's path and cancels any ongoing movement.</summary>
+        /// <param name="instanceId">The citizen's instance ID.</param>
+        /// <param name="resetTarget"><c>true</c> to reset the current citizen's target.</param>
+        public void StopMoving(ushort instanceId, bool resetTarget)
+        {
+            if (instanceId == 0)
+            {
+                return;
+            }
+
+            ref CitizenInstance instance = ref CitizenManager.instance.m_instances.m_buffer[instanceId];
+            if (instance.m_path != 0)
+            {
+                PathManager.instance.ReleasePath(instance.m_path);
+                instance.m_path = 0u;
+            }
+
+            instance.m_flags &= ~(CitizenInstance.Flags.WaitingTransport | CitizenInstance.Flags.EnteringVehicle | CitizenInstance.Flags.BoredOfWaiting | CitizenInstance.Flags.WaitingTaxi);
+            if (resetTarget)
+            {
+                instance.Info.m_citizenAI.SetTarget(instanceId, ref instance, 0);
+            }
+        }
+
+        /// <summary>Provides a direct reference to the citizen data structure located in the game's buffer.</summary>
+        /// <param name="instanceId">The ID of the citizen instance to get the citizen data structure for.</param>
+        /// <returns>A direct reference to the <see name="Citizen"/> data structure.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="instanceId"/> is 0.</exception>
+        public ref Citizen GetCitizen(ushort instanceId)
+        {
+            if (instanceId == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(instanceId), "The instance ID cannot be 0");
+            }
+
+            CitizenManager citizenMgr = CitizenManager.instance;
+            uint citizenId = citizenMgr.m_instances.m_buffer[instanceId].m_citizen;
+            return ref citizenMgr.m_citizens.m_buffer[citizenId];
+        }
+
+        /// <summary>Gets the citizen ID for the specified citizen instance ID.</summary>
+        /// <param name="instanceId">The citizen instance ID to get the citizen ID of.</param>
+        /// <returns>The ID of the citizen or 0, if <paramref name="instanceId"/> is 0.</returns>
+        public uint GetCitizenId(ushort instanceId)
+        {
+            return instanceId == 0
+                ? 0u
+                : CitizenManager.instance.m_instances.m_buffer[instanceId].m_citizen;
+        }
     }
 }

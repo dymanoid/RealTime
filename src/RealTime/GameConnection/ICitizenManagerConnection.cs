@@ -85,5 +85,21 @@ namespace RealTime.GameConnection
         /// <summary>Gets the game's citizens array (direct reference).</summary>
         /// <returns>The reference to the game's array containing the <typeparamref name="TCitizen"/> items.</returns>
         TCitizen[] GetCitizensArray();
+
+        /// <summary>Releases the citizen instance's path and cancels any ongoing movement.</summary>
+        /// <param name="instanceId">The citizen's instance ID.</param>
+        /// <param name="resetTarget"><c>true</c> to reset the current citizen's target.</param>
+        void StopMoving(ushort instanceId, bool resetTarget);
+
+        /// <summary>Provides a direct reference to the citizen data structure located in the game's buffer.</summary>
+        /// <param name="instanceId">The ID of the citizen instance to get the citizen data structure for.</param>
+        /// <returns>A direct reference to the <typeparamref name="TCitizen"/> data structure.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when <paramref name="instanceId"/> is 0.</exception>
+        ref TCitizen GetCitizen(ushort instanceId);
+
+        /// <summary>Gets the citizen ID for the specified citizen instance ID.</summary>
+        /// <param name="instanceId">The citizen instance ID to get the citizen ID of.</param>
+        /// <returns>The ID of the citizen or 0, if <paramref name="instanceId"/> is 0.</returns>
+        uint GetCitizenId(ushort instanceId);
     }
 }
