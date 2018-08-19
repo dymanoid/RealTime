@@ -100,10 +100,6 @@ namespace RealTime.GameConnection
         /// <exception cref="System.ArgumentOutOfRangeException">Thrown when <paramref name="instanceId"/> is 0.</exception>
         ref TCitizen GetCitizen(ushort instanceId);
 
-        /// <summary>Gets the citizen ID for the specified citizen instance ID.</summary>
-        /// <param name="instanceId">The citizen instance ID to get the citizen ID of.</param>
-        /// <returns>The ID of the citizen or 0, if <paramref name="instanceId"/> is 0.</returns>
-        uint GetCitizenId(ushort instanceId);
         /// <summary>Gets the citizen instance's current position.</summary>
         /// <param name="instanceId">The ID of the citizen's instance to get the position of.</param>
         /// <returns>A <see cref="Vector3"/> that specifies the instance position.</returns>

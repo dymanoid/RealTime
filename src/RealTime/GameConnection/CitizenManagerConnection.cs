@@ -277,15 +277,5 @@ namespace RealTime.GameConnection
             uint citizenId = citizenMgr.m_instances.m_buffer[instanceId].m_citizen;
             return ref citizenMgr.m_citizens.m_buffer[citizenId];
         }
-
-        /// <summary>Gets the citizen ID for the specified citizen instance ID.</summary>
-        /// <param name="instanceId">The citizen instance ID to get the citizen ID of.</param>
-        /// <returns>The ID of the citizen or 0, if <paramref name="instanceId"/> is 0.</returns>
-        public uint GetCitizenId(ushort instanceId)
-        {
-            return instanceId == 0
-                ? 0u
-                : CitizenManager.instance.m_instances.m_buffer[instanceId].m_citizen;
-        }
     }
 }
