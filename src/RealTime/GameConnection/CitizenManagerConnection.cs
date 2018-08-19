@@ -176,8 +176,14 @@ namespace RealTime.GameConnection
         /// <param name="citizenId">The ID of the citizen to get family members for.</param>
         /// <param name="targetBuffer">An array of 4 elements to store the results in.</param>
         /// <returns><c>true</c> if the specified citizen has at least one family member; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="targetBuffer"/> is null.</exception>
         public bool TryGetFamily(uint citizenId, uint[] targetBuffer)
         {
+            if (targetBuffer == null)
+            {
+                throw new ArgumentNullException(nameof(targetBuffer));
+            }
+
             for (int i = 0; i < targetBuffer.Length; ++i)
             {
                 targetBuffer[i] = 0;
