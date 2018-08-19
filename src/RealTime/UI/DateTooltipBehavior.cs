@@ -34,7 +34,7 @@ namespace RealTime.UI
         public void Translate(CultureInfo cultureInfo)
         {
             currentCulture = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
-            UpdateTooltip(true);
+            UpdateTooltip(force: true);
         }
 
         /// <summary>

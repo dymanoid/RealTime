@@ -39,7 +39,7 @@ namespace RealTime.CustomAI
                 }
 
                 // If we have some time, try to shop locally.
-                if (ScheduleShopping(ref schedule, ref citizen, true))
+                if (ScheduleShopping(ref schedule, ref citizen, localOnly: true))
                 {
                     Log.Debug(LogCategory.Schedule, $"  - Work time in {timeLeft} hours, trying local shop");
                 }

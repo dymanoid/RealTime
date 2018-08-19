@@ -387,7 +387,7 @@ namespace RealTime.Events
                     }
                 }
 
-                DateTime adjustedStartTime = AdjustEventStartTime(startTime, false);
+                DateTime adjustedStartTime = AdjustEventStartTime(startTime, randomize: false);
                 if (adjustedStartTime != startTime)
                 {
                     startTime = adjustedStartTime;
@@ -469,7 +469,7 @@ namespace RealTime.Events
             const Building.Flags flags = Building.Flags.Abandoned | Building.Flags.BurnedDown | Building.Flags.Collapsed
                 | Building.Flags.Deleted | Building.Flags.Demolishing | Building.Flags.Evacuating | Building.Flags.Flooded;
 
-            if (buildingManager.BuildingHasFlags(cityEvent.BuildingId, flags, true))
+            if (buildingManager.BuildingHasFlags(cityEvent.BuildingId, flags, includeZero: true))
             {
                 return true;
             }
@@ -501,7 +501,7 @@ namespace RealTime.Events
                 ? timeInfo.Now
                 : upcomingEvents.Last.Value.EndTime.Add(MinimumIntervalBetweenEvents);
 
-            startTime = AdjustEventStartTime(startTime, true);
+            startTime = AdjustEventStartTime(startTime, randomize: true);
             if (startTime < earliestEvent)
             {
                 return;

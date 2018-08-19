@@ -116,7 +116,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            if (CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.TargetIsNode | CitizenInstance.Flags.OnTour, true))
+            if (CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.TargetIsNode | CitizenInstance.Flags.OnTour, all: true))
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} exits the guided tour.");
                 FindRandomVisitPlace(instance, citizenId, ref citizen, TouristDoNothingProbability, 0);

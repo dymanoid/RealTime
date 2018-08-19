@@ -22,8 +22,7 @@ namespace RealTime.CustomAI
         private void ProcessCitizenDead(TAI instance, uint citizenId, ref TCitizen citizen)
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
-            Citizen.Location currentLocation = CitizenProxy.GetLocation(ref citizen);
-            switch (currentLocation)
+            switch (CitizenProxy.GetLocation(ref citizen))
             {
                 case Citizen.Location.Home when currentBuilding != 0:
                     CitizenProxy.SetWorkplace(ref citizen, citizenId, 0);
@@ -293,7 +292,7 @@ namespace RealTime.CustomAI
                 }
             }
 
-            if (ScheduleShopping(ref schedule, ref citizen, false))
+            if (ScheduleShopping(ref schedule, ref citizen, localOnly: false))
             {
                 Log.Debug(LogCategory.Schedule, $"  - Schedule shopping");
                 return true;

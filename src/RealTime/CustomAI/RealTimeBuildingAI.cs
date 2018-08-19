@@ -231,7 +231,7 @@ namespace RealTime.CustomAI
         {
             for (ushort i = 0; i <= StepMask; i++)
             {
-                UpdateLightState(i, false);
+                UpdateLightState(i, updateBuilding: false);
             }
         }
 
@@ -410,7 +410,7 @@ namespace RealTime.CustomAI
             lightCheckStep = (ushort)((step + 1) & StepMask);
             lightStateCheckCounter = lightStateCheckFramesInterval;
 
-            UpdateLightState(step, true);
+            UpdateLightState(step, updateBuilding: true);
         }
 
         private void UpdateLightState(ushort step, bool updateBuilding)
