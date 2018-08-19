@@ -293,6 +293,7 @@ namespace RealTime.Core
                 ResidentAIPatch.Location,
                 ResidentAIPatch.ArriveAtTarget,
                 ResidentAIPatch.StartMoving,
+                ResidentAIPatch.InstanceSimulationStep,
                 TouristAIPatch.Location,
                 TransferManagerPatch.AddOutgoingOffer,
                 WorldInfoPanelPatches.UpdateBindings,
