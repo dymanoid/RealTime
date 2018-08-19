@@ -24,5 +24,8 @@ namespace RealTime.CustomAI
 
         /// <summary>The citizen is attending an event.</summary>
         AttendingEvent,
+
+        /// <summary>The citizen can search for entertainment nearby only.</summary>
+        RelaxNearbyOnly,
     }
 }

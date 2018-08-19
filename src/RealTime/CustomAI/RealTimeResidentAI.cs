@@ -25,6 +25,9 @@ namespace RealTime.CustomAI
 
         private readonly CitizenSchedule[] residentSchedules;
 
+        private readonly float abandonCarRideToWorkDurationThreshold;
+        private readonly float abandonCarRideDurationThreshold;
+
         private float simulationCycle;
 
         /// <summary>Initializes a new instance of the <see cref="RealTimeResidentAI{TAI, TCitizen}"/> class.</summary>
@@ -55,6 +58,8 @@ namespace RealTime.CustomAI
             this.travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
 
             residentSchedules = new CitizenSchedule[CitizenMgr.GetMaxCitizensCount()];
+            abandonCarRideDurationThreshold = Constants.MaxTravelTime * 0.8f;
+            abandonCarRideToWorkDurationThreshold = Constants.MaxTravelTime;
         }
 
         /// <summary>Gets a value indicating whether the citizens can grow up in the current game time.</summary>
@@ -248,7 +253,7 @@ namespace RealTime.CustomAI
         public void SetSimulationCyclePeriod(float cyclePeriod)
         {
             simulationCycle = cyclePeriod;
-            Log.Debug(LogCategory.Simulation, $"SIMULATION CYCLE PERIOD: {cyclePeriod} hours");
+            Log.Debug(LogCategory.Simulation, $"SIMULATION CYCLE PERIOD: {cyclePeriod} hours, abandon car ride thresholds: {abandonCarRideDurationThreshold} / {abandonCarRideToWorkDurationThreshold}");
         }
 
         /// <summary>Gets an instance of the storage service that can read and write the custom schedule data.</summary>
