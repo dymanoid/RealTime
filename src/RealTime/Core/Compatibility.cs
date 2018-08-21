@@ -18,8 +18,6 @@ namespace RealTime.Core
     /// </summary>
     internal sealed class Compatibility
     {
-        /// <summary>The Workshop ID of the 'CitizenLifecycleRebalance' mod.</summary>
-        public const ulong CitizenLifecycleRebalanceId = 654707599;
         private static readonly ulong[] IncompatibleModIds =
         {
             605590542,  // Rush Hour II

@@ -294,8 +294,6 @@ namespace RealTime.Core
                 BuildingAIPatches.CommercialSimulation,
                 BuildingAIPatches.GetColor,
                 BuildingAIPatches.CalculateUnspawnPosition,
-                BuildingAIPatches.GetUpgradeInfo,
-                BuildingAIPatches.CreateBuilding,
                 BuildingAIPatches.ProduceGoods,
                 ResidentAIPatch.Location,
                 ResidentAIPatch.ArriveAtTarget,
@@ -312,7 +310,7 @@ namespace RealTime.Core
                 OutsideConnectionAIPatch.DummyTrafficProbability,
             };
 
-            if (Compatibility.IsModActive(Compatibility.CitizenLifecycleRebalanceId))
+            if (compatibility.IsAnyModActive(ModIds.CitizenLifecycleRebalance))
             {
                 Log.Info("The 'Real Time' mod will not change the citizens aging because the 'Citizen Lifecycle Rebalance' mod is active.");
             }
@@ -320,6 +318,21 @@ namespace RealTime.Core
             {
                 patches.Add(ResidentAIPatch.UpdateAge);
                 patches.Add(ResidentAIPatch.CanMakeBabies);
+            }
+
+            if (compatibility.IsAnyModActive(
+                ModIds.BuildingThemes,
+                ModIds.ForceLevelUp,
+                ModIds.PloppableRico,
+                ModIds.PloppableRicoHighDensityFix,
+                ModIds.PlopTheGrowables))
+            {
+                Log.Info("The 'Real Time' mod will not change the building construction and upgrading behavior because some building mod is active.");
+            }
+            else
+            {
+                patches.Add(BuildingAIPatches.GetUpgradeInfo);
+                patches.Add(BuildingAIPatches.CreateBuilding);
             }
 
             patches.AddRange(TimeControlCompatibility.GetCompatibilityPatches());
