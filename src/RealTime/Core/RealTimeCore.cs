@@ -61,7 +61,8 @@ namespace RealTime.Core
         /// Runs the mod by activating its parts.
         /// </summary>
         ///
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="configProvider"/> or <paramref name="localizationProvider"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="configProvider"/> or <paramref name="localizationProvider"/>
+        /// or <paramref name="compatibility"/> is null.</exception>
         /// <exception cref="ArgumentException">Thrown when <paramref name="rootPath"/> is null or an empty string.</exception>
         ///
         /// <param name="configProvider">The configuration provider that provides the mod's configuration.</param>
@@ -69,6 +70,7 @@ namespace RealTime.Core
         /// <param name="localizationProvider">The <see cref="ILocalizationProvider"/> to use for text translation.</param>
         /// <param name="setDefaultTime"><c>true</c> to initialize the game time to a default value (real world date and city wake up hour);
         /// <c>false</c> to leave the game time unchanged.</param>
+        /// <param name="compatibility">The compatibility checker object.</param>
         ///
         /// <returns>A <see cref="RealTimeCore"/> instance that can be used to stop the mod.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "This is the entry point and needs to instantiate all parts")]
@@ -76,7 +78,8 @@ namespace RealTime.Core
             ConfigurationProvider<RealTimeConfig> configProvider,
             string rootPath,
             ILocalizationProvider localizationProvider,
-            bool setDefaultTime)
+            bool setDefaultTime,
+            Compatibility compatibility)
         {
             if (configProvider == null)
             {
@@ -93,7 +96,12 @@ namespace RealTime.Core
                 throw new ArgumentNullException(nameof(localizationProvider));
             }
 
-            List<IPatch> patches = GetMethodPatches();
+            if (compatibility == null)
+            {
+                throw new ArgumentNullException(nameof(compatibility));
+            }
+
+            List<IPatch> patches = GetMethodPatches(compatibility);
             var patcher = new MethodPatcher(HarmonyId, patches);
 
             HashSet<IPatch> appliedPatches = patcher.Apply();
@@ -277,7 +285,7 @@ namespace RealTime.Core
             UIGraphPatches.Translate(localizationProvider.CurrentCulture);
         }
 
-        private static List<IPatch> GetMethodPatches()
+        private static List<IPatch> GetMethodPatches(Compatibility compatibility)
         {
             var patches = new List<IPatch>
             {
@@ -286,8 +294,6 @@ namespace RealTime.Core
                 BuildingAIPatches.CommercialSimulation,
                 BuildingAIPatches.GetColor,
                 BuildingAIPatches.CalculateUnspawnPosition,
-                BuildingAIPatches.GetUpgradeInfo,
-                BuildingAIPatches.CreateBuilding,
                 BuildingAIPatches.ProduceGoods,
                 ResidentAIPatch.Location,
                 ResidentAIPatch.ArriveAtTarget,
@@ -304,7 +310,7 @@ namespace RealTime.Core
                 OutsideConnectionAIPatch.DummyTrafficProbability,
             };
 
-            if (Compatibility.IsModActive(Compatibility.CitizenLifecycleRebalanceId))
+            if (compatibility.IsAnyModActive(ModIds.CitizenLifecycleRebalance))
             {
                 Log.Info("The 'Real Time' mod will not change the citizens aging because the 'Citizen Lifecycle Rebalance' mod is active.");
             }
@@ -312,6 +318,21 @@ namespace RealTime.Core
             {
                 patches.Add(ResidentAIPatch.UpdateAge);
                 patches.Add(ResidentAIPatch.CanMakeBabies);
+            }
+
+            if (compatibility.IsAnyModActive(
+                ModIds.BuildingThemes,
+                ModIds.ForceLevelUp,
+                ModIds.PloppableRico,
+                ModIds.PloppableRicoHighDensityFix,
+                ModIds.PlopTheGrowables))
+            {
+                Log.Info("The 'Real Time' mod will not change the building construction and upgrading behavior because some building mod is active.");
+            }
+            else
+            {
+                patches.Add(BuildingAIPatches.GetUpgradeInfo);
+                patches.Add(BuildingAIPatches.CreateBuilding);
             }
 
             patches.AddRange(TimeControlCompatibility.GetCompatibilityPatches());
