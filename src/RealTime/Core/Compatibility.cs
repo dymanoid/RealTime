@@ -27,31 +27,22 @@ namespace RealTime.Core
             1181352643, // District Service Limit 3.0
         };
 
-        private readonly string modName;
         private readonly ILocalizationProvider localizationProvider;
         private readonly Dictionary<ulong, PluginManager.PluginInfo> activeMods;
 
-        private Compatibility(string modName, ILocalizationProvider localizationProvider)
+        private Compatibility(ILocalizationProvider localizationProvider)
         {
-            this.modName = modName;
             this.localizationProvider = localizationProvider;
             activeMods = new Dictionary<ulong, PluginManager.PluginInfo>();
         }
 
         /// <summary>Initializes a new instance of the <see cref="Compatibility"/> class.</summary>
-        /// <param name="modName">The name of the current mod.</param>
         /// <param name="localizationProvider">The localization provider to use for translation.</param>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="modName"/> is null or an empty string.</exception>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="localizationProvider"/> is null.</exception>
         /// <returns>A new and initialized instance of the <see cref="Compatibility"/> class.</returns>
-        public static Compatibility Create(string modName, ILocalizationProvider localizationProvider)
+        public static Compatibility Create(ILocalizationProvider localizationProvider)
         {
-            if (string.IsNullOrEmpty(modName))
-            {
-                throw new ArgumentException("The mod name cannot be null or an empty string", nameof(modName));
-            }
-
-            var result = new Compatibility(modName, localizationProvider ?? throw new ArgumentNullException(nameof(localizationProvider)));
+            var result = new Compatibility(localizationProvider ?? throw new ArgumentNullException(nameof(localizationProvider)));
             result.Initialize();
             return result;
         }

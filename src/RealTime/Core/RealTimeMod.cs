@@ -139,7 +139,7 @@ namespace RealTime.Core
             Log.Info($"The 'Real Time' mod starts, game mode {mode}.");
             core?.Stop();
 
-            var compatibility = Compatibility.Create(Name, localizationProvider);
+            var compatibility = Compatibility.Create(localizationProvider);
 
             bool isNewGame = mode == LoadMode.NewGame || mode == LoadMode.NewGameFromScenario;
             core = RealTimeCore.Run(configProvider, modPath, localizationProvider, isNewGame, compatibility);
