@@ -139,8 +139,10 @@ namespace RealTime.Core
             Log.Info($"The 'Real Time' mod starts, game mode {mode}.");
             core?.Stop();
 
+            var compatibility = Compatibility.Create(Name, localizationProvider);
+
             bool isNewGame = mode == LoadMode.NewGame || mode == LoadMode.NewGameFromScenario;
-            core = RealTimeCore.Run(configProvider, modPath, localizationProvider, isNewGame);
+            core = RealTimeCore.Run(configProvider, modPath, localizationProvider, isNewGame, compatibility);
             if (core == null)
             {
                 Log.Warning("Showing a warning message to user because the mod isn't working");
@@ -150,7 +152,7 @@ namespace RealTime.Core
             }
             else
             {
-                CheckCompatibility();
+                CheckCompatibility(compatibility);
             }
         }
 
@@ -183,26 +185,25 @@ namespace RealTime.Core
             return pluginInfo?.modPath;
         }
 
-        private void CheckCompatibility()
+        private void CheckCompatibility(Compatibility compatibility)
         {
             if (core == null)
             {
                 return;
             }
 
-            string restrictedText = core.IsRestrictedMode
-                ? localizationProvider.Translate(TranslationKeys.RestrictedMode)
-                : null;
-
-            if (configProvider.Configuration.ShowIncompatibilityNotifications
-                && !Compatibility.Check(Name, localizationProvider, restrictedText))
-            {
-                return;
-            }
+            string message = null;
+            bool incompatibilitiesDetected = configProvider.Configuration.ShowIncompatibilityNotifications
+                && compatibility.AreAnyIncompatibleModsActive(out message);
 
             if (core.IsRestrictedMode)
             {
-                Compatibility.Notify(Name + " - " + localizationProvider.Translate(TranslationKeys.Warning), restrictedText);
+                message += localizationProvider.Translate(TranslationKeys.RestrictedMode);
+            }
+
+            if (incompatibilitiesDetected || core.IsRestrictedMode)
+            {
+                Notification.Notify(Name + " - " + localizationProvider.Translate(TranslationKeys.Warning), message);
             }
         }
 
