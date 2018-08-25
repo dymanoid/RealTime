@@ -305,7 +305,7 @@ namespace RealTime.Config
             NightTimeSpeed = FastMath.Clamp(NightTimeSpeed, 1u, 6u);
 
             VirtualCitizens = (VirtualCitizensLevel)FastMath.Clamp((int)VirtualCitizens, (int)VirtualCitizensLevel.None, (int)VirtualCitizensLevel.Vanilla);
-            ConstructionSpeed = FastMath.Clamp(ConstructionSpeed, 0u, 100u);
+            ConstructionSpeed = FastMath.Clamp(ConstructionSpeed, 1u, 100u);
 
             SecondShiftQuota = FastMath.Clamp(SecondShiftQuota, 1u, 25u);
             NightShiftQuota = FastMath.Clamp(NightShiftQuota, 1u, 25u);
