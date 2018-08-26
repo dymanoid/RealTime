@@ -283,6 +283,13 @@ namespace RealTime.Config
         [ConfigItemCheckBox]
         public bool ShowIncompatibilityNotifications { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the mod should use the English-US time and date formats, if the English language is selected.
+        /// </summary>
+        [ConfigItem("Tools", 1)]
+        [ConfigItemCheckBox]
+        public bool UseEnglishUSFormats { get; set; }
+
         /// <summary>Checks the version of the deserialized object and migrates it to the latest version when necessary.</summary>
         public void MigrateWhenNecessary()
         {

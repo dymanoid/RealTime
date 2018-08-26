@@ -118,6 +118,8 @@ namespace RealTime.Core
                 LoadStorageData(new[] { configProvider }, StorageBase.CurrentLevelStorage);
             }
 
+            localizationProvider.SetEnglishUSFormatsState(configProvider.Configuration.UseEnglishUSFormats);
+
             var timeInfo = new TimeInfo(configProvider.Configuration);
             var buildingManager = new BuildingManagerConnection();
             var randomizer = new GameRandomizer();

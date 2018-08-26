@@ -9,6 +9,7 @@
 
   <translation id="Tools" value="Outils" />
   <translation id="ShowIncompatibilityNotifications" value="Montrer les notifications de mods incompatibles." />
+  <translation id="UseEnglishUSFormats" value="Use USA time and date formats with English language" />
   <translation id="ResetToDefaults" value="Tout réinitialiser aux valeurs par défaut" />
   <translation id="UseForNewGames" value="Utiliser les valeurs actuelles pour les prochaines parties" />
 

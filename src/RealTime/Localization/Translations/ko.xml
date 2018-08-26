@@ -5,9 +5,11 @@
   <translation id="RestrictedModeMessage" value="Real Time이 제한된 모드로 실행중에 있습니다. 몇몇 기능들이 꺼집니다. 서드 파티 라이브러리의 문제 이거나 혹은 모드가 호환되지 않아서 일수 있습니다. 도움이 필요하시다면 게임 로그파일을 모드 개발자에게 보내주세요." />
   <translation id="ModNotWorkingMessage" value="어이쿠! 무엇인가 잘못되었습니다 - 모드가 정상 동작하지 않습니다! 모드 제작자에게 로그 파일을 보내주세요." />
   <translation id="IncompatibleModsFoundMessage" value="Real Time 모드가 최소 한개 이상의 호환되지 않는(혹은 부분적으로 호환되지 않는) 모드를 발견했습니다. 해당 모드를 구독해제 하시는 것을 추천드립니다. 여러분이 원하신다면 놔두셔도 상관없지만, 게임이 정상적으로 흐르지 않거나 튕길 가능성이 있습니다." />
-  <translation id="Minutes" value="분" />  
+  <translation id="Minutes" value="분" />
+
   <translation id="Tools" value="도구" />
   <translation id="ShowIncompatibilityNotifications" value="호환되지 않는 모드 알람 보이기" />
+  <translation id="UseEnglishUSFormats" value="Use USA time and date formats with English language" />
   <translation id="ResetToDefaults" value="모두 초기값으로 되돌리기" />
   <translation id="UseForNewGames" value="새 게임에 현재 값을 사용" />
 
