@@ -9,7 +9,7 @@ namespace RealTime.CustomAI
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
-        private bool ProcessCitizenMoving(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
+        private bool ProcessCitizenMoving(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
             ushort instanceId = CitizenProxy.GetInstance(ref citizen);
             ushort vehicleId = CitizenProxy.GetVehicle(ref citizen);
@@ -39,13 +39,25 @@ namespace RealTime.CustomAI
                 return true;
             }
 
-            if (vehicleId == 0 && !CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating) && CitizenMgr.IsAreaEvacuating(instanceId))
+            bool isEvacuating = CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating);
+            if (vehicleId == 0 && !isEvacuating && CitizenMgr.IsAreaEvacuating(instanceId))
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} was on the way, but the area evacuates. Finding an evacuation place.");
-                schedule.Schedule(ResidentState.Unknown);
-                schedule.DepartureTime = default;
-                TransferMgr.AddOutgoingOfferFromCurrentPosition(citizenId, residentAI.GetEvacuationReason(instance, 0));
+                schedule.CurrentState = ResidentState.Evacuation;
+                return false;
+            }
+
+            if (isEvacuating)
+            {
                 return true;
+            }
+
+            if (schedule.Hint == ScheduleHint.OnTour)
+            {
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a tour");
+                schedule.Schedule(ResidentState.Unknown);
+                schedule.Hint = ScheduleHint.None;
+                return false;
             }
 
             ushort targetBuilding = CitizenMgr.GetTargetBuilding(instanceId);
@@ -67,7 +79,6 @@ namespace RealTime.CustomAI
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} cancels the trip because of traffic jam");
                     schedule.Schedule(ResidentState.Relaxing);
                     schedule.Hint = ScheduleHint.RelaxNearbyOnly;
-                    schedule.CurrentState = ResidentState.InTransition;
                     return false;
                 }
             }
@@ -82,7 +93,6 @@ namespace RealTime.CustomAI
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} cancels the trip to a park due to bad weather");
                 schedule.Schedule(ResidentState.AtHome);
-                schedule.CurrentState = ResidentState.InTransition;
                 return false;
             }
 

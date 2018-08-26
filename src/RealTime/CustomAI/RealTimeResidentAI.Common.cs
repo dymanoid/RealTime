@@ -101,10 +101,12 @@ namespace RealTime.CustomAI
 
             if (currentLocation == Citizen.Location.Visit)
             {
-                ItemClass.Service service = BuildingMgr.GetBuildingService(CitizenProxy.GetVisitBuilding(ref citizen));
-                if (service == ItemClass.Service.HealthCare || service == ItemClass.Service.Disaster)
+                ushort visitBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
+                switch (BuildingMgr.GetBuildingService(visitBuilding))
                 {
-                    return true;
+                    case ItemClass.Service.HealthCare:
+                    case ItemClass.Service.Disaster when !BuildingMgr.BuildingHasFlags(visitBuilding, Building.Flags.Downgrading):
+                        return true;
                 }
             }
 
@@ -115,17 +117,16 @@ namespace RealTime.CustomAI
 
         private void DoScheduledEvacuation(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
         {
+            schedule.Schedule(ResidentState.Unknown);
             ushort building = CitizenProxy.GetCurrentBuilding(ref citizen);
             if (building == 0)
             {
-                schedule.Schedule(ResidentState.AtHome);
-                return;
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is trying to find a shelter from current position");
+                TransferMgr.AddOutgoingOfferFromCurrentPosition(citizenId, residentAI.GetEvacuationReason(instance, 0));
             }
-
-            schedule.Schedule(ResidentState.InShelter);
-            if (schedule.CurrentState != ResidentState.InShelter)
+            else
             {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is trying to find an evacuation place");
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is trying to find a shelter from {building}");
                 residentAI.FindEvacuationPlace(instance, citizenId, building, residentAI.GetEvacuationReason(instance, building));
             }
         }
@@ -133,11 +134,15 @@ namespace RealTime.CustomAI
         private bool ProcessCitizenInShelter(ref CitizenSchedule schedule, ref TCitizen citizen)
         {
             ushort shelter = CitizenProxy.GetVisitBuilding(ref citizen);
-            if (BuildingMgr.BuildingHasFlags(shelter, Building.Flags.Downgrading) && schedule.ScheduledState == ResidentState.InShelter)
+            if (BuildingMgr.BuildingHasFlags(shelter, Building.Flags.Downgrading))
             {
                 CitizenProxy.RemoveFlags(ref citizen, Citizen.Flags.Evacuating);
-                schedule.Schedule(ResidentState.Unknown);
                 return true;
+            }
+
+            if (schedule.ScheduledState != ResidentState.Unknown)
+            {
+                schedule.Schedule(ResidentState.Unknown);
             }
 
             return false;
@@ -165,11 +170,10 @@ namespace RealTime.CustomAI
                     true))
                 {
                     // Guided tours are treated as visits
-                    schedule.CurrentState = ResidentState.Visiting;
                     schedule.Hint = ScheduleHint.OnTour;
-                    return ScheduleAction.ProcessState;
                 }
 
+                schedule.CurrentState = ResidentState.InTransition;
                 return ScheduleAction.ProcessTransition;
             }
 
@@ -180,15 +184,13 @@ namespace RealTime.CustomAI
                 return ScheduleAction.ProcessState;
             }
 
-            ItemClass.Service buildingService = BuildingMgr.GetBuildingService(currentBuilding);
-            if (BuildingMgr.BuildingHasFlags(currentBuilding, Building.Flags.Evacuating)
-                && buildingService != ItemClass.Service.Disaster)
+            if (BuildingMgr.BuildingHasFlags(currentBuilding, Building.Flags.Evacuating))
             {
                 schedule.CurrentState = ResidentState.Evacuation;
-                schedule.Schedule(ResidentState.InShelter);
                 return ScheduleAction.ProcessState;
             }
 
+            ItemClass.Service buildingService = BuildingMgr.GetBuildingService(currentBuilding);
             switch (location)
             {
                 case Citizen.Location.Home:
@@ -196,17 +198,28 @@ namespace RealTime.CustomAI
                     return ScheduleAction.ProcessState;
 
                 case Citizen.Location.Work:
-                    if (buildingService == ItemClass.Service.Disaster && CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating))
-                    {
-                        schedule.CurrentState = ResidentState.InShelter;
-                        return ScheduleAction.ProcessState;
-                    }
-
                     if (CitizenProxy.GetVisitBuilding(ref citizen) == currentBuilding && schedule.WorkStatus != WorkStatus.Working)
                     {
                         // A citizen may visit their own work building (e.g. shopping),
                         // but the game sets the location to 'work' even if the citizen visits the building.
                         goto case Citizen.Location.Visit;
+                    }
+
+                    switch (buildingService)
+                    {
+                        case ItemClass.Service.Electricity:
+                        case ItemClass.Service.Water:
+                        case ItemClass.Service.HealthCare:
+                        case ItemClass.Service.PoliceDepartment:
+                        case ItemClass.Service.FireDepartment:
+                        case ItemClass.Service.Disaster:
+                            if (BuildingMgr.IsAreaEvacuating(currentBuilding))
+                            {
+                                schedule.CurrentState = ResidentState.InShelter;
+                                return ScheduleAction.ProcessState;
+                            }
+
+                            break;
                     }
 
                     schedule.CurrentState = ResidentState.AtSchoolOrWork;
@@ -229,7 +242,7 @@ namespace RealTime.CustomAI
                             schedule.CurrentState = ResidentState.Shopping;
                             return ScheduleAction.ProcessState;
 
-                        case ItemClass.Service.Disaster when CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating):
+                        case ItemClass.Service.Disaster:
                             schedule.CurrentState = ResidentState.InShelter;
                             return ScheduleAction.ProcessState;
                     }
@@ -356,7 +369,9 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            if (schedule.CurrentState == ResidentState.AtHome && IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen))
+            if (schedule.CurrentState == ResidentState.AtHome
+                && schedule.ScheduledState != ResidentState.InShelter
+                && IsCitizenVirtual(instance, ref citizen, ShouldRealizeCitizen))
             {
                 Log.Debug(LogCategory.Simulation, $" *** Citizen {citizenId} is virtual this time");
                 schedule.Schedule(ResidentState.Unknown);
@@ -368,18 +383,15 @@ namespace RealTime.CustomAI
             {
                 case ResidentState.AtHome:
                     DoScheduledHome(ref schedule, instance, citizenId, ref citizen);
-                    executed = true;
-                    break;
+                    return;
 
                 case ResidentState.AtSchoolOrWork:
                     DoScheduledWork(ref schedule, instance, citizenId, ref citizen);
-                    executed = true;
-                    break;
+                    return;
 
                 case ResidentState.Shopping when schedule.WorkStatus == WorkStatus.Working:
                     DoScheduledLunch(ref schedule, instance, citizenId, ref citizen);
-                    executed = true;
-                    break;
+                    return;
 
                 case ResidentState.Shopping:
                     executed = DoScheduledShopping(ref schedule, instance, citizenId, ref citizen);
@@ -389,10 +401,9 @@ namespace RealTime.CustomAI
                     executed = DoScheduledRelaxing(ref schedule, instance, citizenId, ref citizen);
                     break;
 
-                case ResidentState.InShelter:
+                case ResidentState.InShelter when schedule.CurrentState != ResidentState.InShelter:
                     DoScheduledEvacuation(ref schedule, instance, citizenId, ref citizen);
-                    executed = true;
-                    break;
+                    return;
 
                 default:
                     return;

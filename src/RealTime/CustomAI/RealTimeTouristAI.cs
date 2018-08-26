@@ -109,10 +109,16 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            if (vehicleId == 0 && CitizenMgr.IsAreaEvacuating(instanceId) && !CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating))
+            bool isEvacuating = CitizenProxy.HasFlags(ref citizen, Citizen.Flags.Evacuating);
+            if (vehicleId == 0 && !isEvacuating && CitizenMgr.IsAreaEvacuating(instanceId))
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"Tourist {GetCitizenDesc(citizenId, ref citizen)} was on the way, but the area evacuates. Searching for a shelter.");
-                touristAI.FindVisitPlace(instance, citizenId, CitizenProxy.GetCurrentBuilding(ref citizen), touristAI.GetEvacuationReason(instance, 0));
+                TransferMgr.AddOutgoingOfferFromCurrentPosition(citizenId, touristAI.GetEvacuationReason(instance, 0));
+                return;
+            }
+
+            if (isEvacuating)
+            {
                 return;
             }
 

@@ -216,6 +216,7 @@ namespace RealTime.Core
 
             if (localizationProvider.LoadTranslation(LocaleManager.instance.language))
             {
+                localizationProvider.SetEnglishUSFormatsState(configProvider.Configuration.UseEnglishUSFormats);
                 core?.Translate(localizationProvider);
             }
 

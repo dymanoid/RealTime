@@ -178,5 +178,14 @@ namespace RealTime.GameConnection
         /// <param name="parkId">The ID of the park to get policies of.</param>
         /// <returns>The policies of the park.</returns>
         DistrictPolicies.Park GetParkPolicies(byte parkId);
+
+        /// <summary>
+        /// Determines whether the area around the building with specified ID is currently being evacuated.
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the area around the building with specified ID is currently being evacuated.; otherwise, <c>false</c>.
+        /// </returns>
+        bool IsAreaEvacuating(ushort buildingId);
     }
 }

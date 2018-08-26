@@ -246,13 +246,6 @@ namespace RealTime.CustomAI
 
         private bool ProcessCitizenVisit(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
-            if (schedule.Hint == ScheduleHint.OnTour)
-            {
-                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a tour");
-                schedule.Schedule(ResidentState.Unknown);
-                return true;
-            }
-
             return RescheduleVisit(ref schedule, citizenId, ref citizen, CitizenProxy.GetVisitBuilding(ref citizen));
         }
 
