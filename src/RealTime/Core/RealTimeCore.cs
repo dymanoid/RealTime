@@ -224,6 +224,22 @@ namespace RealTime.Core
                 return;
             }
 
+            ResidentAIPatch.RealTimeAI = null;
+            TouristAIPatch.RealTimeAI = null;
+            BuildingAIPatches.RealTimeAI = null;
+            BuildingAIPatches.WeatherInfo = null;
+            TransferManagerPatch.RealTimeAI = null;
+            SimulationHandler.EventManager = null;
+            SimulationHandler.DayTimeSimulation = null;
+            SimulationHandler.TimeAdjustment = null;
+            SimulationHandler.WeatherInfo = null;
+            SimulationHandler.Buildings = null;
+            SimulationHandler.CitizenProcessor = null;
+            SimulationHandler.Statistics?.Close();
+            SimulationHandler.Statistics = null;
+            ParkPatches.SpareTimeBehavior = null;
+            OutsideConnectionAIPatch.SpareTimeBehavior = null;
+
             Log.Info($"The 'Real Time' mod reverts method patches.");
             patcher.Revert();
 
@@ -240,22 +256,6 @@ namespace RealTime.Core
             AwakeSleepSimulation.Uninstall();
 
             StorageBase.CurrentLevelStorage.GameSaving -= GameSaving;
-
-            ResidentAIPatch.RealTimeAI = null;
-            TouristAIPatch.RealTimeAI = null;
-            BuildingAIPatches.RealTimeAI = null;
-            BuildingAIPatches.WeatherInfo = null;
-            TransferManagerPatch.RealTimeAI = null;
-            SimulationHandler.EventManager = null;
-            SimulationHandler.DayTimeSimulation = null;
-            SimulationHandler.TimeAdjustment = null;
-            SimulationHandler.WeatherInfo = null;
-            SimulationHandler.Buildings = null;
-            SimulationHandler.CitizenProcessor = null;
-            SimulationHandler.Statistics?.Close();
-            SimulationHandler.Statistics = null;
-            ParkPatches.SpareTimeBehavior = null;
-            OutsideConnectionAIPatch.SpareTimeBehavior = null;
 
             WorldInfoPanelPatches.CitizenInfoPanel?.Disable();
             WorldInfoPanelPatches.CitizenInfoPanel = null;
