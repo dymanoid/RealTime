@@ -41,14 +41,17 @@ namespace RealTime.Simulation
         {
             dayTimeSpeed = config.DayTimeSpeed;
             nightTimeSpeed = config.NightTimeSpeed;
-            isNightTime = SimulationManager.instance.m_isNightTime;
             isNightEnabled = SimulationManager.instance.m_enableDayNight;
 
+            DateTime now = SimulationManager.instance.m_ThreadingWrapper.simulationTime;
             if (setDefaultTime)
             {
-                DateTime currentDate = SimulationManager.instance.m_ThreadingWrapper.simulationTime.Date;
-                SetGameDateTime(currentDate.AddHours(config.WakeUpHour));
+                now = now.Date.AddHours(config.WakeUpHour);
+                SetGameDateTime(now);
             }
+
+            float currentHour = now.TimeOfDay.Hours;
+            isNightTime = currentHour < config.WakeUpHour || currentHour >= config.GoToSleepHour;
 
             return UpdateTimeSimulationValues(CalculateFramesPerDay(), useCustomTimePerFrame: true);
         }
