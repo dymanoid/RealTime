@@ -26,6 +26,7 @@ namespace RealTime.Core
     /// The core component of the Real Time mod. Activates and deactivates
     /// the different parts of the mod's logic.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "This is the entry point and needs to instantiate all parts")]
     internal sealed class RealTimeCore
     {
         private const string HarmonyId = "com.cities_skylines.dymanoid.realtime";
