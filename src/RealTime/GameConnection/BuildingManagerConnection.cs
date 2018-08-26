@@ -418,6 +418,18 @@ namespace RealTime.GameConnection
                 : DistrictManager.instance.m_parks.m_buffer[parkId].m_parkPolicies;
         }
 
+        /// <summary>
+        /// Determines whether the area around the building with specified ID is currently being evacuated.
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the area around the building with specified ID is currently being evacuated.; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsAreaEvacuating(ushort buildingId)
+        {
+            return buildingId != 0 && DisasterManager.instance.IsEvacuating(BuildingManager.instance.m_buildings.m_buffer[buildingId].m_position);
+        }
+
         private static bool BuildingCanBeVisited(ushort buildingId)
         {
             uint currentUnitId = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_citizenUnits;
