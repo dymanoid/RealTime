@@ -124,7 +124,7 @@
     <translation id="DATETIME_WEEK" value="{unit}"/>
     <translation id="DATETIME_WEEKLOWERCASE" value="{unit}"/>
     <translation id="DATETIME_WEEKS" value="× {unit}"/>
-    <translation id="DISTRICT_TOURISTS" value="Turyści w ciągu ostatnich {unit}:"/>
+    <translation id="DISTRICT_TOURISTS" value="Turyści&#10;w ciągu ostatnich {unit}:"/>
     <translation id="EXPENSES_TT_EDUCATION" value="Wydatki na edukację w ciągu ostatnich {unit}"/>
     <translation id="EXPENSES_TT_ELECTRICITY" value="Wydatki na prąd w ciągu ostatnich {unit}"/>
     <translation id="EXPENSES_TT_FIRE" value="Wydatki na straż pożarną w ciągu ostatnich {unit}"/>
@@ -166,7 +166,7 @@
     <translation id="INFO_GARBAGE_GARBAGEPRODUCTION" value="Produkcja śmieci: {0:N0} jednostek / {unit}"/>
     <translation id="INFO_POPULATION_BIRTHS" value="{0:N0} urodzenia / {unit}"/>
     <translation id="INFO_POPULATION_DEATHS" value="{0:N0} zgony / {unit}"/>
-    <translation id="INFO_PUBLICTRANSPORT_COUNT" value="{0:N0} per {unit}"/>
+    <translation id="INFO_PUBLICTRANSPORT_COUNT" value="{0:N0} na {unit}"/>
     <translation id="INFO_RES_FORESTAMOUNT" value="{0} jednostek/{unit}"/>
     <translation id="INFO_RES_FORESTUSED" value="{0} jednostek/{unit}"/>
     <translation id="INFO_RES_OILUSED" value="{0} jednostek/{unit}"/>
