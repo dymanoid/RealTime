@@ -97,15 +97,20 @@ namespace RealTime.CustomAI
                 case ScheduleAction.Ignore:
                     return;
 
-                case ScheduleAction.ProcessTransition when ProcessCitizenMoving(ref schedule, instance, citizenId, ref citizen):
+                case ScheduleAction.ProcessTransition when ProcessCitizenMoving(ref schedule, citizenId, ref citizen):
                     return;
             }
 
-            if (schedule.CurrentState == ResidentState.Unknown)
+            switch (schedule.CurrentState)
             {
-                Log.Debug(LogCategory.State, TimeInfo.Now, $"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is in an UNKNOWN state! Changing to 'moving'");
-                CitizenProxy.SetLocation(ref citizen, Citizen.Location.Moving);
-                return;
+                case ResidentState.Unknown:
+                    Log.Debug(LogCategory.State, TimeInfo.Now, $"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is in an UNKNOWN state! Changing to 'moving'");
+                    CitizenProxy.SetLocation(ref citizen, Citizen.Location.Moving);
+                    return;
+
+                case ResidentState.Evacuation:
+                    schedule.Schedule(ResidentState.InShelter);
+                    break;
             }
 
             if (TimeInfo.Now < schedule.ScheduledStateTime)
@@ -113,7 +118,8 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            bool updated = UpdateCitizenSchedule(ref schedule, citizenId, ref citizen);
+            Log.Debug(LogCategory.State, TimeInfo.Now, $"Citizen {citizenId} is in state {schedule.CurrentState}");
+            bool updated = schedule.CurrentState != ResidentState.InShelter && UpdateCitizenSchedule(ref schedule, citizenId, ref citizen);
             ExecuteCitizenSchedule(ref schedule, instance, citizenId, ref citizen, updated);
         }
 

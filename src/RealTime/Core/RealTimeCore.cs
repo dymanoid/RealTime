@@ -26,6 +26,7 @@ namespace RealTime.Core
     /// The core component of the Real Time mod. Activates and deactivates
     /// the different parts of the mod's logic.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "This is the entry point and needs to instantiate all parts")]
     internal sealed class RealTimeCore
     {
         private const string HarmonyId = "com.cities_skylines.dymanoid.realtime";
@@ -116,6 +117,8 @@ namespace RealTime.Core
             {
                 LoadStorageData(new[] { configProvider }, StorageBase.CurrentLevelStorage);
             }
+
+            localizationProvider.SetEnglishUSFormatsState(configProvider.Configuration.UseEnglishUSFormats);
 
             var timeInfo = new TimeInfo(configProvider.Configuration);
             var buildingManager = new BuildingManagerConnection();
@@ -224,6 +227,22 @@ namespace RealTime.Core
                 return;
             }
 
+            ResidentAIPatch.RealTimeAI = null;
+            TouristAIPatch.RealTimeAI = null;
+            BuildingAIPatches.RealTimeAI = null;
+            BuildingAIPatches.WeatherInfo = null;
+            TransferManagerPatch.RealTimeAI = null;
+            SimulationHandler.EventManager = null;
+            SimulationHandler.DayTimeSimulation = null;
+            SimulationHandler.TimeAdjustment = null;
+            SimulationHandler.WeatherInfo = null;
+            SimulationHandler.Buildings = null;
+            SimulationHandler.CitizenProcessor = null;
+            SimulationHandler.Statistics?.Close();
+            SimulationHandler.Statistics = null;
+            ParkPatches.SpareTimeBehavior = null;
+            OutsideConnectionAIPatch.SpareTimeBehavior = null;
+
             Log.Info($"The 'Real Time' mod reverts method patches.");
             patcher.Revert();
 
@@ -240,22 +259,6 @@ namespace RealTime.Core
             AwakeSleepSimulation.Uninstall();
 
             StorageBase.CurrentLevelStorage.GameSaving -= GameSaving;
-
-            ResidentAIPatch.RealTimeAI = null;
-            TouristAIPatch.RealTimeAI = null;
-            BuildingAIPatches.RealTimeAI = null;
-            BuildingAIPatches.WeatherInfo = null;
-            TransferManagerPatch.RealTimeAI = null;
-            SimulationHandler.EventManager = null;
-            SimulationHandler.DayTimeSimulation = null;
-            SimulationHandler.TimeAdjustment = null;
-            SimulationHandler.WeatherInfo = null;
-            SimulationHandler.Buildings = null;
-            SimulationHandler.CitizenProcessor = null;
-            SimulationHandler.Statistics?.Close();
-            SimulationHandler.Statistics = null;
-            ParkPatches.SpareTimeBehavior = null;
-            OutsideConnectionAIPatch.SpareTimeBehavior = null;
 
             WorldInfoPanelPatches.CitizenInfoPanel?.Disable();
             WorldInfoPanelPatches.CitizenInfoPanel = null;

@@ -9,6 +9,7 @@
 
   <translation id="Tools" value="Narzędzia" />
   <translation id="ShowIncompatibilityNotifications" value="Pokaż wiadomości o niekompatybilności moda" />
+  <translation id="UseEnglishUSFormats" value="Use USA time and date formats with English language" />
   <translation id="ResetToDefaults" value="Resetuj wszystko do domyślnych wartości" />
   <translation id="UseForNewGames" value="Użyj aktualnych wartości dla każdej nowej gry" />
 
