@@ -165,11 +165,10 @@ namespace RealTime.CustomAI
                     true))
                 {
                     // Guided tours are treated as visits
-                    schedule.CurrentState = ResidentState.Visiting;
                     schedule.Hint = ScheduleHint.OnTour;
-                    return ScheduleAction.ProcessState;
                 }
 
+                schedule.CurrentState = ResidentState.InTransition;
                 return ScheduleAction.ProcessTransition;
             }
 

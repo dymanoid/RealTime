@@ -34,7 +34,7 @@ namespace RealTime.CustomAI
         /// <summary>The citizen is in a shelter building.</summary>
         InShelter,
 
-        /// <summary>The citizen was in transition from one state to another, but must change the decision.</summary>
+        /// <summary>The citizen was in transition from one state to another.</summary>
         InTransition,
     }
 }

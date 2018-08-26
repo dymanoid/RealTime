@@ -48,6 +48,14 @@ namespace RealTime.CustomAI
                 return true;
             }
 
+            if (schedule.Hint == ScheduleHint.OnTour)
+            {
+                Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} quits a tour");
+                schedule.Schedule(ResidentState.Unknown);
+                schedule.Hint = ScheduleHint.None;
+                return false;
+            }
+
             ushort targetBuilding = CitizenMgr.GetTargetBuilding(instanceId);
             bool headingToWork = targetBuilding == CitizenProxy.GetWorkBuilding(ref citizen);
             if (vehicleId != 0 && schedule.DepartureTime != default)
@@ -67,7 +75,6 @@ namespace RealTime.CustomAI
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} cancels the trip because of traffic jam");
                     schedule.Schedule(ResidentState.Relaxing);
                     schedule.Hint = ScheduleHint.RelaxNearbyOnly;
-                    schedule.CurrentState = ResidentState.InTransition;
                     return false;
                 }
             }
@@ -82,7 +89,6 @@ namespace RealTime.CustomAI
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} cancels the trip to a park due to bad weather");
                 schedule.Schedule(ResidentState.AtHome);
-                schedule.CurrentState = ResidentState.InTransition;
                 return false;
             }
 
