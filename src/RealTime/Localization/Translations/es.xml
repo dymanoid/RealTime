@@ -55,13 +55,13 @@
   <translation id="LocalBuildingSearchQuota" value="Compras locales" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="Porcentaje de ciudadanos que harán compras locales" />
   <translation id="ShoppingForFunQuota" value="Compras por diversión" />
-  <translation id="ShoppingForFunQuotaTooltip" value="Porcentaje de la población que irá de compras solo por diversion incluso cuando no necesiten nada" />
+  <translation id="ShoppingForFunQuotaTooltip" value="Porcentaje de la población que irá de compras sólo por diversion incluso cuando no necesiten nada" />
   <translation id="OnTimeQuota" value="Puntualidad" />
   <translation id="OnTimeQuotaTooltip" value="Porcentaje de ciudadanos que irán a trabajar y saldrán del trabajo con puntualidad" />
 
   <translation id="3Events" value="Eventos" />
   <translation id="AreEventsEnabled" value="Activar eventos personalizados" />
-  <translation id="AreEventsEnabledTooltip" value="Si se desactiva, solo tendrán lugar los eventos del juego original" />
+  <translation id="AreEventsEnabledTooltip" value="Si se desactiva, sólo tendrán lugar los eventos del juego original" />
   <translation id="EarliestHourEventStartWeekday" value="Día laboral: Hora mínima de inicio" />
   <translation id="EarliestHourEventStartWeekdayTooltip" value="Hora más temprana en la cual pueden empezar los eventos entre semana" />
   <translation id="LatestHourEventStartWeekday" value="Día laboral: Hora máxima de inicio" />
