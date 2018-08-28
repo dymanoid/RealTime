@@ -2,9 +2,9 @@
 <language id="es" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="Warning" value="Atención" />
-  <translation id="RestrictedModeMessage" value="Real Time funciona en modo restringido. Algunas funciones estan desactivadas. Esto es por un problema tecnico con alguna librería de terceros o alguna incompatibilidad con otro mod. Si quieres ayuda, por favor comparte tu archivo 'log' con el desarrollador del mod." />
+  <translation id="RestrictedModeMessage" value="Real Time funciona en modo restringido. Algunas funciones están desactivadas. Esto es por un problema técnico con alguna librería de terceros o alguna incompatibilidad con otro mod. Si quieres ayuda, por favor comparte tu archivo 'log' con el desarrollador del mod." />
   <translation id="ModNotWorkingMessage" value="¡Oops! Algo ha ido mal - el mod 'Real Time' no se ha podido activar. Por favor, comparte el archivo log con el desarrollador del mod." />
-  <translation id="IncompatibleModsFoundMessage" value="Real Time ha detectado al menos un mod incompatible(o al menos parcialmente incompatible). Se recomiendo desuscribirse de él. Puedes continuar bajo tu propia responsabilidad si sabes que estas haciendo, pero en ese caso algunas cosas pueden no funcionar como deberían o incluso bloquear el juego." />
+  <translation id="IncompatibleModsFoundMessage" value="Real Time ha detectado al menos un mod incompatible(o al menos parcialmente incompatible). Se recomienda desinstalar dicho mod. Puedes continuar bajo tu propia responsabilidad si sabes lo que estas haciendo, pero en este caso algunas cosas pueden no funcionar como deberían o incluso bloquear el juego." />
   <translation id="Minutes" value="min." />
 
   <translation id="Tools" value="Herramientas" />
@@ -26,24 +26,24 @@
   <translation id="NightTimeSpeedTooltip" value="La velocidad a la que fluye el tiempo nocturno. '1' es muy lento, ¡casi en tiempo real!" />
   <translation id="IsDynamicDayLengthEnabled" value="Duración dinámica de las horas diurnas" />
   <translation id="IsDynamicDayLengthEnabledTooltip" value="La duración de las horas diurnas depende del tema del mapa y del día del año. En invierno los días serán más cortos que en verano" />
-  <translation id="VirtualCitizens" value="Modo de simulacion de los ciudadanos (más real o más virtual)" />
+  <translation id="VirtualCitizens" value="Modo de simulación de los ciudadanos (más real o más virtual)" />
   <translation id="VirtualCitizensTooltip" value="Selecciona 'Todos' para una ciudad real (máximo 65.535 ciudadanos activos), seleccionar 'Original' si tu PC es lento" />
   <translation id="VirtualCitizens.None" value="Todos los ciudadanos reales" />
   <translation id="VirtualCitizens.Vanilla" value="Como en el juego Original" />
   <translation id="UseSlowAging" value="Mejorar envejecimiento y porcentaje de nacimientos" />
-  <translation id="UseSlowAgingTooltip" value="Si se activa, 1 día del juego significa 1 año en la vida de los ciudadanos. Si se desactiva, 1 dia del juego significa de 10(a velocidad del tiempo 6) hasta 340(a velocidad del tiempo 1) años de vida." />
+  <translation id="UseSlowAgingTooltip" value="Si se activa, 1 día del juego significa 1 año en la vida de los ciudadanos. Si se desactiva, 1 día del juego significa de 10(a velocidad del tiempo 6) hasta 340(a velocidad del tiempo 1) años de vida." />
   <translation id="IsWeekendEnabled" value="Activar Fines de Semana" />
   <translation id="IsWeekendEnabledTooltip" value="Los ciudadanos no van al trabajo ni a la escuela los fines de semana" />
   <translation id="IsLunchtimeEnabled" value="Activar hora de Almorzar" />
   <translation id="IsLunchtimeEnabledTooltip" value="Los ciudadanos salen a almorzar durante el trabajo" />
-  <translation id="StopConstructionAtNight" value="Pausar la construccion y mejora de edificios durante la noche" />
+  <translation id="StopConstructionAtNight" value="Pausar la construcción y mejora de edificios durante la noche" />
   <translation id="StopConstructionAtNightTooltip" value="Los trabajadores de la construcción también necesitan dormir" />
   <translation id="ConstructionSpeed" value="Velocidad de construcción" />
   <translation id="ConstructionSpeedTooltip" value="Velocidad de construcción y mejora de edificios" />
   <translation id="SwitchOffLightsAtNight" value="Apagar las luces de los edificios por la noche" />
   <translation id="SwitchOffLightsAtNightTooltip" value="Los edificios residenciales apagarán las luces cuando los ciudadanos se vallan a dormir, otros edificios y parques apagarán cuando nadie trabajé en ellos" />
-  <translation id="CanAbandonJourney" value="Mejorar atascos de trafico y esperas de transportes publicos" />
-  <translation id="CanAbandonJourneyTooltip" value="Si se activa, los ciudadanos pueden abandonar sus viajes cuando se queden por mucho tiempo en un atasco o esperen demasiado por el transporte publico." />
+  <translation id="CanAbandonJourney" value="Mejorar atascos de tráfico y esperas de transportes públicos" />
+  <translation id="CanAbandonJourneyTooltip" value="Si se activa, los ciudadanos pueden abandonar sus viajes cuando se queden por mucho tiempo en un atasco o esperen demasiado por el transporte público." />
 
   <translation id="2Quotas" value="Probabilidades" />
   <translation id="SecondShiftQuota" value="Turno de Tarde" />
@@ -55,13 +55,13 @@
   <translation id="LocalBuildingSearchQuota" value="Compras locales" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="Porcentaje de ciudadanos que harán compras locales" />
   <translation id="ShoppingForFunQuota" value="Compras por diversión" />
-  <translation id="ShoppingForFunQuotaTooltip" value="Porcentaje de la poblacion que irá de compras solo por diversion incluso cuando no necesiten nada" />
+  <translation id="ShoppingForFunQuotaTooltip" value="Porcentaje de la población que irá de compras solo por diversion incluso cuando no necesiten nada" />
   <translation id="OnTimeQuota" value="Puntualidad" />
   <translation id="OnTimeQuotaTooltip" value="Porcentaje de ciudadanos que irán a trabajar y saldrán del trabajo con puntualidad" />
 
   <translation id="3Events" value="Eventos" />
   <translation id="AreEventsEnabled" value="Activar eventos personalizados" />
-  <translation id="AreEventsEnabledTooltip" value="Si esta desactivado, solo ocurriran los eventos del juego original en la ciudad" />
+  <translation id="AreEventsEnabledTooltip" value="Si se desactiva, solo tendrán lugar los eventos del juego original" />
   <translation id="EarliestHourEventStartWeekday" value="Día laboral: Hora mínima de inicio" />
   <translation id="EarliestHourEventStartWeekdayTooltip" value="Hora más temprana en la cual pueden empezar los eventos entre semana" />
   <translation id="LatestHourEventStartWeekday" value="Día laboral: Hora máxima de inicio" />
@@ -125,7 +125,7 @@
     <translation id="DATETIME_WEEK" value="{unit}"/>
     <translation id="DATETIME_WEEKLOWERCASE" value="{unit}"/>
     <translation id="DATETIME_WEEKS" value="× {unit}"/>
-    <translation id="DISTRICT_TOURISTS" value="Tourist visits&#10;last {unit}:"/>
+    <translation id="DISTRICT_TOURISTS" value="Visitas turísticas&#10;durante {unit}:"/>
     <translation id="EXPENSES_TT_EDUCATION" value="Costes de Educacion durante {unit}"/>
     <translation id="EXPENSES_TT_ELECTRICITY" value="Costes de Electricidad durante {unit}"/>
     <translation id="EXPENSES_TT_FIRE" value="Costes de Bomberos durante {unit}"/>
@@ -168,10 +168,10 @@
     <translation id="INFO_POPULATION_BIRTHS" value="{0:N0} nacimientos / {unit}"/>
     <translation id="INFO_POPULATION_DEATHS" value="{0:N0} fallecimientos / {unit}"/>
     <translation id="INFO_PUBLICTRANSPORT_COUNT" value="{0:N0} cada {unit}"/>
-    <translation id="INFO_RES_FORESTAMOUNT" value="{0} units/{unit}"/>
-    <translation id="INFO_RES_FORESTUSED" value="{0} units/{unit}"/>
-    <translation id="INFO_RES_OILUSED" value="{0} units/{unit}"/>
-    <translation id="INFO_RES_OREUSED" value="{0} units/{unit}"/>
+    <translation id="INFO_RES_FORESTAMOUNT" value="{0} unidades/{unit}"/>
+    <translation id="INFO_RES_FORESTUSED" value="{0} unidades/{unit}"/>
+    <translation id="INFO_RES_OILUSED" value="{0} unidades/{unit}"/>
+    <translation id="INFO_RES_OREUSED" value="{0} unidades/{unit}"/>
     <translation id="INFO_WATER_CONSUMPTION" value="Consumo de Agua: {0:N0} m³/{unit}"/>
     <translation id="INFO_WATER_PRODUCTION" value="Capacidad de Bombeo de Agua: {0:N0} m³/{unit}"/>
     <translation id="INFO_WATER_SEWAGEACCUMULATION" value="Producción Residual: {0:N0} m³/{unit}"/>
@@ -179,7 +179,7 @@
     <translation id="LOAN_WEEKLYCOST" value="Costes durante {unit}"/>
     <translation id="MAIN_MONEYDELTA" value="Ingresos durante {unit}"/>
     <translation id="MAIN_POPULATIONDELTA" value="Cambios durante {unit}"/>
-    <translation id="MILESTONE_COMBINED_PASSED_TIME_DESC" value="Pass {0} requirements for {1} × {unit}"/>
+    <translation id="MILESTONE_COMBINED_PASSED_TIME_DESC" value="Cumple {0} requisitos durante {1} × {unit}"/>
     <translation id="MILESTONE_COMBINED_TIME_DESC" value="Mantenido para {0} × {unit}"/>
     <translation id="PARKINFOPANEL_CURRENTVISITORS" value="Visitantes durante {unit}: {0}"/>
     <translation id="PARKINFOPANEL_INCOME" value="Ingresos: {0} / {unit}"/>
