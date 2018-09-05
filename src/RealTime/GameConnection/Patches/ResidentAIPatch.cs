@@ -29,7 +29,7 @@ namespace RealTime.GameConnection.Patches
         public static IPatch StartMoving { get; } = new ResidentAI_StartMoving();
 
         /// <summary>Gets the patch object for the simulation step method (for citizens instances).</summary>
-        public static IPatch InstanceSimulationStep { get; } = new HumanAI_SimulationStep();
+        public static IPatch InstanceSimulationStep { get; } = new ResidentAI_SimulationStep();
 
         /// <summary>Gets the patch object for the update age method.</summary>
         public static IPatch UpdateAge { get; } = new ResidentAI_UpdateAge();
@@ -207,31 +207,30 @@ namespace RealTime.GameConnection.Patches
             }
         }
 
-        private sealed class HumanAI_SimulationStep : PatchBase
+        private sealed class ResidentAI_SimulationStep : PatchBase
         {
             protected override MethodInfo GetMethod()
             {
-                return typeof(HumanAI).GetMethod(
+                return typeof(ResidentAI).GetMethod(
                     "SimulationStep",
                     BindingFlags.Instance | BindingFlags.Public,
                     null,
-                    new[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(Vector3) },
+                    new[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(CitizenInstance.Frame).MakeByRefType(), typeof(bool) },
                     new ParameterModifier[0]);
             }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
-            private static void Postfix(ushort instanceID, ref CitizenInstance data)
+            private static void Postfix(ushort instanceID, ref CitizenInstance citizenData, ResidentAI __instance)
             {
                 if (RealTimeAI == null || instanceID == 0)
                 {
                     return;
                 }
 
-                if ((data.m_flags & (CitizenInstance.Flags.WaitingTaxi | CitizenInstance.Flags.WaitingTransport)) != 0
-                    && data.Info.m_citizenAI is ResidentAI residentAI)
+                if ((citizenData.m_flags & (CitizenInstance.Flags.WaitingTaxi | CitizenInstance.Flags.WaitingTransport)) != 0)
                 {
-                    RealTimeAI.ProcessWaitingForTransport(residentAI, data.m_citizen, instanceID);
+                    RealTimeAI.ProcessWaitingForTransport(__instance, citizenData.m_citizen, instanceID);
                 }
             }
         }
