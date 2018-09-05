@@ -169,7 +169,6 @@ namespace RealTime.CustomAI
                     CitizenInstance.Flags.OnTour | CitizenInstance.Flags.TargetIsNode,
                     true))
                 {
-                    // Guided tours are treated as visits
                     schedule.Hint = ScheduleHint.OnTour;
                 }
 
