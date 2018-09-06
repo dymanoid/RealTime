@@ -471,7 +471,7 @@ namespace RealTime.CustomAI
                 if (updateBuilding)
                 {
                     buildingManager.UpdateBuildingColors(i);
-                    if (!lightsOn)
+                    if (!lightsOn && service != ItemClass.Service.Residential)
                     {
                         buildingManager.DeactivateVisually(i);
                     }
