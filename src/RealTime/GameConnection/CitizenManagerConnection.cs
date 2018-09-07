@@ -68,6 +68,17 @@ namespace RealTime.GameConnection
                 : currentFlags != 0;
         }
 
+        /// <summary>Gets the current flags of the citizen's instance with specified ID.</summary>
+        /// <param name="instanceId">The instance ID to check.</param>
+        /// <param name="mask">The flags mask to apply for the check.</param>
+        /// <returns>The citizen instance flags masked by the specified <paramref name="mask"/>.</returns>
+        public CitizenInstance.Flags GetInstanceFlags(ushort instanceId, CitizenInstance.Flags mask)
+        {
+            return instanceId == 0
+                ? CitizenInstance.Flags.None
+                : CitizenManager.instance.m_instances.m_buffer[instanceId].m_flags & mask;
+        }
+
         /// <summary>Gets the current wait counter value of the citizen's instance with specified ID.</summary>
         /// <param name="instanceId">The instance ID to check.</param>
         /// <returns>The wait counter value of the citizen's instance.</returns>

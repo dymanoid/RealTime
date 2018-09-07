@@ -34,6 +34,12 @@ namespace RealTime.GameConnection
         /// <returns><c>true</c> if the citizen instance has the specified flags; otherwise, <c>false</c>.</returns>
         bool InstanceHasFlags(ushort instanceId, CitizenInstance.Flags flags, bool all = false);
 
+        /// <summary>Gets the current flags of the citizen's instance with specified ID.</summary>
+        /// <param name="instanceId">The instance ID to check.</param>
+        /// <param name="mask">The flags mask to apply for the check.</param>
+        /// <returns>The citizen instance flags masked by the specified <paramref name="mask"/>.</returns>
+        CitizenInstance.Flags GetInstanceFlags(ushort instanceId, CitizenInstance.Flags mask);
+
         /// <summary>
         /// Gets the current wait counter value of the citizen's instance with specified ID.
         /// </summary>
