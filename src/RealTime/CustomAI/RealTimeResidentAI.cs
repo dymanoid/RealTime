@@ -148,8 +148,10 @@ namespace RealTime.CustomAI
         /// <param name="instanceId">The citizen's instance ID.</param>
         public void ProcessWaitingForTransport(TAI instance, uint citizenId, ushort instanceId)
         {
+            const CitizenInstance.Flags flagsMask = CitizenInstance.Flags.BoredOfWaiting | CitizenInstance.Flags.EnteringVehicle;
+
             if (!Config.CanAbandonJourney
-                || !CitizenMgr.InstanceHasFlags(instanceId, CitizenInstance.Flags.BoredOfWaiting)
+                || CitizenMgr.GetInstanceFlags(instanceId, flagsMask) != CitizenInstance.Flags.BoredOfWaiting
                 || (CitizenMgr.GetInstanceWaitCounter(instanceId) & 0x3F) != 1)
             {
                 return;

@@ -25,6 +25,8 @@ namespace RealTime.Simulation
         private const string OverrddenTranslationType = "Units";
         private const string CityInfoPanelName = "(Library) CityInfoPanel";
         private const string DistrictInfoPanelName = "(Library) DistrictWorldInfoPanel";
+        private const string IndustryInfoPanelName = "(Library) IndustryWorldInfoPanel";
+        private const string UniqueFactoryInfoPanelName = "(Library) UniqueFactoryWorldInfoPanel";
         private const string TouristsPanelName = "Tourists";
         private const string TouristsLabelName = "Label";
         private const string InfoPanelName = "InfoPanel";
@@ -42,6 +44,8 @@ namespace RealTime.Simulation
         private UILabel labelPopulation;
         private UILabel labelIncome;
         private UITabContainer buildingsTabContainer;
+        private WorldInfoPanel industryInfoPanel;
+        private WorldInfoPanel uniqueFactoryInfoPanel;
 
         /// <summary>Initializes a new instance of the <see cref="Statistics"/> class.</summary>
         /// <param name="timeInfo">An object that provides the game's time information.</param>
@@ -97,6 +101,24 @@ namespace RealTime.Simulation
                 Log.Warning("The 'Real Time' mod could not obtain the DistrictWorldInfoPanel.Tourists.Label object");
             }
 
+            industryInfoPanel = GameObject
+                .Find(IndustryInfoPanelName)?
+                .GetComponent<IndustryWorldInfoPanel>();
+
+            if (industryInfoPanel == null)
+            {
+                Log.Warning("The 'Real Time' mod could not obtain the IndustryWorldInfoPanel object");
+            }
+
+            uniqueFactoryInfoPanel = GameObject
+                .Find(UniqueFactoryInfoPanelName)?
+                .GetComponent<UniqueFactoryWorldInfoPanel>();
+
+            if (uniqueFactoryInfoPanel == null)
+            {
+                Log.Warning("The 'Real Time' mod could not obtain the UniqueFactoryWorldInfoPanel object");
+            }
+
             UIPanel infoPanel = UIView.Find<UIPanel>(InfoPanelName);
             if (infoPanel == null)
             {
@@ -137,6 +159,8 @@ namespace RealTime.Simulation
             labelIncome = null;
             labelPopulation = null;
             buildingsTabContainer = null;
+            industryInfoPanel = null;
+            uniqueFactoryInfoPanel = null;
         }
 
         /// <summary>Refreshes the statistics units for current game speed.</summary>
@@ -166,11 +190,16 @@ namespace RealTime.Simulation
             }
         }
 
-        private static void RefreshEconomyPanel()
+        private static void RefreshToolTips(Component panel)
         {
-            IEnumerable<UIComponent> components = ToolsModifierControl.economyPanel?
-                            .GetComponentsInChildren<UIComponent>()?
-                            .Where(c => !string.IsNullOrEmpty(c.tooltipLocaleID));
+            if (panel == null)
+            {
+                return;
+            }
+
+            IEnumerable<UIComponent> components = panel
+                .GetComponentsInChildren<UIComponent>()?
+                .Where(c => !string.IsNullOrEmpty(c.tooltipLocaleID));
 
             if (components == null)
             {
@@ -225,7 +254,9 @@ namespace RealTime.Simulation
                 districtInfoPanelTourists.text = Locale.Get(districtInfoPanelTourists.localeID);
             }
 
-            RefreshEconomyPanel();
+            RefreshToolTips(ToolsModifierControl.economyPanel);
+            RefreshToolTips(industryInfoPanel);
+            RefreshToolTips(uniqueFactoryInfoPanel);
             RefreshBuildingsButtons();
         }
 

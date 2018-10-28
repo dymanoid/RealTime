@@ -63,6 +63,8 @@ namespace RealTime.CustomAI
                 case ItemClass.SubService.CommercialLow:
                 case ItemClass.SubService.IndustrialOil:
                 case ItemClass.SubService.IndustrialOre:
+                case ItemClass.SubService.PlayerIndustryOre:
+                case ItemClass.SubService.PlayerIndustryOil:
                     return true;
             }
 
@@ -245,6 +247,7 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.Commercial
                     when subService != ItemClass.SubService.CommercialHigh && subService != ItemClass.SubService.CommercialEco:
                 case ItemClass.Service.Industrial when subService != ItemClass.SubService.IndustrialGeneric:
+                case ItemClass.Service.PlayerIndustry:
                 case ItemClass.Service.Tourism:
                 case ItemClass.Service.Electricity:
                 case ItemClass.Service.Water:
@@ -270,6 +273,8 @@ namespace RealTime.CustomAI
             {
                 case ItemClass.Service.Office:
                 case ItemClass.Service.Education:
+                case ItemClass.Service.PlayerIndustry
+                    when subService == ItemClass.SubService.PlayerIndustryForestry || subService == ItemClass.SubService.PlayerIndustryFarming:
                 case ItemClass.Service.Industrial
                     when subService == ItemClass.SubService.IndustrialForestry || subService == ItemClass.SubService.IndustrialFarming:
                     return 1;
@@ -292,6 +297,7 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.Natural:
                 case ItemClass.Service.Garbage:
                 case ItemClass.Service.Road:
+                case ItemClass.Service.PlayerIndustry:
                     return 3;
 
                 default:
@@ -306,6 +312,7 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.Commercial when subService == ItemClass.SubService.CommercialLow:
                 case ItemClass.Service.Beautification:
                 case ItemClass.Service.Education:
+                case ItemClass.Service.PlayerIndustry:
                 case ItemClass.Service.Industrial
                     when subService == ItemClass.SubService.IndustrialFarming || subService == ItemClass.SubService.IndustrialForestry:
                     return true;

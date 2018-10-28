@@ -189,6 +189,26 @@
     <translation id="TOOL_WATER_ESTIMATE" value="Geschätzte Produktion: {0:N0} m³/{unit}"/>
     <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="Besucher letzte {unit}: {0} Einwohner, {1} Touristen"/>
     <translation id="TRANSPORT_LINE_PASSENGERS" value="Passagiere letzte {unit}: {0} Einwohner, {1} Touristen"/>
+    <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="Produktion: {0:N0} pro {unit}"/>
+    <translation id="AIINFO_POST_SORTING_RATE" value="Sortierrate: {0:N0} Briefe pro {unit}"/>
+    <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="Kostenpflichtige Fahrzeuge letzte {unit}: {0:N0}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="Einnahmen aus abgegrenzter Industrie und Industriegebieten letzte {unit}"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY" value="Ausgaben für das Industriegebiet pro {unit}"/>
+    <translation id="INCOME_TT_ROADTOLLS" value="Einnahmen aus Straßenzöllen pro {unit}"/>
+    <translation id="INCOME_TT_TOTAL_ROADTOLLS" value="Gesamteinnahmen aus der Maut letzte {unit}"/>
+    <translation id="INDUSTRYPANEL_ACQUISITION_TOOLTIP" value="Beschaffung pro {unit}"/>
+    <translation id="INDUSTRYPANEL_ACQUISITIONCOST_TOOLTIP" value="Kosten durch den Import des Rohstoffs pro {unit}"/>
+    <translation id="INDUSTRYPANEL_OUTPUT_TOOLTIP" value="Verkauf pro {unit}"/>
+    <translation id="INDUSTRYPANEL_OUTPUTINCOME_TOOLTIP" value="Einnahmen aus dem Verkauf des Rohstoffs pro {unit}"/>
+    <translation id="INDUSTRYPANEL_PROFIT_TOOLTIP" value="Profit pro {unit}"/>
+    <translation id="INDUSTRYPANEL_WEEKLYPRODUCTION" value="{0} / {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_INDUSTRYAREAS" value="Gesamtprofit aus Industriegebieten pro {unit}"/>
+    <translation id="TOOL_EXTRACTION_ESTIMATE" value="Geschätzte Produktion: {0:N0} Einheiten pro {unit}"/>
+    <translation id="UFPANEL_MATERIALCOST_TOOLTIP" value="Rohstoffwert zur Herstellung des Endprodukts pro {unit}"/>
+    <translation id="UFPANEL_PRODUCTIONVALUE_TOOLTIP" value="Wert der Fabrikproduktion pro {unit}"/>
+    <translation id="UNIQUEFACTORYPANEL_INCOME_TOOLTIP" value="Einnahmen letzte {unit}"/>
+    <translation id="UNIQUEFACTORYPANEL_RESOURCEEXPENSES" value="Ausgaben für die Rohstoffbeschaffung pro {unit}"/>
+    <translation id="UPDATEAIINFO_INDUSTRY_PRODUCTION_RATE" value="Produktion: {0:N0} per {unit}"/>
   </overrides>
     
 </language>
