@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<language id="ja" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <translation id="Warning" value="警告" />
+  <translation id="RestrictedModeMessage" value="Real Time が制限モードで動作しています。いくつかの機能が無効化されています。これは、サードパーティライブラリの技術的な問題または mod の互換性がないためです。ヘルプが必要な場合は、ゲームのログファイルを mod の開発者に送ってください。" />  
+  <translation id="ModNotWorkingMessage" value="おっと! 何か変ですね - 'Real Time' mod を起動することができませんでした。ゲームのログファイルを mod の開発者に送ってもらえませんか。" />
+  <translation id="IncompatibleModsFoundMessage" value="Real Time は、互換性がない (あるいは部分的に互換性がない) mod が少なくともひとつあることを検出しました。それらの mod はサブスクライブを解除して下さい。どのような不具合があるかわかっているなら、自己責任で続けることができますが、この場合、正常に動作しなかったり、あるいはゲームがクラッシュするかもしれません。" />
+  <translation id="Minutes" value="分" />
+
+  <translation id="Tools" value="ツール" />
+  <translation id="ShowIncompatibilityNotifications" value="非互換 mod 通知を表示" />
+  <translation id="UseEnglishUSFormats" value="英語の場合は米国の日付/時刻形式を使用" />
+  <translation id="ResetToDefaults" value="すべてデフォルトにリセット" />
+  <translation id="UseForNewGames" value="現在の値を新規ゲームに適用" />
+
+  <translation id="1General" value="全般" />
+  <translation id="0Time" value="時間オプション" />
+  <translation id="1Other" value="その他のオプション" />
+  <translation id="WakeUpHour" value="都市が目覚める時" />
+  <translation id="WakeUpHourTooltip" value="多くの市民が起床し始める時間。予算と時間の進む速度が「日中」モードへ切り替わります!" />
+  <translation id="GoToSleepHour" value="都市が眠りにつく時" />
+  <translation id="GoToSleepHourTooltip" value="多くの市民が床につき始める時間。予算と時間の進む速度が「夜間」モードに切り替わります!" />
+  <translation id="DayTimeSpeed" value="時間が進む速度 (日中)" />
+  <translation id="DayTimeSpeedTooltip" value="日中に経過する時間の早さです。'1' にするととても遅く - 実際の時間とほとんど変わりありません!" />
+  <translation id="NightTimeSpeed" value="時間が進む速度 (夜間)" />
+  <translation id="NightTimeSpeedTooltip" value="夜間に経過する時間の早さです。'1' にすると、とても遅く - 実際の時間とほとんど変わりありません!" /> 
+  <translation id="IsDynamicDayLengthEnabled" value="一日の長さを動的に変更" />
+  <translation id="IsDynamicDayLengthEnabledTooltip" value="一日の長さは、マップテーマと日付により異なります。冬は昼が夏より短くなります。" />
+  <translation id="VirtualCitizens" value="市民のシミュレーションモード (リアルとバーチャル)" />
+  <translation id="VirtualCitizensTooltip" value="リアルな都市 (ただし、市民は最大 65,535人) をシミュレートするには、'すべて' を選択し、PCの性能がそれほどでないか、都市が巨大なら、'バニラ' を選択して下さい" />
+  <translation id="VirtualCitizens.None" value="すべての市民がリアル" />
+  <translation id="VirtualCitizens.Vanilla" value="バニラと同じ" />
+  <translation id="UseSlowAging" value="老化速度の最適化" />
+  <translation id="UseSlowAgingTooltip" value="有効にすると、ゲーム内の1日は市民の1年を意味します。無効にすると、ゲーム内の1日は10年（時間の速さ6）〜340年（時間の速さ1）を意味します。" />
+  <translation id="IsWeekendEnabled" value="週末を有効にする" />
+  <translation id="IsWeekendEnabledTooltip" value="週末には市民が通勤通学しなくなります" />
+  <translation id="IsLunchtimeEnabled" value="ランチタイムを有効にする" />
+  <translation id="IsLunchtimeEnabledTooltip" value="市民は食事のために昼食時に外出します" />
+  <translation id="StopConstructionAtNight" value="夜間には、ビルの建築やアップグレードを中断する" />
+  <translation id="StopConstructionAtNightTooltip" value="建築現場の労働者も就寝しなくてはなりません" />
+  <translation id="ConstructionSpeed" value="建築速度" />
+  <translation id="ConstructionSpeedTooltip" value="建物の建築やアップグレードの速度" />
+  <translation id="SwitchOffLightsAtNight" value="夜間に建物の照明をつけない" />
+  <translation id="SwitchOffLightsAtNightTooltip" value="市民が睡眠をとっている間 - 誰も働いたりしていない間は、住宅やその他の建物、公園の照明を消します" />
+  <translation id="CanAbandonJourney" value="渋滞と公共交通待機時の振る舞い改善" />
+  <translation id="CanAbandonJourneyTooltip" value="有効の場合、市民は長時間交通渋滞や公共交通機関を待たされた際に行動を諦めることができます。" />
+
+  <translation id="2Quotas" value="確率" />  
+  <translation id="SecondShiftQuota" value="２直の労働者" />
+  <translation id="SecondShiftQuotaTooltip" value="２直で働く市民の割合" />
+  <translation id="NightShiftQuota" value="夜直の労働者" />
+  <translation id="NightShiftQuotaTooltip" value="夜直で働く市民の割合" />
+  <translation id="LunchQuota" value="昼食の確率" />
+  <translation id="LunchQuotaTooltip" value="昼食のために外出する市民の割合" />
+  <translation id="LocalBuildingSearchQuota" value="地元で買い物をする人の割合" />
+  <translation id="LocalBuildingSearchQuotaTooltip" value="地元で買い物をする住民の割合" />
+  <translation id="ShoppingForFunQuota" value="娯楽としての買い物" />
+  <translation id="ShoppingForFunQuotaTooltip" value="商品が必要でなくとも買い物を楽しむためだけに外出する住民の割合" />
+  <translation id="OnTimeQuota" value="定時出退勤者の割合" />
+  <translation id="OnTimeQuotaTooltip" value="定時に出社、退勤する市民の割合" />
+
+  <translation id="3Events" value="イベント" />  
+  <translation id="AreEventsEnabled" value="カスタムイベントを有効にする" />
+  <translation id="AreEventsEnabledTooltip" value="無効の場合、デフォルトのゲームイベントだけが都市に発生します。" />
+  <translation id="EarliestHourEventStartWeekday" value="平日イベント発生の一番早い時刻" />
+  <translation id="EarliestHourEventStartWeekdayTooltip" value="平日に発生する可能性があるイベントの一番早い発生時刻" />
+  <translation id="LatestHourEventStartWeekday" value="平日イベント発生の一番遅い時刻" />
+  <translation id="LatestHourEventStartWeekdayTooltip" value="平日に発生する可能性があるイベントの一番遅い時刻" />
+  <translation id="EarliestHourEventStartWeekend" value="週末イベント発生の一番早い時刻" />
+  <translation id="EarliestHourEventStartWeekendTooltip" value="週末に発生する可能性があるイベントの一番早い時刻" />
+  <translation id="LatestHourEventStartWeekend" value="週末イベント発生の一番遅い時刻" />
+  <translation id="LatestHourEventStartWeekendTooltip" value="週末に発生する可能性があるイベントの一番遅い時刻" />
+    
+  <translation id="4Time" value="時間" />
+  <<translation id="MaxOvertime" value="最大時間外労働" />
+  <translation id="MaxOvertimeTooltip" value="市民の時間外労働の最大時間 - より早く仕事に来る、あるいはより遅くまで仕事をします" />
+  <translation id="SchoolBegin" value="学校の開始時間" />
+  <translation id="SchoolBeginTooltip" value="学校は日中の時間に開始します - 若い市民は通学しなくてはなりません" />
+  <translation id="SchoolEnd" value="学校の終業時間" />
+  <translation id="SchoolEndTooltip" value="若い市民が学校から帰ってくる日中の時間" />
+  <translation id="WorkBegin" value="就業開始時間" />
+  <translation id="WorkBeginTooltip" value="労働は日中の時間に開始します - 成人の市民は仕事を始めるか大学に通学しなくてはなりません" />
+  <translation id="WorkEnd" value="就業終了時間" />
+  <translation id="WorkEndTooltip" value="成人の市民が仕事もしくは大学から帰ってくる日中の時間" />
+  <translation id="LunchBegin" value="昼食の開始時間" />
+  <translation id="LunchBeginTooltip" value="市民が昼食を食べに外出する日中の時間" />
+  <translation id="LunchEnd" value="昼食の終了時間" />
+  <translation id="LunchEndTooltip" value="市民が昼食から戻って仕事を再開する日中の時間" />
+  <translation id="MaxVacationLength" value="最大休暇日数" />
+  <translation id="MaxVacationLengthTooltip" value="市民がどれだけ休暇を取ることができるかを指定します。0 を設定すれば、休暇はなしになります。" />
+
+  <translation id="ScheduledAction" value="現在" />
+  <translation id="NextScheduledAction" value="次の予定" />
+  <translation id="ScheduledAction.AtHome" value="帰宅中" />
+  <translation id="ScheduledAction.AtSchoolOrWork" value="通勤/通学中" />
+  <translation id="ScheduledAction.Shopping" value="買い物中" />
+  <translation id="ScheduledAction.Relaxing" value="リラックスタイム" />
+  <translation id="ScheduledAction.Visiting" value="訪問中" />
+  <translation id="ScheduledAction.InShelter" value="シェルターへ移動中" />
+  <translation id="WorkShift.First" value="日勤シフト" />
+  <translation id="WorkShift.Second" value="準夜勤シフト" />
+  <translation id="WorkShift.Night" value="深夜勤シフト" />
+  <translation id="WorkStatus.OnVacation" value="（休暇: {0} 日）" />
+
+  <overrides type="Units">
+    <translation id="AIINFO_COAL_STORED" value="石炭貯蔵量 {0} × {unit}"/>
+    <translation id="AIINFO_CUMULATIVEUPKEEP" value="維持費: {0} + {1} / {unit} / セル"/>
+    <translation id="AIINFO_DECEASED_PROCESSED" value="遺体処理数: {0} / {unit}"/>
+    <translation id="AIINFO_ELECTRICITY_PRODUCED" value="発電量: {0} MW / {unit}"/>
+    <translation id="AIINFO_FIRES_EXTINGUISHED" value="消火件数: {0} / {unit}"/>
+    <translation id="AIINFO_OIL_STORED" value="原油貯蔵量 {0} × {unit}"/>
+    <translation id="AIINFO_PASSENGERS_SERVICED" value="乗客数: {0} / {unit}"/>
+    <translation id="AIINFO_PATIENTS_TREATED" value="治療患者数: {0} / {unit}"/>
+    <translation id="AIINFO_POLE_UPKEEP" value="維持費: {0} / 柱 / {unit}"/>
+    <translation id="AIINFO_PROCESSING_RATE" value="処理能力: {0} / {unit}"/>
+    <translation id="AIINFO_TOURISTS" value="観光客数: {0} / {unit}"/>
+    <translation id="AIINFO_UPKEEP" value="維持費: {0} / {unit}"/>
+    <translation id="AIINFO_UPKEEPPERCELL" value="維持費: {0} / {unit} / セル"/>
+    <translation id="AIINFO_VISITORS" value="訪問者数: {0} / {unit}"/>
+    <translation id="AIINFO_WATER_CONSUMPTION" value="水: {0} m³ / {unit}"/>
+    <translation id="AIINFO_WATER_INTAKE" value="揚水能力: {0} m³ / {unit}"/>
+    <translation id="AIINFO_WATER_OUTLET" value="排水能力: {0} m³ / {unit}"/>
+    <translation id="AIINFO_WATER_STORED" value="水貯蔵量 {0} × {unit}"/>
+    <translation id="AINFO_WATER_IO_CAPACITY" value="給排水可能量: {0:N0} m³ / {unit}"/>
+    <translation id="DATETIME_WEEK" value="{unit}"/>
+    <translation id="DATETIME_WEEKLOWERCASE" value="{unit}"/>
+    <translation id="DATETIME_WEEKS" value="× {unit}"/>
+    <translation id="DISTRICT_TOURISTS" value="{unit} あたりの&#10;観光客数:"/>
+    <translation id="EXPENSES_TT_EDUCATION" value="教育機関支出（ {unit} ）"/>
+    <translation id="EXPENSES_TT_ELECTRICITY" value="電気サービス支出（ {unit} ）"/>
+    <translation id="EXPENSES_TT_FIRE" value="消防機関支出（ {unit} ）"/>
+    <translation id="EXPENSES_TT_FIRE_ND" value="災害支援サービス関連支出（ {unit} ）"/>
+    <translation id="EXPENSES_TT_GARBAGE" value="ゴミ処理サービス支出（ {unit} ）"/>
+    <translation id="EXPENSES_TT_HEALTHCARE" value="医療機関支出（ {unit} ）"/>
+    <translation id="EXPENSES_TT_LOANS" value="融資返済額（ {unit} ）"/>
+    <translation id="EXPENSES_TT_MONUMENTS" value="ユニーク施設支出（ {unit} ）"/>
+    <translation id="EXPENSES_TT_PARK" value="公園・広場・修景関連支出（ {unit} ）"/>
+    <translation id="EXPENSES_TT_POLICE" value="警察機関支出（ {unit} ）"/>
+    <translation id="EXPENSES_TT_POLICIES" value="条例関連支出（ {unit} ）"/>
+    <translation id="EXPENSES_TT_PUBLICTRANSPORT" value="公共交通機関支出（ {unit} ）"/>
+    <translation id="EXPENSES_TT_ROADS" value="道路サービス支出（ {unit} ）"/>
+    <translation id="EXPENSES_TT_TOTAL" value="総支出（ {unit} ）"/>
+    <translation id="EXPENSES_TT_WATER" value="上下水道サービス支出（ {unit} ）"/>
+    <translation id="EXPENSES_TT_WATER_WW" value="上下水道・暖房サービス支出（ {unit} ）"/>
+    <translation id="INCOME_TT_COMMERCIALCITIZEN" value="市民からの商業区画収入（ {unit} ）"/>
+    <translation id="INCOME_TT_COMMERCIALHIGH" value="高密度商業区画収入（ {unit} ）"/>
+    <translation id="INCOME_TT_COMMERCIALLOW" value="低密度商業区画収入（ {unit} ）"/>
+    <translation id="INCOME_TT_COMMERCIALSPEC" value="特化地区からの売上収入（ {unit} ）"/>
+    <translation id="INCOME_TT_COMMERCIALTOTAL" value="商業区画収入（ {unit} ）"/>
+    <translation id="INCOME_TT_COMMERCIALTOURIST" value="観光客からの商業区画収入（ {unit} ）"/>
+    <translation id="INCOME_TT_INDUSTRIAL" value="産業区画収入（ {unit} ）"/>
+    <translation id="INCOME_TT_OFFICE" value="オフィス区画収入（ {unit} ）"/>
+    <translation id="INCOME_TT_PARKAREAS" value="パークエリア収入（ {unit} ）"/>
+    <translation id="INCOME_TT_RESIDENTIALHIGH" value="高密度住宅区画収入（ {unit} ）"/>
+    <translation id="INCOME_TT_RESIDENTIALLOW" value="低密度住宅区画収入（ {unit} ）"/>
+    <translation id="INCOME_TT_RESIDENTIALTOTAL" value="住宅区画収入（ {unit} ）"/>
+    <translation id="INCOME_TT_TOTAL" value="総収入（ {unit} ）"/>
+    <translation id="INCOME_TT_TOTAL_COMMERCIAL" value="商業区画からの総収入（ {unit} ）"/>
+    <translation id="INCOME_TT_TOTAL_RESIDENTIAL" value="住宅区画からの総収入（ {unit} ）"/>
+    <translation id="INCOME_TT_TOTAL_WORK" value="産業・オフィス区画からの総収入（ {unit} ）"/>
+    <translation id="INCOME_TT_PUBLICTRANSPORT" value="公共交通機関収入（ {unit} ）"/>
+    <translation id="INFO_CONNECTIONS_TOURISTSTOTAL" value="{unit} あたりの観光客訪問数: {0:N0}"/>
+    <translation id="INFO_CRIMERATE_CRIMES" value="{unit} あたりの検挙者数:"/>
+    <translation id="INFO_ENTERTAINMENT_PARKVISIT" value="公園・広場の訪問者数: {0:N0} / {unit}"/>
+    <translation id="INFO_ENTERTAINMENT_UBVISIT" value="ユニーク施設の訪問者数: {0:N0} / {unit}"/>
+    <translation id="INFO_GARBAGE_INCINERATORCAPACITY" value="廃棄物処理可容量: {0:N0} units / {unit}"/>
+    <translation id="INFO_GARBAGE_GARBAGEPRODUCTION" value="ゴミの排出量: {0:N0} units / {unit}"/>
+    <translation id="INFO_POPULATION_BIRTHS" value="出生 {0:N0} 人 / {unit}"/>
+    <translation id="INFO_POPULATION_DEATHS" value="死亡 {0:N0} 人 / {unit}"/>
+    <translation id="INFO_PUBLICTRANSPORT_COUNT" value="{0:N0} 人 / {unit}"/>
+    <translation id="INFO_RES_FORESTAMOUNT" value="{0} トン / {unit}"/>
+    <translation id="INFO_RES_FORESTUSED" value="{0} トン / {unit}"/>
+    <translation id="INFO_RES_OILUSED" value="{0} バレル / {unit}"/>
+    <translation id="INFO_RES_OREUSED" value="{0} トン / {unit}"/>
+    <translation id="INFO_WATER_CONSUMPTION" value="上水消費量: {0:N0} m³ / {unit}"/>
+    <translation id="INFO_WATER_PRODUCTION" value="最大揚水能力: {0:N0} m³ / {unit}"/>
+    <translation id="INFO_WATER_SEWAGEACCUMULATION" value="下水排出量: {0:N0} m³ / {unit}"/>
+    <translation id="INFO_WATER_SEWAGECAPACITY" value="最大下水処理能力: {0:N0} m³ / {unit}"/>
+    <translation id="LOAN_WEEKLYCOST" value="{unit} あたりの返済額"/>
+    <translation id="MAIN_MONEYDELTA" value="{unit} あたりの収入"/>
+    <translation id="MAIN_POPULATIONDELTA" value="{unit} あたりの変化"/>
+    <translation id="MILESTONE_COMBINED_PASSED_TIME_DESC" value="{0} 個の条件を {1} × {unit} 間満たす"/>
+    <translation id="MILESTONE_COMBINED_TIME_DESC" value="{0} × {unit} 間維持する"/>
+    <translation id="PARKINFOPANEL_CURRENTVISITORS" value="来場者数: {0} / {unit}"/>
+    <translation id="PARKINFOPANEL_INCOME" value="収入: {0} / {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_PUBTRANS" value="公共交通機関からの総利益（ {unit} ）"/>
+    <translation id="STADIUMINFO7" value="過去 12 × {unit} の勝ち/対戦数:"/>
+    <translation id="STADIUMINFO9" value="収入（ {unit} ）:"/>
+    <translation id="TOOL_WATER_ESTIMATE" value="推定水量: {0:N0} m³ / {unit}"/>
+    <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="来訪者数（ {unit} ）: 住民 {0} 人、観光客 {1} 人"/>
+    <translation id="TRANSPORT_LINE_PASSENGERS" value="乗客数（ {unit} ）: 住民 {0} 人、観光客 {1} 人"/>    
+    <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="生産量: {0:N0} 台 / {unit}"/>
+    <translation id="AIINFO_POST_SORTING_RATE" value="郵便物仕分け量: {0:N0} 束 / {unit}"/>
+    <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="車両通行量: {0:N0} 台 / {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="産業区画と産業エリアからの収入（ {unit} ）"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY" value="産業エリアの費用（ {unit} ）"/>
+    <translation id="INCOME_TT_ROADTOLLS" value="通行料収入（ {unit} ）"/>
+    <translation id="INCOME_TT_TOTAL_ROADTOLLS" value="通行料の総収入（ {unit} ）"/>
+    <translation id="INDUSTRYPANEL_ACQUISITION_TOOLTIP" value="獲得量（ {unit} ）"/>
+    <translation id="INDUSTRYPANEL_ACQUISITIONCOST_TOOLTIP" value="資源輸入コスト（ {unit} ）"/>
+    <translation id="INDUSTRYPANEL_OUTPUT_TOOLTIP" value="生産高（ {unit} ）"/>
+    <translation id="INDUSTRYPANEL_OUTPUTINCOME_TOOLTIP" value="資源売却収入（ {unit} ）"/>
+    <translation id="INDUSTRYPANEL_PROFIT_TOOLTIP" value="利益（ {unit} ）"/>
+    <translation id="INDUSTRYPANEL_WEEKLYPRODUCTION" value="{0} / {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_INDUSTRYAREAS" value="産業エリアの総利益（ {unit} ）"/>
+    <translation id="TOOL_EXTRACTION_ESTIMATE" value="推定生産量: {0:N0} 台 / {unit}"/>
+    <translation id="UFPANEL_MATERIALCOST_TOOLTIP" value="最終製品を製造するために使用される資源の価値（ {unit} ）"/>
+    <translation id="UFPANEL_PRODUCTIONVALUE_TOOLTIP" value="工場出荷実績（ {unit} ）"/>
+    <translation id="UNIQUEFACTORYPANEL_INCOME_TOOLTIP" value="{unit} あたりの収入"/>
+    <translation id="UNIQUEFACTORYPANEL_RESOURCEEXPENSES" value="資源獲得費用（ {unit} ）"/>
+    <translation id="UPDATEAIINFO_INDUSTRY_PRODUCTION_RATE" value="製造: {0:N0} / {unit}"/>
+  </overrides>
+    
+</language>
