@@ -158,7 +158,7 @@ namespace RealTime.CustomAI
             }
 
             HashSet<ushort> buildings = buildingsInConstruction[index];
-            buildings.RemoveWhere(IsBuildingCompleted);
+            buildings.RemoveWhere(IsBuildingCompletedOrMissing);
 
             int allowedCount = GetAllowedConstructingUpradingCount(buildingManager.GeBuildingsCount());
             bool result = buildings.Count < allowedCount;
@@ -417,9 +417,9 @@ namespace RealTime.CustomAI
             return MaximumBuildingsInConstruction;
         }
 
-        private bool IsBuildingCompleted(ushort buildingId)
+        private bool IsBuildingCompletedOrMissing(ushort buildingId)
         {
-            return buildingManager.BuildingHasFlags(buildingId, Building.Flags.Completed);
+            return buildingManager.BuildingHasFlags(buildingId, Building.Flags.Completed | Building.Flags.Deleted, includeZero: true);
         }
 
         private void UpdateLightState()
