@@ -72,7 +72,7 @@
   <translation id="LatestHourEventStartWeekendTooltip" value="週末に発生する可能性があるイベントの一番遅い時刻" />
     
   <translation id="4Time" value="時間" />
-  <<translation id="MaxOvertime" value="最大時間外労働" />
+  <translation id="MaxOvertime" value="最大時間外労働" />
   <translation id="MaxOvertimeTooltip" value="市民の時間外労働の最大時間 - より早く仕事に来る、あるいはより遅くまで仕事をします" />
   <translation id="SchoolBegin" value="学校の開始時間" />
   <translation id="SchoolBeginTooltip" value="学校は日中の時間に開始します - 若い市民は通学しなくてはなりません" />
