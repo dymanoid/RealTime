@@ -189,26 +189,26 @@
     <translation id="TOOL_WATER_ESTIMATE" value="Produção estimada: {0:N0} m³/{unit}"/>
     <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="Visitantes nos últimos {unit}: {0} residentes, {1} turistas"/>
     <translation id="TRANSPORT_LINE_PASSENGERS" value="Passageiros nos últimos {unit}: {0} residentes, {1} turistas"/>
-    <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="Production rate: {0:N0} units per {unit}"/>
-    <translation id="AIINFO_POST_SORTING_RATE" value="Sorting rate: {0:N0} pieces of mail per {unit}"/>
-    <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="Cars charged last {unit}: {0:N0}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="Income from zoned industry and industry areas last {unit}"/>
-    <translation id="EXPENSES_TT_PLAYERINDUSTRY" value="Industry Area Expenses per {unit}"/>
-    <translation id="INCOME_TT_ROADTOLLS" value="Road Toll Income per {unit}"/>
-    <translation id="INCOME_TT_TOTAL_ROADTOLLS" value="Total Income from Road Tolls last {unit}"/>
-    <translation id="INDUSTRYPANEL_ACQUISITION_TOOLTIP" value="Acquisition per {unit}"/>
-    <translation id="INDUSTRYPANEL_ACQUISITIONCOST_TOOLTIP" value="Cost of Importing the Resource per {unit}"/>
-    <translation id="INDUSTRYPANEL_OUTPUT_TOOLTIP" value="Output per {unit}"/>
-    <translation id="INDUSTRYPANEL_OUTPUTINCOME_TOOLTIP" value="Income from Selling the Resource per {unit}"/>
-    <translation id="INDUSTRYPANEL_PROFIT_TOOLTIP" value="Profit per {unit}"/>
+    <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="Taxa de produção: {0:N0} unidades por {unit}"/>
+    <translation id="AIINFO_POST_SORTING_RATE" value="Taxa de separação: {0:N0} correspondências por {unit}"/>
+    <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="Carros cobrados nos últimos {unit}: {0:N0}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="Renda das áreas e zonas industriais nos últimos {unit}"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY" value="Custo das zonas industriais por {unit}"/>
+    <translation id="INCOME_TT_ROADTOLLS" value="Renda do pedágio por {unit}"/>
+    <translation id="INCOME_TT_TOTAL_ROADTOLLS" value="Renda total dos pedágios nos últimos {unit}"/>
+    <translation id="INDUSTRYPANEL_ACQUISITION_TOOLTIP" value="Aquisições por {unit}"/>
+    <translation id="INDUSTRYPANEL_ACQUISITIONCOST_TOOLTIP" value="Custo da importação do recurso por {unit}"/>
+    <translation id="INDUSTRYPANEL_OUTPUT_TOOLTIP" value="Saída por {unit}"/>
+    <translation id="INDUSTRYPANEL_OUTPUTINCOME_TOOLTIP" value="Renda da venda do recurso por {unit}"/>
+    <translation id="INDUSTRYPANEL_PROFIT_TOOLTIP" value="Lucro por {unit}"/>
     <translation id="INDUSTRYPANEL_WEEKLYPRODUCTION" value="{0} / {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_INDUSTRYAREAS" value="Total Industry Area Profit per {unit}"/>
-    <translation id="TOOL_EXTRACTION_ESTIMATE" value="Estimated production: {0:N0} units per {unit}"/>
-    <translation id="UFPANEL_MATERIALCOST_TOOLTIP" value="Value of the resources used to make the end product per {unit}"/>
-    <translation id="UFPANEL_PRODUCTIONVALUE_TOOLTIP" value="Value of the factory output per {unit}"/>
-    <translation id="UNIQUEFACTORYPANEL_INCOME_TOOLTIP" value="Income last {unit}"/>
-    <translation id="UNIQUEFACTORYPANEL_RESOURCEEXPENSES" value="Resource Acquisition Expenses per {unit}"/>
-    <translation id="UPDATEAIINFO_INDUSTRY_PRODUCTION_RATE" value="Production: {0:N0} per {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_INDUSTRYAREAS" value="Lucro total da área industrial por {unit}"/>
+    <translation id="TOOL_EXTRACTION_ESTIMATE" value="Produção estimada: {0:N0} unidades por {unit}"/>
+    <translation id="UFPANEL_MATERIALCOST_TOOLTIP" value="Valor dos recursos usados para fazer o produto final por {unit}"/>
+    <translation id="UFPANEL_PRODUCTIONVALUE_TOOLTIP" value="Valor da saída da fábrica por {unit}"/>
+    <translation id="UNIQUEFACTORYPANEL_INCOME_TOOLTIP" value="Entrada nos últimos {unit}"/>
+    <translation id="UNIQUEFACTORYPANEL_RESOURCEEXPENSES" value="Despesas com aquisição de recursos por {unit}"/>
+    <translation id="UPDATEAIINFO_INDUSTRY_PRODUCTION_RATE" value="Produção: {0:N0} por {unit}"/>
   </overrides>
 
 </language>
