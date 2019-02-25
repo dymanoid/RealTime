@@ -24,7 +24,6 @@ namespace RealTime.Core
             629713122,  // Climate Control
             702070768,  // Export Electricity
             649522495,  // District Service Limit
-            1181352643, // District Service Limit 3.0
         };
 
         private readonly ILocalizationProvider localizationProvider;
