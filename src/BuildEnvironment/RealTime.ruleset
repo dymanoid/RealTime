@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Microsoft Managed Recommended Rules" Description="These rules focus on the most critical problems in your code, including potential security holes, application crashes, and other important logic and design errors. It is recommended to include this rule set in any custom rule set you create for your projects." ToolsVersion="15.0">
+<RuleSet Name="Microsoft Managed Recommended Rules" Description="These rules focus on the most critical problems in your code, including potential security holes, application crashes, and other important logic and design errors. It is recommended to include this rule set in any custom rule set you create for your projects." ToolsVersion="16.0">
   <Localization ResourceAssembly="Microsoft.VisualStudio.CodeAnalysis.RuleSets.Strings.dll" ResourceBaseName="Microsoft.VisualStudio.CodeAnalysis.RuleSets.Strings.Localized">
     <Name Resource="MinimumRecommendedRules_Name" />
     <Description Resource="MinimumRecommendedRules_Description" />
@@ -652,9 +652,115 @@
     <Rule Id="C6995" Action="Warning" />
     <Rule Id="C6997" Action="Warning" />
   </Rules>
+  <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp" RuleNamespace="Microsoft.CodeAnalysis.CSharp">
+    <Rule Id="CS8019" Action="Info" />
+    <Rule Id="CS8020" Action="Info" />
+    <Rule Id="CS8605" Action="Info" />
+    <Rule Id="CS8606" Action="Info" />
+    <Rule Id="CS8607" Action="Info" />
+  </Rules>
+  <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp.Features" RuleNamespace="Microsoft.CodeAnalysis.CSharp.Features">
+    <Rule Id="IDE0001" Action="Info" />
+    <Rule Id="IDE0002" Action="Info" />
+    <Rule Id="IDE0003" Action="Info" />
+    <Rule Id="IDE0004" Action="Info" />
+    <Rule Id="IDE0005" Action="Info" />
+    <Rule Id="IDE0007" Action="Info" />
+    <Rule Id="IDE0008" Action="Info" />
+    <Rule Id="IDE0009" Action="Info" />
+    <Rule Id="IDE0011" Action="Info" />
+    <Rule Id="IDE0016" Action="Info" />
+    <Rule Id="IDE0017" Action="Info" />
+    <Rule Id="IDE0018" Action="Info" />
+    <Rule Id="IDE0019" Action="Info" />
+    <Rule Id="IDE0020" Action="Info" />
+    <Rule Id="IDE0028" Action="Info" />
+    <Rule Id="IDE0029" Action="Info" />
+    <Rule Id="IDE0030" Action="Info" />
+    <Rule Id="IDE0031" Action="Info" />
+    <Rule Id="IDE0032" Action="Info" />
+    <Rule Id="IDE0034" Action="Info" />
+    <Rule Id="IDE0035" Action="Info" />
+    <Rule Id="IDE0036" Action="Info" />
+    <Rule Id="IDE0037" Action="Info" />
+    <Rule Id="IDE0039" Action="Info" />
+    <Rule Id="IDE0040" Action="Info" />
+    <Rule Id="IDE0041" Action="Info" />
+    <Rule Id="IDE0042" Action="Info" />
+    <Rule Id="IDE0045" Action="Info" />
+    <Rule Id="IDE0046" Action="Info" />
+    <Rule Id="IDE0049" Action="Info" />
+    <Rule Id="IDE0050" Action="Info" />
+    <Rule Id="IDE0051" Action="Hidden" />
+    <Rule Id="IDE0052" Action="Hidden" />
+    <Rule Id="IDE0053" Action="Info" />
+    <Rule Id="IDE0054" Action="Info" />
+    <Rule Id="IDE0056" Action="Info" />
+    <Rule Id="IDE0057" Action="Info" />
+    <Rule Id="IDE0058" Action="Info" />
+    <Rule Id="IDE0059" Action="Info" />
+    <Rule Id="IDE0060" Action="Info" />
+    <Rule Id="IDE1005" Action="Info" />
+    <Rule Id="IDE1006" Action="Info" />
+    <Rule Id="RE0001" Action="Info" />
+  </Rules>
+  <Rules AnalyzerId="Microsoft.CodeAnalysis.Features" RuleNamespace="Microsoft.CodeAnalysis.Features">
+    <Rule Id="IDE0033" Action="Info" />
+    <Rule Id="IDE0044" Action="Info" />
+  </Rules>
+  <Rules AnalyzerId="Roslynator.CSharp.Analyzers" RuleNamespace="Roslynator.CSharp.Analyzers">
+    <Rule Id="RCS1008" Action="Info" />
+    <Rule Id="RCS1009" Action="Info" />
+    <Rule Id="RCS1010" Action="Info" />
+    <Rule Id="RCS1012" Action="Info" />
+    <Rule Id="RCS1013" Action="Info" />
+    <Rule Id="RCS1014" Action="Info" />
+    <Rule Id="RCS1016" Action="Info" />
+    <Rule Id="RCS1017" Action="Info" />
+    <Rule Id="RCS1019" Action="Info" />
+    <Rule Id="RCS1023" Action="Info" />
+    <Rule Id="RCS1024" Action="Info" />
+    <Rule Id="RCS1040" Action="Info" />
+    <Rule Id="RCS1042" Action="Info" />
+    <Rule Id="RCS1043" Action="Warning" />
+    <Rule Id="RCS1046" Action="Info" />
+    <Rule Id="RCS1051" Action="Info" />
+    <Rule Id="RCS1052" Action="Info" />
+    <Rule Id="RCS1055" Action="Info" />
+    <Rule Id="RCS1061" Action="Info" />
+    <Rule Id="RCS1062" Action="Warning" />
+    <Rule Id="RCS1063" Action="Warning" />
+    <Rule Id="RCS1064" Action="Warning" />
+    <Rule Id="RCS1065" Action="Warning" />
+    <Rule Id="RCS1066" Action="Info" />
+    <Rule Id="RCS1069" Action="Warning" />
+    <Rule Id="RCS1070" Action="Info" />
+    <Rule Id="RCS1071" Action="Info" />
+    <Rule Id="RCS1074" Action="Info" />
+    <Rule Id="RCS1088" Action="Warning" />
+    <Rule Id="RCS1091" Action="Warning" />
+    <Rule Id="RCS1129" Action="Info" />
+    <Rule Id="RCS1133" Action="Warning" />
+    <Rule Id="RCS1134" Action="Info" />
+    <Rule Id="RCS1136" Action="Warning" />
+    <Rule Id="RCS1140" Action="Info" />
+    <Rule Id="RCS1141" Action="Info" />
+    <Rule Id="RCS1142" Action="Info" />
+    <Rule Id="RCS1143" Action="Info" />
+    <Rule Id="RCS1145" Action="Warning" />
+    <Rule Id="RCS1151" Action="Warning" />
+    <Rule Id="RCS1165" Action="Info" />
+    <Rule Id="RCS1174" Action="Warning" />
+    <Rule Id="RCS1177" Action="Warning" />
+    <Rule Id="RCS1181" Action="Info" />
+    <Rule Id="RCS1182" Action="Info" />
+    <Rule Id="RCS1183" Action="Info" />
+  </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id="SA1101" Action="None" />
+    <Rule Id="SA1305" Action="Warning" />
     <Rule Id="SA1601" Action="None" />
     <Rule Id="SA1652" Action="None" />
+    <Rule Id="SX1101" Action="Warning" />
   </Rules>
 </RuleSet>
