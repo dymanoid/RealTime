@@ -42,10 +42,7 @@ namespace RealTime.Events
             Citizen.Wealth wealth,
             Citizen.Wellbeing wellbeing,
             Citizen.Happiness happiness,
-            IRandomizer randomizer)
-        {
-            return true;
-        }
+            IRandomizer randomizer) => true;
 
         /// <summary>
         /// Configures this event to take place in the specified building and at the specified start time.

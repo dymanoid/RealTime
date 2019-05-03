@@ -39,9 +39,7 @@ namespace RealTime.GameConnection.Patches
         /// <param name="cultureInfo">The culture information to use for the X axis labels formatting.</param>
         /// <exception cref="ArgumentNullException">Thrown when the argument is null.</exception>
         public static void Translate(CultureInfo cultureInfo)
-        {
-            currentCulture = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
-        }
+            => currentCulture = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
 
         private static int GetMinDataPoints(List<CurveSettings> curves, DateTime startTime, DateTime endTime)
         {
@@ -63,7 +61,7 @@ namespace RealTime.GameConnection.Patches
                 int minPointsCount = GetMinDataPoints(curves, startTime, endTime);
                 int pointsCount = Math.Max(minPointsCount, curves[curves.Count - 1].data.Length);
                 long ticksPerPoint = (endTime.Ticks - startTime.Ticks) / (curves[curves.Count - 1].data.Length - 1);
-                return new DateTime(startTime.Ticks + ((pointsCount - 1) * ticksPerPoint));
+                return new DateTime(startTime.Ticks + (pointsCount - 1) * ticksPerPoint);
             }
 
             return new DateTime(1, 1, 1);
@@ -214,8 +212,8 @@ namespace RealTime.GameConnection.Patches
                         uiFontRenderer.defaultColor = __instance.TextColor;
                         uiFontRenderer.Render(text, textRenderData);
                         float val = Mathf.Lerp(-0.5f + ___m_GraphRect.xMin, -0.5f + ___m_GraphRect.xMax, (currentTicks - startTicks) / (endTicks - startTicks));
-                        var corner1 = new Vector2(val - (units * __instance.HelpAxesWidth * aspectRatio), -0.5f + ___m_GraphRect.yMin);
-                        var corner2 = new Vector2(val + (units * __instance.HelpAxesWidth * aspectRatio), corner1.y + ___m_GraphRect.height);
+                        var corner1 = new Vector2(val - units * __instance.HelpAxesWidth * aspectRatio, -0.5f + ___m_GraphRect.yMin);
+                        var corner2 = new Vector2(val + units * __instance.HelpAxesWidth * aspectRatio, corner1.y + ___m_GraphRect.height);
                         addSolidQuad(
                             __instance,
                             Vector3.Scale(corner1, size) + center,

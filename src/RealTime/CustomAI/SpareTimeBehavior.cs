@@ -54,10 +54,7 @@ namespace RealTime.CustomAI
         /// <summary>Sets the duration (in hours) of a full simulation cycle for all citizens.
         /// The game calls the simulation methods for a particular citizen with this period.</summary>
         /// <param name="cyclePeriod">The citizens simulation cycle period, in game hours.</param>
-        public void SetSimulationCyclePeriod(float cyclePeriod)
-        {
-            simulationCycle = cyclePeriod;
-        }
+        public void SetSimulationCyclePeriod(float cyclePeriod) => simulationCycle = cyclePeriod;
 
         /// <summary>Calculates the chances for the citizens to go out based on the current game time.</summary>
         public void RefreshChances()
@@ -102,10 +99,7 @@ namespace RealTime.CustomAI
         ///
         /// <returns>A percentage value in range of 0..100 that describes the probability whether
         /// a citizen with specified age would go shopping on current time.</returns>
-        public uint GetShoppingChance(Citizen.AgeGroup citizenAge)
-        {
-            return shoppingChances[(int)citizenAge];
-        }
+        public uint GetShoppingChance(Citizen.AgeGroup citizenAge) => shoppingChances[(int)citizenAge];
 
         /// <summary>
         /// Gets the probability whether a citizen with specified age would go relaxing on current time.
@@ -151,10 +145,7 @@ namespace RealTime.CustomAI
         /// <param name="wealth">The citizen's wealth.</param>
         /// <returns>The precise probability (in percent multiplied by 100) for the citizen to go on vacation
         /// on current day.</returns>
-        public uint GetPreciseVacationChance(Citizen.Wealth wealth)
-        {
-            return vacationChances[(int)wealth];
-        }
+        public uint GetPreciseVacationChance(Citizen.Wealth wealth) => vacationChances[(int)wealth];
 
         private void CalculateDefaultChances(float currentHour, uint weekdayModifier)
         {
@@ -275,7 +266,7 @@ namespace RealTime.CustomAI
             {
                 isNight = true;
                 chance = NightShoppingChance
-                    + ((100u - NightShoppingChance) * (currentHour - minShoppingChanceEndHour) / (maxShoppingChanceStartHour - minShoppingChanceEndHour));
+                    + (100u - NightShoppingChance) * (currentHour - minShoppingChanceEndHour) / (maxShoppingChanceStartHour - minShoppingChanceEndHour);
             }
             else if (currentHour < maxShoppingChanceEndHour)
             {
@@ -286,7 +277,7 @@ namespace RealTime.CustomAI
             {
                 isNight = true;
                 chance = NightShoppingChance
-                    + ((100u - NightShoppingChance) * (24f - currentHour) / (24f - maxShoppingChanceEndHour));
+                    + (100u - NightShoppingChance) * (24f - currentHour) / (24f - maxShoppingChanceEndHour);
             }
 
             uint roundedChance = (uint)Math.Round(chance);

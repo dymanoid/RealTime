@@ -12,9 +12,6 @@ namespace RealTime.GameConnection
     {
         /// <summary>Gets the current game mode.</summary>
         /// <returns>The current game mode.</returns>
-        public ItemClass.Availability GetCurrentMode()
-        {
-            return ToolManager.instance.m_properties.m_mode;
-        }
+        public ItemClass.Availability GetCurrentMode() => ToolManager.instance.m_properties.m_mode;
     }
 }

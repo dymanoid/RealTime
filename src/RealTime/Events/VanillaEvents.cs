@@ -76,7 +76,7 @@ namespace RealTime.Events
         /// <summary>Reverts the vanilla events parameters to the original state.</summary>
         public void Revert()
         {
-            foreach (KeyValuePair<EventAI, EventAIData> item in eventData)
+            foreach (var item in eventData)
             {
                 EventAI eventAI = item.Key;
                 eventAI.m_eventDuration = item.Value.EventDuration;

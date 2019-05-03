@@ -257,7 +257,7 @@ namespace RealTime.CustomAI
         {
             // If the game changed the work building, we have to update the work shifts first
             ushort workBuilding = CitizenProxy.GetWorkBuilding(ref citizen);
-            if (schedule.WorkBuilding != workBuilding || (workBuilding == 0 && schedule.WorkShift != WorkShift.Unemployed))
+            if (schedule.WorkBuilding != workBuilding || workBuilding == 0 && schedule.WorkShift != WorkShift.Unemployed)
             {
                 schedule.WorkBuilding = workBuilding;
                 workBehavior.UpdateWorkShift(ref schedule, CitizenProxy.GetAge(ref citizen));
@@ -306,13 +306,13 @@ namespace RealTime.CustomAI
 
             if (ScheduleShopping(ref schedule, ref citizen, localOnly: false))
             {
-                Log.Debug(LogCategory.Schedule, $"  - Schedule shopping");
+                Log.Debug(LogCategory.Schedule, "  - Schedule shopping");
                 return true;
             }
 
             if (ScheduleRelaxing(ref schedule, citizenId, ref citizen))
             {
-                Log.Debug(LogCategory.Schedule, $"  - Schedule relaxing");
+                Log.Debug(LogCategory.Schedule, "  - Schedule relaxing");
                 return true;
             }
 
@@ -344,7 +344,7 @@ namespace RealTime.CustomAI
             }
             else
             {
-                Log.Debug(LogCategory.Schedule, $"  - Schedule moving home");
+                Log.Debug(LogCategory.Schedule, "  - Schedule moving home");
                 schedule.Schedule(ResidentState.AtHome);
             }
 
@@ -438,9 +438,6 @@ namespace RealTime.CustomAI
             return false;
         }
 
-        private bool ShouldRealizeCitizen(TAI ai)
-        {
-            return residentAI.DoRandomMove(ai);
-        }
+        private bool ShouldRealizeCitizen(TAI ai) => residentAI.DoRandomMove(ai);
     }
 }

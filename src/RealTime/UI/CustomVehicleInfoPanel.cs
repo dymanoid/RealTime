@@ -38,7 +38,7 @@ namespace RealTime.UI
             }
             catch (Exception ex)
             {
-                Debug.LogError($"The 'Snooper' mod failed to obtain at least one of the GetDriverInstance methods. Error message: " + ex);
+                Debug.LogError("The 'Real Time' mod failed to obtain at least one of the GetDriverInstance methods. Error message: " + ex);
             }
         }
 
@@ -49,6 +49,8 @@ namespace RealTime.UI
         /// <param name="localizationProvider">The localization provider to use for text translation.</param>
         /// <returns>An instance of the <see cref="CustomVehicleInfoPanel"/> object that can be used for disabling
         /// the customization, or null when the customization fails.</returns>
+        ///
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="residentAI"/> is <c>null</c>.</exception>
         public static CustomVehicleInfoPanel Enable(RealTimeResidentAI<ResidentAI, Citizen> residentAI, ILocalizationProvider localizationProvider)
         {
             if (residentAI == null)

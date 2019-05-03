@@ -101,16 +101,10 @@ namespace RealTime.Simulation
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Documentation Rules", "SA1600", Justification = "Game interface is not documented")]
-        string ISimulationManager.GetName()
-        {
-            return "RealTimeAwakeSleepSimulation";
-        }
+        string ISimulationManager.GetName() => "RealTimeAwakeSleepSimulation";
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Documentation Rules", "SA1600", Justification = "Game interface is not documented")]
-        ThreadProfiler ISimulationManager.GetSimulationProfiler()
-        {
-            return threadProfiler;
-        }
+        ThreadProfiler ISimulationManager.GetSimulationProfiler() => threadProfiler;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Documentation Rules", "SA1600", Justification = "Game interface is not documented")]
         void ISimulationManager.LateUpdateData(SimulationManager.UpdateMode mode)

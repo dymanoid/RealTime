@@ -117,7 +117,7 @@ namespace RealTime.CustomAI
         protected bool EnsureCitizenCanBeProcessed(uint citizenId, ref TCitizen citizen)
         {
             if (CitizenProxy.IsEmpty(ref citizen)
-                || (CitizenProxy.HasFlags(ref citizen, Citizen.Flags.MovingIn) && CitizenProxy.GetLocation(ref citizen) == Citizen.Location.Home))
+                || CitizenProxy.HasFlags(ref citizen, Citizen.Flags.MovingIn) && CitizenProxy.GetLocation(ref citizen) == Citizen.Location.Home)
             {
                 CitizenMgr.ReleaseCitizen(citizenId);
                 return false;
@@ -169,9 +169,7 @@ namespace RealTime.CustomAI
         ///
         /// <param name="reason">The evacuation reason.</param>
         protected void FindEvacuationPlace(uint citizenId, TransferManager.TransferReason reason)
-        {
-            TransferMgr.AddOutgoingOfferFromCurrentPosition(citizenId, reason);
-        }
+            => TransferMgr.AddOutgoingOfferFromCurrentPosition(citizenId, reason);
 
         /// <summary>
         /// Gets a string that describes the specified citizen.

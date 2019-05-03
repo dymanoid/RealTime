@@ -89,7 +89,7 @@ namespace RealTime.UI
                 .OfType<UISprite>()
                 .Where(c => c.name?.StartsWith(UISpriteEvent, StringComparison.Ordinal) == true);
 
-            foreach (UISprite item in sprites)
+            foreach (var item in sprites)
             {
                 SetEventTooltip(item, todayStart, todayEnd);
             }
@@ -103,7 +103,7 @@ namespace RealTime.UI
             DateTime todayEnd = todayStart.AddDays(1).AddMilliseconds(-1);
 
             var eventsToDisplay = availableEvents
-                .Where(e => (e.StartTime >= todayStart && e.StartTime <= todayEnd) || (e.EndTime >= todayStart && e.EndTime <= todayEnd))
+                .Where(e => e.StartTime >= todayStart && e.StartTime <= todayEnd || e.EndTime >= todayStart && e.EndTime <= todayEnd)
                 .ToList();
 
             if (displayedEvents.SequenceEqual(eventsToDisplay))
@@ -119,7 +119,7 @@ namespace RealTime.UI
             }
 
             displayedEvents.AddRange(eventsToDisplay);
-            foreach (ICityEvent cityEvent in displayedEvents)
+            foreach (var cityEvent in displayedEvents)
             {
                 DisplayCityEvent(cityEvent, todayStart, todayEnd);
             }
@@ -280,7 +280,7 @@ namespace RealTime.UI
                 return;
             }
 
-            foreach (ICityEvent cityEvent in displayedEvents)
+            foreach (var cityEvent in displayedEvents)
             {
                 UISprite sprite = progressSprite.Find<UISprite>(UISpriteEvent + cityEvent.BuildingId);
                 if (sprite != null)
@@ -301,9 +301,6 @@ namespace RealTime.UI
             }
         }
 
-        private void OnCityEventClick(ushort buildingId)
-        {
-            CityEventClick?.Invoke(this, new CustomTimeBarClickEventArgs(buildingId));
-        }
+        private void OnCityEventClick(ushort buildingId) => CityEventClick?.Invoke(this, new CustomTimeBarClickEventArgs(buildingId));
     }
 }

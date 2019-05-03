@@ -41,7 +41,7 @@ namespace RealTime.UI
         }
 
         /// <summary>Disables the custom citizen info panel, if it is enabled.</summary>
-        protected override sealed void DisableCore()
+        protected sealed override void DisableCore()
         {
             if (scheduleLabel == null)
             {
@@ -86,7 +86,7 @@ namespace RealTime.UI
 
         /// <summary>Builds up the custom UI objects for the info panel.</summary>
         /// <returns><c>true</c> on success; otherwise, <c>false</c>.</returns>
-        protected override sealed bool InitializeCore()
+        protected sealed override bool InitializeCore()
         {
             UILabel statusLabel = ItemsPanel.Find<UILabel>(AgeEducationLabelName);
             if (statusLabel == null)

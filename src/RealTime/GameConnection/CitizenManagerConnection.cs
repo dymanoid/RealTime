@@ -11,10 +11,7 @@ namespace RealTime.GameConnection
     {
         /// <summary>Releases the specified citizen.</summary>
         /// <param name="citizenId">The ID of the citizen to release.</param>
-        public void ReleaseCitizen(uint citizenId)
-        {
-            CitizenManager.instance.ReleaseCitizen(citizenId);
-        }
+        public void ReleaseCitizen(uint citizenId) => CitizenManager.instance.ReleaseCitizen(citizenId);
 
         /// <summary>Gets the ID of the building this citizen is currently moving to.</summary>
         /// <param name="instanceId">The citizen's instance ID.</param>
@@ -136,24 +133,15 @@ namespace RealTime.GameConnection
 
         /// <summary>Gets the count of the currently active citizens instances.</summary>
         /// <returns>The number of active citizens instances.</returns>
-        public uint GetInstancesCount()
-        {
-            return CitizenManager.instance.m_instances.ItemCount();
-        }
+        public uint GetInstancesCount() => CitizenManager.instance.m_instances.ItemCount();
 
         /// <summary>Gets the maximum count of the active citizens instances.</summary>
         /// <returns>The maximum number of active citizens instances.</returns>
-        public uint GetMaxInstancesCount()
-        {
-            return CitizenManager.instance.m_instances.m_size;
-        }
+        public uint GetMaxInstancesCount() => CitizenManager.instance.m_instances.m_size;
 
         /// <summary>Gets the maximum count of the citizens.</summary>
         /// <returns>The maximum number of the citizens.</returns>
-        public uint GetMaxCitizensCount()
-        {
-            return CitizenManager.instance.m_citizens.m_size;
-        }
+        public uint GetMaxCitizensCount() => CitizenManager.instance.m_citizens.m_size;
 
         /// <summary>Gets the location of the citizen with specified ID.</summary>
         /// <param name="citizenId">The ID of the citizen to query location of.</param>
@@ -172,7 +160,7 @@ namespace RealTime.GameConnection
         /// <summary>Gets the wealth of the citizen with specified ID.</summary>
         /// <param name="citizenId">The ID of the citizen to query wealth of.</param>
         /// <returns>A <see cref="Citizen.Wealth"/> value that describes the citizen's current wealth.</returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the argument is 0.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when the argument is 0.</exception>
         public Citizen.Wealth GetCitizenWealth(uint citizenId)
         {
             if (citizenId == 0)
@@ -244,10 +232,7 @@ namespace RealTime.GameConnection
 
         /// <summary>Gets the game's citizens array (direct reference).</summary>
         /// <returns>The reference to the game's array containing the <see cref="Citizen"/> items.</returns>
-        public Citizen[] GetCitizensArray()
-        {
-            return CitizenManager.instance.m_citizens.m_buffer;
-        }
+        public Citizen[] GetCitizensArray() => CitizenManager.instance.m_citizens.m_buffer;
 
         /// <summary>Releases the citizen instance's path and cancels any ongoing movement.</summary>
         /// <param name="instanceId">The citizen's instance ID.</param>

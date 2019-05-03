@@ -4,7 +4,6 @@
 
 namespace RealTime.Events.Storage
 {
-    using System.Collections.Generic;
     using System.Xml.Serialization;
 
     /// <summary>A storage class for the city event template.</summary>
