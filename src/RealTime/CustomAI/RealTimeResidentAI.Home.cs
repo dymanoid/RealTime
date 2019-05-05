@@ -4,19 +4,23 @@
 
 namespace RealTime.CustomAI
 {
+    using ColossalFramework;
     using SkyTools.Tools;
 
     internal sealed partial class RealTimeResidentAI<TAI, TCitizen>
     {
-        private void DoScheduledHome(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
+        private void DoScheduledHome(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen, bool doNotReleaseCitizen = false)
         {
             ushort homeBuilding = CitizenProxy.GetHomeBuilding(ref citizen);
             if (homeBuilding == 0)
             {
-                Log.Debug(LogCategory.State, $"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is in corrupt state: want to go home with no home building. Releasing the poor citizen.");
-                CitizenMgr.ReleaseCitizen(citizenId);
-                schedule = default;
-                return;
+                if (!doNotReleaseCitizen)
+                {
+                    Log.Debug(LogCategory.State, $"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is in corrupt state: want to go home with no home building. Releasing the poor citizen.");
+                    CitizenMgr.ReleaseCitizen(citizenId);
+                    schedule = default;
+                    return;
+                }
             }
 
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);

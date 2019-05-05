@@ -168,7 +168,7 @@ namespace RealTime.CustomAI
 
             Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} abandons the public transport journey because of waiting for too long");
             CitizenMgr.StopMoving(instanceId, resetTarget: false);
-            DoScheduledHome(ref residentSchedules[citizenId], instance, citizenId, ref citizen);
+            DoScheduledHome(ref residentSchedules[citizenId], instance, citizenId, ref citizen, true);
         }
 
         /// <summary>Notifies that a citizen has started a journey somewhere.</summary>
