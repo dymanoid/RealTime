@@ -346,7 +346,7 @@ namespace RealTime.GameConnection.Patches
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
-            private static bool Prefix(ushort __state, ref Building data)
+            private static bool Prefix(ref ushort __state, ref Building data)
             {
                 __state = data.m_crimeBuffer;
                 return true;
