@@ -152,7 +152,7 @@ namespace RealTime.CustomAI
             int minutes = source[2] + (source[3] << 8);
             ScheduledStateTime = minutes == 0
                 ? default
-                : new DateTime((minutes * TimeSpan.TicksPerMinute) + referenceTime);
+                : new DateTime(minutes * TimeSpan.TicksPerMinute + referenceTime);
 
             int travelTime = source[4] + (source[5] << 8);
             TravelTimeToWork = travelTime / TravelTimeMultiplier;

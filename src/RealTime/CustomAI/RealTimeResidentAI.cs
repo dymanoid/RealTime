@@ -85,8 +85,8 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            if ((CitizenProxy.IsSick(ref citizen) && ProcessCitizenSick(instance, citizenId, ref citizen))
-                || (CitizenProxy.IsArrested(ref citizen) && ProcessCitizenArrested(ref citizen)))
+            if (CitizenProxy.IsSick(ref citizen) && ProcessCitizenSick(instance, citizenId, ref citizen)
+                || CitizenProxy.IsArrested(ref citizen) && ProcessCitizenArrested(ref citizen))
             {
                 schedule.Schedule(ResidentState.Unknown);
                 return;

@@ -77,16 +77,13 @@ namespace RealTime.UI
         }
 
         /// <summary>Closes this instance.</summary>
-        public void Close()
-        {
-            configProvider.Changed -= ConfigProviderChanged;
-        }
+        public void Close() => configProvider.Changed -= ConfigProviderChanged;
 
         /// <summary>Translates the UI using the specified localization provider.</summary>
         /// <param name="localizationProvider">The localization provider to use for translation.</param>
         public void Translate(ILocalizationProvider localizationProvider)
         {
-            foreach (IViewItem item in viewItems)
+            foreach (var item in viewItems)
             {
                 item.Translate(localizationProvider);
             }
@@ -134,7 +131,10 @@ namespace RealTime.UI
             ConfigurationProvider<RealTimeConfig> configProvider,
             IViewItemFactory itemFactory)
         {
-            object Config() => configProvider.Configuration;
+            object Config()
+            {
+                return configProvider.Configuration;
+            }
 
             switch (GetCustomItemAttribute<ConfigItemUIBaseAttribute>(property))
             {
@@ -169,9 +169,7 @@ namespace RealTime.UI
 
         private static T GetCustomItemAttribute<T>(PropertyInfo property, bool inherit = false)
             where T : Attribute
-        {
-            return (T)property.GetCustomAttributes(typeof(T), inherit).FirstOrDefault();
-        }
+            => (T)property.GetCustomAttributes(typeof(T), inherit).FirstOrDefault();
 
         private void ResetToDefaults()
         {
@@ -179,19 +177,13 @@ namespace RealTime.UI
             RefreshAllItems();
         }
 
-        private void UseForNewGames()
-        {
-            configProvider.SaveDefaultConfiguration();
-        }
+        private void UseForNewGames() => configProvider.SaveDefaultConfiguration();
 
-        private void ConfigProviderChanged(object sender, EventArgs e)
-        {
-            RefreshAllItems();
-        }
+        private void ConfigProviderChanged(object sender, EventArgs e) => RefreshAllItems();
 
         private void RefreshAllItems()
         {
-            foreach (IValueViewItem item in viewItems.OfType<IValueViewItem>())
+            foreach (var item in viewItems.OfType<IValueViewItem>())
             {
                 item.Refresh();
             }

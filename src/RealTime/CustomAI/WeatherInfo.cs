@@ -34,12 +34,12 @@ namespace RealTime.CustomAI
         /// <summary>
         /// Gets a value indicating whether current weather conditions cause citizens not to stay outside.
         /// </summary>
-        bool IWeatherInfo.IsBadWeather => isDisasterHazardActive || (stayInsideChance != 0 && randomizer.ShouldOccur(stayInsideChance));
+        bool IWeatherInfo.IsBadWeather => isDisasterHazardActive || stayInsideChance != 0 && randomizer.ShouldOccur(stayInsideChance);
 
         /// <summary>Updates this object's state using the current game state.</summary>
         public void Update()
         {
-            float weatherFactor = weatherManager.GetRainIntensity() + (weatherManager.GetSnowIntensity() / 2f);
+            float weatherFactor = weatherManager.GetRainIntensity() + weatherManager.GetSnowIntensity() / 2f;
 
             if (weatherFactor < BadWeatherPrecipitationThreshold)
             {

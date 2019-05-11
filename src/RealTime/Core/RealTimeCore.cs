@@ -243,7 +243,7 @@ namespace RealTime.Core
             ParkPatches.SpareTimeBehavior = null;
             OutsideConnectionAIPatch.SpareTimeBehavior = null;
 
-            Log.Info($"The 'Real Time' mod reverts method patches.");
+            Log.Info("The 'Real Time' mod reverts method patches.");
             patcher.Revert();
 
             vanillaEvents.Revert();
@@ -422,28 +422,23 @@ namespace RealTime.Core
         }
 
         private static void CustomTimeBarCityEventClick(object sender, CustomTimeBarClickEventArgs e)
-        {
-            CameraHelper.NavigateToBuilding(e.CityEventBuildingId, true);
-        }
+            => CameraHelper.NavigateToBuilding(e.CityEventBuildingId, true);
 
         private static void LoadStorageData(IEnumerable<IStorageData> storageData, StorageBase storage)
         {
-            foreach (IStorageData item in storageData)
+            foreach (var item in storageData)
             {
                 storage.Deserialize(item);
                 Log.Debug(LogCategory.Generic, "The 'Real Time' mod loaded its data from container " + item.StorageDataId);
             }
         }
 
-        private void CityEventsChanged(object sender, EventArgs e)
-        {
-            timeBar.UpdateEventsDisplay(eventManager.CityEvents);
-        }
+        private void CityEventsChanged(object sender, EventArgs e) => timeBar.UpdateEventsDisplay(eventManager.CityEvents);
 
         private void GameSaving(object sender, EventArgs e)
         {
             var storage = (StorageBase)sender;
-            foreach (IStorageData item in storageData)
+            foreach (var item in storageData)
             {
                 storage.Serialize(item);
                 Log.Debug(LogCategory.Generic, "The 'Real Time' mod stored its data in the current game for container " + item.StorageDataId);

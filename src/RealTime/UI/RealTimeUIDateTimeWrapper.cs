@@ -56,9 +56,6 @@ namespace RealTime.UI
             Convert();
         }
 
-        private void Convert()
-        {
-            m_String = m_Value.ToString("t", currentCulture) + ", " + m_Value.ToString("dddd", currentCulture);
-        }
+        private void Convert() => m_String = m_Value.ToString("t", currentCulture) + ", " + m_Value.ToString("dddd", currentCulture);
     }
 }

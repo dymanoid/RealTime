@@ -279,10 +279,7 @@ namespace RealTime.CustomAI
         /// <returns>
         ///   <c>true</c> if the lights should be switched off in the specified building; otherwise, <c>false</c>.
         /// </returns>
-        public bool ShouldSwitchBuildingLightsOff(ushort buildingId)
-        {
-            return config.SwitchOffLightsAtNight && !lightStates[buildingId];
-        }
+        public bool ShouldSwitchBuildingLightsOff(ushort buildingId) => config.SwitchOffLightsAtNight && !lightStates[buildingId];
 
         /// <summary>
         /// Determines whether the building with the specified ID is an entertainment target.
@@ -327,10 +324,7 @@ namespace RealTime.CustomAI
         /// <returns>
         ///   <c>true</c> if the building with specified ID is currently active; otherwise, <c>false</c>.
         /// </returns>
-        public bool IsBuildingActive(ushort buildingId)
-        {
-            return buildingManager.BuildingHasFlags(buildingId, Building.Flags.Active);
-        }
+        public bool IsBuildingActive(ushort buildingId) => buildingManager.BuildingHasFlags(buildingId, Building.Flags.Active);
 
         /// <summary>
         /// Determines whether the building with the specified <paramref name="buildingId"/> is noise restricted
@@ -392,10 +386,7 @@ namespace RealTime.CustomAI
         /// <param name="buildingId">The ID of the building to get the reaching trouble factor of.</param>
         /// <returns>A value in range 0 to 1 that describes how many troubles have citizens while trying to reach
         /// the building.</returns>
-        public float GetBuildingReachingTroubleFactor(ushort buildingId)
-        {
-            return reachingTroubles[buildingId] / 255f;
-        }
+        public float GetBuildingReachingTroubleFactor(ushort buildingId) => reachingTroubles[buildingId] / 255f;
 
         private static int GetAllowedConstructingUpradingCount(int currentBuildingCount)
         {
@@ -406,21 +397,19 @@ namespace RealTime.CustomAI
 
             if (currentBuildingCount < ConstructionRestrictionThreshold2)
             {
-                return ConstructionRestrictionStep1 + (currentBuildingCount / ConstructionRestrictionScale2);
+                return ConstructionRestrictionStep1 + currentBuildingCount / ConstructionRestrictionScale2;
             }
 
             if (currentBuildingCount < ConstructionRestrictionThreshold3)
             {
-                return ConstructionRestrictionStep2 + (currentBuildingCount / ConstructionRestrictionScale3);
+                return ConstructionRestrictionStep2 + currentBuildingCount / ConstructionRestrictionScale3;
             }
 
             return MaximumBuildingsInConstruction;
         }
 
         private bool IsBuildingCompletedOrMissing(ushort buildingId)
-        {
-            return buildingManager.BuildingHasFlags(buildingId, Building.Flags.Completed | Building.Flags.Deleted, includeZero: true);
-        }
+            => buildingManager.BuildingHasFlags(buildingId, Building.Flags.Completed | Building.Flags.Deleted, includeZero: true);
 
         private void UpdateLightState()
         {
@@ -440,7 +429,7 @@ namespace RealTime.CustomAI
         private void UpdateReachingTroubles(uint step)
         {
             ushort first = (ushort)(step * BuildingStepSize);
-            ushort last = (ushort)(((step + 1) * BuildingStepSize) - 1);
+            ushort last = (ushort)((step + 1) * BuildingStepSize - 1);
 
             for (ushort i = first; i <= last; ++i)
             {
@@ -456,7 +445,7 @@ namespace RealTime.CustomAI
         private void UpdateLightState(ushort step, bool updateBuilding)
         {
             ushort first = (ushort)(step * BuildingStepSize);
-            ushort last = (ushort)(((step + 1) * BuildingStepSize) - 1);
+            ushort last = (ushort)((step + 1) * BuildingStepSize - 1);
 
             for (ushort i = first; i <= last; ++i)
             {

@@ -7,7 +7,6 @@ namespace RealTime.Events
     using RealTime.Simulation;
 
     /// <summary>A class for the default game city event.</summary>
-    /// <seealso cref="RealTime.Events.CityEventBase"/>
     /// <seealso cref="CityEventBase"/>
     internal sealed class VanillaEvent : CityEventBase
     {
@@ -47,16 +46,10 @@ namespace RealTime.Events
             Citizen.Wealth wealth,
             Citizen.Wellbeing wellbeing,
             Citizen.Happiness happiness,
-            IRandomizer randomizer)
-        {
-            return ticketPrice <= GetCitizenBudgetForEvent(wealth, randomizer);
-        }
+            IRandomizer randomizer) => ticketPrice <= GetCitizenBudgetForEvent(wealth, randomizer);
 
         /// <summary>Calculates the city event duration.</summary>
         /// <returns>This city event duration in hours.</returns>
-        protected override float GetDuration()
-        {
-            return duration;
-        }
+        protected override float GetDuration() => duration;
     }
 }

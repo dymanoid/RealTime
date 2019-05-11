@@ -41,18 +41,12 @@ namespace RealTime.UI
         /// <see cref="Start"/> is called on the frame when a script is enabled just before any of
         /// the <see cref="Update"/> methods are called the first time.
         /// </summary>
-        public void Start()
-        {
-            target = gameObject.GetComponent<UIComponent>();
-        }
+        public void Start() => target = gameObject.GetComponent<UIComponent>();
 
         /// <summary>
         /// <see cref="Update"/> is called every frame, if the <see cref="MonoBehaviour"/> is enabled.
         /// </summary>
-        public void Update()
-        {
-            UpdateTooltip();
-        }
+        public void Update() => UpdateTooltip();
 
         private void UpdateTooltip(bool force = false)
         {

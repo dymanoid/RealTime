@@ -75,9 +75,7 @@ namespace RealTime.Core
         /// <returns><c>true</c> if a mod with any of the specified Workshop ID is currently installed and enabled;
         /// otherwise, <c>false</c>.</returns>
         public bool IsAnyModActive(ulong modId, params ulong[] furtherModIds)
-        {
-            return activeMods.ContainsKey(modId) || furtherModIds?.Any(activeMods.ContainsKey) == true;
-        }
+            => activeMods.ContainsKey(modId) || furtherModIds?.Any(activeMods.ContainsKey) == true;
 
         private List<string> GetIncompatibleModNames()
         {
@@ -103,7 +101,7 @@ namespace RealTime.Core
         private void Initialize()
         {
             activeMods.Clear();
-            foreach (PluginManager.PluginInfo plugin in PluginManager.instance.GetPluginsInfo().Where(m => m.isEnabled))
+            foreach (var plugin in PluginManager.instance.GetPluginsInfo().Where(m => m.isEnabled))
             {
                 activeMods[plugin.publishedFileID.AsUInt64] = plugin;
             }

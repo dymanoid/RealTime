@@ -7,7 +7,6 @@ namespace RealTime.GameConnection.Patches
     using RealTime.CustomAI;
     using SkyTools.Patching;
     using SkyTools.Tools;
-    using UnityEngine;
     using static HumanAIConnectionBase<ResidentAI, Citizen>;
     using static ResidentAIConnection<ResidentAI, Citizen>;
 

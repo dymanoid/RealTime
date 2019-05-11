@@ -121,14 +121,8 @@ namespace RealTime.Simulation
         /// <summary>Called by the simulation manager when an update is required.</summary>
         /// <param name="realTimeDelta">The real time delta time.</param>
         /// <param name="simulationTimeDelta">The simulation delta time.</param>
-        public override void OnUpdate(float realTimeDelta, float simulationTimeDelta)
-        {
-            TimeAdjustment?.UpdateSunPosition();
-        }
+        public override void OnUpdate(float realTimeDelta, float simulationTimeDelta) => TimeAdjustment?.UpdateSunPosition();
 
-        private static void OnNewDay(SimulationHandler sender)
-        {
-            NewDay?.Invoke(sender, EventArgs.Empty);
-        }
+        private static void OnNewDay(SimulationHandler sender) => NewDay?.Invoke(sender, EventArgs.Empty);
     }
 }

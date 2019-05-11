@@ -30,7 +30,7 @@ namespace RealTime.Simulation
         /// <param name="residentAI">The custom resident AI implementation.</param>
         /// <param name="timeInfo">An object that provides the game time information.</param>
         /// <param name="spareTimeBehavior">A behavior that provides simulation info for the citizens spare time.</param>
-        /// <param name="travelBehavior">A behavior that provides simulation info for citizens travelling.</param>
+        /// <param name="travelBehavior">A behavior that provides simulation info for citizens traveling.</param>
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
         public CitizenProcessor(
             RealTimeResidentAI<TAI, TCitizen> residentAI,
@@ -66,10 +66,7 @@ namespace RealTime.Simulation
         }
 
         /// <summary>Processes the simulation tick.</summary>
-        public void ProcessTick()
-        {
-            spareTimeBehavior.RefreshChances();
-        }
+        public void ProcessTick() => spareTimeBehavior.RefreshChances();
 
         /// <summary>Processes the simulation frame.</summary>
         /// <param name="frameIndex">The index of the simulation frame to process.</param>
@@ -94,7 +91,7 @@ namespace RealTime.Simulation
             }
 
             uint idFrom = step * StepSize;
-            uint idTo = ((step + 1) * StepSize) - 1;
+            uint idTo = (step + 1) * StepSize - 1;
 
             for (uint i = idFrom; i <= idTo; i++)
             {

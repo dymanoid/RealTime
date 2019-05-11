@@ -206,7 +206,7 @@ namespace RealTime.Simulation
                 return;
             }
 
-            foreach (UIComponent component in components.Where(c => c is UISprite || c is UITextComponent))
+            foreach (var component in components.Where(c => c is UISprite || c is UITextComponent))
             {
                 component.tooltip = Locale.Get(component.tooltipLocaleID);
             }
@@ -222,7 +222,7 @@ namespace RealTime.Simulation
                 return false;
             }
 
-            foreach (KeyValuePair<string, string> value in overridden)
+            foreach (var value in overridden)
             {
                 string translated = value.Value.Replace(UnitPlaceholder, displayUnit);
                 customLocale.AddLocalizedString(new Locale.Key { m_Identifier = value.Key }, translated);
@@ -284,9 +284,6 @@ namespace RealTime.Simulation
             }
         }
 
-        private void LocaleChanged()
-        {
-            RefreshUnits();
-        }
+        private void LocaleChanged() => RefreshUnits();
     }
 }

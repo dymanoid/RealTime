@@ -3,7 +3,6 @@
 namespace RealTime.Events
 {
     using System;
-    using System.Linq;
     using RealTime.Events.Storage;
     using RealTime.Simulation;
 
@@ -129,10 +128,7 @@ namespace RealTime.Events
 
         /// <summary>Calculates the city event duration.</summary>
         /// <returns>This city event duration in hours.</returns>
-        protected override float GetDuration()
-        {
-            return (float)eventTemplate.Duration;
-        }
+        protected override float GetDuration() => (float)eventTemplate.Duration;
 
         private static bool CheckAge(Citizen.AgeGroup age, CityEventAttendees attendees, float randomPercentage)
         {

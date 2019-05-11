@@ -9,6 +9,10 @@
   "settings": {
     "documentationRules": {
       "companyName": "dymanoid"
+    },
+
+    "namingRules": {
+      "allowedHungarianPrefixes": ["id", "on", "ui"]
     }
   }
 }

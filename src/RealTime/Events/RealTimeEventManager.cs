@@ -45,10 +45,10 @@ namespace RealTime.Events
         /// <param name="config">The configuration to run with.</param>
         /// <param name="eventProvider">The city event provider implementation.</param>
         /// <param name="eventManager">
-        /// A proxy object that provides a way to call the game-specific methods of the <see cref="global::EventManager"/> class.
+        /// A proxy object that provides a way to call the game-specific methods of the <see cref="EventManager"/> class.
         /// </param>
         /// <param name="buildingManager">
-        /// A proxy object that provides a way to call the game-specific methods of the <see cref="global::BuildingManager"/> class.
+        /// A proxy object that provides a way to call the game-specific methods of the <see cref="BuildingManager"/> class.
         /// </param>
         /// <param name="randomizer">
         /// An object that implements of the <see cref="IRandomizer"/> interface.
@@ -90,7 +90,7 @@ namespace RealTime.Events
                     yield return activeEvent;
                 }
 
-                foreach (ICityEvent upcomingEvent in upcomingEvents)
+                foreach (var upcomingEvent in upcomingEvents)
                 {
                     yield return upcomingEvent;
                 }
@@ -263,7 +263,7 @@ namespace RealTime.Events
 
             earliestEvent = new DateTime(data.EarliestEvent);
 
-            foreach (RealTimeEventStorage storedEvent in data.Events)
+            foreach (var storedEvent in data.Events)
             {
                 if (string.IsNullOrEmpty(storedEvent.EventName) || string.IsNullOrEmpty(storedEvent.BuildingClassName))
                 {
@@ -299,7 +299,7 @@ namespace RealTime.Events
 
             AddEventToStorage(lastActiveEvent);
             AddEventToStorage(activeEvent);
-            foreach (ICityEvent cityEvent in upcomingEvents)
+            foreach (var cityEvent in upcomingEvents)
             {
                 AddEventToStorage(cityEvent);
             }
@@ -551,9 +551,6 @@ namespace RealTime.Events
             return result;
         }
 
-        private void OnEventsChanged()
-        {
-            EventsChanged?.Invoke(this, EventArgs.Empty);
-        }
+        private void OnEventsChanged() => EventsChanged?.Invoke(this, EventArgs.Empty);
     }
 }

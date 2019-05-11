@@ -99,7 +99,7 @@ namespace RealTime.GameConnection
             }
 
             Building.Flags buildingFlags = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_flags;
-            return (buildingFlags & flags) != 0 || (includeZero && buildingFlags == Building.Flags.None);
+            return (buildingFlags & flags) != 0 || includeZero && buildingFlags == Building.Flags.None;
         }
 
         /// <summary>
@@ -180,23 +180,23 @@ namespace RealTime.GameConnection
             const Building.Flags requiredFlags = Building.Flags.Created | Building.Flags.Completed | Building.Flags.Active;
             const Building.Flags combinedFlags = requiredFlags | restrictedFlags;
 
-            int gridXFrom = Mathf.Max((int)(((position.x - maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE) + BuildingGridMiddle), 0);
-            int gridZFrom = Mathf.Max((int)(((position.z - maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE) + BuildingGridMiddle), 0);
-            int gridXTo = Mathf.Min((int)(((position.x + maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE) + BuildingGridMiddle), MaxBuildingGridIndex);
-            int gridZTo = Mathf.Min((int)(((position.z + maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE) + BuildingGridMiddle), MaxBuildingGridIndex);
+            int gridXFrom = Mathf.Max((int)((position.x - maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE + BuildingGridMiddle), 0);
+            int gridZFrom = Mathf.Max((int)((position.z - maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE + BuildingGridMiddle), 0);
+            int gridXTo = Mathf.Min((int)((position.x + maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE + BuildingGridMiddle), MaxBuildingGridIndex);
+            int gridZTo = Mathf.Min((int)((position.z + maxDistance) / BuildingManager.BUILDINGGRID_CELL_SIZE + BuildingGridMiddle), MaxBuildingGridIndex);
 
             float sqrMaxDistance = maxDistance * maxDistance;
             for (int z = gridZFrom; z <= gridZTo; ++z)
             {
                 for (int x = gridXFrom; x <= gridXTo; ++x)
                 {
-                    ushort buildingId = BuildingManager.instance.m_buildingGrid[(z * BuildingManager.BUILDINGGRID_RESOLUTION) + x];
+                    ushort buildingId = BuildingManager.instance.m_buildingGrid[z * BuildingManager.BUILDINGGRID_RESOLUTION + x];
                     uint counter = 0;
                     while (buildingId != 0)
                     {
                         ref Building building = ref BuildingManager.instance.m_buildings.m_buffer[buildingId];
                         if (building.Info?.m_class != null
-                            && (building.Info.m_class.m_service == service)
+                            && building.Info.m_class.m_service == service
                             && (subService == ItemClass.SubService.None || building.Info.m_class.m_subService == subService)
                             && (building.m_flags & combinedFlags) == requiredFlags)
                         {
@@ -245,7 +245,7 @@ namespace RealTime.GameConnection
             var buildings = new List<FastList<ushort>>();
 
             int totalCount = 0;
-            foreach (FastList<ushort> serviceBuildings in services
+            foreach (var serviceBuildings in services
                 .Select(s => BuildingManager.instance.GetServiceBuildings(s))
                 .Where(b => b != null))
             {
@@ -260,7 +260,7 @@ namespace RealTime.GameConnection
 
             int buildingNumber = SimulationManager.instance.m_randomizer.Int32((uint)totalCount);
             totalCount = 0;
-            foreach (FastList<ushort> serviceBuildings in buildings)
+            foreach (var serviceBuildings in buildings)
             {
                 if (buildingNumber < totalCount + serviceBuildings.m_size)
                 {
@@ -344,17 +344,11 @@ namespace RealTime.GameConnection
 
         /// <summary>Gets the maximum possible buildings count.</summary>
         /// <returns>The maximum possible buildings count.</returns>
-        public int GetMaxBuildingsCount()
-        {
-            return BuildingManager.instance.m_buildings.m_buffer.Length;
-        }
+        public int GetMaxBuildingsCount() => BuildingManager.instance.m_buildings.m_buffer.Length;
 
         /// <summary>Gets the current buildings count in the city.</summary>
         /// <returns>The current buildings count.</returns>
-        public int GeBuildingsCount()
-        {
-            return (int)BuildingManager.instance.m_buildings.ItemCount();
-        }
+        public int GeBuildingsCount() => (int)BuildingManager.instance.m_buildings.ItemCount();
 
         /// <summary>Updates the building colors in the game by re-rendering the building.</summary>
         /// <param name="buildingId">The ID of the building to update.</param>
@@ -426,9 +420,7 @@ namespace RealTime.GameConnection
         ///   <c>true</c> if the area around the building with specified ID is currently being evacuated.; otherwise, <c>false</c>.
         /// </returns>
         public bool IsAreaEvacuating(ushort buildingId)
-        {
-            return buildingId != 0 && DisasterManager.instance.IsEvacuating(BuildingManager.instance.m_buildings.m_buffer[buildingId].m_position);
-        }
+            => buildingId != 0 && DisasterManager.instance.IsEvacuating(BuildingManager.instance.m_buildings.m_buffer[buildingId].m_position);
 
         private static bool BuildingCanBeVisited(ushort buildingId)
         {

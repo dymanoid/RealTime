@@ -379,14 +379,6 @@ namespace RealTime.CustomAI
             return true;
         }
 
-        private uint GetHotelLeaveChance()
-        {
-            if (TimeInfo.IsNightTime)
-            {
-                return 0u;
-            }
-
-            return (uint)((TimeInfo.CurrentHour - Config.WakeUpHour) / 0.03f);
-        }
+        private uint GetHotelLeaveChance() => TimeInfo.IsNightTime ? 0u : (uint)((TimeInfo.CurrentHour - Config.WakeUpHour) / 0.03f);
     }
 }

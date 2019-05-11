@@ -67,7 +67,7 @@ namespace RealTime.Simulation
                 isNightEnabled = SimulationManager.instance.m_enableDayNight;
             }
             else if (!sm.m_enableDayNight
-                || (sm.m_isNightTime == isNightTime && dayTimeSpeed == config.DayTimeSpeed && nightTimeSpeed == config.NightTimeSpeed))
+                || sm.m_isNightTime == isNightTime && dayTimeSpeed == config.DayTimeSpeed && nightTimeSpeed == config.NightTimeSpeed)
             {
                 return false;
             }
@@ -84,19 +84,13 @@ namespace RealTime.Simulation
         }
 
         /// <summary>Disables the customized time adjustment restoring the default vanilla values.</summary>
-        public void Disable()
-        {
-            UpdateTimeSimulationValues(vanillaFramesPerDay, useCustomTimePerFrame: false);
-        }
+        public void Disable() => UpdateTimeSimulationValues(vanillaFramesPerDay, useCustomTimePerFrame: false);
 
         /// <summary>Gets the original time represented by the frame index.
         /// This method can be used to convert frame-based times after time adjustments.</summary>
         /// <param name="frameIndex">A frame index representing a time point.</param>
         /// <returns>A <see cref="DateTime"/> object for the specified <paramref name="frameIndex"/>.</returns>
-        public DateTime GetOriginalTime(uint frameIndex)
-        {
-            return new DateTime((frameIndex * originalTimePerFrame.Ticks) + originalTimeOffsetTicks);
-        }
+        public DateTime GetOriginalTime(uint frameIndex) => new DateTime(frameIndex * originalTimePerFrame.Ticks + originalTimeOffsetTicks);
 
         /// <summary>Updates the sun position by recalculating the relative day time.</summary>
         public void UpdateSunPosition()
@@ -135,7 +129,7 @@ namespace RealTime.Simulation
         private static void SetGameDateTime(DateTime dateTime)
         {
             SimulationManager sm = SimulationManager.instance;
-            sm.m_timeOffsetTicks = dateTime.Ticks - (sm.m_currentFrameIndex * sm.m_timePerFrame.Ticks);
+            sm.m_timeOffsetTicks = dateTime.Ticks - sm.m_currentFrameIndex * sm.m_timePerFrame.Ticks;
             sm.m_currentGameTime = dateTime;
 
             sm.m_currentDayTimeHour = (float)sm.m_currentGameTime.TimeOfDay.TotalHours;

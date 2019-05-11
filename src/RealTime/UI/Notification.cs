@@ -39,10 +39,7 @@ namespace RealTime.UI
             }
         }
 
-        private static void NotifyWithDialog(string caption, string text)
-        {
-            MessageBox.Show(caption, text);
-        }
+        private static void NotifyWithDialog(string caption, string text) => MessageBox.Show(caption, text);
 
         private static bool NotifyWithPopup(string caption, string text)
         {

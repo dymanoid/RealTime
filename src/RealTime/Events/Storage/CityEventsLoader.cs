@@ -66,10 +66,7 @@ namespace RealTime.Events.Storage
         }
 
         /// <summary>Clears the currently loaded city events templates collection.</summary>
-        public void Clear()
-        {
-            events.Clear();
-        }
+        public void Clear() => events.Clear();
 
         /// <summary>
         /// Gets a randomly created city event for a building of specified class. If no city event
@@ -175,7 +172,7 @@ namespace RealTime.Events.Storage
                     using (var sr = new StreamReader(file))
                     {
                         var container = (CityEventContainer)serializer.Deserialize(sr);
-                        foreach (CityEventTemplate cityEvent in container.Templates.Where(e => loadedEvents.Add(e.EventName)))
+                        foreach (var cityEvent in container.Templates.Where(e => loadedEvents.Add(e.EventName)))
                         {
                             events.Add(cityEvent);
                             Log.Debug(LogCategory.Generic, $"Loaded event template '{cityEvent.EventName}' for '{cityEvent.BuildingClassName}'");
