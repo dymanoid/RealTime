@@ -260,6 +260,8 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.Monument:
                 case ItemClass.Service.Garbage:
                 case ItemClass.Service.Road:
+                case ItemClass.Service.Museums:
+                case ItemClass.Service.VarsitySports:
                     return true;
 
                 default:
@@ -273,6 +275,7 @@ namespace RealTime.CustomAI
             {
                 case ItemClass.Service.Office:
                 case ItemClass.Service.Education:
+                case ItemClass.Service.PlayerEducation:
                 case ItemClass.Service.PlayerIndustry
                     when subService == ItemClass.SubService.PlayerIndustryForestry || subService == ItemClass.SubService.PlayerIndustryFarming:
                 case ItemClass.Service.Industrial
@@ -313,6 +316,7 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.Beautification:
                 case ItemClass.Service.Education:
                 case ItemClass.Service.PlayerIndustry:
+                case ItemClass.Service.PlayerEducation:
                 case ItemClass.Service.Industrial
                     when subService == ItemClass.SubService.IndustrialFarming || subService == ItemClass.SubService.IndustrialForestry:
                     return true;
