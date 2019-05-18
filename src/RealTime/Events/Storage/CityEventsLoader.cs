@@ -132,7 +132,7 @@ namespace RealTime.Events.Storage
 
             try
             {
-                foreach (string path in buildingPaths)
+                foreach (var path in buildingPaths)
                 {
                     string eventsPath = Path.Combine(path, RushHourEventsDirectoryName);
                     Log.Debug(LogCategory.Generic, $"Checking directory '{eventsPath}' for Rush Hour events...");
@@ -165,7 +165,7 @@ namespace RealTime.Events.Storage
         {
             var serializer = new XmlSerializer(typeof(CityEventContainer));
 
-            foreach (string file in files)
+            foreach (var file in files)
             {
                 try
                 {
