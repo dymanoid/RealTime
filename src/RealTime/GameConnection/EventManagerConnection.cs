@@ -31,9 +31,15 @@ namespace RealTime.GameConnection
         /// </returns>
         public EventData.Flags GetEventFlags(ushort eventId)
         {
-            return eventId == 0 || eventId >= EventManager.instance.m_events.m_size
+            if (eventId == 0 || eventId >= EventManager.instance.m_events.m_size)
+            {
+                return EventData.Flags.None;
+            }
+
+            ref EventData eventData = ref EventManager.instance.m_events.m_buffer[eventId];
+            return eventData.Info?.m_type == EventManager.EventType.AcademicYear
                 ? EventData.Flags.None
-                : EventManager.instance.m_events.m_buffer[eventId].m_flags;
+                : eventData.m_flags;
         }
 
         /// <summary>
@@ -57,6 +63,11 @@ namespace RealTime.GameConnection
 
                 if ((eventData.m_flags
                     & (EventData.Flags.Cancelled | EventData.Flags.Completed | EventData.Flags.Deleted | EventData.Flags.Expired)) != 0)
+                {
+                    continue;
+                }
+
+                if (eventData.Info?.m_type == EventManager.EventType.AcademicYear)
                 {
                     continue;
                 }
@@ -93,6 +104,11 @@ namespace RealTime.GameConnection
             }
 
             ref EventData eventData = ref EventManager.instance.m_events.m_buffer[eventId];
+            if (eventData.Info?.m_type == EventManager.EventType.AcademicYear)
+            {
+                return false;
+            }
+
             buildingId = eventData.m_building;
             startTime = eventData.StartTime;
             duration = eventData.Info.m_eventAI.m_eventDuration;
@@ -111,6 +127,11 @@ namespace RealTime.GameConnection
             }
 
             ref EventData eventData = ref EventManager.instance.m_events.m_buffer[eventId];
+            if (eventData.Info?.m_type == EventManager.EventType.AcademicYear)
+            {
+                return;
+            }
+
             uint duration = eventData.m_expireFrame - eventData.m_startFrame;
             eventData.m_startFrame = SimulationManager.instance.TimeToFrame(startTime);
             eventData.m_expireFrame = eventData.m_startFrame + duration;

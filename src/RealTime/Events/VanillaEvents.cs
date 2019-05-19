@@ -29,7 +29,7 @@ namespace RealTime.Events
             for (uint i = 0; i < PrefabCollection<EventInfo>.PrefabCount(); ++i)
             {
                 EventInfo eventInfo = PrefabCollection<EventInfo>.GetPrefab(i);
-                if (eventInfo == null || eventInfo.m_eventAI == null)
+                if (eventInfo?.m_eventAI?.m_info == null)
                 {
                     continue;
                 }
@@ -90,35 +90,38 @@ namespace RealTime.Events
 
         private static void Customize(EventAI eventAI)
         {
-            switch (eventAI)
+            float eventDuration;
+            float prepareDuration;
+            float disorganizeDuration;
+
+            switch (eventAI.m_info.m_type)
             {
-                case null:
-                    return;
+                case EventManager.EventType.Concert:
+                    eventDuration = 4f;
+                    prepareDuration = 4f;
+                    disorganizeDuration = 2f;
+                    break;
 
-                case ConcertAI concertAI:
-                    concertAI.m_eventDuration = 4f;
-                    concertAI.m_prepareDuration = 4f;
-                    concertAI.m_disorganizeDuration = 2f;
-                    return;
+                case EventManager.EventType.VarsitySportsMatch:
+                case EventManager.EventType.Football:
+                    eventDuration = 2f;
+                    prepareDuration = 4f;
+                    disorganizeDuration = 2f;
+                    break;
 
-                case SportMatchAI matchAI:
-                    matchAI.m_eventDuration = 2f;
-                    matchAI.m_prepareDuration = 4f;
-                    matchAI.m_disorganizeDuration = 2f;
-                    return;
-
-                case RocketLaunchAI rocketLaunchAI:
-                    rocketLaunchAI.m_eventDuration = 4f;
-                    rocketLaunchAI.m_prepareDuration = 12f;
-                    rocketLaunchAI.m_disorganizeDuration = 4f;
-                    return;
+                case EventManager.EventType.RocketLaunch:
+                    eventDuration = 4f;
+                    prepareDuration = 12f;
+                    disorganizeDuration = 4f;
+                    break;
 
                 default:
-                    eventAI.m_eventDuration = 2f;
-                    eventAI.m_prepareDuration = 2f;
-                    eventAI.m_disorganizeDuration = 2f;
                     return;
             }
+
+            eventAI.m_eventDuration = eventDuration;
+            eventAI.m_prepareDuration = prepareDuration;
+            eventAI.m_disorganizeDuration = disorganizeDuration;
         }
 
         private readonly struct EventAIData
