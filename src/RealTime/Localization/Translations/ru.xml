@@ -102,6 +102,10 @@
   <translation id="WorkShift.Night" value="Ночная смена" />
   <translation id="WorkStatus.OnVacation" value="(отпуск: {0} дн.)" />
 
+  <translation id="AcademicYear.DaysLeft" value="Заканчивается через {0} дн." />
+  <translation id="AcademicYear.HoursLeft" value="Заканчивается через {0} ч." />
+  <translation id="AcademicYear.EndsSoon" value="Заканчивается менее чем через 1 час" />
+
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="Запасов угля на {0} × {unit}"/>
     <translation id="AIINFO_CUMULATIVEUPKEEP" value="Содержание: {0} + {1} / {unit} / клетка"/>
@@ -209,6 +213,15 @@
     <translation id="UNIQUEFACTORYPANEL_INCOME_TOOLTIP" value="Доход за посл. {unit}"/>
     <translation id="UNIQUEFACTORYPANEL_RESOURCEEXPENSES" value="Затраты на добычу ресурсов за {unit}"/>
     <translation id="UPDATEAIINFO_INDUSTRY_PRODUCTION_RATE" value="Производство: {0:N0} за {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_CHEERLEADINGTOOLTIP" value="Стоимость: {0} / арена / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHCOSTTOOLTIP" value="Стоимость: {0} / тренер / {unit}"/>
+    <translation id="CAMPUSPANEL_GRADUATESTHISYEAR" value="Выпускников в этом учебном году: {0}"/>
+    <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="Стоимость: {0} / работник / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_EXPENSES" value="Расходы за {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="Тренерский штаб#10;Найм большего количество тренеров повышает вероятность побед в университетских спортивных состязаниях. Этот эффект#10;не проявляется мгновенно, а постепенно увеличивается от +0% до +1% за каждого тренера в течение всего учебного года."/>
+    <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="Всего доход от кампусов за {unit}"/>
+    <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Расход на уникальные сооружения и спортивные арены за {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Доход от кампусов за {unit}"/>	
   </overrides>
   
 </language>

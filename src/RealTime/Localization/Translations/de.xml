@@ -102,6 +102,10 @@
   <translation id="WorkShift.Night" value="Nachtschicht" />
   <translation id="WorkStatus.OnVacation" value="(Urlaub: {0} Tage)" />
 
+  <translation id="AcademicYear.DaysLeft" value="Endet in {0} Tagen" />
+  <translation id="AcademicYear.HoursLeft" value="Endet in {0} Stunde(n)" />
+  <translation id="AcademicYear.EndsSoon" value="Endet in weniger als 1 Stunde" />
+
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="Kohle gespeichert für {0} × {unit}"/>
     <translation id="AIINFO_CUMULATIVEUPKEEP" value="Unterhalt: {0} + {1} / {unit} / Zelle"/>
@@ -209,6 +213,15 @@
     <translation id="UNIQUEFACTORYPANEL_INCOME_TOOLTIP" value="Einnahmen letzte {unit}"/>
     <translation id="UNIQUEFACTORYPANEL_RESOURCEEXPENSES" value="Ausgaben für die Rohstoffbeschaffung pro {unit}"/>
     <translation id="UPDATEAIINFO_INDUSTRY_PRODUCTION_RATE" value="Produktion: {0:N0} per {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_CHEERLEADINGTOOLTIP" value="Kosten: {0} / arena / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHCOSTTOOLTIP" value="Kosten: {0} / coach / {unit}"/>
+    <translation id="CAMPUSPANEL_GRADUATESTHISYEAR" value="Abschlüsse dieses Lehrjahr: {0}"/>
+    <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="Kosten: {0} / Angestellter / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_EXPENSES" value="Kosten letzte {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="Trainerstab#10;Mehr Mitarbeiter im Trainerstab erhöhen die Wahrscheinlichkeit eines Sieges in den Unisportspielen. Der Effekt#10;wirkt nicht sofort, sondern steigt von +0% bis +1% pro Mitarbeiter über das gesamte Lehrjahr."/>
+    <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="Gesamteinnahmen vom Campus letzte {unit}"/>
+    <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Ausgaben für Einzigartige Gebäude und Sport-Arenas letzte {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Einnahmen vom Campus letzte {unit}"/>
   </overrides>
     
 </language>
