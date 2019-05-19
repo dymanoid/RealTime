@@ -38,5 +38,14 @@ namespace RealTime.Localization
 
         /// <summary>The key for the vacation text.</summary>
         public const string WorkStatusOnVacation = "WorkStatus.OnVacation";
+
+        /// <summary>The key for the academic year ETA text (in days).</summary>
+        public const string AcademicYearDaysLeft = "AcademicYear.DaysLeft";
+
+        /// <summary>The key for the academic year ETA text (in hours).</summary>
+        public const string AcademicYearHoursLeft = "AcademicYear.HoursLeft";
+
+        /// <summary>The key for the academic year ETA text (ends soon).</summary>
+        public const string AcademicYearEndsSoon = "AcademicYear.EndsSoon";
     }
 }

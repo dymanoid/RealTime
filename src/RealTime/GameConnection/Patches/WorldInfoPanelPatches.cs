@@ -20,6 +20,9 @@ namespace RealTime.GameConnection.Patches
         /// <summary>Gets or sets the customized vehicle information panel.</summary>
         public static CustomVehicleInfoPanel VehicleInfoPanel { get; set; }
 
+        /// <summary>Gets or sets the customized campus information panel.</summary>
+        public static CustomCampusWorldInfoPanel CampusWorldInfoPanel { get; set; }
+
         /// <summary>Gets the patch for the update bindings method.</summary>
         public static IPatch UpdateBindings { get; } = new WorldInfoPanel_UpdateBindings();
 
@@ -42,11 +45,15 @@ namespace RealTime.GameConnection.Patches
                 switch (__instance)
                 {
                     case CitizenWorldInfoPanel _:
-                        CitizenInfoPanel.UpdateCustomInfo(ref ___m_InstanceID);
+                        CitizenInfoPanel?.UpdateCustomInfo(ref ___m_InstanceID);
                         break;
 
                     case VehicleWorldInfoPanel _:
-                        VehicleInfoPanel.UpdateCustomInfo(ref ___m_InstanceID);
+                        VehicleInfoPanel?.UpdateCustomInfo(ref ___m_InstanceID);
+                        break;
+
+                    case CampusWorldInfoPanel _:
+                        CampusWorldInfoPanel?.UpdateCustomInfo(ref ___m_InstanceID);
                         break;
                 }
             }

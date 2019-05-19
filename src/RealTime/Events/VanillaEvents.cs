@@ -115,6 +115,12 @@ namespace RealTime.Events
                     disorganizeDuration = 4f;
                     break;
 
+                case EventManager.EventType.AcademicYear:
+                    eventDuration = 7f * 24f;
+                    prepareDuration = 2f;
+                    disorganizeDuration = 2f;
+                    break;
+
                 default:
                     return;
             }
