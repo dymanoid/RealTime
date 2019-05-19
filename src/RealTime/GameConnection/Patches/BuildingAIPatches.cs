@@ -83,7 +83,7 @@ namespace RealTime.GameConnection.Patches
             {
                 if (__state != buildingData.m_outgoingProblemTimer)
                 {
-                    RealTimeAI?.ProcessBuildingProblems(buildingID, __state);
+                    RealTimeAI.ProcessBuildingProblems(buildingID, __state);
                 }
             }
         }
@@ -116,7 +116,7 @@ namespace RealTime.GameConnection.Patches
             {
                 if (__state != buildingData.m_workerProblemTimer)
                 {
-                    RealTimeAI?.ProcessWorkerProblems(buildingID, __state);
+                    RealTimeAI.ProcessWorkerProblems(buildingID, __state);
                 }
             }
         }
@@ -137,7 +137,7 @@ namespace RealTime.GameConnection.Patches
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static bool Prefix(ref int __result)
             {
-                __result = RealTimeAI?.GetConstructionTime() ?? 0;
+                __result = RealTimeAI.GetConstructionTime();
                 return false;
             }
         }
@@ -158,7 +158,7 @@ namespace RealTime.GameConnection.Patches
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static void Postfix(BuildingAI __instance, ushort buildingID, ref Building data, ref Randomizer randomizer, CitizenInfo info, ref Vector3 position, ref Vector3 target, ref CitizenInstance.Flags specialFlags)
             {
-                if (WeatherInfo?.IsBadWeather != true || data.Info == null || data.Info.m_enterDoors == null)
+                if (!WeatherInfo.IsBadWeather || data.Info == null || data.Info.m_enterDoors == null)
                 {
                     return;
                 }
@@ -209,7 +209,7 @@ namespace RealTime.GameConnection.Patches
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static bool Prefix(ref BuildingInfo __result, ushort buildingID, ref Building data)
             {
-                if (RealTimeAI == null || (data.m_flags & Building.Flags.Upgrading) != 0)
+                if ((data.m_flags & Building.Flags.Upgrading) != 0)
                 {
                     return true;
                 }
@@ -240,11 +240,6 @@ namespace RealTime.GameConnection.Patches
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static bool Prefix(BuildingInfo info, ref bool __result)
             {
-                if (RealTimeAI == null)
-                {
-                    return true;
-                }
-
                 if (!RealTimeAI.CanBuildOrUpgrade(info.GetService()))
                 {
                     __result = false;
@@ -258,7 +253,7 @@ namespace RealTime.GameConnection.Patches
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static void Postfix(bool __result, ref ushort building, BuildingInfo info)
             {
-                if (__result && RealTimeAI != null)
+                if (__result)
                 {
                     RealTimeAI.RegisterConstructingBuilding(building, info.GetService());
                 }
@@ -281,7 +276,7 @@ namespace RealTime.GameConnection.Patches
             private static void Postfix(ushort buildingID, ref Building buildingData)
             {
                 if ((buildingData.m_flags & Building.Flags.Active) != 0
-                    && RealTimeAI?.ShouldSwitchBuildingLightsOff(buildingID) == true)
+                    && RealTimeAI.ShouldSwitchBuildingLightsOff(buildingID))
                 {
                     buildingData.m_flags &= ~Building.Flags.Active;
                 }
@@ -310,11 +305,6 @@ namespace RealTime.GameConnection.Patches
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static void Postfix(ushort buildingID, InfoManager.InfoMode infoMode, ref Color __result)
             {
-                if (RealTimeAI == null)
-                {
-                    return;
-                }
-
                 switch (infoMode)
                 {
                     case InfoManager.InfoMode.TrafficRoutes:

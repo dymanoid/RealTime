@@ -36,12 +36,9 @@ namespace RealTime.GameConnection.Patches
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static void Postfix(ref int __result)
             {
-                if (SpareTimeBehavior != null)
-                {
-                    // Using the relaxing chance of an adult as base value - seems to be reasonable.
-                    int chance = (int)SpareTimeBehavior.GetRelaxingChance(Citizen.AgeGroup.Adult);
-                    __result = __result * chance * chance / 10_000;
-                }
+                // Using the relaxing chance of an adult as base value - seems to be reasonable.
+                int chance = (int)SpareTimeBehavior.GetRelaxingChance(Citizen.AgeGroup.Adult);
+                __result = __result * chance * chance / 10_000;
             }
         }
     }

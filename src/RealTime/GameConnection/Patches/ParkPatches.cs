@@ -34,11 +34,6 @@ namespace RealTime.GameConnection.Patches
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             private static void Postfix(byte parkID)
             {
-                if (SpareTimeBehavior == null)
-                {
-                    return;
-                }
-
                 ref DistrictPark park = ref DistrictManager.instance.m_parks.m_buffer[parkID];
 
                 if (!SpareTimeBehavior.AreFireworksAllowed)

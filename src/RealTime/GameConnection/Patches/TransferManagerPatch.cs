@@ -44,10 +44,10 @@ namespace RealTime.GameConnection.Patches
                     case TransferManager.TransferReason.TouristB:
                     case TransferManager.TransferReason.TouristC:
                     case TransferManager.TransferReason.TouristD:
-                        return RealTimeAI?.IsEntertainmentTarget(offer.Building) ?? true;
+                        return RealTimeAI.IsEntertainmentTarget(offer.Building);
 
                     case TransferManager.TransferReason.ParkMaintenance:
-                        return RealTimeAI?.IsBuildingActive(offer.Building) ?? true;
+                        return RealTimeAI.IsBuildingActive(offer.Building);
 
                     default:
                         return true;

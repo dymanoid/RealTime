@@ -42,11 +42,11 @@ namespace RealTime.GameConnection.Patches
                 switch (__instance)
                 {
                     case CitizenWorldInfoPanel _:
-                        CitizenInfoPanel?.UpdateCustomInfo(ref ___m_InstanceID);
+                        CitizenInfoPanel.UpdateCustomInfo(ref ___m_InstanceID);
                         break;
 
                     case VehicleWorldInfoPanel _:
-                        VehicleInfoPanel?.UpdateCustomInfo(ref ___m_InstanceID);
+                        VehicleInfoPanel.UpdateCustomInfo(ref ___m_InstanceID);
                         break;
                 }
             }
