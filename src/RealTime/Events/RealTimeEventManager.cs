@@ -25,7 +25,7 @@ namespace RealTime.Events
         private static readonly TimeSpan EventStartTimeGranularity = TimeSpan.FromMinutes(30);
         private static readonly TimeSpan EventProcessInterval = TimeSpan.FromMinutes(15);
 
-        private static readonly ItemClass.Service[] EventBuildingServices = { ItemClass.Service.Monument, ItemClass.Service.Beautification };
+        private static readonly ItemClass.Service[] EventBuildingServices = { ItemClass.Service.Monument, ItemClass.Service.Beautification, ItemClass.Service.Museums };
 
         private readonly LinkedList<ICityEvent> upcomingEvents;
         private readonly RealTimeConfig config;
