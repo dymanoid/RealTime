@@ -319,6 +319,32 @@ namespace RealTime.CustomAI
             return true;
         }
 
+        /// <summary>
+        /// Determines whether the building with the specified ID is a shopping target.
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the building is a shopping target; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsShoppingTarget(ushort buildingId)
+        {
+            if (buildingId == 0)
+            {
+                return true;
+            }
+
+            // A building still can post outgoing offers while inactive.
+            // This is to prevent those offers from being dispatched.
+            if (!buildingManager.BuildingHasFlags(buildingId, Building.Flags.Active))
+            {
+                return false;
+            }
+
+            var buildingService = buildingManager.GetBuildingService(buildingId);
+            return buildingService != ItemClass.Service.VarsitySports
+                && buildingManager.IsRealUniqueBuilding(buildingId);
+        }
+
         /// <summary>Determines whether a building with specified ID is currently active.</summary>
         /// <param name="buildingId">The ID of the building to check.</param>
         /// <returns>

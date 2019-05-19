@@ -46,6 +46,16 @@ namespace RealTime.GameConnection.Patches
                     case TransferManager.TransferReason.TouristD:
                         return RealTimeAI.IsEntertainmentTarget(offer.Building);
 
+                    case TransferManager.TransferReason.Shopping:
+                    case TransferManager.TransferReason.ShoppingB:
+                    case TransferManager.TransferReason.ShoppingC:
+                    case TransferManager.TransferReason.ShoppingD:
+                    case TransferManager.TransferReason.ShoppingE:
+                    case TransferManager.TransferReason.ShoppingF:
+                    case TransferManager.TransferReason.ShoppingG:
+                    case TransferManager.TransferReason.ShoppingH:
+                        return RealTimeAI.IsShoppingTarget(offer.Building);
+
                     case TransferManager.TransferReason.ParkMaintenance:
                         return RealTimeAI.IsBuildingActive(offer.Building);
 
