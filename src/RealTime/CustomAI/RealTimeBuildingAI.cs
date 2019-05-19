@@ -295,10 +295,17 @@ namespace RealTime.CustomAI
                 return true;
             }
 
-            // We override the building's active flag (e.g. at night), so a building still can post outgoing offers while inactive.
+            // A building still can post outgoing offers while inactive.
             // This is to prevent those offers from being dispatched.
             if (!buildingManager.BuildingHasFlags(buildingId, Building.Flags.Active))
             {
+                return false;
+            }
+
+            var buildingService = buildingManager.GetBuildingService(buildingId);
+            if (buildingService == ItemClass.Service.VarsitySports)
+            {
+                // Do not visit varsity sport arenas for entertainment when no active events
                 return false;
             }
 
