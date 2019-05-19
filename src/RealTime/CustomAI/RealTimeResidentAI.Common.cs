@@ -333,7 +333,7 @@ namespace RealTime.CustomAI
 #if DEBUG
                 if (nextActivityTime <= TimeInfo.Now)
                 {
-                    Log.Debug(LogCategory.Schedule, $"  - Schedule idle until next scheduling run");
+                    Log.Debug(LogCategory.Schedule, "  - Schedule idle until next scheduling run");
                 }
                 else
                 {
