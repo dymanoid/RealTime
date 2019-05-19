@@ -375,7 +375,7 @@ namespace RealTime.Events
             DateTime today = timeInfo.Now.Date;
             var upcomingEventIds = eventManager.GetUpcomingEvents(today, today.AddDays(1));
 
-            for (int i = 0; i < upcomingEvents.Count; ++i)
+            for (int i = 0; i < upcomingEventIds.Count; ++i)
             {
                 ushort eventId = upcomingEventIds[i];
 
