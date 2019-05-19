@@ -516,6 +516,8 @@ namespace RealTime.CustomAI
                     return false;
 
                 case ItemClass.Service.Monument:
+                case ItemClass.Service.VarsitySports:
+                case ItemClass.Service.Museums:
                     return false;
 
                 case ItemClass.Service.Beautification when subService == ItemClass.SubService.BeautificationParks:
