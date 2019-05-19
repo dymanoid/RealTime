@@ -13,6 +13,17 @@ namespace RealTime.GameConnection
     /// <seealso cref="IEventManagerConnection" />
     internal sealed class EventManagerConnection : IEventManagerConnection
     {
+        private readonly List<ushort> upcomingEvents = new List<ushort>();
+        private readonly ReadOnlyList<ushort> readonlyUpcomingEvents;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EventManagerConnection"/> class.
+        /// </summary>
+        public EventManagerConnection()
+        {
+            readonlyUpcomingEvents = new ReadOnlyList<ushort>(upcomingEvents);
+        }
+
         /// <summary>Gets the flags of an event with specified ID.</summary>
         /// <param name="eventId">The ID of the event to get flags of.</param>
         /// <returns>
@@ -20,9 +31,15 @@ namespace RealTime.GameConnection
         /// </returns>
         public EventData.Flags GetEventFlags(ushort eventId)
         {
-            return eventId == 0 || eventId >= EventManager.instance.m_events.m_size
+            if (eventId == 0 || eventId >= EventManager.instance.m_events.m_size)
+            {
+                return EventData.Flags.None;
+            }
+
+            ref EventData eventData = ref EventManager.instance.m_events.m_buffer[eventId];
+            return eventData.Info?.m_type == EventManager.EventType.AcademicYear
                 ? EventData.Flags.None
-                : EventManager.instance.m_events.m_buffer[eventId].m_flags;
+                : eventData.m_flags;
         }
 
         /// <summary>
@@ -31,27 +48,37 @@ namespace RealTime.GameConnection
         /// <param name="earliestTime">The start time of the interval to get events from.</param>
         /// <param name="latestTime">The end time of the interval to get events from.</param>
         /// <returns>A collection of the city event IDs.</returns>
-        public IEnumerable<ushort> GetUpcomingEvents(DateTime earliestTime, DateTime latestTime)
+        public IReadOnlyList<ushort> GetUpcomingEvents(DateTime earliestTime, DateTime latestTime)
         {
+            upcomingEvents.Clear();
             FastList<EventData> events = EventManager.instance.m_events;
             for (ushort i = 1; i < events.m_size; ++i)
             {
-                if ((events.m_buffer[i].m_flags & (EventData.Flags.Preparing | EventData.Flags.Ready | EventData.Flags.Active)) == 0)
+                ref EventData eventData = ref events.m_buffer[i];
+
+                if ((eventData.m_flags & (EventData.Flags.Preparing | EventData.Flags.Ready | EventData.Flags.Active)) == 0)
                 {
                     continue;
                 }
 
-                if ((events.m_buffer[i].m_flags
+                if ((eventData.m_flags
                     & (EventData.Flags.Cancelled | EventData.Flags.Completed | EventData.Flags.Deleted | EventData.Flags.Expired)) != 0)
                 {
                     continue;
                 }
 
-                if (events.m_buffer[i].StartTime >= earliestTime && events.m_buffer[i].StartTime < latestTime)
+                if (eventData.Info?.m_type == EventManager.EventType.AcademicYear)
                 {
-                    yield return i;
+                    continue;
+                }
+
+                if (eventData.StartTime >= earliestTime && eventData.StartTime < latestTime)
+                {
+                    upcomingEvents.Add(i);
                 }
             }
+
+            return readonlyUpcomingEvents;
         }
 
         /// <summary>
@@ -77,6 +104,11 @@ namespace RealTime.GameConnection
             }
 
             ref EventData eventData = ref EventManager.instance.m_events.m_buffer[eventId];
+            if (eventData.Info?.m_type == EventManager.EventType.AcademicYear)
+            {
+                return false;
+            }
+
             buildingId = eventData.m_building;
             startTime = eventData.StartTime;
             duration = eventData.Info.m_eventAI.m_eventDuration;
@@ -95,6 +127,11 @@ namespace RealTime.GameConnection
             }
 
             ref EventData eventData = ref EventManager.instance.m_events.m_buffer[eventId];
+            if (eventData.Info?.m_type == EventManager.EventType.AcademicYear)
+            {
+                return;
+            }
+
             uint duration = eventData.m_expireFrame - eventData.m_startFrame;
             eventData.m_startFrame = SimulationManager.instance.TimeToFrame(startTime);
             eventData.m_expireFrame = eventData.m_startFrame + duration;

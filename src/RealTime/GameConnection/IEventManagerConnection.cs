@@ -5,7 +5,6 @@
 namespace RealTime.GameConnection
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>An interface for the game specific logic related to the event management.</summary>
     internal interface IEventManagerConnection
@@ -21,7 +20,7 @@ namespace RealTime.GameConnection
         /// <param name="earliestTime">The start time of the interval to get events from.</param>
         /// <param name="latestTime">The end time of the interval to get events from.</param>
         /// <returns>A collection of the city event IDs.</returns>
-        IEnumerable<ushort> GetUpcomingEvents(DateTime earliestTime, DateTime latestTime);
+        IReadOnlyList<ushort> GetUpcomingEvents(DateTime earliestTime, DateTime latestTime);
 
         /// <summary>Gets various information about a city event with specified ID.</summary>
         /// <param name="eventId">The ID of the city event to get information for.</param>

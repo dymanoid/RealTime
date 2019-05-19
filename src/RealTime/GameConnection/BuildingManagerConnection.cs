@@ -422,6 +422,32 @@ namespace RealTime.GameConnection
         public bool IsAreaEvacuating(ushort buildingId)
             => buildingId != 0 && DisasterManager.instance.IsEvacuating(BuildingManager.instance.m_buildings.m_buffer[buildingId].m_position);
 
+        /// <summary>
+        /// Determines whether the building with specified ID is a real unique building (not a stadium, not a concert area).
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the building with the specified ID is a real unique building; otherwise, <c>false</c>.
+        /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("General", "RCS1130", Justification = "The EventType enum has no [Flags] attribute but has values of power of 2")]
+        public bool IsRealUniqueBuilding(ushort buildingId)
+        {
+            if (buildingId == 0)
+            {
+                return false;
+            }
+
+            var buildingInfo = BuildingManager.instance.m_buildings.m_buffer[buildingId].Info;
+            if (buildingInfo?.m_class?.m_service != ItemClass.Service.Monument)
+            {
+                return false;
+            }
+
+            var monumentAI = buildingInfo.m_buildingAI as MonumentAI;
+            return monumentAI != null
+                && (monumentAI.m_supportEvents & (EventManager.EventType.Football | EventManager.EventType.Concert)) == 0;
+        }
+
         private static bool BuildingCanBeVisited(ushort buildingId)
         {
             uint currentUnitId = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_citizenUnits;

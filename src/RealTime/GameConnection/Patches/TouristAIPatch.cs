@@ -94,7 +94,7 @@ namespace RealTime.GameConnection.Patches
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static bool Prefix(TouristAI __instance, uint citizenID, ref Citizen data)
             {
-                RealTimeAI?.UpdateLocation(__instance, citizenID, ref data);
+                RealTimeAI.UpdateLocation(__instance, citizenID, ref data);
                 return false;
             }
         }

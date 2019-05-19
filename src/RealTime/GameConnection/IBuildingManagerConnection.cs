@@ -184,8 +184,17 @@ namespace RealTime.GameConnection
         /// </summary>
         /// <param name="buildingId">The building ID to check.</param>
         /// <returns>
-        ///   <c>true</c> if the area around the building with specified ID is currently being evacuated.; otherwise, <c>false</c>.
+        ///   <c>true</c> if the area around the building with specified ID is currently being evacuated; otherwise, <c>false</c>.
         /// </returns>
         bool IsAreaEvacuating(ushort buildingId);
+
+        /// <summary>
+        /// Determines whether the building with specified ID is a real unique building (not a stadium, not a concert area).
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the building with the specified ID is a real unique building; otherwise, <c>false</c>.
+        /// </returns>
+        bool IsRealUniqueBuilding(ushort buildingId);
     }
 }

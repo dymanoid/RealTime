@@ -103,7 +103,7 @@ namespace RealTime.GameConnection.Patches
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static bool Prefix(ResidentAI __instance, uint citizenID, ref Citizen data)
             {
-                RealTimeAI?.UpdateLocation(__instance, citizenID, ref data);
+                RealTimeAI.UpdateLocation(__instance, citizenID, ref data);
                 return false;
             }
         }
@@ -126,7 +126,7 @@ namespace RealTime.GameConnection.Patches
             {
                 if (__result && citizenData.m_citizen != 0)
                 {
-                    RealTimeAI?.RegisterCitizenArrival(citizenData.m_citizen);
+                    RealTimeAI.RegisterCitizenArrival(citizenData.m_citizen);
                 }
             }
         }
@@ -147,13 +147,13 @@ namespace RealTime.GameConnection.Patches
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static bool Prefix(ref bool __result)
             {
-                if (RealTimeAI?.CanCitizensGrowUp == false)
+                if (RealTimeAI.CanCitizensGrowUp)
                 {
-                    __result = false;
-                    return false;
+                    return true;
                 }
 
-                return true;
+                __result = false;
+                return false;
             }
         }
 
@@ -173,13 +173,8 @@ namespace RealTime.GameConnection.Patches
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static bool Prefix(uint citizenID, ref Citizen data, ref bool __result)
             {
-                if (RealTimeAI != null)
-                {
-                    __result = RealTimeAI.CanMakeBabies(citizenID, ref data);
-                    return false;
-                }
-
-                return true;
+                __result = RealTimeAI.CanMakeBabies(citizenID, ref data);
+                return false;
             }
         }
 
@@ -201,7 +196,7 @@ namespace RealTime.GameConnection.Patches
             {
                 if (__result && citizenID != 0)
                 {
-                    RealTimeAI?.RegisterCitizenDeparture(citizenID);
+                    RealTimeAI.RegisterCitizenDeparture(citizenID);
                 }
             }
         }
@@ -222,7 +217,7 @@ namespace RealTime.GameConnection.Patches
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
             private static void Postfix(ushort instanceID, ref CitizenInstance citizenData, ResidentAI __instance)
             {
-                if (RealTimeAI == null || instanceID == 0)
+                if (instanceID == 0)
                 {
                     return;
                 }

@@ -30,6 +30,7 @@ namespace RealTime.UI
         private static readonly Color32 EventColor = new Color32(180, 0, 90, 160);
 
         private readonly List<ICityEvent> displayedEvents = new List<ICityEvent>();
+        private readonly List<ICityEvent> eventsToDisplay = new List<ICityEvent>();
 
         private CultureInfo currentCulture = CultureInfo.CurrentCulture;
         private RealTimeUIDateTimeWrapper customDateTimeWrapper;
@@ -97,16 +98,22 @@ namespace RealTime.UI
 
         /// <summary>Updates the events bars on this time bar.</summary>
         /// <param name="availableEvents">The currently available events that need to be displayed.</param>
-        public void UpdateEventsDisplay(IEnumerable<ICityEvent> availableEvents)
+        public void UpdateEventsDisplay(IReadOnlyList<ICityEvent> availableEvents)
         {
             DateTime todayStart = customDateTimeWrapper.CurrentValue.Date;
             DateTime todayEnd = todayStart.AddDays(1).AddMilliseconds(-1);
 
-            var eventsToDisplay = availableEvents
-                .Where(e => e.StartTime >= todayStart && e.StartTime <= todayEnd || e.EndTime >= todayStart && e.EndTime <= todayEnd)
-                .ToList();
+            eventsToDisplay.Clear();
+            for (int i = 0; i < availableEvents.Count; ++i)
+            {
+                var e = availableEvents[i];
+                if (e.StartTime >= todayStart && e.StartTime <= todayEnd || e.EndTime >= todayStart && e.EndTime <= todayEnd)
+                {
+                    eventsToDisplay.Add(e);
+                }
+            }
 
-            if (displayedEvents.SequenceEqual(eventsToDisplay))
+            if (EventListsEqual(displayedEvents, eventsToDisplay))
             {
                 return;
             }
@@ -123,6 +130,24 @@ namespace RealTime.UI
             {
                 DisplayCityEvent(cityEvent, todayStart, todayEnd);
             }
+        }
+
+        private static bool EventListsEqual(List<ICityEvent> first, List<ICityEvent> second)
+        {
+            if (first.Count != second.Count)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < first.Count; ++i)
+            {
+                if (first[i] != second[i])
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private static UIDateTimeWrapper ReplaceUIDateTimeWrapperInPanel(UIPanel infoPanel, UIDateTimeWrapper wrapper)

@@ -5,7 +5,6 @@ namespace RealTime.Events
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Xml.Serialization;
     using RealTime.Config;
     using RealTime.Events.Storage;
@@ -26,7 +25,7 @@ namespace RealTime.Events
         private static readonly TimeSpan EventStartTimeGranularity = TimeSpan.FromMinutes(30);
         private static readonly TimeSpan EventProcessInterval = TimeSpan.FromMinutes(15);
 
-        private static readonly ItemClass.Service[] EventBuildingServices = { ItemClass.Service.Monument, ItemClass.Service.Beautification };
+        private static readonly ItemClass.Service[] EventBuildingServices = { ItemClass.Service.Monument, ItemClass.Service.Beautification, ItemClass.Service.Museums };
 
         private readonly LinkedList<ICityEvent> upcomingEvents;
         private readonly RealTimeConfig config;
@@ -35,6 +34,8 @@ namespace RealTime.Events
         private readonly IBuildingManagerConnection buildingManager;
         private readonly IRandomizer randomizer;
         private readonly ITimeInfo timeInfo;
+        private readonly List<ICityEvent> currentEvents;
+        private readonly IReadOnlyList<ICityEvent> readonlyCurrentEvents;
 
         private ICityEvent lastActiveEvent;
         private ICityEvent activeEvent;
@@ -70,30 +71,32 @@ namespace RealTime.Events
             this.randomizer = randomizer ?? throw new ArgumentNullException(nameof(randomizer));
             this.timeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
             upcomingEvents = new LinkedList<ICityEvent>();
+            currentEvents = new List<ICityEvent>();
+            readonlyCurrentEvents = new ReadOnlyList<ICityEvent>(currentEvents);
         }
 
         /// <summary>Occurs when currently preparing, ready, ongoing, or recently finished events change.</summary>
         public event EventHandler EventsChanged;
 
         /// <summary>Gets the currently preparing, ready, ongoing, or recently finished city events.</summary>
-        public IEnumerable<ICityEvent> CityEvents
+        public IReadOnlyList<ICityEvent> CityEvents
         {
             get
             {
+                currentEvents.Clear();
+
                 if (lastActiveEvent != null)
                 {
-                    yield return lastActiveEvent;
+                    currentEvents.Add(lastActiveEvent);
                 }
 
                 if (activeEvent != null)
                 {
-                    yield return activeEvent;
+                    currentEvents.Add(activeEvent);
                 }
 
-                foreach (var upcomingEvent in upcomingEvents)
-                {
-                    yield return upcomingEvent;
-                }
+                upcomingEvents.CopyTo(currentEvents);
+                return readonlyCurrentEvents;
             }
         }
 
@@ -315,6 +318,21 @@ namespace RealTime.Events
             }
         }
 
+        private static ICityEvent GetVanillaEvent(IReadOnlyList<ICityEvent> events, ushort eventId, ushort buildingId)
+        {
+            for (int i = 0; i < events.Count; ++i)
+            {
+                if (events[i] is VanillaEvent vanillaEvent
+                    && vanillaEvent.EventId == eventId
+                    && vanillaEvent.BuildingId == buildingId)
+                {
+                    return vanillaEvent;
+                }
+            }
+
+            return null;
+        }
+
         private void Update()
         {
             if (activeEvent != null && activeEvent.EndTime <= timeInfo.Now)
@@ -355,8 +373,12 @@ namespace RealTime.Events
             bool result = false;
 
             DateTime today = timeInfo.Now.Date;
-            foreach (ushort eventId in eventManager.GetUpcomingEvents(today, today.AddDays(1)))
+            var upcomingEventIds = eventManager.GetUpcomingEvents(today, today.AddDays(1));
+
+            for (int i = 0; i < upcomingEventIds.Count; ++i)
             {
+                ushort eventId = upcomingEventIds[i];
+
                 if (!eventManager.TryGetEventInfo(eventId, out ushort buildingId, out DateTime startTime, out float duration, out float ticketPrice))
                 {
                     continue;
@@ -367,9 +389,7 @@ namespace RealTime.Events
                     continue;
                 }
 
-                VanillaEvent existingVanillaEvent = CityEvents
-                    .OfType<VanillaEvent>()
-                    .FirstOrDefault(e => e.BuildingId == buildingId && e.EventId == eventId);
+                var existingVanillaEvent = GetVanillaEvent(CityEvents, eventId, buildingId);
 
                 if (existingVanillaEvent != null)
                 {

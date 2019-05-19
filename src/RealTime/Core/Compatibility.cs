@@ -80,7 +80,7 @@ namespace RealTime.Core
         private List<string> GetIncompatibleModNames()
         {
             var result = new List<string>();
-            foreach (ulong modId in IncompatibleModIds)
+            foreach (var modId in IncompatibleModIds)
             {
                 try
                 {

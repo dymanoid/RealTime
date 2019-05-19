@@ -295,10 +295,17 @@ namespace RealTime.CustomAI
                 return true;
             }
 
-            // We override the building's active flag (e.g. at night), so a building still can post outgoing offers while inactive.
+            // A building still can post outgoing offers while inactive.
             // This is to prevent those offers from being dispatched.
             if (!buildingManager.BuildingHasFlags(buildingId, Building.Flags.Active))
             {
+                return false;
+            }
+
+            var buildingService = buildingManager.GetBuildingService(buildingId);
+            if (buildingService == ItemClass.Service.VarsitySports)
+            {
+                // Do not visit varsity sport arenas for entertainment when no active events
                 return false;
             }
 
@@ -317,6 +324,32 @@ namespace RealTime.CustomAI
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Determines whether the building with the specified ID is a shopping target.
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the building is a shopping target; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsShoppingTarget(ushort buildingId)
+        {
+            if (buildingId == 0)
+            {
+                return true;
+            }
+
+            // A building still can post outgoing offers while inactive.
+            // This is to prevent those offers from being dispatched.
+            if (!buildingManager.BuildingHasFlags(buildingId, Building.Flags.Active))
+            {
+                return false;
+            }
+
+            var buildingService = buildingManager.GetBuildingService(buildingId);
+            return buildingService != ItemClass.Service.VarsitySports
+                && buildingManager.IsRealUniqueBuilding(buildingId);
         }
 
         /// <summary>Determines whether a building with specified ID is currently active.</summary>
@@ -490,6 +523,8 @@ namespace RealTime.CustomAI
                     return false;
 
                 case ItemClass.Service.Monument:
+                case ItemClass.Service.VarsitySports:
+                case ItemClass.Service.Museums:
                     return false;
 
                 case ItemClass.Service.Beautification when subService == ItemClass.SubService.BeautificationParks:
