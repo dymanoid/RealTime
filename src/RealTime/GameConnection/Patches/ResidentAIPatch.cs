@@ -69,6 +69,9 @@ namespace RealTime.GameConnection.Patches
                 StartMovingWithOfferDelegate startMovingWithOffer
                     = FastDelegateFactory.Create<StartMovingWithOfferDelegate>(typeof(ResidentAI), "StartMoving", true);
 
+                AttemptAutodidactDelegate attemptAutodidact
+                    = FastDelegateFactory.Create<AttemptAutodidactDelegate>(typeof(ResidentAI), "AttemptAutodidact", true);
+
                 return new ResidentAIConnection<ResidentAI, Citizen>(
                     doRandomMove,
                     findEvacuationPlace,
@@ -78,7 +81,8 @@ namespace RealTime.GameConnection.Patches
                     getEvacuationReason,
                     getShoppingReason,
                     startMoving,
-                    startMovingWithOffer);
+                    startMovingWithOffer,
+                    attemptAutodidact);
             }
             catch (Exception e)
             {

@@ -245,7 +245,16 @@ namespace RealTime.CustomAI
         }
 
         private bool ProcessCitizenVisit(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
-            => RescheduleVisit(ref schedule, citizenId, ref citizen, CitizenProxy.GetVisitBuilding(ref citizen));
+        {
+            var currentBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
+            var currentBuildingService = BuildingMgr.GetBuildingService(currentBuilding);
+            if (currentBuildingService == ItemClass.Service.Education)
+            {
+                residentAI.AttemptAutodidact(ref citizen, currentBuildingService);
+            }
+
+            return RescheduleVisit(ref schedule, citizenId, ref citizen, currentBuilding);
+        }
 
         private bool RescheduleVisit(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen, ushort currentBuilding)
         {

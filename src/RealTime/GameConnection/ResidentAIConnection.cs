@@ -45,6 +45,10 @@ namespace RealTime.GameConnection
         /// A method that corresponds to the AI's original <c>StartMoving</c> method specifying a
         /// transfer offer.
         /// </param>
+        /// <param name="attemptAutodidact">
+        /// A method that corresponds to the AI's original <c>AttemptAutodidact</c> method
+        /// that updates the citizen's education level after visiting a library.
+        /// </param>
         /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
         public ResidentAIConnection(
             DoRandomMoveDelegate doRandomMove,
@@ -55,11 +59,13 @@ namespace RealTime.GameConnection
             GetEvacuationReasonDelegate getEvacuationReason,
             GetShoppingReasonDelegate getShoppingReason,
             StartMovingDelegate startMoving,
-            StartMovingWithOfferDelegate startMovingWithOffer)
+            StartMovingWithOfferDelegate startMovingWithOffer,
+            AttemptAutodidactDelegate attemptAutodidact)
         : base(doRandomMove, findEvacuationPlace, findVisitPlace, getEntertainmentReason, getEvacuationReason, getShoppingReason, startMoving)
         {
             FindHospital = findHospital ?? throw new ArgumentNullException(nameof(findHospital));
             StartMovingWithOffer = startMovingWithOffer ?? throw new ArgumentNullException(nameof(startMovingWithOffer));
+            AttemptAutodidact = attemptAutodidact ?? throw new ArgumentNullException(nameof(attemptAutodidact));
         }
 
         /// <summary>
@@ -92,10 +98,21 @@ namespace RealTime.GameConnection
         /// </returns>
         public delegate bool StartMovingWithOfferDelegate(TAI instance, uint citizenId, ref TCitizen citizen, ushort sourceBuilding, TransferManager.TransferOffer offer);
 
+        /// <summary>
+        /// Represents the method that corresponds to the AI's original <c>AttemptAutodidact</c> method
+        /// that updates the citizen's education level after visiting a library.
+        /// </summary>
+        /// <param name="citizen">The citizen object to process.</param>
+        /// <param name="visitedBuildingType">The type of the building the citizen leaves.</param>
+        public delegate void AttemptAutodidactDelegate(ref TCitizen citizen, ItemClass.Service visitedBuildingType);
+
         /// <summary>Gets a method that calls a <see cref="FindHospitalDelegate"/>.</summary>
         public FindHospitalDelegate FindHospital { get; }
 
         /// <summary>Gets a method that calls a <see cref="StartMovingWithOfferDelegate"/>.</summary>
         public StartMovingWithOfferDelegate StartMovingWithOffer { get; }
+
+        /// <summary>Gets a method that calls a <see cref="AttemptAutodidactDelegate"/>.</summary>
+        public AttemptAutodidactDelegate AttemptAutodidact { get; }
     }
 }
