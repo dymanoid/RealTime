@@ -1,4 +1,4 @@
-# Real Time
+# Real Time [![Steam Downloads](https://img.shields.io/steam/downloads/1420955187.svg?label=Steam%20downloads&logo=steam)](https://steamcommunity.com/sharedfiles/filedetails/?id=1420955187)
 
 A mod for the Cities: Skylines game. Adjusts the time flow in the game to make it more real.
 **Real Time** makes the game way more real and more challenging!
