@@ -102,9 +102,10 @@ namespace RealTime.GameConnection
         /// Represents the method that corresponds to the AI's original <c>AttemptAutodidact</c> method
         /// that updates the citizen's education level after visiting a library.
         /// </summary>
+        /// <param name="instance">The AI instance the method is called on.</param>
         /// <param name="citizen">The citizen object to process.</param>
         /// <param name="visitedBuildingType">The type of the building the citizen leaves.</param>
-        public delegate void AttemptAutodidactDelegate(ref TCitizen citizen, ItemClass.Service visitedBuildingType);
+        public delegate void AttemptAutodidactDelegate(TAI instance, ref TCitizen citizen, ItemClass.Service visitedBuildingType);
 
         /// <summary>Gets a method that calls a <see cref="FindHospitalDelegate"/>.</summary>
         public FindHospitalDelegate FindHospital { get; }

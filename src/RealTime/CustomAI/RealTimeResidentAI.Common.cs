@@ -353,7 +353,7 @@ namespace RealTime.CustomAI
 
         private void ExecuteCitizenSchedule(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen, bool noReschedule)
         {
-            if (ProcessCurrentState(ref schedule, citizenId, ref citizen)
+            if (ProcessCurrentState(ref schedule, instance, citizenId, ref citizen)
                 && schedule.ScheduledState == ResidentState.Unknown
                 && !noReschedule)
             {
@@ -415,7 +415,7 @@ namespace RealTime.CustomAI
             }
         }
 
-        private bool ProcessCurrentState(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
+        private bool ProcessCurrentState(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
         {
             switch (schedule.CurrentState)
             {
@@ -429,7 +429,7 @@ namespace RealTime.CustomAI
                     return ProcessCitizenRelaxing(ref schedule, citizenId, ref citizen);
 
                 case ResidentState.Visiting:
-                    return ProcessCitizenVisit(ref schedule, citizenId, ref citizen);
+                    return ProcessCitizenVisit(ref schedule, instance, citizenId, ref citizen);
 
                 case ResidentState.InShelter:
                     return ProcessCitizenInShelter(ref schedule, ref citizen);
