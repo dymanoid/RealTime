@@ -193,35 +193,35 @@
     <translation id="TOOL_WATER_ESTIMATE" value="총 가용량 : {0:N0} m³/{unit}"/>
     <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="저번 {unit} 당 방문객 : {0} 시민들, {1} 관광객들"/>
     <translation id="TRANSPORT_LINE_PASSENGERS" value="저번 {unit} 당 승객 : {0} 시민들, {1} 관광객들"/>
-    <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="Production rate: {0:N0} units per {unit}"/>
-    <translation id="AIINFO_POST_SORTING_RATE" value="Sorting rate: {0:N0} pieces of mail per {unit}"/>
-    <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="Cars charged last {unit}: {0:N0}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="Income from zoned industry and industry areas last {unit}"/>
-    <translation id="EXPENSES_TT_PLAYERINDUSTRY" value="Industry Area Expenses per {unit}"/>
-    <translation id="INCOME_TT_ROADTOLLS" value="Road Toll Income per {unit}"/>
-    <translation id="INCOME_TT_TOTAL_ROADTOLLS" value="Total Income from Road Tolls last {unit}"/>
-    <translation id="INDUSTRYPANEL_ACQUISITION_TOOLTIP" value="Acquisition per {unit}"/>
-    <translation id="INDUSTRYPANEL_ACQUISITIONCOST_TOOLTIP" value="Cost of Importing the Resource per {unit}"/>
-    <translation id="INDUSTRYPANEL_OUTPUT_TOOLTIP" value="Output per {unit}"/>
-    <translation id="INDUSTRYPANEL_OUTPUTINCOME_TOOLTIP" value="Income from Selling the Resource per {unit}"/>
-    <translation id="INDUSTRYPANEL_PROFIT_TOOLTIP" value="Profit per {unit}"/>
+    <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="생산률: {unit} 당 {0:N0} 유닛"/>
+    <translation id="AIINFO_POST_SORTING_RATE" value="편지 분류률: {unit} 당 {0:N0} 개"/>
+    <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="저번 {unit}: {0:N0} 당 통행 수익"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="저번 {unit} 당 산업 지역과 구역의 수익"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY" value="{unit}당 산업 지역 지출"/>
+    <translation id="INCOME_TT_ROADTOLLS" value="{unit} 당 유료 도로 수익"/>
+    <translation id="INCOME_TT_TOTAL_ROADTOLLS" value="저번 {unit} 당 총 유료 도로 수익"/>
+    <translation id="INDUSTRYPANEL_ACQUISITION_TOOLTIP" value="{unit} 당 총 수집"/>
+    <translation id="INDUSTRYPANEL_ACQUISITIONCOST_TOOLTIP" value="{unit} 당 자원 수입비"/>
+    <translation id="INDUSTRYPANEL_OUTPUT_TOOLTIP" value="{unit} 당 생산량"/>
+    <translation id="INDUSTRYPANEL_OUTPUTINCOME_TOOLTIP" value="{unit} 당 자원 총 판매 이익"/>
+    <translation id="INDUSTRYPANEL_PROFIT_TOOLTIP" value="{unit} 당 수익"/>
     <translation id="INDUSTRYPANEL_WEEKLYPRODUCTION" value="{0} / {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_INDUSTRYAREAS" value="Total Industry Area Profit per {unit}"/>
-    <translation id="TOOL_EXTRACTION_ESTIMATE" value="Estimated production: {0:N0} units per {unit}"/>
-    <translation id="UFPANEL_MATERIALCOST_TOOLTIP" value="Value of the resources used to make the end product per {unit}"/>
-    <translation id="UFPANEL_PRODUCTIONVALUE_TOOLTIP" value="Value of the factory output per {unit}"/>
-    <translation id="UNIQUEFACTORYPANEL_INCOME_TOOLTIP" value="Income last {unit}"/>
-    <translation id="UNIQUEFACTORYPANEL_RESOURCEEXPENSES" value="Resource Acquisition Expenses per {unit}"/>
-    <translation id="UPDATEAIINFO_INDUSTRY_PRODUCTION_RATE" value="Production: {0:N0} per {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_CHEERLEADINGTOOLTIP" value="Cost: {0} / arena / {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHCOSTTOOLTIP" value="Cost: {0} / coach / {unit}"/>
-    <translation id="CAMPUSPANEL_GRADUATESTHISYEAR" value="Graduates this academic year: {0}"/>
-    <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="Cost: {0} / academic staff / {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_EXPENSES" value="Expenses last {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="Coaching Staff#10;Hiring more coaching staff increases the chances of winning varsity sports matches. Coaching staff effect#10;is not instantaneous but increases from +0% to +1% per coaching staff member over the span of the academic year."/>
-    <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="Total Campus Area profit last {unit}"/>
-    <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Unique Buildings and Sport Arenas expenses last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Income from Campus Areas last {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_INDUSTRYAREAS" value="{unit} 당 총 산업 지역 수익"/>
+    <translation id="TOOL_EXTRACTION_ESTIMATE" value="{unit}당 대략적인 생산: {0:N0} 유닛"/>
+    <translation id="UFPANEL_MATERIALCOST_TOOLTIP" value="{unit} 당 최종 생산물에 들어간 자원량"/>
+    <translation id="UFPANEL_PRODUCTIONVALUE_TOOLTIP" value="{unit} 당 공장 생산량"/>
+    <translation id="UNIQUEFACTORYPANEL_INCOME_TOOLTIP" value="저번 {unit} 당 수익"/>
+    <translation id="UNIQUEFACTORYPANEL_RESOURCEEXPENSES" value="{unit} 당 자원 총 수집 및 사용"/>
+    <translation id="UPDATEAIINFO_INDUSTRY_PRODUCTION_RATE" value="생산: {unit}당 {0:N0}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_CHEERLEADINGTOOLTIP" value="비용: {0} / 경기장 / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHCOSTTOOLTIP" value="Cost: {0} / 코치 / {unit}"/>
+    <translation id="CAMPUSPANEL_GRADUATESTHISYEAR" value="이번 학기년도 당 졸업생: {0}"/>
+    <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="비용: {0} / 교직원 / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_EXPENSES" value="{unit} 당 지출"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="코칭 스텝#10;더 많은 코치를 고용하게 되면, 대표팀이 이길 가능성이 증가합니다. 코칭 스템 효과#10;는 즉각적이지 않지만 학기 년도의 코치당 +0에서 +1% 증가합니다."/>
+    <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="저번 {unit} 당 총 캠퍼스 수익"/>
+    <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="저번 {unit} 당 스포츠 경기장과 특수 빌딩 지출"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="저번 {unit}당 캠퍼스 경기장의 수익"/>
   </overrides>
 
 </language>
