@@ -24,6 +24,7 @@ namespace RealTime.Core
             629713122,  // Climate Control
             702070768,  // Export Electricity
             649522495,  // District Service Limit
+            1729576238, // Date Changer
         };
 
         private readonly ILocalizationProvider localizationProvider;
