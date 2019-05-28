@@ -13,9 +13,7 @@ namespace RealTime.CustomAI
             ushort homeBuilding = CitizenProxy.GetHomeBuilding(ref citizen);
             if (homeBuilding == 0)
             {
-                Log.Debug(LogCategory.State, $"WARNING: {GetCitizenDesc(citizenId, ref citizen)} is in corrupt state: want to go home with no home building. Releasing the poor citizen.");
-                CitizenMgr.ReleaseCitizen(citizenId);
-                schedule = default;
+                Log.Debug(LogCategory.State, $"{GetCitizenDesc(citizenId, ref citizen)} is currently homeless. Cannot move home, waiting for the next opportunity");
                 return;
             }
 
