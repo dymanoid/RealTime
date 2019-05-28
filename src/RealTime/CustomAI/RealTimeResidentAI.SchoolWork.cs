@@ -66,6 +66,12 @@ namespace RealTime.CustomAI
                 return;
             }
 
+#if DEBUG
+            string citizenDesc = GetCitizenDesc(citizenId, ref citizen);
+#else
+            const string citizenDesc = null;
+#endif
+
             if (residentAI.StartMoving(instance, citizenId, ref citizen, currentBuilding, schedule.WorkBuilding))
             {
                 if (schedule.CurrentState != ResidentState.AtHome)
@@ -78,12 +84,12 @@ namespace RealTime.CustomAI
                 Citizen.AgeGroup citizenAge = CitizenProxy.GetAge(ref citizen);
                 if (workBehavior.ScheduleLunch(ref schedule, citizenAge))
                 {
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} to school/work {schedule.WorkBuilding} and will go to lunch at {schedule.ScheduledStateTime}");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going from {currentBuilding} to school/work {schedule.WorkBuilding} and will go to lunch at {schedule.ScheduledStateTime}");
                 }
                 else
                 {
                     workBehavior.ScheduleReturnFromWork(ref schedule, citizenAge);
-                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} is going from {currentBuilding} to school/work {schedule.WorkBuilding} and will leave work at {schedule.ScheduledStateTime}");
+                    Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going from {currentBuilding} to school/work {schedule.WorkBuilding} and will leave work at {schedule.ScheduledStateTime}");
                 }
             }
             else
