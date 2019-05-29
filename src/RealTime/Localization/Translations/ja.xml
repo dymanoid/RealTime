@@ -43,6 +43,8 @@
   <translation id="ConstructionSpeedTooltip" value="建物の建築やアップグレードの速度" />
   <translation id="SwitchOffLightsAtNight" value="夜間に建物の照明をつけない" />
   <translation id="SwitchOffLightsAtNightTooltip" value="市民が睡眠をとっている間 - 誰も働いたりしていない間は、住宅やその他の建物、公園の照明を消します" />
+  <translation id="SwitchOffLightsMaxHeight" value="Keep lights on for high buildings" />
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="Residential, commercial, and office buildings higher than this value will not switch off lights at night" />
   <translation id="CanAbandonJourney" value="渋滞と公共交通待機時の振る舞い改善" />
   <translation id="CanAbandonJourneyTooltip" value="有効の場合、市民は長時間交通渋滞や公共交通機関を待たされた際に行動を諦めることができます。" />
 

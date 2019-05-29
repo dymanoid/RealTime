@@ -43,6 +43,8 @@
   <translation id="ConstructionSpeedTooltip" value="Geschwindigkeit des Neubaus und des Gebäude-Upgrades" />
   <translation id="SwitchOffLightsAtNight" value="Gebäude schalten nachts das Licht aus" />
   <translation id="SwitchOffLightsAtNightTooltip" value="Wohngebäude schalten das Licht aus, wenn die meisten Einwohner schlafen, andere Gebäude und Parks - wenn dort keiner arbeitet" />
+  <translation id="SwitchOffLightsMaxHeight" value="Hohe Gebäude schalten das Licht nicht aus" />
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="Gebäude schalten nachts das Licht nicht aus, wenn ihre Höhe größer als dieser Wert ist" />
   <translation id="CanAbandonJourney" value="Besseres Verhalten im Stau und beim Warten von ÖPNV" />
   <translation id="CanAbandonJourneyTooltip" value="Wenn aktiviert, Einwohner können Fahrten abbrechen, wenn sie zu lang im Stau sind oder auf den öffentlichen Verkehr warten" />
 

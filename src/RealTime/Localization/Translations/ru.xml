@@ -43,6 +43,8 @@
   <translation id="ConstructionSpeedTooltip" value="Скорость постройки и улучшения зданий" />
   <translation id="SwitchOffLightsAtNight" value="Здания выключают свет ночью" />
   <translation id="SwitchOffLightsAtNightTooltip" value="Жилые здания выключают свет, когла большинство жителей спят, другие здания и парки - когда там никто не работает" />
+  <translation id="SwitchOffLightsMaxHeight" value="Не выключать свет в высоких зданиях" />
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="Жилые, коммерческие и офисные здания не выключают свет ночью, если их высота больше этого значения" />
   <translation id="CanAbandonJourney" value="Улучшенное поведение в пробках и при ожидании транспорта" />
   <translation id="CanAbandonJourneyTooltip" value="Если активировано, жители могут отменять свои поездки, если долго находятся в пробке или ждут общественного транспорта" />
 

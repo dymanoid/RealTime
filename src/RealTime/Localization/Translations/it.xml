@@ -43,6 +43,8 @@
   <translation id="ConstructionSpeedTooltip" value="Velocità di costruzione ed upgrade degli edifici." />
   <translation id="SwitchOffLightsAtNight" value="Spegni le luci deedifici di notte" />
   <translation id="SwitchOffLightsAtNightTooltip" value="Gli edifici residenziali spengono le luci quando i cittadini dormono, altri edifici e parchi quando nessuno lavora lì" />
+  <translation id="SwitchOffLightsMaxHeight" value="Keep lights on for high buildings" />
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="Residential, commercial, and office buildings higher than this value will not switch off lights at night" />
   <translation id="CanAbandonJourney" value="Better traffic jam and public transport waiting behavior" />
   <translation id="CanAbandonJourneyTooltip" value="If enabled, citizens can abandon their journeys when stuck in a traffic jam or waiting for public transport for too long" />
 

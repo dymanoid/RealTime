@@ -43,6 +43,8 @@
   <translation id="ConstructionSpeedTooltip" value="调节建筑建造和升级的速度" />
   <translation id="SwitchOffLightsAtNight" value="夜间关闭建筑灯光" />
   <translation id="SwitchOffLightsAtNightTooltip" value="市民们睡觉时住宅建筑的灯光会自动关闭，其他建筑比如办公室和公园当没有人工作时也会关灯。" />
+  <translation id="SwitchOffLightsMaxHeight" value="Keep lights on for high buildings" />
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="Residential, commercial, and office buildings higher than this value will not switch off lights at night" />
   <translation id="CanAbandonJourney" value="Better traffic jam and public transport waiting behavior" />
   <translation id="CanAbandonJourneyTooltip" value="If enabled, citizens can abandon their journeys when stuck in a traffic jam or waiting for public transport for too long" />
 
