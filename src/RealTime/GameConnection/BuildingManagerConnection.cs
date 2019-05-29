@@ -361,14 +361,14 @@ namespace RealTime.GameConnection
             }
         }
 
-        /// <summary>Gets the building's level.</summary>
+        /// <summary>Gets the building's height in game units.</summary>
         /// <param name="buildingId">The ID of the building.</param>
-        /// <returns>The level of the building with the specified ID.</returns>
-        public ItemClass.Level GetBuildingLevel(ushort buildingId)
+        /// <returns>The height of the building with the specified ID.</returns>
+        public float GetBuildingHeight(ushort buildingId)
         {
             return buildingId == 0
-                ? ItemClass.Level.None
-                : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.m_class?.m_level ?? ItemClass.Level.None;
+                ? 0f
+                : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.m_size.y ?? 0f;
         }
 
         /// <summary>

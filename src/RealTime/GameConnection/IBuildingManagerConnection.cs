@@ -158,10 +158,10 @@ namespace RealTime.GameConnection
         /// <param name="buildingId">The ID of the building to update.</param>
         void UpdateBuildingColors(ushort buildingId);
 
-        /// <summary>Gets the building's level.</summary>
+        /// <summary>Gets the building's height in game units.</summary>
         /// <param name="buildingId">The ID of the building.</param>
-        /// <returns>The level of the building with the specified ID.</returns>
-        ItemClass.Level GetBuildingLevel(ushort buildingId);
+        /// <returns>The height of the building with the specified ID.</returns>
+        float GetBuildingHeight(ushort buildingId);
 
         /// <summary>Visually deactivates the building with specified ID without affecting its production or coverage.</summary>
         /// <param name="buildingId">The building ID.</param>
