@@ -71,7 +71,7 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="Самое раннее время, когда мероприятие может начаться в выходной день" />
   <translation id="LatestHourEventStartWeekend" value="Самое позднее по вых." />
   <translation id="LatestHourEventStartWeekendTooltip" value="Самое позднее время, когда мероприятие может начаться в выходной день" />
-    
+
   <translation id="4Time" value="Время" />
   <translation id="MaxOvertime" value="Макс. сверхурочные" />
   <translation id="MaxOvertimeTooltip" value="Максимальные сверхурочные для жителей - они придут на работу раньше и уйдут позже" />
@@ -224,5 +224,5 @@
     <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Расход на уникальные сооружения и спортивные арены за {unit}"/>
     <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Доход от кампусов за {unit}"/>	
   </overrides>
-  
+
 </language>

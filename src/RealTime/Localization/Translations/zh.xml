@@ -71,7 +71,7 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="周六日期间大型活动最早可以开始的时间。" />
   <translation id="LatestHourEventStartWeekend" value="最晚的周六日期间活动" />
   <translation id="LatestHourEventStartWeekendTooltip" value="工作日期间大型活动最迟可以开始的时间。" />
-    
+
   <translation id="4Time" value="时刻时长选项" />
   <translation id="MaxOvertime" value="允许最长的加班时间" />
   <translation id="MaxOvertimeTooltip" value="调节市民们加班的最长时间。他们可以早来上班或者晚点下班。" />

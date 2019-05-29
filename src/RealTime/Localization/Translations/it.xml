@@ -2,26 +2,33 @@
 <language id="it" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="Warning" value="Attenzione" />
+  <translation id="RestrictedModeMessage" value="Real Time works in restricted mode. Some functionality is disabled. This is because of a technical issue with a third-party library or a mod incompatibility. If you want assistance, please share your game log file with the mod's developer." />
   <translation id="ModNotWorkingMessage" value="Ops! Qualcosa è andato storto: la mod 'Real Time' non può essere attivata. Si prega di condividere il file Log del gioco con lo sviluppatore della mod." />
+  <translation id="IncompatibleModsFoundMessage" value="Real Time detected at least one incompatible mod (or at least partly incompatible). It is recommended to unsubscribe from them. You might continue on your own risk if you know what you are doing, but in this case something might not work properly or even crash the game." />
+  <translation id="Minutes" value="min." />
 
   <translation id="Tools" value="Strumenti" />
+  <translation id="ShowIncompatibilityNotifications" value="Show mod incompatibility notifications" />
+  <translation id="UseEnglishUSFormats" value="Use USA time and date format with English language" />
+  <translation id="UseEnglishUSFormatsTooltip" value="Changing the time format requires a game restart" />
   <translation id="ResetToDefaults" value="Riporta alle impostazioni originali" />
+  <translation id="UseForNewGames" value="Use current values for new games" />
 
   <translation id="1General" value="Generale" />
   <translation id="0Time" value="Opzioni Tempo" />
   <translation id="1Other" value="Altre Opzioni" />
   <translation id="WakeupHour" value="La Città si risveglia" />
-  <translation id="WakeupHourTooltip" value="I'orario in cui la maggior parte dei cittadini inizia a svegliarsi. I budget e la velocità temporale passano alla modalità "giorno"!" />
+  <translation id="WakeupHourTooltip" value="I'orario in cui la maggior parte dei cittadini inizia a svegliarsi. I budget e la velocità temporale passano alla modalità 'giorno'!" />
   <translation id="GoToSleepUpHour" value="La Città va a dormire" />
-  <translation id="GoToSleepUpHourTooltip" value="L'orario in cui la maggior parte dei cittadini inizia ad andare a dormire. I budget e la velocità temporale passano alla modalità "notte"!" />
+  <translation id="GoToSleepUpHourTooltip" value="L'orario in cui la maggior parte dei cittadini inizia ad andare a dormire. I budget e la velocità temporale passano alla modalità 'notte'!" />
   <translation id="DayTimeSpeed" value="Velocità Tempo (Giorno)" />
   <translation id="DayTimeSpeedTooltip" value="La velocità del flusso temporale durante il giorno. '1' è molto lento - quasi in tempo reale!" />
   <translation id="NightTimeSpeed" value="Velocità Tempo (Notte)" />
-  <translation id="NightTimeSpeedTooltip" value="La velocità del flusso temporale durante la notte. '1' è molto lento - quasi in tempo reale!" /> 
+  <translation id="NightTimeSpeedTooltip" value="La velocità del flusso temporale durante la notte. '1' è molto lento - quasi in tempo reale!" />
   <translation id="IsDynamicDayLengthEnabled" value="Lunghezza del giorno dinamica" />
   <translation id="IsDynamicDayLengthEnabledTooltip" value="Day length depends on the map's theme and day of the year. In winter the days are shorter than in summer." />
   <translation id="VirtualCitizens" value="Modalità Simulazione dei cittadini (reali e virtuali)" />
-  <translation id="VirtualCitizensTooltip" value="Seleziona 'Tutto' per una città reale (ma max 65.535 cittadini), seleziona "Vanilla" o "Altro" se il tuo PC è debole" />
+  <translation id="VirtualCitizensTooltip" value="Seleziona 'Tutto' per una città reale (ma max 65.535 cittadini), seleziona 'Vanilla' o 'Altro' se il tuo PC è debole" />
   <translation id="VirtualCitizens.None" value="Tutti i cittadini sono reali" />
   <translation id="VirtualCitizens.Few" value="Quasi tutti i cittadini sono reali" />
   <translation id="VirtualCitizens.Vanilla" value="Come nel gioco Vanilla" />
@@ -36,8 +43,10 @@
   <translation id="ConstructionSpeedTooltip" value="Velocità di costruzione ed upgrade degli edifici." />
   <translation id="SwitchOffLightsAtNight" value="Spegni le luci deedifici di notte" />
   <translation id="SwitchOffLightsAtNightTooltip" value="Gli edifici residenziali spengono le luci quando i cittadini dormono, altri edifici e parchi quando nessuno lavora lì" />
+  <translation id="CanAbandonJourney" value="Better traffic jam and public transport waiting behavior" />
+  <translation id="CanAbandonJourneyTooltip" value="If enabled, citizens can abandon their journeys when stuck in a traffic jam or waiting for public transport for too long" />
 
-  <translation id="2Quotas" value="Probabilità" />  
+  <translation id="2Quotas" value="Probabilità" />
   <translation id="SecondShiftQuota" value="Lavoratori del secondo turno" />
   <translation id="SecondShiftQuotaTooltip" value="La percentuale di cittadini che lavorano nel secondo turno" />
   <translation id="NightShiftQuota" value="Lavoratori turno di notte" />
@@ -46,10 +55,12 @@
   <translation id="LunchQuotaTooltip" value="La percentuale di Cims che vanno a pranzare fuori" />
   <translation id="LocalBuildingSearchQuota" value="Rateo Shopping Locale" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="La percentuale della popolazione che cercherà negozi locali" />
+  <translation id="ShoppingForFunQuota" value="Shopping for fun" />
+  <translation id="ShoppingForFunQuotaTooltip" value="The percentage of the population that will go shopping just for fun even when they don't need any goods" />
   <translation id="OnTimeQuota" value="Rateo in orario" />
   <translation id="OnTimeQuotaTooltip" value="La percentuale dei Cim che andranno o lasciano il loro lavoro in orario" />
 
-  <translation id="3Events" value="Eventi" />  
+  <translation id="3Events" value="Eventi" />
   <translation id="AreEventsEnabled" value="Abilita eventi personalizzati" />
   <translation id="AreEventsEnabledTooltip" value="Se disabilitato, solo gli eventi del gioco vanilla possono verificarsi in città" />
   <translation id="EarliestHourEventStartWeekday" value="Primo evento durante la settimana" />
@@ -60,7 +71,7 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="L'ora minima in cui un evento può iniziare nel weekend" />
   <translation id="LatestHourEventStartWeekend" value="Ultimo evento nel fine settimana" />
   <translation id="LatestHourEventStartWeekendTooltip" value="l'ultima ora in cui un evento può iniziare nel weekend" />
-    
+
   <translation id="4Time" value="Tempo" />
   <translation id="MaxOvertime" value="Straordinario max." />
   <translation id="MaxOvertimeTooltip" value="Il massimo straordinario in cui i Cim: vanno a lavorare prima o restano al lavoro più a lungo" />
@@ -76,6 +87,21 @@
   <translation id="LunchBeginTooltip" value="L'orario in cui i Cim escono a pranzo" />
   <translation id="LunchEnd" value="Orario fine pausa pranzo" />
   <translation id="LunchEndTooltip" value="L'orario in cui i Cim tornano al lavoro dal pranzo" />
+  <translation id="MaxVacationLength" value="Maximum vacation days" />
+  <translation id="MaxVacationLengthTooltip" value="For how long citizens can be on vacation. Set to 0 to disable vacations." />
+
+  <translation id="ScheduledAction" value="Now" />
+  <translation id="NextScheduledAction" value="Until" />
+  <translation id="ScheduledAction.AtHome" value="Go home" />
+  <translation id="ScheduledAction.AtSchoolOrWork" value="Go to work/school" />
+  <translation id="ScheduledAction.Shopping" value="Go shopping" />
+  <translation id="ScheduledAction.Relaxing" value="Go relaxing" />
+  <translation id="ScheduledAction.Visiting" value="Go visit" />
+  <translation id="ScheduledAction.InShelter" value="Go to shelter" />
+  <translation id="WorkShift.First" value="1st work shift" />
+  <translation id="WorkShift.Second" value="2nd work shift" />
+  <translation id="WorkShift.Night" value="Night work shift" />
+  <translation id="WorkStatus.OnVacation" value="(vacation: {0} days)" />
 
   <translation id="AcademicYear.DaysLeft" value="Ends in {0} days" />
   <translation id="AcademicYear.HoursLeft" value="Ends in {0} hour(s)" />
@@ -167,7 +193,7 @@
     <translation id="STADIUMINFO9" value="Income last {unit}:"/>
     <translation id="TOOL_WATER_ESTIMATE" value="Estimated production: {0:N0} m³/{unit}"/>
     <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="Visitors last {unit}: {0} residents, {1} tourists"/>
-    <translation id="TRANSPORT_LINE_PASSENGERS" value="Passengers last {unit}: {0} residents, {1} tourists"/>    
+    <translation id="TRANSPORT_LINE_PASSENGERS" value="Passengers last {unit}: {0} residents, {1} tourists"/>
     <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="Production rate: {0:N0} units per {unit}"/>
     <translation id="AIINFO_POST_SORTING_RATE" value="Sorting rate: {0:N0} pieces of mail per {unit}"/>
     <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="Cars charged last {unit}: {0:N0}"/>
@@ -197,14 +223,6 @@
     <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="Total Campus Area profit last {unit}"/>
     <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Unique Buildings and Sport Arenas expenses last {unit}"/>
     <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Income from Campus Areas last {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_CHEERLEADINGTOOLTIP" value="Cost: {0} / arena / {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHCOSTTOOLTIP" value="Cost: {0} / coach / {unit}"/>
-    <translation id="CAMPUSPANEL_GRADUATESTHISYEAR" value="Graduates this academic year: {0}"/>
-    <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="Cost: {0} / academic staff / {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_EXPENSES" value="Expenses last {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="Coaching Staff#10;Hiring more coaching staff increases the chances of winning varsity sports matches. Coaching staff effect#10;is not instantaneous but increases from +0% to +1% per coaching staff member over the span of the academic year."/>
-    <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="Total Campus Area profit last {unit}"/>
-    <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Unique Buildings and Sport Arenas expenses last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Income from Campus Areas last {unit}"/>
-  </overrides>    
+  </overrides>
+
 </language>

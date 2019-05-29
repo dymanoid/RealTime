@@ -2,7 +2,7 @@
 <language id="ja" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="Warning" value="警告" />
-  <translation id="RestrictedModeMessage" value="Real Time が制限モードで動作しています。いくつかの機能が無効化されています。これは、サードパーティライブラリの技術的な問題または mod の互換性がないためです。ヘルプが必要な場合は、ゲームのログファイルを mod の開発者に送ってください。" />  
+  <translation id="RestrictedModeMessage" value="Real Time が制限モードで動作しています。いくつかの機能が無効化されています。これは、サードパーティライブラリの技術的な問題または mod の互換性がないためです。ヘルプが必要な場合は、ゲームのログファイルを mod の開発者に送ってください。" />
   <translation id="ModNotWorkingMessage" value="おっと! 何か変ですね - 'Real Time' mod を起動することができませんでした。ゲームのログファイルを mod の開発者に送ってもらえませんか。" />
   <translation id="IncompatibleModsFoundMessage" value="Real Time は、互換性がない (あるいは部分的に互換性がない) mod が少なくともひとつあることを検出しました。それらの mod はサブスクライブを解除して下さい。どのような不具合があるかわかっているなら、自己責任で続けることができますが、この場合、正常に動作しなかったり、あるいはゲームがクラッシュするかもしれません。" />
   <translation id="Minutes" value="分" />
@@ -10,6 +10,7 @@
   <translation id="Tools" value="ツール" />
   <translation id="ShowIncompatibilityNotifications" value="非互換 mod 通知を表示" />
   <translation id="UseEnglishUSFormats" value="英語の場合は米国の日付/時刻形式を使用" />
+  <translation id="UseEnglishUSFormatsTooltip" value="Changing the time format requires a game restart" />
   <translation id="ResetToDefaults" value="すべてデフォルトにリセット" />
   <translation id="UseForNewGames" value="現在の値を新規ゲームに適用" />
 
@@ -23,7 +24,7 @@
   <translation id="DayTimeSpeed" value="時間が進む速度 (日中)" />
   <translation id="DayTimeSpeedTooltip" value="日中に経過する時間の早さです。'1' にするととても遅く - 実際の時間とほとんど変わりありません!" />
   <translation id="NightTimeSpeed" value="時間が進む速度 (夜間)" />
-  <translation id="NightTimeSpeedTooltip" value="夜間に経過する時間の早さです。'1' にすると、とても遅く - 実際の時間とほとんど変わりありません!" /> 
+  <translation id="NightTimeSpeedTooltip" value="夜間に経過する時間の早さです。'1' にすると、とても遅く - 実際の時間とほとんど変わりありません!" />
   <translation id="IsDynamicDayLengthEnabled" value="一日の長さを動的に変更" />
   <translation id="IsDynamicDayLengthEnabledTooltip" value="一日の長さは、マップテーマと日付により異なります。冬は昼が夏より短くなります。" />
   <translation id="VirtualCitizens" value="市民のシミュレーションモード (リアルとバーチャル)" />
@@ -45,7 +46,7 @@
   <translation id="CanAbandonJourney" value="渋滞と公共交通待機時の振る舞い改善" />
   <translation id="CanAbandonJourneyTooltip" value="有効の場合、市民は長時間交通渋滞や公共交通機関を待たされた際に行動を諦めることができます。" />
 
-  <translation id="2Quotas" value="確率" />  
+  <translation id="2Quotas" value="確率" />
   <translation id="SecondShiftQuota" value="２直の労働者" />
   <translation id="SecondShiftQuotaTooltip" value="２直で働く市民の割合" />
   <translation id="NightShiftQuota" value="夜直の労働者" />
@@ -59,7 +60,7 @@
   <translation id="OnTimeQuota" value="定時出退勤者の割合" />
   <translation id="OnTimeQuotaTooltip" value="定時に出社、退勤する市民の割合" />
 
-  <translation id="3Events" value="イベント" />  
+  <translation id="3Events" value="イベント" />
   <translation id="AreEventsEnabled" value="カスタムイベントを有効にする" />
   <translation id="AreEventsEnabledTooltip" value="無効の場合、デフォルトのゲームイベントだけが都市に発生します。" />
   <translation id="EarliestHourEventStartWeekday" value="平日イベント発生の一番早い時刻" />
@@ -70,7 +71,7 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="週末に発生する可能性があるイベントの一番早い時刻" />
   <translation id="LatestHourEventStartWeekend" value="週末イベント発生の一番遅い時刻" />
   <translation id="LatestHourEventStartWeekendTooltip" value="週末に発生する可能性があるイベントの一番遅い時刻" />
-    
+
   <translation id="4Time" value="時間" />
   <translation id="MaxOvertime" value="最大時間外労働" />
   <translation id="MaxOvertimeTooltip" value="市民の時間外労働の最大時間 - より早く仕事に来る、あるいはより遅くまで仕事をします" />
@@ -192,7 +193,7 @@
     <translation id="STADIUMINFO9" value="収入（ {unit} ）:"/>
     <translation id="TOOL_WATER_ESTIMATE" value="推定水量: {0:N0} m³ / {unit}"/>
     <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="来訪者数（ {unit} ）: 住民 {0} 人、観光客 {1} 人"/>
-    <translation id="TRANSPORT_LINE_PASSENGERS" value="乗客数（ {unit} ）: 住民 {0} 人、観光客 {1} 人"/>    
+    <translation id="TRANSPORT_LINE_PASSENGERS" value="乗客数（ {unit} ）: 住民 {0} 人、観光客 {1} 人"/>
     <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="生産量: {0:N0} 台 / {unit}"/>
     <translation id="AIINFO_POST_SORTING_RATE" value="郵便物仕分け量: {0:N0} 束 / {unit}"/>
     <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="車両通行量: {0:N0} 台 / {unit}"/>
@@ -223,5 +224,5 @@
     <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Unique Buildings and Sport Arenas expenses last {unit}"/>
     <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Income from Campus Areas last {unit}"/>
   </overrides>
-    
+
 </language>

@@ -71,7 +71,7 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="Der früheste Zeitpunkt, wann ein Ereignis am Wochenendtag beginnen kann" />
   <translation id="LatestHourEventStartWeekend" value="Spätester Beginn am Wochenende" />
   <translation id="LatestHourEventStartWeekendTooltip" value="Der späteste Zeitpunkt, wann ein Ereignis am Wochenendtag beginnen kann" />
-    
+
   <translation id="4Time" value="Zeiten" />
   <translation id="MaxOvertime" value="Max. Überstunden" />
   <translation id="MaxOvertimeTooltip" value="Die maximahle Anzahl der Überstunden für die Cims - sie gehen früher zur Arbeit und bleiben dort länger" />
@@ -224,5 +224,5 @@
     <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Ausgaben für Einzigartige Gebäude und Sport-Arenas letzte {unit}"/>
     <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Einnahmen vom Campus letzte {unit}"/>
   </overrides>
-    
+
 </language>

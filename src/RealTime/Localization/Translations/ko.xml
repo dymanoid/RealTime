@@ -71,7 +71,7 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="이벤트가 주말에 최대한 일찍 시작할 시간을 설정합니다" />
   <translation id="LatestHourEventStartWeekend" value="주말 이벤트 늦은 시작 시간" />
   <translation id="LatestHourEventStartWeekendTooltip" value="이벤트가 주말에 최대한 늦게 시작할 시간을 설정합니다" />
-    
+
   <translation id="4Time" value="시간" />
   <translation id="MaxOvertime" value="최대 초과 근무시간" />
   <translation id="MaxOvertimeTooltip" value="시민들의 초과 근무시간의 최대값을 설정합니다 - 이 시간을 기본하여 정해진 시간보다 일찍 일하거나 늦게 일하게 됩니다" />

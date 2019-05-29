@@ -71,7 +71,7 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="Czas, w którym event w weekend może zacząć się najwcześniej" />
   <translation id="LatestHourEventStartWeekend" value="Ostatni event weekendowy" />
   <translation id="LatestHourEventStartWeekendTooltip" value="Ostatni moment, w którym event w weekend może się rozpocząć" />
-    
+
   <translation id="4Time" value="Czas" />
   <translation id="MaxOvertime" value="Max. nadgodziny" />
   <translation id="MaxOvertimeTooltip" value="Maksimum nadgodzin dla mieszkańców - przychodzą do pracy wcześniej albo kończą później" />

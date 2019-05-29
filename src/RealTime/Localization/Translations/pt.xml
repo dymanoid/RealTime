@@ -71,7 +71,7 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="O horário mais cedo em que um evento pode começar durante o final de semana" />
   <translation id="LatestHourEventStartWeekend" value="O mais tarde para um evento durante o final de semana" />
   <translation id="LatestHourEventStartWeekendTooltip" value="O horário mais tarde em que um evento pode começar durante o final de semana" />
-    
+
   <translation id="4Time" value="Tempo" />
   <translation id="MaxOvertime" value="Máx. variação" />
   <translation id="MaxOvertimeTooltip" value="O máximo de variação de tempo para os Cidadãos - eles podem ir mais cedo para o trabalho ou sairem mais tarde" />
