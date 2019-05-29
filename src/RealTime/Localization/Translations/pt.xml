@@ -10,6 +10,7 @@
   <translation id="Tools" value="Ferramentas" />
   <translation id="ShowIncompatibilityNotifications" value="Mostrar notificações sobre mods incompatíveis" />
   <translation id="UseEnglishUSFormats" value="Usar formatos americanos de data e hora quando escolher o idioma Inglês" />
+  <translation id="UseEnglishUSFormatsTooltip" value="Changing the time format requires a game restart" />
   <translation id="ResetToDefaults" value="Reiniciar para os padrões" />
   <translation id="UseForNewGames" value="Usar os valores atuais para novos jogos" />
 

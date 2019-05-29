@@ -10,6 +10,7 @@
   <translation id="Tools" value="Утилиты" />
   <translation id="ShowIncompatibilityNotifications" value="Показывать сообщения о несовместимости с другими модами" />
   <translation id="UseEnglishUSFormats" value="Использовать формат даты/времени как в США для английского языка" />
+  <translation id="UseEnglishUSFormatsTooltip" value="Необходимо перезапустить игру, чтобы изменения этой опции вступили в силу" />
   <translation id="ResetToDefaults" value="Вернуть опции по умолчанию" />
   <translation id="UseForNewGames" value="Использовать текущие настройки для новых игр" />
 

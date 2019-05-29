@@ -10,6 +10,7 @@
   <translation id="Tools" value="도구" />
   <translation id="ShowIncompatibilityNotifications" value="호환되지 않는 모드 알람 보이기" />
   <translation id="UseEnglishUSFormats" value="영어 사용시 미국 시간 및 날짜 포맷 사용" />
+  <translation id="UseEnglishUSFormatsTooltip" value="Changing the time format requires a game restart" />
   <translation id="ResetToDefaults" value="모두 초기값으로 되돌리기" />
   <translation id="UseForNewGames" value="새 게임에 현재 값을 사용" />
 

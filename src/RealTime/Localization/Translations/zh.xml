@@ -10,6 +10,7 @@
   <translation id="Tools" value="工具" />
   <translation id="ShowIncompatibilityNotifications" value="Show mod incompatibility notifications" />
   <translation id="UseEnglishUSFormats" value="Use USA time and date formats with English language" />
+  <translation id="UseEnglishUSFormatsTooltip" value="Changing the time format requires a game restart" />
   <translation id="ResetToDefaults" value="重设至默认" />
   <translation id="UseForNewGames" value="Use current values for new games" />
 

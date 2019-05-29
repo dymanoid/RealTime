@@ -10,6 +10,7 @@
   <translation id="Tools" value="Tools" />
   <translation id="ShowIncompatibilityNotifications" value="Zeige Inkompatibilitäts-Notifikationen mit anderen Mods" />
   <translation id="UseEnglishUSFormats" value="USA-Format für Datum und Uhrzeit für die Englische Spache" />
+  <translation id="UseEnglishUSFormatsTooltip" value="Das Spiel muss neu gestartet werden, um die Änderungen dieser Option zu übernehmen" />
   <translation id="ResetToDefaults" value="Alle Optionen zurücksetzen" />
   <translation id="UseForNewGames" value="Aktuelle Einstellungen für neue Spiele verwenden" />
 
