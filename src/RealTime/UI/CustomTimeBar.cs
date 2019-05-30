@@ -27,9 +27,10 @@ namespace RealTime.UI
         private const string UILabelTime = "Time";
         private const string UISpriteEvent = "Event";
 
-        private static readonly Color32 EventColor = new Color32(180, 0, 90, 160);
+        private const byte EventSpriteOpacity = 160;
 
         private readonly List<ICityEvent> displayedEvents = new List<ICityEvent>();
+        private readonly List<UISprite> displayedEventSprites = new List<UISprite>();
         private readonly List<ICityEvent> eventsToDisplay = new List<ICityEvent>();
 
         private CultureInfo currentCulture = CultureInfo.CurrentCulture;
@@ -54,6 +55,7 @@ namespace RealTime.UI
 
             customDateTimeWrapper = new RealTimeUIDateTimeWrapper(currentDate);
             originalWrapper = SetUIDateTimeWrapper(customDateTimeWrapper, customize: true);
+            SetEventColorUpdater(progressSprite, enabled: true);
         }
 
         /// <summary>
@@ -69,6 +71,7 @@ namespace RealTime.UI
 
             RemoveAllCityEvents();
             SetUIDateTimeWrapper(originalWrapper, customize: false);
+            SetEventColorUpdater(progressSprite, enabled: false);
             originalWrapper = null;
             progressSprite = null;
             customDateTimeWrapper = null;
@@ -131,6 +134,25 @@ namespace RealTime.UI
                 DisplayCityEvent(cityEvent, todayStart, todayEnd);
             }
         }
+
+        /// <summary>
+        /// Updates the colors of currently displayed event bars.
+        /// </summary>
+        public void UpdateEventsColors()
+        {
+            if (progressSprite == null)
+            {
+                return;
+            }
+
+            foreach (var sprite in displayedEventSprites)
+            {
+                var cityEvent = (ICityEvent)sprite.objectUserData;
+                sprite.color = GetColor(cityEvent.Color, EventSpriteOpacity);
+            }
+        }
+
+        private static Color32 GetColor(EventColor color, byte alpha) => new Color32(color.Red, color.Green, color.Blue, alpha);
 
         private static bool EventListsEqual(List<ICityEvent> first, List<ICityEvent> second)
         {
@@ -231,6 +253,20 @@ namespace RealTime.UI
             tooltipBehavior?.Translate(cultureInfo);
         }
 
+        private void SetEventColorUpdater(UIComponent component, bool enabled)
+        {
+            var updateBehavior = component.gameObject.GetComponent<EventColorsUpdateBehavior>();
+            if (enabled && updateBehavior == null)
+            {
+                updateBehavior = component.gameObject.AddComponent<EventColorsUpdateBehavior>();
+                updateBehavior.TimeBar = this;
+            }
+            else if (!enabled && updateBehavior != null)
+            {
+                UnityEngine.Object.Destroy(updateBehavior);
+            }
+        }
+
         private UIDateTimeWrapper SetUIDateTimeWrapper(UIDateTimeWrapper wrapper, bool customize)
         {
             UIPanel infoPanel = UIView.Find<UIPanel>(UIInfoPanel);
@@ -275,11 +311,12 @@ namespace RealTime.UI
             eventSprite.height = progressSprite.height;
             eventSprite.width = endPosition - startPosition;
             eventSprite.fillDirection = UIFillDirection.Horizontal;
-            eventSprite.color = EventColor;
+            eventSprite.color = GetColor(cityEvent.Color, EventSpriteOpacity);
             eventSprite.fillAmount = 1f;
             eventSprite.objectUserData = cityEvent;
             eventSprite.eventClicked += EventSprite_Clicked;
             SetEventTooltip(eventSprite, todayStart, todayEnd);
+            displayedEventSprites.Add(eventSprite);
         }
 
         private void SetEventTooltip(UISprite eventSprite, DateTime todayStart, DateTime todayEnd)
@@ -305,16 +342,13 @@ namespace RealTime.UI
                 return;
             }
 
-            foreach (var cityEvent in displayedEvents)
+            foreach (var sprite in displayedEventSprites)
             {
-                UISprite sprite = progressSprite.Find<UISprite>(UISpriteEvent + cityEvent.BuildingId);
-                if (sprite != null)
-                {
-                    sprite.eventClicked -= EventSprite_Clicked;
-                    UnityEngine.Object.Destroy(sprite);
-                }
+                sprite.eventClicked -= EventSprite_Clicked;
+                UnityEngine.Object.Destroy(sprite);
             }
 
+            displayedEventSprites.Clear();
             displayedEvents.Clear();
         }
 
@@ -327,5 +361,12 @@ namespace RealTime.UI
         }
 
         private void OnCityEventClick(ushort buildingId) => CityEventClick?.Invoke(this, new CustomTimeBarClickEventArgs(buildingId));
+
+        private sealed class EventColorsUpdateBehavior : MonoBehaviour
+        {
+            public CustomTimeBar TimeBar { get; set; }
+
+            public void Update() => TimeBar?.UpdateEventsColors();
+        }
     }
 }

@@ -6,6 +6,7 @@ namespace RealTime.GameConnection
 {
     using System;
     using System.Collections.Generic;
+    using RealTime.Events;
 
     /// <summary>
     /// The default implementation of the <see cref="IEventManagerConnection"/> interface.
@@ -133,6 +134,21 @@ namespace RealTime.GameConnection
                 eventData.Info.m_eventAI.m_eventDuration,
                 eventData.m_ticketPrice / 100f);
             return true;
+        }
+
+        /// <summary>Gets the color of a city event with specified ID.</summary>
+        /// <param name="eventId">The ID of the city event to get the color of.</param>
+        /// <returns>The color of the event.</returns>
+        public EventColor GetEventColor(ushort eventId)
+        {
+            if (eventId == 0 || eventId >= EventManager.instance.m_events.m_size)
+            {
+                return default;
+            }
+
+            ref EventData eventData = ref EventManager.instance.m_events.m_buffer[eventId];
+            var color = eventData.m_color;
+            return new EventColor(color.r, color.g, color.b);
         }
 
         /// <summary>Sets the start time of the event to the specified value.</summary>

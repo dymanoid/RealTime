@@ -92,6 +92,7 @@
     <Compile Include="CustomAI\WorkShift.cs" />
     <Compile Include="CustomAI\WorkStatus.cs" />
     <Compile Include="Events\CityEventState.cs" />
+    <Compile Include="Events\EventColor.cs" />
     <Compile Include="Events\ICityEventsProvider.cs" />
     <Compile Include="Events\ICityEvent.cs" />
     <Compile Include="Events\IRealTimeEventManager.cs" />
