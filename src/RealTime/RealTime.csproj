@@ -139,6 +139,7 @@
     <Compile Include="Core\RealTimeCore.cs" />
     <Compile Include="GameConnection\ToolManagerConnection.cs" />
     <Compile Include="GameConnection\TransferManagerConnection.cs" />
+    <Compile Include="GameConnection\VanillaEventInfo.cs" />
     <Compile Include="GameConnection\WeatherManagerConnection.cs" />
     <Compile Include="IReadOnlyList.cs" />
     <Compile Include="Localization\TranslationKeys.cs" />

@@ -81,38 +81,57 @@ namespace RealTime.GameConnection
             return readonlyUpcomingEvents;
         }
 
-        /// <summary>
-        /// Gets various information about a city event with specified ID.
-        /// </summary>
-        /// <param name="eventId">The ID of the city event to get information for.</param>
-        /// <param name="buildingId">The ID of a building where the city event takes place.</param>
-        /// <param name="startTime">The start time of the city event.</param>
-        /// <param name="duration">The duration in hours of the city event.</param>
-        /// <param name="ticketPrice">The city event's ticket price.</param>
-        /// <returns>
-        ///   <c>true</c> if the information was retrieved; otherwise, <c>false</c>.
-        /// </returns>
-        public bool TryGetEventInfo(ushort eventId, out ushort buildingId, out DateTime startTime, out float duration, out float ticketPrice)
+        /// <summary>Gets the start time of a city event with specified ID.</summary>
+        /// <param name="eventId">The ID of the city event to get start time of.</param>
+        /// <param name="startTime">The start time of the event with the specified ID.</param>
+        /// <returns><c>true</c> if the start time was retrieved; otherwise, <c>false</c>.</returns>
+        public bool TryGetEventStartTime(ushort eventId, out DateTime startTime)
         {
-            buildingId = default;
-            duration = default;
-            startTime = default;
-            ticketPrice = default;
             if (eventId == 0 || eventId >= EventManager.instance.m_events.m_size)
             {
+                startTime = default;
                 return false;
             }
 
             ref EventData eventData = ref EventManager.instance.m_events.m_buffer[eventId];
             if (eventData.Info?.m_type == EventManager.EventType.AcademicYear)
             {
+                startTime = default;
                 return false;
             }
 
-            buildingId = eventData.m_building;
             startTime = eventData.StartTime;
-            duration = eventData.Info.m_eventAI.m_eventDuration;
-            ticketPrice = eventData.m_ticketPrice / 100f;
+            return true;
+        }
+
+        /// <summary>
+        /// Gets various information about a city event with specified ID.
+        /// </summary>
+        /// <param name="eventId">The ID of the city event to get information for.</param>
+        /// <param name="eventInfo">A <see cref="VanillaEventInfo"/> ref-struct containing the event information.</param>
+        /// <returns>
+        ///   <c>true</c> if the information was retrieved; otherwise, <c>false</c>.
+        /// </returns>
+        public bool TryGetEventInfo(ushort eventId, out VanillaEventInfo eventInfo)
+        {
+            if (eventId == 0 || eventId >= EventManager.instance.m_events.m_size)
+            {
+                eventInfo = default;
+                return false;
+            }
+
+            ref EventData eventData = ref EventManager.instance.m_events.m_buffer[eventId];
+            if (eventData.Info?.m_type == EventManager.EventType.AcademicYear)
+            {
+                eventInfo = default;
+                return false;
+            }
+
+            eventInfo = new VanillaEventInfo(
+                eventData.m_building,
+                eventData.StartTime,
+                eventData.Info.m_eventAI.m_eventDuration,
+                eventData.m_ticketPrice / 100f);
             return true;
         }
 

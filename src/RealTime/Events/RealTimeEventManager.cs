@@ -122,7 +122,7 @@ namespace RealTime.Events
                 EventData.Flags vanillaEventState = eventManager.GetEventFlags(eventId);
                 if ((vanillaEventState & (EventData.Flags.Preparing | EventData.Flags.Ready)) != 0)
                 {
-                    if (eventManager.TryGetEventInfo(eventId, out _, out DateTime startTime, out _, out _) && startTime <= latestStart)
+                    if (eventManager.TryGetEventStartTime(eventId, out DateTime startTime) && startTime <= latestStart)
                     {
                         return CityEventState.Upcoming;
                     }
@@ -379,17 +379,19 @@ namespace RealTime.Events
             {
                 ushort eventId = upcomingEventIds[i];
 
-                if (!eventManager.TryGetEventInfo(eventId, out ushort buildingId, out DateTime startTime, out float duration, out float ticketPrice))
+                if (!eventManager.TryGetEventInfo(eventId, out var eventInfo))
                 {
                     continue;
                 }
 
-                if (startTime.AddHours(duration) < timeInfo.Now)
+                var startTime = eventInfo.StartTime;
+
+                if (startTime.AddHours(eventInfo.Duration) < timeInfo.Now)
                 {
                     continue;
                 }
 
-                var existingVanillaEvent = GetVanillaEvent(CityEvents, eventId, buildingId);
+                var existingVanillaEvent = GetVanillaEvent(CityEvents, eventId, eventInfo.BuildingId);
 
                 if (existingVanillaEvent != null)
                 {
@@ -414,8 +416,8 @@ namespace RealTime.Events
                     eventManager.SetStartTime(eventId, startTime);
                 }
 
-                var newEvent = new VanillaEvent(eventId, duration, ticketPrice);
-                newEvent.Configure(buildingId, buildingManager.GetBuildingName(buildingId), startTime);
+                var newEvent = new VanillaEvent(eventId, eventInfo.Duration, eventInfo.TicketPrice, eventManager);
+                newEvent.Configure(eventInfo.BuildingId, buildingManager.GetBuildingName(eventInfo.BuildingId), startTime);
                 result = true;
                 Log.Debug(LogCategory.Events, timeInfo.Now, $"Vanilla event registered for {newEvent.BuildingId}, start time {newEvent.StartTime}, end time {newEvent.EndTime}");
 
