@@ -26,5 +26,8 @@ namespace RealTime.Core
 
         /// <summary>The Workshop ID of the 'Force Level Up' mod.</summary>
         public const ulong ForceLevelUp = 523818382ul;
+
+        /// <summary>The Workshop ID of the 'Realistic Walking Speed' mod.</summary>
+        public const ulong RealisticWalkingSpeed = 1412844620ul;
     }
 }
