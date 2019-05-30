@@ -240,7 +240,7 @@ namespace RealTime.CustomAI
 
             if (Random.ShouldOccur(TouristEventChance) && !WeatherInfo.IsBadWeather)
             {
-                ICityEvent cityEvent = GetUpcomingEventToAttend(citizenId, ref citizen);
+                ICityEvent cityEvent = GetEventToAttend(citizenId, ref citizen);
                 if (cityEvent != null
                     && StartMovingToVisitBuilding(instance, citizenId, ref citizen, CitizenProxy.GetCurrentBuilding(ref citizen), cityEvent.BuildingId))
                 {

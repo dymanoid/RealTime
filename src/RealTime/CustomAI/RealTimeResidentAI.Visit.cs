@@ -24,7 +24,7 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            ICityEvent cityEvent = GetUpcomingEventToAttend(citizenId, ref citizen);
+            ICityEvent cityEvent = GetEventToAttend(citizenId, ref citizen);
             if (cityEvent != null)
             {
                 ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);

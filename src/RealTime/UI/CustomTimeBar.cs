@@ -323,6 +323,25 @@ namespace RealTime.UI
             eventSprite.objectUserData = cityEvent;
             eventSprite.eventClicked += EventSprite_Clicked;
             SetEventTooltip(eventSprite, todayStart, todayEnd);
+
+            var spriteBounds = eventSprite.GetBounds();
+            var overlappingEvents = displayedEventSprites
+                .Where(e => e.GetBounds().Intersects(spriteBounds))
+                .ToList();
+
+            if (overlappingEvents.Count > 0)
+            {
+                overlappingEvents.Add(eventSprite);
+                var itemCount = overlappingEvents.Count;
+                var newSpriteHeight = progressSprite.height / itemCount;
+                for (int i = 0; i < itemCount; ++i)
+                {
+                    var sprite = overlappingEvents[i];
+                    sprite.height = newSpriteHeight;
+                    sprite.relativePosition = new Vector3(sprite.relativePosition.x, i * newSpriteHeight);
+                }
+            }
+
             displayedEventSprites.Add(eventSprite);
         }
 

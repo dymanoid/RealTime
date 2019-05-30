@@ -141,7 +141,8 @@ namespace RealTime.Core
                 new EventManagerConnection(),
                 buildingManager,
                 randomizer,
-                timeInfo);
+                timeInfo,
+                Constants.MaxTravelTime);
 
             if (!SetupCustomAI(timeInfo, configProvider.Configuration, gameConnections, eventManager))
             {
@@ -437,7 +438,7 @@ namespace RealTime.Core
             }
         }
 
-        private void CityEventsChanged(object sender, EventArgs e) => timeBar.UpdateEventsDisplay(eventManager.CityEvents);
+        private void CityEventsChanged(object sender, EventArgs e) => timeBar.UpdateEventsDisplay(eventManager.AllEvents);
 
         private void GameSaving(object sender, EventArgs e)
         {
