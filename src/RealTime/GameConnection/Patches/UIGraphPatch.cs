@@ -1,4 +1,4 @@
-﻿// <copyright file="UIGraphPatches.cs" company="dymanoid">
+﻿// <copyright file="UIGraphPatch.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -18,7 +18,7 @@ namespace RealTime.GameConnection.Patches
     /// <summary>
     /// A static class that provides the patch objects for the statistics graph.
     /// </summary>
-    internal static class UIGraphPatches
+    internal static class UIGraphPatch
     {
         private const int MinRangeInDays = 7;
         private const int MinPointsCount = 32;

@@ -48,7 +48,7 @@ namespace RealTime.CustomAI
         public const float PrepareToWorkHours = 1f;
 
         /// <summary>An assumed maximum travel time to a target building (in hours).</summary>
-        public const float MaxTravelTime = 3.5f;
+        public const float MaxTravelTime = 4f;
 
         /// <summary>An assumed minimum travel time to a target building (in hours).</summary>
         public const float MinTravelTime = 0.5f;
@@ -74,10 +74,9 @@ namespace RealTime.CustomAI
         /// <summary>The chance of a young female to get pregnant.</summary>
         public const uint YoungFemalePregnancyChance = 50u;
 
-        /// <summary>The average distance a citizen can move for (walking, by car, by public transport) during a full simulation
-        /// cycle at maximum time speed (6).
+        /// <summary>The average distance a citizen can travel for (walking, by car, by public transport) during a single simulation cycle.
         /// This value was determined empirically.</summary>
-        public const float AverageDistancePerSimulationCycle = 600f;
+        public const float AverageTravelDistancePerCycle = 450f;
 
         /// <summary>The maximum number of buildings (of one zone type) that are in construction or upgrading process.</summary>
         public const int MaximumBuildingsInConstruction = 50;

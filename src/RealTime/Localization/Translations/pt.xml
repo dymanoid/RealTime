@@ -10,6 +10,7 @@
   <translation id="Tools" value="Ferramentas" />
   <translation id="ShowIncompatibilityNotifications" value="Mostrar notificações sobre mods incompatíveis" />
   <translation id="UseEnglishUSFormats" value="Usar formatos americanos de data e hora quando escolher o idioma Inglês" />
+  <translation id="UseEnglishUSFormatsTooltip" value="Changing the time format requires a game restart" />
   <translation id="ResetToDefaults" value="Reiniciar para os padrões" />
   <translation id="UseForNewGames" value="Usar os valores atuais para novos jogos" />
 
@@ -42,6 +43,8 @@
   <translation id="ConstructionSpeedTooltip" value="Velocidade do aprimoramento e construção de prédios" />
   <translation id="SwitchOffLightsAtNight" value="Desligar as luzes de prédios durante a noite" />
   <translation id="SwitchOffLightsAtNightTooltip" value="Prédios residenciais desligam as luzes quando os cidadãos dormem e outros prédios e parques quando ninguém estiver mais trabalhando lá" />
+  <translation id="SwitchOffLightsMaxHeight" value="Keep lights on for high buildings" />
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="Residential, commercial, and office buildings higher than this value will not switch off lights at night" />
   <translation id="CanAbandonJourney" value="Melhor engarrafamento e comportamento na espera por transporte público" />
   <translation id="CanAbandonJourneyTooltip" value="Se habilitado, cidadãos podem abandonar suas jornadas quando presos no engarrafamento ou aguardando muito tempo por transporte público" />
 
@@ -70,7 +73,7 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="O horário mais cedo em que um evento pode começar durante o final de semana" />
   <translation id="LatestHourEventStartWeekend" value="O mais tarde para um evento durante o final de semana" />
   <translation id="LatestHourEventStartWeekendTooltip" value="O horário mais tarde em que um evento pode começar durante o final de semana" />
-    
+
   <translation id="4Time" value="Tempo" />
   <translation id="MaxOvertime" value="Máx. variação" />
   <translation id="MaxOvertimeTooltip" value="O máximo de variação de tempo para os Cidadãos - eles podem ir mais cedo para o trabalho ou sairem mais tarde" />

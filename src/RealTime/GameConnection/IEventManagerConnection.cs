@@ -5,6 +5,7 @@
 namespace RealTime.GameConnection
 {
     using System;
+    using RealTime.Events;
 
     /// <summary>An interface for the game specific logic related to the event management.</summary>
     internal interface IEventManagerConnection
@@ -24,12 +25,20 @@ namespace RealTime.GameConnection
 
         /// <summary>Gets various information about a city event with specified ID.</summary>
         /// <param name="eventId">The ID of the city event to get information for.</param>
-        /// <param name="buildingId">The ID of a building where the city event takes place.</param>
-        /// <param name="startTime">The start time of the city event.</param>
-        /// <param name="duration">The duration in hours of the city event.</param>
-        /// <param name="ticketPrice">The city event's ticket price.</param>
+        /// <param name="eventInfo">A <see cref="VanillaEventInfo"/> ref-struct containing the event information.</param>
         /// <returns><c>true</c> if the information was retrieved; otherwise, <c>false</c>.</returns>
-        bool TryGetEventInfo(ushort eventId, out ushort buildingId, out DateTime startTime, out float duration, out float ticketPrice);
+        bool TryGetEventInfo(ushort eventId, out VanillaEventInfo eventInfo);
+
+        /// <summary>Gets the start time of a city event with specified ID.</summary>
+        /// <param name="eventId">The ID of the city event to get start time of.</param>
+        /// <param name="startTime">The start time of the event with the specified ID.</param>
+        /// <returns><c>true</c> if the start time was retrieved; otherwise, <c>false</c>.</returns>
+        bool TryGetEventStartTime(ushort eventId, out DateTime startTime);
+
+        /// <summary>Gets the color of a city event with specified ID.</summary>
+        /// <param name="eventId">The ID of the city event to get the color of.</param>
+        /// <returns>The color of the event.</returns>
+        EventColor GetEventColor(ushort eventId);
 
         /// <summary>Sets the start time of the event to the specified value.</summary>
         /// <param name="eventId">The ID of the event to change.</param>

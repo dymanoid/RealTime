@@ -4,6 +4,7 @@
 
 namespace RealTime.CustomAI
 {
+    using System;
     using RealTime.GameConnection;
     using SkyTools.Tools;
     using static Constants;
@@ -14,17 +15,26 @@ namespace RealTime.CustomAI
     internal sealed class TravelBehavior : ITravelBehavior
     {
         private readonly IBuildingManagerConnection buildingManager;
-        private float averageCitizenSpeed;
+        private readonly float travelDistancePerCycle;
+        private float averageTravelSpeedPerHour;
 
         /// <summary>Initializes a new instance of the <see cref="TravelBehavior"/> class.</summary>
         /// <param name="buildingManager">
         /// A proxy object that provides a way to call the game-specific methods of the <see cref="BuildingManager"/> class.
         /// </param>
-        /// <exception cref="System.ArgumentNullException">Thrown when the argument is null.</exception>
-        public TravelBehavior(IBuildingManagerConnection buildingManager)
+        /// <param name="travelDistancePerCycle">The average distance a citizen can travel during a single simulation cycle.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="buildingManager"/> is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="travelDistancePerCycle"/> is negative or zero.</exception>
+        public TravelBehavior(IBuildingManagerConnection buildingManager, float travelDistancePerCycle)
         {
-            this.buildingManager = buildingManager ?? throw new System.ArgumentNullException(nameof(buildingManager));
-            averageCitizenSpeed = AverageDistancePerSimulationCycle;
+            if (travelDistancePerCycle <= 0)
+            {
+                throw new ArgumentException("The travel distance per cycle cannot be negative or zero.");
+            }
+
+            this.buildingManager = buildingManager ?? throw new ArgumentNullException(nameof(buildingManager));
+            this.travelDistancePerCycle = travelDistancePerCycle;
+            averageTravelSpeedPerHour = travelDistancePerCycle;
         }
 
         /// <summary>Sets the duration (in hours) of a full simulation cycle for all citizens.
@@ -37,7 +47,7 @@ namespace RealTime.CustomAI
                 cyclePeriod = 1f;
             }
 
-            averageCitizenSpeed = AverageDistancePerSimulationCycle / cyclePeriod;
+            averageTravelSpeedPerHour = travelDistancePerCycle / cyclePeriod;
         }
 
         /// <summary>Gets an estimated travel time (in hours) between two specified buildings.</summary>
@@ -57,7 +67,7 @@ namespace RealTime.CustomAI
                 return MinTravelTime;
             }
 
-            return FastMath.Clamp(distance / averageCitizenSpeed, MinTravelTime, MaxTravelTime);
+            return FastMath.Clamp(distance / averageTravelSpeedPerHour, MinTravelTime, MaxTravelTime);
         }
     }
 }

@@ -10,7 +10,6 @@ namespace RealTime.CustomAI
     using RealTime.GameConnection;
     using RealTime.Simulation;
     using SkyTools.Tools;
-    using static Constants;
 
     /// <summary>
     /// A base class for the custom logic of a human in the game.
@@ -141,7 +140,7 @@ namespace RealTime.CustomAI
         /// <param name="citizen">The citizen data reference.</param>
         ///
         /// <returns>The city event or null if none found.</returns>
-        protected ICityEvent GetUpcomingEventToAttend(uint citizenId, ref TCitizen citizen)
+        protected ICityEvent GetEventToAttend(uint citizenId, ref TCitizen citizen)
         {
             ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
             if (EventMgr.GetEventState(currentBuilding, DateTime.MaxValue) == CityEventState.Ongoing)
@@ -149,13 +148,14 @@ namespace RealTime.CustomAI
                 return null;
             }
 
-            DateTime earliestStart = TimeInfo.Now.AddHours(MinTravelTime);
-            DateTime latestStart = TimeInfo.Now.AddHours(MaxTravelTime);
-
-            ICityEvent upcomingEvent = EventMgr.GetUpcomingCityEvent(earliestStart, latestStart);
-            if (upcomingEvent != null && CanAttendEvent(citizenId, ref citizen, upcomingEvent))
+            var cityEvents = EventMgr.EventsToAttend;
+            for (int i = 0; i < cityEvents.Count; ++i)
             {
-                return upcomingEvent;
+                var cityEvent = cityEvents[i];
+                if (CanAttendEvent(citizenId, ref citizen, cityEvent))
+                {
+                    return cityEvent;
+                }
             }
 
             return null;

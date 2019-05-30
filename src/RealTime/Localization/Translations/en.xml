@@ -2,7 +2,7 @@
 <language id="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="Warning" value="Warning" />
-  <translation id="RestrictedModeMessage" value="Real Time works in restricted mode. Some functionality is disabled. This is because of a technical issue with a third-party library or a mod incompatibility. If you want assistance, please share your game log file with the mod's developer." />  
+  <translation id="RestrictedModeMessage" value="Real Time works in restricted mode. Some functionality is disabled. This is because of a technical issue with a third-party library or a mod incompatibility. If you want assistance, please share your game log file with the mod's developer." />
   <translation id="ModNotWorkingMessage" value="Oops! Something went wrong - the 'Real Time' mod could not be activated. Please share your game log file with the mod's developer." />
   <translation id="IncompatibleModsFoundMessage" value="Real Time detected at least one incompatible mod (or at least partly incompatible). It is recommended to unsubscribe from them. You might continue on your own risk if you know what you are doing, but in this case something might not work properly or even crash the game." />
   <translation id="Minutes" value="min." />
@@ -10,6 +10,7 @@
   <translation id="Tools" value="Tools" />
   <translation id="ShowIncompatibilityNotifications" value="Show mod incompatibility notifications" />
   <translation id="UseEnglishUSFormats" value="Use USA time and date format with English language" />
+  <translation id="UseEnglishUSFormatsTooltip" value="Changing the time format requires a game restart" />
   <translation id="ResetToDefaults" value="Reset all to defaults" />
   <translation id="UseForNewGames" value="Use current values for new games" />
 
@@ -23,7 +24,7 @@
   <translation id="DayTimeSpeed" value="Time speed (day)" />
   <translation id="DayTimeSpeedTooltip" value="The speed of the time flow on daytime. '1' is very slow - almost real time!" />
   <translation id="NightTimeSpeed" value="Time speed (night)" />
-  <translation id="NightTimeSpeedTooltip" value="The speed of the time flow on night time. '1' is very slow - almost real time!" /> 
+  <translation id="NightTimeSpeedTooltip" value="The speed of the time flow on night time. '1' is very slow - almost real time!" />
   <translation id="IsDynamicDayLengthEnabled" value="Dynamic day length" />
   <translation id="IsDynamicDayLengthEnabledTooltip" value="Day length depends on the map's theme and day of the year. In winter the days are shorter than in summer." />
   <translation id="VirtualCitizens" value="Citizens simulation mode (real and virtual)" />
@@ -42,10 +43,12 @@
   <translation id="ConstructionSpeedTooltip" value="Buildings construction and upgrading speed" />
   <translation id="SwitchOffLightsAtNight" value="Switch off building lights at night" />
   <translation id="SwitchOffLightsAtNightTooltip" value="Residential buildings switch off lights when citizens sleep, other buildings and parks - when no one is working there" />
+  <translation id="SwitchOffLightsMaxHeight" value="Keep lights on for high buildings" />
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="Residential, commercial, and office buildings higher than this value will not switch off lights at night" />
   <translation id="CanAbandonJourney" value="Better traffic jam and public transport waiting behavior" />
   <translation id="CanAbandonJourneyTooltip" value="If enabled, citizens can abandon their journeys when stuck in a traffic jam or waiting for public transport for too long" />
 
-  <translation id="2Quotas" value="Probabilities" />  
+  <translation id="2Quotas" value="Probabilities" />
   <translation id="SecondShiftQuota" value="Second shift workers" />
   <translation id="SecondShiftQuotaTooltip" value="The percentage of the citizens that work second shift" />
   <translation id="NightShiftQuota" value="Night shift workers" />
@@ -59,7 +62,7 @@
   <translation id="OnTimeQuota" value="On-time ratio" />
   <translation id="OnTimeQuotaTooltip" value="The percentage of the Cims that will go to and leave their work on time" />
 
-  <translation id="3Events" value="Events" />  
+  <translation id="3Events" value="Events" />
   <translation id="AreEventsEnabled" value="Enable custom events" />
   <translation id="AreEventsEnabledTooltip" value="If disabled, only vanilla game events can occur in the city" />
   <translation id="EarliestHourEventStartWeekday" value="Earliest weekday event" />
@@ -70,7 +73,7 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="The earliest time when an event can start on a weekend day" />
   <translation id="LatestHourEventStartWeekend" value="Latest weekend event" />
   <translation id="LatestHourEventStartWeekendTooltip" value="The latest time when an event can start on a weekend day" />
-    
+
   <translation id="4Time" value="Time" />
   <translation id="MaxOvertime" value="Max. Overtime" />
   <translation id="MaxOvertimeTooltip" value="The maximum overtime for the Cims - they come to work earlier or stay at work longer" />
@@ -192,7 +195,7 @@
     <translation id="STADIUMINFO9" value="Income last {unit}:"/>
     <translation id="TOOL_WATER_ESTIMATE" value="Estimated production: {0:N0} m³/{unit}"/>
     <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="Visitors last {unit}: {0} residents, {1} tourists"/>
-    <translation id="TRANSPORT_LINE_PASSENGERS" value="Passengers last {unit}: {0} residents, {1} tourists"/>    
+    <translation id="TRANSPORT_LINE_PASSENGERS" value="Passengers last {unit}: {0} residents, {1} tourists"/>
     <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="Production rate: {0:N0} units per {unit}"/>
     <translation id="AIINFO_POST_SORTING_RATE" value="Sorting rate: {0:N0} pieces of mail per {unit}"/>
     <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="Cars charged last {unit}: {0:N0}"/>
@@ -223,5 +226,5 @@
     <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Unique Buildings and Sport Arenas expenses last {unit}"/>
     <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Income from Campus Areas last {unit}"/>
   </overrides>
-    
+
 </language>

@@ -27,9 +27,13 @@ namespace RealTime.UI
         private const string UILabelTime = "Time";
         private const string UISpriteEvent = "Event";
 
-        private static readonly Color32 EventColor = new Color32(180, 0, 90, 160);
+        private const byte EventSpriteOpacity = 128;
+
+        private static readonly Color32 TimeLabelShadowColor = new Color32(32, 32, 32, 255);
+        private static readonly Vector2 TimeLabelShadowOffset = new Vector2(1f, -1f);
 
         private readonly List<ICityEvent> displayedEvents = new List<ICityEvent>();
+        private readonly List<UISprite> displayedEventSprites = new List<UISprite>();
         private readonly List<ICityEvent> eventsToDisplay = new List<ICityEvent>();
 
         private CultureInfo currentCulture = CultureInfo.CurrentCulture;
@@ -53,7 +57,8 @@ namespace RealTime.UI
             }
 
             customDateTimeWrapper = new RealTimeUIDateTimeWrapper(currentDate);
-            originalWrapper = SetUIDateTimeWrapper(customDateTimeWrapper, customize: true);
+            originalWrapper = SetCustomUIDateTimeWrapper(customDateTimeWrapper, enableWrapper: true);
+            SetEventColorUpdater(progressSprite, enableUpdater: true);
         }
 
         /// <summary>
@@ -68,7 +73,8 @@ namespace RealTime.UI
             }
 
             RemoveAllCityEvents();
-            SetUIDateTimeWrapper(originalWrapper, customize: false);
+            SetCustomUIDateTimeWrapper(originalWrapper, enableWrapper: false);
+            SetEventColorUpdater(progressSprite, enableUpdater: false);
             originalWrapper = null;
             progressSprite = null;
             customDateTimeWrapper = null;
@@ -131,6 +137,25 @@ namespace RealTime.UI
                 DisplayCityEvent(cityEvent, todayStart, todayEnd);
             }
         }
+
+        /// <summary>
+        /// Updates the colors of currently displayed event bars.
+        /// </summary>
+        public void UpdateEventsColors()
+        {
+            if (progressSprite == null)
+            {
+                return;
+            }
+
+            foreach (var sprite in displayedEventSprites)
+            {
+                var cityEvent = (ICityEvent)sprite.objectUserData;
+                sprite.color = GetColor(cityEvent.Color, EventSpriteOpacity);
+            }
+        }
+
+        private static Color32 GetColor(EventColor color, byte alpha) => new Color32(color.Red, color.Green, color.Blue, alpha);
 
         private static bool EventListsEqual(List<ICityEvent> first, List<ICityEvent> second)
         {
@@ -195,7 +220,7 @@ namespace RealTime.UI
             return progressSprite;
         }
 
-        private static void CustomizeTimePanel(UISprite progressSprite)
+        private static void SetCustomTimePanelLayout(UISprite progressSprite, bool enableCustomization)
         {
             UILabel dateLabel = progressSprite.Find<UILabel>(UILabelTime);
             if (dateLabel == null)
@@ -204,22 +229,29 @@ namespace RealTime.UI
                 return;
             }
 
-            dateLabel.autoSize = false;
-            dateLabel.size = progressSprite.size;
-            dateLabel.textAlignment = UIHorizontalAlignment.Center;
-            dateLabel.relativePosition = new Vector3(0, 0, 0);
+            dateLabel.autoSize = !enableCustomization;
+            dateLabel.isInteractive = !enableCustomization;
+            dateLabel.useDropShadow = enableCustomization;
+            if (enableCustomization)
+            {
+                dateLabel.size = progressSprite.size;
+                dateLabel.textAlignment = UIHorizontalAlignment.Center;
+                dateLabel.relativePosition = new Vector3(0, 0, 0);
+                dateLabel.dropShadowColor = TimeLabelShadowColor;
+                dateLabel.dropShadowOffset = TimeLabelShadowOffset;
+            }
         }
 
-        private static void SetTooltip(UIComponent component, CultureInfo cultureInfo, bool customize)
+        private static void SetCustomTooltip(UIComponent component, CultureInfo cultureInfo, bool enableTooltip)
         {
             DateTooltipBehavior tooltipBehavior = component.gameObject.GetComponent<DateTooltipBehavior>();
-            if (tooltipBehavior == null && customize)
+            if (enableTooltip && tooltipBehavior == null)
             {
                 tooltipBehavior = component.gameObject.AddComponent<DateTooltipBehavior>();
                 tooltipBehavior.IgnoredComponentNamePrefix = UISpriteEvent;
                 tooltipBehavior.Translate(cultureInfo);
             }
-            else if (tooltipBehavior != null && !customize)
+            else if (!enableTooltip && tooltipBehavior != null)
             {
                 UnityEngine.Object.Destroy(tooltipBehavior);
             }
@@ -231,7 +263,21 @@ namespace RealTime.UI
             tooltipBehavior?.Translate(cultureInfo);
         }
 
-        private UIDateTimeWrapper SetUIDateTimeWrapper(UIDateTimeWrapper wrapper, bool customize)
+        private void SetEventColorUpdater(UIComponent parent, bool enableUpdater)
+        {
+            var updateBehavior = parent.gameObject.GetComponent<EventColorsUpdateBehavior>();
+            if (enableUpdater && updateBehavior == null)
+            {
+                updateBehavior = parent.gameObject.AddComponent<EventColorsUpdateBehavior>();
+                updateBehavior.TimeBar = this;
+            }
+            else if (!enableUpdater && updateBehavior != null)
+            {
+                UnityEngine.Object.Destroy(updateBehavior);
+            }
+        }
+
+        private UIDateTimeWrapper SetCustomUIDateTimeWrapper(UIDateTimeWrapper wrapper, bool enableWrapper)
         {
             UIPanel infoPanel = UIView.Find<UIPanel>(UIInfoPanel);
             if (infoPanel == null)
@@ -243,12 +289,8 @@ namespace RealTime.UI
             progressSprite = GetProgressSprite(infoPanel);
             if (progressSprite != null)
             {
-                SetTooltip(progressSprite, currentCulture, customize);
-
-                if (customize)
-                {
-                    CustomizeTimePanel(progressSprite);
-                }
+                SetCustomTooltip(progressSprite, currentCulture, enableWrapper);
+                SetCustomTimePanelLayout(progressSprite, enableWrapper);
             }
 
             return ReplaceUIDateTimeWrapperInPanel(infoPanel, wrapper);
@@ -275,11 +317,32 @@ namespace RealTime.UI
             eventSprite.height = progressSprite.height;
             eventSprite.width = endPosition - startPosition;
             eventSprite.fillDirection = UIFillDirection.Horizontal;
-            eventSprite.color = EventColor;
+            eventSprite.color = GetColor(cityEvent.Color, EventSpriteOpacity);
             eventSprite.fillAmount = 1f;
+            eventSprite.SendToBack();
             eventSprite.objectUserData = cityEvent;
             eventSprite.eventClicked += EventSprite_Clicked;
             SetEventTooltip(eventSprite, todayStart, todayEnd);
+
+            var spriteBounds = eventSprite.GetBounds();
+            var overlappingEvents = displayedEventSprites
+                .Where(e => e.GetBounds().Intersects(spriteBounds))
+                .ToList();
+
+            if (overlappingEvents.Count > 0)
+            {
+                overlappingEvents.Add(eventSprite);
+                var itemCount = overlappingEvents.Count;
+                var newSpriteHeight = progressSprite.height / itemCount;
+                for (int i = 0; i < itemCount; ++i)
+                {
+                    var sprite = overlappingEvents[i];
+                    sprite.height = newSpriteHeight;
+                    sprite.relativePosition = new Vector3(sprite.relativePosition.x, i * newSpriteHeight);
+                }
+            }
+
+            displayedEventSprites.Add(eventSprite);
         }
 
         private void SetEventTooltip(UISprite eventSprite, DateTime todayStart, DateTime todayEnd)
@@ -305,16 +368,13 @@ namespace RealTime.UI
                 return;
             }
 
-            foreach (var cityEvent in displayedEvents)
+            foreach (var sprite in displayedEventSprites)
             {
-                UISprite sprite = progressSprite.Find<UISprite>(UISpriteEvent + cityEvent.BuildingId);
-                if (sprite != null)
-                {
-                    sprite.eventClicked -= EventSprite_Clicked;
-                    UnityEngine.Object.Destroy(sprite);
-                }
+                sprite.eventClicked -= EventSprite_Clicked;
+                UnityEngine.Object.Destroy(sprite);
             }
 
+            displayedEventSprites.Clear();
             displayedEvents.Clear();
         }
 
@@ -327,5 +387,13 @@ namespace RealTime.UI
         }
 
         private void OnCityEventClick(ushort buildingId) => CityEventClick?.Invoke(this, new CustomTimeBarClickEventArgs(buildingId));
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used as a Unity3D component")]
+        private sealed class EventColorsUpdateBehavior : MonoBehaviour
+        {
+            public CustomTimeBar TimeBar { get; set; }
+
+            public void Update() => TimeBar?.UpdateEventsColors();
+        }
     }
 }

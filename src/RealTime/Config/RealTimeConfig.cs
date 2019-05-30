@@ -17,7 +17,7 @@ namespace RealTime.Config
         /// <summary>The storage ID for the configuration objects.</summary>
         public const string StorageId = "RealTimeConfiguration";
 
-        private const int LatestVersion = 2;
+        private const int LatestVersion = 3;
 
         /// <summary>Initializes a new instance of the <see cref="RealTimeConfig"/> class.</summary>
         public RealTimeConfig()
@@ -104,6 +104,14 @@ namespace RealTime.Config
         [ConfigItem("1General", "1Other", 4)]
         [ConfigItemCheckBox]
         public bool SwitchOffLightsAtNight { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum height of a residential, commercial, or office building that will switch the lights off
+        /// at night. All buildings higher than this value will not switch the lights off.
+        /// </summary>
+        [ConfigItem("1General", "1Other", 4)]
+        [ConfigItemSlider(0, 100f, 5f, ValueType = SliderValueType.Default)]
+        public float SwitchOffLightsMaxHeight { get; set; }
 
         /// <summary>Gets or sets a value indicating whether a citizen can abandon a journey when being too long in
         /// a traffic congestion or waiting too long for public transport.</summary>
@@ -314,6 +322,8 @@ namespace RealTime.Config
             VirtualCitizens = (VirtualCitizensLevel)FastMath.Clamp((int)VirtualCitizens, (int)VirtualCitizensLevel.None, (int)VirtualCitizensLevel.Vanilla);
             ConstructionSpeed = FastMath.Clamp(ConstructionSpeed, 1u, 100u);
 
+            SwitchOffLightsMaxHeight = FastMath.Clamp(SwitchOffLightsMaxHeight, 0f, 100f);
+
             SecondShiftQuota = FastMath.Clamp(SecondShiftQuota, 1u, 25u);
             NightShiftQuota = FastMath.Clamp(NightShiftQuota, 1u, 25u);
             LunchQuota = FastMath.Clamp(LunchQuota, 0u, 100u);
@@ -363,6 +373,7 @@ namespace RealTime.Config
             StopConstructionAtNight = true;
             ConstructionSpeed = 50;
             SwitchOffLightsAtNight = true;
+            SwitchOffLightsMaxHeight = 40f;
             CanAbandonJourney = true;
 
             SecondShiftQuota = 13;

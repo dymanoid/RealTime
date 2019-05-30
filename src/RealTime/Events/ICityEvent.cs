@@ -23,6 +23,11 @@ namespace RealTime.Events
         string BuildingName { get; }
 
         /// <summary>
+        /// Gets the event color.
+        /// </summary>
+        EventColor Color { get; }
+
+        /// <summary>
         /// Configures this event to take place in the specified building and at the specified start time.
         /// </summary>
         /// ///

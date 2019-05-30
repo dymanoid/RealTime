@@ -10,6 +10,7 @@
   <translation id="Tools" value="Tools" />
   <translation id="ShowIncompatibilityNotifications" value="Zeige Inkompatibilitäts-Notifikationen mit anderen Mods" />
   <translation id="UseEnglishUSFormats" value="USA-Format für Datum und Uhrzeit für die Englische Spache" />
+  <translation id="UseEnglishUSFormatsTooltip" value="Das Spiel muss neu gestartet werden, um die Änderungen dieser Option zu übernehmen" />
   <translation id="ResetToDefaults" value="Alle Optionen zurücksetzen" />
   <translation id="UseForNewGames" value="Aktuelle Einstellungen für neue Spiele verwenden" />
 
@@ -42,6 +43,8 @@
   <translation id="ConstructionSpeedTooltip" value="Geschwindigkeit des Neubaus und des Gebäude-Upgrades" />
   <translation id="SwitchOffLightsAtNight" value="Gebäude schalten nachts das Licht aus" />
   <translation id="SwitchOffLightsAtNightTooltip" value="Wohngebäude schalten das Licht aus, wenn die meisten Einwohner schlafen, andere Gebäude und Parks - wenn dort keiner arbeitet" />
+  <translation id="SwitchOffLightsMaxHeight" value="Hohe Gebäude schalten das Licht nicht aus" />
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="Gebäude schalten nachts das Licht nicht aus, wenn ihre Höhe größer als dieser Wert ist" />
   <translation id="CanAbandonJourney" value="Besseres Verhalten im Stau und beim Warten von ÖPNV" />
   <translation id="CanAbandonJourneyTooltip" value="Wenn aktiviert, Einwohner können Fahrten abbrechen, wenn sie zu lang im Stau sind oder auf den öffentlichen Verkehr warten" />
 
@@ -70,7 +73,7 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="Der früheste Zeitpunkt, wann ein Ereignis am Wochenendtag beginnen kann" />
   <translation id="LatestHourEventStartWeekend" value="Spätester Beginn am Wochenende" />
   <translation id="LatestHourEventStartWeekendTooltip" value="Der späteste Zeitpunkt, wann ein Ereignis am Wochenendtag beginnen kann" />
-    
+
   <translation id="4Time" value="Zeiten" />
   <translation id="MaxOvertime" value="Max. Überstunden" />
   <translation id="MaxOvertimeTooltip" value="Die maximahle Anzahl der Überstunden für die Cims - sie gehen früher zur Arbeit und bleiben dort länger" />
@@ -223,5 +226,5 @@
     <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Ausgaben für Einzigartige Gebäude und Sport-Arenas letzte {unit}"/>
     <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Einnahmen vom Campus letzte {unit}"/>
   </overrides>
-    
+
 </language>

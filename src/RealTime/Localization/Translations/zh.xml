@@ -10,6 +10,7 @@
   <translation id="Tools" value="工具" />
   <translation id="ShowIncompatibilityNotifications" value="Show mod incompatibility notifications" />
   <translation id="UseEnglishUSFormats" value="Use USA time and date formats with English language" />
+  <translation id="UseEnglishUSFormatsTooltip" value="Changing the time format requires a game restart" />
   <translation id="ResetToDefaults" value="重设至默认" />
   <translation id="UseForNewGames" value="Use current values for new games" />
 
@@ -42,6 +43,8 @@
   <translation id="ConstructionSpeedTooltip" value="调节建筑建造和升级的速度" />
   <translation id="SwitchOffLightsAtNight" value="夜间关闭建筑灯光" />
   <translation id="SwitchOffLightsAtNightTooltip" value="市民们睡觉时住宅建筑的灯光会自动关闭，其他建筑比如办公室和公园当没有人工作时也会关灯。" />
+  <translation id="SwitchOffLightsMaxHeight" value="Keep lights on for high buildings" />
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="Residential, commercial, and office buildings higher than this value will not switch off lights at night" />
   <translation id="CanAbandonJourney" value="Better traffic jam and public transport waiting behavior" />
   <translation id="CanAbandonJourneyTooltip" value="If enabled, citizens can abandon their journeys when stuck in a traffic jam or waiting for public transport for too long" />
 
@@ -70,7 +73,7 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="周六日期间大型活动最早可以开始的时间。" />
   <translation id="LatestHourEventStartWeekend" value="最晚的周六日期间活动" />
   <translation id="LatestHourEventStartWeekendTooltip" value="工作日期间大型活动最迟可以开始的时间。" />
-    
+
   <translation id="4Time" value="时刻时长选项" />
   <translation id="MaxOvertime" value="允许最长的加班时间" />
   <translation id="MaxOvertimeTooltip" value="调节市民们加班的最长时间。他们可以早来上班或者晚点下班。" />

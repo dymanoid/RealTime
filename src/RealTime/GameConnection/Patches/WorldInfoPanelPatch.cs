@@ -1,4 +1,4 @@
-﻿// <copyright file="WorldInfoPanelPatches.cs" company="dymanoid">
+﻿// <copyright file="WorldInfoPanelPatch.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -12,7 +12,7 @@ namespace RealTime.GameConnection.Patches
     /// <summary>
     /// A static class that provides the patch objects for the world info panel game methods.
     /// </summary>
-    internal static class WorldInfoPanelPatches
+    internal static class WorldInfoPanelPatch
     {
         /// <summary>Gets or sets the customized citizen information panel.</summary>
         public static CustomCitizenInfoPanel CitizenInfoPanel { get; set; }

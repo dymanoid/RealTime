@@ -36,6 +36,11 @@ namespace RealTime.Events
             this.attendeesCount = attendeesCount;
         }
 
+        /// <summary>
+        /// Gets the event color.
+        /// </summary>
+        public override EventColor Color { get; } = new EventColor(180, 0, 90);
+
         /// <summary>Accepts an event attendee with specified properties.</summary>
         /// <param name="age">The attendee age.</param>
         /// <param name="gender">The attendee gender.</param>

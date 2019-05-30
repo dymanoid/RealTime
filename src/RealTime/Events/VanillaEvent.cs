@@ -4,6 +4,7 @@
 
 namespace RealTime.Events
 {
+    using RealTime.GameConnection;
     using RealTime.Simulation;
 
     /// <summary>A class for the default game city event.</summary>
@@ -12,20 +13,28 @@ namespace RealTime.Events
     {
         private readonly float duration;
         private readonly float ticketPrice;
+        private readonly IEventManagerConnection eventManager;
 
         /// <summary>Initializes a new instance of the <see cref="VanillaEvent"/> class.</summary>
         /// <param name="id">The event ID.</param>
         /// <param name="duration">The city event duration in hours.</param>
         /// <param name="ticketPrice">The event ticket price.</param>
-        public VanillaEvent(ushort id, float duration, float ticketPrice)
+        /// <param name="eventManager">An <see cref="IEventManagerConnection"/> reference.</param>
+        public VanillaEvent(ushort id, float duration, float ticketPrice, IEventManagerConnection eventManager)
         {
             this.duration = duration;
             this.ticketPrice = ticketPrice;
             EventId = id;
+            this.eventManager = eventManager ?? throw new System.ArgumentNullException(nameof(eventManager));
         }
 
         /// <summary>Gets the vanilla event ID.</summary>
         public ushort EventId { get; }
+
+        /// <summary>
+        /// Gets the event color.
+        /// </summary>
+        public override EventColor Color => eventManager.GetEventColor(EventId);
 
         /// <summary>Accepts an event attendee with specified properties.</summary>
         /// <param name="age">The attendee age.</param>

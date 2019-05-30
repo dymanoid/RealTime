@@ -141,9 +141,10 @@ namespace RealTime.Core
                 new EventManagerConnection(),
                 buildingManager,
                 randomizer,
-                timeInfo);
+                timeInfo,
+                Constants.MaxTravelTime);
 
-            if (!SetupCustomAI(timeInfo, configProvider.Configuration, gameConnections, eventManager))
+            if (!SetupCustomAI(timeInfo, configProvider.Configuration, gameConnections, eventManager, compatibility))
             {
                 Log.Error("The 'Real Time' mod failed to setup the customized AI and will now be deactivated.");
                 patcher.Revert();
@@ -184,6 +185,11 @@ namespace RealTime.Core
             SimulationHandler.Buildings = BuildingAIPatches.RealTimeAI;
             SimulationHandler.Buildings.UpdateFrameDuration();
 
+            if (appliedPatches.Contains(CitizenManagerPatch.CreateCitizenPatch1))
+            {
+                CitizenManagerPatch.NewCitizenBehavior = new NewCitizenBehavior(randomizer, configProvider.Configuration);
+            }
+
             if (appliedPatches.Contains(BuildingAIPatches.GetColor))
             {
                 SimulationHandler.Buildings.InitializeLightState();
@@ -191,11 +197,11 @@ namespace RealTime.Core
 
             SimulationHandler.Statistics = statistics;
 
-            if (appliedPatches.Contains(WorldInfoPanelPatches.UpdateBindings))
+            if (appliedPatches.Contains(WorldInfoPanelPatch.UpdateBindings))
             {
-                WorldInfoPanelPatches.CitizenInfoPanel = CustomCitizenInfoPanel.Enable(ResidentAIPatch.RealTimeAI, localizationProvider);
-                WorldInfoPanelPatches.VehicleInfoPanel = CustomVehicleInfoPanel.Enable(ResidentAIPatch.RealTimeAI, localizationProvider);
-                WorldInfoPanelPatches.CampusWorldInfoPanel = CustomCampusWorldInfoPanel.Enable(localizationProvider);
+                WorldInfoPanelPatch.CitizenInfoPanel = CustomCitizenInfoPanel.Enable(ResidentAIPatch.RealTimeAI, localizationProvider);
+                WorldInfoPanelPatch.VehicleInfoPanel = CustomVehicleInfoPanel.Enable(ResidentAIPatch.RealTimeAI, localizationProvider);
+                WorldInfoPanelPatch.CampusWorldInfoPanel = CustomCampusWorldInfoPanel.Enable(localizationProvider);
             }
 
             AwakeSleepSimulation.Install(configProvider.Configuration);
@@ -243,6 +249,7 @@ namespace RealTime.Core
             SimulationHandler.Statistics = null;
             ParkPatches.SpareTimeBehavior = null;
             OutsideConnectionAIPatch.SpareTimeBehavior = null;
+            CitizenManagerPatch.NewCitizenBehavior = null;
 
             Log.Info("The 'Real Time' mod reverts method patches.");
             patcher.Revert();
@@ -261,14 +268,14 @@ namespace RealTime.Core
 
             StorageBase.CurrentLevelStorage.GameSaving -= GameSaving;
 
-            WorldInfoPanelPatches.CitizenInfoPanel?.Disable();
-            WorldInfoPanelPatches.CitizenInfoPanel = null;
+            WorldInfoPanelPatch.CitizenInfoPanel?.Disable();
+            WorldInfoPanelPatch.CitizenInfoPanel = null;
 
-            WorldInfoPanelPatches.VehicleInfoPanel?.Disable();
-            WorldInfoPanelPatches.VehicleInfoPanel = null;
+            WorldInfoPanelPatch.VehicleInfoPanel?.Disable();
+            WorldInfoPanelPatch.VehicleInfoPanel = null;
 
-            WorldInfoPanelPatches.CampusWorldInfoPanel?.Disable();
-            WorldInfoPanelPatches.CampusWorldInfoPanel = null;
+            WorldInfoPanelPatch.CampusWorldInfoPanel?.Disable();
+            WorldInfoPanelPatch.CampusWorldInfoPanel = null;
 
             isEnabled = false;
         }
@@ -289,7 +296,7 @@ namespace RealTime.Core
             }
 
             timeBar.Translate(localizationProvider.CurrentCulture);
-            UIGraphPatches.Translate(localizationProvider.CurrentCulture);
+            UIGraphPatch.Translate(localizationProvider.CurrentCulture);
         }
 
         private static List<IPatch> GetMethodPatches(Compatibility compatibility)
@@ -309,10 +316,10 @@ namespace RealTime.Core
                 ResidentAIPatch.InstanceSimulationStep,
                 TouristAIPatch.Location,
                 TransferManagerPatch.AddOutgoingOffer,
-                WorldInfoPanelPatches.UpdateBindings,
-                UIGraphPatches.MinDataPoints,
-                UIGraphPatches.VisibleEndTime,
-                UIGraphPatches.BuildLabels,
+                WorldInfoPanelPatch.UpdateBindings,
+                UIGraphPatch.MinDataPoints,
+                UIGraphPatch.VisibleEndTime,
+                UIGraphPatch.BuildLabels,
                 WeatherManagerPatch.SimulationStepImpl,
                 ParkPatches.DistrictParkSimulation,
                 OutsideConnectionAIPatch.DummyTrafficProbability,
@@ -326,6 +333,8 @@ namespace RealTime.Core
             {
                 patches.Add(ResidentAIPatch.UpdateAge);
                 patches.Add(ResidentAIPatch.CanMakeBabies);
+                patches.Add(CitizenManagerPatch.CreateCitizenPatch1);
+                patches.Add(CitizenManagerPatch.CreateCitizenPatch2);
             }
 
             if (compatibility.IsAnyModActive(
@@ -367,7 +376,8 @@ namespace RealTime.Core
             TimeInfo timeInfo,
             RealTimeConfig config,
             GameConnections<Citizen> gameConnections,
-            RealTimeEventManager eventManager)
+            RealTimeEventManager eventManager,
+            Compatibility compatibility)
         {
             ResidentAIConnection<ResidentAI, Citizen> residentAIConnection = ResidentAIPatch.GetResidentAIConnection();
             if (residentAIConnection == null)
@@ -375,8 +385,12 @@ namespace RealTime.Core
                 return false;
             }
 
+            float travelDistancePerCycle = compatibility.IsAnyModActive(ModIds.RealisticWalkingSpeed)
+                ? Constants.AverageTravelDistancePerCycle * 0.583f
+                : Constants.AverageTravelDistancePerCycle;
+
             var spareTimeBehavior = new SpareTimeBehavior(config, timeInfo);
-            var travelBehavior = new TravelBehavior(gameConnections.BuildingManager);
+            var travelBehavior = new TravelBehavior(gameConnections.BuildingManager, travelDistancePerCycle);
             var workBehavior = new WorkBehavior(config, gameConnections.Random, gameConnections.BuildingManager, timeInfo, travelBehavior);
 
             ParkPatches.SpareTimeBehavior = spareTimeBehavior;
@@ -437,7 +451,7 @@ namespace RealTime.Core
             }
         }
 
-        private void CityEventsChanged(object sender, EventArgs e) => timeBar.UpdateEventsDisplay(eventManager.CityEvents);
+        private void CityEventsChanged(object sender, EventArgs e) => timeBar.UpdateEventsDisplay(eventManager.AllEvents);
 
         private void GameSaving(object sender, EventArgs e)
         {

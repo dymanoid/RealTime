@@ -509,18 +509,25 @@ namespace RealTime.CustomAI
                     return false;
 
                 case ItemClass.Service.Residential:
+                    if (buildingManager.GetBuildingHeight(buildingId) > config.SwitchOffLightsMaxHeight)
+                    {
+                        return false;
+                    }
+
                     float currentHour = timeInfo.CurrentHour;
                     return currentHour < Math.Min(config.WakeUpHour, EarliestWakeUp) || currentHour >= config.GoToSleepHour;
-
-                case ItemClass.Service.Office when buildingManager.GetBuildingLevel(buildingId) != ItemClass.Level.Level1:
-                    return false;
 
                 case ItemClass.Service.Commercial when subService == ItemClass.SubService.CommercialLeisure:
                     return IsNoiseRestricted(buildingId);
 
-                case ItemClass.Service.Commercial
-                    when subService == ItemClass.SubService.CommercialHigh && buildingManager.GetBuildingLevel(buildingId) != ItemClass.Level.Level1:
-                    return false;
+                case ItemClass.Service.Office:
+                case ItemClass.Service.Commercial:
+                    if (buildingManager.GetBuildingHeight(buildingId) > config.SwitchOffLightsMaxHeight)
+                    {
+                        return false;
+                    }
+
+                    goto default;
 
                 case ItemClass.Service.Monument:
                 case ItemClass.Service.VarsitySports:

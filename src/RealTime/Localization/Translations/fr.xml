@@ -10,6 +10,7 @@
   <translation id="Tools" value="Outils" />
   <translation id="ShowIncompatibilityNotifications" value="Montrer les notifications de mods incompatibles." />
   <translation id="UseEnglishUSFormats" value="Use USA time and date formats with English language" />
+  <translation id="UseEnglishUSFormatsTooltip" value="Changing the time format requires a game restart" />
   <translation id="ResetToDefaults" value="Tout réinitialiser aux valeurs par défaut" />
   <translation id="UseForNewGames" value="Utiliser les valeurs actuelles pour les prochaines parties" />
 
@@ -42,9 +43,11 @@
   <translation id="ConstructionSpeedTooltip" value="Mise à niveau de la vitesse et de la construction de bâtiments" />
   <translation id="SwitchOffLightsAtNight" value="Désactiver la lumière des batiments la nuit" />
   <translation id="SwitchOffLightsAtNightTooltip" value="Les batiments résidentiel éteignent leurs lampes quand les citoyens dorment, autres batiments et parcs : quand personne n'y travail." />
+  <translation id="SwitchOffLightsMaxHeight" value="Keep lights on for high buildings" />
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="Residential, commercial, and office buildings higher than this value will not switch off lights at night" />
   <translation id="CanAbandonJourney" value="Better traffic jam and public transport waiting behavior" />
   <translation id="CanAbandonJourneyTooltip" value="If enabled, citizens can abandon their journeys when stuck in a traffic jam or waiting for public transport for too long" />
- 
+
   <translation id="2Quotas" value="Probabilités" />
   <translation id="SecondShiftQuota" value="Travailleurs en 2/8" />
   <translation id="SecondShiftQuotaTooltip" value="Le pourcentage des citoyens qui travaillent en 2/8" />
@@ -58,7 +61,7 @@
   <translation id="ShoppingForFunQuotaTooltip" value="Le pourcentage de la population qui va aller faire du shopping juste pour le fun quand ils n'ont besoin de rien" />
   <translation id="OnTimeQuota" value="Rapport sur le temps" />
   <translation id="OnTimeQuotaTooltip" value="Le pourcentage de citoyens qui iront et quitteront leur travail à temps" />
- 
+
   <translation id="3Events" value="Événements" />
   <translation id="AreEventsEnabled" value="Activer les événements personnalisés" />
   <translation id="AreEventsEnabledTooltip" value="Si désactivé, seuls les événements de jeu Vanilla peuvent se produire dans la ville" />
@@ -70,7 +73,7 @@
   <translation id="EarliestHourEventStartWeekendTooltip" value="La première fois qu'un événementt peut commencer un jour de week-end" />
   <translation id="LatestHourEventStartWeekend" value="Dernier événement du weekend" />
   <translation id="LatestHourEventStartWeekendTooltip" value="La dernière fois qu'un événement peut commencer un jour de week-end" />
- 
+
   <translation id="4Time" value="Temps" />
   <translation id="MaxOvertime" value="Heures supplémentaires maximum" />
   <translation id="MaxOvertimeTooltip" value="Les heures supplémentaires maximum pour les citoyens (ils viennent travailler plus tôt ou restent au travail plus longtemps)" />
@@ -88,7 +91,7 @@
   <translation id="LunchEndTooltip" value="L'heure de la journée ou les citoyens reviennent du déjeûner pour aller travailler" />
   <translation id="MaxVacationLength" value="Nombre maximum de jours de vacances" />
   <translation id="MaxVacationLengthTooltip" value="Pour combien de temps peuvent être en vacances, 0 désactive les vacances." />
- 
+
   <translation id="ScheduledAction" value="Maintenant" />
   <translation id="NextScheduledAction" value="Jusqu'à" />
   <translation id="ScheduledAction.AtHome" value="Aller à la maison" />

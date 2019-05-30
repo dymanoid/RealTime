@@ -73,10 +73,12 @@
     <Compile Include="Core\RealTimeStorage.cs" />
     <Compile Include="CustomAI\CitizenScheduleStorage.cs" />
     <Compile Include="CustomAI\Constants.cs" />
+    <Compile Include="CustomAI\INewCitizenBehavior.cs" />
     <Compile Include="CustomAI\IRealTimeBuildingAI.cs" />
     <Compile Include="CustomAI\ISpareTimeBehavior.cs" />
     <Compile Include="CustomAI\ITravelBehavior.cs" />
     <Compile Include="CustomAI\IWorkBehavior.cs" />
+    <Compile Include="CustomAI\NewCitizenBehavior.cs" />
     <Compile Include="CustomAI\RealTimeHumanAIBase.cs" />
     <Compile Include="CustomAI\ResidentState.cs" />
     <Compile Include="CustomAI\RealTimeBuildingAI.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="CustomAI\WorkShift.cs" />
     <Compile Include="CustomAI\WorkStatus.cs" />
     <Compile Include="Events\CityEventState.cs" />
+    <Compile Include="Events\EventColor.cs" />
     <Compile Include="Events\ICityEventsProvider.cs" />
     <Compile Include="Events\ICityEvent.cs" />
     <Compile Include="Events\IRealTimeEventManager.cs" />
@@ -115,12 +118,13 @@
     <Compile Include="GameConnection\IToolManagerConnection.cs" />
     <Compile Include="GameConnection\ITransferManagerConnection.cs" />
     <Compile Include="GameConnection\IWeatherManagerConnection.cs" />
+    <Compile Include="GameConnection\Patches\CitizenManagerPatch.cs" />
     <Compile Include="GameConnection\Patches\OutsideConnectionAIPatch.cs" />
     <Compile Include="GameConnection\Patches\ParkPatches.cs" />
     <Compile Include="GameConnection\Patches\TransferManagerPatch.cs" />
-    <Compile Include="GameConnection\Patches\UIGraphPatches.cs" />
+    <Compile Include="GameConnection\Patches\UIGraphPatch.cs" />
     <Compile Include="GameConnection\Patches\WeatherManagerPatch.cs" />
-    <Compile Include="GameConnection\Patches\WorldInfoPanelPatches.cs" />
+    <Compile Include="GameConnection\Patches\WorldInfoPanelPatch.cs" />
     <Compile Include="GameConnection\TouristAIConnection.cs" />
     <Compile Include="GameConnection\Patches\TouristAIPatch.cs" />
     <Compile Include="GameConnection\Patches\ResidentAIPatch.cs" />
@@ -139,6 +143,7 @@
     <Compile Include="Core\RealTimeCore.cs" />
     <Compile Include="GameConnection\ToolManagerConnection.cs" />
     <Compile Include="GameConnection\TransferManagerConnection.cs" />
+    <Compile Include="GameConnection\VanillaEventInfo.cs" />
     <Compile Include="GameConnection\WeatherManagerConnection.cs" />
     <Compile Include="IReadOnlyList.cs" />
     <Compile Include="Localization\TranslationKeys.cs" />
@@ -184,6 +189,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Localization\Translations\fr.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Localization\Translations\it.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Localization\Translations\ja.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Localization\Translations\ko.xml">

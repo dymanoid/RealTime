@@ -59,7 +59,7 @@ namespace RealTime.Core
             }
 
             Log.Info("The 'Real Time' mod has been enabled, version: " + modVersion);
-            configProvider = new ConfigurationProvider<RealTimeConfig>(RealTimeConfig.StorageId, Name, () => new RealTimeConfig(true));
+            configProvider = new ConfigurationProvider<RealTimeConfig>(RealTimeConfig.StorageId, Name, () => new RealTimeConfig(latestVersion: true));
             configProvider.LoadDefaultConfiguration();
             localizationProvider = new LocalizationProvider(Name, modPath);
         }

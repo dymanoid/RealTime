@@ -23,6 +23,11 @@ namespace RealTime.Events
         /// <summary>Gets the localized name of the building this city event takes place in.</summary>
         public string BuildingName { get; private set; }
 
+        /// <summary>
+        /// Gets the event color.
+        /// </summary>
+        public abstract EventColor Color { get; }
+
         /// <summary>Accepts an event attendee with specified properties.</summary>
         /// <param name="age">The attendee age.</param>
         /// <param name="gender">The attendee gender.</param>
