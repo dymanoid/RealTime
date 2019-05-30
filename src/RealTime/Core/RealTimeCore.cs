@@ -185,6 +185,11 @@ namespace RealTime.Core
             SimulationHandler.Buildings = BuildingAIPatches.RealTimeAI;
             SimulationHandler.Buildings.UpdateFrameDuration();
 
+            if (appliedPatches.Contains(CitizenManagerPatch.CreateCitizenPatch1))
+            {
+                CitizenManagerPatch.NewCitizenBehavior = new NewCitizenBehavior(randomizer);
+            }
+
             if (appliedPatches.Contains(BuildingAIPatches.GetColor))
             {
                 SimulationHandler.Buildings.InitializeLightState();
@@ -244,6 +249,7 @@ namespace RealTime.Core
             SimulationHandler.Statistics = null;
             ParkPatches.SpareTimeBehavior = null;
             OutsideConnectionAIPatch.SpareTimeBehavior = null;
+            CitizenManagerPatch.NewCitizenBehavior = null;
 
             Log.Info("The 'Real Time' mod reverts method patches.");
             patcher.Revert();
@@ -327,6 +333,8 @@ namespace RealTime.Core
             {
                 patches.Add(ResidentAIPatch.UpdateAge);
                 patches.Add(ResidentAIPatch.CanMakeBabies);
+                patches.Add(CitizenManagerPatch.CreateCitizenPatch1);
+                patches.Add(CitizenManagerPatch.CreateCitizenPatch2);
             }
 
             if (compatibility.IsAnyModActive(

@@ -73,10 +73,12 @@
     <Compile Include="Core\RealTimeStorage.cs" />
     <Compile Include="CustomAI\CitizenScheduleStorage.cs" />
     <Compile Include="CustomAI\Constants.cs" />
+    <Compile Include="CustomAI\INewCitizenBehavior.cs" />
     <Compile Include="CustomAI\IRealTimeBuildingAI.cs" />
     <Compile Include="CustomAI\ISpareTimeBehavior.cs" />
     <Compile Include="CustomAI\ITravelBehavior.cs" />
     <Compile Include="CustomAI\IWorkBehavior.cs" />
+    <Compile Include="CustomAI\NewCitizenBehavior.cs" />
     <Compile Include="CustomAI\RealTimeHumanAIBase.cs" />
     <Compile Include="CustomAI\ResidentState.cs" />
     <Compile Include="CustomAI\RealTimeBuildingAI.cs" />
@@ -116,6 +118,7 @@
     <Compile Include="GameConnection\IToolManagerConnection.cs" />
     <Compile Include="GameConnection\ITransferManagerConnection.cs" />
     <Compile Include="GameConnection\IWeatherManagerConnection.cs" />
+    <Compile Include="GameConnection\Patches\CitizenManagerPatch.cs" />
     <Compile Include="GameConnection\Patches\OutsideConnectionAIPatch.cs" />
     <Compile Include="GameConnection\Patches\ParkPatches.cs" />
     <Compile Include="GameConnection\Patches\TransferManagerPatch.cs" />
