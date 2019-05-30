@@ -27,7 +27,10 @@ namespace RealTime.UI
         private const string UILabelTime = "Time";
         private const string UISpriteEvent = "Event";
 
-        private const byte EventSpriteOpacity = 160;
+        private const byte EventSpriteOpacity = 128;
+
+        private static readonly Color32 TimeLabelShadowColor = new Color32(32, 32, 32, 255);
+        private static readonly Vector2 TimeLabelShadowOffset = new Vector2(1f, -1f);
 
         private readonly List<ICityEvent> displayedEvents = new List<ICityEvent>();
         private readonly List<UISprite> displayedEventSprites = new List<UISprite>();
@@ -227,11 +230,15 @@ namespace RealTime.UI
             }
 
             dateLabel.autoSize = !enableCustomization;
+            dateLabel.isInteractive = !enableCustomization;
+            dateLabel.useDropShadow = enableCustomization;
             if (enableCustomization)
             {
                 dateLabel.size = progressSprite.size;
                 dateLabel.textAlignment = UIHorizontalAlignment.Center;
                 dateLabel.relativePosition = new Vector3(0, 0, 0);
+                dateLabel.dropShadowColor = TimeLabelShadowColor;
+                dateLabel.dropShadowOffset = TimeLabelShadowOffset;
             }
         }
 
@@ -312,6 +319,7 @@ namespace RealTime.UI
             eventSprite.fillDirection = UIFillDirection.Horizontal;
             eventSprite.color = GetColor(cityEvent.Color, EventSpriteOpacity);
             eventSprite.fillAmount = 1f;
+            eventSprite.SendToBack();
             eventSprite.objectUserData = cityEvent;
             eventSprite.eventClicked += EventSprite_Clicked;
             SetEventTooltip(eventSprite, todayStart, todayEnd);
