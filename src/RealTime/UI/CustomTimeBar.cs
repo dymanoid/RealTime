@@ -54,8 +54,8 @@ namespace RealTime.UI
             }
 
             customDateTimeWrapper = new RealTimeUIDateTimeWrapper(currentDate);
-            originalWrapper = SetUIDateTimeWrapper(customDateTimeWrapper, customize: true);
-            SetEventColorUpdater(progressSprite, enabled: true);
+            originalWrapper = SetCustomUIDateTimeWrapper(customDateTimeWrapper, enableWrapper: true);
+            SetEventColorUpdater(progressSprite, enableUpdater: true);
         }
 
         /// <summary>
@@ -70,8 +70,8 @@ namespace RealTime.UI
             }
 
             RemoveAllCityEvents();
-            SetUIDateTimeWrapper(originalWrapper, customize: false);
-            SetEventColorUpdater(progressSprite, enabled: false);
+            SetCustomUIDateTimeWrapper(originalWrapper, enableWrapper: false);
+            SetEventColorUpdater(progressSprite, enableUpdater: false);
             originalWrapper = null;
             progressSprite = null;
             customDateTimeWrapper = null;
@@ -217,7 +217,7 @@ namespace RealTime.UI
             return progressSprite;
         }
 
-        private static void CustomizeTimePanel(UISprite progressSprite)
+        private static void SetCustomTimePanelLayout(UISprite progressSprite, bool enableCustomization)
         {
             UILabel dateLabel = progressSprite.Find<UILabel>(UILabelTime);
             if (dateLabel == null)
@@ -226,22 +226,25 @@ namespace RealTime.UI
                 return;
             }
 
-            dateLabel.autoSize = false;
-            dateLabel.size = progressSprite.size;
-            dateLabel.textAlignment = UIHorizontalAlignment.Center;
-            dateLabel.relativePosition = new Vector3(0, 0, 0);
+            dateLabel.autoSize = !enableCustomization;
+            if (enableCustomization)
+            {
+                dateLabel.size = progressSprite.size;
+                dateLabel.textAlignment = UIHorizontalAlignment.Center;
+                dateLabel.relativePosition = new Vector3(0, 0, 0);
+            }
         }
 
-        private static void SetTooltip(UIComponent component, CultureInfo cultureInfo, bool customize)
+        private static void SetCustomTooltip(UIComponent component, CultureInfo cultureInfo, bool enableTooltip)
         {
             DateTooltipBehavior tooltipBehavior = component.gameObject.GetComponent<DateTooltipBehavior>();
-            if (tooltipBehavior == null && customize)
+            if (enableTooltip && tooltipBehavior == null)
             {
                 tooltipBehavior = component.gameObject.AddComponent<DateTooltipBehavior>();
                 tooltipBehavior.IgnoredComponentNamePrefix = UISpriteEvent;
                 tooltipBehavior.Translate(cultureInfo);
             }
-            else if (tooltipBehavior != null && !customize)
+            else if (!enableTooltip && tooltipBehavior != null)
             {
                 UnityEngine.Object.Destroy(tooltipBehavior);
             }
@@ -253,21 +256,21 @@ namespace RealTime.UI
             tooltipBehavior?.Translate(cultureInfo);
         }
 
-        private void SetEventColorUpdater(UIComponent component, bool enabled)
+        private void SetEventColorUpdater(UIComponent parent, bool enableUpdater)
         {
-            var updateBehavior = component.gameObject.GetComponent<EventColorsUpdateBehavior>();
-            if (enabled && updateBehavior == null)
+            var updateBehavior = parent.gameObject.GetComponent<EventColorsUpdateBehavior>();
+            if (enableUpdater && updateBehavior == null)
             {
-                updateBehavior = component.gameObject.AddComponent<EventColorsUpdateBehavior>();
+                updateBehavior = parent.gameObject.AddComponent<EventColorsUpdateBehavior>();
                 updateBehavior.TimeBar = this;
             }
-            else if (!enabled && updateBehavior != null)
+            else if (!enableUpdater && updateBehavior != null)
             {
                 UnityEngine.Object.Destroy(updateBehavior);
             }
         }
 
-        private UIDateTimeWrapper SetUIDateTimeWrapper(UIDateTimeWrapper wrapper, bool customize)
+        private UIDateTimeWrapper SetCustomUIDateTimeWrapper(UIDateTimeWrapper wrapper, bool enableWrapper)
         {
             UIPanel infoPanel = UIView.Find<UIPanel>(UIInfoPanel);
             if (infoPanel == null)
@@ -279,12 +282,8 @@ namespace RealTime.UI
             progressSprite = GetProgressSprite(infoPanel);
             if (progressSprite != null)
             {
-                SetTooltip(progressSprite, currentCulture, customize);
-
-                if (customize)
-                {
-                    CustomizeTimePanel(progressSprite);
-                }
+                SetCustomTooltip(progressSprite, currentCulture, enableWrapper);
+                SetCustomTimePanelLayout(progressSprite, enableWrapper);
             }
 
             return ReplaceUIDateTimeWrapperInPanel(infoPanel, wrapper);
