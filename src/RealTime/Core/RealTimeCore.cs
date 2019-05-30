@@ -187,7 +187,7 @@ namespace RealTime.Core
 
             if (appliedPatches.Contains(CitizenManagerPatch.CreateCitizenPatch1))
             {
-                CitizenManagerPatch.NewCitizenBehavior = new NewCitizenBehavior(randomizer);
+                CitizenManagerPatch.NewCitizenBehavior = new NewCitizenBehavior(randomizer, configProvider.Configuration);
             }
 
             if (appliedPatches.Contains(BuildingAIPatches.GetColor))

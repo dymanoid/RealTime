@@ -34,7 +34,7 @@ namespace RealTime.GameConnection.Patches
         private static void UpdateCitizenEducation(uint citizenId)
         {
             ref var citizen = ref CitizenManager.instance.m_citizens.m_buffer[citizenId];
-            var newEducation = NewCitizenBehavior.GetEducation(citizen.Age);
+            var newEducation = NewCitizenBehavior.GetEducation(citizen.Age, citizen.EducationLevel);
             citizen.Education3 = newEducation == Citizen.Education.ThreeSchools;
             citizen.Education2 = newEducation == Citizen.Education.TwoSchools || newEducation == Citizen.Education.ThreeSchools;
             citizen.Education1 = newEducation != Citizen.Education.Uneducated;

@@ -4,6 +4,8 @@
 
 namespace RealTime.CustomAI
 {
+    using System;
+    using RealTime.Config;
     using RealTime.Simulation;
 
     /// <summary>
@@ -12,23 +14,33 @@ namespace RealTime.CustomAI
     internal sealed class NewCitizenBehavior : INewCitizenBehavior
     {
         private readonly IRandomizer randomizer;
+        private readonly RealTimeConfig config;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NewCitizenBehavior"/> class.
         /// </summary>
         /// <param name="randomizer">The randomizer to use for random decisions.</param>
-        public NewCitizenBehavior(IRandomizer randomizer)
+        /// <param name="config">The configuration to run with.</param>
+        /// <exception cref="ArgumentNullException">Thrown when any argument is null.</exception>
+        public NewCitizenBehavior(IRandomizer randomizer, RealTimeConfig config)
         {
-            this.randomizer = randomizer;
+            this.randomizer = randomizer ?? throw new ArgumentNullException(nameof(randomizer));
+            this.config = config ?? throw new ArgumentNullException(nameof(config));
         }
 
         /// <summary>
         /// Gets the education level of the new citizen based on their <paramref name="age" />.
         /// </summary>
         /// <param name="age">The citizen's age as raw value (0-255).</param>
+        /// <param name="currentEducation">The current value of the citizen's education.</param>
         /// <returns>The education level of the new citizen with the specified age.</returns>
-        public Citizen.Education GetEducation(int age)
+        public Citizen.Education GetEducation(int age, Citizen.Education currentEducation)
         {
+            if (!config.UseSlowAging)
+            {
+                return currentEducation;
+            }
+
             var randomValue = randomizer.GetRandomValue(100u);
 
             // Age:
@@ -118,7 +130,7 @@ namespace RealTime.CustomAI
             // 45-89   -> young
             // 90-179  -> adult
             // 180-255 -> senior
-            if (age <= 1)
+            if (!config.UseSlowAging || age <= 1)
             {
                 return age;
             }
