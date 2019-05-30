@@ -388,6 +388,7 @@ namespace RealTime.UI
 
         private void OnCityEventClick(ushort buildingId) => CityEventClick?.Invoke(this, new CustomTimeBarClickEventArgs(buildingId));
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Used as a Unity3D component")]
         private sealed class EventColorsUpdateBehavior : MonoBehaviour
         {
             public CustomTimeBar TimeBar { get; set; }
