@@ -119,9 +119,9 @@
     <Compile Include="GameConnection\Patches\OutsideConnectionAIPatch.cs" />
     <Compile Include="GameConnection\Patches\ParkPatches.cs" />
     <Compile Include="GameConnection\Patches\TransferManagerPatch.cs" />
-    <Compile Include="GameConnection\Patches\UIGraphPatches.cs" />
+    <Compile Include="GameConnection\Patches\UIGraphPatch.cs" />
     <Compile Include="GameConnection\Patches\WeatherManagerPatch.cs" />
-    <Compile Include="GameConnection\Patches\WorldInfoPanelPatches.cs" />
+    <Compile Include="GameConnection\Patches\WorldInfoPanelPatch.cs" />
     <Compile Include="GameConnection\TouristAIConnection.cs" />
     <Compile Include="GameConnection\Patches\TouristAIPatch.cs" />
     <Compile Include="GameConnection\Patches\ResidentAIPatch.cs" />

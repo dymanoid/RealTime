@@ -192,11 +192,11 @@ namespace RealTime.Core
 
             SimulationHandler.Statistics = statistics;
 
-            if (appliedPatches.Contains(WorldInfoPanelPatches.UpdateBindings))
+            if (appliedPatches.Contains(WorldInfoPanelPatch.UpdateBindings))
             {
-                WorldInfoPanelPatches.CitizenInfoPanel = CustomCitizenInfoPanel.Enable(ResidentAIPatch.RealTimeAI, localizationProvider);
-                WorldInfoPanelPatches.VehicleInfoPanel = CustomVehicleInfoPanel.Enable(ResidentAIPatch.RealTimeAI, localizationProvider);
-                WorldInfoPanelPatches.CampusWorldInfoPanel = CustomCampusWorldInfoPanel.Enable(localizationProvider);
+                WorldInfoPanelPatch.CitizenInfoPanel = CustomCitizenInfoPanel.Enable(ResidentAIPatch.RealTimeAI, localizationProvider);
+                WorldInfoPanelPatch.VehicleInfoPanel = CustomVehicleInfoPanel.Enable(ResidentAIPatch.RealTimeAI, localizationProvider);
+                WorldInfoPanelPatch.CampusWorldInfoPanel = CustomCampusWorldInfoPanel.Enable(localizationProvider);
             }
 
             AwakeSleepSimulation.Install(configProvider.Configuration);
@@ -262,14 +262,14 @@ namespace RealTime.Core
 
             StorageBase.CurrentLevelStorage.GameSaving -= GameSaving;
 
-            WorldInfoPanelPatches.CitizenInfoPanel?.Disable();
-            WorldInfoPanelPatches.CitizenInfoPanel = null;
+            WorldInfoPanelPatch.CitizenInfoPanel?.Disable();
+            WorldInfoPanelPatch.CitizenInfoPanel = null;
 
-            WorldInfoPanelPatches.VehicleInfoPanel?.Disable();
-            WorldInfoPanelPatches.VehicleInfoPanel = null;
+            WorldInfoPanelPatch.VehicleInfoPanel?.Disable();
+            WorldInfoPanelPatch.VehicleInfoPanel = null;
 
-            WorldInfoPanelPatches.CampusWorldInfoPanel?.Disable();
-            WorldInfoPanelPatches.CampusWorldInfoPanel = null;
+            WorldInfoPanelPatch.CampusWorldInfoPanel?.Disable();
+            WorldInfoPanelPatch.CampusWorldInfoPanel = null;
 
             isEnabled = false;
         }
@@ -290,7 +290,7 @@ namespace RealTime.Core
             }
 
             timeBar.Translate(localizationProvider.CurrentCulture);
-            UIGraphPatches.Translate(localizationProvider.CurrentCulture);
+            UIGraphPatch.Translate(localizationProvider.CurrentCulture);
         }
 
         private static List<IPatch> GetMethodPatches(Compatibility compatibility)
@@ -310,10 +310,10 @@ namespace RealTime.Core
                 ResidentAIPatch.InstanceSimulationStep,
                 TouristAIPatch.Location,
                 TransferManagerPatch.AddOutgoingOffer,
-                WorldInfoPanelPatches.UpdateBindings,
-                UIGraphPatches.MinDataPoints,
-                UIGraphPatches.VisibleEndTime,
-                UIGraphPatches.BuildLabels,
+                WorldInfoPanelPatch.UpdateBindings,
+                UIGraphPatch.MinDataPoints,
+                UIGraphPatch.VisibleEndTime,
+                UIGraphPatch.BuildLabels,
                 WeatherManagerPatch.SimulationStepImpl,
                 ParkPatches.DistrictParkSimulation,
                 OutsideConnectionAIPatch.DummyTrafficProbability,
