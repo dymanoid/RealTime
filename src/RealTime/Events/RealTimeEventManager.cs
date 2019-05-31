@@ -211,7 +211,7 @@ namespace RealTime.Events
         /// </summary>
         public void ProcessEvents()
         {
-            if (RemoveCanceledEvents())
+            if (RemoveOldAndCanceledEvents())
             {
                 OnEventsChanged();
             }
@@ -469,17 +469,23 @@ namespace RealTime.Events
             return true;
         }
 
-        private bool RemoveCanceledEvents()
+        private bool RemoveOldAndCanceledEvents()
         {
+            bool eventsChanged = false;
             for (int i = finishedEvents.Count - 1; i >= 0; --i)
             {
-                if (MustCancelEvent(finishedEvents[i]))
+                var finishedEvent = finishedEvents[i];
+                var isOldEvent = finishedEvent.EndTime.Day != timeInfo.Now.Day;
+                if (isOldEvent || MustCancelEvent(finishedEvent))
                 {
                     finishedEvents.RemoveAt(i);
+                    if (!isOldEvent)
+                    {
+                        eventsChanged = true;
+                    }
                 }
             }
 
-            bool eventsChanged = false;
             for (int i = activeEvents.Count - 1; i >= 0; --i)
             {
                 if (MustCancelEvent(activeEvents[i]))
