@@ -325,7 +325,7 @@ namespace RealTime.Core
                 OutsideConnectionAIPatch.DummyTrafficProbability,
             };
 
-            if (compatibility.IsAnyModActive(ModIds.CitizenLifecycleRebalance))
+            if (compatibility.IsAnyModActive(WorkshopMods.CitizenLifecycleRebalance))
             {
                 Log.Info("The 'Real Time' mod will not change the citizens aging because the 'Citizen Lifecycle Rebalance' mod is active.");
             }
@@ -338,11 +338,11 @@ namespace RealTime.Core
             }
 
             if (compatibility.IsAnyModActive(
-                ModIds.BuildingThemes,
-                ModIds.ForceLevelUp,
-                ModIds.PloppableRico,
-                ModIds.PloppableRicoHighDensityFix,
-                ModIds.PlopTheGrowables))
+                WorkshopMods.BuildingThemes,
+                WorkshopMods.ForceLevelUp,
+                WorkshopMods.PloppableRico,
+                WorkshopMods.PloppableRicoHighDensityFix,
+                WorkshopMods.PlopTheGrowables))
             {
                 Log.Info("The 'Real Time' mod will not change the building construction and upgrading behavior because some building mod is active.");
             }
@@ -385,7 +385,7 @@ namespace RealTime.Core
                 return false;
             }
 
-            float travelDistancePerCycle = compatibility.IsAnyModActive(ModIds.RealisticWalkingSpeed)
+            float travelDistancePerCycle = compatibility.IsAnyModActive(WorkshopMods.RealisticWalkingSpeed)
                 ? Constants.AverageTravelDistancePerCycle * 0.583f
                 : Constants.AverageTravelDistancePerCycle;
 

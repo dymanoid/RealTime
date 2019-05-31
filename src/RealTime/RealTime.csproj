@@ -67,7 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\VirtualCitizensLevel.cs" />
-    <Compile Include="Core\ModIds.cs" />
+    <Compile Include="Core\WorkshopMods.cs" />
     <Compile Include="Core\RealTimeBenchmark.cs" />
     <Compile Include="Core\Compatibility.cs" />
     <Compile Include="Core\RealTimeStorage.cs" />

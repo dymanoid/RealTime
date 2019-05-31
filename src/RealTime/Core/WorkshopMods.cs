@@ -1,4 +1,4 @@
-﻿// <copyright file="ModIds.cs" company="dymanoid">
+﻿// <copyright file="WorkshopMods.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -7,7 +7,7 @@ namespace RealTime.Core
     /// <summary>
     /// A class containing various mods' Workshop IDs.
     /// </summary>
-    internal static class ModIds
+    internal static class WorkshopMods
     {
         /// <summary>The Workshop ID of the 'Citizen Lifecycle Rebalance' mod.</summary>
         public const ulong CitizenLifecycleRebalance = 654707599ul;
