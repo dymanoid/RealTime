@@ -8,6 +8,8 @@ A mod for the Cities: Skylines game. Adjusts the time flow in the game to make i
 
 - The game time flows slowly. The time speed can be configured for the daytime and for the night time separately.
 - The sunrise and the sunset times depend on the map location and on the day of year.
+- Citizens grow up slower. 1 in-game day equals to 1 citizen's year. Citizens live up to 85 years, so with Real Time - up to 85 in-game days.
+- Slower aging changes the education system: a child needs 5 in-game days to graduate from an elementary school and become a teen. A teen needs 10 in-game days to graduate from a high school and become a young adult. Finally, a student needs another 5 in-game days to get the highest education level.
 
 ### Work...
 
