@@ -43,8 +43,8 @@
   <translation id="ConstructionSpeedTooltip" value="건물 건설과 업그레이드 속도" />
   <translation id="SwitchOffLightsAtNight" value="야간에 건물 소등" />
   <translation id="SwitchOffLightsAtNightTooltip" value="시민들이 잘 시간에 주거건물들과 동작하지 않을 건물들, 그리고 공원의 불을 끕니다" />
-  <translation id="SwitchOffLightsMaxHeight" value="Keep lights on for high buildings" />
-  <translation id="SwitchOffLightsMaxHeightTooltip" value="Residential, commercial, and office buildings higher than this value will not switch off lights at night" />
+  <translation id="SwitchOffLightsMaxHeight" value="Keep lights on for tall buildings" />
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="Residential, commercial, and office buildings taller than this value will not switch off lights at night" />
   <translation id="CanAbandonJourney" value="더 나은 교통 정체 및 대중교통 지연 시 행동" />
   <translation id="CanAbandonJourneyTooltip" value="이게 켜지게 될 경우, 시민들이 교통정체나 혹은 대중교통이 너무 오래 지연되게 되면 여정을 포기합니다" />
 
