@@ -1,4 +1,4 @@
-﻿// <copyright file="BuildingAIPatches.cs" company="dymanoid">
+﻿// <copyright file="BuildingAIPatch.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -15,7 +15,7 @@ namespace RealTime.GameConnection.Patches
     /// <summary>
     /// A static class that provides the patch objects for the building AI game methods.
     /// </summary>
-    internal static class BuildingAIPatches
+    internal static class BuildingAIPatch
     {
         /// <summary>Gets or sets the custom AI object for buildings.</summary>
         public static RealTimeBuildingAI RealTimeAI { get; set; }

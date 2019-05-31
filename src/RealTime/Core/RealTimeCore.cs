@@ -182,7 +182,7 @@ namespace RealTime.Core
             SimulationHandler.DayTimeSimulation = new DayTimeSimulation(configProvider.Configuration);
             SimulationHandler.EventManager = eventManager;
             SimulationHandler.WeatherInfo = weatherInfo;
-            SimulationHandler.Buildings = BuildingAIPatches.RealTimeAI;
+            SimulationHandler.Buildings = BuildingAIPatch.RealTimeAI;
             SimulationHandler.Buildings.UpdateFrameDuration();
 
             if (appliedPatches.Contains(CitizenManagerPatch.CreateCitizenPatch1))
@@ -190,7 +190,7 @@ namespace RealTime.Core
                 CitizenManagerPatch.NewCitizenBehavior = new NewCitizenBehavior(randomizer, configProvider.Configuration);
             }
 
-            if (appliedPatches.Contains(BuildingAIPatches.GetColor))
+            if (appliedPatches.Contains(BuildingAIPatch.GetColor))
             {
                 SimulationHandler.Buildings.InitializeLightState();
             }
@@ -236,8 +236,8 @@ namespace RealTime.Core
 
             ResidentAIPatch.RealTimeAI = null;
             TouristAIPatch.RealTimeAI = null;
-            BuildingAIPatches.RealTimeAI = null;
-            BuildingAIPatches.WeatherInfo = null;
+            BuildingAIPatch.RealTimeAI = null;
+            BuildingAIPatch.WeatherInfo = null;
             TransferManagerPatch.RealTimeAI = null;
             SimulationHandler.EventManager = null;
             SimulationHandler.DayTimeSimulation = null;
@@ -247,7 +247,7 @@ namespace RealTime.Core
             SimulationHandler.CitizenProcessor = null;
             SimulationHandler.Statistics?.Close();
             SimulationHandler.Statistics = null;
-            ParkPatches.SpareTimeBehavior = null;
+            ParkPatch.SpareTimeBehavior = null;
             OutsideConnectionAIPatch.SpareTimeBehavior = null;
             CitizenManagerPatch.NewCitizenBehavior = null;
 
@@ -303,13 +303,13 @@ namespace RealTime.Core
         {
             var patches = new List<IPatch>
             {
-                BuildingAIPatches.GetConstructionTime,
-                BuildingAIPatches.HandleWorkers,
-                BuildingAIPatches.CommercialSimulation,
-                BuildingAIPatches.GetColor,
-                BuildingAIPatches.CalculateUnspawnPosition,
-                BuildingAIPatches.ProduceGoods,
-                BuildingAIPatches.HandleCrime,
+                BuildingAIPatch.GetConstructionTime,
+                BuildingAIPatch.HandleWorkers,
+                BuildingAIPatch.CommercialSimulation,
+                BuildingAIPatch.GetColor,
+                BuildingAIPatch.CalculateUnspawnPosition,
+                BuildingAIPatch.ProduceGoods,
+                BuildingAIPatch.HandleCrime,
                 ResidentAIPatch.Location,
                 ResidentAIPatch.ArriveAtTarget,
                 ResidentAIPatch.StartMoving,
@@ -321,7 +321,7 @@ namespace RealTime.Core
                 UIGraphPatch.VisibleEndTime,
                 UIGraphPatch.BuildLabels,
                 WeatherManagerPatch.SimulationStepImpl,
-                ParkPatches.DistrictParkSimulation,
+                ParkPatch.DistrictParkSimulation,
                 OutsideConnectionAIPatch.DummyTrafficProbability,
             };
 
@@ -348,8 +348,8 @@ namespace RealTime.Core
             }
             else
             {
-                patches.Add(BuildingAIPatches.GetUpgradeInfo);
-                patches.Add(BuildingAIPatches.CreateBuilding);
+                patches.Add(BuildingAIPatch.GetUpgradeInfo);
+                patches.Add(BuildingAIPatch.CreateBuilding);
             }
 
             patches.AddRange(TimeControlCompatibility.GetCompatibilityPatches());
@@ -361,8 +361,8 @@ namespace RealTime.Core
         {
             IPatch[] requiredPatches =
             {
-                BuildingAIPatches.HandleWorkers,
-                BuildingAIPatches.CommercialSimulation,
+                BuildingAIPatch.HandleWorkers,
+                BuildingAIPatch.CommercialSimulation,
                 ResidentAIPatch.Location,
                 ResidentAIPatch.ArriveAtTarget,
                 TouristAIPatch.Location,
@@ -393,7 +393,7 @@ namespace RealTime.Core
             var travelBehavior = new TravelBehavior(gameConnections.BuildingManager, travelDistancePerCycle);
             var workBehavior = new WorkBehavior(config, gameConnections.Random, gameConnections.BuildingManager, timeInfo, travelBehavior);
 
-            ParkPatches.SpareTimeBehavior = spareTimeBehavior;
+            ParkPatch.SpareTimeBehavior = spareTimeBehavior;
             OutsideConnectionAIPatch.SpareTimeBehavior = spareTimeBehavior;
 
             var realTimePrivateBuildingAI = new RealTimeBuildingAI(
@@ -404,8 +404,8 @@ namespace RealTime.Core
                 workBehavior,
                 travelBehavior);
 
-            BuildingAIPatches.RealTimeAI = realTimePrivateBuildingAI;
-            BuildingAIPatches.WeatherInfo = gameConnections.WeatherInfo;
+            BuildingAIPatch.RealTimeAI = realTimePrivateBuildingAI;
+            BuildingAIPatch.WeatherInfo = gameConnections.WeatherInfo;
             TransferManagerPatch.RealTimeAI = realTimePrivateBuildingAI;
 
             var realTimeResidentAI = new RealTimeResidentAI<ResidentAI, Citizen>(
