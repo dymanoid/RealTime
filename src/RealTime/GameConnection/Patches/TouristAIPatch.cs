@@ -30,34 +30,34 @@ namespace RealTime.GameConnection.Patches
             try
             {
                 GetRandomTargetTypeDelegate getRandomTargetType
-                    = FastDelegateFactory.Create<GetRandomTargetTypeDelegate>(typeof(TouristAI), "GetRandomTargetType", true);
+                    = FastDelegateFactory.Create<GetRandomTargetTypeDelegate>(typeof(TouristAI), "GetRandomTargetType", instanceMethod: true);
 
                 GetLeavingReasonDelegate getLeavingReason
-                    = FastDelegateFactory.Create<GetLeavingReasonDelegate>(typeof(TouristAI), "GetLeavingReason", true);
+                    = FastDelegateFactory.Create<GetLeavingReasonDelegate>(typeof(TouristAI), "GetLeavingReason", instanceMethod: true);
 
                 AddTouristVisitDelegate addTouristVisit
-                    = FastDelegateFactory.Create<AddTouristVisitDelegate>(typeof(TouristAI), "AddTouristVisit", true);
+                    = FastDelegateFactory.Create<AddTouristVisitDelegate>(typeof(TouristAI), "AddTouristVisit", instanceMethod: true);
 
                 DoRandomMoveDelegate doRandomMove
-                    = FastDelegateFactory.Create<DoRandomMoveDelegate>(typeof(TouristAI), "DoRandomMove", true);
+                    = FastDelegateFactory.Create<DoRandomMoveDelegate>(typeof(TouristAI), "DoRandomMove", instanceMethod: true);
 
                 FindEvacuationPlaceDelegate findEvacuationPlace
-                    = FastDelegateFactory.Create<FindEvacuationPlaceDelegate>(typeof(TouristAI), "FindEvacuationPlace", true);
+                    = FastDelegateFactory.Create<FindEvacuationPlaceDelegate>(typeof(TouristAI), "FindEvacuationPlace", instanceMethod: true);
 
                 FindVisitPlaceDelegate findVisitPlace
-                    = FastDelegateFactory.Create<FindVisitPlaceDelegate>(typeof(TouristAI), "FindVisitPlace", true);
+                    = FastDelegateFactory.Create<FindVisitPlaceDelegate>(typeof(TouristAI), "FindVisitPlace", instanceMethod: true);
 
                 GetEntertainmentReasonDelegate getEntertainmentReason
-                    = FastDelegateFactory.Create<GetEntertainmentReasonDelegate>(typeof(TouristAI), "GetEntertainmentReason", true);
+                    = FastDelegateFactory.Create<GetEntertainmentReasonDelegate>(typeof(TouristAI), "GetEntertainmentReason", instanceMethod: true);
 
                 GetEvacuationReasonDelegate getEvacuationReason
-                    = FastDelegateFactory.Create<GetEvacuationReasonDelegate>(typeof(TouristAI), "GetEvacuationReason", true);
+                    = FastDelegateFactory.Create<GetEvacuationReasonDelegate>(typeof(TouristAI), "GetEvacuationReason", instanceMethod: true);
 
                 GetShoppingReasonDelegate getShoppingReason
-                    = FastDelegateFactory.Create<GetShoppingReasonDelegate>(typeof(TouristAI), "GetShoppingReason", true);
+                    = FastDelegateFactory.Create<GetShoppingReasonDelegate>(typeof(TouristAI), "GetShoppingReason", instanceMethod: true);
 
                 StartMovingDelegate startMoving
-                    = FastDelegateFactory.Create<StartMovingDelegate>(typeof(TouristAI), "StartMoving", true);
+                    = FastDelegateFactory.Create<StartMovingDelegate>(typeof(TouristAI), "StartMoving", instanceMethod: true);
 
                 return new TouristAIConnection<TouristAI, Citizen>(
                     getRandomTargetType,
