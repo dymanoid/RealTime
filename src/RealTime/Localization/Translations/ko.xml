@@ -10,7 +10,7 @@
   <translation id="Tools" value="도구" />
   <translation id="ShowIncompatibilityNotifications" value="호환되지 않는 모드 알람 보이기" />
   <translation id="UseEnglishUSFormats" value="영어 사용시 미국 시간 및 날짜 포맷 사용" />
-  <translation id="UseEnglishUSFormatsTooltip" value="Changing the time format requires a game restart" />
+  <translation id="UseEnglishUSFormatsTooltip" value="날짜 포맷을 돌릴려면 게임을 다시 시작해야 합니다" />
   <translation id="ResetToDefaults" value="모두 초기값으로 되돌리기" />
   <translation id="UseForNewGames" value="새 게임에 현재 값을 사용" />
 
@@ -43,8 +43,8 @@
   <translation id="ConstructionSpeedTooltip" value="건물 건설과 업그레이드 속도" />
   <translation id="SwitchOffLightsAtNight" value="야간에 건물 소등" />
   <translation id="SwitchOffLightsAtNightTooltip" value="시민들이 잘 시간에 주거건물들과 동작하지 않을 건물들, 그리고 공원의 불을 끕니다" />
-  <translation id="SwitchOffLightsMaxHeight" value="Keep lights on for tall buildings" />
-  <translation id="SwitchOffLightsMaxHeightTooltip" value="Residential, commercial, and office buildings taller than this value will not switch off lights at night" />
+  <translation id="SwitchOffLightsMaxHeight" value="고층 건물 소등 금지" />
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="주거, 상업, 사무지구등의 고층 건물들을 밤중에 소등하지 않습니다" />
   <translation id="CanAbandonJourney" value="더 나은 교통 정체 및 대중교통 지연 시 행동" />
   <translation id="CanAbandonJourneyTooltip" value="이게 켜지게 될 경우, 시민들이 교통정체나 혹은 대중교통이 너무 오래 지연되게 되면 여정을 포기합니다" />
 
@@ -105,9 +105,9 @@
   <translation id="WorkShift.Night" value="야간 근무 교대" />
   <translation id="WorkStatus.OnVacation" value="(휴가: {0} 일)" />
 
-  <translation id="AcademicYear.DaysLeft" value="Ends in {0} days" />
-  <translation id="AcademicYear.HoursLeft" value="Ends in {0} hour(s)" />
-  <translation id="AcademicYear.EndsSoon" value="Ends in less than 1 hour" />
+  <translation id="AcademicYear.DaysLeft" value="{0} 일 이내 종료" />
+  <translation id="AcademicYear.HoursLeft" value="{0} 시간내 종료" />
+  <translation id="AcademicYear.EndsSoon" value="1 시간내 종료" />
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="석탄이 {0} × {unit} 저장됨"/>
@@ -132,43 +132,43 @@
     <translation id="DATETIME_WEEK" value="{unit}"/>
     <translation id="DATETIME_WEEKLOWERCASE" value="{unit}"/>
     <translation id="DATETIME_WEEKS" value="× {unit}"/>
-    <translation id="DISTRICT_TOURISTS" value="저번 {unit} 중 관광객 방문:"/>
-    <translation id="EXPENSES_TT_EDUCATION" value="저번 {unit} 중 교육 지출"/>
-    <translation id="EXPENSES_TT_ELECTRICITY" value="저번 {unit} 중 전기 서비스 지출"/>
-    <translation id="EXPENSES_TT_FIRE" value="저번 {unit} 중 소방 서비스 지출"/>
-    <translation id="EXPENSES_TT_FIRE_ND" value="저번 {unit} 중 재해 관리 서비스 지출"/>
-    <translation id="EXPENSES_TT_GARBAGE" value="저번 {unit} 중 쓰레기 서비스 지출"/>
-    <translation id="EXPENSES_TT_HEALTHCARE" value="저번 {unit} 중 건강 관리 서비스 지출"/>
-    <translation id="EXPENSES_TT_LOANS" value="저번 {unit} 중 이자 지출"/>
-    <translation id="EXPENSES_TT_MONUMENTS" value="저번 {unit} 중 고유 건물 지출"/>
-    <translation id="EXPENSES_TT_PARK" value="저번 {unit} 중 공원, 플라자 그리고 조경 지출"/>
-    <translation id="EXPENSES_TT_POLICE" value="저번 {unit} 중 경찰 서비스 지출"/>
-    <translation id="EXPENSES_TT_POLICIES" value="저번 {unit} 중 정책으로 인한 지출"/>
-    <translation id="EXPENSES_TT_PUBLICTRANSPORT" value="저번 {unit} 중 대중 교통으로 인한 지출"/>
-    <translation id="EXPENSES_TT_ROADS" value="저번 {unit} 중 대중교통 서비스 지출"/>
-    <translation id="EXPENSES_TT_TOTAL" value="저번 {unit} 중 총 지출"/>
-    <translation id="EXPENSES_TT_WATER" value="저번 {unit} 중 상하수도 서비스 지출"/>
-    <translation id="EXPENSES_TT_WATER_WW" value="저번 {unit} 중 상하수도와 건강 관리 서비스 지출"/>
-    <translation id="INCOME_TT_COMMERCIALCITIZEN" value="저번 {unit} 중 상업지역에서 시민들에게 걷은 세금"/>
-    <translation id="INCOME_TT_COMMERCIALHIGH" value="저번 {unit} 중 상업지역의 최고 세금 납부"/>
-    <translation id="INCOME_TT_COMMERCIALLOW" value="저번 {unit} 중 상업지역에서 걷은 최저 세금 납부"/>
-    <translation id="INCOME_TT_COMMERCIALSPEC" value="저번 {unit} 중 상업 특화구역에서 걷은 세금"/>
-    <translation id="INCOME_TT_COMMERCIALTOTAL" value="저번 {unit} 중 상업구역에서 걷은 세금"/>
-    <translation id="INCOME_TT_COMMERCIALTOURIST" value="저번 {unit} 중 관광객으로부터 걷은 세금"/>
-    <translation id="INCOME_TT_INDUSTRIAL" value="저번 {unit} 중 산업구역에서 걷은 세금"/>
-    <translation id="INCOME_TT_OFFICE" value="저번 {unit} 중 사무구역에서 걷은 세금"/>
-    <translation id="INCOME_TT_PARKAREAS" value="저번 {unit} 중의 공원 수익"/>
-    <translation id="INCOME_TT_RESIDENTIALHIGH" value="저번 {unit} 중 주거지역의 최고 세금납부"/>
-    <translation id="INCOME_TT_RESIDENTIALLOW" value="저번 {unit} 중 주거지역의 최저 세금납부"/>
-    <translation id="INCOME_TT_RESIDENTIALTOTAL" value="저번 {unit} 중 주거지역에서 걷은 세금"/>
-    <translation id="INCOME_TT_TOTAL" value="저번 {unit} 중 총 수익"/>
-    <translation id="INCOME_TT_TOTAL_COMMERCIAL" value="저번 {unit} 중 관광객으로 걷은 총 세금"/>
-    <translation id="INCOME_TT_TOTAL_RESIDENTIAL" value="저번 {unit} 중 주거지역에서 걷은 총 세금"/>
-    <translation id="INCOME_TT_TOTAL_WORK" value="저번 {unit} 중 산업과 사무구역에서 걷은 총 세금"/>
-    <translation id="INCOME_TT_PUBLICTRANSPORT" value="저번 {unit} 중 걷은 대중교통 수익"/>
-    <translation id="INFO_CONNECTIONS_TOURISTSTOTAL" value="저번 {unit} 중 관광객 방문 : {0:N0}"/>
-    <translation id="INFO_CRIMERATE_CRIMES" value="저번 {unit} 중 검거된 범죄자 수 :"/>
-    <translation id="INFO_ENTERTAINMENT_PARKVISIT" value="저번 {unit} 중 공원과 플라자에 방문한 사람들 : {0:N0}"/>
+    <translation id="DISTRICT_TOURISTS" value="저번 {unit} 당 관광객 방문:"/>
+    <translation id="EXPENSES_TT_EDUCATION" value="저번 {unit} 당 교육 지출"/>
+    <translation id="EXPENSES_TT_ELECTRICITY" value="저번 {unit} 당 전기 서비스 지출"/>
+    <translation id="EXPENSES_TT_FIRE" value="저번 {unit} 당 소방 서비스 지출"/>
+    <translation id="EXPENSES_TT_FIRE_ND" value="저번 {unit} 당 재해 관리 서비스 지출"/>
+    <translation id="EXPENSES_TT_GARBAGE" value="저번 {unit} 당 쓰레기 서비스 지출"/>
+    <translation id="EXPENSES_TT_HEALTHCARE" value="저번 {unit} 당 건강 관리 서비스 지출"/>
+    <translation id="EXPENSES_TT_LOANS" value="저번 {unit} 당 이자 지출"/>
+    <translation id="EXPENSES_TT_MONUMENTS" value="저번 {unit} 당 고유 건물 지출"/>
+    <translation id="EXPENSES_TT_PARK" value="저번 {unit} 당 공원, 플라자 그리고 조경 지출"/>
+    <translation id="EXPENSES_TT_POLICE" value="저번 {unit} 당 경찰 서비스 지출"/>
+    <translation id="EXPENSES_TT_POLICIES" value="저번 {unit} 당 정책으로 인한 지출"/>
+    <translation id="EXPENSES_TT_PUBLICTRANSPORT" value="저번 {unit} 당 대중 교통으로 인한 지출"/>
+    <translation id="EXPENSES_TT_ROADS" value="저번 {unit} 당 대중교통 서비스 지출"/>
+    <translation id="EXPENSES_TT_TOTAL" value="저번 {unit} 덩 총 지출"/>
+    <translation id="EXPENSES_TT_WATER" value="저번 {unit} 당 상하수도 서비스 지출"/>
+    <translation id="EXPENSES_TT_WATER_WW" value="저번 {unit} 당 상하수도와 건강 관리 서비스 지출"/>
+    <translation id="INCOME_TT_COMMERCIALCITIZEN" value="저번 {unit} 당 상업지역에서 시민들에게 걷은 세금"/>
+    <translation id="INCOME_TT_COMMERCIALHIGH" value="저번 {unit} 당 상업지역의 최고 세금 납부"/>
+    <translation id="INCOME_TT_COMMERCIALLOW" value="저번 {unit} 당 상업지역에서 걷은 최저 세금 납부"/>
+    <translation id="INCOME_TT_COMMERCIALSPEC" value="저번 {unit} 당 상업 특화구역에서 걷은 세금"/>
+    <translation id="INCOME_TT_COMMERCIALTOTAL" value="저번 {unit} 당 상업구역에서 걷은 세금"/>
+    <translation id="INCOME_TT_COMMERCIALTOURIST" value="저번 {unit} 당 관광객으로부터 걷은 세금"/>
+    <translation id="INCOME_TT_INDUSTRIAL" value="저번 {unit} 당 산업구역에서 걷은 세금"/>
+    <translation id="INCOME_TT_OFFICE" value="저번 {unit} 당 사무구역에서 걷은 세금"/>
+    <translation id="INCOME_TT_PARKAREAS" value="저번 {unit} 당 공원 수익"/>
+    <translation id="INCOME_TT_RESIDENTIALHIGH" value="저번 {unit} 당 주거 지역의 최고 세금납부"/>
+    <translation id="INCOME_TT_RESIDENTIALLOW" value="저번 {unit} 당 주거 지역의 최저 세금납부"/>
+    <translation id="INCOME_TT_RESIDENTIALTOTAL" value="저번 {unit} 당 주거 지역에서 걷은 세금"/>
+    <translation id="INCOME_TT_TOTAL" value="저번 {unit} 당 총 수익"/>
+    <translation id="INCOME_TT_TOTAL_COMMERCIAL" value="저번 {unit} 당 관광객으로 걷은 총 세금"/>
+    <translation id="INCOME_TT_TOTAL_RESIDENTIAL" value="저번 {unit} 당 주거지역에서 걷은 총 세금"/>
+    <translation id="INCOME_TT_TOTAL_WORK" value="저번 {unit} 당 산업과 사무구역에서 걷은 총 세금"/>
+    <translation id="INCOME_TT_PUBLICTRANSPORT" value="저번 {unit} 당 걷은 대중교통 수익"/>
+    <translation id="INFO_CONNECTIONS_TOURISTSTOTAL" value="저번 {unit} 당 관광객 방문 : {0:N0}"/>
+    <translation id="INFO_CRIMERATE_CRIMES" value="저번 {unit} 당 검거된 범죄자 수 :"/>
+    <translation id="INFO_ENTERTAINMENT_PARKVISIT" value="저번 {unit} 중 공원과 광장에 방문한 사람들 : {0:N0}"/>
     <translation id="INFO_ENTERTAINMENT_UBVISIT" value="저번 {unit} 중 고유 건물에 방문한 사람들 : {0:N0}"/>
     <translation id="INFO_GARBAGE_INCINERATORCAPACITY" value="쓰레기 처리 용량 : {0:N0} 유닛 / {unit}"/>
     <translation id="INFO_GARBAGE_GARBAGEPRODUCTION" value="쓰레기 배출: {0:N0} 유닛 / {unit}"/>
@@ -183,48 +183,48 @@
     <translation id="INFO_WATER_PRODUCTION" value="상수도 가용량 : {0:N0} m³/{unit}"/>
     <translation id="INFO_WATER_SEWAGEACCUMULATION" value="하수도 사용량 : {0:N0} m³/{unit}"/>
     <translation id="INFO_WATER_SEWAGECAPACITY" value="하수도 가용량 : {0:N0} m³/{unit}"/>
-    <translation id="LOAN_WEEKLYCOST" value="저번 {unit} 당 이자"/>
-    <translation id="MAIN_MONEYDELTA" value="저번 {unit} 당 수익"/>
+    <translation id="LOAN_WEEKLYCOST" value="저번 {unit} 중 이자"/>
+    <translation id="MAIN_MONEYDELTA" value="저번 {unit} 중 수익"/>
     <translation id="MAIN_POPULATIONDELTA" value="저번 {unit} 과 차이"/>
     <translation id="MILESTONE_COMBINED_PASSED_TIME_DESC" value="{1} × {unit} 에 대한 {0}을 통과"/>
     <translation id="MILESTONE_COMBINED_TIME_DESC" value="{0} × {unit} 를 유지"/>
-    <translation id="PARKINFOPANEL_CURRENTVISITORS" value="저번 {unit} 중 방문객 : {0}"/>
+    <translation id="PARKINFOPANEL_CURRENTVISITORS" value="저번 {unit} 당 방문객 : {0}"/>
     <translation id="PARKINFOPANEL_INCOME" value="수익: {0} / {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_PUBTRANS" value="저번 {unit} 중 총 대중교통으로 인한 수익"/>
-    <translation id="STADIUMINFO7" value="저번 12 × {unit} 당 경기당 수익 :"/>
+    <translation id="PROFIT_TT_TOTAL_PUBTRANS" value="저번 {unit} 당 총 대중교통으로 발생한 수익"/>
+    <translation id="STADIUMINFO7" value="저번 12 × {unit} 중 경기당 수익 :"/>
     <translation id="STADIUMINFO9" value="저번 {unit} 중 수익:"/>
     <translation id="TOOL_WATER_ESTIMATE" value="총 가용량 : {0:N0} m³/{unit}"/>
-    <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="저번 {unit} 당 방문객 : {0} 시민들, {1} 관광객들"/>
-    <translation id="TRANSPORT_LINE_PASSENGERS" value="저번 {unit} 당 승객 : {0} 시민들, {1} 관광객들"/>
-    <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="Production rate: {0:N0} units per {unit}"/>
-    <translation id="AIINFO_POST_SORTING_RATE" value="Sorting rate: {0:N0} pieces of mail per {unit}"/>
-    <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="Cars charged last {unit}: {0:N0}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="Income from zoned industry and industry areas last {unit}"/>
-    <translation id="EXPENSES_TT_PLAYERINDUSTRY" value="Industry Area Expenses per {unit}"/>
-    <translation id="INCOME_TT_ROADTOLLS" value="Road Toll Income per {unit}"/>
-    <translation id="INCOME_TT_TOTAL_ROADTOLLS" value="Total Income from Road Tolls last {unit}"/>
-    <translation id="INDUSTRYPANEL_ACQUISITION_TOOLTIP" value="Acquisition per {unit}"/>
-    <translation id="INDUSTRYPANEL_ACQUISITIONCOST_TOOLTIP" value="Cost of Importing the Resource per {unit}"/>
-    <translation id="INDUSTRYPANEL_OUTPUT_TOOLTIP" value="Output per {unit}"/>
-    <translation id="INDUSTRYPANEL_OUTPUTINCOME_TOOLTIP" value="Income from Selling the Resource per {unit}"/>
-    <translation id="INDUSTRYPANEL_PROFIT_TOOLTIP" value="Profit per {unit}"/>
+    <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="저번 {unit} 중 방문객 : {0} 시민들, {1} 관광객들"/>
+    <translation id="TRANSPORT_LINE_PASSENGERS" value="저번 {unit} 중 승객 : {0} 시민들, {1} 관광객들"/>
+    <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="생산률: {unit} 당 {0:N0}"/>
+    <translation id="AIINFO_POST_SORTING_RATE" value="분류률: {unit} 당 {0:N0}개의 우편물"/>
+    <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="저번 {unit} 당 통행료: {0:N0}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="저번 {unit} 덩 산업 구역과 지역에 대한 수익"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY" value="{unit} 당 산업 지역의 지출"/>
+    <translation id="INCOME_TT_ROADTOLLS" value="{unit} 당 유료도로 수익"/>
+    <translation id="INCOME_TT_TOTAL_ROADTOLLS" value="저번 {unit} 중 유로도로의 총 수익"/>
+    <translation id="INDUSTRYPANEL_ACQUISITION_TOOLTIP" value="{unit} 당 획득"/>
+    <translation id="INDUSTRYPANEL_ACQUISITIONCOST_TOOLTIP" value="{unit} 당 자원 수집으로 인한 비용"/>
+    <translation id="INDUSTRYPANEL_OUTPUT_TOOLTIP" value="{unit} 당 생산"/>
+    <translation id="INDUSTRYPANEL_OUTPUTINCOME_TOOLTIP" value="{unit} 당 자원을 팔아서 얻은 이익"/>
+    <translation id="INDUSTRYPANEL_PROFIT_TOOLTIP" value="{unit} 당 이익"/>
     <translation id="INDUSTRYPANEL_WEEKLYPRODUCTION" value="{0} / {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_INDUSTRYAREAS" value="Total Industry Area Profit per {unit}"/>
-    <translation id="TOOL_EXTRACTION_ESTIMATE" value="Estimated production: {0:N0} units per {unit}"/>
-    <translation id="UFPANEL_MATERIALCOST_TOOLTIP" value="Value of the resources used to make the end product per {unit}"/>
-    <translation id="UFPANEL_PRODUCTIONVALUE_TOOLTIP" value="Value of the factory output per {unit}"/>
-    <translation id="UNIQUEFACTORYPANEL_INCOME_TOOLTIP" value="Income last {unit}"/>
-    <translation id="UNIQUEFACTORYPANEL_RESOURCEEXPENSES" value="Resource Acquisition Expenses per {unit}"/>
-    <translation id="UPDATEAIINFO_INDUSTRY_PRODUCTION_RATE" value="Production: {0:N0} per {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_CHEERLEADINGTOOLTIP" value="Cost: {0} / arena / {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHCOSTTOOLTIP" value="Cost: {0} / coach / {unit}"/>
-    <translation id="CAMPUSPANEL_GRADUATESTHISYEAR" value="Graduates this academic year: {0}"/>
-    <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="Cost: {0} / academic staff / {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_EXPENSES" value="Expenses last {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="Coaching Staff#10;Hiring more coaching staff increases the chances of winning varsity sports matches. Coaching staff effect#10;is not instantaneous but increases from +0% to +1% per coaching staff member over the span of the academic year."/>
-    <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="Total Campus Area profit last {unit}"/>
-    <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Unique Buildings and Sport Arenas expenses last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Income from Campus Areas last {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_INDUSTRYAREAS" value="{unit} 당 총 산업 지구 수익"/>
+    <translation id="TOOL_EXTRACTION_ESTIMATE" value="{unit} 당 약 {0:N0}의 생산품"/>
+    <translation id="UFPANEL_MATERIALCOST_TOOLTIP" value="{unit} 당 최종 생산물에 들어간 자원 가치"/>
+    <translation id="UFPANEL_PRODUCTIONVALUE_TOOLTIP" value="{unit} 당 산업 지구의 가치"/>
+    <translation id="UNIQUEFACTORYPANEL_INCOME_TOOLTIP" value="저번 {unit} 당 수익"/>
+    <translation id="UNIQUEFACTORYPANEL_RESOURCEEXPENSES" value="{unit} 당 자원 수입으로 인한 비용"/>
+    <translation id="UPDATEAIINFO_INDUSTRY_PRODUCTION_RATE" value="생산률: {unit} 당 {0:N0}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_CHEERLEADINGTOOLTIP" value="비용: {0} / 아레나 / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHCOSTTOOLTIP" value="비용: {0} / 코치 / {unit}"/>
+    <translation id="CAMPUSPANEL_GRADUATESTHISYEAR" value="현 학기년당 졸업자 수: {0}"/>
+    <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="비용: {0} / 학교 직원  / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_EXPENSES" value="저번 {unit} 당 비용"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="코칭 스텝#10;코칭 스텝을 더 고용하게 되면, 스포츠 경기엣 이길 확률이 증가합니다. 코칭 스텝 효과#10;는 죽걱적이지 않으나, 각 학기년당 +0 ~ +1% 사이의 이길 확률을 늘려줍니다."/>
+    <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="{unit} 당 총 캠퍼스 구획 이익"/>
+    <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="저번 {unit} 당 특수 건물과 더불어 스포츠 아레나에서의 지출"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="저번 {unit} 당 캠퍼스 지역에서의 수익"/>
   </overrides>
 
 </language>
