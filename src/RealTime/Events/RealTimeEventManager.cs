@@ -19,9 +19,10 @@ namespace RealTime.Events
     internal sealed class RealTimeEventManager : IStorageData, IRealTimeEventManager
     {
         private const int MaximumEventsCount = 5;
+        private const int EventStartTimeAdjustmentMaximumRetryCount = 10;
+
         private const string StorageDataId = "RealTimeEvents";
         private const uint EventIntervalVariance = 48u;
-
         private static readonly TimeSpan MinimumIntervalBetweenEvents = TimeSpan.FromHours(3);
         private static readonly TimeSpan EventStartTimeGranularity = TimeSpan.FromMinutes(30);
         private static readonly TimeSpan EventProcessInterval = TimeSpan.FromMinutes(15);
@@ -445,10 +446,10 @@ namespace RealTime.Events
                 }
             }
 
-            DateTime adjustedStartTime = AdjustEventStartTime(startTime, randomize: false);
-            if (adjustedStartTime != startTime)
+            var newStartTime = EnsureUniqueStartTime(startTime);
+            if (newStartTime != startTime)
             {
-                startTime = adjustedStartTime;
+                startTime = newStartTime;
                 eventManager.SetStartTime(eventId, startTime);
             }
 
@@ -467,6 +468,34 @@ namespace RealTime.Events
             }
 
             return true;
+        }
+
+        private DateTime EnsureUniqueStartTime(DateTime startTime)
+        {
+            if (startTime <= timeInfo.Now)
+            {
+                return startTime;
+            }
+
+            int retryCount = 0;
+
+            do
+            {
+                startTime = AdjustEventStartTime(startTime, randomize: false);
+                var existingEvent = upcomingEvents.FirstOrDefaultNode(e => e.StartTime == startTime);
+                if (existingEvent == null)
+                {
+                    return startTime;
+                }
+                else
+                {
+                    startTime = existingEvent.Value.EndTime;
+                    ++retryCount;
+                }
+            }
+            while (retryCount < EventStartTimeAdjustmentMaximumRetryCount);
+
+            return startTime;
         }
 
         private bool RemoveOldAndCanceledEvents()
