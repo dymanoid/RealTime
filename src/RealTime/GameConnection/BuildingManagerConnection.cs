@@ -448,6 +448,26 @@ namespace RealTime.GameConnection
                 && (monumentAI.m_supportEvents & (EventManager.EventType.Football | EventManager.EventType.Concert)) == 0;
         }
 
+        /// <summary>
+        /// Determines whether the building with specified ID is the main building of an Industrial or a Campus area.
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the building with the specified ID is the main building of an Industrial or a Campus area;
+        ///   otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsAreaMainBuilding(ushort buildingId)
+        {
+            if (buildingId == 0)
+            {
+                return false;
+            }
+
+            var buildingInfo = BuildingManager.instance.m_buildings.m_buffer[buildingId].Info;
+            var buildinAI = buildingInfo?.m_buildingAI;
+            return buildinAI is MainCampusBuildingAI || buildinAI is MainIndustryBuildingAI;
+        }
+
         private static bool BuildingCanBeVisited(ushort buildingId)
         {
             uint currentUnitId = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_citizenUnits;

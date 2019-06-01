@@ -309,7 +309,6 @@ namespace RealTime.Core
                 BuildingAIPatch.GetColor,
                 BuildingAIPatch.CalculateUnspawnPosition,
                 BuildingAIPatch.ProduceGoods,
-                BuildingAIPatch.HandleCrime,
                 ResidentAIPatch.Location,
                 ResidentAIPatch.ArriveAtTarget,
                 ResidentAIPatch.StartMoving,

@@ -539,6 +539,17 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.Museums:
                     return false;
 
+                case ItemClass.Service.PlayerEducation:
+                case ItemClass.Service.PlayerIndustry:
+                    if (buildingManager.IsAreaMainBuilding(buildingId))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        goto default;
+                    }
+
                 case ItemClass.Service.Beautification when subService == ItemClass.SubService.BeautificationParks:
                     byte parkId = buildingManager.GetParkId(buildingId);
                     if (parkId == 0 || (buildingManager.GetParkPolicies(parkId) & DistrictPolicies.Park.NightTours) == 0)

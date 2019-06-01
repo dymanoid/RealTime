@@ -196,5 +196,15 @@ namespace RealTime.GameConnection
         ///   <c>true</c> if the building with the specified ID is a real unique building; otherwise, <c>false</c>.
         /// </returns>
         bool IsRealUniqueBuilding(ushort buildingId);
+
+        /// <summary>
+        /// Determines whether the building with specified ID is the main building of an Industrial or a Campus area.
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the building with the specified ID is the main building of an Industrial or a Campus area;
+        ///   otherwise, <c>false</c>.
+        /// </returns>
+        bool IsAreaMainBuilding(ushort buildingId);
     }
 }
