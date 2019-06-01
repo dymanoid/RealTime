@@ -29,5 +29,23 @@ namespace RealTime.Core
 
         /// <summary>The Workshop ID of the 'Realistic Walking Speed' mod.</summary>
         public const ulong RealisticWalkingSpeed = 1412844620ul;
+
+        /// <summary>The Workshop ID of the 'Rush Hour II' mod.</summary>
+        public const ulong RushHourII = 605590542ul;
+
+        /// <summary>The Workshop ID of the 'Climate Control' mod.</summary>
+        public const ulong ClimateControl = 629713122ul;
+
+        /// <summary>The Workshop ID of the 'Export Electricity' mod.</summary>
+        public const ulong ExportElectricity = 702070768ul;
+
+        /// <summary>The Workshop ID of the 'District Service Limit' mod.</summary>
+        public const ulong DistrictServiceLimit = 649522495ul;
+
+        /// <summary>The Workshop ID of the 'Date Changer' mod.</summary>
+        public const ulong DateChanger = 1729576238ul;
+
+        /// <summary>The Workshop ID of the 'Real Time Offline' mod.</summary>
+        public const ulong RealTimeOffline = 1749971558ul;
     }
 }
