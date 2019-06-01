@@ -482,6 +482,11 @@ namespace RealTime.CustomAI
 
             for (ushort i = first; i <= last; ++i)
             {
+                if (!buildingManager.BuildingHasFlags(i, Building.Flags.Created))
+                {
+                    continue;
+                }
+
                 buildingManager.GetBuildingService(i, out ItemClass.Service service, out ItemClass.SubService subService);
                 bool lightsOn = !ShouldSwitchBuildingLightsOff(i, service, subService);
                 if (lightsOn == lightStates[i])
