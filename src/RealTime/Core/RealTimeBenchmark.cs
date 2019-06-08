@@ -51,15 +51,9 @@ namespace RealTime.Core
             {
             }
 
-            public string GetName()
-            {
-                return nameof(BenchmarkSimulationManager);
-            }
+            public string GetName() => nameof(BenchmarkSimulationManager);
 
-            public ThreadProfiler GetSimulationProfiler()
-            {
-                return null;
-            }
+            public ThreadProfiler GetSimulationProfiler() => null;
 
             public void LateUpdateData(SimulationManager.UpdateMode mode)
             {
