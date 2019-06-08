@@ -234,6 +234,9 @@ namespace RealTime.Core
                 return;
             }
 
+            Log.Info("The 'Real Time' mod reverts method patches.");
+            patcher.Revert();
+
             ResidentAIPatch.RealTimeAI = null;
             TouristAIPatch.RealTimeAI = null;
             BuildingAIPatch.RealTimeAI = null;
@@ -250,9 +253,6 @@ namespace RealTime.Core
             ParkPatch.SpareTimeBehavior = null;
             OutsideConnectionAIPatch.SpareTimeBehavior = null;
             CitizenManagerPatch.NewCitizenBehavior = null;
-
-            Log.Info("The 'Real Time' mod reverts method patches.");
-            patcher.Revert();
 
             vanillaEvents.Revert();
 
