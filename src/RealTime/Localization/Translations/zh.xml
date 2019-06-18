@@ -31,8 +31,8 @@
   <translation id="VirtualCitizensTooltip" value="选择'None'来打造100%真实的城市，如果电脑带不动请选择'Vanilla'或者'More'" />
   <translation id="VirtualCitizens.None" value="完全真实市民行为" />
   <translation id="VirtualCitizens.Vanilla" value="原版游戏的市民行为" />
-  <translation id="UseSlowAging" value="Better aging and birth rate" />
-  <translation id="UseSlowAgingTooltip" value="If enabled, 1 game day means 1 citizen's life year. If disabled, 1 game day means 10 (at time speed 6) to 340 (at time speed 1) life years." />
+  <translation id="UseSlowAging" value="更好的老龄化和出生率" />
+  <translation id="UseSlowAgingTooltip" value="如果启用，1个游戏日意味着1个公民的生命年。如果禁用，1个游戏日意味着10（时间速度6）到340（时间速度1）生命年。" />
   <translation id="IsWeekendEnabled" value="城市有周六日" />
   <translation id="IsWeekendEnabledTooltip" value="市民们周六日都不会上班上学" />
   <translation id="IsLunchtimeEnabled" value="城市有午饭时间" />
@@ -43,10 +43,10 @@
   <translation id="ConstructionSpeedTooltip" value="调节建筑建造和升级的速度" />
   <translation id="SwitchOffLightsAtNight" value="夜间关闭建筑灯光" />
   <translation id="SwitchOffLightsAtNightTooltip" value="市民们睡觉时住宅建筑的灯光会自动关闭，其他建筑比如办公室和公园当没有人工作时也会关灯。" />
-  <translation id="SwitchOffLightsMaxHeight" value="Keep lights on for tall buildings" />
-  <translation id="SwitchOffLightsMaxHeightTooltip" value="Residential, commercial, and office buildings taller than this value will not switch off lights at night" />
-  <translation id="CanAbandonJourney" value="Better traffic jam and public transport waiting behavior" />
-  <translation id="CanAbandonJourneyTooltip" value="If enabled, citizens can abandon their journeys when stuck in a traffic jam or waiting for public transport for too long" />
+  <translation id="SwitchOffLightsMaxHeight" value="保持高层建筑的灯光" />
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="比这个值高的住宅、商业、办公楼不会关灯。" />
+  <translation id="CanAbandonJourney" value="改善交通拥堵与公共交通等候的行为" />
+  <translation id="CanAbandonJourneyTooltip" value="如果交通堵塞或等待公共交通时间过长市民会放弃出行" />
 
   <translation id="2Quotas" value="几率选项" />
   <translation id="SecondShiftQuota" value="第二轮班工人" />
