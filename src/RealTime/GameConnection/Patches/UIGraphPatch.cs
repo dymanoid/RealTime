@@ -118,8 +118,8 @@ namespace RealTime.GameConnection.Patches
             {
                 try
                 {
-                    pixelsToUnits = FastDelegateFactory.Create<PixelsToUnitsDelegate>(typeof(UIComponent), "PixelsToUnits", true);
-                    addSolidQuad = FastDelegateFactory.Create<AddSolidQuadDelegate>(typeof(UIGraph), "AddSolidQuad", true);
+                    pixelsToUnits = FastDelegateFactory.Create<PixelsToUnitsDelegate>(typeof(UIComponent), "PixelsToUnits", instanceMethod: true);
+                    addSolidQuad = FastDelegateFactory.Create<AddSolidQuadDelegate>(typeof(UIGraph), "AddSolidQuad", instanceMethod: true);
                 }
                 catch (Exception ex)
                 {

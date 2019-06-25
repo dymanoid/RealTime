@@ -19,9 +19,10 @@ namespace RealTime.Events
     internal sealed class RealTimeEventManager : IStorageData, IRealTimeEventManager
     {
         private const int MaximumEventsCount = 5;
+        private const int EventStartTimeAdjustmentMaximumRetryCount = 10;
+
         private const string StorageDataId = "RealTimeEvents";
         private const uint EventIntervalVariance = 48u;
-
         private static readonly TimeSpan MinimumIntervalBetweenEvents = TimeSpan.FromHours(3);
         private static readonly TimeSpan EventStartTimeGranularity = TimeSpan.FromMinutes(30);
         private static readonly TimeSpan EventProcessInterval = TimeSpan.FromMinutes(15);
@@ -211,7 +212,7 @@ namespace RealTime.Events
         /// </summary>
         public void ProcessEvents()
         {
-            if (RemoveCanceledEvents())
+            if (RemoveOldAndCanceledEvents())
             {
                 OnEventsChanged();
             }
@@ -445,10 +446,10 @@ namespace RealTime.Events
                 }
             }
 
-            DateTime adjustedStartTime = AdjustEventStartTime(startTime, randomize: false);
-            if (adjustedStartTime != startTime)
+            var newStartTime = EnsureUniqueStartTime(startTime);
+            if (newStartTime != startTime)
             {
-                startTime = adjustedStartTime;
+                startTime = newStartTime;
                 eventManager.SetStartTime(eventId, startTime);
             }
 
@@ -469,17 +470,51 @@ namespace RealTime.Events
             return true;
         }
 
-        private bool RemoveCanceledEvents()
+        private DateTime EnsureUniqueStartTime(DateTime startTime)
         {
+            if (startTime <= timeInfo.Now)
+            {
+                return startTime;
+            }
+
+            int retryCount = 0;
+
+            do
+            {
+                startTime = AdjustEventStartTime(startTime, randomize: false);
+                var existingEvent = upcomingEvents.FirstOrDefaultNode(e => e.StartTime == startTime);
+                if (existingEvent == null)
+                {
+                    return startTime;
+                }
+                else
+                {
+                    startTime = existingEvent.Value.EndTime;
+                    ++retryCount;
+                }
+            }
+            while (retryCount < EventStartTimeAdjustmentMaximumRetryCount);
+
+            return startTime;
+        }
+
+        private bool RemoveOldAndCanceledEvents()
+        {
+            bool eventsChanged = false;
             for (int i = finishedEvents.Count - 1; i >= 0; --i)
             {
-                if (MustCancelEvent(finishedEvents[i]))
+                var finishedEvent = finishedEvents[i];
+                var isOldEvent = finishedEvent.EndTime.Day != timeInfo.Now.Day;
+                if (isOldEvent || MustCancelEvent(finishedEvent))
                 {
                     finishedEvents.RemoveAt(i);
+                    if (!isOldEvent)
+                    {
+                        eventsChanged = true;
+                    }
                 }
             }
 
-            bool eventsChanged = false;
             for (int i = activeEvents.Count - 1; i >= 0; --i)
             {
                 if (MustCancelEvent(activeEvents[i]))

@@ -12,6 +12,7 @@ namespace RealTime.Core
     using RealTime.Localization;
     using SkyTools.Localization;
     using SkyTools.Tools;
+    using static WorkshopMods;
 
     /// <summary>
     /// An utility class for checking the compatibility with other installed mods.
@@ -20,11 +21,12 @@ namespace RealTime.Core
     {
         private static readonly ulong[] IncompatibleModIds =
         {
-            605590542,  // Rush Hour II
-            629713122,  // Climate Control
-            702070768,  // Export Electricity
-            649522495,  // District Service Limit
-            1729576238, // Date Changer
+            RushHourII,
+            ClimateControl,
+            ExportElectricity,
+            DistrictServiceLimit,
+            DateChanger,
+            RealTimeOffline,
         };
 
         private readonly ILocalizationProvider localizationProvider;

@@ -59,7 +59,7 @@ namespace RealTime.UI
         {
             if (citizenId == 0)
             {
-                SetCustomPanelVisibility(scheduleLabel, false);
+                SetCustomPanelVisibility(scheduleLabel, visible: false);
                 return;
             }
 

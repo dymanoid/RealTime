@@ -182,7 +182,7 @@ namespace RealTime.Core
             SimulationHandler.DayTimeSimulation = new DayTimeSimulation(configProvider.Configuration);
             SimulationHandler.EventManager = eventManager;
             SimulationHandler.WeatherInfo = weatherInfo;
-            SimulationHandler.Buildings = BuildingAIPatches.RealTimeAI;
+            SimulationHandler.Buildings = BuildingAIPatch.RealTimeAI;
             SimulationHandler.Buildings.UpdateFrameDuration();
 
             if (appliedPatches.Contains(CitizenManagerPatch.CreateCitizenPatch1))
@@ -190,7 +190,7 @@ namespace RealTime.Core
                 CitizenManagerPatch.NewCitizenBehavior = new NewCitizenBehavior(randomizer, configProvider.Configuration);
             }
 
-            if (appliedPatches.Contains(BuildingAIPatches.GetColor))
+            if (appliedPatches.Contains(BuildingAIPatch.GetColor))
             {
                 SimulationHandler.Buildings.InitializeLightState();
             }
@@ -234,10 +234,13 @@ namespace RealTime.Core
                 return;
             }
 
+            Log.Info("The 'Real Time' mod reverts method patches.");
+            patcher.Revert();
+
             ResidentAIPatch.RealTimeAI = null;
             TouristAIPatch.RealTimeAI = null;
-            BuildingAIPatches.RealTimeAI = null;
-            BuildingAIPatches.WeatherInfo = null;
+            BuildingAIPatch.RealTimeAI = null;
+            BuildingAIPatch.WeatherInfo = null;
             TransferManagerPatch.RealTimeAI = null;
             SimulationHandler.EventManager = null;
             SimulationHandler.DayTimeSimulation = null;
@@ -247,12 +250,9 @@ namespace RealTime.Core
             SimulationHandler.CitizenProcessor = null;
             SimulationHandler.Statistics?.Close();
             SimulationHandler.Statistics = null;
-            ParkPatches.SpareTimeBehavior = null;
+            ParkPatch.SpareTimeBehavior = null;
             OutsideConnectionAIPatch.SpareTimeBehavior = null;
             CitizenManagerPatch.NewCitizenBehavior = null;
-
-            Log.Info("The 'Real Time' mod reverts method patches.");
-            patcher.Revert();
 
             vanillaEvents.Revert();
 
@@ -303,13 +303,12 @@ namespace RealTime.Core
         {
             var patches = new List<IPatch>
             {
-                BuildingAIPatches.GetConstructionTime,
-                BuildingAIPatches.HandleWorkers,
-                BuildingAIPatches.CommercialSimulation,
-                BuildingAIPatches.GetColor,
-                BuildingAIPatches.CalculateUnspawnPosition,
-                BuildingAIPatches.ProduceGoods,
-                BuildingAIPatches.HandleCrime,
+                BuildingAIPatch.GetConstructionTime,
+                BuildingAIPatch.HandleWorkers,
+                BuildingAIPatch.CommercialSimulation,
+                BuildingAIPatch.GetColor,
+                BuildingAIPatch.CalculateUnspawnPosition,
+                BuildingAIPatch.ProduceGoods,
                 ResidentAIPatch.Location,
                 ResidentAIPatch.ArriveAtTarget,
                 ResidentAIPatch.StartMoving,
@@ -321,11 +320,11 @@ namespace RealTime.Core
                 UIGraphPatch.VisibleEndTime,
                 UIGraphPatch.BuildLabels,
                 WeatherManagerPatch.SimulationStepImpl,
-                ParkPatches.DistrictParkSimulation,
+                ParkPatch.DistrictParkSimulation,
                 OutsideConnectionAIPatch.DummyTrafficProbability,
             };
 
-            if (compatibility.IsAnyModActive(ModIds.CitizenLifecycleRebalance))
+            if (compatibility.IsAnyModActive(WorkshopMods.CitizenLifecycleRebalance))
             {
                 Log.Info("The 'Real Time' mod will not change the citizens aging because the 'Citizen Lifecycle Rebalance' mod is active.");
             }
@@ -338,18 +337,18 @@ namespace RealTime.Core
             }
 
             if (compatibility.IsAnyModActive(
-                ModIds.BuildingThemes,
-                ModIds.ForceLevelUp,
-                ModIds.PloppableRico,
-                ModIds.PloppableRicoHighDensityFix,
-                ModIds.PlopTheGrowables))
+                WorkshopMods.BuildingThemes,
+                WorkshopMods.ForceLevelUp,
+                WorkshopMods.PloppableRico,
+                WorkshopMods.PloppableRicoHighDensityFix,
+                WorkshopMods.PlopTheGrowables))
             {
                 Log.Info("The 'Real Time' mod will not change the building construction and upgrading behavior because some building mod is active.");
             }
             else
             {
-                patches.Add(BuildingAIPatches.GetUpgradeInfo);
-                patches.Add(BuildingAIPatches.CreateBuilding);
+                patches.Add(BuildingAIPatch.GetUpgradeInfo);
+                patches.Add(BuildingAIPatch.CreateBuilding);
             }
 
             patches.AddRange(TimeControlCompatibility.GetCompatibilityPatches());
@@ -361,8 +360,8 @@ namespace RealTime.Core
         {
             IPatch[] requiredPatches =
             {
-                BuildingAIPatches.HandleWorkers,
-                BuildingAIPatches.CommercialSimulation,
+                BuildingAIPatch.HandleWorkers,
+                BuildingAIPatch.CommercialSimulation,
                 ResidentAIPatch.Location,
                 ResidentAIPatch.ArriveAtTarget,
                 TouristAIPatch.Location,
@@ -385,7 +384,7 @@ namespace RealTime.Core
                 return false;
             }
 
-            float travelDistancePerCycle = compatibility.IsAnyModActive(ModIds.RealisticWalkingSpeed)
+            float travelDistancePerCycle = compatibility.IsAnyModActive(WorkshopMods.RealisticWalkingSpeed)
                 ? Constants.AverageTravelDistancePerCycle * 0.583f
                 : Constants.AverageTravelDistancePerCycle;
 
@@ -393,7 +392,7 @@ namespace RealTime.Core
             var travelBehavior = new TravelBehavior(gameConnections.BuildingManager, travelDistancePerCycle);
             var workBehavior = new WorkBehavior(config, gameConnections.Random, gameConnections.BuildingManager, timeInfo, travelBehavior);
 
-            ParkPatches.SpareTimeBehavior = spareTimeBehavior;
+            ParkPatch.SpareTimeBehavior = spareTimeBehavior;
             OutsideConnectionAIPatch.SpareTimeBehavior = spareTimeBehavior;
 
             var realTimePrivateBuildingAI = new RealTimeBuildingAI(
@@ -404,8 +403,8 @@ namespace RealTime.Core
                 workBehavior,
                 travelBehavior);
 
-            BuildingAIPatches.RealTimeAI = realTimePrivateBuildingAI;
-            BuildingAIPatches.WeatherInfo = gameConnections.WeatherInfo;
+            BuildingAIPatch.RealTimeAI = realTimePrivateBuildingAI;
+            BuildingAIPatch.WeatherInfo = gameConnections.WeatherInfo;
             TransferManagerPatch.RealTimeAI = realTimePrivateBuildingAI;
 
             var realTimeResidentAI = new RealTimeResidentAI<ResidentAI, Citizen>(
@@ -440,7 +439,7 @@ namespace RealTime.Core
         }
 
         private static void CustomTimeBarCityEventClick(object sender, CustomTimeBarClickEventArgs e)
-            => CameraHelper.NavigateToBuilding(e.CityEventBuildingId, true);
+            => CameraHelper.NavigateToBuilding(e.CityEventBuildingId, zoomIn: true);
 
         private static void LoadStorageData(IEnumerable<IStorageData> storageData, StorageBase storage)
         {

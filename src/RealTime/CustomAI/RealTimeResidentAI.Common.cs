@@ -73,7 +73,7 @@ namespace RealTime.CustomAI
                     return true;
             }
 
-            CitizenProxy.SetArrested(ref citizen, false);
+            CitizenProxy.SetArrested(ref citizen, isArrested: false);
             return false;
         }
 
@@ -167,7 +167,7 @@ namespace RealTime.CustomAI
                 if (CitizenMgr.InstanceHasFlags(
                     CitizenProxy.GetInstance(ref citizen),
                     CitizenInstance.Flags.OnTour | CitizenInstance.Flags.TargetIsNode,
-                    true))
+                    all: true))
                 {
                     schedule.Hint = ScheduleHint.OnTour;
                 }

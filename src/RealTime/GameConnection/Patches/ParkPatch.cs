@@ -1,4 +1,4 @@
-﻿// <copyright file="ParkPatches.cs" company="dymanoid">
+﻿// <copyright file="ParkPatch.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -11,7 +11,7 @@ namespace RealTime.GameConnection.Patches
     /// <summary>
     /// A static class that provides the patch objects for the Park Life DLC related methods.
     /// </summary>
-    internal static class ParkPatches
+    internal static class ParkPatch
     {
         /// <summary>Gets the patch for the district park simulation method.</summary>
         public static IPatch DistrictParkSimulation { get; } = new DistrictPark_SimulationStep();

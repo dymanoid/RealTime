@@ -482,6 +482,11 @@ namespace RealTime.CustomAI
 
             for (ushort i = first; i <= last; ++i)
             {
+                if (!buildingManager.BuildingHasFlags(i, Building.Flags.Created))
+                {
+                    continue;
+                }
+
                 buildingManager.GetBuildingService(i, out ItemClass.Service service, out ItemClass.SubService subService);
                 bool lightsOn = !ShouldSwitchBuildingLightsOff(i, service, subService);
                 if (lightsOn == lightStates[i])
@@ -533,6 +538,17 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.VarsitySports:
                 case ItemClass.Service.Museums:
                     return false;
+
+                case ItemClass.Service.PlayerEducation:
+                case ItemClass.Service.PlayerIndustry:
+                    if (buildingManager.IsAreaMainBuilding(buildingId))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        goto default;
+                    }
 
                 case ItemClass.Service.Beautification when subService == ItemClass.SubService.BeautificationParks:
                     byte parkId = buildingManager.GetParkId(buildingId);

@@ -31,7 +31,7 @@ namespace RealTime.CustomAI
                     else
                     {
                         CitizenProxy.SetLocation(ref citizen, Citizen.Location.Home);
-                        CitizenProxy.SetArrested(ref citizen, false);
+                        CitizenProxy.SetArrested(ref citizen, isArrested: false);
                         schedule.Schedule(ResidentState.Unknown);
                     }
                 }

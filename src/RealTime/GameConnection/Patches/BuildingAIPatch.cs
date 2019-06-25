@@ -1,4 +1,4 @@
-﻿// <copyright file="BuildingAIPatches.cs" company="dymanoid">
+﻿// <copyright file="BuildingAIPatch.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -15,7 +15,7 @@ namespace RealTime.GameConnection.Patches
     /// <summary>
     /// A static class that provides the patch objects for the building AI game methods.
     /// </summary>
-    internal static class BuildingAIPatches
+    internal static class BuildingAIPatch
     {
         /// <summary>Gets or sets the custom AI object for buildings.</summary>
         public static RealTimeBuildingAI RealTimeAI { get; set; }
@@ -46,9 +46,6 @@ namespace RealTime.GameConnection.Patches
 
         /// <summary>Gets the patch for the building AI method 'ProduceGoods'.</summary>
         public static IPatch ProduceGoods { get; } = new PlayerBuildingAI_ProduceGoods();
-
-        /// <summary>Gets the patch for the industry DLC building AI method 'HandleCrime'.</summary>
-        public static IPatch HandleCrime { get; } = new IndustryBuildingAI_HandleCrime();
 
         private sealed class CommercialBuildingA_SimulationStepActive : PatchBase
         {
@@ -318,39 +315,6 @@ namespace RealTime.GameConnection.Patches
                         }
 
                         return;
-                }
-            }
-        }
-
-        private sealed class IndustryBuildingAI_HandleCrime : PatchBase
-        {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(IndustryBuildingAI).GetMethod(
-                    "HandleCrime",
-                    BindingFlags.Instance | BindingFlags.NonPublic,
-                    null,
-                    new[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(int), typeof(int) },
-                    new ParameterModifier[0]);
-            }
-
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
-            private static bool Prefix(ref ushort __state, ref Building data)
-            {
-                __state = data.m_crimeBuffer;
-                return true;
-            }
-
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
-            private static void Postfix(ushort __state, ref Building data)
-            {
-                // CO's code has a bug that leads to unbounded crime buffer growth for inactive industrial buildings.
-                // Since Real Time switches buildings to inactive at night, we have to stop the crime growth for those buildings.
-                if ((data.m_flags & Building.Flags.Active) == 0)
-                {
-                    data.m_crimeBuffer = __state;
                 }
             }
         }

@@ -67,7 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\VirtualCitizensLevel.cs" />
-    <Compile Include="Core\ModIds.cs" />
+    <Compile Include="Core\WorkshopMods.cs" />
     <Compile Include="Core\RealTimeBenchmark.cs" />
     <Compile Include="Core\Compatibility.cs" />
     <Compile Include="Core\RealTimeStorage.cs" />
@@ -111,7 +111,7 @@
     <Compile Include="Events\VanillaEvent.cs" />
     <Compile Include="Events\VanillaEvents.cs" />
     <Compile Include="GameConnection\CitizenConnection.cs" />
-    <Compile Include="GameConnection\Patches\BuildingAIPatches.cs" />
+    <Compile Include="GameConnection\Patches\BuildingAIPatch.cs" />
     <Compile Include="GameConnection\GameRandomizer.cs" />
     <Compile Include="GameConnection\HumanAIConnectionBase.cs" />
     <Compile Include="GameConnection\ICitizenConnection.cs" />
@@ -120,7 +120,7 @@
     <Compile Include="GameConnection\IWeatherManagerConnection.cs" />
     <Compile Include="GameConnection\Patches\CitizenManagerPatch.cs" />
     <Compile Include="GameConnection\Patches\OutsideConnectionAIPatch.cs" />
-    <Compile Include="GameConnection\Patches\ParkPatches.cs" />
+    <Compile Include="GameConnection\Patches\ParkPatch.cs" />
     <Compile Include="GameConnection\Patches\TransferManagerPatch.cs" />
     <Compile Include="GameConnection\Patches\UIGraphPatch.cs" />
     <Compile Include="GameConnection\Patches\WeatherManagerPatch.cs" />
@@ -235,9 +235,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y /q /d "$(TargetPath)" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
-xcopy /y /q /d "$(TargetDir)SkyTools.dll" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
-xcopy /y /q /d "$(TargetDir)0Harmony.dll" "%25d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
+    <PostBuildEvent>xcopy /y /q /d "$(TargetPath)" "d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
+xcopy /y /q /d "$(TargetDir)SkyTools.dll" "d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
+xcopy /y /q /d "$(TargetDir)0Harmony.dll" "d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187"
 
 xcopy /y /q /i "$(TargetDir)Localization\Translations" "d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187\Localization"
 xcopy /y /q /i "$(ProjectDir)Events\Templates" "d:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187\Events"</PostBuildEvent>

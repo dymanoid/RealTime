@@ -62,51 +62,31 @@ namespace RealTime.CustomAI
             else if (age < 80)
             {
                 // few teens and most of the young adults
-                if (randomValue < 10)
+                if (randomValue < 50)
                 {
                     return Citizen.Education.Uneducated;
                 }
-                else if (randomValue < 50)
+                else if (randomValue < 90)
                 {
                     return Citizen.Education.OneSchool;
                 }
                 else
                 {
                     return Citizen.Education.TwoSchools;
-                }
-            }
-            else if (age < 120)
-            {
-                // few young adults and some adults
-                if (randomValue < 5)
-                {
-                    return Citizen.Education.Uneducated;
-                }
-                else if (randomValue < 15)
-                {
-                    return Citizen.Education.OneSchool;
-                }
-                else if (randomValue < 50)
-                {
-                    return Citizen.Education.TwoSchools;
-                }
-                else
-                {
-                    return Citizen.Education.ThreeSchools;
                 }
             }
             else
             {
-                // mature adults and all seniors
-                if (randomValue < 10)
+                // few young adults, adults and seniors
+                if (randomValue < 50)
                 {
                     return Citizen.Education.Uneducated;
                 }
-                else if (randomValue < 20)
+                else if (randomValue < 80)
                 {
                     return Citizen.Education.OneSchool;
                 }
-                else if (randomValue < 40)
+                else if (randomValue < 90)
                 {
                     return Citizen.Education.TwoSchools;
                 }
