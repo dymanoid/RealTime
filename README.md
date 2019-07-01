@@ -47,4 +47,4 @@ A mod for the Cities: Skylines game. Adjusts the time flow in the game to make i
 **Real Time** works best with medium-sized cities (population up to 65.500). With large cities, there are some game limitations that make it difficult for **Real Time** to keep the citizens behavior realistic. Furthermore, the CPU usage and the graphic adapter load increase drastically, because every citizen needs to be precisely simulated.
 
 ## Distribution
-**Real Time** is published on Steam Workshop. To use **Real Time**, players need to subscribe to [this Steam Workshop item](https://steamcommunity.com/sharedfiles/filedetails/?id=1420955187).
+**Real Time** is published on Steam Workshop. To use **Real Time**, players may subscribe to [this Steam Workshop item](https://steamcommunity.com/sharedfiles/filedetails/?id=1420955187).
