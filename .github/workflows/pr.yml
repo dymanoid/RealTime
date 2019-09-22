@@ -12,10 +12,9 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
+      with:
+        submodules: true
     
-    - name: Checkout submodules
-      uses: textbook/git-checkout-submodule-action@2.0.0
-
     - name: Setup MSBuild.exe
       uses: warrenbuckley/Setup-MSBuild@v1
       
