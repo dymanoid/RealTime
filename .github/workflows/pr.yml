@@ -1,0 +1,21 @@
+name: Pull Request Check
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    name: Build Job
+
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Setup MSBuild.exe
+      uses: warrenbuckley/Setup-MSBuild@v1
+
+    - name: MSBuild
+      working-directory: src
+      run: msbuild RealTime.sln
