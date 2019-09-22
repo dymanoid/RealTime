@@ -12,10 +12,16 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
+    
+    - name: Checkout submodules
+      uses: textbook/git-checkout-submodule-action@2.0.0
 
     - name: Setup MSBuild.exe
       uses: warrenbuckley/Setup-MSBuild@v1
+      
+    - name: Restore NuGet packages
+      run: nuget.exe restore src/RealTime.sln
 
     - name: MSBuild
       working-directory: src
-      run: msbuild RealTime.sln
+      run: msbuild RealTime.sln /p:Configuration=Release
