@@ -23,6 +23,13 @@ jobs:
       
     - name: Restore NuGet packages
       run: nuget restore src/RealTime.sln
+      
+    - name: Checkout Binaries
+      uses: actions/checkout@v1
+      with:
+        repository: dymanoid/CitiesSkylinesBinaries
+        path: src/bin/Release
+        token: ${{ secrets.GITHUB_ACTIONS_PAT }}
 
     - name: MSBuild
       working-directory: src
