@@ -1,0 +1,18 @@
+name: XML Translations Check
+
+on:
+  pull_request:
+    branches: [master]
+    paths: ['src/RealTime/Localization/Translations/**']
+
+jobs:
+  check-xml:
+    name: Check XML localization files
+
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v1       
+
+    - name: Validate XML files
+      run: ./env/xmltools.ps1 ./src/RealTime/Localization/Translations
