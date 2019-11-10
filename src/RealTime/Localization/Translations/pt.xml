@@ -10,7 +10,7 @@
   <translation id="Tools" value="Ferramentas" />
   <translation id="ShowIncompatibilityNotifications" value="Mostrar notificações sobre mods incompatíveis" />
   <translation id="UseEnglishUSFormats" value="Usar formatos americanos de data e hora quando escolher o idioma Inglês" />
-  <translation id="UseEnglishUSFormatsTooltip" value="Changing the time format requires a game restart" />
+  <translation id="UseEnglishUSFormatsTooltip" value="Mudar o formato de horário requer reiniciar o jogo" />
   <translation id="ResetToDefaults" value="Reiniciar para os padrões" />
   <translation id="UseForNewGames" value="Usar os valores atuais para novos jogos" />
 
@@ -43,8 +43,8 @@
   <translation id="ConstructionSpeedTooltip" value="Velocidade do aprimoramento e construção de prédios" />
   <translation id="SwitchOffLightsAtNight" value="Desligar as luzes de prédios durante a noite" />
   <translation id="SwitchOffLightsAtNightTooltip" value="Prédios residenciais desligam as luzes quando os cidadãos dormem e outros prédios e parques quando ninguém estiver mais trabalhando lá" />
-  <translation id="SwitchOffLightsMaxHeight" value="Keep lights on for tall buildings" />
-  <translation id="SwitchOffLightsMaxHeightTooltip" value="Residential, commercial, and office buildings taller than this value will not switch off lights at night" />
+  <translation id="SwitchOffLightsMaxHeight" value="Manter as luzes ligadas para prédios altos" />
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="Prédios residenciais, comerciais e escritórios mais altos do que esse valor não desligarão as luzes durante a noite" />
   <translation id="CanAbandonJourney" value="Melhor engarrafamento e comportamento na espera por transporte público" />
   <translation id="CanAbandonJourneyTooltip" value="Se habilitado, cidadãos podem abandonar suas jornadas quando presos no engarrafamento ou aguardando muito tempo por transporte público" />
 
@@ -105,9 +105,9 @@
   <translation id="WorkShift.Night" value="Turno de trabalho noturno" />
   <translation id="WorkStatus.OnVacation" value="(férias: {0} dias)" />
 
-  <translation id="AcademicYear.DaysLeft" value="Ends in {0} days" />
-  <translation id="AcademicYear.HoursLeft" value="Ends in {0} hour(s)" />
-  <translation id="AcademicYear.EndsSoon" value="Ends in less than 1 hour" />
+  <translation id="AcademicYear.DaysLeft" value="Acaba em {0} dias" />
+  <translation id="AcademicYear.HoursLeft" value="Acaba em {0} hora(s)" />
+  <translation id="AcademicYear.EndsSoon" value="Acaba em menos de uma hora" />
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="Carvão armazenado por {0} × {unit}"/>
