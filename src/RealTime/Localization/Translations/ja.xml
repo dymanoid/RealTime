@@ -119,7 +119,7 @@
     <translation id="AIINFO_PASSENGERS_SERVICED" value="乗客数: {0} / {unit}"/>
     <translation id="AIINFO_PATIENTS_TREATED" value="治療患者数: {0} / {unit}"/>
     <translation id="AIINFO_POLE_UPKEEP" value="維持費: {0} / 柱 / {unit}"/>
-    <translation id="AIINFO_PROCESSING_RATE" value="処理能力: {0} / {unit}"/>
+    <translation id="AIINFO_PROCESSING_RATE" value="処理能力: {0} 個 / {unit}"/>
     <translation id="AIINFO_TOURISTS" value="観光客数: {0} / {unit}"/>
     <translation id="AIINFO_UPKEEP" value="維持費: {0} / {unit}"/>
     <translation id="AIINFO_UPKEEPPERCELL" value="維持費: {0} / {unit} / セル"/>
@@ -170,8 +170,8 @@
     <translation id="INFO_CRIMERATE_CRIMES" value="{unit} あたりの検挙者数:"/>
     <translation id="INFO_ENTERTAINMENT_PARKVISIT" value="公園・広場の訪問者数: {0:N0} / {unit}"/>
     <translation id="INFO_ENTERTAINMENT_UBVISIT" value="ユニーク施設の訪問者数: {0:N0} / {unit}"/>
-    <translation id="INFO_GARBAGE_INCINERATORCAPACITY" value="廃棄物処理可容量: {0:N0} units / {unit}"/>
-    <translation id="INFO_GARBAGE_GARBAGEPRODUCTION" value="ゴミの排出量: {0:N0} units / {unit}"/>
+    <translation id="INFO_GARBAGE_INCINERATORCAPACITY" value="廃棄物処理可容量: {0:N0} 個 / {unit}"/>
+    <translation id="INFO_GARBAGE_GARBAGEPRODUCTION" value="ゴミの排出量: {0:N0} 個 / {unit}"/>
     <translation id="INFO_POPULATION_BIRTHS" value="出生 {0:N0} 人 / {unit}"/>
     <translation id="INFO_POPULATION_DEATHS" value="死亡 {0:N0} 人 / {unit}"/>
     <translation id="INFO_PUBLICTRANSPORT_COUNT" value="{0:N0} 人 / {unit}"/>
