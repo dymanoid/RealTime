@@ -9,31 +9,39 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeTests", "RealTimeTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyTools", "SkyTools\src\SkyTools\SkyTools.csproj", "{F83D96EF-857A-4AA4-8C23-7D258DAD777D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{7B555ECE-12A0-4F46-947F-781C8C52FD92}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
+		GitVersion.yml = GitVersion.yml
+		stylecop.json = stylecop.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Benchmark|x64 = Benchmark|x64
-		Debug|x64 = Debug|x64
-		Release|x64 = Release|x64
+		Benchmark|Any CPU = Benchmark|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7CD7702C-E7D3-4E61-BF3A-B10F7950DE52}.Benchmark|x64.ActiveCfg = Benchmark|x64
-		{7CD7702C-E7D3-4E61-BF3A-B10F7950DE52}.Benchmark|x64.Build.0 = Benchmark|x64
-		{7CD7702C-E7D3-4E61-BF3A-B10F7950DE52}.Debug|x64.ActiveCfg = Debug|x64
-		{7CD7702C-E7D3-4E61-BF3A-B10F7950DE52}.Debug|x64.Build.0 = Debug|x64
-		{7CD7702C-E7D3-4E61-BF3A-B10F7950DE52}.Release|x64.ActiveCfg = Release|x64
-		{7CD7702C-E7D3-4E61-BF3A-B10F7950DE52}.Release|x64.Build.0 = Release|x64
-		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Benchmark|x64.ActiveCfg = Release|x64
-		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Benchmark|x64.Build.0 = Release|x64
-		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Debug|x64.ActiveCfg = Debug|x64
-		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Debug|x64.Build.0 = Debug|x64
-		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Release|x64.ActiveCfg = Release|x64
-		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Release|x64.Build.0 = Release|x64
-		{F83D96EF-857A-4AA4-8C23-7D258DAD777D}.Benchmark|x64.ActiveCfg = Release|x64
-		{F83D96EF-857A-4AA4-8C23-7D258DAD777D}.Benchmark|x64.Build.0 = Release|x64
-		{F83D96EF-857A-4AA4-8C23-7D258DAD777D}.Debug|x64.ActiveCfg = Debug|x64
-		{F83D96EF-857A-4AA4-8C23-7D258DAD777D}.Debug|x64.Build.0 = Debug|x64
-		{F83D96EF-857A-4AA4-8C23-7D258DAD777D}.Release|x64.ActiveCfg = Release|x64
-		{F83D96EF-857A-4AA4-8C23-7D258DAD777D}.Release|x64.Build.0 = Release|x64
+		{7CD7702C-E7D3-4E61-BF3A-B10F7950DE52}.Benchmark|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CD7702C-E7D3-4E61-BF3A-B10F7950DE52}.Benchmark|Any CPU.Build.0 = Debug|Any CPU
+		{7CD7702C-E7D3-4E61-BF3A-B10F7950DE52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CD7702C-E7D3-4E61-BF3A-B10F7950DE52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CD7702C-E7D3-4E61-BF3A-B10F7950DE52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CD7702C-E7D3-4E61-BF3A-B10F7950DE52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Benchmark|Any CPU.ActiveCfg = Debug|Any CPU
+		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Benchmark|Any CPU.Build.0 = Debug|Any CPU
+		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{687CE9B5-2E2E-454E-83FC-512250CACF3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F83D96EF-857A-4AA4-8C23-7D258DAD777D}.Benchmark|Any CPU.ActiveCfg = Debug|Any CPU
+		{F83D96EF-857A-4AA4-8C23-7D258DAD777D}.Benchmark|Any CPU.Build.0 = Debug|Any CPU
+		{F83D96EF-857A-4AA4-8C23-7D258DAD777D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F83D96EF-857A-4AA4-8C23-7D258DAD777D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F83D96EF-857A-4AA4-8C23-7D258DAD777D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F83D96EF-857A-4AA4-8C23-7D258DAD777D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
