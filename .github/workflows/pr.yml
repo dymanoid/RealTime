@@ -15,14 +15,8 @@ jobs:
       with:
         submodules: true
     
-    - name: Setup MSBuild.exe
-      uses: warrenbuckley/Setup-MSBuild@v1
-      
-    - name: Setup Nuget.exe
-      uses: nuget/setup-nuget@v1
-      
-    - name: Restore NuGet packages
-      run: nuget restore src/RealTime.sln
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.0.0
       
     - name: Checkout Binaries
       uses: actions/checkout@v1
@@ -34,4 +28,4 @@ jobs:
 
     - name: MSBuild
       working-directory: src
-      run: msbuild RealTime.sln /p:Configuration=Release /p:ReferencePath="$env:GITHUB_WORKSPACE\..\binaries"
+      run: msbuild RealTime.sln /restore /p:Configuration=Release /p:ReferencePath="$env:GITHUB_WORKSPACE\..\binaries"
