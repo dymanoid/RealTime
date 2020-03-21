@@ -19,7 +19,7 @@ jobs:
       uses: warrenbuckley/Setup-MSBuild@v1
       
     - name: Setup Nuget.exe
-      uses: warrenbuckley/Setup-Nuget@v1      
+      uses: nuget/setup-nuget@v1
       
     - name: Restore NuGet packages
       run: nuget restore src/RealTime.sln
