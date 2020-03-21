@@ -52,7 +52,7 @@ namespace RealTime.GameConnection
         public IReadOnlyList<ushort> GetUpcomingEvents(DateTime earliestTime, DateTime latestTime)
         {
             upcomingEvents.Clear();
-            FastList<EventData> events = EventManager.instance.m_events;
+            var events = EventManager.instance.m_events;
             for (ushort i = 1; i < events.m_size; ++i)
             {
                 ref EventData eventData = ref events.m_buffer[i];

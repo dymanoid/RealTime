@@ -28,13 +28,13 @@ namespace RealTime.Events
 
             for (uint i = 0; i < PrefabCollection<EventInfo>.PrefabCount(); ++i)
             {
-                EventInfo eventInfo = PrefabCollection<EventInfo>.GetPrefab(i);
+                var eventInfo = PrefabCollection<EventInfo>.GetPrefab(i);
                 if (eventInfo?.m_eventAI?.m_info == null)
                 {
                     continue;
                 }
 
-                EventAI eventAI = eventInfo.m_eventAI;
+                var eventAI = eventInfo.m_eventAI;
                 var originalData = new EventAIData(eventAI.m_eventDuration, eventAI.m_prepareDuration, eventAI.m_disorganizeDuration);
                 result.eventData[eventAI] = originalData;
                 Customize(eventAI);
@@ -64,7 +64,7 @@ namespace RealTime.Events
                 }
 
                 Log.Debug(LogCategory.Events, $"Update event {i} time frames: original start {eventData.m_startFrame}, original end {eventData.m_expireFrame}");
-                DateTime originalTime = timeConverter(eventData.m_startFrame);
+                var originalTime = timeConverter(eventData.m_startFrame);
                 eventData.m_startFrame = SimulationManager.instance.TimeToFrame(originalTime);
 
                 originalTime = timeConverter(eventData.m_expireFrame);
@@ -78,7 +78,7 @@ namespace RealTime.Events
         {
             foreach (var item in eventData)
             {
-                EventAI eventAI = item.Key;
+                var eventAI = item.Key;
                 eventAI.m_eventDuration = item.Value.EventDuration;
                 eventAI.m_prepareDuration = item.Value.PrepareDuration;
                 eventAI.m_disorganizeDuration = item.Value.DisorganizeDuration;

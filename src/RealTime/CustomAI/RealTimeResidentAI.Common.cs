@@ -79,7 +79,7 @@ namespace RealTime.CustomAI
 
         private bool ProcessCitizenSick(TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            Citizen.Location currentLocation = CitizenProxy.GetLocation(ref citizen);
+            var currentLocation = CitizenProxy.GetLocation(ref citizen);
             if (currentLocation == Citizen.Location.Moving)
             {
                 return false;
@@ -161,7 +161,7 @@ namespace RealTime.CustomAI
                 return ScheduleAction.Ignore;
             }
 
-            Citizen.Location location = CitizenProxy.GetLocation(ref citizen);
+            var location = CitizenProxy.GetLocation(ref citizen);
             if (location == Citizen.Location.Moving)
             {
                 if (CitizenMgr.InstanceHasFlags(
@@ -189,7 +189,7 @@ namespace RealTime.CustomAI
                 return ScheduleAction.ProcessState;
             }
 
-            ItemClass.Service buildingService = BuildingMgr.GetBuildingService(currentBuilding);
+            var buildingService = BuildingMgr.GetBuildingService(currentBuilding);
             switch (location)
             {
                 case Citizen.Location.Home:
@@ -288,7 +288,7 @@ namespace RealTime.CustomAI
                 schedule.WorkStatus = WorkStatus.None;
             }
 
-            DateTime nextActivityTime = todayWakeUp;
+            var nextActivityTime = todayWakeUp;
             if (schedule.CurrentState != ResidentState.AtSchoolOrWork
                 && workBuilding != 0
                 && schedule.WorkStatus != WorkStatus.OnVacation)

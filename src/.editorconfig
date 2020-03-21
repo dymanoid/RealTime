@@ -367,6 +367,9 @@ dotnet_diagnostic.CA3075.severity = none
 # CA5369: Use XmlReader For Deserialize
 dotnet_diagnostic.CA5369.severity = none
 
+# IDE1006: Naming Styles - checked by StyleCop
+dotnet_diagnostic.IDE1006.severity = none
+
 # IDE0051: Remove unused private members
 dotnet_diagnostic.IDE0051.severity = none
 
@@ -376,14 +379,11 @@ dotnet_diagnostic.RCS1123.severity = none
 # SA0001: XML comment analysis is disabled due to project configuration
 dotnet_diagnostic.SA0001.severity = none
 
+# SA1118: Parameter should not span multiple lines
+dotnet_diagnostic.SA1118.severity = none
+
 # SA1407: Arithmetic expressions should declare precedence
 dotnet_diagnostic.SA1407.severity = none
 
 # SA1601: Partial elements should be documented
 dotnet_diagnostic.SA1601.severity = none
-
-# SA1118: Parameter should not span multiple lines
-dotnet_diagnostic.SA1118.severity = none
-
-# IDE1006: Naming Styles
-dotnet_diagnostic.IDE1006.severity = none

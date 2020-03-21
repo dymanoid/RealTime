@@ -1,4 +1,4 @@
-﻿// <copyright file="WorldInfoPanelPatch.cs" company="dymanoid">
+// <copyright file="WorldInfoPanelPatch.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -28,15 +28,13 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class WorldInfoPanel_UpdateBindings : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(WorldInfoPanel).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(WorldInfoPanel).GetMethod(
                     "UpdateBindings",
                     BindingFlags.Instance | BindingFlags.NonPublic,
                     null,
                     new Type[0],
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]

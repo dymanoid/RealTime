@@ -1,4 +1,4 @@
-﻿// <copyright file="CitizenConnection.cs" company="dymanoid">
+// <copyright file="CitizenConnection.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -16,7 +16,7 @@ namespace RealTime.GameConnection
         /// <returns>The current citizen's flags after adding the specified flags.</returns>
         public Citizen.Flags AddFlags(ref Citizen citizen, Citizen.Flags flags)
         {
-            Citizen.Flags currentFlags = citizen.m_flags;
+            var currentFlags = citizen.m_flags;
             currentFlags |= flags;
             return citizen.m_flags = currentFlags;
         }
@@ -142,7 +142,7 @@ namespace RealTime.GameConnection
         /// </returns>
         public Citizen.Flags RemoveFlags(ref Citizen citizen, Citizen.Flags flags)
         {
-            Citizen.Flags currentFlags = citizen.m_flags;
+            var currentFlags = citizen.m_flags;
             currentFlags &= ~flags;
             return citizen.m_flags = currentFlags;
         }
@@ -199,13 +199,11 @@ namespace RealTime.GameConnection
         /// no visit buildings, no vehicle, and is not instantiated.</summary>
         /// <param name="citizen">The citizen to check.</param>
         /// <returns><c>true</c> if the specified citizen is empty; otherwise, <c>false</c>.</returns>
-        public bool IsEmpty(ref Citizen citizen)
-        {
-            return citizen.m_homeBuilding == 0
-                && citizen.m_workBuilding == 0
-                && citizen.m_visitBuilding == 0
-                && citizen.m_instance == 0
-                && citizen.m_vehicle == 0;
-        }
+        public bool IsEmpty(ref Citizen citizen) =>
+            citizen.m_homeBuilding == 0
+            && citizen.m_workBuilding == 0
+            && citizen.m_visitBuilding == 0
+            && citizen.m_instance == 0
+            && citizen.m_vehicle == 0;
     }
 }

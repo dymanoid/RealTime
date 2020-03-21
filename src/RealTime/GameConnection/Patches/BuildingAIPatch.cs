@@ -1,4 +1,4 @@
-﻿// <copyright file="BuildingAIPatch.cs" company="dymanoid">
+// <copyright file="BuildingAIPatch.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -49,15 +49,13 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class CommercialBuildingA_SimulationStepActive : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(CommercialBuildingAI).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(CommercialBuildingAI).GetMethod(
                     "SimulationStepActive",
                     BindingFlags.Instance | BindingFlags.NonPublic,
                     null,
                     new[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Building.Frame).MakeByRefType() },
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
@@ -89,7 +87,7 @@ namespace RealTime.GameConnection.Patches
         {
             protected override MethodInfo GetMethod()
             {
-                Type refInt = typeof(int).MakeByRefType();
+                var refInt = typeof(int).MakeByRefType();
 
                 return typeof(PrivateBuildingAI).GetMethod(
                     "HandleWorkers",
@@ -120,15 +118,13 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class PrivateBuildingAI_GetConstructionTime : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(PrivateBuildingAI).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(PrivateBuildingAI).GetMethod(
                     "GetConstructionTime",
                     BindingFlags.Instance | BindingFlags.NonPublic,
                     null,
                     new Type[0],
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
@@ -141,15 +137,24 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class BuildingAI_CalculateUnspawnPosition : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(BuildingAI).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(BuildingAI).GetMethod(
                     "CalculateUnspawnPosition",
                     BindingFlags.Instance | BindingFlags.Public,
                     null,
-                    new[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Randomizer).MakeByRefType(), typeof(CitizenInfo), typeof(ushort), typeof(Vector3).MakeByRefType(), typeof(Vector3).MakeByRefType(), typeof(Vector2).MakeByRefType(), typeof(CitizenInstance.Flags).MakeByRefType() },
+                    new[]
+                    {
+                        typeof(ushort),
+                        typeof(Building).MakeByRefType(),
+                        typeof(Randomizer).MakeByRefType(),
+                        typeof(CitizenInfo),
+                        typeof(ushort),
+                        typeof(Vector3).MakeByRefType(),
+                        typeof(Vector3).MakeByRefType(),
+                        typeof(Vector2).MakeByRefType(),
+                        typeof(CitizenInstance.Flags).MakeByRefType(),
+                    },
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
@@ -160,11 +165,11 @@ namespace RealTime.GameConnection.Patches
                     return;
                 }
 
-                BuildingInfo.Prop[] enterDoors = data.Info.m_enterDoors;
+                var enterDoors = data.Info.m_enterDoors;
                 bool doorFound = false;
                 for (int i = 0; i < enterDoors.Length; ++i)
                 {
-                    PropInfo prop = enterDoors[i].m_finalProp;
+                    var prop = enterDoors[i].m_finalProp;
                     if (prop == null)
                     {
                         continue;
@@ -182,7 +187,7 @@ namespace RealTime.GameConnection.Patches
                     return;
                 }
 
-                __instance.CalculateSpawnPosition(buildingID, ref data, ref randomizer, info, out Vector3 spawnPosition, out Vector3 spawnTarget);
+                __instance.CalculateSpawnPosition(buildingID, ref data, ref randomizer, info, out var spawnPosition, out var spawnTarget);
 
                 position = spawnPosition;
                 target = spawnTarget;
@@ -192,15 +197,13 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class PrivateBuildingAI_GetUpgradeInfo : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(PrivateBuildingAI).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(PrivateBuildingAI).GetMethod(
                     "GetUpgradeInfo",
                     BindingFlags.Instance | BindingFlags.Public,
                     null,
                     new[] { typeof(ushort), typeof(Building).MakeByRefType() },
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
@@ -223,15 +226,22 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class BuildingManager_CreateBuilding : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(BuildingManager).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(BuildingManager).GetMethod(
                     "CreateBuilding",
                     BindingFlags.Instance | BindingFlags.Public,
                     null,
-                    new[] { typeof(ushort).MakeByRefType(), typeof(Randomizer).MakeByRefType(), typeof(BuildingInfo), typeof(Vector3), typeof(float), typeof(int), typeof(uint) },
+                    new[]
+                    {
+                        typeof(ushort).MakeByRefType(),
+                        typeof(Randomizer).MakeByRefType(),
+                        typeof(BuildingInfo),
+                        typeof(Vector3),
+                        typeof(float),
+                        typeof(int),
+                        typeof(uint),
+                    },
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
@@ -259,15 +269,27 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class PlayerBuildingAI_ProduceGoods : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(PlayerBuildingAI).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(PlayerBuildingAI).GetMethod(
                     "ProduceGoods",
                     BindingFlags.Instance | BindingFlags.NonPublic,
                     null,
-                    new[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Building.Frame).MakeByRefType(), typeof(int), typeof(int), typeof(Citizen.BehaviourData).MakeByRefType(), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int) },
+                    new[]
+                    {
+                        typeof(ushort),
+                        typeof(Building).MakeByRefType(),
+                        typeof(Building.Frame).MakeByRefType(),
+                        typeof(int),
+                        typeof(int),
+                        typeof(Citizen.BehaviourData).MakeByRefType(),
+                        typeof(int),
+                        typeof(int),
+                        typeof(int),
+                        typeof(int),
+                        typeof(int),
+                        typeof(int),
+                    },
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             private static void Postfix(ushort buildingID, ref Building buildingData)

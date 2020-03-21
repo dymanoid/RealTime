@@ -63,7 +63,7 @@ namespace RealTime.CustomAI
 
             for (int i = 0; i < citizens.Length; ++i)
             {
-                Citizen.Flags flags = citizens[i].m_flags;
+                var flags = citizens[i].m_flags;
                 if ((flags & Citizen.Flags.Created) == 0
                     || (flags & Citizen.Flags.DummyTraffic) != 0)
                 {
@@ -89,7 +89,7 @@ namespace RealTime.CustomAI
 
             for (int i = 0; i < citizens.Length; ++i)
             {
-                Citizen.Flags flags = citizens[i].m_flags;
+                var flags = citizens[i].m_flags;
                 if ((flags & Citizen.Flags.Created) == 0
                     || (flags & Citizen.Flags.DummyTraffic) != 0)
                 {

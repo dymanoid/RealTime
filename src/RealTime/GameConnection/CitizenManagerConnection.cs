@@ -1,4 +1,4 @@
-﻿// <copyright file="CitizenManagerConnection.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
+// <copyright file="CitizenManagerConnection.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
 
 namespace RealTime.GameConnection
 {
@@ -59,7 +59,7 @@ namespace RealTime.GameConnection
                 return false;
             }
 
-            CitizenInstance.Flags currentFlags = CitizenManager.instance.m_instances.m_buffer[instanceId].m_flags & flags;
+            var currentFlags = CitizenManager.instance.m_instances.m_buffer[instanceId].m_flags & flags;
             return all
                 ? currentFlags == flags
                 : currentFlags != 0;
@@ -69,22 +69,18 @@ namespace RealTime.GameConnection
         /// <param name="instanceId">The instance ID to check.</param>
         /// <param name="mask">The flags mask to apply for the check.</param>
         /// <returns>The citizen instance flags masked by the specified <paramref name="mask"/>.</returns>
-        public CitizenInstance.Flags GetInstanceFlags(ushort instanceId, CitizenInstance.Flags mask)
-        {
-            return instanceId == 0
+        public CitizenInstance.Flags GetInstanceFlags(ushort instanceId, CitizenInstance.Flags mask) =>
+            instanceId == 0
                 ? CitizenInstance.Flags.None
                 : CitizenManager.instance.m_instances.m_buffer[instanceId].m_flags & mask;
-        }
 
         /// <summary>Gets the current wait counter value of the citizen's instance with specified ID.</summary>
         /// <param name="instanceId">The instance ID to check.</param>
         /// <returns>The wait counter value of the citizen's instance.</returns>
-        public byte GetInstanceWaitCounter(ushort instanceId)
-        {
-            return instanceId == 0
+        public byte GetInstanceWaitCounter(ushort instanceId) =>
+            instanceId == 0
                ? (byte)0
                : CitizenManager.instance.m_instances.m_buffer[instanceId].m_waitCounter;
-        }
 
         /// <summary>
         /// Determines whether the area around the citizen's instance with specified ID is currently marked for evacuation.
@@ -98,7 +94,7 @@ namespace RealTime.GameConnection
                 return false;
             }
 
-            Vector3 position = CitizenManager.instance.m_instances.m_buffer[instanceId].GetLastFramePosition();
+            var position = CitizenManager.instance.m_instances.m_buffer[instanceId].GetLastFramePosition();
             return DisasterManager.instance.IsEvacuating(position);
         }
 
@@ -269,7 +265,7 @@ namespace RealTime.GameConnection
                 throw new ArgumentOutOfRangeException(nameof(instanceId), "The instance ID cannot be 0");
             }
 
-            CitizenManager citizenMgr = CitizenManager.instance;
+            var citizenMgr = CitizenManager.instance;
             uint citizenId = citizenMgr.m_instances.m_buffer[instanceId].m_citizen;
             return ref citizenMgr.m_citizens.m_buffer[citizenId];
         }

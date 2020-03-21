@@ -157,7 +157,7 @@ namespace RealTime.CustomAI
                     return true;
             }
 
-            HashSet<ushort> buildings = buildingsInConstruction[index];
+            var buildings = buildingsInConstruction[index];
             buildings.RemoveWhere(IsBuildingCompletedOrMissing);
 
             int allowedCount = GetAllowedConstructingUpradingCount(buildingManager.GeBuildingsCount());
@@ -487,7 +487,7 @@ namespace RealTime.CustomAI
                     continue;
                 }
 
-                buildingManager.GetBuildingService(i, out ItemClass.Service service, out ItemClass.SubService subService);
+                buildingManager.GetBuildingService(i, out var service, out var subService);
                 bool lightsOn = !ShouldSwitchBuildingLightsOff(i, service, subService);
                 if (lightsOn == lightStates[i])
                 {

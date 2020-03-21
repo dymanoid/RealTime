@@ -185,7 +185,7 @@ namespace RealTime.CustomAI
             string home = homeBuilding == 0 ? "homeless" : "lives at " + homeBuilding;
             ushort workBuilding = CitizenProxy.GetWorkBuilding(ref citizen);
             string employment = workBuilding == 0 ? "unemployed" : "works at " + workBuilding;
-            Citizen.Location location = CitizenProxy.GetLocation(ref citizen);
+            var location = CitizenProxy.GetLocation(ref citizen);
             return $"Citizen {citizenId} ({CitizenProxy.GetAge(ref citizen)}, {home}, {employment}, currently {location} at {CitizenProxy.GetCurrentBuilding(ref citizen)}) / instance {CitizenProxy.GetInstance(ref citizen)}";
         }
 
@@ -214,12 +214,12 @@ namespace RealTime.CustomAI
 
         private bool CanAttendEvent(uint citizenId, ref TCitizen citizen, ICityEvent cityEvent)
         {
-            Citizen.AgeGroup age = CitizenProxy.GetAge(ref citizen);
-            Citizen.Gender gender = CitizenProxy.GetGender(citizenId);
-            Citizen.Education education = CitizenProxy.GetEducationLevel(ref citizen);
-            Citizen.Wealth wealth = CitizenProxy.GetWealthLevel(ref citizen);
-            Citizen.Wellbeing wellbeing = CitizenProxy.GetWellbeingLevel(ref citizen);
-            Citizen.Happiness happiness = CitizenProxy.GetHappinessLevel(ref citizen);
+            var age = CitizenProxy.GetAge(ref citizen);
+            var gender = CitizenProxy.GetGender(citizenId);
+            var education = CitizenProxy.GetEducationLevel(ref citizen);
+            var wealth = CitizenProxy.GetWealthLevel(ref citizen);
+            var wellbeing = CitizenProxy.GetWellbeingLevel(ref citizen);
+            var happiness = CitizenProxy.GetHappinessLevel(ref citizen);
 
             return cityEvent.TryAcceptAttendee(age, gender, education, wealth, wellbeing, happiness, Random);
         }

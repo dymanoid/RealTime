@@ -102,10 +102,10 @@ namespace RealTime.Core
                 throw new ArgumentNullException(nameof(compatibility));
             }
 
-            List<IPatch> patches = GetMethodPatches(compatibility);
+            var patches = GetMethodPatches(compatibility);
             var patcher = new MethodPatcher(HarmonyId, patches);
 
-            HashSet<IPatch> appliedPatches = patcher.Apply();
+            var appliedPatches = patcher.Apply();
             if (!CheckRequiredMethodPatches(appliedPatches))
             {
                 Log.Error("The 'Real Time' mod failed to perform method redirections for required methods");
@@ -152,7 +152,7 @@ namespace RealTime.Core
             }
 
             var timeAdjustment = new TimeAdjustment(configProvider.Configuration);
-            DateTime gameDate = timeAdjustment.Enable(setDefaultTime);
+            var gameDate = timeAdjustment.Enable(setDefaultTime);
             SimulationHandler.CitizenProcessor.UpdateFrameDuration();
 
             CityEventsLoader.Instance.ReloadEvents(rootPath);
@@ -206,7 +206,7 @@ namespace RealTime.Core
 
             AwakeSleepSimulation.Install(configProvider.Configuration);
 
-            IStorageData schedulesStorage = ResidentAIPatch.RealTimeAI.GetStorageService(
+            var schedulesStorage = ResidentAIPatch.RealTimeAI.GetStorageService(
                 schedules => new CitizenScheduleStorage(schedules, gameConnections.CitizenManager.GetCitizensArray, timeInfo));
 
             result.storageData.Add(schedulesStorage);
@@ -378,7 +378,7 @@ namespace RealTime.Core
             RealTimeEventManager eventManager,
             Compatibility compatibility)
         {
-            ResidentAIConnection<ResidentAI, Citizen> residentAIConnection = ResidentAIPatch.GetResidentAIConnection();
+            var residentAIConnection = ResidentAIPatch.GetResidentAIConnection();
             if (residentAIConnection == null)
             {
                 return false;
@@ -421,7 +421,7 @@ namespace RealTime.Core
             SimulationHandler.CitizenProcessor = new CitizenProcessor<ResidentAI, Citizen>(
                 realTimeResidentAI, timeInfo, spareTimeBehavior, travelBehavior);
 
-            TouristAIConnection<TouristAI, Citizen> touristAIConnection = TouristAIPatch.GetTouristAIConnection();
+            var touristAIConnection = TouristAIPatch.GetTouristAIConnection();
             if (touristAIConnection == null)
             {
                 return false;

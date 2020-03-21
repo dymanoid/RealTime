@@ -62,8 +62,8 @@ namespace RealTime.UI
                 return;
             }
 
-            var endFrame = eventData.m_startFrame + (int)(academicYearAI.m_eventDuration * SimulationManager.DAYTIME_HOUR_TO_FRAME);
-            var framesLeft = endFrame - SimulationManager.instance.m_currentFrameIndex;
+            long endFrame = eventData.m_startFrame + (int)(academicYearAI.m_eventDuration * SimulationManager.DAYTIME_HOUR_TO_FRAME);
+            long framesLeft = endFrame - SimulationManager.instance.m_currentFrameIndex;
             if (framesLeft < 0)
             {
                 framesLeft = 0;

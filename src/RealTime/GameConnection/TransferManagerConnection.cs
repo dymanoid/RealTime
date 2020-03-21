@@ -29,7 +29,7 @@ namespace RealTime.GameConnection
                 return;
             }
 
-            UnityEngine.Vector3 position = CitizenManager.instance.m_instances.m_buffer[instanceId].GetLastFramePosition();
+            var position = CitizenManager.instance.m_instances.m_buffer[instanceId].GetLastFramePosition();
 
             TransferManager.TransferOffer offer = default;
             offer.Priority = SimulationManager.instance.m_randomizer.Int32(8u);

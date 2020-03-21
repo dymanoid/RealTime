@@ -1,4 +1,4 @@
-﻿// <copyright file="UIGraphPatch.cs" company="dymanoid">
+// <copyright file="UIGraphPatch.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -69,15 +69,13 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class UIGraph_GetMinDataPoints : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(UIGraph).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(UIGraph).GetMethod(
                     "GetMinDataPoints",
                     BindingFlags.Instance | BindingFlags.NonPublic,
                     null,
                     new Type[0],
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
@@ -90,15 +88,13 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class UIGraph_GetVisibleEndTime : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(UIGraph).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(UIGraph).GetMethod(
                     "GetVisibleEndTime",
                     BindingFlags.Instance | BindingFlags.NonPublic,
                     null,
                     new Type[0],
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
@@ -176,18 +172,18 @@ namespace RealTime.GameConnection.Patches
 
                 float units = pixelsToUnits(__instance);
                 var maxSize = new Vector2(__instance.size.x, __instance.size.y);
-                Vector3 center = __instance.pivot.TransformToCenter(__instance.size, __instance.arbitraryPivotOffset) * units;
+                var center = __instance.pivot.TransformToCenter(__instance.size, __instance.arbitraryPivotOffset) * units;
                 Vector3 size = units * __instance.size;
                 float aspectRatio = __instance.size.x / __instance.size.y;
 
-                using (UIFontRenderer uiFontRenderer = __instance.font.ObtainRenderer())
+                using (var uiFontRenderer = __instance.font.ObtainRenderer())
                 {
                     float xmin = units * __instance.width * (-0.5f + ___m_GraphRect.xMin);
                     float xmax = units * __instance.width * (-0.5f + ___m_GraphRect.xMax);
                     float minInterval = GridIntervalX * units;
 
                     float startTicks = __instance.StartTime.Ticks;
-                    DateTime visibleEndTime = GetVisibleEndTime(___m_Curves, __instance.StartTime, __instance.EndTime);
+                    var visibleEndTime = GetVisibleEndTime(___m_Curves, __instance.StartTime, __instance.EndTime);
                     float endTicks = visibleEndTime.Ticks;
 
                     float minRangeTicks = __instance.StartTime.AddDays(MinRangeInDays).Ticks - __instance.StartTime.Ticks;
@@ -195,11 +191,11 @@ namespace RealTime.GameConnection.Patches
                     float timeScale = minRangeTicks / rangeTicks;
 
                     float scaledX = Mathf.Lerp(xmin, xmax, timeScale) - xmin;
-                    TimeSpan step = scaledX <= 0.0001f ? TimeSpan.FromDays(10000) : TimeSpan.FromDays(minInterval / scaledX);
+                    var step = scaledX <= 0.0001f ? TimeSpan.FromDays(10000) : TimeSpan.FromDays(minInterval / scaledX);
 
-                    UIRenderData textRenderData = ___m_RenderData.Count > 1 ? ___m_RenderData[1] : null;
+                    var textRenderData = ___m_RenderData.Count > 1 ? ___m_RenderData[1] : null;
 
-                    for (DateTime current = __instance.StartTime.AddDays(1); current <= visibleEndTime; current += step)
+                    for (var current = __instance.StartTime.AddDays(1); current <= visibleEndTime; current += step)
                     {
                         float currentTicks = current.Ticks;
                         float x = Mathf.Lerp(xmin, xmax, (currentTicks - startTicks) / (endTicks - startTicks));

@@ -1,4 +1,4 @@
-﻿// <copyright file="ParkPatch.cs" company="dymanoid">
+// <copyright file="ParkPatch.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -21,15 +21,13 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class DistrictPark_SimulationStep : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(DistrictPark).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(DistrictPark).GetMethod(
                     "SimulationStep",
                     BindingFlags.Instance | BindingFlags.Public,
                     null,
                     new[] { typeof(byte) },
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             private static void Postfix(byte parkID)

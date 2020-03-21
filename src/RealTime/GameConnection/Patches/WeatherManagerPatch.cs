@@ -1,4 +1,4 @@
-﻿// <copyright file="WeatherManagerPatch.cs" company="dymanoid">
+// <copyright file="WeatherManagerPatch.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -19,15 +19,13 @@ namespace RealTime.GameConnection.Patches
         /// <summary>Gets the patch object for the simulation method.</summary>
         private sealed class WeatherManager_SimulationStepImpl : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(WeatherManager).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(WeatherManager).GetMethod(
                     "SimulationStepImpl",
                     BindingFlags.Instance | BindingFlags.NonPublic,
                     null,
                     new[] { typeof(int) },
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]

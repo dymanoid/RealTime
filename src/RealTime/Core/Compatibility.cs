@@ -1,4 +1,4 @@
-﻿// <copyright file="Compatibility.cs" company="dymanoid">
+// <copyright file="Compatibility.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -54,7 +54,7 @@ namespace RealTime.Core
         /// <returns><c>true</c> if there are any active incompatible mod detected; otherwise, <c>false</c>.</returns>
         public bool AreAnyIncompatibleModsActive(out string message)
         {
-            List<string> incompatibleMods = GetIncompatibleModNames();
+            var incompatibleMods = GetIncompatibleModNames();
             if (incompatibleMods.Count == 0)
             {
                 message = null;
@@ -83,11 +83,11 @@ namespace RealTime.Core
         private List<string> GetIncompatibleModNames()
         {
             var result = new List<string>();
-            foreach (var modId in IncompatibleModIds)
+            foreach (ulong modId in IncompatibleModIds)
             {
                 try
                 {
-                    if (activeMods.TryGetValue(modId, out PluginManager.PluginInfo mod))
+                    if (activeMods.TryGetValue(modId, out var mod))
                     {
                         result.Add((mod.userModInstance as IUserMod)?.Name ?? mod.publishedFileID.AsUInt64.ToString());
                     }

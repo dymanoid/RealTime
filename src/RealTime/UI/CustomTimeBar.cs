@@ -89,10 +89,10 @@ namespace RealTime.UI
             customDateTimeWrapper.Translate(cultureInfo);
             TranslateTooltip(progressSprite, cultureInfo);
 
-            DateTime todayStart = customDateTimeWrapper.CurrentValue.Date;
-            DateTime todayEnd = todayStart.AddDays(1).AddMilliseconds(-1);
+            var todayStart = customDateTimeWrapper.CurrentValue.Date;
+            var todayEnd = todayStart.AddDays(1).AddMilliseconds(-1);
 
-            IEnumerable<UISprite> sprites = progressSprite.components
+            var sprites = progressSprite.components
                 .OfType<UISprite>()
                 .Where(c => c.name?.StartsWith(UISpriteEvent, StringComparison.Ordinal) == true);
 
@@ -106,8 +106,8 @@ namespace RealTime.UI
         /// <param name="availableEvents">The currently available events that need to be displayed.</param>
         public void UpdateEventsDisplay(IReadOnlyList<ICityEvent> availableEvents)
         {
-            DateTime todayStart = customDateTimeWrapper.CurrentValue.Date;
-            DateTime todayEnd = todayStart.AddDays(1).AddMilliseconds(-1);
+            var todayStart = customDateTimeWrapper.CurrentValue.Date;
+            var todayEnd = todayStart.AddDays(1).AddMilliseconds(-1);
 
             eventsToDisplay.Clear();
             for (int i = 0; i < availableEvents.Count; ++i)
@@ -177,14 +177,14 @@ namespace RealTime.UI
 
         private static UIDateTimeWrapper ReplaceUIDateTimeWrapperInPanel(UIPanel infoPanel, UIDateTimeWrapper wrapper)
         {
-            Bindings bindings = infoPanel.GetUIView().GetComponent<Bindings>();
+            var bindings = infoPanel.GetUIView().GetComponent<Bindings>();
             if (bindings == null)
             {
                 Log.Warning($"The UIPanel '{UIInfoPanel}' contains no '{nameof(Bindings)}' component");
                 return null;
             }
 
-            FieldInfo field = typeof(Bindings).GetField(UIWrapperField, BindingFlags.GetField | BindingFlags.NonPublic | BindingFlags.Instance);
+            var field = typeof(Bindings).GetField(UIWrapperField, BindingFlags.GetField | BindingFlags.NonPublic | BindingFlags.Instance);
             if (field == null)
             {
                 Log.Warning($"The UIPanel {UIInfoPanel} has no field '{UIWrapperField}'");
@@ -203,14 +203,14 @@ namespace RealTime.UI
 
         private static UISprite GetProgressSprite(UIPanel infoPanel)
         {
-            UIPanel panelTime = infoPanel.Find<UIPanel>(UIPanelTime);
+            var panelTime = infoPanel.Find<UIPanel>(UIPanelTime);
             if (panelTime == null)
             {
                 Log.Warning("No UIPanel found: " + UIPanelTime);
                 return null;
             }
 
-            UISprite progressSprite = panelTime.Find<UISprite>(UISpriteProgress);
+            var progressSprite = panelTime.Find<UISprite>(UISpriteProgress);
             if (progressSprite == null)
             {
                 Log.Warning("No UISprite found: " + UISpriteProgress);
@@ -222,7 +222,7 @@ namespace RealTime.UI
 
         private static void SetCustomTimePanelLayout(UISprite progressSprite, bool enableCustomization)
         {
-            UILabel dateLabel = progressSprite.Find<UILabel>(UILabelTime);
+            var dateLabel = progressSprite.Find<UILabel>(UILabelTime);
             if (dateLabel == null)
             {
                 Log.Warning("No UILabel found: " + UILabelTime);
@@ -244,7 +244,7 @@ namespace RealTime.UI
 
         private static void SetCustomTooltip(UIComponent component, CultureInfo cultureInfo, bool enableTooltip)
         {
-            DateTooltipBehavior tooltipBehavior = component.gameObject.GetComponent<DateTooltipBehavior>();
+            var tooltipBehavior = component.gameObject.GetComponent<DateTooltipBehavior>();
             if (enableTooltip && tooltipBehavior == null)
             {
                 tooltipBehavior = component.gameObject.AddComponent<DateTooltipBehavior>();
@@ -259,7 +259,7 @@ namespace RealTime.UI
 
         private static void TranslateTooltip(UIComponent tooltipParent, CultureInfo cultureInfo)
         {
-            DateTooltipBehavior tooltipBehavior = tooltipParent.gameObject.GetComponent<DateTooltipBehavior>();
+            var tooltipBehavior = tooltipParent.gameObject.GetComponent<DateTooltipBehavior>();
             tooltipBehavior?.Translate(cultureInfo);
         }
 
@@ -279,7 +279,7 @@ namespace RealTime.UI
 
         private UIDateTimeWrapper SetCustomUIDateTimeWrapper(UIDateTimeWrapper wrapper, bool enableWrapper)
         {
-            UIPanel infoPanel = UIView.Find<UIPanel>(UIInfoPanel);
+            var infoPanel = UIView.Find<UIPanel>(UIInfoPanel);
             if (infoPanel == null)
             {
                 Log.Warning("No UIPanel found: " + UIInfoPanel);
@@ -309,7 +309,7 @@ namespace RealTime.UI
             float startPosition = progressSprite.width * startPercent;
             float endPosition = progressSprite.width * endPercent;
 
-            UISprite eventSprite = progressSprite.AddUIComponent<UISprite>();
+            var eventSprite = progressSprite.AddUIComponent<UISprite>();
             eventSprite.name = UISpriteEvent + cityEvent.BuildingId;
             eventSprite.relativePosition = new Vector3(startPosition, 0);
             eventSprite.atlas = progressSprite.atlas;
@@ -332,8 +332,8 @@ namespace RealTime.UI
             if (overlappingEvents.Count > 0)
             {
                 overlappingEvents.Add(eventSprite);
-                var itemCount = overlappingEvents.Count;
-                var newSpriteHeight = progressSprite.height / itemCount;
+                int itemCount = overlappingEvents.Count;
+                float newSpriteHeight = progressSprite.height / itemCount;
                 for (int i = 0; i < itemCount; ++i)
                 {
                     var sprite = overlappingEvents[i];
