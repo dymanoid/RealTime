@@ -24,7 +24,7 @@ namespace RealTime.GameConnection.Patches
         public static IWeatherInfo WeatherInfo { get; set; }
 
         /// <summary>Gets the patch for the commercial building AI class.</summary>
-        public static IPatch CommercialSimulation { get; } = new CommercialBuildingA_SimulationStepActive();
+        public static IPatch CommercialSimulation { get; } = new CommercialBuildingAI_SimulationStepActive();
 
         /// <summary>Gets the patch for the private building AI method 'HandleWorkers'.</summary>
         public static IPatch HandleWorkers { get; } = new PrivateBuildingAI_HandleWorkers();
@@ -50,7 +50,7 @@ namespace RealTime.GameConnection.Patches
         /// <summary>Gets the patch for the fishing harbor AI method 'TrySpawnBoot'.</summary>
         public static IPatch TrySpawnBoot { get; } = new FishingHarborAI_TrySpawnBoat();
 
-        private sealed class CommercialBuildingA_SimulationStepActive : PatchBase
+        private sealed class CommercialBuildingAI_SimulationStepActive : PatchBase
         {
             protected override MethodInfo GetMethod() =>
                 typeof(CommercialBuildingAI).GetMethod(
