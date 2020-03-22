@@ -80,6 +80,11 @@ namespace RealTime.CustomAI
             this.travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
 
             lightStates = new bool[buildingManager.GetMaxBuildingsCount()];
+            for (int i = 0; i < lightStates.Length; ++i)
+            {
+                lightStates[i] = true;
+            }
+
             reachingTroubles = new byte[lightStates.Length];
 
             // This is to preallocate the hash sets to a large capacity, .NET 3.5 doesn't provide a proper way.
