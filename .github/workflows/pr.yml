@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     name: Build solution
-    if: github.actor == 'repo-owner'
+    if: github.actor == 'dymanoid'
 
     runs-on: windows-latest
     
