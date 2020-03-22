@@ -3,6 +3,7 @@
     <CitiesSkylinesBinaries Condition="'$(CitiesSkylinesBinaries)' == ''">
       D:\Data\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\
     </CitiesSkylinesBinaries>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
   <ItemDefinitionGroup>

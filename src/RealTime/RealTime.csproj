@@ -12,7 +12,6 @@
       $(AssemblySearchPaths);
       $(CitiesSkylinesBinaries)
     </AssemblySearchPaths>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <OutputPath>..\bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Benchmark'">
