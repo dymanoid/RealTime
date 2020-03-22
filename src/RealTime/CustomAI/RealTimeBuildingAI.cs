@@ -1,4 +1,4 @@
-﻿// <copyright file="RealTimeBuildingAI.cs" company="dymanoid">
+// <copyright file="RealTimeBuildingAI.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -348,8 +348,18 @@ namespace RealTime.CustomAI
             }
 
             var buildingService = buildingManager.GetBuildingService(buildingId);
-            return buildingService != ItemClass.Service.VarsitySports
-                && buildingManager.IsRealUniqueBuilding(buildingId);
+            if (buildingService == ItemClass.Service.VarsitySports)
+            {
+                return false;
+            }
+            else if (buildingService == ItemClass.Service.Monument)
+            {
+                return buildingManager.IsRealUniqueBuilding(buildingId);
+            }
+            else
+            {
+                return true;
+            }
         }
 
         /// <summary>Determines whether a building with specified ID is currently active.</summary>
