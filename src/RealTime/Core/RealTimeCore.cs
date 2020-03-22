@@ -306,6 +306,7 @@ namespace RealTime.Core
                 BuildingAIPatch.GetConstructionTime,
                 BuildingAIPatch.HandleWorkers,
                 BuildingAIPatch.CommercialSimulation,
+                BuildingAIPatch.FishingMarketSimulation,
                 BuildingAIPatch.GetColor,
                 BuildingAIPatch.CalculateUnspawnPosition,
                 BuildingAIPatch.ProduceGoods,
@@ -363,6 +364,7 @@ namespace RealTime.Core
             {
                 BuildingAIPatch.HandleWorkers,
                 BuildingAIPatch.CommercialSimulation,
+                BuildingAIPatch.FishingMarketSimulation,
                 ResidentAIPatch.Location,
                 ResidentAIPatch.ArriveAtTarget,
                 TouristAIPatch.Location,

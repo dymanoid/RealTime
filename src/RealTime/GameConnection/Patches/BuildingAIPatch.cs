@@ -26,6 +26,9 @@ namespace RealTime.GameConnection.Patches
         /// <summary>Gets the patch for the commercial building AI class.</summary>
         public static IPatch CommercialSimulation { get; } = new CommercialBuildingAI_SimulationStepActive();
 
+        /// <summary>Gets the patch for the fishing market building AI class.</summary>
+        public static IPatch FishingMarketSimulation { get; } = new MarketAI_SimulationStep();
+
         /// <summary>Gets the patch for the private building AI method 'HandleWorkers'.</summary>
         public static IPatch HandleWorkers { get; } = new PrivateBuildingAI_HandleWorkers();
 
@@ -56,6 +59,42 @@ namespace RealTime.GameConnection.Patches
                 typeof(CommercialBuildingAI).GetMethod(
                     "SimulationStepActive",
                     BindingFlags.Instance | BindingFlags.NonPublic,
+                    null,
+                    new[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Building.Frame).MakeByRefType() },
+                    new ParameterModifier[0]);
+
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
+            private static bool Prefix(ref Building buildingData, ref byte __state)
+            {
+                __state = buildingData.m_outgoingProblemTimer;
+                if (buildingData.m_customBuffer2 > 0)
+                {
+                    // Simulate some goods become spoiled; additionally, this will cause the buildings to never reach the 'stock full' state.
+                    // In that state, no visits are possible anymore, so the building gets stuck
+                    --buildingData.m_customBuffer2;
+                }
+
+                return true;
+            }
+
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
+            private static void Postfix(ushort buildingID, ref Building buildingData, byte __state)
+            {
+                if (__state != buildingData.m_outgoingProblemTimer)
+                {
+                    RealTimeAI.ProcessBuildingProblems(buildingID, __state);
+                }
+            }
+        }
+
+        private sealed class MarketAI_SimulationStep : PatchBase
+        {
+            protected override MethodInfo GetMethod() =>
+                typeof(MarketAI).GetMethod(
+                    nameof(MarketAI.SimulationStep),
+                    BindingFlags.Instance | BindingFlags.Public,
                     null,
                     new[] { typeof(ushort), typeof(Building).MakeByRefType(), typeof(Building.Frame).MakeByRefType() },
                     new ParameterModifier[0]);
