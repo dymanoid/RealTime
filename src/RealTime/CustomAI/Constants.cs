@@ -1,4 +1,4 @@
-﻿// <copyright file="Constants.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
+// <copyright file="Constants.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
 
 namespace RealTime.CustomAI
 {
@@ -31,6 +31,9 @@ namespace RealTime.CustomAI
 
         /// <summary>A chance in percent for a citizen to go to a leisure building in the night instead of usual entertainment.</summary>
         public const uint NightLeisureChance = 70u;
+
+        /// <summary>A chance in percent for a senior to go to an elder care facility for entertainment.</summary>
+        public const uint SeniorElderCareVisitChance = 50u;
 
         /// <summary>A chance in percent for a tourist to find a hotel for sleepover.</summary>
         public const uint FindHotelChance = 60;

@@ -1,4 +1,4 @@
-﻿// <copyright file="IBuildingManagerConnection.cs" company="dymanoid">
+// <copyright file="IBuildingManagerConnection.cs" company="dymanoid">
 //     Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -206,5 +206,29 @@ namespace RealTime.GameConnection
         ///   otherwise, <c>false</c>.
         /// </returns>
         bool IsAreaMainBuilding(ushort buildingId);
+
+        /// <summary>
+        /// Determines whether the AI class of the building with specified ID is of the specified type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the building AI to check for. It must be a <see cref="BuildingAI"/>.</typeparam>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the AI class of the building with the specified ID is of the type <typeparamref name="T"/>;
+        ///   otherwise, <c>false</c>.
+        /// </returns>
+        bool IsBuildingAIOfType<T>(ushort buildingId)
+            where T : BuildingAI;
+
+        /// <summary>
+        /// Determines whether the building with specified ID is of the specified service type and of the specified level.
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <param name="buildingService">The service type to check the building for.</param>
+        /// <param name="buildingLevel">The building level to check the building for.</param>
+        /// <returns>
+        ///   <c>true</c> if the building is of the specified service type and of the specified level;
+        ///   otherwise, <c>false</c>.
+        /// </returns>
+        bool IsBuildingServiceLevel(ushort buildingId, ItemClass.Service buildingService, ItemClass.Level buildingLevel);
     }
 }

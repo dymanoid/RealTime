@@ -452,6 +452,53 @@ namespace RealTime.GameConnection
             return buildinAI is MainCampusBuildingAI || buildinAI is MainIndustryBuildingAI;
         }
 
+        /// <summary>
+        /// Determines whether the AI class of the building with specified ID is of the specified type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the building AI to check for. It must be a <see cref="BuildingAI"/>.</typeparam>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the AI class of the building with the specified ID is of the type <typeparamref name="T"/>;
+        ///   otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsBuildingAIOfType<T>(ushort buildingId)
+            where T : BuildingAI
+        {
+            if (buildingId == 0)
+            {
+                return false;
+            }
+
+            var buildingInfo = BuildingManager.instance.m_buildings.m_buffer[buildingId].Info;
+            return buildingInfo?.m_buildingAI is T;
+        }
+
+        /// <summary>
+        /// Determines whether the building with specified ID is of the specified service type and of the specified level.
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <param name="buildingService">The service type to check the building for.</param>
+        /// <param name="buildingLevel">The building level to check the building for.</param>
+        /// <returns>
+        ///   <c>true</c> if the building is of the specified service type and of the specified level;
+        ///   otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsBuildingServiceLevel(ushort buildingId, ItemClass.Service buildingService, ItemClass.Level buildingLevel)
+        {
+            if (buildingId == 0)
+            {
+                return false;
+            }
+
+            var buildingInfo = BuildingManager.instance.m_buildings.m_buffer[buildingId].Info;
+            if (buildingInfo == null)
+            {
+                return false;
+            }
+
+            return buildingInfo.GetService() == buildingService && buildingInfo.GetClassLevel() == buildingLevel;
+        }
+
         private static bool BuildingCanBeVisited(ushort buildingId)
         {
             uint currentUnitId = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_citizenUnits;

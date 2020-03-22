@@ -53,6 +53,11 @@ namespace RealTime.GameConnection
         public Citizen.Wellbeing GetWellbeingLevel(ref Citizen citizen)
             => Citizen.GetWellbeingLevel(citizen.EducationLevel, citizen.m_wellbeing);
 
+        /// <summary>Gets the citizen's health level, 0 to 100.</summary>
+        /// <param name="citizen">The citizen to get the health of.</param>
+        /// <returns>The citizen's health level (0-100).</returns>
+        public uint GetHealth(ref Citizen citizen) => citizen.m_health;
+
         /// <summary>
         /// Gets the ID of the building the specified citizen is currently located in.
         /// </summary>
@@ -133,6 +138,11 @@ namespace RealTime.GameConnection
         /// <c>true</c> if the specified citizen is sick; otherwise, <c>false</c>.
         /// </returns>
         public bool IsSick(ref Citizen citizen) => citizen.Sick;
+
+        /// <summary>Sets the specified citizen's sick flag value.</summary>
+        /// <param name="citizen">The citizen change the sick flag of.</param>
+        /// <param name="isSick">The flag value.</param>
+        public void SetSick(ref Citizen citizen, bool isSick) => citizen.Sick = isSick;
 
         /// <summary>removes the specified flags from a citizen.</summary>
         /// <param name="citizen">The citizen to remove flags from.</param>

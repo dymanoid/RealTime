@@ -1,4 +1,4 @@
-﻿// <copyright file="ICitizenConnection.cs" company="dymanoid">
+// <copyright file="ICitizenConnection.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -57,6 +57,11 @@ namespace RealTime.GameConnection
         /// </returns>
         bool IsSick(ref T citizen);
 
+        /// <summary>Sets the specified citizen's sick flag value.</summary>
+        /// <param name="citizen">The citizen change the sick flag of.</param>
+        /// <param name="isSick">The flag value.</param>
+        void SetSick(ref T citizen, bool isSick);
+
         /// <summary>Determines whether the specified citizen is arrested.</summary>
         /// <param name="citizen">The citizen to check.</param>
         /// <returns>
@@ -113,6 +118,11 @@ namespace RealTime.GameConnection
         /// <param name="citizen">The citizen to get the wellbeing level of.</param>
         /// <returns>The citizen's wellbeing level.</returns>
         Citizen.Wellbeing GetWellbeingLevel(ref T citizen);
+
+        /// <summary>Gets the citizen's health level, 0 to 100.</summary>
+        /// <param name="citizen">The citizen to get the health of.</param>
+        /// <returns>The citizen's health level (0-100).</returns>
+        uint GetHealth(ref T citizen);
 
         /// <summary>Determines whether the specified citizen has particular flags.</summary>
         /// <param name="citizen">The citizen to check flags of.</param>

@@ -1,4 +1,4 @@
-﻿// <copyright file="RealTimeResidentAI.Visit.cs" company="dymanoid">
+// <copyright file="RealTimeResidentAI.Visit.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -120,7 +120,23 @@ namespace RealTime.CustomAI
             if (schedule.CurrentState != ResidentState.Relaxing || Random.ShouldOccur(FindAnotherShopOrEntertainmentChance))
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna relax and then schedules {nextState}, heading to an entertainment building.");
-                residentAI.FindVisitPlace(instance, citizenId, buildingId, residentAI.GetEntertainmentReason(instance));
+
+                TransferManager.TransferReason entertainmentReason;
+                var citizenAge = CitizenProxy.GetAge(ref citizen);
+                if (citizenAge == Citizen.AgeGroup.Child || citizenAge == Citizen.AgeGroup.Teen)
+                {
+                    entertainmentReason = TransferManager.TransferReason.ChildCare;
+                }
+                else if (citizenAge == Citizen.AgeGroup.Senior && Random.ShouldOccur(Constants.SeniorElderCareVisitChance))
+                {
+                    entertainmentReason = TransferManager.TransferReason.ElderCare;
+                }
+                else
+                {
+                    entertainmentReason = residentAI.GetEntertainmentReason(instance);
+                }
+
+                residentAI.FindVisitPlace(instance, citizenId, buildingId, entertainmentReason);
             }
 #if DEBUG
             else
@@ -302,9 +318,19 @@ namespace RealTime.CustomAI
         {
             ushort visitBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
 
-            return (BuildingMgr.GetBuildingSubService(visitBuilding) == ItemClass.SubService.BeautificationParks)
-                ? relaxChance * 2
-                : relaxChance;
+            if (BuildingMgr.GetBuildingSubService(visitBuilding) == ItemClass.SubService.BeautificationParks)
+            {
+                return relaxChance * 2;
+            }
+            else if (CitizenProxy.GetAge(ref citizen) == Citizen.AgeGroup.Senior
+                && BuildingMgr.IsBuildingServiceLevel(visitBuilding, ItemClass.Service.HealthCare, ItemClass.Level.Level3))
+            {
+                return relaxChance * 4;
+            }
+            else
+            {
+                return relaxChance;
+            }
         }
     }
 }
