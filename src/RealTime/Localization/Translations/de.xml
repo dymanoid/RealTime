@@ -225,6 +225,18 @@
     <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="Gesamteinnahmen vom Campus letzte {unit}"/>
     <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Ausgaben für Einzigartige Gebäude und Sport-Arenas letzte {unit}"/>
     <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Einnahmen vom Campus letzte {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_ONLYPLAYERINDUSTRY_AND_FISHING" value="Einnahmen aus Industrie und Fischfang letzte {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_FISHING" value="Einnahmen vom Fischfang letzte {unit}"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY_AND_FISHING" value="Ausgaben für Industrie und Fischfang letzte {unit}"/>
+    <translation id="EXPENSES_TT_FISHING" value="Ausgaben für Fischfang letzte {unit}"/>
+    <translation id="AIINFO_FISH_SOLD" value="Fischverkäufe letzte {unit}: {0}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_INCOME" value="Einnahmen von den Industriegebieten und der Fischindustrie letzte {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_EXPENSES" value="Ausgaben für die Industriegebiete und die Fischindustrie letzte {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_EXPENSES" value="Ausgaben für die Fischindustrie letzte {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_INCOME" value="Einnahmen von der Fischindustrie letzte {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_INDUSTRIES" value="Gesamtprofit von den Industriegebieten und der Fischindustrie letzte {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_FISHINGINDUSTRY" value="Fischindustrie-Profit insgesamt letzte {unit}"/>
+    <translation id="INFO_HEALTH_CHILDCARE_BIRTHRATE" value="Geburtenrate: {0} / {unit}"/>
   </overrides>
 
 </language>

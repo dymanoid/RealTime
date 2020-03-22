@@ -224,7 +224,19 @@
     <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="Тренерский штаб#10;Найм большего количество тренеров повышает вероятность побед в университетских спортивных состязаниях. Этот эффект#10;не проявляется мгновенно, а постепенно увеличивается от +0% до +1% за каждого тренера в течение всего учебного года."/>
     <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="Всего доход от кампусов за {unit}"/>
     <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Расход на уникальные сооружения и спортивные арены за {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Доход от кампусов за {unit}"/>	
+    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Доход от кампусов за {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_ONLYPLAYERINDUSTRY_AND_FISHING" value="Доход от промышленных районов и рыболовства за {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_FISHING" value="Доход от рыболовства за {unit}"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY_AND_FISHING" value="Расходы на промышленные районы и рыболовство за {unit}"/>
+    <translation id="EXPENSES_TT_FISHING" value="Расходы на рыболовство за {unit}"/>
+    <translation id="AIINFO_FISH_SOLD" value="Продано рыбы за {unit}: {0}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_INCOME" value="Доход от промышленных районов и рыболовства за {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_EXPENSES" value="Расходы на содержание промышленных районов и рыболовства за {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_EXPENSES" value="Расходы на содержание рыбной промышленности за {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_INCOME" value="Доход от рыбной промышленности за {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_INDUSTRIES" value="Общая прибыль от промышленных районов и рыбной промышленности за {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_FISHINGINDUSTRY" value="Общая прибыль от рыбной промышленности за {unit}"/>
+    <translation id="INFO_HEALTH_CHILDCARE_BIRTHRATE" value="Уровень рождаемости: {0} / {unit}"/>
   </overrides>
 
 </language>
