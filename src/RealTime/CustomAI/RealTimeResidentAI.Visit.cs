@@ -14,7 +14,7 @@ namespace RealTime.CustomAI
     {
         private bool ScheduleRelaxing(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
-            Citizen.AgeGroup citizenAge = CitizenProxy.GetAge(ref citizen);
+            var citizenAge = CitizenProxy.GetAge(ref citizen);
 
             uint relaxChance = spareTimeBehavior.GetRelaxingChance(citizenAge, schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
             relaxChance = AdjustRelaxChance(relaxChance, ref citizen);
@@ -24,11 +24,11 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            ICityEvent cityEvent = GetEventToAttend(citizenId, ref citizen);
+            var cityEvent = GetEventToAttend(citizenId, ref citizen);
             if (cityEvent != null)
             {
                 ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
-                DateTime departureTime = cityEvent.StartTime.AddHours(-travelBehavior.GetEstimatedTravelTime(currentBuilding, cityEvent.BuildingId));
+                var departureTime = cityEvent.StartTime.AddHours(-travelBehavior.GetEstimatedTravelTime(currentBuilding, cityEvent.BuildingId));
                 schedule.Schedule(ResidentState.Relaxing, departureTime);
                 schedule.EventBuilding = cityEvent.BuildingId;
                 schedule.Hint = ScheduleHint.AttendingEvent;
@@ -75,7 +75,7 @@ namespace RealTime.CustomAI
                     ushort eventBuilding = schedule.EventBuilding;
                     schedule.EventBuilding = 0;
 
-                    ICityEvent cityEvent = EventMgr.GetCityEvent(eventBuilding);
+                    var cityEvent = EventMgr.GetCityEvent(eventBuilding);
                     if (cityEvent == null)
                     {
                         Log.Debug(LogCategory.Events, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted attend an event at '{eventBuilding}', but there was no event there");
@@ -91,7 +91,7 @@ namespace RealTime.CustomAI
                     return false;
 
                 case ScheduleHint.RelaxNearbyOnly:
-                    Vector3 currentPosition = CitizenMgr.GetCitizenPosition(CitizenProxy.GetInstance(ref citizen));
+                    var currentPosition = CitizenMgr.GetCitizenPosition(CitizenProxy.GetInstance(ref citizen));
                     ushort parkBuildingId = BuildingMgr.FindActiveBuilding(currentPosition, LocalSearchDistance, ItemClass.Service.Beautification);
                     if (StartMovingToVisitBuilding(instance, citizenId, ref citizen, parkBuildingId))
                     {
@@ -112,7 +112,7 @@ namespace RealTime.CustomAI
 
             relaxChance = AdjustRelaxChance(relaxChance, ref citizen);
 
-            ResidentState nextState = Random.ShouldOccur(relaxChance)
+            var nextState = Random.ShouldOccur(relaxChance)
                     ? ResidentState.Relaxing
                     : ResidentState.Unknown;
 
@@ -211,7 +211,7 @@ namespace RealTime.CustomAI
             }
 
             uint moreShoppingChance = spareTimeBehavior.GetShoppingChance(CitizenProxy.GetAge(ref citizen));
-            ResidentState nextState = schedule.Hint != ScheduleHint.NoShoppingAnyMore && Random.ShouldOccur(moreShoppingChance)
+            var nextState = schedule.Hint != ScheduleHint.NoShoppingAnyMore && Random.ShouldOccur(moreShoppingChance)
                 ? ResidentState.Shopping
                 : ResidentState.Unknown;
 
@@ -246,7 +246,7 @@ namespace RealTime.CustomAI
 
         private bool ProcessCitizenVisit(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            var currentBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
+            ushort currentBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
             var currentBuildingService = BuildingMgr.GetBuildingService(currentBuilding);
             if (currentBuildingService == ItemClass.Service.Education)
             {
@@ -283,7 +283,7 @@ namespace RealTime.CustomAI
                 return true;
             }
 
-            Citizen.AgeGroup age = CitizenProxy.GetAge(ref citizen);
+            var age = CitizenProxy.GetAge(ref citizen);
             uint stayChance = schedule.CurrentState == ResidentState.Shopping
                 ? spareTimeBehavior.GetShoppingChance(age)
                 : spareTimeBehavior.GetRelaxingChance(age, schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);

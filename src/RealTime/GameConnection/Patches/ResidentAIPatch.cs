@@ -1,4 +1,4 @@
-﻿// <copyright file="ResidentAIPatch.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
+// <copyright file="ResidentAIPatch.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
 
 namespace RealTime.GameConnection.Patches
 {
@@ -42,34 +42,34 @@ namespace RealTime.GameConnection.Patches
         {
             try
             {
-                DoRandomMoveDelegate doRandomMove
+                var doRandomMove
                     = FastDelegateFactory.Create<DoRandomMoveDelegate>(typeof(ResidentAI), "DoRandomMove", instanceMethod: true);
 
-                FindEvacuationPlaceDelegate findEvacuationPlace
+                var findEvacuationPlace
                     = FastDelegateFactory.Create<FindEvacuationPlaceDelegate>(typeof(ResidentAI), "FindEvacuationPlace", instanceMethod: true);
 
-                FindHospitalDelegate findHospital
+                var findHospital
                     = FastDelegateFactory.Create<FindHospitalDelegate>(typeof(ResidentAI), "FindHospital", instanceMethod: true);
 
-                FindVisitPlaceDelegate findVisitPlace
+                var findVisitPlace
                     = FastDelegateFactory.Create<FindVisitPlaceDelegate>(typeof(ResidentAI), "FindVisitPlace", instanceMethod: true);
 
-                GetEntertainmentReasonDelegate getEntertainmentReason
+                var getEntertainmentReason
                     = FastDelegateFactory.Create<GetEntertainmentReasonDelegate>(typeof(ResidentAI), "GetEntertainmentReason", instanceMethod: true);
 
-                GetEvacuationReasonDelegate getEvacuationReason
+                var getEvacuationReason
                     = FastDelegateFactory.Create<GetEvacuationReasonDelegate>(typeof(ResidentAI), "GetEvacuationReason", instanceMethod: true);
 
-                GetShoppingReasonDelegate getShoppingReason
+                var getShoppingReason
                     = FastDelegateFactory.Create<GetShoppingReasonDelegate>(typeof(ResidentAI), "GetShoppingReason", instanceMethod: true);
 
-                StartMovingDelegate startMoving
+                var startMoving
                     = FastDelegateFactory.Create<StartMovingDelegate>(typeof(ResidentAI), "StartMoving", instanceMethod: true);
 
-                StartMovingWithOfferDelegate startMovingWithOffer
+                var startMovingWithOffer
                     = FastDelegateFactory.Create<StartMovingWithOfferDelegate>(typeof(ResidentAI), "StartMoving", instanceMethod: true);
 
-                AttemptAutodidactDelegate attemptAutodidact
+                var attemptAutodidact
                     = FastDelegateFactory.Create<AttemptAutodidactDelegate>(typeof(ResidentAI), "AttemptAutodidact", instanceMethod: true);
 
                 return new ResidentAIConnection<ResidentAI, Citizen>(
@@ -93,15 +93,13 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class ResidentAI_UpdateLocation : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(ResidentAI).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(ResidentAI).GetMethod(
                     "UpdateLocation",
                     BindingFlags.Instance | BindingFlags.NonPublic,
                     null,
                     new[] { typeof(uint), typeof(Citizen).MakeByRefType() },
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
@@ -114,15 +112,13 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class HumanAI_ArriveAtTarget : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(ResidentAI).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(ResidentAI).GetMethod(
                     "ArriveAtTarget",
                     BindingFlags.Instance | BindingFlags.NonPublic,
                     null,
                     new[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType() },
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
@@ -137,15 +133,13 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class ResidentAI_UpdateAge : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(ResidentAI).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(ResidentAI).GetMethod(
                     "UpdateAge",
                     BindingFlags.Instance | BindingFlags.NonPublic,
                     null,
                     new[] { typeof(uint), typeof(Citizen).MakeByRefType() },
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
@@ -163,15 +157,13 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class ResidentAI_CanMakeBabies : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(ResidentAI).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(ResidentAI).GetMethod(
                     "CanMakeBabies",
                     BindingFlags.Instance | BindingFlags.Public,
                     null,
                     new[] { typeof(uint), typeof(Citizen).MakeByRefType() },
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
@@ -184,15 +176,13 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class ResidentAI_StartMoving : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(ResidentAI).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(ResidentAI).GetMethod(
                     "StartMoving",
                     BindingFlags.Instance | BindingFlags.Public,
                     null,
                     new[] { typeof(uint), typeof(Citizen).MakeByRefType(), typeof(ushort), typeof(ushort) },
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
@@ -207,15 +197,13 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class ResidentAI_SimulationStep : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(ResidentAI).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(ResidentAI).GetMethod(
                     "SimulationStep",
                     BindingFlags.Instance | BindingFlags.Public,
                     null,
                     new[] { typeof(ushort), typeof(CitizenInstance).MakeByRefType(), typeof(CitizenInstance.Frame).MakeByRefType(), typeof(bool) },
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]

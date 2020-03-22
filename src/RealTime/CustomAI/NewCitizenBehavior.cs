@@ -41,7 +41,7 @@ namespace RealTime.CustomAI
                 return currentEducation;
             }
 
-            var randomValue = randomizer.GetRandomValue(100u);
+            int randomValue = randomizer.GetRandomValue(100u);
 
             // Age:
             // 0-14    -> child

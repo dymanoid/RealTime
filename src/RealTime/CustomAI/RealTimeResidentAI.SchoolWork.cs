@@ -81,7 +81,7 @@ namespace RealTime.CustomAI
                     schedule.DepartureTime = default;
                 }
 
-                Citizen.AgeGroup citizenAge = CitizenProxy.GetAge(ref citizen);
+                var citizenAge = CitizenProxy.GetAge(ref citizen);
                 if (workBehavior.ScheduleLunch(ref schedule, citizenAge))
                 {
                     Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{citizenDesc} is going from {currentBuilding} to school/work {schedule.WorkBuilding} and will go to lunch at {schedule.ScheduledStateTime}");
@@ -147,7 +147,7 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            Citizen.Wealth wealth = CitizenMgr.GetCitizenWealth(citizenId);
+            var wealth = CitizenMgr.GetCitizenWealth(citizenId);
             if (!Random.ShouldOccurPrecise(spareTimeBehavior.GetPreciseVacationChance(wealth)))
             {
                 return;

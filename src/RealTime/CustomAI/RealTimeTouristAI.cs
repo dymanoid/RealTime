@@ -150,7 +150,7 @@ namespace RealTime.CustomAI
                     targetBuildingId = CitizenMgr.GetTargetBuilding(instanceId);
                 }
 
-                BuildingMgr.GetBuildingService(targetBuildingId, out ItemClass.Service targetService, out ItemClass.SubService targetSubService);
+                BuildingMgr.GetBuildingService(targetBuildingId, out var targetService, out var targetSubService);
                 switch (targetService)
                 {
                     // Heading to a hotel, no need to change anything
@@ -227,7 +227,7 @@ namespace RealTime.CustomAI
                     return;
             }
 
-            ICityEvent currentEvent = EventMgr.GetCityEvent(visitBuilding);
+            var currentEvent = EventMgr.GetCityEvent(visitBuilding);
             if (currentEvent != null && currentEvent.StartTime < TimeInfo.Now)
             {
                 if (Random.ShouldOccur(TouristShoppingChance))
@@ -240,7 +240,7 @@ namespace RealTime.CustomAI
 
             if (Random.ShouldOccur(TouristEventChance) && !WeatherInfo.IsBadWeather)
             {
-                ICityEvent cityEvent = GetEventToAttend(citizenId, ref citizen);
+                var cityEvent = GetEventToAttend(citizenId, ref citizen);
                 if (cityEvent != null
                     && StartMovingToVisitBuilding(instance, citizenId, ref citizen, CitizenProxy.GetCurrentBuilding(ref citizen), cityEvent.BuildingId))
                 {
@@ -329,7 +329,7 @@ namespace RealTime.CustomAI
 
         private uint GetTouristGoingOutChance(ref TCitizen citizen, TouristTarget target)
         {
-            Citizen.AgeGroup age = CitizenProxy.GetAge(ref citizen);
+            var age = CitizenProxy.GetAge(ref citizen);
             switch (target)
             {
                 case TouristTarget.Shopping:

@@ -123,7 +123,7 @@ namespace RealTime.Events.Storage
 
         private void LoadRushHourEvents(HashSet<string> loadedEvents)
         {
-            IEnumerable<string> buildingPaths = PackageManager.FilterAssets(UserAssetType.CustomAssetMetaData)
+            var buildingPaths = PackageManager.FilterAssets(UserAssetType.CustomAssetMetaData)
                 .Where(a => a.isEnabled)
                 .Select(a => a.Instantiate<CustomAssetMetaData>())
                 .Where(m => m?.service == ItemClass.Service.Monument && !string.IsNullOrEmpty(m.assetRef.package?.packagePath))
@@ -132,7 +132,7 @@ namespace RealTime.Events.Storage
 
             try
             {
-                foreach (var path in buildingPaths)
+                foreach (string path in buildingPaths)
                 {
                     string eventsPath = Path.Combine(path, RushHourEventsDirectoryName);
                     Log.Debug(LogCategory.Generic, $"Checking directory '{eventsPath}' for Rush Hour events...");
@@ -165,7 +165,7 @@ namespace RealTime.Events.Storage
         {
             var serializer = new XmlSerializer(typeof(CityEventContainer));
 
-            foreach (var file in files)
+            foreach (string file in files)
             {
                 try
                 {

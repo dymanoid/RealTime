@@ -6,25 +6,21 @@ on:
 
 jobs:
   build:
-    name: Build Job
+    name: Build solution
+    if: github.actor == 'dymanoid'
 
     runs-on: windows-latest
     
     steps:
-    - uses: actions/checkout@v1
+    - name: Get sources
+      uses: actions/checkout@v1
       with:
         submodules: true
     
-    - name: Setup MSBuild.exe
-      uses: warrenbuckley/Setup-MSBuild@v1
+    - name: Setup MSBuild environment
+      uses: microsoft/setup-msbuild@v1.0.0
       
-    - name: Setup Nuget.exe
-      uses: warrenbuckley/Setup-Nuget@v1      
-      
-    - name: Restore NuGet packages
-      run: nuget restore src/RealTime.sln
-      
-    - name: Checkout Binaries
+    - name: Get referenced binaries
       uses: actions/checkout@v1
       with:
         repository: dymanoid/CitiesSkylinesBinaries
@@ -32,6 +28,6 @@ jobs:
         path: binaries
         token: ${{ secrets.GITHUB_ACTIONS_PAT }}
 
-    - name: MSBuild
+    - name: Build solution
       working-directory: src
-      run: msbuild RealTime.sln /p:Configuration=Release /p:ReferencePath="$env:GITHUB_WORKSPACE\..\binaries"
+      run: msbuild RealTime.sln /nologo /m /verbosity:minimal /restore /p:Configuration=Release /p:CitiesSkylinesBinaries="$env:GITHUB_WORKSPACE\..\binaries\"

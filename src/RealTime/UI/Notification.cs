@@ -43,14 +43,14 @@ namespace RealTime.UI
 
         private static bool NotifyWithPopup(string caption, string text)
         {
-            UIPanel infoPanel = UIView.Find<UIPanel>(UIInfoPanel);
+            var infoPanel = UIView.Find<UIPanel>(UIInfoPanel);
             if (infoPanel == null)
             {
                 Log.Warning("No UIPanel found: " + UIInfoPanel);
                 return false;
             }
 
-            UIPanel panelTime = infoPanel.Find<UIPanel>(UIPanelTime);
+            var panelTime = infoPanel.Find<UIPanel>(UIPanelTime);
             if (panelTime == null)
             {
                 Log.Warning("No UIPanel found: " + UIPanelTime);

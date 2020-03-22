@@ -1,4 +1,4 @@
-﻿// <copyright file="TransferManagerPatch.cs" company="dymanoid">
+// <copyright file="TransferManagerPatch.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -21,15 +21,13 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class TransferManager_AddOutgoingOffer : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(TransferManager).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(TransferManager).GetMethod(
                     "AddOutgoingOffer",
                     BindingFlags.Instance | BindingFlags.Public,
                     null,
                     new[] { typeof(TransferManager.TransferReason), typeof(TransferManager.TransferOffer) },
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             private static bool Prefix(TransferManager.TransferReason material, ref TransferManager.TransferOffer offer)

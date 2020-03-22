@@ -1,4 +1,4 @@
-﻿// <copyright file="OutsideConnectionAIPatch.cs" company="dymanoid">
+// <copyright file="OutsideConnectionAIPatch.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -22,15 +22,13 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class OutsideConnectionAI_DummyTrafficProbability : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(OutsideConnectionAI).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(OutsideConnectionAI).GetMethod(
                     "DummyTrafficProbability",
                     BindingFlags.Static | BindingFlags.NonPublic,
                     null,
                     new Type[0],
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]

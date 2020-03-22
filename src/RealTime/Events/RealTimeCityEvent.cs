@@ -1,4 +1,4 @@
-﻿// <copyright file="RealTimeCityEvent.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
+// <copyright file="RealTimeCityEvent.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
 
 namespace RealTime.Events
 {
@@ -72,7 +72,7 @@ namespace RealTime.Events
                 return false;
             }
 
-            CityEventAttendees attendees = eventTemplate.Attendees;
+            var attendees = eventTemplate.Attendees;
             float randomPercentage = randomizer.GetRandomValue(100u);
 
             if (!CheckAge(age, attendees, randomPercentage))
@@ -118,18 +118,15 @@ namespace RealTime.Events
         /// Creates an instance of the <see cref="RealTimeEventStorage"/> class that contains the current city event data.
         /// </summary>
         /// <returns>A new instance of the <see cref="RealTimeEventStorage"/> class.</returns>
-        public RealTimeEventStorage GetStorageData()
+        public RealTimeEventStorage GetStorageData() => new RealTimeEventStorage
         {
-            return new RealTimeEventStorage
-            {
-                EventName = eventTemplate.EventName,
-                BuildingClassName = eventTemplate.BuildingClassName,
-                StartTime = StartTime.Ticks,
-                BuildingId = BuildingId,
-                BuildingName = BuildingName,
-                AttendeesCount = attendeesCount,
-            };
-        }
+            EventName = eventTemplate.EventName,
+            BuildingClassName = eventTemplate.BuildingClassName,
+            StartTime = StartTime.Ticks,
+            BuildingId = BuildingId,
+            BuildingName = BuildingName,
+            AttendeesCount = attendeesCount,
+        };
 
         /// <summary>Calculates the city event duration.</summary>
         /// <returns>This city event duration in hours.</returns>

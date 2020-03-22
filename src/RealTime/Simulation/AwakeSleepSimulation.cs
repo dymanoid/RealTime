@@ -38,7 +38,7 @@ namespace RealTime.Simulation
                 throw new ArgumentNullException(nameof(config));
             }
 
-            FastList<ISimulationManager> managers = GetSimulationManagers();
+            var managers = GetSimulationManagers();
             if (managers == null)
             {
                 Log.Error("The 'Real Time' mod failed to get the simulation managers");
@@ -75,7 +75,7 @@ namespace RealTime.Simulation
         /// <summary>Uninstalls the previously installed simulation. Has no effect if no simulation was installed.</summary>
         public static void Uninstall()
         {
-            FastList<ISimulationManager> managers = GetSimulationManagers();
+            var managers = GetSimulationManagers();
             if (managers == null || managers.m_size == 0 || !(managers.m_buffer[0] is AwakeSleepSimulation))
             {
                 return;

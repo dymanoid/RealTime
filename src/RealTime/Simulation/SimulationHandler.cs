@@ -91,7 +91,7 @@ namespace RealTime.Simulation
                 return;
             }
 
-            DateTime currentDateTime = SimulationManager.instance.m_currentGameTime;
+            var currentDateTime = SimulationManager.instance.m_currentGameTime;
             if (currentDateTime.Hour != lastHandledDate.Hour || lastHandledDate == default)
             {
                 int triggerHour = lastHandledDate == default
