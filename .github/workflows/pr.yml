@@ -28,4 +28,4 @@ jobs:
 
     - name: MSBuild
       working-directory: src
-      run: msbuild RealTime.sln /restore /p:Configuration=Release /p:ReferencePath="$env:GITHUB_WORKSPACE\..\binaries"
+      run: msbuild RealTime.sln /restore /p:Configuration=Release /p:CitiesSkylinesBinaries="$env:GITHUB_WORKSPACE\..\binaries\"

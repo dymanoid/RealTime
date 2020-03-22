@@ -10,8 +10,7 @@
     <TargetFramework>net35</TargetFramework>
     <AssemblySearchPaths>
       $(AssemblySearchPaths);
-      $(CitiesSkylinesBinaries);
-      $(ReferencePath)
+      $(CitiesSkylinesBinaries)
     </AssemblySearchPaths>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <OutputPath>..\bin\$(Configuration)\</OutputPath>

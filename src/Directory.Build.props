@@ -1,6 +1,8 @@
 <Project>
   <PropertyGroup>
-    <CitiesSkylinesBinaries>D:\Data\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\</CitiesSkylinesBinaries>
+    <CitiesSkylinesBinaries Condition="'$(CitiesSkylinesBinaries)' == ''">
+      D:\Data\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\
+    </CitiesSkylinesBinaries>
   </PropertyGroup>
 
   <ItemDefinitionGroup>
