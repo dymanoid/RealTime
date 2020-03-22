@@ -6,26 +6,27 @@ on:
 
 jobs:
   build:
-    name: Build Job
+    name: Build solution
 
     runs-on: windows-latest
     
     steps:
-    - uses: actions/checkout@v1
+    - name: Get sources
+      uses: actions/checkout@v1
       with:
         submodules: true
     
-    - name: Setup MSBuild
+    - name: Setup MSBuild environment
       uses: microsoft/setup-msbuild@v1.0.0
       
-    - name: Checkout Binaries
+    - name: Get referenced binaries
       uses: actions/checkout@v1
       with:
         repository: dymanoid/CitiesSkylinesBinaries
         ref: refs/heads/master
         path: binaries
-        token: ${{ secrets.GITHUB_ACTIONS_PAT }}
+        token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: MSBuild
+    - name: Build solution
       working-directory: src
-      run: msbuild RealTime.sln /restore /p:Configuration=Release /p:CitiesSkylinesBinaries="$env:GITHUB_WORKSPACE\..\binaries\"
+      run: msbuild RealTime.sln /nologo /m /verbosity:minimal /restore /p:Configuration=Release /p:CitiesSkylinesBinaries="$env:GITHUB_WORKSPACE\..\binaries\"
