@@ -7,6 +7,7 @@ on:
 jobs:
   build:
     name: Build solution
+    if: github.actor == 'repo-owner'
 
     runs-on: windows-latest
     
@@ -25,7 +26,7 @@ jobs:
         repository: dymanoid/CitiesSkylinesBinaries
         ref: refs/heads/master
         path: binaries
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GITHUB_ACTIONS_PAT }}
 
     - name: Build solution
       working-directory: src
