@@ -1,4 +1,4 @@
-﻿// <copyright file="RealTimeCore.cs" company="dymanoid">
+// <copyright file="RealTimeCore.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -309,6 +309,7 @@ namespace RealTime.Core
                 BuildingAIPatch.GetColor,
                 BuildingAIPatch.CalculateUnspawnPosition,
                 BuildingAIPatch.ProduceGoods,
+                BuildingAIPatch.TrySpawnBoot,
                 ResidentAIPatch.Location,
                 ResidentAIPatch.ArriveAtTarget,
                 ResidentAIPatch.StartMoving,

@@ -47,6 +47,9 @@ namespace RealTime.GameConnection.Patches
         /// <summary>Gets the patch for the building AI method 'ProduceGoods'.</summary>
         public static IPatch ProduceGoods { get; } = new PlayerBuildingAI_ProduceGoods();
 
+        /// <summary>Gets the patch for the fishing harbor AI method 'TrySpawnBoot'.</summary>
+        public static IPatch TrySpawnBoot { get; } = new FishingHarborAI_TrySpawnBoat();
+
         private sealed class CommercialBuildingA_SimulationStepActive : PatchBase
         {
             protected override MethodInfo GetMethod() =>
@@ -339,6 +342,20 @@ namespace RealTime.GameConnection.Patches
                         return;
                 }
             }
+        }
+
+        private sealed class FishingHarborAI_TrySpawnBoat : PatchBase
+        {
+            protected override MethodInfo GetMethod() =>
+                typeof(FishingHarborAI).GetMethod(
+                    nameof(FishingHarborAI.TrySpawnBoat),
+                    BindingFlags.Instance | BindingFlags.Public,
+                    null,
+                    new[] { typeof(ushort), typeof(Building).MakeByRefType() },
+                    new ParameterModifier[0]);
+
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
+            private static bool Prefix(ref Building buildingData) => (buildingData.m_flags & Building.Flags.Active) != 0;
         }
     }
 }
