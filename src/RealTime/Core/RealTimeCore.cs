@@ -326,9 +326,9 @@ namespace RealTime.Core
                 OutsideConnectionAIPatch.DummyTrafficProbability,
             };
 
-            if (compatibility.IsAnyModActive(WorkshopMods.CitizenLifecycleRebalance))
+            if (compatibility.IsAnyModActive(WorkshopMods.CitizenLifecycleRebalance) || compatibility.IsAnyModActive(WorkshopMods.LifecycleRebalanceRevisited))
             {
-                Log.Info("The 'Real Time' mod will not change the citizens aging because the 'Citizen Lifecycle Rebalance' mod is active.");
+                Log.Info("The 'Real Time' mod will not change the citizens aging because a 'Lifecycle Rebalance' mod is active.");
             }
             else
             {
@@ -343,6 +343,7 @@ namespace RealTime.Core
                 WorkshopMods.ForceLevelUp,
                 WorkshopMods.PloppableRico,
                 WorkshopMods.PloppableRicoHighDensityFix,
+                WorkshopMods.PloppableRICORevisited,
                 WorkshopMods.PlopTheGrowables))
             {
                 Log.Info("The 'Real Time' mod will not change the building construction and upgrading behavior because some building mod is active.");
