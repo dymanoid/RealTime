@@ -326,7 +326,7 @@ namespace RealTime.Core
                 OutsideConnectionAIPatch.DummyTrafficProbability,
             };
 
-            if (compatibility.IsAnyModActive(WorkshopMods.CitizenLifecycleRebalance) || compatibility.IsAnyModActive(WorkshopMods.LifecycleRebalanceRevisited))
+            if (compatibility.IsAnyModActive(WorkshopMods.CitizenLifecycleRebalance, WorkshopMods.LifecycleRebalanceRevisited))
             {
                 Log.Info("The 'Real Time' mod will not change the citizens aging because a 'Lifecycle Rebalance' mod is active.");
             }
