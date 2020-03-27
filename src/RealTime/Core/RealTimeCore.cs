@@ -343,7 +343,7 @@ namespace RealTime.Core
                 WorkshopMods.ForceLevelUp,
                 WorkshopMods.PloppableRico,
                 WorkshopMods.PloppableRicoHighDensityFix,
-                WorkshopMods.PloppableRICORevisited,
+                WorkshopMods.PloppableRicoRevisited,
                 WorkshopMods.PlopTheGrowables))
             {
                 Log.Info("The 'Real Time' mod will not change the building construction and upgrading behavior because some building mod is active.");
