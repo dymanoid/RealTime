@@ -225,19 +225,19 @@
     <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="{unit} 당 총 캠퍼스 구획 이익"/>
     <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="저번 {unit} 당 특수 건물과 더불어 스포츠 아레나에서의 지출"/>
     <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="저번 {unit} 당 캠퍼스 지역에서의 수익"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Income from Campus Areas last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_ONLYPLAYERINDUSTRY_AND_FISHING" value="Income from Industry Areas and Fishing last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_FISHING" value="Income from Fishing last {unit}"/>
-    <translation id="EXPENSES_TT_PLAYERINDUSTRY_AND_FISHING" value="Industry Area and Fishing Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_FISHING" value="Fishing Expenses last {unit}"/>
-    <translation id="AIINFO_FISH_SOLD" value="Fish sold last {unit}: {0}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_INCOME" value="Income from Industry Areas and Fishing Industry last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_EXPENSES" value="Industry Area and Fishing Industry expenses last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_EXPENSES" value="Fishing Industry expenses last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_INCOME" value="Income from the Fishing Industry last {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_INDUSTRIES" value="Total Industry Areas and Fishing Industry profit last {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_FISHINGINDUSTRY" value="Total Fishing Industry profit last {unit}"/>
-    <translation id="INFO_HEALTH_CHILDCARE_BIRTHRATE" value="Birth rate: {0} / {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="저번 {unit}당 캠퍼스 지역으로부터의 수익"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_ONLYPLAYERINDUSTRY_AND_FISHING" value="저번 {unit}당 산업 구역과 어업 수익"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_FISHING" value="저번 {unit}당 어업 수입"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY_AND_FISHING" value="Industry Area and Fishing Expenses last 저번 {unit}당 산업 구역과 어업 지출"/>
+    <translation id="EXPENSES_TT_FISHING" value="저번 {unit}당 어업 지출"/>
+    <translation id="AIINFO_FISH_SOLD" value="저번 {unit}당 판매한 생선: {0}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_INCOME" value="저번 {unit}당 산업 구역과 어업 수익"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_EXPENSES" value="저번 {unit}당 산업 구역과 어업 지출"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_EXPENSES" value="저번 {unit}당 어업 지출"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_INCOME" value="저번 {unit}당 어업 수익"/>
+    <translation id="PROFIT_TT_TOTAL_INDUSTRIES" value="저번 {unit}당 산업 구역과 어업 구역의 총이익"/>
+    <translation id="PROFIT_TT_TOTAL_FISHINGINDUSTRY" value="저번 {unit}당 총 어업 이익"/>
+    <translation id="INFO_HEALTH_CHILDCARE_BIRTHRATE" value="출산율: {0} / {unit}"/>
   </overrides>
 
 </language>
