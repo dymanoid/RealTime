@@ -70,7 +70,7 @@ namespace RealTime.Simulation
 
             try
             {
-                FieldInfo field = typeof(LocaleManager).GetField("m_Locale", BindingFlags.Instance | BindingFlags.NonPublic);
+                var field = typeof(LocaleManager).GetField("m_Locale", BindingFlags.Instance | BindingFlags.NonPublic);
                 mainLocale = field.GetValue(LocaleManager.instance) as Locale;
             }
             catch (Exception ex)
@@ -119,7 +119,7 @@ namespace RealTime.Simulation
                 Log.Warning("The 'Real Time' mod could not obtain the UniqueFactoryWorldInfoPanel object");
             }
 
-            UIPanel infoPanel = UIView.Find<UIPanel>(InfoPanelName);
+            var infoPanel = UIView.Find<UIPanel>(InfoPanelName);
             if (infoPanel == null)
             {
                 Log.Warning("The 'Real Time' mod could not obtain the InfoPanel object");
@@ -197,7 +197,7 @@ namespace RealTime.Simulation
                 return;
             }
 
-            IEnumerable<UIComponent> components = panel
+            var components = panel
                 .GetComponentsInChildren<UIComponent>()?
                 .Where(c => !string.IsNullOrEmpty(c.tooltipLocaleID));
 
@@ -216,7 +216,7 @@ namespace RealTime.Simulation
         {
             customLocale.Reset();
 
-            IDictionary<string, string> overridden = localizationProvider.GetOverriddenTranslations(OverrddenTranslationType);
+            var overridden = localizationProvider.GetOverriddenTranslations(OverrddenTranslationType);
             if (overridden == null || overridden.Count == 0)
             {
                 return false;

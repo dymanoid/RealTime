@@ -1,0 +1,21 @@
+<Project>
+  <PropertyGroup>
+    <CitiesSkylinesBinaries Condition="'$(CitiesSkylinesBinaries)' == ''">
+      D:\Data\SteamLibrary\steamapps\common\Cities_Skylines\Cities_Data\Managed\
+    </CitiesSkylinesBinaries>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <PackageReference>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <Reference>
+      <Private>False</Private>
+    </Reference>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="$(SolutionDir)stylecop.json" Visible="False" />
+  </ItemGroup>
+</Project>

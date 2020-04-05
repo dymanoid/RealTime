@@ -1,4 +1,4 @@
-﻿// <copyright file="RealTimeBuildingAI.cs" company="dymanoid">
+// <copyright file="RealTimeBuildingAI.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -80,6 +80,11 @@ namespace RealTime.CustomAI
             this.travelBehavior = travelBehavior ?? throw new ArgumentNullException(nameof(travelBehavior));
 
             lightStates = new bool[buildingManager.GetMaxBuildingsCount()];
+            for (int i = 0; i < lightStates.Length; ++i)
+            {
+                lightStates[i] = true;
+            }
+
             reachingTroubles = new byte[lightStates.Length];
 
             // This is to preallocate the hash sets to a large capacity, .NET 3.5 doesn't provide a proper way.
@@ -157,7 +162,7 @@ namespace RealTime.CustomAI
                     return true;
             }
 
-            HashSet<ushort> buildings = buildingsInConstruction[index];
+            var buildings = buildingsInConstruction[index];
             buildings.RemoveWhere(IsBuildingCompletedOrMissing);
 
             int allowedCount = GetAllowedConstructingUpradingCount(buildingManager.GeBuildingsCount());
@@ -348,8 +353,18 @@ namespace RealTime.CustomAI
             }
 
             var buildingService = buildingManager.GetBuildingService(buildingId);
-            return buildingService != ItemClass.Service.VarsitySports
-                && buildingManager.IsRealUniqueBuilding(buildingId);
+            if (buildingService == ItemClass.Service.VarsitySports)
+            {
+                return false;
+            }
+            else if (buildingService == ItemClass.Service.Monument)
+            {
+                return buildingManager.IsRealUniqueBuilding(buildingId);
+            }
+            else
+            {
+                return true;
+            }
         }
 
         /// <summary>Determines whether a building with specified ID is currently active.</summary>
@@ -487,7 +502,7 @@ namespace RealTime.CustomAI
                     continue;
                 }
 
-                buildingManager.GetBuildingService(i, out ItemClass.Service service, out ItemClass.SubService subService);
+                buildingManager.GetBuildingService(i, out var service, out var subService);
                 bool lightsOn = !ShouldSwitchBuildingLightsOff(i, service, subService);
                 if (lightsOn == lightStates[i])
                 {

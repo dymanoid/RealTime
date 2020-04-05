@@ -1,4 +1,4 @@
-﻿// <copyright file="WorkBehavior.cs" company="dymanoid">
+// <copyright file="WorkBehavior.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -97,7 +97,7 @@ namespace RealTime.CustomAI
         /// <summary>Notifies this object that a new game day starts.</summary>
         public void BeginNewDay()
         {
-            DateTime today = timeInfo.Now.Date;
+            var today = timeInfo.Now.Date;
             lunchBegin = today.AddHours(config.LunchBegin);
             lunchEnd = today.AddHours(config.LunchEnd);
         }
@@ -113,11 +113,11 @@ namespace RealTime.CustomAI
                 return;
             }
 
-            ItemClass.Service service = buildingManager.GetBuildingService(schedule.WorkBuilding);
-            ItemClass.SubService subService = buildingManager.GetBuildingSubService(schedule.WorkBuilding);
+            var service = buildingManager.GetBuildingService(schedule.WorkBuilding);
+            var subService = buildingManager.GetBuildingSubService(schedule.WorkBuilding);
 
             float workBegin, workEnd;
-            WorkShift workShift = schedule.WorkShift;
+            var workShift = schedule.WorkShift;
 
             switch (citizenAge)
             {
@@ -179,7 +179,7 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            DateTime now = timeInfo.Now;
+            var now = timeInfo.Now;
             if (config.IsWeekendEnabled && now.IsWeekend() && !schedule.WorksOnWeekends)
             {
                 return false;
@@ -187,8 +187,8 @@ namespace RealTime.CustomAI
 
             float travelTime = GetTravelTimeToWork(ref schedule, currentBuilding);
 
-            DateTime workEndTime = now.FutureHour(schedule.WorkShiftEndHour);
-            DateTime departureTime = now.FutureHour(schedule.WorkShiftStartHour - travelTime - simulationCycle);
+            var workEndTime = now.FutureHour(schedule.WorkShiftEndHour);
+            var departureTime = now.FutureHour(schedule.WorkShiftStartHour - travelTime - simulationCycle);
             if (departureTime > workEndTime && now.AddHours(travelTime + simulationCycle) < workEndTime)
             {
                 departureTime = now;
@@ -262,6 +262,7 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.Road:
                 case ItemClass.Service.Museums:
                 case ItemClass.Service.VarsitySports:
+                case ItemClass.Service.Fishing:
                     return true;
 
                 default:
@@ -280,6 +281,7 @@ namespace RealTime.CustomAI
                     when subService == ItemClass.SubService.PlayerIndustryForestry || subService == ItemClass.SubService.PlayerIndustryFarming:
                 case ItemClass.Service.Industrial
                     when subService == ItemClass.SubService.IndustrialForestry || subService == ItemClass.SubService.IndustrialFarming:
+                case ItemClass.Service.Fishing:
                     return 1;
 
                 case ItemClass.Service.Beautification:
@@ -317,6 +319,7 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.Education:
                 case ItemClass.Service.PlayerIndustry:
                 case ItemClass.Service.PlayerEducation:
+                case ItemClass.Service.Fishing:
                 case ItemClass.Service.Industrial
                     when subService == ItemClass.SubService.IndustrialFarming || subService == ItemClass.SubService.IndustrialForestry:
                     return true;

@@ -1,4 +1,4 @@
-﻿// <copyright file="CitizenManagerPatch.cs" company="dymanoid">
+// <copyright file="CitizenManagerPatch.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -42,15 +42,13 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class CitizenManager_CreateCitizen1 : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(CitizenManager).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(CitizenManager).GetMethod(
                     "CreateCitizen",
                     BindingFlags.Instance | BindingFlags.Public,
                     null,
                     new[] { typeof(uint).MakeByRefType(), typeof(int), typeof(int), typeof(Randomizer).MakeByRefType() },
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
@@ -68,15 +66,13 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class CitizenManager_CreateCitizen2 : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(CitizenManager).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(CitizenManager).GetMethod(
                     "CreateCitizen",
                     BindingFlags.Instance | BindingFlags.Public,
                     null,
                     new[] { typeof(uint).MakeByRefType(), typeof(int), typeof(int), typeof(Randomizer).MakeByRefType(), typeof(Citizen.Gender) },
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]

@@ -1,4 +1,4 @@
-﻿// <copyright file="RealTimeResidentAI.Visit.cs" company="dymanoid">
+// <copyright file="RealTimeResidentAI.Visit.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -14,7 +14,7 @@ namespace RealTime.CustomAI
     {
         private bool ScheduleRelaxing(ref CitizenSchedule schedule, uint citizenId, ref TCitizen citizen)
         {
-            Citizen.AgeGroup citizenAge = CitizenProxy.GetAge(ref citizen);
+            var citizenAge = CitizenProxy.GetAge(ref citizen);
 
             uint relaxChance = spareTimeBehavior.GetRelaxingChance(citizenAge, schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
             relaxChance = AdjustRelaxChance(relaxChance, ref citizen);
@@ -24,11 +24,11 @@ namespace RealTime.CustomAI
                 return false;
             }
 
-            ICityEvent cityEvent = GetEventToAttend(citizenId, ref citizen);
+            var cityEvent = GetEventToAttend(citizenId, ref citizen);
             if (cityEvent != null)
             {
                 ushort currentBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
-                DateTime departureTime = cityEvent.StartTime.AddHours(-travelBehavior.GetEstimatedTravelTime(currentBuilding, cityEvent.BuildingId));
+                var departureTime = cityEvent.StartTime.AddHours(-travelBehavior.GetEstimatedTravelTime(currentBuilding, cityEvent.BuildingId));
                 schedule.Schedule(ResidentState.Relaxing, departureTime);
                 schedule.EventBuilding = cityEvent.BuildingId;
                 schedule.Hint = ScheduleHint.AttendingEvent;
@@ -75,7 +75,7 @@ namespace RealTime.CustomAI
                     ushort eventBuilding = schedule.EventBuilding;
                     schedule.EventBuilding = 0;
 
-                    ICityEvent cityEvent = EventMgr.GetCityEvent(eventBuilding);
+                    var cityEvent = EventMgr.GetCityEvent(eventBuilding);
                     if (cityEvent == null)
                     {
                         Log.Debug(LogCategory.Events, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} wanted attend an event at '{eventBuilding}', but there was no event there");
@@ -91,7 +91,7 @@ namespace RealTime.CustomAI
                     return false;
 
                 case ScheduleHint.RelaxNearbyOnly:
-                    Vector3 currentPosition = CitizenMgr.GetCitizenPosition(CitizenProxy.GetInstance(ref citizen));
+                    var currentPosition = CitizenMgr.GetCitizenPosition(CitizenProxy.GetInstance(ref citizen));
                     ushort parkBuildingId = BuildingMgr.FindActiveBuilding(currentPosition, LocalSearchDistance, ItemClass.Service.Beautification);
                     if (StartMovingToVisitBuilding(instance, citizenId, ref citizen, parkBuildingId))
                     {
@@ -112,7 +112,7 @@ namespace RealTime.CustomAI
 
             relaxChance = AdjustRelaxChance(relaxChance, ref citizen);
 
-            ResidentState nextState = Random.ShouldOccur(relaxChance)
+            var nextState = Random.ShouldOccur(relaxChance)
                     ? ResidentState.Relaxing
                     : ResidentState.Unknown;
 
@@ -120,7 +120,23 @@ namespace RealTime.CustomAI
             if (schedule.CurrentState != ResidentState.Relaxing || Random.ShouldOccur(FindAnotherShopOrEntertainmentChance))
             {
                 Log.Debug(LogCategory.Movement, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} in state {schedule.CurrentState} wanna relax and then schedules {nextState}, heading to an entertainment building.");
-                residentAI.FindVisitPlace(instance, citizenId, buildingId, residentAI.GetEntertainmentReason(instance));
+
+                TransferManager.TransferReason entertainmentReason;
+                var citizenAge = CitizenProxy.GetAge(ref citizen);
+                if (citizenAge == Citizen.AgeGroup.Child || citizenAge == Citizen.AgeGroup.Teen)
+                {
+                    entertainmentReason = TransferManager.TransferReason.ChildCare;
+                }
+                else if (citizenAge == Citizen.AgeGroup.Senior && Random.ShouldOccur(Constants.SeniorElderCareVisitChance))
+                {
+                    entertainmentReason = TransferManager.TransferReason.ElderCare;
+                }
+                else
+                {
+                    entertainmentReason = residentAI.GetEntertainmentReason(instance);
+                }
+
+                residentAI.FindVisitPlace(instance, citizenId, buildingId, entertainmentReason);
             }
 #if DEBUG
             else
@@ -211,7 +227,7 @@ namespace RealTime.CustomAI
             }
 
             uint moreShoppingChance = spareTimeBehavior.GetShoppingChance(CitizenProxy.GetAge(ref citizen));
-            ResidentState nextState = schedule.Hint != ScheduleHint.NoShoppingAnyMore && Random.ShouldOccur(moreShoppingChance)
+            var nextState = schedule.Hint != ScheduleHint.NoShoppingAnyMore && Random.ShouldOccur(moreShoppingChance)
                 ? ResidentState.Shopping
                 : ResidentState.Unknown;
 
@@ -246,7 +262,7 @@ namespace RealTime.CustomAI
 
         private bool ProcessCitizenVisit(ref CitizenSchedule schedule, TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            var currentBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
+            ushort currentBuilding = CitizenProxy.GetVisitBuilding(ref citizen);
             var currentBuildingService = BuildingMgr.GetBuildingService(currentBuilding);
             if (currentBuildingService == ItemClass.Service.Education)
             {
@@ -283,7 +299,7 @@ namespace RealTime.CustomAI
                 return true;
             }
 
-            Citizen.AgeGroup age = CitizenProxy.GetAge(ref citizen);
+            var age = CitizenProxy.GetAge(ref citizen);
             uint stayChance = schedule.CurrentState == ResidentState.Shopping
                 ? spareTimeBehavior.GetShoppingChance(age)
                 : spareTimeBehavior.GetRelaxingChance(age, schedule.WorkShift, schedule.WorkStatus == WorkStatus.OnVacation);
@@ -302,9 +318,19 @@ namespace RealTime.CustomAI
         {
             ushort visitBuilding = CitizenProxy.GetCurrentBuilding(ref citizen);
 
-            return (BuildingMgr.GetBuildingSubService(visitBuilding) == ItemClass.SubService.BeautificationParks)
-                ? relaxChance * 2
-                : relaxChance;
+            if (BuildingMgr.GetBuildingSubService(visitBuilding) == ItemClass.SubService.BeautificationParks)
+            {
+                return relaxChance * 2;
+            }
+            else if (CitizenProxy.GetAge(ref citizen) == Citizen.AgeGroup.Senior
+                && BuildingMgr.IsBuildingServiceLevel(visitBuilding, ItemClass.Service.HealthCare, ItemClass.Level.Level3))
+            {
+                return relaxChance * 4;
+            }
+            else
+            {
+                return relaxChance;
+            }
         }
     }
 }

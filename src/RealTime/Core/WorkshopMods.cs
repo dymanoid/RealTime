@@ -1,4 +1,4 @@
-﻿// <copyright file="WorkshopMods.cs" company="dymanoid">
+// <copyright file="WorkshopMods.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -47,5 +47,11 @@ namespace RealTime.Core
 
         /// <summary>The Workshop ID of the 'Real Time Offline' mod.</summary>
         public const ulong RealTimeOffline = 1749971558ul;
+
+        /// <summary>The Workshop ID of the 'Ploppable RICO Revisited' mod.</summary>
+        public const ulong PloppableRicoRevisited = 2016920607ul;
+
+        /// <summary>The Workshop ID of the 'Lifecycle Rebalance Revisited' mod.</summary>
+        public const ulong LifecycleRebalanceRevisited = 2027161563ul;
     }
 }

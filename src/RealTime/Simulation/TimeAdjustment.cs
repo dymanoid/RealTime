@@ -43,7 +43,7 @@ namespace RealTime.Simulation
             nightTimeSpeed = config.NightTimeSpeed;
             isNightEnabled = SimulationManager.instance.m_enableDayNight;
 
-            DateTime now = SimulationManager.instance.m_ThreadingWrapper.simulationTime;
+            var now = SimulationManager.instance.m_ThreadingWrapper.simulationTime;
             if (setDefaultTime)
             {
                 now = now.Date.AddHours(config.WakeUpHour);
@@ -61,7 +61,7 @@ namespace RealTime.Simulation
         /// <returns><c>true</c> if the time adjustment was updated; otherwise, <c>false</c>.</returns>
         public bool Update(bool force)
         {
-            SimulationManager sm = SimulationManager.instance;
+            var sm = SimulationManager.instance;
             if (sm.m_enableDayNight != isNightEnabled || force)
             {
                 isNightEnabled = SimulationManager.instance.m_enableDayNight;
@@ -128,7 +128,7 @@ namespace RealTime.Simulation
 
         private static void SetGameDateTime(DateTime dateTime)
         {
-            SimulationManager sm = SimulationManager.instance;
+            var sm = SimulationManager.instance;
             sm.m_timeOffsetTicks = dateTime.Ticks - sm.m_currentFrameIndex * sm.m_timePerFrame.Ticks;
             sm.m_currentGameTime = dateTime;
 
@@ -143,12 +143,12 @@ namespace RealTime.Simulation
             SimulationManager.DAYTIME_FRAME_TO_HOUR = 24f / SimulationManager.DAYTIME_FRAMES;
             SimulationManager.DAYTIME_HOUR_TO_FRAME = SimulationManager.DAYTIME_FRAMES / 24f;
 
-            SimulationManager sm = SimulationManager.instance;
+            var sm = SimulationManager.instance;
 
             originalTimePerFrame = sm.m_timePerFrame;
             originalTimeOffsetTicks = sm.m_timeOffsetTicks;
 
-            DateTime originalDate = sm.m_ThreadingWrapper.simulationTime;
+            var originalDate = sm.m_ThreadingWrapper.simulationTime;
             sm.m_timePerFrame = useCustomTimePerFrame
                 ? new TimeSpan(24L * 3600L * 10_000_000L / framesPerDay)
                 : vanillaTimePerFrame;

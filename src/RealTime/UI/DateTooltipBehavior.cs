@@ -55,7 +55,7 @@ namespace RealTime.UI
                 return;
             }
 
-            DateTime newValue = SimulationManager.instance.m_currentGameTime;
+            var newValue = SimulationManager.instance.m_currentGameTime;
             if (lastValue.Date != newValue.Date || force)
             {
                 tooltip = newValue.ToString("d", currentCulture);
@@ -70,7 +70,7 @@ namespace RealTime.UI
 
             if (!string.IsNullOrEmpty(IgnoredComponentNamePrefix))
             {
-                UIComponent hovered = UIInput.hoveredComponent;
+                var hovered = UIInput.hoveredComponent;
                 if (hovered?.name != null && hovered.name.StartsWith(IgnoredComponentNamePrefix, StringComparison.Ordinal))
                 {
                     return;

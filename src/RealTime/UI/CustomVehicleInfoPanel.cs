@@ -91,7 +91,7 @@ namespace RealTime.UI
                     return;
                 }
 
-                VehicleInfo vehicleInfo = VehicleManager.instance.m_vehicles.m_buffer[vehicleId].Info;
+                var vehicleInfo = VehicleManager.instance.m_vehicles.m_buffer[vehicleId].Info;
 
                 try
                 {

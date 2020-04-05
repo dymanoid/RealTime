@@ -1,4 +1,4 @@
-﻿// <copyright file="TouristAIPatch.cs" company="dymanoid">
+// <copyright file="TouristAIPatch.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -29,34 +29,34 @@ namespace RealTime.GameConnection.Patches
         {
             try
             {
-                GetRandomTargetTypeDelegate getRandomTargetType
+                var getRandomTargetType
                     = FastDelegateFactory.Create<GetRandomTargetTypeDelegate>(typeof(TouristAI), "GetRandomTargetType", instanceMethod: true);
 
-                GetLeavingReasonDelegate getLeavingReason
+                var getLeavingReason
                     = FastDelegateFactory.Create<GetLeavingReasonDelegate>(typeof(TouristAI), "GetLeavingReason", instanceMethod: true);
 
-                AddTouristVisitDelegate addTouristVisit
+                var addTouristVisit
                     = FastDelegateFactory.Create<AddTouristVisitDelegate>(typeof(TouristAI), "AddTouristVisit", instanceMethod: true);
 
-                DoRandomMoveDelegate doRandomMove
+                var doRandomMove
                     = FastDelegateFactory.Create<DoRandomMoveDelegate>(typeof(TouristAI), "DoRandomMove", instanceMethod: true);
 
-                FindEvacuationPlaceDelegate findEvacuationPlace
+                var findEvacuationPlace
                     = FastDelegateFactory.Create<FindEvacuationPlaceDelegate>(typeof(TouristAI), "FindEvacuationPlace", instanceMethod: true);
 
-                FindVisitPlaceDelegate findVisitPlace
+                var findVisitPlace
                     = FastDelegateFactory.Create<FindVisitPlaceDelegate>(typeof(TouristAI), "FindVisitPlace", instanceMethod: true);
 
-                GetEntertainmentReasonDelegate getEntertainmentReason
+                var getEntertainmentReason
                     = FastDelegateFactory.Create<GetEntertainmentReasonDelegate>(typeof(TouristAI), "GetEntertainmentReason", instanceMethod: true);
 
-                GetEvacuationReasonDelegate getEvacuationReason
+                var getEvacuationReason
                     = FastDelegateFactory.Create<GetEvacuationReasonDelegate>(typeof(TouristAI), "GetEvacuationReason", instanceMethod: true);
 
-                GetShoppingReasonDelegate getShoppingReason
+                var getShoppingReason
                     = FastDelegateFactory.Create<GetShoppingReasonDelegate>(typeof(TouristAI), "GetShoppingReason", instanceMethod: true);
 
-                StartMovingDelegate startMoving
+                var startMoving
                     = FastDelegateFactory.Create<StartMovingDelegate>(typeof(TouristAI), "StartMoving", instanceMethod: true);
 
                 return new TouristAIConnection<TouristAI, Citizen>(
@@ -80,15 +80,13 @@ namespace RealTime.GameConnection.Patches
 
         private sealed class TouristAI_UpdateLocation : PatchBase
         {
-            protected override MethodInfo GetMethod()
-            {
-                return typeof(TouristAI).GetMethod(
+            protected override MethodInfo GetMethod() =>
+                typeof(TouristAI).GetMethod(
                     "UpdateLocation",
                     BindingFlags.Instance | BindingFlags.NonPublic,
                     null,
                     new[] { typeof(uint), typeof(Citizen).MakeByRefType() },
                     new ParameterModifier[0]);
-            }
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]

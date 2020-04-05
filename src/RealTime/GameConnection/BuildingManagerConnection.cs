@@ -1,4 +1,4 @@
-﻿// <copyright file="BuildingManagerConnection.cs" company="dymanoid">
+// <copyright file="BuildingManagerConnection.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -23,12 +23,10 @@ namespace RealTime.GameConnection
         /// The service type of the building with the specified ID, or
         /// <see cref="ItemClass.Service.None" /> if <paramref name="buildingId" /> is 0.
         /// </returns>
-        public ItemClass.Service GetBuildingService(ushort buildingId)
-        {
-            return buildingId == 0
+        public ItemClass.Service GetBuildingService(ushort buildingId) =>
+            buildingId == 0
                 ? ItemClass.Service.None
                 : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.m_class?.m_service ?? ItemClass.Service.None;
-        }
 
         /// <summary>Gets the sub-service type of the building with specified ID.</summary>
         /// <param name="buildingId">The ID of the building to get the sub-service type of.</param>
@@ -36,12 +34,10 @@ namespace RealTime.GameConnection
         /// The sub-service type of the building with the specified ID, or
         /// <see cref="ItemClass.SubService.None" /> if <paramref name="buildingId" /> is 0.
         /// </returns>
-        public ItemClass.SubService GetBuildingSubService(ushort buildingId)
-        {
-            return buildingId == 0
+        public ItemClass.SubService GetBuildingSubService(ushort buildingId) =>
+            buildingId == 0
                 ? ItemClass.SubService.None
                 : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.m_class?.m_subService ?? ItemClass.SubService.None;
-        }
 
         /// <summary>Gets the service and sub-service types of the building with specified ID.</summary>
         /// <param name="buildingId">The ID of the building to get the service and sub-service types of.</param>
@@ -58,7 +54,7 @@ namespace RealTime.GameConnection
                 return;
             }
 
-            ItemClass itemClass = BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.m_class;
+            var itemClass = BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.m_class;
             if (itemClass == null)
             {
                 service = ItemClass.Service.None;
@@ -73,12 +69,10 @@ namespace RealTime.GameConnection
         /// <summary>Gets the citizen unit ID for the building with specified ID.</summary>
         /// <param name="buildingId">The building ID to search the citizen unit for.</param>
         /// <returns>The ID of the building's citizen unit, or 0 if none.</returns>
-        public uint GetCitizenUnit(ushort buildingId)
-        {
-            return buildingId == 0
+        public uint GetCitizenUnit(ushort buildingId) =>
+            buildingId == 0
                 ? 0
                 : BuildingManager.instance.m_buildings.m_buffer[buildingId].m_citizenUnits;
-        }
 
         /// <summary>
         /// Gets a value indicating whether the building with specified ID has particular flags.
@@ -98,7 +92,7 @@ namespace RealTime.GameConnection
                 return false;
             }
 
-            Building.Flags buildingFlags = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_flags;
+            var buildingFlags = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_flags;
             return (buildingFlags & flags) != 0 || includeZero && buildingFlags == Building.Flags.None;
         }
 
@@ -117,7 +111,7 @@ namespace RealTime.GameConnection
                 return 0;
             }
 
-            Building[] buildings = BuildingManager.instance.m_buildings.m_buffer;
+            var buildings = BuildingManager.instance.m_buildings.m_buffer;
             return Vector3.Distance(buildings[building1].m_position, buildings[building2].m_position);
         }
 
@@ -153,7 +147,7 @@ namespace RealTime.GameConnection
                 return 0;
             }
 
-            Vector3 currentPosition = BuildingManager.instance.m_buildings.m_buffer[searchAreaCenterBuilding].m_position;
+            var currentPosition = BuildingManager.instance.m_buildings.m_buffer[searchAreaCenterBuilding].m_position;
             return FindActiveBuilding(currentPosition, maxDistance, service, subService);
         }
 
@@ -222,12 +216,10 @@ namespace RealTime.GameConnection
         /// <summary>Gets the ID of an event that takes place in the building with specified ID.</summary>
         /// <param name="buildingId">The building ID to check.</param>
         /// <returns>An ID of an event that takes place in the building, or 0 if none.</returns>
-        public ushort GetEvent(ushort buildingId)
-        {
-            return buildingId == 0
+        public ushort GetEvent(ushort buildingId) =>
+            buildingId == 0
                 ? (ushort)0
                 : BuildingManager.instance.m_buildings.m_buffer[buildingId].m_eventIndex;
-        }
 
         /// <summary>
         /// Gets an ID of a random building in the city that belongs to any of the specified <paramref name="services" />.
@@ -304,22 +296,18 @@ namespace RealTime.GameConnection
         /// <returns>
         /// A string representation of the building class, or null if none found.
         /// </returns>
-        public string GetBuildingClassName(ushort buildingId)
-        {
-            return buildingId == 0
+        public string GetBuildingClassName(ushort buildingId) =>
+            buildingId == 0
                 ? string.Empty
                 : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.name ?? string.Empty;
-        }
 
         /// <summary>Gets the localized name of a building with specified ID.</summary>
         /// <param name="buildingId">The building ID to get the name of.</param>
         /// <returns>A localized building name string, or null if none found.</returns>
-        public string GetBuildingName(ushort buildingId)
-        {
-            return buildingId == 0
+        public string GetBuildingName(ushort buildingId) =>
+            buildingId == 0
                 ? string.Empty
                 : BuildingManager.instance.GetBuildingName(buildingId, InstanceID.Empty);
-        }
 
         /// <summary>
         /// Determines whether the building with specified ID is located in a noise restricted district.
@@ -336,9 +324,9 @@ namespace RealTime.GameConnection
                 return false;
             }
 
-            Vector3 location = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_position;
+            var location = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_position;
             byte district = DistrictManager.instance.GetDistrict(location);
-            DistrictPolicies.CityPlanning policies = DistrictManager.instance.m_districts.m_buffer[district].m_cityPlanningPolicies;
+            var policies = DistrictManager.instance.m_districts.m_buffer[district].m_cityPlanningPolicies;
             return (policies & DistrictPolicies.CityPlanning.NoLoudNoises) != 0;
         }
 
@@ -364,12 +352,10 @@ namespace RealTime.GameConnection
         /// <summary>Gets the building's height in game units.</summary>
         /// <param name="buildingId">The ID of the building.</param>
         /// <returns>The height of the building with the specified ID.</returns>
-        public float GetBuildingHeight(ushort buildingId)
-        {
-            return buildingId == 0
+        public float GetBuildingHeight(ushort buildingId) =>
+            buildingId == 0
                 ? 0f
                 : BuildingManager.instance.m_buildings.m_buffer[buildingId].Info?.m_size.y ?? 0f;
-        }
 
         /// <summary>
         /// Visually deactivates the building with specified ID without affecting its production or coverage.
@@ -397,7 +383,7 @@ namespace RealTime.GameConnection
                 return 0;
             }
 
-            Vector3 position = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_position;
+            var position = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_position;
             return DistrictManager.instance.GetPark(position);
         }
 
@@ -405,12 +391,10 @@ namespace RealTime.GameConnection
         /// if the specified park ID is 0 or invalid.</summary>
         /// <param name="parkId">The ID of the park to get policies of.</param>
         /// <returns>The policies of the park.</returns>
-        public DistrictPolicies.Park GetParkPolicies(byte parkId)
-        {
-            return parkId == 0
+        public DistrictPolicies.Park GetParkPolicies(byte parkId) =>
+            parkId == 0
                 ? DistrictPolicies.Park.None
                 : DistrictManager.instance.m_parks.m_buffer[parkId].m_parkPolicies;
-        }
 
         /// <summary>
         /// Determines whether the area around the building with specified ID is currently being evacuated.
@@ -466,6 +450,53 @@ namespace RealTime.GameConnection
             var buildingInfo = BuildingManager.instance.m_buildings.m_buffer[buildingId].Info;
             var buildinAI = buildingInfo?.m_buildingAI;
             return buildinAI is MainCampusBuildingAI || buildinAI is MainIndustryBuildingAI;
+        }
+
+        /// <summary>
+        /// Determines whether the AI class of the building with specified ID is of the specified type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the building AI to check for. It must be a <see cref="BuildingAI"/>.</typeparam>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the AI class of the building with the specified ID is of the type <typeparamref name="T"/>;
+        ///   otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsBuildingAIOfType<T>(ushort buildingId)
+            where T : BuildingAI
+        {
+            if (buildingId == 0)
+            {
+                return false;
+            }
+
+            var buildingInfo = BuildingManager.instance.m_buildings.m_buffer[buildingId].Info;
+            return buildingInfo?.m_buildingAI is T;
+        }
+
+        /// <summary>
+        /// Determines whether the building with specified ID is of the specified service type and of the specified level.
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <param name="buildingService">The service type to check the building for.</param>
+        /// <param name="buildingLevel">The building level to check the building for.</param>
+        /// <returns>
+        ///   <c>true</c> if the building is of the specified service type and of the specified level;
+        ///   otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsBuildingServiceLevel(ushort buildingId, ItemClass.Service buildingService, ItemClass.Level buildingLevel)
+        {
+            if (buildingId == 0)
+            {
+                return false;
+            }
+
+            var buildingInfo = BuildingManager.instance.m_buildings.m_buffer[buildingId].Info;
+            if (buildingInfo == null)
+            {
+                return false;
+            }
+
+            return buildingInfo.GetService() == buildingService && buildingInfo.GetClassLevel() == buildingLevel;
         }
 
         private static bool BuildingCanBeVisited(ushort buildingId)

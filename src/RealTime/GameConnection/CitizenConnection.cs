@@ -1,4 +1,4 @@
-﻿// <copyright file="CitizenConnection.cs" company="dymanoid">
+// <copyright file="CitizenConnection.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -16,7 +16,7 @@ namespace RealTime.GameConnection
         /// <returns>The current citizen's flags after adding the specified flags.</returns>
         public Citizen.Flags AddFlags(ref Citizen citizen, Citizen.Flags flags)
         {
-            Citizen.Flags currentFlags = citizen.m_flags;
+            var currentFlags = citizen.m_flags;
             currentFlags |= flags;
             return citizen.m_flags = currentFlags;
         }
@@ -52,6 +52,11 @@ namespace RealTime.GameConnection
         /// <returns>The citizen's wellbeing level.</returns>
         public Citizen.Wellbeing GetWellbeingLevel(ref Citizen citizen)
             => Citizen.GetWellbeingLevel(citizen.EducationLevel, citizen.m_wellbeing);
+
+        /// <summary>Gets the citizen's health level, 0 to 100.</summary>
+        /// <param name="citizen">The citizen to get the health of.</param>
+        /// <returns>The citizen's health level (0-100).</returns>
+        public uint GetHealth(ref Citizen citizen) => citizen.m_health;
 
         /// <summary>
         /// Gets the ID of the building the specified citizen is currently located in.
@@ -134,6 +139,11 @@ namespace RealTime.GameConnection
         /// </returns>
         public bool IsSick(ref Citizen citizen) => citizen.Sick;
 
+        /// <summary>Sets the specified citizen's sick flag value.</summary>
+        /// <param name="citizen">The citizen change the sick flag of.</param>
+        /// <param name="isSick">The flag value.</param>
+        public void SetSick(ref Citizen citizen, bool isSick) => citizen.Sick = isSick;
+
         /// <summary>removes the specified flags from a citizen.</summary>
         /// <param name="citizen">The citizen to remove flags from.</param>
         /// <param name="flags">The flags to remove.</param>
@@ -142,7 +152,7 @@ namespace RealTime.GameConnection
         /// </returns>
         public Citizen.Flags RemoveFlags(ref Citizen citizen, Citizen.Flags flags)
         {
-            Citizen.Flags currentFlags = citizen.m_flags;
+            var currentFlags = citizen.m_flags;
             currentFlags &= ~flags;
             return citizen.m_flags = currentFlags;
         }
@@ -199,13 +209,11 @@ namespace RealTime.GameConnection
         /// no visit buildings, no vehicle, and is not instantiated.</summary>
         /// <param name="citizen">The citizen to check.</param>
         /// <returns><c>true</c> if the specified citizen is empty; otherwise, <c>false</c>.</returns>
-        public bool IsEmpty(ref Citizen citizen)
-        {
-            return citizen.m_homeBuilding == 0
-                && citizen.m_workBuilding == 0
-                && citizen.m_visitBuilding == 0
-                && citizen.m_instance == 0
-                && citizen.m_vehicle == 0;
-        }
+        public bool IsEmpty(ref Citizen citizen) =>
+            citizen.m_homeBuilding == 0
+            && citizen.m_workBuilding == 0
+            && citizen.m_visitBuilding == 0
+            && citizen.m_instance == 0
+            && citizen.m_vehicle == 0;
     }
 }

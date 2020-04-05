@@ -128,10 +128,10 @@ namespace RealTime.Events
             ushort eventId = buildingManager.GetEvent(buildingId);
             if (eventId != 0)
             {
-                EventData.Flags vanillaEventState = eventManager.GetEventFlags(eventId);
+                var vanillaEventState = eventManager.GetEventFlags(eventId);
                 if ((vanillaEventState & (EventData.Flags.Preparing | EventData.Flags.Ready)) != 0)
                 {
-                    if (eventManager.TryGetEventStartTime(eventId, out DateTime startTime) && startTime <= latestStart)
+                    if (eventManager.TryGetEventStartTime(eventId, out var startTime) && startTime <= latestStart)
                     {
                         return CityEventState.Upcoming;
                     }
@@ -192,7 +192,7 @@ namespace RealTime.Events
                 return null;
             }
 
-            LinkedListNode<ICityEvent> upcomingEvent = upcomingEvents.First;
+            var upcomingEvent = upcomingEvents.First;
             while (upcomingEvent != null)
             {
                 if (upcomingEvent.Value.BuildingId == buildingId)
@@ -261,7 +261,7 @@ namespace RealTime.Events
                     continue;
                 }
 
-                CityEventTemplate template = eventProvider.GetEventTemplate(storedEvent.EventName, storedEvent.BuildingClassName);
+                var template = eventProvider.GetEventTemplate(storedEvent.EventName, storedEvent.BuildingClassName);
                 var realTimeEvent = new RealTimeCityEvent(template, storedEvent.AttendeesCount);
                 realTimeEvent.Configure(storedEvent.BuildingId, storedEvent.BuildingName, new DateTime(storedEvent.StartTime));
 
@@ -349,7 +349,7 @@ namespace RealTime.Events
 
             if (upcomingEvents.Count != 0)
             {
-                LinkedListNode<ICityEvent> upcomingEvent = upcomingEvents.First;
+                var upcomingEvent = upcomingEvents.First;
                 while (upcomingEvent != null && upcomingEvent.Value.StartTime <= timeInfo.Now)
                 {
                     activeEvents.Add(upcomingEvent.Value);
@@ -368,7 +368,7 @@ namespace RealTime.Events
 
         private void UpdateEventsToAttend()
         {
-            DateTime latestAttendTime = timeInfo.Now.AddHours(attendingTimeMargin);
+            var latestAttendTime = timeInfo.Now.AddHours(attendingTimeMargin);
 
             eventsToAttend.Clear();
             for (int i = 0; i < activeEvents.Count; ++i)
@@ -402,7 +402,7 @@ namespace RealTime.Events
         {
             bool eventsChanged = false;
 
-            DateTime today = timeInfo.Now.Date;
+            var today = timeInfo.Now.Date;
             var upcomingEventIds = eventManager.GetUpcomingEvents(today, today.AddDays(1));
 
             for (int i = 0; i < upcomingEventIds.Count; ++i)
@@ -457,7 +457,7 @@ namespace RealTime.Events
             newEvent.Configure(eventInfo.BuildingId, buildingManager.GetBuildingName(eventInfo.BuildingId), startTime);
             Log.Debug(LogCategory.Events, timeInfo.Now, $"Vanilla event registered for {newEvent.BuildingId}, start time {newEvent.StartTime}, end time {newEvent.EndTime}");
 
-            LinkedListNode<ICityEvent> existingEvent = upcomingEvents.FirstOrDefaultNode(e => e.StartTime >= startTime);
+            var existingEvent = upcomingEvents.FirstOrDefaultNode(e => e.StartTime >= startTime);
             if (existingEvent == null)
             {
                 upcomingEvents.AddLast(newEvent);
@@ -504,7 +504,7 @@ namespace RealTime.Events
             for (int i = finishedEvents.Count - 1; i >= 0; --i)
             {
                 var finishedEvent = finishedEvents[i];
-                var isOldEvent = finishedEvent.EndTime.Day != timeInfo.Now.Day;
+                bool isOldEvent = finishedEvent.EndTime.Day != timeInfo.Now.Day;
                 if (isOldEvent || MustCancelEvent(finishedEvent))
                 {
                     finishedEvents.RemoveAt(i);
@@ -530,14 +530,14 @@ namespace RealTime.Events
                 return eventsChanged;
             }
 
-            LinkedListNode<ICityEvent> cityEvent = upcomingEvents.First;
+            var cityEvent = upcomingEvents.First;
             while (cityEvent != null)
             {
                 if (MustCancelEvent(cityEvent.Value))
                 {
                     Log.Debug(LogCategory.Events, $"The upcoming event in building {cityEvent.Value.BuildingId} must be canceled");
                     eventsChanged = true;
-                    LinkedListNode<ICityEvent> nextEvent = cityEvent.Next;
+                    var nextEvent = cityEvent.Next;
                     upcomingEvents.Remove(cityEvent);
                     cityEvent = nextEvent;
                 }
@@ -567,7 +567,7 @@ namespace RealTime.Events
 
             if (cityEvent is VanillaEvent vanillaEvent)
             {
-                EventData.Flags eventFlags = eventManager.GetEventFlags(vanillaEvent.EventId);
+                var eventFlags = eventManager.GetEventFlags(vanillaEvent.EventId);
                 return eventFlags == 0 || (eventFlags & (EventData.Flags.Cancelled | EventData.Flags.Deleted)) != 0;
             }
 
@@ -582,13 +582,13 @@ namespace RealTime.Events
                 return;
             }
 
-            ICityEvent newEvent = eventProvider.GetRandomEvent(buildingClass);
+            var newEvent = eventProvider.GetRandomEvent(buildingClass);
             if (newEvent == null)
             {
                 return;
             }
 
-            DateTime startTime = upcomingEvents.Count == 0
+            var startTime = upcomingEvents.Count == 0
                 ? timeInfo.Now
                 : upcomingEvents.Last.Value.EndTime.Add(MinimumIntervalBetweenEvents);
 
@@ -608,7 +608,7 @@ namespace RealTime.Events
 
         private DateTime AdjustEventStartTime(DateTime eventStartTime, bool randomize)
         {
-            DateTime result = eventStartTime;
+            var result = eventStartTime;
 
             float earliestHour;
             float latestHour;

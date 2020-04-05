@@ -1,4 +1,4 @@
-﻿// <copyright file="EventColor.cs" company="dymanoid">
+// <copyright file="EventColor.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -39,15 +39,9 @@ namespace RealTime.Events
         /// </summary>
         public byte Blue { get; }
 
-        public static bool operator ==(EventColor left, EventColor right)
-        {
-            return left.Equals(right);
-        }
+        public static bool operator ==(EventColor left, EventColor right) => left.Equals(right);
 
-        public static bool operator !=(EventColor left, EventColor right)
-        {
-            return !(left == right);
-        }
+        public static bool operator !=(EventColor left, EventColor right) => !(left == right);
 
         /// <inheritdoc/>
         public override bool Equals(object obj) => obj is EventColor color && Equals(color);
@@ -58,7 +52,7 @@ namespace RealTime.Events
         /// <inheritdoc/>
         public override int GetHashCode()
         {
-            var hashCode = -1058441243;
+            int hashCode = -1058441243;
             hashCode = hashCode * -1521134295 + Red.GetHashCode();
             hashCode = hashCode * -1521134295 + Green.GetHashCode();
             hashCode = hashCode * -1521134295 + Blue.GetHashCode();

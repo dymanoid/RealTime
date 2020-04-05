@@ -88,7 +88,7 @@ namespace RealTime.UI
         /// <returns><c>true</c> on success; otherwise, <c>false</c>.</returns>
         protected sealed override bool InitializeCore()
         {
-            UILabel statusLabel = ItemsPanel.Find<UILabel>(AgeEducationLabelName);
+            var statusLabel = ItemsPanel.Find<UILabel>(AgeEducationLabelName);
             if (statusLabel == null)
             {
                 return false;

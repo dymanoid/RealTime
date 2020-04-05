@@ -1,4 +1,4 @@
-﻿// <copyright file="RealTimeResidentAI.Common.cs" company="dymanoid">
+// <copyright file="RealTimeResidentAI.Common.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -79,7 +79,7 @@ namespace RealTime.CustomAI
 
         private bool ProcessCitizenSick(TAI instance, uint citizenId, ref TCitizen citizen)
         {
-            Citizen.Location currentLocation = CitizenProxy.GetLocation(ref citizen);
+            var currentLocation = CitizenProxy.GetLocation(ref citizen);
             if (currentLocation == Citizen.Location.Moving)
             {
                 return false;
@@ -105,6 +105,9 @@ namespace RealTime.CustomAI
                 switch (BuildingMgr.GetBuildingService(visitBuilding))
                 {
                     case ItemClass.Service.HealthCare:
+                        UpdateSickStateOnVisitingHealthcare(citizenId, visitBuilding, ref citizen);
+                        return true;
+
                     case ItemClass.Service.Disaster when !BuildingMgr.BuildingHasFlags(visitBuilding, Building.Flags.Downgrading):
                         return true;
                 }
@@ -161,7 +164,7 @@ namespace RealTime.CustomAI
                 return ScheduleAction.Ignore;
             }
 
-            Citizen.Location location = CitizenProxy.GetLocation(ref citizen);
+            var location = CitizenProxy.GetLocation(ref citizen);
             if (location == Citizen.Location.Moving)
             {
                 if (CitizenMgr.InstanceHasFlags(
@@ -189,7 +192,7 @@ namespace RealTime.CustomAI
                 return ScheduleAction.ProcessState;
             }
 
-            ItemClass.Service buildingService = BuildingMgr.GetBuildingService(currentBuilding);
+            var buildingService = BuildingMgr.GetBuildingService(currentBuilding);
             switch (location)
             {
                 case Citizen.Location.Home:
@@ -288,7 +291,7 @@ namespace RealTime.CustomAI
                 schedule.WorkStatus = WorkStatus.None;
             }
 
-            DateTime nextActivityTime = todayWakeUp;
+            var nextActivityTime = todayWakeUp;
             if (schedule.CurrentState != ResidentState.AtSchoolOrWork
                 && workBuilding != 0
                 && schedule.WorkStatus != WorkStatus.OnVacation)
@@ -439,5 +442,19 @@ namespace RealTime.CustomAI
         }
 
         private bool ShouldRealizeCitizen(TAI ai) => residentAI.DoRandomMove(ai);
+
+        private void UpdateSickStateOnVisitingHealthcare(uint citizenId, ushort buildingId, ref TCitizen citizen)
+        {
+            var citizenAge = CitizenProxy.GetAge(ref citizen);
+            if ((citizenAge == Citizen.AgeGroup.Child || citizenAge == Citizen.AgeGroup.Teen) && BuildingMgr.IsBuildingAIOfType<ChildcareAI>(buildingId)
+                || citizenAge == Citizen.AgeGroup.Senior && BuildingMgr.IsBuildingAIOfType<EldercareAI>(buildingId))
+            {
+                if (CitizenProxy.GetHealth(ref citizen) > Random.GetRandomValue(100u))
+                {
+                    Log.Debug(LogCategory.State, TimeInfo.Now, $"{GetCitizenDesc(citizenId, ref citizen)} was sick, but got healed in a child or elder care building");
+                    CitizenProxy.SetSick(ref citizen, isSick: false);
+                }
+            }
+        }
     }
 }

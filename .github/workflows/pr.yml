@@ -1,0 +1,33 @@
+name: Pull Request Check
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    name: Build solution
+    if: github.actor == 'dymanoid'
+
+    runs-on: windows-latest
+    
+    steps:
+    - name: Get sources
+      uses: actions/checkout@v1
+      with:
+        submodules: true
+    
+    - name: Setup MSBuild environment
+      uses: microsoft/setup-msbuild@v1.0.0
+      
+    - name: Get referenced binaries
+      uses: actions/checkout@v1
+      with:
+        repository: dymanoid/CitiesSkylinesBinaries
+        ref: refs/heads/master
+        path: binaries
+        token: ${{ secrets.GITHUB_ACTIONS_PAT }}
+
+    - name: Build solution
+      working-directory: src
+      run: msbuild RealTime.sln /nologo /m /verbosity:minimal /restore /p:Configuration=Release /p:CitiesSkylinesBinaries="$env:GITHUB_WORKSPACE\..\binaries\"

@@ -29,15 +29,15 @@ namespace RealTime.Simulation
         /// <returns>A collection of <see cref="IPatch"/> objects.</returns>
         public static IEnumerable<IPatch> GetCompatibilityPatches()
         {
-            Type timeWarpType = GetManagerType(TimeWarpWorkshopId, TimeWarpManagerType);
-            Type ultimateEyecandyType = GetManagerType(UltimateEyecandyWorkshopId, UltimateEyecandyManagerType);
+            var timeWarpType = GetManagerType(TimeWarpWorkshopId, TimeWarpManagerType);
+            var ultimateEyecandyType = GetManagerType(UltimateEyecandyWorkshopId, UltimateEyecandyManagerType);
 
             return GetPatches(timeWarpType).Concat(GetPatches(ultimateEyecandyType));
         }
 
         private static Type GetManagerType(ulong modId, string typeName)
         {
-            PluginManager.PluginInfo mod = PluginManager.instance.GetPluginsInfo()
+            var mod = PluginManager.instance.GetPluginsInfo()
                 .FirstOrDefault(pi => pi.publishedFileID.AsUInt64 == modId);
 
             if (mod?.isEnabled != true)
@@ -45,7 +45,7 @@ namespace RealTime.Simulation
                 return null;
             }
 
-            Assembly assembly = mod.GetAssemblies()?.FirstOrDefault();
+            var assembly = mod.GetAssemblies()?.FirstOrDefault();
             if (assembly == null)
             {
                 Log.Warning($"'Real Time' compatibility check: the mod {modId} has no assemblies.");

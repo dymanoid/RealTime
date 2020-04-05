@@ -1,4 +1,4 @@
-﻿// <copyright file="ConfigUI.cs" company="dymanoid">
+// <copyright file="ConfigUI.cs" company="dymanoid">
 //     Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -61,16 +61,16 @@ namespace RealTime.UI
 
             var result = new ConfigUI(configProvider, viewItems);
 
-            IContainerViewItem toolsTab = viewItems.OfType<IContainerViewItem>().FirstOrDefault(i => i.Id == ToolsId);
+            var toolsTab = viewItems.OfType<IContainerViewItem>().FirstOrDefault(i => i.Id == ToolsId);
             if (toolsTab == null)
             {
                 toolsTab = itemFactory.CreateTabItem(ToolsId);
                 viewItems.Add(toolsTab);
             }
 
-            IViewItem resetButton = itemFactory.CreateButton(toolsTab, ResetToDefaultsId, result.ResetToDefaults);
+            var resetButton = itemFactory.CreateButton(toolsTab, ResetToDefaultsId, result.ResetToDefaults);
             viewItems.Add(resetButton);
-            IViewItem newGameConfigButton = itemFactory.CreateButton(toolsTab, UseForNewGamesId, result.UseForNewGames);
+            var newGameConfigButton = itemFactory.CreateButton(toolsTab, UseForNewGamesId, result.UseForNewGames);
             viewItems.Add(newGameConfigButton);
 
             return result;
@@ -97,7 +97,7 @@ namespace RealTime.UI
 
             foreach (var tab in properties.GroupBy(p => p.Attribute.TabId).OrderBy(p => p.Key))
             {
-                IContainerViewItem tabItem = itemFactory.CreateTabItem(tab.Key);
+                var tabItem = itemFactory.CreateTabItem(tab.Key);
                 viewItems.Add(tabItem);
 
                 foreach (var group in tab.GroupBy(p => p.Attribute.GroupId).OrderBy(p => p.Key))
@@ -115,7 +115,7 @@ namespace RealTime.UI
 
                     foreach (var item in group.OrderBy(i => i.Attribute.Order))
                     {
-                        IViewItem viewItem = CreateViewItem(containerItem, item.Property, configProvider, itemFactory);
+                        var viewItem = CreateViewItem(containerItem, item.Property, configProvider, itemFactory);
                         if (viewItem != null)
                         {
                             viewItems.Add(viewItem);
@@ -131,10 +131,7 @@ namespace RealTime.UI
             ConfigurationProvider<RealTimeConfig> configProvider,
             IViewItemFactory itemFactory)
         {
-            object Config()
-            {
-                return configProvider.Configuration;
-            }
+            object Config() => configProvider.Configuration;
 
             switch (GetCustomItemAttribute<ConfigItemUIBaseAttribute>(property))
             {

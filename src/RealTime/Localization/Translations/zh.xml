@@ -2,17 +2,17 @@
 <language id="zh" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <translation id="Warning" value="警告" />
-  <translation id="RestrictedModeMessage" value="Real Time works in restricted mode. Some functionality is disabled. This is because of a technical issue with a third-party library or a mod incompatibility. If you want assistance, please share your game log file with the mod's developer." />
+  <translation id="RestrictedModeMessage" value="Real Time工作在受限模式下。某些功能被禁用。这是因为第三方库存在技术问题或mod不兼容。如果你需要帮助，请联系mod开发者且发送你的游戏日志文件。" />
   <translation id="ModNotWorkingMessage" value="啊! 出问题了 - Real Time模组无法启用. 请把你的log记录文件分享给该模组的开发者." />
-  <translation id="IncompatibleModsFoundMessage" value="Real Time detected at least one incompatible mod (or at least partly incompatible). It is recommended to unsubscribe from them. You might continue on your own risk if you know what you are doing, but in this case something might not work properly or even crash the game." />
-  <translation id="Minutes" value="min." />
+  <translation id="IncompatibleModsFoundMessage" value="Real Time检测到至少一个不兼容的mod（或部分不兼容）。建议取消订阅。如果你忽略此提示，你可能会冒风险，游戏可能无法正常工作，甚至会使崩溃。" />
+  <translation id="Minutes" value="分钟。" />
 
   <translation id="Tools" value="工具" />
-  <translation id="ShowIncompatibilityNotifications" value="Show mod incompatibility notifications" />
-  <translation id="UseEnglishUSFormats" value="Use USA time and date formats with English language" />
-  <translation id="UseEnglishUSFormatsTooltip" value="Changing the time format requires a game restart" />
+  <translation id="ShowIncompatibilityNotifications" value="显示mod不兼容的通知" />
+  <translation id="UseEnglishUSFormats" value="使用美国的时间日期格式与英语" />
+  <translation id="UseEnglishUSFormatsTooltip" value="更改时间格式需要重新启动游戏" />
   <translation id="ResetToDefaults" value="重设至默认" />
-  <translation id="UseForNewGames" value="Use current values for new games" />
+  <translation id="UseForNewGames" value="为新游戏使用当前值" />
 
   <translation id="1General" value="通用设置" />
   <translation id="0Time" value="时间选项" />
@@ -31,8 +31,8 @@
   <translation id="VirtualCitizensTooltip" value="选择'None'来打造100%真实的城市，如果电脑带不动请选择'Vanilla'或者'More'" />
   <translation id="VirtualCitizens.None" value="完全真实市民行为" />
   <translation id="VirtualCitizens.Vanilla" value="原版游戏的市民行为" />
-  <translation id="UseSlowAging" value="Better aging and birth rate" />
-  <translation id="UseSlowAgingTooltip" value="If enabled, 1 game day means 1 citizen's life year. If disabled, 1 game day means 10 (at time speed 6) to 340 (at time speed 1) life years." />
+  <translation id="UseSlowAging" value="更好的老龄化和出生率" />
+  <translation id="UseSlowAgingTooltip" value="如果启用，1个游戏日意味着1个公民的生命年。如果禁用，1个游戏日意味着10（时间速度6）到340（时间速度1）生命年。" />
   <translation id="IsWeekendEnabled" value="城市有周六日" />
   <translation id="IsWeekendEnabledTooltip" value="市民们周六日都不会上班上学" />
   <translation id="IsLunchtimeEnabled" value="城市有午饭时间" />
@@ -43,10 +43,10 @@
   <translation id="ConstructionSpeedTooltip" value="调节建筑建造和升级的速度" />
   <translation id="SwitchOffLightsAtNight" value="夜间关闭建筑灯光" />
   <translation id="SwitchOffLightsAtNightTooltip" value="市民们睡觉时住宅建筑的灯光会自动关闭，其他建筑比如办公室和公园当没有人工作时也会关灯。" />
-  <translation id="SwitchOffLightsMaxHeight" value="Keep lights on for tall buildings" />
-  <translation id="SwitchOffLightsMaxHeightTooltip" value="Residential, commercial, and office buildings taller than this value will not switch off lights at night" />
-  <translation id="CanAbandonJourney" value="Better traffic jam and public transport waiting behavior" />
-  <translation id="CanAbandonJourneyTooltip" value="If enabled, citizens can abandon their journeys when stuck in a traffic jam or waiting for public transport for too long" />
+  <translation id="SwitchOffLightsMaxHeight" value="保持高层建筑的灯光" />
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="比这个值高的住宅、商业、办公楼不会关灯。" />
+  <translation id="CanAbandonJourney" value="改善交通拥堵与公共交通等候的行为" />
+  <translation id="CanAbandonJourneyTooltip" value="如果交通堵塞或等待公共交通时间过长市民会放弃出行" />
 
   <translation id="2Quotas" value="几率选项" />
   <translation id="SecondShiftQuota" value="第二轮班工人" />
@@ -57,8 +57,8 @@
   <translation id="LunchQuotaTooltip" value="调节外出吃午饭而不叫外卖的市民的百分比" />
   <translation id="LocalBuildingSearchQuota" value="就近购物几率" />
   <translation id="LocalBuildingSearchQuotaTooltip" value="调节就近购物的市民百分比" />
-  <translation id="ShoppingForFunQuota" value="Shopping for fun" />
-  <translation id="ShoppingForFunQuotaTooltip" value="The percentage of the population that will go shopping just for fun even when they don't need any goods" />
+  <translation id="ShoppingForFunQuota" value="为了娱乐而购物" />
+  <translation id="ShoppingForFunQuotaTooltip" value="即使不需要，也会因为娱乐而购物的市民比例" />
   <translation id="OnTimeQuota" value="准点下班几率" />
   <translation id="OnTimeQuotaTooltip" value="调节摸完鱼准点下班的市民百分比" />
 
@@ -89,25 +89,25 @@
   <translation id="LunchBeginTooltip" value="午饭饭点开始市民就会上街找吃的" />
   <translation id="LunchEnd" value="午饭饭点结束时间" />
   <translation id="LunchEndTooltip" value="过了午饭饭点市民又回去工作了" />
-  <translation id="MaxVacationLength" value="Maximum vacation days" />
-  <translation id="MaxVacationLengthTooltip" value="For how long citizens can be on vacation. Set to 0 to disable vacations." />
+  <translation id="MaxVacationLength" value="最大放假天数" />
+  <translation id="MaxVacationLengthTooltip" value="市民可以放假多长时间。设置为0禁用假期。" />
 
-  <translation id="ScheduledAction" value="Now" />
-  <translation id="NextScheduledAction" value="Until" />
-  <translation id="ScheduledAction.AtHome" value="Go home" />
-  <translation id="ScheduledAction.AtSchoolOrWork" value="Go to work/school" />
-  <translation id="ScheduledAction.Shopping" value="Go shopping" />
-  <translation id="ScheduledAction.Relaxing" value="Go relaxing" />
-  <translation id="ScheduledAction.Visiting" value="Go visit" />
-  <translation id="ScheduledAction.InShelter" value="Go to shelter" />
-  <translation id="WorkShift.First" value="1st work shift" />
-  <translation id="WorkShift.Second" value="2nd work shift" />
-  <translation id="WorkShift.Night" value="Night work shift" />
-  <translation id="WorkStatus.OnVacation" value="(vacation: {0} days)" />
+  <translation id="ScheduledAction" value="现在" />
+  <translation id="NextScheduledAction" value="直到" />
+  <translation id="ScheduledAction.AtHome" value="回家" />
+  <translation id="ScheduledAction.AtSchoolOrWork" value="去工作/学校" />
+  <translation id="ScheduledAction.Shopping" value="去购物" />
+  <translation id="ScheduledAction.Relaxing" value="去放松" />
+  <translation id="ScheduledAction.Visiting" value="去参观" />
+  <translation id="ScheduledAction.InShelter" value="去避难所" />
+  <translation id="WorkShift.First" value="第一班次" />
+  <translation id="WorkShift.Second" value="第二班次" />
+  <translation id="WorkShift.Night" value="晚班" />
+  <translation id="WorkStatus.OnVacation" value="(假期: {0} 天)" />
 
-  <translation id="AcademicYear.DaysLeft" value="Ends in {0} days" />
-  <translation id="AcademicYear.HoursLeft" value="Ends in {0} hour(s)" />
-  <translation id="AcademicYear.EndsSoon" value="Ends in less than 1 hour" />
+  <translation id="AcademicYear.DaysLeft" value="结束与 {0} 天" />
+  <translation id="AcademicYear.HoursLeft" value="结束与 {0} 小时" />
+  <translation id="AcademicYear.EndsSoon" value="一小时内结束" />
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="Coal stored for {0} × {unit}"/>
@@ -225,6 +225,19 @@
     <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="Total Campus Area profit last {unit}"/>
     <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Unique Buildings and Sport Arenas expenses last {unit}"/>
     <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Income from Campus Areas last {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Income from Campus Areas last {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_ONLYPLAYERINDUSTRY_AND_FISHING" value="Income from Industry Areas and Fishing last {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_FISHING" value="Income from Fishing last {unit}"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY_AND_FISHING" value="Industry Area and Fishing Expenses last {unit}"/>
+    <translation id="EXPENSES_TT_FISHING" value="Fishing Expenses last {unit}"/>
+    <translation id="AIINFO_FISH_SOLD" value="Fish sold last {unit}: {0}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_INCOME" value="Income from Industry Areas and Fishing Industry last {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_EXPENSES" value="Industry Area and Fishing Industry expenses last {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_EXPENSES" value="Fishing Industry expenses last {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_INCOME" value="Income from the Fishing Industry last {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_INDUSTRIES" value="Total Industry Areas and Fishing Industry profit last {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_FISHINGINDUSTRY" value="Total Fishing Industry profit last {unit}"/>
+    <translation id="INFO_HEALTH_CHILDCARE_BIRTHRATE" value="Birth rate: {0} / {unit}"/>
   </overrides>
 
 </language>
