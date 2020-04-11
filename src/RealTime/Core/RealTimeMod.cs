@@ -1,4 +1,4 @@
-﻿// <copyright file="RealTimeMod.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
+// <copyright file="RealTimeMod.cs" company="dymanoid">Copyright (c) dymanoid. All rights reserved.</copyright>
 
 namespace RealTime.Core
 {
@@ -48,9 +48,7 @@ namespace RealTime.Core
         /// <summary>Called when this mod is enabled.</summary>
         public void OnEnabled()
         {
-#if DEBUG
-            Log.Setup(LogCategory.Generic, LogCategory.Simulation);
-#endif
+            Log.SetupDebug(Name, LogCategory.Generic, LogCategory.Simulation);
 
             if (string.IsNullOrEmpty(modPath))
             {

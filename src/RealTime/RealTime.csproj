@@ -18,6 +18,7 @@
     <DefineConstants>BENCHMARK</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="SkyTools.Patching" Version="2.1.0" />
     <PackageReference Include="GitVersionTask" Version="5.2.4" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" />
     <PackageReference Include="Roslynator.Analyzers" Version="2.3.0"/>
@@ -29,9 +30,6 @@
     <Reference Include="ColossalManaged" />
     <Reference Include="ICities" />
     <Reference Include="UnityEngine" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SkyTools\src\SkyTools\SkyTools.csproj" />
   </ItemGroup>
   <Target Name="DeployToModsDirectory" AfterTargets="Build" DependsOnTargets="Build">
     <PropertyGroup>
