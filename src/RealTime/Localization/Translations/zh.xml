@@ -43,7 +43,7 @@
   <translation id="ConstructionSpeedTooltip" value="调节建筑建造和升级的速度" />
   <translation id="SwitchOffLightsAtNight" value="夜间关闭建筑灯光" />
   <translation id="SwitchOffLightsAtNightTooltip" value="市民们睡觉时住宅建筑的灯光会自动关闭，其他建筑比如办公室和公园当没有人工作时也会关灯。" />
-  <translation id="SwitchOffLightsMaxHeight" value="保持高层建筑的灯光" />
+  <translation id="SwitchOffLightsMaxHeight" value="保持高楼建筑的灯光" />
   <translation id="SwitchOffLightsMaxHeightTooltip" value="比这个值高的住宅、商业、办公楼不会关灯。" />
   <translation id="CanAbandonJourney" value="改善交通拥堵与公共交通等候的行为" />
   <translation id="CanAbandonJourneyTooltip" value="如果交通堵塞或等待公共交通时间过长市民会放弃出行" />
@@ -110,25 +110,25 @@
   <translation id="AcademicYear.EndsSoon" value="一小时内结束" />
 
   <overrides type="Units">
-    <translation id="AIINFO_COAL_STORED" value="Coal stored for {0} × {unit}"/>
-    <translation id="AIINFO_CUMULATIVEUPKEEP" value="Upkeep: {0} + {1} / {unit} / cell"/>
-    <translation id="AIINFO_DECEASED_PROCESSED" value="Deceased processed last {unit}: {0}"/>
-    <translation id="AIINFO_ELECTRICITY_PRODUCED" value="Electricity produced last {unit}: {0} MW"/>
-    <translation id="AIINFO_FIRES_EXTINGUISHED" value="Fires extinguished last {unit}: {0}"/>
-    <translation id="AIINFO_OIL_STORED" value="Oil stored for {0} × {unit}"/>
-    <translation id="AIINFO_PASSENGERS_SERVICED" value="Passengers serviced last {unit}: {0}"/>
-    <translation id="AIINFO_PATIENTS_TREATED" value="Patients treated last {unit}: {0}"/>
-    <translation id="AIINFO_POLE_UPKEEP" value="Upkeep: {0} / pole / {unit}"/>
-    <translation id="AIINFO_PROCESSING_RATE" value="Processing rate: {0} / {unit}"/>
-    <translation id="AIINFO_TOURISTS" value="Tourists last {unit}: {0}"/>
-    <translation id="AIINFO_UPKEEP" value="Upkeep: {0} / {unit}"/>
-    <translation id="AIINFO_UPKEEPPERCELL" value="Upkeep: {0} / {unit} / cell"/>
-    <translation id="AIINFO_VISITORS" value="Visitors last {unit}: {0} "/>
-    <translation id="AIINFO_WATER_CONSUMPTION" value="Water: {0} m³/{unit}"/>
-    <translation id="AIINFO_WATER_INTAKE" value="Pumping Capacity: {0} m³/{unit}"/>
-    <translation id="AIINFO_WATER_OUTLET" value="Drain Capacity: {0} m³/{unit}"/>
-    <translation id="AIINFO_WATER_STORED" value="Water stored for {0} × {unit}"/>
-    <translation id="AINFO_WATER_IO_CAPACITY" value="Operating rate: {0:N0} m³/{unit}"/>
+    <translation id="AIINFO_COAL_STORED" value="煤炭储存 {0} × {unit}"/>
+    <translation id="AIINFO_CUMULATIVEUPKEEP" value="维护费: {0} + {1} / {unit} / cell"/>
+    <translation id="AIINFO_DECEASED_PROCESSED" value="最近的死者处理 {unit}: {0}"/>
+    <translation id="AIINFO_ELECTRICITY_PRODUCED" value="最近的发电量 {unit}: {0} MW"/>
+    <translation id="AIINFO_FIRES_EXTINGUISHED" value="最近的火警 {unit}: {0}"/>
+    <translation id="AIINFO_OIL_STORED" value="石油储存 {0} × {unit}"/>
+    <translation id="AIINFO_PASSENGERS_SERVICED" value="最近的乘客服务 {unit}: {0}"/>
+    <translation id="AIINFO_PATIENTS_TREATED" value="最近的患者治疗 {unit}: {0}"/>
+    <translation id="AIINFO_POLE_UPKEEP" value="维护费: {0} / 杆 / {unit}"/>
+    <translation id="AIINFO_PROCESSING_RATE" value="加工速度: {0} / {unit}"/>
+    <translation id="AIINFO_TOURISTS" value="最近的游客 {unit}: {0}"/>
+    <translation id="AIINFO_UPKEEP" value="维护费: {0} / {unit}"/>
+    <translation id="AIINFO_UPKEEPPERCELL" value="维护费: {0} / {unit} / cell"/>
+    <translation id="AIINFO_VISITORS" value="最近的访客 {unit}: {0} "/>
+    <translation id="AIINFO_WATER_CONSUMPTION" value="水: {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_INTAKE" value="泵送能力: {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_OUTLET" value="排水能力: {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_STORED" value="水储量 {0} × {unit}"/>
+    <translation id="AINFO_WATER_IO_CAPACITY" value="开工率: {0:N0} m³/{unit}"/>
     <translation id="DATETIME_WEEK" value="{unit}"/>
     <translation id="DATETIME_WEEKLOWERCASE" value="{unit}"/>
     <translation id="DATETIME_WEEKS" value="× {unit}"/>
