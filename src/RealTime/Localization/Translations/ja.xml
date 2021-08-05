@@ -1,113 +1,113 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<language id="ja" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<?xml version="1.0" encoding="utf-8"?>
+<language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" id="ja">
 
-  <translation id="Warning" value="警告" />
-  <translation id="RestrictedModeMessage" value="Real Time が制限モードで動作しています。いくつかの機能が無効化されています。これは、サードパーティライブラリの技術的な問題または mod の互換性がないためです。ヘルプが必要な場合は、ゲームのログファイルを mod の開発者に送ってください。" />
-  <translation id="ModNotWorkingMessage" value="おっと! 何か変ですね - 'Real Time' mod を起動することができませんでした。ゲームのログファイルを mod の開発者に送ってもらえませんか。" />
-  <translation id="IncompatibleModsFoundMessage" value="Real Time は、互換性がない (あるいは部分的に互換性がない) mod が少なくともひとつあることを検出しました。それらの mod はサブスクライブを解除して下さい。どのような不具合があるかわかっているなら、自己責任で続けることができますが、この場合、正常に動作しなかったり、あるいはゲームがクラッシュするかもしれません。" />
-  <translation id="Minutes" value="分" />
+  <translation id="Warning" value="警告"/>
+  <translation id="RestrictedModeMessage" value="Real Time が制限モードで動作しています。いくつかの機能が無効化されています。これは、サードパーティライブラリの技術的な問題または mod の互換性がないためです。ヘルプが必要な場合は、ゲームのログファイルを mod の開発者に送ってください。"/>
+  <translation id="ModNotWorkingMessage" value="おっと! 何か変ですね - 'Real Time' mod を起動することができませんでした。ゲームのログファイルを mod の開発者に送ってもらえませんか。"/>
+  <translation id="IncompatibleModsFoundMessage" value="Real Time は、互換性がない (あるいは部分的に互換性がない) mod が少なくともひとつあることを検出しました。それらの mod のサブスクライブを解除して下さい。どのような不具合があるかわかっているなら、自己責任で続けることができますが、正常に動作しなかったり、ゲームがクラッシュしたりするかもしれません。"/>
+  <translation id="Minutes" value="分"/>
 
-  <translation id="Tools" value="ツール" />
-  <translation id="ShowIncompatibilityNotifications" value="非互換 mod 通知を表示" />
-  <translation id="UseEnglishUSFormats" value="英語の場合は米国の日付/時刻形式を使用" />
-  <translation id="UseEnglishUSFormatsTooltip" value="Changing the time format requires a game restart" />
-  <translation id="ResetToDefaults" value="すべてデフォルトにリセット" />
-  <translation id="UseForNewGames" value="現在の値を新規ゲームに適用" />
+  <translation id="Tools" value="ツール"/>
+  <translation id="ShowIncompatibilityNotifications" value="非互換 mod 通知を表示"/>
+  <translation id="UseEnglishUSFormats" value="英語の場合は米国の日付/時刻形式を使用"/>
+  <translation id="UseEnglishUSFormatsTooltip" value="時刻表示形式の変更にはゲームの再起動が必要です"/>
+  <translation id="ResetToDefaults" value="すべてデフォルトにリセット"/>
+  <translation id="UseForNewGames" value="現在の値を新規ゲームに適用"/>
 
-  <translation id="1General" value="全般" />
-  <translation id="0Time" value="時間オプション" />
-  <translation id="1Other" value="その他のオプション" />
-  <translation id="WakeUpHour" value="都市が目覚める時" />
-  <translation id="WakeUpHourTooltip" value="多くの市民が起床し始める時間。予算と時間の進む速度が「日中」モードへ切り替わります!" />
-  <translation id="GoToSleepHour" value="都市が眠りにつく時" />
-  <translation id="GoToSleepHourTooltip" value="多くの市民が床につき始める時間。予算と時間の進む速度が「夜間」モードに切り替わります!" />
-  <translation id="DayTimeSpeed" value="時間が進む速度 (日中)" />
-  <translation id="DayTimeSpeedTooltip" value="日中に経過する時間の早さです。'1' にするととても遅く - 実際の時間とほとんど変わりありません!" />
-  <translation id="NightTimeSpeed" value="時間が進む速度 (夜間)" />
-  <translation id="NightTimeSpeedTooltip" value="夜間に経過する時間の早さです。'1' にすると、とても遅く - 実際の時間とほとんど変わりありません!" />
-  <translation id="IsDynamicDayLengthEnabled" value="一日の長さを動的に変更" />
-  <translation id="IsDynamicDayLengthEnabledTooltip" value="一日の長さは、マップテーマと日付により異なります。冬は昼が夏より短くなります。" />
-  <translation id="VirtualCitizens" value="市民のシミュレーションモード (リアルとバーチャル)" />
-  <translation id="VirtualCitizensTooltip" value="リアルな都市 (ただし、市民は最大 65,535人) をシミュレートするには、'すべて' を選択し、PCの性能がそれほどでないか、都市が巨大なら、'バニラ' を選択して下さい" />
-  <translation id="VirtualCitizens.None" value="すべての市民がリアル" />
-  <translation id="VirtualCitizens.Vanilla" value="バニラと同じ" />
-  <translation id="UseSlowAging" value="老化速度の最適化" />
-  <translation id="UseSlowAgingTooltip" value="有効にすると、ゲーム内の1日は市民の1年を意味します。無効にすると、ゲーム内の1日は10年（時間の速さ6）〜340年（時間の速さ1）を意味します。" />
-  <translation id="IsWeekendEnabled" value="週末を有効にする" />
-  <translation id="IsWeekendEnabledTooltip" value="週末には市民が通勤通学しなくなります" />
-  <translation id="IsLunchtimeEnabled" value="ランチタイムを有効にする" />
-  <translation id="IsLunchtimeEnabledTooltip" value="市民は食事のために昼食時に外出します" />
-  <translation id="StopConstructionAtNight" value="夜間には、ビルの建築やアップグレードを中断する" />
-  <translation id="StopConstructionAtNightTooltip" value="建築現場の労働者も就寝しなくてはなりません" />
-  <translation id="ConstructionSpeed" value="建築速度" />
-  <translation id="ConstructionSpeedTooltip" value="建物の建築やアップグレードの速度" />
-  <translation id="SwitchOffLightsAtNight" value="夜間に建物の照明をつけない" />
-  <translation id="SwitchOffLightsAtNightTooltip" value="市民が睡眠をとっている間 - 誰も働いたりしていない間は、住宅やその他の建物、公園の照明を消します" />
-  <translation id="SwitchOffLightsMaxHeight" value="Keep lights on for tall buildings" />
-  <translation id="SwitchOffLightsMaxHeightTooltip" value="Residential, commercial, and office buildings taller than this value will not switch off lights at night" />
-  <translation id="CanAbandonJourney" value="渋滞と公共交通待機時の振る舞い改善" />
-  <translation id="CanAbandonJourneyTooltip" value="有効の場合、市民は長時間交通渋滞や公共交通機関を待たされた際に行動を諦めることができます。" />
+  <translation id="1General" value="一般"/>
+  <translation id="0Time" value="時間オプション"/>
+  <translation id="1Other" value="その他のオプション"/>
+  <translation id="WakeUpHour" value="都市が目覚める時"/>
+  <translation id="WakeUpHourTooltip" value="多くの市民が起床し始める時間。予算と時間の進む速度が「日中」モードへ切り替わります！"/>
+  <translation id="GoToSleepHour" value="都市が眠りにつく時"/>
+  <translation id="GoToSleepHourTooltip" value="多くの市民が床につき始める時間。予算と時間の進む速度が「夜間」モードに切り替わります！"/>
+  <translation id="DayTimeSpeed" value="時間が進む速度 (日中)"/>
+  <translation id="DayTimeSpeedTooltip" value="日中に経過する時間の早さです。「1」にすると、とても遅く、実際の時間とほとんど変わりません！"/>
+  <translation id="NightTimeSpeed" value="時間が進む速度 (夜間)"/>
+  <translation id="NightTimeSpeedTooltip" value="夜間に経過する時間の早さです。「1」にすると、とても遅く、実際の時間とほとんど変わりません！"/>
+  <translation id="IsDynamicDayLengthEnabled" value="一日の長さを動的に変更"/>
+  <translation id="IsDynamicDayLengthEnabledTooltip" value="一日の長さは、マップテーマと日付により異なります。冬は夏より昼が短くなります。"/>
+  <translation id="VirtualCitizens" value="市民のシミュレーション (リアルとバーチャル)"/>
+  <translation id="VirtualCitizensTooltip" value="リアルな都市 (ただし、市民は最大 65,535人) をシミュレートするには「すべて」を選択し、PCの性能がそれほどでないか、都市が巨大なら、「バニラ」を選択して下さい"/>
+  <translation id="VirtualCitizens.None" value="すべての市民がリアル"/>
+  <translation id="VirtualCitizens.Vanilla" value="バニラと同じ"/>
+  <translation id="UseSlowAging" value="老化速度の最適化"/>
+  <translation id="UseSlowAgingTooltip" value="有効にすると、ゲーム内の1日は市民の1年となります。無効にすると、ゲーム内の1日は10年（時間の速さ6）〜340年（時間の速さ1）となります。"/>
+  <translation id="IsWeekendEnabled" value="週末を有効にする"/>
+  <translation id="IsWeekendEnabledTooltip" value="週末には市民が通勤通学しなくなります"/>
+  <translation id="IsLunchtimeEnabled" value="ランチタイムを有効にする"/>
+  <translation id="IsLunchtimeEnabledTooltip" value="市民は食事のために昼食時に外出します"/>
+  <translation id="StopConstructionAtNight" value="夜間はビルの建築やアップグレードを中断する"/>
+  <translation id="StopConstructionAtNightTooltip" value="建築現場の労働者も就寝しなくてはなりません"/>
+  <translation id="ConstructionSpeed" value="建築速度"/>
+  <translation id="ConstructionSpeedTooltip" value="建物の建築やアップグレードの速度"/>
+  <translation id="SwitchOffLightsAtNight" value="夜間は建物の照明をつけない"/>
+  <translation id="SwitchOffLightsAtNightTooltip" value="市民が睡眠をとっている時間の住宅や、誰もそこで活動していない時間の建物、公園の照明を消します"/>
+  <translation id="SwitchOffLightsMaxHeight" value="高い建物の照明は点けたままにする"/>
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="この値よりも高い住宅、商業施設、オフィスは夜間に消灯しません"/>
+  <translation id="CanAbandonJourney" value="渋滞と公共交通待機時の振る舞い改善"/>
+  <translation id="CanAbandonJourneyTooltip" value="有効の場合、市民は長時間交通渋滞や公共交通機関を待たされた際に移動を諦めることができます。"/>
 
-  <translation id="2Quotas" value="確率" />
-  <translation id="SecondShiftQuota" value="２直の労働者" />
-  <translation id="SecondShiftQuotaTooltip" value="２直で働く市民の割合" />
-  <translation id="NightShiftQuota" value="夜直の労働者" />
-  <translation id="NightShiftQuotaTooltip" value="夜直で働く市民の割合" />
-  <translation id="LunchQuota" value="昼食の確率" />
-  <translation id="LunchQuotaTooltip" value="昼食のために外出する市民の割合" />
-  <translation id="LocalBuildingSearchQuota" value="地元で買い物をする人の割合" />
-  <translation id="LocalBuildingSearchQuotaTooltip" value="地元で買い物をする住民の割合" />
-  <translation id="ShoppingForFunQuota" value="娯楽としての買い物" />
-  <translation id="ShoppingForFunQuotaTooltip" value="商品が必要でなくとも買い物を楽しむためだけに外出する住民の割合" />
-  <translation id="OnTimeQuota" value="定時出退勤者の割合" />
-  <translation id="OnTimeQuotaTooltip" value="定時に出社、退勤する市民の割合" />
+  <translation id="2Quotas" value="確率"/>
+  <translation id="SecondShiftQuota" value="掛け持ちの労働者"/>
+  <translation id="SecondShiftQuotaTooltip" value="掛け持ちで働く市民の割合"/>
+  <translation id="NightShiftQuota" value="夜勤の労働者"/>
+  <translation id="NightShiftQuotaTooltip" value="夜勤で働く市民の割合"/>
+  <translation id="LunchQuota" value="昼食の確率"/>
+  <translation id="LunchQuotaTooltip" value="昼食のために外出する市民の割合"/>
+  <translation id="LocalBuildingSearchQuota" value="地元で買い物をする人の割合"/>
+  <translation id="LocalBuildingSearchQuotaTooltip" value="地元で買い物をする住民の割合"/>
+  <translation id="ShoppingForFunQuota" value="娯楽としての買い物"/>
+  <translation id="ShoppingForFunQuotaTooltip" value="商品が必要でなくとも買い物を楽しむためだけに外出する住民の割合"/>
+  <translation id="OnTimeQuota" value="定時出退勤者の割合"/>
+  <translation id="OnTimeQuotaTooltip" value="定時に出社、退勤する市民の割合"/>
 
-  <translation id="3Events" value="イベント" />
-  <translation id="AreEventsEnabled" value="カスタムイベントを有効にする" />
-  <translation id="AreEventsEnabledTooltip" value="無効の場合、デフォルトのゲームイベントだけが都市に発生します。" />
-  <translation id="EarliestHourEventStartWeekday" value="平日イベント発生の一番早い時刻" />
-  <translation id="EarliestHourEventStartWeekdayTooltip" value="平日に発生する可能性があるイベントの一番早い発生時刻" />
-  <translation id="LatestHourEventStartWeekday" value="平日イベント発生の一番遅い時刻" />
-  <translation id="LatestHourEventStartWeekdayTooltip" value="平日に発生する可能性があるイベントの一番遅い時刻" />
-  <translation id="EarliestHourEventStartWeekend" value="週末イベント発生の一番早い時刻" />
-  <translation id="EarliestHourEventStartWeekendTooltip" value="週末に発生する可能性があるイベントの一番早い時刻" />
-  <translation id="LatestHourEventStartWeekend" value="週末イベント発生の一番遅い時刻" />
-  <translation id="LatestHourEventStartWeekendTooltip" value="週末に発生する可能性があるイベントの一番遅い時刻" />
+  <translation id="3Events" value="イベント"/>
+  <translation id="AreEventsEnabled" value="カスタムイベントを有効にする"/>
+  <translation id="AreEventsEnabledTooltip" value="無効の場合、デフォルトのイベントだけが都市で発生します"/>
+  <translation id="EarliestHourEventStartWeekday" value="平日イベントの最速時刻"/>
+  <translation id="EarliestHourEventStartWeekdayTooltip" value="平日に発生する可能性があるイベントの一番早い発生時刻"/>
+  <translation id="LatestHourEventStartWeekday" value="平日イベントの最終時刻"/>
+  <translation id="LatestHourEventStartWeekdayTooltip" value="平日に発生する可能性があるイベントの一番遅い時刻"/>
+  <translation id="EarliestHourEventStartWeekend" value="週末イベントの最速時刻"/>
+  <translation id="EarliestHourEventStartWeekendTooltip" value="週末に発生する可能性があるイベントの一番早い時刻"/>
+  <translation id="LatestHourEventStartWeekend" value="週末イベントの最終時刻"/>
+  <translation id="LatestHourEventStartWeekendTooltip" value="週末に発生する可能性があるイベントの一番遅い時刻"/>
 
-  <translation id="4Time" value="時間" />
-  <translation id="MaxOvertime" value="最大時間外労働" />
-  <translation id="MaxOvertimeTooltip" value="市民の時間外労働の最大時間 - より早く仕事に来る、あるいはより遅くまで仕事をします" />
-  <translation id="SchoolBegin" value="学校の開始時間" />
-  <translation id="SchoolBeginTooltip" value="学校は日中の時間に開始します - 若い市民は通学しなくてはなりません" />
-  <translation id="SchoolEnd" value="学校の終業時間" />
-  <translation id="SchoolEndTooltip" value="若い市民が学校から帰ってくる日中の時間" />
-  <translation id="WorkBegin" value="就業開始時間" />
-  <translation id="WorkBeginTooltip" value="労働は日中の時間に開始します - 成人の市民は仕事を始めるか大学に通学しなくてはなりません" />
-  <translation id="WorkEnd" value="就業終了時間" />
-  <translation id="WorkEndTooltip" value="成人の市民が仕事もしくは大学から帰ってくる日中の時間" />
-  <translation id="LunchBegin" value="昼食の開始時間" />
-  <translation id="LunchBeginTooltip" value="市民が昼食を食べに外出する日中の時間" />
-  <translation id="LunchEnd" value="昼食の終了時間" />
-  <translation id="LunchEndTooltip" value="市民が昼食から戻って仕事を再開する日中の時間" />
-  <translation id="MaxVacationLength" value="最大休暇日数" />
-  <translation id="MaxVacationLengthTooltip" value="市民がどれだけ休暇を取ることができるかを指定します。0 を設定すれば、休暇はなしになります。" />
+  <translation id="4Time" value="時間"/>
+  <translation id="MaxOvertime" value="最長時間外労働"/>
+  <translation id="MaxOvertimeTooltip" value="市民の時間外労働の最長時間です。市民はより早く仕事に来るか、より遅くまで仕事をします。"/>
+  <translation id="SchoolBegin" value="学校の始業時刻"/>
+  <translation id="SchoolBeginTooltip" value="学校の日中始業時刻です。若い市民は登校している必要があります。"/>
+  <translation id="SchoolEnd" value="学校の終業時刻"/>
+  <translation id="SchoolEndTooltip" value="若い市民が日中下校する時刻です。"/>
+  <translation id="WorkBegin" value="労働の始業時刻"/>
+  <translation id="WorkBeginTooltip" value="労働を開始する日中の時刻です。成人の市民は職場か大学にいる必要があります。"/>
+  <translation id="WorkEnd" value="労働の終業時刻"/>
+  <translation id="WorkEndTooltip" value="成人の市民が職場か大学から帰る日中の時刻です。"/>
+  <translation id="LunchBegin" value="昼食の開始時刻"/>
+  <translation id="LunchBeginTooltip" value="市民が昼食を食べに外出する日中の時刻です。"/>
+  <translation id="LunchEnd" value="昼食の終了時刻"/>
+  <translation id="LunchEndTooltip" value="市民が昼食から戻って仕事を再開する日中の時刻"/>
+  <translation id="MaxVacationLength" value="最大休暇日数"/>
+  <translation id="MaxVacationLengthTooltip" value="市民がどれだけ休暇を取れるかを設定します。0 を設定すれば、休暇はなしになります。"/>
 
-  <translation id="ScheduledAction" value="現在" />
-  <translation id="NextScheduledAction" value="次の予定" />
-  <translation id="ScheduledAction.AtHome" value="帰宅中" />
-  <translation id="ScheduledAction.AtSchoolOrWork" value="通勤/通学中" />
-  <translation id="ScheduledAction.Shopping" value="買い物中" />
-  <translation id="ScheduledAction.Relaxing" value="リラックスタイム" />
-  <translation id="ScheduledAction.Visiting" value="訪問中" />
-  <translation id="ScheduledAction.InShelter" value="シェルターへ移動中" />
-  <translation id="WorkShift.First" value="日勤シフト" />
-  <translation id="WorkShift.Second" value="準夜勤シフト" />
-  <translation id="WorkShift.Night" value="深夜勤シフト" />
-  <translation id="WorkStatus.OnVacation" value="（休暇: {0} 日）" />
+  <translation id="ScheduledAction" value="現在"/>
+  <translation id="NextScheduledAction" value="次の予定"/>
+  <translation id="ScheduledAction.AtHome" value="帰宅中"/>
+  <translation id="ScheduledAction.AtSchoolOrWork" value="通勤/通学中"/>
+  <translation id="ScheduledAction.Shopping" value="買い物中"/>
+  <translation id="ScheduledAction.Relaxing" value="リラックスタイム"/>
+  <translation id="ScheduledAction.Visiting" value="訪問中"/>
+  <translation id="ScheduledAction.InShelter" value="シェルターへ移動中"/>
+  <translation id="WorkShift.First" value="日勤シフト"/>
+  <translation id="WorkShift.Second" value="準夜勤シフト"/>
+  <translation id="WorkShift.Night" value="深夜勤シフト"/>
+  <translation id="WorkStatus.OnVacation" value="（休暇: {0} 日）"/>
 
-  <translation id="AcademicYear.DaysLeft" value="Ends in {0} days" />
-  <translation id="AcademicYear.HoursLeft" value="Ends in {0} hour(s)" />
-  <translation id="AcademicYear.EndsSoon" value="Ends in less than 1 hour" />
+  <translation id="AcademicYear.DaysLeft" value="残り {0} 日"/>
+  <translation id="AcademicYear.HoursLeft" value="残り {0} 時間"/>
+  <translation id="AcademicYear.EndsSoon" value="残り 1 時間未満"/>
 
   <overrides type="Units">
     <translation id="AIINFO_COAL_STORED" value="石炭貯蔵量 {0} × {unit}"/>
@@ -216,28 +216,28 @@
     <translation id="UNIQUEFACTORYPANEL_INCOME_TOOLTIP" value="{unit} あたりの収入"/>
     <translation id="UNIQUEFACTORYPANEL_RESOURCEEXPENSES" value="資源獲得費用（ {unit} ）"/>
     <translation id="UPDATEAIINFO_INDUSTRY_PRODUCTION_RATE" value="製造: {0:N0} / {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_CHEERLEADINGTOOLTIP" value="Cost: {0} / arena / {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHCOSTTOOLTIP" value="Cost: {0} / coach / {unit}"/>
-    <translation id="CAMPUSPANEL_GRADUATESTHISYEAR" value="Graduates this academic year: {0}"/>
-    <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="Cost: {0} / academic staff / {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_EXPENSES" value="Expenses last {unit}"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="Coaching Staff#10;Hiring more coaching staff increases the chances of winning varsity sports matches. Coaching staff effect#10;is not instantaneous but increases from +0% to +1% per coaching staff member over the span of the academic year."/>
-    <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="Total Campus Area profit last {unit}"/>
-    <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Unique Buildings and Sport Arenas expenses last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Income from Campus Areas last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Income from Campus Areas last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_ONLYPLAYERINDUSTRY_AND_FISHING" value="Income from Industry Areas and Fishing last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_FISHING" value="Income from Fishing last {unit}"/>
-    <translation id="EXPENSES_TT_PLAYERINDUSTRY_AND_FISHING" value="Industry Area and Fishing Expenses last {unit}"/>
-    <translation id="EXPENSES_TT_FISHING" value="Fishing Expenses last {unit}"/>
-    <translation id="AIINFO_FISH_SOLD" value="Fish sold last {unit}: {0}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_INCOME" value="Income from Industry Areas and Fishing Industry last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_EXPENSES" value="Industry Area and Fishing Industry expenses last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_EXPENSES" value="Fishing Industry expenses last {unit}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_INCOME" value="Income from the Fishing Industry last {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_INDUSTRIES" value="Total Industry Areas and Fishing Industry profit last {unit}"/>
-    <translation id="PROFIT_TT_TOTAL_FISHINGINDUSTRY" value="Total Fishing Industry profit last {unit}"/>
-    <translation id="INFO_HEALTH_CHILDCARE_BIRTHRATE" value="Birth rate: {0} / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_CHEERLEADINGTOOLTIP" value="コスト: {0} / 競技場 / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHCOSTTOOLTIP" value="コスト: {0} / コーチ / {unit}"/>
+    <translation id="CAMPUSPANEL_GRADUATESTHISYEAR" value="今年度の卒業生: {0}"/>
+    <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="Cost: {0} / 研究員 / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_EXPENSES" value="支出（ {unit} ）"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="コーチ#10;コーチを多く雇うと試合に勝つ確率が上がります。コーチの効果#10;はすぐにはでませんが、1学年度の間、コーチ一人あたりプラス0%から1%の効果があります。"/>
+    <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="キャンパスエリアの合計収入（ {unit} ）"/>
+    <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="ユニーク施設と大学の競技場の支出（ {unit} ）"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="キャンパスエリアからの収入（ {unit} ）"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="キャンパスエリアからの収入（ {unit} ）"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_ONLYPLAYERINDUSTRY_AND_FISHING" value="産業エリアと水産業の収入（ {unit} ）"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_FISHING" value="水産業の収入（ {unit} ）"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY_AND_FISHING" value="産業エリアと水産業の支出（ {unit} ）"/>
+    <translation id="EXPENSES_TT_FISHING" value="水産業支出（ {unit} ）"/>
+    <translation id="AIINFO_FISH_SOLD" value="魚介類販売量: {0} / {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_INCOME" value="産業エリアと水産業による収入（ {unit} ）"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_EXPENSES" value="産業エリアと水産業による支出（ {unit} ）"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_EXPENSES" value="水産業による支出（ {unit} ）"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_INCOME" value="水産業による収入（ {unit} ）"/>
+    <translation id="PROFIT_TT_TOTAL_INDUSTRIES" value="産業エリアと水産業による収益（ {unit} ）"/>
+    <translation id="PROFIT_TT_TOTAL_FISHINGINDUSTRY" value="水産業による収益（ {unit} ）"/>
+    <translation id="INFO_HEALTH_CHILDCARE_BIRTHRATE" value="出生率: {0} / {unit}"/>
   </overrides>
 
 </language>
