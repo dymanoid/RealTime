@@ -4,6 +4,7 @@
 
 namespace RealTime.GameConnection
 {
+    using ColossalFramework;
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
@@ -501,12 +502,14 @@ namespace RealTime.GameConnection
 
         private static bool BuildingCanBeVisited(ushort buildingId)
         {
+            var citizenUnitBuffer = Singleton<CitizenManager>.instance.m_units.m_buffer;
             uint currentUnitId = BuildingManager.instance.m_buildings.m_buffer[buildingId].m_citizenUnits;
+            int unitBufferSize = citizenUnitBuffer.Length;
 
             uint counter = 0;
             while (currentUnitId != 0)
             {
-                ref CitizenUnit currentUnit = ref CitizenManager.instance.m_units.m_buffer[currentUnitId];
+                ref CitizenUnit currentUnit = ref citizenUnitBuffer[currentUnitId];
                 if ((currentUnit.m_flags & CitizenUnit.Flags.Visit) != 0
                     && (currentUnit.m_citizen0 == 0
                         || currentUnit.m_citizen1 == 0
@@ -518,7 +521,7 @@ namespace RealTime.GameConnection
                 }
 
                 currentUnitId = currentUnit.m_nextUnit;
-                if (++counter >= CitizenManager.MAX_UNIT_COUNT)
+                if (++counter >= unitBufferSize)
                 {
                     break;
                 }
