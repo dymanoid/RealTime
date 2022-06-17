@@ -34,3 +34,12 @@ packages/
 
 #MacOS stuff
 .DS_Store
+
+# Game dlls
+/src/RealTime/UnityEngine.dll
+/src/RealTime/ICities.dll
+/src/RealTime/ColossalManaged.dll
+/src/RealTime/Assembly-CSharp.dll
+/src/RealTime/SkyTools.Patching.dll
+/src/RealTime/SkyTools.Common.dll
+/src/RealTime/CitiesHarmony.API.dll

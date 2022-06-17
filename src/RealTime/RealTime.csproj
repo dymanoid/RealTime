@@ -18,22 +18,31 @@
     <DefineConstants>BENCHMARK</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SkyTools.Patching" Version="2.1.0" />
+    <PackageReference Include="CitiesHarmony.API" Version="2.1.0" />
     <PackageReference Include="GitVersionTask" Version="5.2.4" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" />
-    <PackageReference Include="Roslynator.Analyzers" Version="2.3.0"/>
-    <PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="1.0.0-beta"/>
+    <PackageReference Include="Roslynator.Analyzers" Version="2.3.0" />
+    <PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="1.0.0-beta" />
     <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.164" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp" />
     <Reference Include="ColossalManaged" />
     <Reference Include="ICities" />
+    <Reference Include="SkyTools.Common" />
     <Reference Include="UnityEngine" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="CitiesHarmony.API.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="SkyTools.Common.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Target Name="DeployToModsDirectory" AfterTargets="Build" DependsOnTargets="Build">
     <PropertyGroup>
-      <CitiesSkylinesModDir>D:\Data\SteamLibrary\steamapps\workshop\content\255710\1420955187\</CitiesSkylinesModDir>
+      <CitiesSkylinesModDir>C:\Program Files (x86)\Steam\steamapps\workshop\content\255710\1420955187\</CitiesSkylinesModDir>
     </PropertyGroup>
     <ItemGroup>
       <TranslationFiles Include="$(ProjectDir)Localization\Translations\*.xml" />

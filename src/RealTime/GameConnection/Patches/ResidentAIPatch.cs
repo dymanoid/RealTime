@@ -113,7 +113,7 @@ namespace RealTime.GameConnection.Patches
         private sealed class HumanAI_ArriveAtTarget : PatchBase
         {
             protected override MethodInfo GetMethod() =>
-                typeof(ResidentAI).GetMethod(
+                typeof(HumanAI).GetMethod(
                     "ArriveAtTarget",
                     BindingFlags.Instance | BindingFlags.NonPublic,
                     null,
@@ -122,9 +122,9 @@ namespace RealTime.GameConnection.Patches
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
-            private static void Postfix(ref CitizenInstance citizenData, bool __result)
+            private static void Postfix(ref CitizenInstance citizenData, bool __result, HumanAI __instance)
             {
-                if (__result && citizenData.m_citizen != 0)
+                if (__result && citizenData.m_citizen != 0 && __instance is ResidentAI)
                 {
                     RealTimeAI.RegisterCitizenArrival(citizenData.m_citizen);
                 }
@@ -177,7 +177,7 @@ namespace RealTime.GameConnection.Patches
         private sealed class ResidentAI_StartMoving : PatchBase
         {
             protected override MethodInfo GetMethod() =>
-                typeof(ResidentAI).GetMethod(
+                typeof(HumanAI).GetMethod(
                     "StartMoving",
                     BindingFlags.Instance | BindingFlags.Public,
                     null,
@@ -186,9 +186,9 @@ namespace RealTime.GameConnection.Patches
 
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Redundancy", "RCS1213", Justification = "Harmony patch")]
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming Rules", "SA1313", Justification = "Harmony patch")]
-            private static void Postfix(uint citizenID, bool __result)
+            private static void Postfix(uint citizenID, bool __result, HumanAI __instance)
             {
-                if (__result && citizenID != 0)
+                if (__result && citizenID != 0 && __instance is ResidentAI)
                 {
                     RealTimeAI.RegisterCitizenDeparture(citizenID);
                 }
