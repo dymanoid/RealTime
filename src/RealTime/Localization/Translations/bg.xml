@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<language id="bg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <translation id="Warning" value="Внимание" />
+  <translation id="RestrictedModeMessage" value="Real Time работи в режим с ограничен достъп. Известна функционалност е деактивирана. Това се дължи на технически проблем с библиотека на трети страни или несъвместимост на мода. Ако искате помощ, моля, споделете вашия дневник на играта с разработчика на MOD." />
+  <translation id="ModNotWorkingMessage" value="Ами! Нещо се обърка - модът Real Time не може да се активира. Моля, споделете вашия дневник на играта с разработчика на MOD-a." />
+  <translation id="IncompatibleModsFoundMessage" value="Real Time откри поне един несъвместим мод (или поне частично несъвместимо). Препоръчва се да се отпишете от тях. Може да продължите на свой риск, ако знаете какво правите, но в този случай нещо може да не работи правилно или дори да срине играта." />
+  <translation id="Minutes" value="Мин." />
+
+  <translation id="Tools" value="Инструменти" />
+  <translation id="ShowIncompatibilityNotifications" value="Показване на известия за несъвместимост на мода" />
+  <translation id="UseEnglishUSFormats" value="Използвайте формат на час и дата за САЩ с английски език" />
+  <translation id="UseEnglishUSFormatsTooltip" value="Промяната на формата на времето изисква рестартиране на играта" />
+  <translation id="ResetToDefaults" value="Нулирайте всички по подразбиране" />
+  <translation id="UseForNewGames" value="Използвайте текущите стойности за нови игри" />
+
+  <translation id="1General" value="Общи" />
+  <translation id="0Time" value="Опции за време" />
+  <translation id="1Other" value="Други възможности" />
+  <translation id="WakeUpHour" value="Градът се събужда" />
+  <translation id="WakeUpHourTooltip" value="Времето, когато повечето граждани започват да се събуждат. Бюджетите и времевата скорост преминават към режим „ден“!" />
+  <translation id="GoToSleepHour" value="Градът отива да спи" />
+  <translation id="GoToSleepHourTooltip" value="Времето, когато повечето граждани започват да спят.Бюджетите и времевата скорост преминават към режим „нощ“!" />
+  <translation id="DayTimeSpeed" value="Скорост на време (ден)" />
+  <translation id="DayTimeSpeedTooltip" value="Скоростта на времето през деня. '1' е много бавен - почти реално време!" />
+  <translation id="NightTimeSpeed" value="Скорост на времето (нощ)" />
+  <translation id="NightTimeSpeedTooltip" value="Скоростта на времето през нощта.'1' е много бавен - почти реално време!" />
+  <translation id="IsDynamicDayLengthEnabled" value="Динамична дължина на деня" />
+  <translation id="IsDynamicDayLengthEnabledTooltip" value="Дължината на деня зависи от темата на картата и деня на годината.През зимата дните са по -кратки, отколкото през лятото." />
+  <translation id="VirtualCitizens" value="Режим на симулация на граждани (реален и виртуален)" />
+  <translation id="VirtualCitizensTooltip" value="Изберете „Всички“ за истински град (но макс. 65,535 граждани), изберете „Vanilla“, ако вашият компютър е слаб или градът е голям" />
+  <translation id="VirtualCitizens.None" value="Всички гражданите са истински" />
+  <translation id="VirtualCitizens.Vanilla" value="Като в играта на Vanilla" />
+  <translation id="UseSlowAging" value="По -добро стареене и раждане" />
+  <translation id="UseSlowAgingTooltip" value="Ако е активиран, 1 ден на играта означава 1 година на гражданите.Ако е деактивиран, 1 ден на играта означава 10 (с времеви скорост 6) до 340 (във време на скорост 1) живот на живота." />
+  <translation id="IsWeekendEnabled" value="Активирайте уикендите" />
+  <translation id="IsWeekendEnabledTooltip" value="Гражданите не ходят на работа или училище през почивните дни" />
+  <translation id="IsLunchtimeEnabled" value="Активирайте времето за обяд" />
+  <translation id="IsLunchtimeEnabledTooltip" value="Гражданите трябва да излязат на обяд за храна" />
+  <translation id="StopConstructionAtNight" value="Пауза на строителството и надграждането на сградата през нощта" />
+  <translation id="StopConstructionAtNightTooltip" value="Работниците на строителните площадки също трябва да спят" />
+  <translation id="ConstructionSpeed" value="Скорост на строителство" />
+  <translation id="ConstructionSpeedTooltip" value="Скорост на строителство и надграждане" />
+  <translation id="SwitchOffLightsAtNight" value="Изключете светлините на сградите през нощта" />
+  <translation id="SwitchOffLightsAtNightTooltip" value="Жилищните сгради изключват светлините, когато гражданите спят, други сгради и паркове - когато никой не работи там" />
+  <translation id="SwitchOffLightsMaxHeight" value="Дръжте светлините за високи сгради" />
+  <translation id="SwitchOffLightsMaxHeightTooltip" value="Жилищни, търговски и офис сгради, по -високи от тази стойност, няма да изключат светлините през нощта" />
+  <translation id="CanAbandonJourney" value="По -добро поведение на задръстване и обществен транспорт" />
+  <translation id="CanAbandonJourneyTooltip" value="Ако е активирано, гражданите могат да се откажат от пътуванията си, когато са заседнали в задръстване или да чакат обществен транспорт твърде дълго" />
+
+  <translation id="2Quotas" value="Вероятности" />
+  <translation id="SecondShiftQuota" value="Втора смяна работници" />
+  <translation id="SecondShiftQuotaTooltip" value="Процентът на гражданите, които работят втора смяна" />
+  <translation id="NightShiftQuota" value="Работници през нощта" />
+  <translation id="NightShiftQuotaTooltip" value="Процентът на гражданите, които работят през нощта" />
+  <translation id="LunchQuota" value="Вероятност за обяд" />
+  <translation id="LunchQuotaTooltip" value="Процентът на гражданите, които ще излязат на обяд" />
+  <translation id="LocalBuildingSearchQuota" value="Местно съотношение на пазаруване" />
+  <translation id="LocalBuildingSearchQuotaTooltip" value="Процентът на населението, което ще търси местно пазаруване" />
+  <translation id="ShoppingForFunQuota" value="Пазаруване за забавление" />
+  <translation id="ShoppingForFunQuotaTooltip" value="Процент от населението, което ще пазарува само за забавление, дори когато не се нуждаят от стоки" />
+  <translation id="OnTimeQuota" value="Коефициент на време" />
+  <translation id="OnTimeQuotaTooltip" value="Процентът на гражданите, които ще отидат и ще напуснат работата си навреме" />
+
+  <translation id="3Events" value="Събития" />
+  <translation id="AreEventsEnabled" value="Активирайте персонализирани събития" />
+  <translation id="AreEventsEnabledTooltip" value="Ако е деактивиран, в града могат да се случат само събития на Vanilla" />
+  <translation id="EarliestHourEventStartWeekday" value="Най -ранното събитие от делничните дни" />
+  <translation id="EarliestHourEventStartWeekdayTooltip" value="Най -ранното време, когато събитието може да започне в делничен ден" />
+  <translation id="LatestHourEventStartWeekday" value="Последно събитие в делничните дни" />
+  <translation id="LatestHourEventStartWeekdayTooltip" value="Последният път, когато събитието може да започне в делничен ден" />
+  <translation id="EarliestHourEventStartWeekend" value="Най -ранното събитие през уикенда" />
+  <translation id="EarliestHourEventStartWeekendTooltip" value="Най -ранното време, когато едно събитие може да започне в деня на уикенда" />
+  <translation id="LatestHourEventStartWeekend" value="Последно събитие през уикенда" />
+  <translation id="LatestHourEventStartWeekendTooltip" value="Последният път, когато събитието може да започне в деня на уикенда" />
+
+  <translation id="4Time" value="Време" />
+  <translation id="MaxOvertime" value="Макс. Извънреден труд" />
+  <translation id="MaxOvertimeTooltip" value="Максималеният извънреден труд за гражданите - те идват на работа по -рано или остават на работа по -дълго" />
+  <translation id="SchoolBegin" value="Училищен начален час" />
+  <translation id="SchoolBeginTooltip" value="Училищният начален час през деня - Младите граждани трябва да са в училище" />
+  <translation id="SchoolEnd" value="Край на училището" />
+  <translation id="SchoolEndTooltip" value="Дневният час, когато младите граждани се завръщат от училище" />
+  <translation id="WorkBegin" value="Час за начало на работата" />
+  <translation id="WorkBeginTooltip" value="Работата започва през деня - часът за възрастните гражани, когато трябва да бъде на работа или университет" />
+  <translation id="WorkEnd" value="Работен час" />
+  <translation id="WorkEndTooltip" value="Дневният час, когато възрастните цикли се завръщат от работа или университет" />
+  <translation id="LunchBegin" value="Обяд започва час" />
+  <translation id="LunchBeginTooltip" value="Дневният час, когато гражданите излязат на обяд" />
+  <translation id="LunchEnd" value="Час за обяд" />
+  <translation id="LunchEndTooltip" value="Дневният час, когато гражданите се върнат от обяд обратно на работа" />
+  <translation id="MaxVacationLength" value="Максимални ваканционни дни" />
+  <translation id="MaxVacationLengthTooltip" value="За колко дълго гражданите могат да бъдат на почивка.Задайте на 0 за деактивиране на ваканциите." />
+
+  <translation id="ScheduledAction" value="Сега" />
+  <translation id="NextScheduledAction" value="До" />
+  <translation id="ScheduledAction.AtHome" value="Прибирай се" />
+  <translation id="ScheduledAction.AtSchoolOrWork" value="Отидете на работа/училище" />
+  <translation id="ScheduledAction.Shopping" value="На пазар" />
+  <translation id="ScheduledAction.Relaxing" value="Да почиват" />
+  <translation id="ScheduledAction.Visiting" value="Да посетят" />
+  <translation id="ScheduledAction.InShelter" value="Отиват в бункер" />
+  <translation id="WorkShift.First" value="1-ва работна смяна" />
+  <translation id="WorkShift.Second" value="2-ра работна смяна" />
+  <translation id="WorkShift.Night" value="Нощна работа" />
+  <translation id="WorkStatus.OnVacation" value="(Ваканция: {0} дни)" />
+
+  <translation id="AcademicYear.DaysLeft" value="Завършва в {0} дни" />
+  <translation id="AcademicYear.HoursLeft" value="Завършва в {0} час (и)" />
+  <translation id="AcademicYear.EndsSoon" value="Завършва след по-малко от 1 час" />
+
+  <overrides type="Units">
+    <translation id="AIINFO_COAL_STORED" value="Въглища, съхранявани за {0} × {unit}"/>
+    <translation id="AIINFO_CUMULATIVEUPKEEP" value="Поддръжка: {0} + {1} / {unit} / клетка"/>
+    <translation id="AIINFO_DECEASED_PROCESSED" value="Покойният обработен последен {unit}: {0}"/>
+    <translation id="AIINFO_ELECTRICITY_PRODUCED" value="Произведено електричество последно {unit}: {0} MW"/>
+    <translation id="AIINFO_FIRES_EXTINGUISHED" value="Пожари изгасени последни {unit}: {0}"/>
+    <translation id="AIINFO_OIL_STORED" value="OIL съхранявано за {0} × {unit}"/>
+    <translation id="AIINFO_PASSENGERS_SERVICED" value="Пътниците се обслужват последно {unit}: {0}"/>
+    <translation id="AIINFO_PATIENTS_TREATED" value="Пациенти, лекувани последни {unit}: {0}"/>
+    <translation id="AIINFO_POLE_UPKEEP" value="Поддържане: {0} / pole / {unit}"/>
+    <translation id="AIINFO_PROCESSING_RATE" value="Скорост на обработка: {0} / {unit}"/>
+    <translation id="AIINFO_TOURISTS" value="Туристите продължават {unit}: {0}"/>
+    <translation id="AIINFO_UPKEEP" value="Поддържане: {0} / {unit}"/>
+    <translation id="AIINFO_UPKEEPPERCELL" value="Поддържане: {0} / {unit} / cell"/>
+    <translation id="AIINFO_VISITORS" value="Посетителите продължават {unit}: {0} "/>
+    <translation id="AIINFO_WATER_CONSUMPTION" value="Вода: {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_INTAKE" value="Капацитет на изпомпване: {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_OUTLET" value="Капацитет на източване: {0} m³/{unit}"/>
+    <translation id="AIINFO_WATER_STORED" value="Вода, съхранявана за {0} × {unit}"/>
+    <translation id="AINFO_WATER_IO_CAPACITY" value="Oработна скорост: {0:N0} m³/{unit}"/>
+    <translation id="DATETIME_WEEK" value="{unit}"/>
+    <translation id="DATETIME_WEEKLOWERCASE" value="{unit}"/>
+    <translation id="DATETIME_WEEKS" value="× {unit}"/>
+    <translation id="DISTRICT_TOURISTS" value="Туристически посещения&#10;last {unit}:"/>
+    <translation id="EXPENSES_TT_EDUCATION" value="Разходите за образование продължават {unit}"/>
+    <translation id="EXPENSES_TT_ELECTRICITY" value="Разходите за електроенергия са последни {unit}"/>
+    <translation id="EXPENSES_TT_FIRE" value="Разходите за пожарната служба са последни {unit}"/>
+    <translation id="EXPENSES_TT_FIRE_ND" value="Разходите за спешна услуга са последни {unit}"/>
+    <translation id="EXPENSES_TT_GARBAGE" value="Разходите за боклук за боклук са последни {unit}"/>
+    <translation id="EXPENSES_TT_HEALTHCARE" value="Разходите за здравеопазване продължават {unit}"/>
+    <translation id="EXPENSES_TT_LOANS" value="Разходите за заеми продължават {unit}"/>
+    <translation id="EXPENSES_TT_MONUMENTS" value="Уникални разходи за сгради последни {unit}"/>
+    <translation id="EXPENSES_TT_PARK" value="Парци, площадки и озеленяване на разходи продължават {unit}"/>
+    <translation id="EXPENSES_TT_POLICE" value="Разходите за полицейско управление са последни {unit}"/>
+    <translation id="EXPENSES_TT_POLICIES" value="Разходите за политики продължават {unit}"/>
+    <translation id="EXPENSES_TT_PUBLICTRANSPORT" value="Последни разходи за обществен транспорт {unit}"/>
+    <translation id="EXPENSES_TT_ROADS" value="Разходите за обслужване на пътища са последни {unit}"/>
+    <translation id="EXPENSES_TT_TOTAL" value="Общите разходи продължават {unit}"/>
+    <translation id="EXPENSES_TT_WATER" value="Последни разходи за водоснабдяване и канализация {unit}"/>
+    <translation id="EXPENSES_TT_WATER_WW" value="Разходите за водоснабдяване, канализация и отопление продължават {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALCITIZEN" value="CТърговски доход от гражданите последни {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALHIGH" value="Търговски висок доход последен {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALLOW" value="Търговски нисък доход последно {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALSPEC" value="Търговски доход от специализации продължават {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALTOTAL" value="Търговски доход е последният {unit}"/>
+    <translation id="INCOME_TT_COMMERCIALTOURIST" value="Търговски доход от туристите продължават {unit}"/>
+    <translation id="INCOME_TT_INDUSTRIAL" value="Промишленият доход е последният {unit}"/>
+    <translation id="INCOME_TT_OFFICE" value="Доходът от офиса е последен {unit}"/>
+    <translation id="INCOME_TT_PARKAREAS" value="Доход от площ в парка Последни {unit}"/>
+    <translation id="INCOME_TT_RESIDENTIALHIGH" value="Жилищни високи доходи последни {unit}"/>
+    <translation id="INCOME_TT_RESIDENTIALLOW" value="Жилищни ниски доходи последни {unit}"/>
+    <translation id="INCOME_TT_RESIDENTIALTOTAL" value="Жилищните доходи продължават {unit}"/>
+    <translation id="INCOME_TT_TOTAL" value="Общият доход продължи {unit}"/>
+    <translation id="INCOME_TT_TOTAL_COMMERCIAL" value="Общият доход от туризма последно {unit}"/>
+    <translation id="INCOME_TT_TOTAL_RESIDENTIAL" value="Общият доход от жилищните зони последни {unit}"/>
+    <translation id="INCOME_TT_TOTAL_WORK" value="Общият доход от индустриалните и офисните зони последни {unit}"/>
+    <translation id="INCOME_TT_PUBLICTRANSPORT" value="Доход от обществен транспорт последно {unit}"/>
+    <translation id="INFO_CONNECTIONS_TOURISTSTOTAL" value="TТуристическите посещения продължават {unit}: {0:N0}"/>
+    <translation id="INFO_CRIMERATE_CRIMES" value="Престъпниците арестувани последни {unit}:"/>
+    <translation id="INFO_ENTERTAINMENT_PARKVISIT" value="Посетители в паркове & amp;Плаза на {unit}: {0:N0}"/>
+    <translation id="INFO_ENTERTAINMENT_UBVISIT" value="Посетители в уникални сгради на {unit}: {0:N0}"/>
+    <translation id="INFO_GARBAGE_INCINERATORCAPACITY" value="Капацитет за обработка на боклук: {0:N0} units / {unit}"/>
+    <translation id="INFO_GARBAGE_GARBAGEPRODUCTION" value="GПроизводство на арбот: {0:N0} units / {unit}"/>
+    <translation id="INFO_POPULATION_BIRTHS" value="{0:N0} раждания / {unit}"/>
+    <translation id="INFO_POPULATION_DEATHS" value="{0:N0} смъртни случаи / {unit}"/>
+    <translation id="INFO_PUBLICTRANSPORT_COUNT" value="{0:N0} за {unit}"/>
+    <translation id="INFO_RES_FORESTAMOUNT" value="{0} единици/{unit}"/>
+    <translation id="INFO_RES_FORESTUSED" value="{0} единици/{unit}"/>
+    <translation id="INFO_RES_OILUSED" value="{0} единици/{unit}"/>
+    <translation id="INFO_RES_OREUSED" value="{0} единици/{unit}"/>
+    <translation id="INFO_WATER_CONSUMPTION" value="Консумация на вода: {0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_PRODUCTION" value="Капацитет на помпената вода: {0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_SEWAGEACCUMULATION" value="Производство на канализация: {0:N0} m³/{unit}"/>
+    <translation id="INFO_WATER_SEWAGECAPACITY" value="Капацитет за източване на канализацията: {0:N0} m³/{unit}"/>
+    <translation id="LOAN_WEEKLYCOST" value="Цената е последна {unit}"/>
+    <translation id="MAIN_MONEYDELTA" value="Доходът е продължен {unit}"/>
+    <translation id="MAIN_POPULATIONDELTA" value="Променете последната {unit}"/>
+    <translation id="MILESTONE_COMBINED_PASSED_TIME_DESC" value="Премини {0} изисквания за {1} × {unit}"/>
+    <translation id="MILESTONE_COMBINED_TIME_DESC" value="Поддържайте за {0} × {unit}"/>
+    <translation id="PARKINFOPANEL_CURRENTVISITORS" value="Посетителите продължават {unit}: {0}"/>
+    <translation id="PARKINFOPANEL_INCOME" value="Доход: {0} / {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_PUBTRANS" value="TОтална печалба от обществения транспорт последна {unit}"/>
+    <translation id="STADIUMINFO7" value="Победи/мачове последни 12 × {unit}:"/>
+    <translation id="STADIUMINFO9" value="Доходът е продължен {unit}:"/>
+    <translation id="TOOL_WATER_ESTIMATE" value="Прогнозно производство: {0:N0} m³/{unit}"/>
+    <translation id="TRANSPORT_LINE_PASSENGERS_WALKINGTOUR" value="Посетителите продължават {unit}: {0} жители, {1} туристи"/>
+    <translation id="TRANSPORT_LINE_PASSENGERS" value="Пътниците продължават {unit}: {0} жители, {1} туристи"/>
+    <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="Скорост на производство: {0:N0} единици на {unit}"/>
+    <translation id="AIINFO_POST_SORTING_RATE" value="Скорост на сортиране: {0:N0} Парчета поща на {unit}"/>
+    <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="Автомобилите се таксуват последно {unit}: {0:N0}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="Доходите от зоните и областите на индустрията продължават {unit}"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY" value="Разходи за индустриална зона на {unit}"/>
+    <translation id="INCOME_TT_ROADTOLLS" value="Доход от пътни такси за {unit}"/>
+    <translation id="INCOME_TT_TOTAL_ROADTOLLS" value="Общият доход от пътни такси продължават {unit}"/>
+    <translation id="INDUSTRYPANEL_ACQUISITION_TOOLTIP" value="Придобиване на {unit}"/>
+    <translation id="INDUSTRYPANEL_ACQUISITIONCOST_TOOLTIP" value="Разходи за внос на ресурса на {unit}"/>
+    <translation id="INDUSTRYPANEL_OUTPUT_TOOLTIP" value="Изход на {unit}"/>
+    <translation id="INDUSTRYPANEL_OUTPUTINCOME_TOOLTIP" value="Доход от продажба на ресурса на {unit}"/>
+    <translation id="INDUSTRYPANEL_PROFIT_TOOLTIP" value="Печалба на {unit}"/>
+    <translation id="INDUSTRYPANEL_WEEKLYPRODUCTION" value="{0} / {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_INDUSTRYAREAS" value="Обща печалба от индустрията на промишлеността на {unit}"/>
+    <translation id="TOOL_EXTRACTION_ESTIMATE" value="Прогнозно производство: {0:N0} единици на {unit}"/>
+    <translation id="UFPANEL_MATERIALCOST_TOOLTIP" value="Стойност на ресурсите, използвани за създаване на крайния продукт на {unit}"/>
+    <translation id="UFPANEL_PRODUCTIONVALUE_TOOLTIP" value="Стойност на фабричната продукция на {unit}"/>
+    <translation id="UNIQUEFACTORYPANEL_INCOME_TOOLTIP" value="Доходът е продължен {unit}"/>
+    <translation id="UNIQUEFACTORYPANEL_RESOURCEEXPENSES" value="Разходи за придобиване на ресурси на {unit}"/>
+    <translation id="UPDATEAIINFO_INDUSTRY_PRODUCTION_RATE" value="Production: {0:N0} per {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_CHEERLEADINGTOOLTIP" value="Разходи: {0} / Арена / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHCOSTTOOLTIP" value="Разходи: {0} / треньор / {unit}"/>
+    <translation id="CAMPUSPANEL_GRADUATESTHISYEAR" value="Завършили тази учебна година: {0}"/>
+    <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="Разходи: {0} / академичен персонал / {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_EXPENSES" value="Разходи продължават {unit}"/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="Треньорски щаб#10;Наемането на повече треньорски щаб увеличава шансовете за спечелване на спортни мачове.Ефект на треньорския персонал#10;не е мигновено, но се увеличава от +0% до +1% на член на треньорския щаб през периода на учебната година."/>
+    <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="Обща печалба от площ в кампуса последна {unit}"/>
+    <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="Уникални сгради и спортни арени са последни {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="Доходите от районите в кампуса продължават {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_ONLYPLAYERINDUSTRY_AND_FISHING" value="Доход от индустриални райони и риболов последен {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_FISHING" value="Доход от риболов последно {unit}"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY_AND_FISHING" value="Промишлеността и разходите за риболов продължават {unit}"/>
+    <translation id="EXPENSES_TT_FISHING" value="Разходите за риболов продължават {unit}"/>
+    <translation id="AIINFO_FISH_SOLD" value="Рибата се продава последно{unit}: {0}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_INCOME" value="Доход от индустриалните райони и риболовната индустрия за последно {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_EXPENSES" value="Промишлеността и разходите за риболов на индустрията продължават{unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_EXPENSES" value="Разходите за риболовна индустрия са последни {unit}"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_FISHING_INCOME" value="Доходите от риболовната индустрия са последни {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_INDUSTRIES" value="Общите области на индустрията и печалбата от риболовната индустрия са последни {unit}"/>
+    <translation id="PROFIT_TT_TOTAL_FISHINGINDUSTRY" value="Обща печалба от индустрията за риболов последно {unit}"/>
+    <translation id="INFO_HEALTH_CHILDCARE_BIRTHRATE" value="Раждаемост: {0} / {unit}"/>
+  </overrides>
+
+</language>
