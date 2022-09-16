@@ -552,6 +552,7 @@ namespace RealTime.CustomAI
                 case ItemClass.Service.Monument:
                 case ItemClass.Service.VarsitySports:
                 case ItemClass.Service.Museums:
+                case ItemClass.Service.ServicePoint:
                     return false;
 
                 case ItemClass.Service.PlayerEducation:
