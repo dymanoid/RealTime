@@ -560,6 +560,10 @@ namespace RealTime.CustomAI
                     {
                         return false;
                     }
+                    else if (buildingManager.IsAreaResidentalBuilding(buildingId))
+                    {
+                        return false;
+                    }
                     else
                     {
                         goto default;
