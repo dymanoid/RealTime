@@ -4,9 +4,9 @@
 
 namespace RealTime.GameConnection
 {
-    using ColossalFramework;
     using System.Collections.Generic;
     using System.Linq;
+    using ColossalFramework;
     using UnityEngine;
 
     /// <summary>
@@ -451,6 +451,32 @@ namespace RealTime.GameConnection
             var buildingInfo = BuildingManager.instance.m_buildings.m_buffer[buildingId].Info;
             var buildinAI = buildingInfo?.m_buildingAI;
             return buildinAI is MainCampusBuildingAI || buildinAI is MainIndustryBuildingAI;
+        }
+
+        /// <summary>
+        /// Determines whether the building with specified ID is a residental building of an Industrial or a Campus area.
+        /// </summary>
+        /// <param name="buildingId">The building ID to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the building with the specified ID is a residental building of an Industrial or a Campus area;
+        ///   otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsAreaResidentalBuilding(ushort buildingId)
+        {
+            if (buildingId == 0)
+            {
+                return false;
+            }
+
+            // Here we need to check if the mod is active
+            var buildingInfo = BuildingManager.instance.m_buildings.m_buffer[buildingId].Info;
+            var buildinAI = buildingInfo?.m_buildingAI;
+            if (buildinAI is AuxiliaryBuildingAI && buildinAI.GetType().Name.Equals("BarracksAI") || buildinAI is CampusBuildingAI && buildinAI.GetType().Name.Equals("DormsAI"))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
