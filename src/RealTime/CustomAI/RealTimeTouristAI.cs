@@ -5,6 +5,7 @@
 namespace RealTime.CustomAI
 {
     using System;
+    using ColossalFramework;
     using RealTime.Config;
     using RealTime.Events;
     using RealTime.GameConnection;
@@ -254,7 +255,7 @@ namespace RealTime.CustomAI
 
         private void FindRandomVisitPlace(TAI instance, uint citizenId, ref TCitizen citizen, int doNothingProbability, ushort currentBuilding)
         {
-            var target = (TouristTarget)touristAI.GetRandomTargetType(instance, doNothingProbability);
+            var target = (TouristTarget)touristAI.GetRandomTargetType(instance, doNothingProbability, ref Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId]);
             target = AdjustTargetToTimeAndWeather(ref citizen, target);
 
             switch (target)

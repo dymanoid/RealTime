@@ -52,7 +52,7 @@ namespace RealTime.GameConnection
         /// <param name="instance">The AI instance the method is called on.</param>
         /// <param name="doNothingProbability">A value that specified a probability that the citizen will do nothing.</param>
         /// <returns>A value specifying the citizen's next action: 0 for idle, 1 for leaving the city, 2 for shopping, 3 for entertainment.</returns>
-        public delegate int GetRandomTargetTypeDelegate(TAI instance, int doNothingProbability);
+        public delegate TouristAI.Target GetRandomTargetTypeDelegate(TAI instance, int doNothingProbability, ref Citizen data);
 
         /// <summary>
         /// Represents the method that corresponds to the AI's original <c>GetLeavingReason</c> method.
