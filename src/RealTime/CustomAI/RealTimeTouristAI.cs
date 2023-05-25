@@ -1,4 +1,4 @@
-﻿// <copyright file="RealTimeTouristAI.cs" company="dymanoid">
+// <copyright file="RealTimeTouristAI.cs" company="dymanoid">
 // Copyright (c) dymanoid. All rights reserved.
 // </copyright>
 
@@ -255,7 +255,7 @@ namespace RealTime.CustomAI
 
         private void FindRandomVisitPlace(TAI instance, uint citizenId, ref TCitizen citizen, int doNothingProbability, ushort currentBuilding)
         {
-            var target = (TouristTarget)touristAI.GetRandomTargetType(instance, doNothingProbability, ref Singleton<CitizenManager>.instance.m_citizens.m_buffer[citizenId]);
+            var target = (TouristTarget)touristAI.GetRandomTargetType(instance, doNothingProbability, ref citizen);
             target = AdjustTargetToTimeAndWeather(ref citizen, target);
 
             switch (target)
