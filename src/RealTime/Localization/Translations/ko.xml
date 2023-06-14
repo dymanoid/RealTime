@@ -199,7 +199,7 @@
     <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="생산률: {unit} 당 {0:N0}"/>
     <translation id="AIINFO_POST_SORTING_RATE" value="분류률: {unit} 당 {0:N0}개의 우편물"/>
     <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="저번 {unit} 당 통행료: {0:N0}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="저번 {unit}  산업 구역과 지역에 대한 수익"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="저번 {unit} 당 산업 구역과 지역에 대한 수익"/>
     <translation id="EXPENSES_TT_PLAYERINDUSTRY" value="{unit} 당 산업 지역의 지출"/>
     <translation id="INCOME_TT_ROADTOLLS" value="{unit} 당 유료도로 수익"/>
     <translation id="INCOME_TT_TOTAL_ROADTOLLS" value="저번 {unit} 중 유로도로의 총 수익"/>
