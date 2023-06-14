@@ -228,7 +228,7 @@
     <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="저번 {unit}당 캠퍼스 지역으로부터의 수익"/>
     <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_ONLYPLAYERINDUSTRY_AND_FISHING" value="저번 {unit}당 산업 구역과 어업 수익"/>
     <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_FISHING" value="저번 {unit}당 어업 수입"/>
-    <translation id="EXPENSES_TT_PLAYERINDUSTRY_AND_FISHING" value="Industry Area and Fishing Expenses last 저번 {unit}당 산업 구역과 어업 지출"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY_AND_FISHING" value="저번 {unit}당 산업 구역과 어업 지출"/>
     <translation id="EXPENSES_TT_FISHING" value="저번 {unit}당 어업 지출"/>
     <translation id="AIINFO_FISH_SOLD" value="저번 {unit}당 판매한 생선: {0}"/>
     <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_INCOME" value="저번 {unit}당 산업 구역과 어업 수익"/>
