@@ -146,7 +146,7 @@
     <translation id="EXPENSES_TT_POLICIES" value="저번 {unit} 당 정책으로 인한 지출"/>
     <translation id="EXPENSES_TT_PUBLICTRANSPORT" value="저번 {unit} 당 대중 교통으로 인한 지출"/>
     <translation id="EXPENSES_TT_ROADS" value="저번 {unit} 당 대중교통 서비스 지출"/>
-    <translation id="EXPENSES_TT_TOTAL" value="저번 {unit} 덩 총 지출"/>
+    <translation id="EXPENSES_TT_TOTAL" value="저번 {unit} 당 총 지출"/>
     <translation id="EXPENSES_TT_WATER" value="저번 {unit} 당 상하수도 서비스 지출"/>
     <translation id="EXPENSES_TT_WATER_WW" value="저번 {unit} 당 상하수도와 건강 관리 서비스 지출"/>
     <translation id="INCOME_TT_COMMERCIALCITIZEN" value="저번 {unit} 당 상업지역에서 시민들에게 걷은 세금"/>
@@ -199,7 +199,7 @@
     <translation id="AIINFO_INDUSTRY_PRODUCTION_RATE" value="생산률: {unit} 당 {0:N0}"/>
     <translation id="AIINFO_POST_SORTING_RATE" value="분류률: {unit} 당 {0:N0}개의 우편물"/>
     <translation id="AIINFO_TOLL_BOOTH_VEHICLE_COUNT" value="저번 {unit} 당 통행료: {0:N0}"/>
-    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="저번 {unit} 덩 산업 구역과 지역에 대한 수익"/>
+    <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_PLAYERINDUSTRY" value="저번 {unit} 당 산업 구역과 지역에 대한 수익"/>
     <translation id="EXPENSES_TT_PLAYERINDUSTRY" value="{unit} 당 산업 지역의 지출"/>
     <translation id="INCOME_TT_ROADTOLLS" value="{unit} 당 유료도로 수익"/>
     <translation id="INCOME_TT_TOTAL_ROADTOLLS" value="저번 {unit} 중 유로도로의 총 수익"/>
@@ -221,14 +221,14 @@
     <translation id="CAMPUSPANEL_GRADUATESTHISYEAR" value="현 학기년당 졸업자 수: {0}"/>
     <translation id="CAMPUSPANEL_ACADEMICSTAFF_COST" value="비용: {0} / 학교 직원  / {unit}"/>
     <translation id="CAMPUSPANEL_VARSITYSPORTS_EXPENSES" value="저번 {unit} 당 비용"/>
-    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="코칭 스텝#10;코칭 스텝을 더 고용하게 되면, 스포츠 경기엣 이길 확률이 증가합니다. 코칭 스텝 효과#10;는 죽걱적이지 않으나, 각 학기년당 +0 ~ +1% 사이의 이길 확률을 늘려줍니다."/>
+    <translation id="CAMPUSPANEL_VARSITYSPORTS_COACHINGSTAFF_TOOLTIP" value="코칭 스텝#10;코칭 스텝을 더 고용하게 되면, 스포츠 경기에서 이길 확률이 증가합니다. 코칭 스텝 효과#10;는 죽걱적이지 않으나, 각 학기년당 +0 ~ +1% 사이의 이길 확률을 늘려줍니다."/>
     <translation id="PROFIT_TT_TOTAL_CAMPUSAREAS" value="{unit} 당 총 캠퍼스 구획 이익"/>
     <translation id="EXPENSES_TT_MONUMENTS_ARENAS" value="저번 {unit} 당 특수 건물과 더불어 스포츠 아레나에서의 지출"/>
     <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="저번 {unit} 당 캠퍼스 지역에서의 수익"/>
     <translation id="ECONOMYPANEL_TOOLTIP_CAMPUSINCOME" value="저번 {unit}당 캠퍼스 지역으로부터의 수익"/>
     <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_ONLYPLAYERINDUSTRY_AND_FISHING" value="저번 {unit}당 산업 구역과 어업 수익"/>
     <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRIAL_FISHING" value="저번 {unit}당 어업 수입"/>
-    <translation id="EXPENSES_TT_PLAYERINDUSTRY_AND_FISHING" value="Industry Area and Fishing Expenses last 저번 {unit}당 산업 구역과 어업 지출"/>
+    <translation id="EXPENSES_TT_PLAYERINDUSTRY_AND_FISHING" value="저번 {unit}당 산업 구역과 어업 지출"/>
     <translation id="EXPENSES_TT_FISHING" value="저번 {unit}당 어업 지출"/>
     <translation id="AIINFO_FISH_SOLD" value="저번 {unit}당 판매한 생선: {0}"/>
     <translation id="ECONOMYPANEL_TOOLTIP_INDUSTRYAREASANDFISHING_INCOME" value="저번 {unit}당 산업 구역과 어업 수익"/>
